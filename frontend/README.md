@@ -1,16 +1,44 @@
-# React + Vite
+# RoadAware Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+หน้าเริ่มต้น RoadAware พัฒนาด้วย React และ JavaScript (.jsx / .js) บน Vite
 
-Currently, two official plugins are available:
+## เริ่มใช้งาน
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+npm install
+npm run dev
+```
 
-## React Compiler
+## ตรวจสอบโปรเจกต์
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+npm run lint
+npm run build
+```
 
-## Expanding the ESLint configuration
+## โครงสร้าง
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```text
+src/
+├── components/
+│   ├── common/        # Button, Icon, Brand ใช้ร่วมกัน
+│   └── layout/        # Header, Footer และสไตล์โครงหน้า
+├── features/
+│   └── home/
+│       ├── components/ # Hero, แผนที่จำลอง, การ์ดบริการ, ขั้นตอนใช้งาน
+│       ├── data/       # ข้อความและตำแหน่งหมุดตัวอย่าง
+│       └── styles/     # สไตล์แยกตามส่วนของหน้าแรก
+├── pages/             # ประกอบแต่ละหน้าเข้าด้วยกัน
+├── styles/            # ค่าสีกลางและสไตล์พื้นฐาน
+├── App.jsx
+├── index.css
+└── main.jsx
+```
+
+## ขอบเขตปัจจุบัน
+
+- หน้าแรกแบบแสดงผลเท่านั้น ปุ่มยังไม่มีการนำทางหรือเชื่อมต่อระบบ
+- แผนที่ SVG เป็นภาพจำลอง ไม่ใช่ภูมิศาสตร์จริงหรือข้อมูลอุบัติเหตุจริง
+- รองรับมือถือ แท็บเล็ต และเดสก์ท็อปด้วย CSS responsive
+- ฟอนต์ Noto Sans Thai และ Plus Jakarta Sans โหลดจาก Google Fonts โดยมีฟอนต์ระบบสำรอง
+- ยังไม่เชื่อม backend, บริการแผนที่ หรือ Machine Learning

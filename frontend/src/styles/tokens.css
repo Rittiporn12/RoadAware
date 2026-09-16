@@ -1,0 +1,14 @@
+:root {
+  font-family: "Plus Jakarta Sans", "Noto Sans Thai", sans-serif;
+  color: #102344;
+  background: #f7fafc;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --blue: #087ffa;
+  --navy: #102344;
+  --muted: #718099;
+  --border: #e6edf4;
+  --shadow: 0 4px 24px #17386408;
+}
