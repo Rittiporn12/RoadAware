@@ -21,6 +21,13 @@
   Analytics. A Dashboard for Data Visualization is a future phase: record its
   requirements now but do not implement it. Current EDA figures are analytical
   evidence, not the future dashboard.
+- Current Model phase must include Baselines, three distinct tested candidate
+  algorithms, evaluation metrics, actual experiment results, error analysis and
+  an explicit selection rationale. Latest agreed candidates: Poisson Regression,
+  Random Forest Regressor and HistGradientBoosting Regressor; baselines are extra.
+  Interpret Poisson first, compare all three under a locked common protocol.
+  Existing data limitations permit conditional retrospective research only;
+  production/route readiness is not implied by choosing an experimental model.
 - Plan routes from origin/destination and display forecast-related colors and
   historical accident explanations, including time, weather, season and holidays
   where the data supports them.

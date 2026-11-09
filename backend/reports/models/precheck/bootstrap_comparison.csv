@@ -1,0 +1,4 @@
+candidate,baseline,evaluation_scope,statistic,point_estimate,ci_low,ci_high,ci_level,replicates,valid_replicates,block_days,seed,first_date,last_date,n_calendar_days,n_days_with_rows,n_days_zero_weight,weight_sum
+poisson_alpha_1e-4,baseline_province_mean,oof_train_backtest,mean_unit_poisson_deviance_candidate_minus_baseline,-0.17536896847059563,-0.23534158712949146,-0.09266964573183567,0.95,500,500,7,42,2022-01-01,2023-12-29,728,713,15,42058.0
+rf_t120_d16_l128_m100,baseline_province_mean,oof_train_backtest,mean_unit_poisson_deviance_candidate_minus_baseline,-0.04115590152925901,-0.10736922500869951,0.03137333394666536,0.95,500,500,7,42,2022-01-01,2023-12-29,728,713,15,42058.0
+hgb_i120_l15_m50_r1,baseline_province_mean,oof_train_backtest,mean_unit_poisson_deviance_candidate_minus_baseline,-0.1381973566234443,-0.21676993059343383,-0.058487687239448936,0.95,500,500,7,42,2022-01-01,2023-12-29,728,713,15,42058.0

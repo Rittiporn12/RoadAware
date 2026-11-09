@@ -1,0 +1,47 @@
+{
+  "_comment": "RoadAware model experiment v1. Values mirror workflow/model-protocol-v1.md (locked 2026-11-09) and are re-checked against PROTOCOL_LOCK inside notebook 06; editing them makes 06 refuse to run. Env overrides: ROADAWARE_DATA_ROOT (folder holding verified data/ and reports/data/), ROADAWARE_OUTPUT_DIR (model output root), ROADAWARE_BACKEND_ROOT.",
+  "experiment_id": "roadaware_model_experiment_v1",
+  "protocol_path": "workflow/model-protocol-v1.md",
+  "research_mode": "retrospective_conditional_research",
+  "production_enabled": false,
+  "target": "y_recorded_count",
+  "row_weight": "one_per_eligible_province_day",
+  "features": ["province", "day_of_week", "month", "day_of_month", "day_of_year", "is_weekend"],
+  "cohort": {"split": "train", "eligibility_column": "training_eligible"},
+  "folds": [
+    {"fold": 1, "eval_start": "2022-01-01", "eval_end": "2022-06-30"},
+    {"fold": 2, "eval_start": "2022-07-01", "eval_end": "2022-12-31"},
+    {"fold": 3, "eval_start": "2023-01-01", "eval_end": "2023-06-30"},
+    {"fold": 4, "eval_start": "2023-07-01", "eval_end": "2023-12-31"}
+  ],
+  "baselines": [
+    {"id": "baseline_zero", "family": "baseline", "kind": "zero", "deviance_domain": "undefined", "params": {}},
+    {"id": "baseline_global_mean", "family": "baseline", "kind": "global_mean", "deviance_domain": "floor", "params": {}},
+    {"id": "baseline_province_mean", "family": "baseline", "kind": "province_mean", "deviance_domain": "floor", "params": {}},
+    {"id": "baseline_province_weekday_k10", "family": "baseline", "kind": "province_weekday_smoothed", "deviance_domain": "floor", "params": {"pseudo_obs": 10}}
+  ],
+  "candidates": [
+    {"id": "poisson_alpha_1e-4", "family": "poisson", "deviance_domain": "floor", "params": {"alpha": 0.0001, "max_iter": 1000, "tol": 1e-06}},
+    {"id": "poisson_alpha_1e-2", "family": "poisson", "deviance_domain": "floor", "params": {"alpha": 0.01, "max_iter": 1000, "tol": 1e-06}},
+    {"id": "poisson_alpha_1e0", "family": "poisson", "deviance_domain": "floor", "params": {"alpha": 1.0, "max_iter": 1000, "tol": 1e-06}},
+    {"id": "rf_t80_d12_l64_m50", "family": "random_forest", "deviance_domain": "floor", "params": {"n_estimators": 80, "max_depth": 12, "max_leaf_nodes": 64, "min_samples_leaf": 50, "max_features": 0.7, "criterion": "poisson", "random_state": 42, "n_jobs": 2}},
+    {"id": "rf_t120_d16_l128_m100", "family": "random_forest", "deviance_domain": "floor", "params": {"n_estimators": 120, "max_depth": 16, "max_leaf_nodes": 128, "min_samples_leaf": 100, "max_features": 0.7, "criterion": "poisson", "random_state": 42, "n_jobs": 2}},
+    {"id": "hgb_i120_l15_m50_r1", "family": "hist_gradient_boosting", "deviance_domain": "floor", "params": {"max_iter": 120, "max_leaf_nodes": 15, "min_samples_leaf": 50, "l2_regularization": 1.0, "learning_rate": 0.05, "loss": "poisson", "early_stopping": false, "random_state": 42}},
+    {"id": "hgb_i160_l31_m100_r5", "family": "hist_gradient_boosting", "deviance_domain": "floor", "params": {"max_iter": 160, "max_leaf_nodes": 31, "min_samples_leaf": 100, "l2_regularization": 5.0, "learning_rate": 0.05, "loss": "poisson", "early_stopping": false, "random_state": 42}}
+  ],
+  "encoding": {
+    "poisson": {"onehot": ["province", "day_of_week", "month", "day_of_month", "day_of_year", "is_weekend"], "passthrough": []},
+    "random_forest": {"onehot": ["province", "day_of_week", "month", "is_weekend"], "passthrough": ["day_of_month", "day_of_year"]},
+    "hist_gradient_boosting": {"ordinal_categorical": ["province", "day_of_week", "month", "is_weekend"], "passthrough": ["day_of_month", "day_of_year"], "unknown_value": -1}
+  },
+  "family_tie_order": ["poisson", "random_forest", "hist_gradient_boosting"],
+  "metrics": {"primary": "mean_poisson_deviance", "deviance_floor": 1e-09},
+  "decision_gate": {"min_relative_deviance_improvement": 0.01, "max_mae_ratio": 1.02, "min_folds_improved": 3, "bootstrap_ci_upper_below": 0.0},
+  "bootstrap": {"block_days": 7, "replicates": 500, "seed": 42, "ci_level": 0.95},
+  "threads": 2,
+  "outputs": {
+    "model_data_dir": "data/model",
+    "bundles_dir": "data/model/bundles",
+    "reports_dir": "reports/models"
+  }
+}

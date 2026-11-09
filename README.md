@@ -1,3 +1,9 @@
+# Model stage — in progress
+
+มี Notebook ทดลอง Baseline และ 3 อัลกอริทึมแล้ว แต่ **ยังไม่ผ่านการรับงานครบ**
+ผลจริง จุดล้มเหลว และงานที่รอทำต่ออยู่ใน [รายงาน Model เบื้องต้น](workflow/model-preliminary-findings-th.md)
+หลักฐาน Data Foundation ด้านล่างยังคงสถานะเดิม การเลือกโมเดลใน OOF ยังไม่เท่ากับพร้อมใช้งานจริง
+
 # RoadAware
 
 ## โครงสร้าง
