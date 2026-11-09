@@ -8,6 +8,19 @@
 - Explain the product's differentiation from Google Maps and Waze credibly.
 - Support responsive PC and mobile layouts, prioritizing mobile usage and ease
   of use throughout the route-planning experience.
+- Separate backend (ML and Python notebooks) from frontend (future web UI).
+  For the current stage reserve the frontend folder and document its scope only;
+  do not implement screens or scaffold an application.
+- Maintain meaningful GitHub checkpoints at https://github.com/Rittiporn12/RoadAware.git.
+  User authorized replacing the old latest-tree contents with the new work;
+  preserve history with ordinary commits and pushes rather than force pushing.
+- Implement the current data-foundation stages in executable Python .ipynb
+  notebooks for VS Code: collection, EDA, cleaning/preparation, temporal splits,
+  and leakage audit, with actual outputs and verifiable evidence.
+- User requires a rigorous advanced analytics process including Descriptive
+  Analytics. A Dashboard for Data Visualization is a future phase: record its
+  requirements now but do not implement it. Current EDA figures are analytical
+  evidence, not the future dashboard.
 - Plan routes from origin/destination and display forecast-related colors and
   historical accident explanations, including time, weather, season and holidays
   where the data supports them.

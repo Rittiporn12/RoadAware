@@ -1,5 +1,5 @@
 {
-  "timeout_seconds": 600,
+  "timeout_seconds": 1200,
   "max_budget_usd": 8.0,
   "tools": [
     "Read",
