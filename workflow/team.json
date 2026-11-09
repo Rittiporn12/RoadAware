@@ -1,0 +1,11 @@
+{
+  "timeout_seconds": 600,
+  "max_budget_usd": 8.0,
+  "tools": [
+    "Read",
+    "Glob",
+    "Grep",
+    "Edit",
+    "Write"
+  ]
+}
