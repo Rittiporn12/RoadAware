@@ -1,0 +1,54 @@
+feature,group,available_at_issue_time,allowed,reason
+province,static_spatial,yes_under_assumptions,True,calendar is known in advance; reported province treated as a fixed unit label (unverified vs coordinates)
+day_of_week,calendar,yes_under_assumptions,True,calendar is known in advance; reported province treated as a fixed unit label (unverified vs coordinates)
+month,calendar,yes_under_assumptions,True,calendar is known in advance; reported province treated as a fixed unit label (unverified vs coordinates)
+day_of_month,calendar,yes_under_assumptions,True,calendar is known in advance; reported province treated as a fixed unit label (unverified vs coordinates)
+day_of_year,calendar,yes_under_assumptions,True,calendar is known in advance; reported province treated as a fixed unit label (unverified vs coordinates)
+is_weekend,calendar,yes_under_assumptions,True,calendar is known in advance; reported province treated as a fixed unit label (unverified vs coordinates)
+(group) historical_lags,historical_lags,unproven,False,blocked until reporting delay / availability at issue time is proven
+(group) weather_era5_target_day,weather_era5_target_day,unproven,False,blocked; target-day reanalysis is not available at issue time
+(group) traffic,traffic,unproven,False,blocked; no agreed source
+(group) holidays,holidays,unproven,False,pending an approved Thai holiday calendar source
+split,panel_column,no / not a feature,False,forbidden outcome/identifier/audit name; not in explicit feature_allowlist
+target_date,panel_column,no / not a feature,False,forbidden substring target; not in explicit feature_allowlist
+y_recorded_count,panel_column,no / not a feature,False,forbidden outcome/identifier/audit name; forbidden substring count; not in explicit feature_allowlist
+issue_time,panel_column,no / not a feature,False,forbidden outcome/identifier/audit name; not in explicit feature_allowlist
+target_start,panel_column,no / not a feature,False,forbidden outcome/identifier/audit name; forbidden substring target; not in explicit feature_allowlist
+target_end,panel_column,no / not a feature,False,forbidden outcome/identifier/audit name; forbidden substring target; not in explicit feature_allowlist
+boundary_excluded,panel_column,no / not a feature,False,not in explicit feature_allowlist
+n_flagged_records,panel_column,no / not a feature,False,"forbidden outcome/identifier/audit name; forbidden substring flag,lag; not in explicit feature_allowlist"
+flag_reasons,panel_column,no / not a feature,False,"forbidden outcome/identifier/audit name; forbidden substring flag,lag,reason; not in explicit feature_allowlist"
+flag_scope,panel_column,no / not a feature,False,"forbidden substring flag,lag; not in explicit feature_allowlist"
+possibly_undercounted,panel_column,no / not a feature,False,"forbidden outcome/identifier/audit name; forbidden substring undercount,count; not in explicit feature_allowlist"
+training_eligible,panel_column,no / not a feature,False,forbidden outcome/identifier/audit name; forbidden substring eligib; not in explicit feature_allowlist
+label_status,panel_column,no / not a feature,False,forbidden substring status; not in explicit feature_allowlist
+completeness,panel_column,no / not a feature,False,not in explicit feature_allowlist
+acc_code,source_or_audit_field,no / not a feature,False,forbidden outcome/identifier/audit name; forbidden substring acc_code; not in explicit feature_allowlist
+event_uid,source_or_audit_field,no / not a feature,False,forbidden outcome/identifier/audit name; forbidden substring uid; not in explicit feature_allowlist
+source_file,source_or_audit_field,no / not a feature,False,forbidden outcome/identifier/audit name; forbidden substring source; not in explicit feature_allowlist
+source_row,source_or_audit_field,no / not a feature,False,forbidden outcome/identifier/audit name; forbidden substring source; not in explicit feature_allowlist
+source_year,source_or_audit_field,no / not a feature,False,forbidden outcome/identifier/audit name; forbidden substring source; not in explicit feature_allowlist
+deaths,source_or_audit_field,no / not a feature,False,forbidden outcome/identifier/audit name; forbidden substring death; not in explicit feature_allowlist
+serious_injuries,source_or_audit_field,no / not a feature,False,forbidden outcome/identifier/audit name; forbidden substring injur; not in explicit feature_allowlist
+minor_injuries,source_or_audit_field,no / not a feature,False,forbidden outcome/identifier/audit name; forbidden substring injur; not in explicit feature_allowlist
+injured_total,source_or_audit_field,no / not a feature,False,forbidden outcome/identifier/audit name; forbidden substring injur; not in explicit feature_allowlist
+n_vehicles,source_or_audit_field,no / not a feature,False,forbidden outcome/identifier/audit name; not in explicit feature_allowlist
+n_involved,source_or_audit_field,no / not a feature,False,forbidden outcome/identifier/audit name; not in explicit feature_allowlist
+accident_type,source_or_audit_field,no / not a feature,False,forbidden outcome/identifier/audit name; not in explicit feature_allowlist
+presumed_cause,source_or_audit_field,no / not a feature,False,forbidden outcome/identifier/audit name; not in explicit feature_allowlist
+vehicle_1,source_or_audit_field,no / not a feature,False,forbidden outcome/identifier/audit name; not in explicit feature_allowlist
+weather,source_or_audit_field,no / not a feature,False,forbidden outcome/identifier/audit name; forbidden substring weather; not in explicit feature_allowlist
+location_type,source_or_audit_field,no / not a feature,False,forbidden outcome/identifier/audit name; not in explicit feature_allowlist
+location_other,source_or_audit_field,no / not a feature,False,forbidden outcome/identifier/audit name; not in explicit feature_allowlist
+report_date_raw,source_or_audit_field,no / not a feature,False,forbidden outcome/identifier/audit name; not in explicit feature_allowlist
+report_time_raw,source_or_audit_field,no / not a feature,False,forbidden outcome/identifier/audit name; not in explicit feature_allowlist
+disposition,source_or_audit_field,no / not a feature,False,forbidden outcome/identifier/audit name; forbidden substring disposition; not in explicit feature_allowlist
+reasons,source_or_audit_field,no / not a feature,False,forbidden outcome/identifier/audit name; forbidden substring reason; not in explicit feature_allowlist
+row_reasons,source_or_audit_field,no / not a feature,False,forbidden outcome/identifier/audit name; forbidden substring reason; not in explicit feature_allowlist
+date_status,source_or_audit_field,no / not a feature,False,forbidden outcome/identifier/audit name; forbidden substring status; not in explicit feature_allowlist
+date_rule,source_or_audit_field,no / not a feature,False,forbidden outcome/identifier/audit name; not in explicit feature_allowlist
+date_candidates,source_or_audit_field,no / not a feature,False,forbidden outcome/identifier/audit name; not in explicit feature_allowlist
+time_status,source_or_audit_field,no / not a feature,False,forbidden outcome/identifier/audit name; forbidden substring status; not in explicit feature_allowlist
+coord_status,source_or_audit_field,no / not a feature,False,forbidden outcome/identifier/audit name; forbidden substring status; not in explicit feature_allowlist
+lat,source_or_audit_field,no / not a feature,False,forbidden outcome/identifier/audit name; not in explicit feature_allowlist
+lon,source_or_audit_field,no / not a feature,False,forbidden outcome/identifier/audit name; not in explicit feature_allowlist

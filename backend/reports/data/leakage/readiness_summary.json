@@ -1,0 +1,47 @@
+{
+  "software_checks_passed": [
+    "feature_names_allowlist_excludes_outcomes_identifiers_flags",
+    "feature_values_not_target_or_future_target",
+    "audit_flags_not_features_and_flagged_days_ineligible",
+    "time_order",
+    "label_boundary",
+    "source_id_groups_disjoint",
+    "province_scope_train_only",
+    "provenance_raw_snapshots_vs_source_manifest",
+    "provenance_interim_vs_artifact_manifest",
+    "provenance_artifact_manifest_built_from_current_source_manifest",
+    "provenance_split_inputs_lineage",
+    "provenance_split_outputs_vs_split_manifest"
+  ],
+  "software_checks_failed": [],
+  "negative_controls_caught": 9,
+  "negative_controls_total": 9,
+  "unresolved_blockers": [
+    {
+      "blocker": "publication_availability",
+      "detail": "reporting delay / when records become available is unknown, so historical lags are blocked and labels may be incomplete at evaluation time"
+    },
+    {
+      "blocker": "date_ambiguity",
+      "detail": "ambiguous D/M vs M/D slash dates are quarantined; their candidate province-days are flagged, not resolved"
+    },
+    {
+      "blocker": "coverage_completeness",
+      "detail": "MOT road network only; completeness unknown; zero = no selected recorded event; unlocalized excluded rows may undercount unknown days"
+    },
+    {
+      "blocker": "reused_test",
+      "detail": "2025 was previously inspected and 2024-2026 were explored in EDA; no untouched independent test set exists"
+    },
+    {
+      "blocker": "route_precision",
+      "detail": "province-day is a provisional demo unit; reported province unverified vs coordinates; coordinates only checked against a broad bbox; route-segment unit not agreed"
+    },
+    {
+      "blocker": "no_id_2026",
+      "detail": "2569/2026 lacks ACC_CODE and is diagnostic only"
+    }
+  ],
+  "final_model_readiness": "BLOCKED",
+  "claim_scope": "Only the implemented audits above were run on these artifacts. This is NOT a global no-leakage guarantee."
+}

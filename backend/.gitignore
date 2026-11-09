@@ -1,0 +1,15 @@
+# Bulk / row-level data: raw snapshots, interim rows, quarantine, panels. Never commit.
+/data/
+# run-local kernelspec written by scripts/run_data_notebooks.py
+/.runner/
+# independent reruns (scripts/run_data_notebooks.py --output-dir ...) kept inside backend by convention
+/rerun*/
+.ipynb_checkpoints/
+.pytest_cache/
+__pycache__/
+# reports/data/ is tracked on purpose: only small aggregated JSON/CSV/PNG evidence is written there.
+# Guard against row-level files being dropped into reports by mistake:
+/reports/data/**/*row*.csv
+/reports/data/**/*events*.csv
+/reports/data/**/*panel*.csv
+/reports/data/**/*quarantine*.csv

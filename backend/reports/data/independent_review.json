@@ -1,0 +1,210 @@
+{
+  "reviewed_at_utc": "2026-11-09T14:27:08.919505+00:00",
+  "scope": "data-foundation notebooks only; no model training, frontend screens, or dashboard",
+  "commands_actually_run": [
+    ".venv/bin/python -m pytest backend/tests -q",
+    ".venv/bin/python backend/scripts/run_data_notebooks.py --timeout 300",
+    ".venv/bin/python backend/scripts/run_data_notebooks.py --output-dir /private/tmp/roadaware-independent-final-20261109 --timeout 300"
+  ],
+  "pytest": {
+    "passed": 54,
+    "failed": 0
+  },
+  "full_notebook_runs_passed": 2,
+  "notebooks": [
+    {
+      "file": "backend/notebooks/01_data_collection.ipynb",
+      "executed_code_cells": 5,
+      "source_sha256": "dfa8800684667397fa0bc60d2fc8389f97fc16c39e1b8ab16d7ffc8ebcfa8c94",
+      "saved_outputs_valid": true
+    },
+    {
+      "file": "backend/notebooks/02_eda.ipynb",
+      "executed_code_cells": 8,
+      "source_sha256": "91148b3a9be3990e71e7779aa6190249940ee05d2712b8237f5dbfa95155610f",
+      "saved_outputs_valid": true
+    },
+    {
+      "file": "backend/notebooks/03_cleaning_preparation.ipynb",
+      "executed_code_cells": 6,
+      "source_sha256": "ecc0650f40bd3ccf72c83400977b1449e4e4a19271cfc4c910135fffb2e01fd8",
+      "saved_outputs_valid": true
+    },
+    {
+      "file": "backend/notebooks/04_split_strategy.ipynb",
+      "executed_code_cells": 7,
+      "source_sha256": "0b5f02cda6562d639d69a4daa73345b36247d2c1bc48f423334749a4477c0b49",
+      "saved_outputs_valid": true
+    },
+    {
+      "file": "backend/notebooks/05_data_leakage.ipynb",
+      "executed_code_cells": 7,
+      "source_sha256": "34a3aa7755fba6a7c27dbb23a405d1f21f29a9f9c4367f1a44a2f7b44c280615",
+      "saved_outputs_valid": true
+    }
+  ],
+  "raw_records": 127375,
+  "retained_identified_records": 84296,
+  "row_dispositions": {
+    "retained": 84296,
+    "quarantined": 27840,
+    "diagnostic": 15239
+  },
+  "panel_rows": 140602,
+  "panel_unit": "provisional reported-province day, not final route-segment model",
+  "source_hash_and_csv_record_checks": "passed for all six files; source read-only snapshots match",
+  "complete_row_lineage_and_retained_membership_checks": "passed",
+  "reproduction": {
+    "csv_files_byte_identical": 26,
+    "csv_hashes": [
+      {
+        "path": "data/interim/cleaned_events.csv",
+        "sha256": "b7ab13c58dc1389d96c31ff666444953a00ecaf2d10a6cf2c4ab901281afec30"
+      },
+      {
+        "path": "data/interim/diagnostic_rows.csv",
+        "sha256": "cc6215d59738bf3a7777d8102ae12201519555b0b4687cd2aa1cf48f93260ca9"
+      },
+      {
+        "path": "data/interim/duplicate_lineage.csv",
+        "sha256": "c72f86d8da03088a9fee4cc2e265683438411e3a9504e56aaa43d356004498a6"
+      },
+      {
+        "path": "data/interim/events_descriptive_outcomes.csv",
+        "sha256": "6eb4ff134a9d4778aa4c37454159f8806bc765640faa3c6f61dcdcee695570ff"
+      },
+      {
+        "path": "data/interim/possible_undercount_flags.csv",
+        "sha256": "ad466b194c1ea2a555d67a052d4bd342180bc063f8ce6f4ba73e410f382ee323"
+      },
+      {
+        "path": "data/interim/quarantine.csv",
+        "sha256": "90481247e15adb09c00cbc095cdfd9610a5680731f90bf035e1e8394cf39c076"
+      },
+      {
+        "path": "data/interim/reconciliation.csv",
+        "sha256": "4811624474a98d29c126942ba21992cee72bb4f3aa90a2d604bb280c140c60e1"
+      },
+      {
+        "path": "data/interim/row_audit.csv",
+        "sha256": "6668cda37582cca208e4e529db7ba5dd0b5b9a93e6c4d9ee14dcca387bd1a07e"
+      },
+      {
+        "path": "data/processed/event_split_assignments.csv",
+        "sha256": "af1405a03293c2fb7a43030c2375e6bafa3ce0b29a0f9035bcee18b25f04689c"
+      },
+      {
+        "path": "data/processed/province_day_panel.csv",
+        "sha256": "22604a280264d55e2caacb21da2e135ca8896b849457b80f34386c9d54a828a7"
+      },
+      {
+        "path": "reports/data/collection_schema_diff.csv",
+        "sha256": "834d5bf6e1908b4112be1f36c196324765fe76b763be3862ed30f990ea8cb640"
+      },
+      {
+        "path": "reports/data/eda/raw_category_accident_type.csv",
+        "sha256": "ea45d288effb43aa309767c4fed6da05ffaa2e3b21bd83d22cf57d55af2b8417"
+      },
+      {
+        "path": "reports/data/eda/raw_category_agency.csv",
+        "sha256": "27c0de27e4658cf6ce5931559fe210807bb9bf79e832b92bdf193a76291ce8f4"
+      },
+      {
+        "path": "reports/data/eda/raw_category_presumed_cause.csv",
+        "sha256": "41ea854870f9bf7b9ee63083a97b9fa7462314ed1d313c63f473e499e0fc3155"
+      },
+      {
+        "path": "reports/data/eda/raw_category_province.csv",
+        "sha256": "8cab07b5837ceece4d3db851fe5eed8f4dadce1c0440343d4a37c53e0e37d89b"
+      },
+      {
+        "path": "reports/data/eda/raw_category_weather.csv",
+        "sha256": "f9d855850abde7deefc7c8c20bba2003e3b0931196534a2e9229130107740bc5"
+      },
+      {
+        "path": "reports/data/eda/raw_confirmed_hour_coverage.csv",
+        "sha256": "648f0b3abdc2c4b455d608de1d105927925052e829b702bd4557ce1dd8c806c8"
+      },
+      {
+        "path": "reports/data/eda/raw_confirmed_month_coverage.csv",
+        "sha256": "05f54744c80cd5d31616fff046c980d64f0ab450dd0f52f6c37d06bc6af461c9"
+      },
+      {
+        "path": "reports/data/eda/raw_date_format_by_year.csv",
+        "sha256": "b84642c6873c6fddfe02974c1d1e0124d78d8df36913464f7dfc564ef2487033"
+      },
+      {
+        "path": "reports/data/eda/raw_missing_percent_by_field_year.csv",
+        "sha256": "5b7f59f116e78153cb11fcd6dfca92cbe1422dd38a768c6575191bdc6a9f2479"
+      },
+      {
+        "path": "reports/data/eda/raw_overview_by_year.csv",
+        "sha256": "e7e0e6b739cecfcc05929991b0b66239bb6bdc1be4201cd7eb18ef15eca14720"
+      },
+      {
+        "path": "reports/data/eda/raw_time_format_by_year.csv",
+        "sha256": "52a84b8a76c1832480bdb2bcf146e569843ad54ec3a183ecde66cb5e26f5d499"
+      },
+      {
+        "path": "reports/data/leakage/feature_availability_matrix.csv",
+        "sha256": "ee550d7d3865a7acf08a2015c5e283e17dbce361ce5ea5b3c31a0edc508d1dad"
+      },
+      {
+        "path": "reports/data/leakage/negative_controls.csv",
+        "sha256": "4b9adcd04c0eece738227a86f9514fe8c71b6755021e21998ce8f09bce802a1a"
+      },
+      {
+        "path": "reports/data/split/province_scope.csv",
+        "sha256": "87f3063c46d4b8086cdb58ab26f194120c6c38e51350d5bfb271852e38f0afa8"
+      },
+      {
+        "path": "reports/data/split/split_summary.csv",
+        "sha256": "a5d47385a4e6b52e6c38f9d1f675d9647d14ab6f90c92df9dfcd4fd96ad2be77"
+      }
+    ],
+    "stable_json_reports_equal": true,
+    "excluded_from_comparison": "timestamps, paths, notebook execution metadata, manifest hashes that include changing timestamps, import-status copied/already-present"
+  },
+  "leakage_checks_passed": 12,
+  "negative_controls_caught": 9,
+  "final_model_readiness": "BLOCKED",
+  "unresolved_blockers": [
+    {
+      "blocker": "publication_availability",
+      "detail": "reporting delay / when records become available is unknown, so historical lags are blocked and labels may be incomplete at evaluation time"
+    },
+    {
+      "blocker": "date_ambiguity",
+      "detail": "ambiguous D/M vs M/D slash dates are quarantined; their candidate province-days are flagged, not resolved"
+    },
+    {
+      "blocker": "coverage_completeness",
+      "detail": "MOT road network only; completeness unknown; zero = no selected recorded event; unlocalized excluded rows may undercount unknown days"
+    },
+    {
+      "blocker": "reused_test",
+      "detail": "2025 was previously inspected and 2024-2026 were explored in EDA; no untouched independent test set exists"
+    },
+    {
+      "blocker": "route_precision",
+      "detail": "province-day is a provisional demo unit; reported province unverified vs coordinates; coordinates only checked against a broad bbox; route-segment unit not agreed"
+    },
+    {
+      "blocker": "no_id_2026",
+      "detail": "2569/2026 lacks ACC_CODE and is diagnostic only"
+    }
+  ],
+  "config_sha256": "c779fdde27c73ac9466c9a86c71ef86f1b75747914cc985b37df8214749a3098",
+  "versions": {
+    "pandas": "2.3.3",
+    "numpy": "2.0.2",
+    "matplotlib": "3.9.4",
+    "nbformat": "5.10.4",
+    "nbclient": "0.10.2",
+    "ipykernel": "6.31.0",
+    "pytest": "8.4.2"
+  },
+  "vscode_ui_run_all": "not verified: UI automation could not execute notebook controls. VS Code installed extensions and workspace interpreter configuration verified; actual execution used nbclient real project-local kernels without a browser.",
+  "frontend_scope_check": "README only; no UI or scaffold",
+  "review_verdict": "PASS for the bounded data-foundation task, not production/model readiness"
+}

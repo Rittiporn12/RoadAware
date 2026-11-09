@@ -6,7 +6,9 @@ __pycache__/
 .env.*
 !.env.example
 .venv/
-data/
-reports/data/*.csv
-reports/data/*.png
+# obsolete root-level pipeline outputs (anchored so backend/reports/data stays visible)
+/data/
+/reports/data/*.csv
+/reports/data/*.png
 .ipynb_checkpoints/
+.pytest_cache/

@@ -1,0 +1,73 @@
+{
+  "started_utc": "2026-11-09T14:25:35.559049+00:00",
+  "runner_python": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/.venv/bin/python",
+  "kernel_argv": [
+    "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/.venv/bin/python",
+    "-m",
+    "ipykernel_launcher",
+    "-f",
+    "{connection_file}"
+  ],
+  "backend_root": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend",
+  "output_dir": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend",
+  "source_dir_override": null,
+  "status": "ok",
+  "notebooks": [
+    {
+      "notebook": "01_data_collection",
+      "source": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/notebooks/01_data_collection.ipynb",
+      "status": "ok",
+      "error": null,
+      "source_sha256_before": "a083313a9ca5148c69d11fcd1f95b0b13b5952f37524bb870a6b1e3e9db3b589",
+      "nbformat_valid": true,
+      "seconds": 2.26,
+      "output": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/notebooks/01_data_collection.ipynb",
+      "output_sha256": "5269e57e0b9787a573bbc634f4db36ea880aef18ec9c8a47c4996a1e60686bcf"
+    },
+    {
+      "notebook": "02_eda",
+      "source": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/notebooks/02_eda.ipynb",
+      "status": "ok",
+      "error": null,
+      "source_sha256_before": "c219cb8adc85172501fad306ed48adad25126eadd5638993652a89805163f8ff",
+      "nbformat_valid": true,
+      "seconds": 6.49,
+      "output": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/notebooks/02_eda.ipynb",
+      "output_sha256": "f6f0bfa4a117f5321ca89b412135b5f786958490aa582c85748c832b0461c0f2"
+    },
+    {
+      "notebook": "03_cleaning_preparation",
+      "source": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/notebooks/03_cleaning_preparation.ipynb",
+      "status": "ok",
+      "error": null,
+      "source_sha256_before": "07f3f72953d3e475c7e6db5a9699668e83fa54ace2fc340b31d2bf1c9a96dfa5",
+      "nbformat_valid": true,
+      "seconds": 6.55,
+      "output": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/notebooks/03_cleaning_preparation.ipynb",
+      "output_sha256": "8799d8d5ae30a32e5fdb49cdfad828d40ead737f02df56168b8ac83aac5c641a"
+    },
+    {
+      "notebook": "04_split_strategy",
+      "source": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/notebooks/04_split_strategy.ipynb",
+      "status": "ok",
+      "error": null,
+      "source_sha256_before": "8a29453ea285dca75f824f02dada1e532f3c6f1a8661c3f9fd0a4f90a25ec952",
+      "nbformat_valid": true,
+      "seconds": 3.81,
+      "output": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/notebooks/04_split_strategy.ipynb",
+      "output_sha256": "46274cb98d1fadfe3331fe18738f11038386e294cb35a96a0337cc0bfb691813"
+    },
+    {
+      "notebook": "05_data_leakage",
+      "source": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/notebooks/05_data_leakage.ipynb",
+      "status": "ok",
+      "error": null,
+      "source_sha256_before": "b18558bb49c1aa67067e4e008fcc6bd8477432947750d3ff69d319cf333c84de",
+      "nbformat_valid": true,
+      "seconds": 3.62,
+      "output": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/notebooks/05_data_leakage.ipynb",
+      "output_sha256": "ee182ac6a11641b1e49d3da5fdb5f04e2bff7e033a824cb75d595396e088df93"
+    }
+  ],
+  "finished_utc": "2026-11-09T14:25:58.301726+00:00"
+}

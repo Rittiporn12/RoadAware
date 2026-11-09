@@ -1,0 +1,114 @@
+{
+  "producer": "04_split_strategy",
+  "unit_status": "provisional_data_readiness_demo_not_route_model",
+  "timezone_assumption": "Asia/Bangkok",
+  "issue_rule": "18:00 local, 1 day(s) before the target local day",
+  "splits": [
+    {
+      "name": "train",
+      "start": "2021-01-01",
+      "end": "2023-12-31",
+      "status": "provisional_research",
+      "is_label_split": true
+    },
+    {
+      "name": "validation",
+      "start": "2024-01-01",
+      "end": "2024-12-31",
+      "status": "provisional_research",
+      "is_label_split": true
+    },
+    {
+      "name": "reused_test_2025",
+      "start": "2025-01-01",
+      "end": "2025-12-31",
+      "status": "reused_previously_seen_not_independent",
+      "is_label_split": true
+    },
+    {
+      "name": "diagnostic_2026",
+      "start": "2026-01-01",
+      "end": "2026-12-31",
+      "status": "diagnostic_only_no_acc_code_not_a_label",
+      "is_label_split": false
+    }
+  ],
+  "first_issue_time": {
+    "train": "2020-12-31T18:00:00+07:00",
+    "validation": "2023-12-31T18:00:00+07:00",
+    "reused_test_2025": "2024-12-31T18:00:00+07:00",
+    "diagnostic_2026": "2025-12-31T18:00:00+07:00"
+  },
+  "boundary_excluded_target_dates": [
+    "2023-12-31",
+    "2024-12-31",
+    "2025-12-31"
+  ],
+  "province_scope_size": 77,
+  "province_scope_source": "train label candidates only",
+  "summary_by_split": [
+    {
+      "split": "train",
+      "target_days": 1095,
+      "provinces": 77,
+      "panel_rows": 84315,
+      "selected_recorded_events": 38966,
+      "boundary_excluded_rows": 77,
+      "possibly_undercounted_rows": 20558,
+      "training_eligible_rows": 63757,
+      "zero_count_rows": 62499,
+      "unique_counted_event_uid": 38966,
+      "eligible_zero_rows": 42761,
+      "status": "provisional_research"
+    },
+    {
+      "split": "validation",
+      "target_days": 366,
+      "provinces": 77,
+      "panel_rows": 28182,
+      "selected_recorded_events": 21788,
+      "boundary_excluded_rows": 77,
+      "possibly_undercounted_rows": 20297,
+      "training_eligible_rows": 7885,
+      "zero_count_rows": 16684,
+      "unique_counted_event_uid": 21788,
+      "eligible_zero_rows": 4457,
+      "status": "provisional_research"
+    },
+    {
+      "split": "reused_test_2025",
+      "target_days": 365,
+      "provinces": 77,
+      "panel_rows": 28105,
+      "selected_recorded_events": 23542,
+      "boundary_excluded_rows": 77,
+      "possibly_undercounted_rows": 523,
+      "training_eligible_rows": 27506,
+      "zero_count_rows": 15833,
+      "unique_counted_event_uid": 23542,
+      "eligible_zero_rows": 15722,
+      "status": "reused_previously_seen_not_independent"
+    }
+  ],
+  "excluded_rows_by_assignment": {
+    "excluded_quarantined_in_03": 27840,
+    "excluded_no_acc_code_diagnostic": 15239
+  },
+  "excluded_rows_not_localizable_by_source_year": {},
+  "not_localizable_note": "these excluded rows have no parsed or candidate date, so no province-day can be flagged for them; undercount is possible on unknown days",
+  "diagnostic_2026_note": "whole no-ID 2026 file is diagnostic only and never used as labels",
+  "count_semantics": "y_recorded_count = unique selected recorded event_uid; zero != verified absence; completeness unverified",
+  "flags_are_features": false,
+  "preprocessing_fitted_on": "train only (province scope); nothing fitted on validation/test",
+  "final_model_readiness": "BLOCKED",
+  "blockers": [
+    "Ambiguous slash-date convention per file is not confirmed by the publisher.",
+    "Reporting delay and data availability at issue time are unknown (lags blocked).",
+    "Coverage: MOT road network only; completeness of recorded events unknown; zero means no selected recorded event.",
+    "Other unknown reporting issues (late entries, unrecorded events, edits) may remain beyond the flagged province-days.",
+    "Reported province is not verified against coordinates.",
+    "2025 data was previously inspected; no untouched independent test exists.",
+    "2569 file lacks ACC_CODE so events cannot be de-duplicated by ID.",
+    "Final spatial unit (route segment) and forecast horizon not agreed."
+  ]
+}
