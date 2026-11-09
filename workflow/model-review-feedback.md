@@ -62,3 +62,13 @@ Rerun full notebook after fixing, including final manifests and immutable lock.
 Current verification: original data fixture tests54 passed; tiny synthetic fits,
 unknown-category and bundle reload smoke checks passed all3 families. New
 meaningful model fixture tests remain pending. No model task acceptance yet.
+
+## User decision after quota interruption
+
+The user chose to wait for Claude's reset and keep the original division of
+roles. Codex is NOT authorized to take over implementation. Code and evidence
+are backed up at59186ad. On resumption, delegate a bounded continuation to
+Claude: fix the RF numerical reload check, complete model tests and notebook06
+verification, then implement evaluation/error-analysis notebooks07-08. Preserve
+the locked protocol and candid later-year/cohort-shift findings. Do not restart
+the project or treat the partial model task as accepted.
