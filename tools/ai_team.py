@@ -177,16 +177,29 @@ def monitor():
                 time.sleep(0.25)
 
 
-def review(verdict, message):
+def review(verdict, message, run_id=None):
     current = json.loads((STATE / 'status.json').read_text(encoding='utf-8'))
-    if current.get('stage') != 'awaiting_codex_review':
+    run_id = run_id or current.get('run_id')
+    if not run_id or Path(run_id).name != run_id or run_id in ('.', '..'):
+        raise ValueError('Invalid run ID.')
+    is_current = run_id == current.get('run_id')
+    if is_current and current.get('stage') != 'awaiting_codex_review':
         raise ValueError('No completed worker run is awaiting review.')
-    run_id = current['run_id']
+    run_dir = STATE / 'runs' / run_id
+    result_path = run_dir / 'result.json'
+    if not result_path.is_file():
+        raise ValueError('Worker final report is not available.')
+    result = json.loads(result_path.read_text(encoding='utf-8'))
+    if result.get('is_error') is not False:
+        raise ValueError('Worker run failed or has no successful final report.')
+    if (run_dir / 'review.json').exists():
+        raise ValueError('Worker run has already been reviewed.')
     record = {'run_id': run_id, 'verdict': verdict, 'message': message,
               'reviewed_at': dt.datetime.now().astimezone().isoformat()}
-    (STATE / 'runs' / run_id / 'review.json').write_text(json.dumps(record, ensure_ascii=False, indent=2), encoding='utf-8')
-    status('ready' if verdict == 'pass' else 'needs_changes', run_id=run_id, review=record)
-    note('Codex review: ' + verdict.upper() + ' — ' + message)
+    (run_dir / 'review.json').write_text(json.dumps(record, ensure_ascii=False, indent=2), encoding='utf-8')
+    if is_current:
+        status('ready' if verdict == 'pass' else 'needs_changes', run_id=run_id, review=record)
+    note('Codex review [' + run_id + ']: ' + verdict.upper() + ' — ' + message)
 
 
 def main():
@@ -198,6 +211,7 @@ def main():
     review_parser = sub.add_parser('review')
     review_parser.add_argument('verdict', choices=['pass', 'fail'])
     review_parser.add_argument('message')
+    review_parser.add_argument('--run-id', help='Review a completed run without replacing another active run status.')
     args = parser.parse_args()
     try:
         if args.action == 'monitor':
@@ -205,7 +219,7 @@ def main():
         elif args.action == 'note':
             note(args.message)
         elif args.action == 'review':
-            review(args.verdict, args.message)
+            review(args.verdict, args.message, args.run_id)
         else:
             return run(args.task)
     except KeyboardInterrupt:

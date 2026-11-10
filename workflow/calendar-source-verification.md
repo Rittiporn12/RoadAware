@@ -121,3 +121,17 @@ Do NOT backdate allrecords to2020merelybecauseoriginalannualdecreewasolder.
 Currentbytesretrieved2026, historicalimageavailabilityitselfnotproven; label
 reviewedpublisherdatedsource/researchproxy. Collector needs scene7hostallowlist
 ONLYfor this officialembeddedasset and recordsparentBOTpage; no broadnewhosts.
+
+## Hashes of exact visually reviewed cached sources (2026-11-10)
+Codex computedSHA256 read-only; useexpectedhashesinreviewedconfig sochangedbytes
+cannot silentlyinheritthisvisualtranscription. Also.machine-readable readingaid:
+.ai-team/references/calendar-reviewed-sha256.json
+
+| cached evidence file | SHA256 |
+| --- | --- |
+| bot-holidays-2021.png | aeeb9f6bab65275e1059fb990ba4ffed72cdc076a6b60e6044ee775ad1871ebf |
+| bot-holidays-2022.pdf | 1913aefbfea8762a0b2469096a2626e79c841709c0a8a38729bf73fb649eb815 |
+| bot-holidays-2023.pdf | 33aef39ed370eba61dd741437407b2680a604348c0098113847b7ea38c3178d6 |
+| bot-holidays-2024.pdf | f00b2e42cc7f15b7811c7dbd5ed35879cfed3ae0dc9e4f72a0b95429f71b7345 |
+| bot-holidays-2025.pdf | 2af0f9ffc7b304f9e0ac9dfc3a3ca2d6208078196e77cf00b0584cbc6da08d07 |
+| bot-yearend-amendment-2023.pdf | c566aee7bc3de96e069976a8cff46894769c1b2622a3692d9e1adefd8800015b |

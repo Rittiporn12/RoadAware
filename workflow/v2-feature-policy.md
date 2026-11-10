@@ -51,6 +51,13 @@ issuebound +6h buffer <= issue; units/timezone checked. Missing source remains
 missing, train-only imputation/missing indicators. Never replace with target-day
 observed/reanalysis weather. Point and delivery-time assumptions remain research
 limitations. Report geographic/time coverage before any comparison.
+Real-source quality rule recorded before fitting: negative precipitation is
+invalid per hour (observed -0.1mm in sparse archived values), preserved in raw
+JSON and masked to NaN in normalized rain, never clipped to0. Temperature/other
+hours/locations remain usable; affected incomplete rainfall windows becomeNaN.
+Rain is the preceding-hour sum, bucketed by interval start; temperature is instant.
+Preserve actual valid-time issue bounds for both. Source-quality counts are audit
+outputs, not accident predictors; feature missingness never removes model rows.
 
 Traffic: DOH annual survey-point mean/median AADT, heavy-share mean and station
 coverage per province; never sum to unique provincial cars or label real time.

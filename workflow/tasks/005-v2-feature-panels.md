@@ -1,10 +1,44 @@
 # Goal
+MANAGERUPDATE15:11: scopealsoincludes the small, separatelybounded finalsource
+correction in workflow/tasks/004c-weather-quality-correction-2.md. Readit. 09
+kernelhasfinished, soearlierprohibitionon09mutationduringcollectionno longer
+applies ONLYtothespecific004csourcequalityfix. Yourfresh005conversationstarted
+after004bfinished; youaretheONLYClaude worker. Ifpracticalwrite004cpayloadsfirst
+andnotehandoffreadysoCodexcanresumelongcollectionwhileyouimplement10. Both005
+and004cacceptanceareindependent; don'tmarkeitherpassed. Noextraworkers/shell.
+
 Implement notebook10: reproducible v2 date-evidence repair, descriptive analytics,
 daily and6h target panels, useful external features and leakage audit. No model
 fitting in this task. User wants actual stronger forecasting experiments later,
 with holiday/festival, weather, season, timeblock and traffic features tested.
 
 # Context / read
+Resume context2026-11-10 15:05: worker004b has FINISHED (no concurrentClaude).
+Codexstillrunsindependentonline09weathercollection (session55670); finalsource
+acceptance/offlinechecks pending, NOTpassed. YoumayIMPLEMENT10nowusingcurrent
+09schemas/config andactualavailabledate/traffic/geooutputs. DoNOTexecute10or
+fitmodels. Codexwillonlyexecute10AFTER09accepted. No09/configchangeswhilekernel
+collectsweather. Anyold09manifeststillshowing0weathermaybepreviousrun: current
+Eloopcollectsnewchunksandwillwriteweatheraggregatesandmanifestatend. Useactual
+09source/currentconfig forinterface, notinventedoutputs oroldblockedreadiness.
+Current09code33fixturespass, actual77points/77ISOjoin/inside,6AADTyears77provinces
+each,95calendaradd/removeactions. Data2024traffic2130fullyblanknonrecords
+excludedexplicitly+2736stations; provincealias พระนครศรีอยุธยา -> อยุธยา isaudited
+exactmaptoexistingv1panel. Geoquerytablekeepsoriginalname_th PLUSprovince_key.
+Trafficsummarykeyprovince_key. Weatherpreceding-hourrainintervalnowcorrect:
+00-06usesvalid01..06,instanttemp00..05; finaledgecanberainmissing. Preserve
+completehour/sourceissueboundflags. Forecastsourcecoveragewillbepartialunder
+4500weightedcalls/runquota; missingcovariatesremainNaN, SAMEcohortallmodels.
+Readonlytargetedsourceaids: .ai-team/references/notebook09-source-after004a.txt
+isBEFORE004b,sofornewschemasuseactual09_patch/cells/C_traffic.py,D_geography.py,
+E_weather.py,G_report.py,functions_part2.py (temporaryworkerpayloads, notimports).
+Source05/03aidsalreadyexist. Avoidreadinghugewhole.ipynbinfiletool; toolsRead
+mayrefuse. Fornew10 usemultiplemanageableFUNCTIONScells, testscombineall in
+order. Ifeditinglargeipynbfailed,writeexactcellpayloads+checkedassemblyhandoff
+under.ai-team/handoffs/005 andletCodexapplymechanically; finalbusinesslogicmust
+liveentirelyinactual10.ipynb, noruntimeimportsfrompayloads. Focusboundedfilework,
+do notrewritev1 or09, do notmodifytools/bridge (Codexsetuphandledthat).
+
 AGENTS.md; workflow/v2-feature-policy.md (binding before fit); calendar source
 verification and v2-review-feedback; accepted notebook09 and actual sourceoutputs;
 v1 config,data/interim/row_audit.csv,cleaned_events.csv,quarantine.csv and03-05.

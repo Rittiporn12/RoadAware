@@ -75,3 +75,141 @@ dates,known_fromJan6only,sourcequalityproxycaveat. Addonlyscene7officialasset
 allowlistwithparentBOTURLprovenance. All5yearannualsourcecontentnowavailable
 (2021PNG,2022FIPCS,2023-25PDF);completefinalholidaycoverage stillrequires
 amendmentsanddoesNOTmeanallpublicholidays.
+
+## Resume independent inspection (12:28, task004a)
+ExistingFUNCTIONS cached_fetch returns hashverifiedcache even ifrequestedURLchanged
+underthesameresourceID (e.g.querycoordinates/configchange). RequireURLidentity
+and rejectchangedrequest orstoreexplicitnewversion; don'trelabelcachedwrongquery.
+register_preflight currentlyonlystoresoldhashwhenfilebyteschange, cannotpreserve
+oldbytesafterexternalfilemutation. Preferintegrityfailureonchangedregistered
+preflight ratherthan silentlyadoptit asnewvalidsnapshot. Addfixturechecks.
+Weatherpayloadmustvalidatehourly_units temp°C/rainmm andexactvariables; existing
+startswithlookupcouldacceptprevious_day20forprevious_day2. Actualcachedprobehas
+exactkeys temperature_2m_previous_day2/precipitation_previous_day2 andunits°C/mm.
+Rejectduplicates/irregularhourlytimegrids,negative/nonfiniteprecipitation,
+outofrequestedperiod/locationcount mismatches, andnonsensicalgridcoordinates.
+GeopointsrequestedvsAPIgridcoords remainauditedproxy; no needunreasonablyrequire
+returnedgridinsideprovince (weathergridlegitimatelycoulddiffer). Counterpart
+province/time0mismatch verifiedforuniqueIDs2021(20062),2022(20566),2023(20498).
+Do notinterpretthat assupportforconflictingduplicateIDs.03strictconflictsremain.
+
+## Real current09 FUNCTIONS date audit / tooling (12:33)
+Codexactuallyexecutedexistingread_xlsx_id_dates+audit_dates_by_id onrealcachedfiles:
+2021resolved20062(readingsmdy19164,equal898).
+2022resolved8135(dmy7268,equal867), xlsx_untyped_or_missing_date12431.
+2023resolved22922(mdy21954,equal968), xlsx_id_conflicting_dates919.
+2022XLSXcontainsmanyTEXTdates, notalltyped. ThisdoesNOTblockretainingoriginal
+single-valid-orderdates:005policykeepsoriginalvalidunambiguousdates andonlyuses
+typedcounterpartevidence toresolveambiguousones. Do NOT claimall2022XLSXcells
+typed oryearlyglobalDMY. Reporttheactualtypes/profileandconfidence.
+Tooling: Editon.ipynb failsbydesign, useNotebookEdit. Toavoida45KBFUNCTIONS
+rewrite forsmallchanges, workerMAYwrite exactJSONreplacementpayload to
+.ai-team/handoffs/004a-patches.json (listofnotebookcellid/index,exactoldstring,
+exactnewstring,expectedoldsha optionally). Codex can mechanicallyapply YOUR
+authoredpatch as toolinghandoff, thencompile/test. ThisisnotpermissionforCodex
+toauthorMLlogic. Avoidlosingbudgetrewritingwhole45KBcell. Mentionhandoff inreport.
+Plain source-only current09 reading aid (Codex extracted beforeyourchanges):
+.ai-team/references/notebook09-source-current.txt (87730bytes,1500lines,
+FUNCTIONS first~930lines). UseReadwithoffset/limitonthisinsteadoflargeipynb
+toolresult; verifyactualcelltextbeforepatch. ThisisareadingaidNOTruntimecode.
+
+ExactreviewedcalendarSHA256anchorsnowappendedtocalendar-source-verification.md
+and.jsonaid .ai-team/references/calendar-reviewed-sha256.json. Useasexpected
+reviewedhashesinconfig; runtimehashbindingaloneisnotproofnewbyteswerereviewed.
+
+## Quota evidence (12:43)
+OfficialOpen-Meteopricingverified:600calls/min,5000/hour,10000/day; requests>14days
+countfractionally.77provinces*1826days/14 approx10043weightedcalls, so1runmay
+stoponhourly/dailyquota; partialcoverageacceptableONLYifexplicitlyquota-limited,
+notclaimarchiveitselfmissing. No bypass/repeatedhammering/paidservice. Resume
+hashverifiedcachelater. Completehourscoveragechecksremainstrict. Codexcanrun
+otherverification/preparationworkbetweenlegitimatequotaresumes.
+Source:https://open-meteo.com/en/pricing (actualhourly/dailylimits).
+
+Toolinghandoffclarification: observedbackend/notebooks/09_patch/cells/*.py being
+written. TreatasTEMPORARYworker-authoredcellpayloadsONLY, notruntimeimports.
+Provideexactassemblymanifest/mapping(orderedinserts/replacements)forCodex to
+mechanicallyapplyintotheactual09ipynb. Codexwillmovestagingpayloadsunderignored
+.ai-teamafterassembly. Finalbusinesslogic MUSTresidein.ipynb andRunAllstandalone;
+testsshouldexecutebothFUNCTIONScells, notjustoldone. Do notcommit09_patchas
+alternativehiddenPythonpipeline. Actualrunner mustexecuteassembled09notpayloads.
+
+## Actual pytest at12:47 (fix before final docs)
+CodexmechanicallyappliedClaudeapplier:actual09now20cells/schema/compilepass.
+Command .venv/bin/python -m pytest backend/tests/test_v2_notebooks.py -q
+RESULT:20passed,3FAILED in0.51s (notaccepted).
+1.test_province_join_iso_exact_name_unresolved: fixtureChonBuri andChonburi both
+normalizetocode20 sojoincorrectlymarksboth unresolved_duplicate_code; assertion
+expectsoneexactresolved. Separateuniqueexactjoincasefromduplicatecase, preserve
+duplicaterejectiontest, don'tweakenactualguard.
+2.test_representative_point_inside_concave_polygon: pandas convertsmissinglatNone
+toNaN; assertpd.isna ratherthan`is None`. Actualmissinggeometryshouldstillreject.
+3.test_runner_stages_roots_and_env: expectsresolve_roots(output=v1root,data=v1root)
+raises, butdefaultbackendusesexactlythatintentionally reports/v2separatefromv1.
+Correctfixturetoactualprotectedoverlapcase, retainnormaldefaultrootallowedtest.
+Actualrootprotectionmustremainmeaningful notcosmetic. Fulltraceavailable pytest.
+NeedexplicitcacheURL/preflightmutation/weatherunits/exactvars guardsfrom12:28
+feedbackstillnotpresentinassembledFUNCTIONS; re-readallnewfeedbackbeforefinal.
+ExactreviewedSHAanchorsalsoalreadyprovidedinverificationdoc. Applieralreadyrun,
+soifpayloadupdatesafterwardsCodexmustresyncauthoredcells (currentapplierno-op
+whenpart2exists, thereforewon'tapplynewpart2changesunlessyouprovideupdates).
+
+## 004b same-run independent evidence / weather interval correction (14:51)
+Codexexecutedexisting09functions againstREALAPI5provincesfull2021:43800hourly
+rows,43800nonnulltempandrain,strictpayloadvalidatorpasses,oldaggregator1825daily
+rows/issueboundstrue. Raw+requestevidence at/private/tmp/roadaware-weather-annual-component.
+IMPORTANT officialhourlydefinitionsverified https://open-meteo.com/en/docs :
+precipitation isPRECEDINGHOURSUM,temperatureINSTANT. Currentaggregate_weather
+groupsbothbyvalidtime.hour,so00-06rainusespreviousday23..05ratherthan00..06.
+Fixnowwithin004b: keepinstanttempbucketbyvalidtime; bucketprecipbyintervalstart
+(valid_time_local-1h). Preserveoriginalvalidtimeandnominalissueboundforsource
+availabilityguards (DON'Tshiftissueboundalongwithraininterval). For00-06rain
+sumvaluesending01,02,03,04,05,06; forday00-24ending01..nextday00. Needseparate
+unique/validhourcountspervariable, complete24/6only. Retainoldoutputnamesneeded
+next10, addmetadata n_rain_hours/intervalconventionifuseful. Emittargetkeysfrom
+temperaturegridonly (avoidpreviousdaystraybucketfromfirstmidnightrain). Last
+availabledaymaylacknextmidnighthour: rainNaN+missingflag,neverpartialsum orfake0;
+adjacentyearschunksalreadyconcatcanprovideboundaryhourwhenavailable. No extra
+APIrequestneededmerelytohidethefinaledgegap. DoNOTclaimsame-dayraincomplete
+underold0..23convention. Docs/reportstatepreceding-houralignment.
+Adddistincthour-valuefixture(e.g.rainvalues0..24:00-06sum1..6=21,not0..5=15),
+midnight/yearboundary,missinglastinterval=>NaN,andissueguardincludesrain'sactual
+latestvalidtime. Updateolderaggregationfixturesappropriatelywithoutweakening
+missingnessguard. Smalloverrideaggregate_weatherintheworker-authoredpart2cell
+isacceptabletoavoidold45KBrewrite; testsmustexecuteeffectivebothFUNCTIONScells.
+
+## 004b actual interim fixtures (14:54)
+Codexresynced004bpayloadswithworker applier thenran
+.venv/bin/python -m pytest backend/tests/test_v2_notebooks.py -q
+28passed2FAILED (0.86s); fixbeforefinal alongsideweatherintervalissue.
+1.aadt_station_rows np.select failscondlistbool dtype: assignmentofpandas
+nullablebooleanvaluesintodupSeries castsobject; numpy2requiresboolndarray.
+FutureWarningaroundline494andTypeErrorselectaround497. Fixexplicitbooldtype/
+non-nullmasks, notdeletefixture. ActualrealAADT2024 samepathwouldfail.
+2.test_pinned_source_local_first_offline_refresh_and_mismatch finalfresh-offline
+casepassesroot3/newregistrytopinned_source butfetcher2closurestillusesroot2/reg2
+whichhascachedbytes ->expectsNonebutgetscache. Correctfixtureinjectconsistent
+root/registry soofflinewithoutcacheactuallytested; keepchangedpin/cacheguards.
+Independentraw2024check:4866parsed=2130FULLYBLANKallcolumns+2736nonblank,
+nonblankmissingprovince0. Frozen112v1filesstillunchanged.
+
+## Current005worker scope extension (15:11) — MUST READ
+Readworkflow/tasks/004c-weather-quality-correction-2.md. Managerextended005
+explicitlytoincludethesmallfinal09negative-rainqualityfix. 09kernelFINISHED
+431.9s; noactivecollectorwritingnow.7rawannualchunksdownloaded/only3usable
+because4chunkscontain6hours(-0.1mm)each. Keepraw,maskONLYbadperhourNaN,
+preservetemp/otherlocations,complete-windowrainNaN; don'trejectwholebatch or
+stopallcollectiononmaskablevaluequality. Actualsourcefilescached no newdownload
+neededtoverify. Original004contracts/remaining005contractstillapply. Onlyone
+Claude worker(currentyou), noadditionalworker. Ifpossiblewrite004cpayloadsfirst,
+notehandoffready, thencontinue10soCodexresumescollectioninparallel. Thisis
+boundedcorrection2for004andmaxroundsremainbinding. 004bhistoricreviewFAILsaved;
+actualdata/catalog/calendars/traffic/geoalreadyreal, onlyweatherqualitypipeline
+needsvalue-maskpolicy. DoNOTclaimacceptanceorcompleteweathercoverage.
+
+005runnerrootclarification: independentlyrerunning10into/tmpoutputmuststill
+readaccepted09reportsfromtheirread-onlysourceroot(usuallybackend),separatefrom
+externalrawrootandv1root. Explicit--source-root/ROADAWARE_V2_SOURCES_ROOT option
+isallowed/encouragedifneeded. Do notrequire09reportstobeundernewemptyoutputdir
+or silentlyfallbackfromanexplicitwrongroot. StagepreparemustNOTrerun09/network;
+allmay09->10. Recordactualinputroots/hashes andrejecttampering.
