@@ -1,6 +1,6 @@
-"""Fixture tests for RoadAware model notebooks 06 and 07 (tiny synthetic data; no Jupyter kernel needed).
+"""Fixture tests for RoadAware model notebooks 06, 07 and 08 (tiny synthetic data; no Jupyter kernel needed).
 
-Each test executes the notebooks' own '# FUNCTIONS' code cells (07 on top of 06, exactly as notebook 07 does), so the
+Each test executes the notebooks' own '# FUNCTIONS' code cells (07 on top of 06, 08 on top of both, as the notebooks do), so the
 logic under test is what the notebooks run. Expected values are computed by hand or by an independent oracle
 (scikit-learn metrics), not by re-implementing the notebook code. Tiny model parameters below are deliberately small;
 the real protocol configuration is checked separately and is never changed by these tests. Run from the repository root:
@@ -22,6 +22,7 @@ import pytest
 BACKEND = Path(__file__).resolve().parents[1]
 NB06 = BACKEND / 'notebooks' / '06_baseline_candidate_models.ipynb'
 NB07 = BACKEND / 'notebooks' / '07_evaluation_experiment_results.ipynb'
+NB08 = BACKEND / 'notebooks' / '08_error_analysis_model_selection.ipynb'
 RUNNER = BACKEND / 'scripts' / 'run_model_notebooks.py'
 XCFG = json.loads((BACKEND / 'config' / 'model_experiment_v1.json').read_text('utf-8'))
 DCFG = json.loads((BACKEND / 'config' / 'data_pipeline.json').read_text('utf-8'))
@@ -986,8 +987,10 @@ def load_runner():
 def test_runner_stage_mapping_and_separate_analysis_run_manifest():
     r = load_runner()
     assert r.notebooks_for_stage('train') == ['06_baseline_candidate_models']
-    assert r.notebooks_for_stage('analysis') == ['07_evaluation_experiment_results']
-    assert r.notebooks_for_stage('all') == ['06_baseline_candidate_models', '07_evaluation_experiment_results']
+    assert r.notebooks_for_stage('analysis') == ['07_evaluation_experiment_results', '08_error_analysis_model_selection']
+    assert r.notebooks_for_stage('all') == ['06_baseline_candidate_models', '07_evaluation_experiment_results',
+                                            '08_error_analysis_model_selection']
+    assert [n for n in r.notebooks_for_stage('all') if r.needs_diagnostics(n)] == ['08_error_analysis_model_selection']
     with pytest.raises(ValueError):
         r.notebooks_for_stage('deploy')
     assert r.run_manifest_name('analysis') == 'run_manifest_analysis.json'
@@ -1042,3 +1045,279 @@ def test_actual_diagnostic_cells_match_06_support_and_2024_q4_has_no_support(f, 
     assert not ym.isin(['2024-10', '2024-11', '2024-12']).any()
     assert (later.set_index('month').loc[['2024-10', '2024-11', '2024-12'], 'eligible_rows'] == 0).all()
     assert cells['target_date'].dt.year.max() <= 2025
+
+
+# ================================================================ notebook 08: error analysis of the frozen choice
+
+def load_functions_08():
+    """06, 07 then 08 FUNCTIONS in one namespace. Returns (ns, 06+07-only snapshot)."""
+    ns, _ = load_functions_07()
+    before = dict(ns)
+    hits = [s for s in _code_cells(NB08) if s.lstrip().startswith('# FUNCTIONS')]
+    assert len(hits) == 1, 'notebook 08: expected exactly one FUNCTIONS cell'
+    exec(compile(hits[0], '08:FUNCTIONS', 'exec'), ns)
+    return ns, before
+
+
+@pytest.fixture(scope='module')
+def h():
+    return load_functions_08()[0]
+
+
+R1 = [{'role': 'selected_candidate', 'spec_id': 'm', 'deviance_domain': 'floor'}]
+
+
+def test_every_08_code_cell_compiles():
+    for i, src in enumerate(_code_cells(NB08)):
+        compile(src, '08:cell%d' % i, 'exec')  # a syntax error anywhere would stop a fresh-kernel Run All
+
+
+def test_08_names_are_disjoint_from_06_07_in_both_load_orders():
+    ns, before = load_functions_08()
+    assert sorted(k for k, v in before.items() if k != '__builtins__' and ns[k] is not v) == []
+    own = {}
+    exec(compile([s for s in _code_cells(NB08) if s.lstrip().startswith('# FUNCTIONS')][0], '08', 'exec'), own)
+    snap = dict(own)  # notebook 08 runs its own cell first, then execs 06 and 07: none may rebind an 08 name
+    for path in (NB06, NB07):
+        exec(compile([s for s in _code_cells(path) if s.lstrip().startswith('# FUNCTIONS')][0], str(path), 'exec'), own)
+    assert sorted(k for k, v in snap.items() if k != '__builtins__' and own[k] is not v) == []
+
+
+def test_08_never_fits_loads_bundles_selects_or_writes_the_lock():
+    src = '\n'.join(_code_cells(NB08))
+    for forbidden in ('fit_bundle(', 'run_backtest(', 'select_models(', 'decision_gate(', 'build_selection_lock(', 'save_bundle(',
+                      'load_bundle(', 'predict_bundle(', 'joblib', '.fit(', 'write_json(LOCK_PATH', 'bootstrap_comparisons('):
+        assert forbidden not in src, forbidden
+
+
+def test_outcome_bins_and_day_groups_hand_computed(h):
+    assert list(h['outcome_bins']([0, 1, 2, 3, 4, 7])) == ['0', '1', '2-3', '2-3', '>=4', '>=4']
+    for bad in ([1.5], [-1], [np.nan]):
+        with pytest.raises(ValueError):
+            h['outcome_bins'](bad)
+    assert list(h['day_groups']([1, 12, 13, 31])) == ['days01-12', 'days01-12', 'days13-31', 'days13-31']
+    with pytest.raises(ValueError):
+        h['day_groups']([0])
+
+
+def test_slice_metrics_hand_computed_and_missing_support_is_null(h):
+    fr = pd.DataFrame({'evaluation_scope': 'oof_train_backtest', 'month': [1, 1, 2], TARGET: [0, 2, 4], 'pred__selected_candidate': [1.0, 1.0, 1.0]})
+    t = h['slice_table'](fr, 'month', [1, 2, 3], R1, 1e-9).set_index(['evaluation_scope', 'level'])
+    m1, m2, m3 = (t.loc[('oof_train_backtest', k)] for k in ('1', '2', '3'))
+    assert (m1['n_rows'], m1['observed_total'], m1['predicted_total'], m1['mae'], m1['rmse'], m1['bias'], m1['signed_error_total']) == (2, 2, 2, 1, 1, 0, 0)
+    assert m1['mean_poisson_deviance'] == pytest.approx(2 * math.log(2))
+    assert (m2['mae'], m2['rmse'], m2['bias'], m2['signed_error_total'], m2['observed_mean']) == (3, 3, -3, -3, 4)
+    assert m2['mean_poisson_deviance'] == pytest.approx(2 * (4 * math.log(4) - 3))
+    assert m3['n_rows'] == 0 and m3['support_status'] == 'no_eligible_support'
+    assert pd.isna([m3[k] for k in ('mae', 'rmse', 'bias', 'observed_total', 'predicted_total', 'mean_poisson_deviance')]).all()
+    later = t.loc['diagnostic_validation_2024']  # a scope without rows lists every level with null scores, never zero
+    assert len(later) == 3 and (later['n_rows'] == 0).all() and later['mae'].isna().all()
+    with pytest.raises(ValueError, match='outside the declared'):
+        h['slice_table'](fr, 'month', [1], R1, 1e-9)
+
+
+def test_extreme_groups_rank_only_supported_groups(h):
+    fr = pd.DataFrame({'evaluation_scope': 'oof_train_backtest', 'province': ['P1'] * 3 + ['P2'] + ['P3'] * 2,
+                       TARGET: [0, 0, 0, 0, 3, 3], 'pred__selected_candidate': [2.0, 2.0, 2.0, 10.0, 1.0, 1.0]})
+    ext = h['extreme_groups'](h['slice_table'](fr, 'province', ['P1', 'P2', 'P3'], R1, 1e-9), 2, 5)
+    assert ext[ext['direction'] == 'overprediction']['level'].tolist() == ['P1']  # P2 (+10) has 1 row < min_rows
+    under = ext[ext['direction'] == 'underprediction']
+    assert under['level'].tolist() == ['P3'] and under['signed_error_total'].tolist() == [-4]
+    assert (ext['n_groups_below_min_rows'] == 1).all()
+
+
+def test_calibration_edges_constant_duplicate_and_reused_unchanged(h):
+    assert h['calibration_edges']([2, 2, 2]) == [2.0, 2.0]
+    assert list(h['calibration_bin_index']([2, 3, 0], [2.0, 2.0])) == [0, 0, 0]
+    assert h['calibration_edges']([0, 0, 0, 1, 2], 4) == [0.0, 1.0, 2.0]
+    assert h['calibration_edges']([0, 0, 0, 0, 10], 10) == [0.0, 10.0]  # ties never create empty interior bins
+    assert list(h['calibration_bin_index']([0, 0.5, 1, 2, 5], [0.0, 1.0, 2.0])) == [0, 0, 1, 1, 1]
+    for bad in ([1.0, 0.0, 2.0], [1.0, np.nan], [3.0], [0.0, 1.0, 1.0]):
+        with pytest.raises(ValueError):
+            h['calibration_bin_index']([1], bad)
+    oof = pd.DataFrame({'evaluation_scope': 'oof_train_backtest', TARGET: [0, 1, 0, 1, 3], 'pred__selected_candidate': [0.0, 0, 0, 1, 2]})
+    later = pd.DataFrame({'evaluation_scope': 'diagnostic_validation_2024', TARGET: [2, 0], 'pred__selected_candidate': [5.0, 6.0]})
+    edges = h['calibration_edges'](oof['pred__selected_candidate'], 4)
+    cal = h['calibration_table'](pd.concat([oof, later], ignore_index=True), R1, {'selected_candidate': edges}).set_index(['evaluation_scope', 'bin'])
+    o0, o1 = cal.loc[('oof_train_backtest', 0)], cal.loc[('oof_train_backtest', 1)]
+    assert (o0['n_rows'], o0['mean_predicted'], o0['mean_observed']) == (3, 0.0, pytest.approx(1 / 3)) and pd.isna(o0['observed_over_predicted'])
+    assert (o1['mean_predicted'], o1['mean_observed'], o1['observed_over_predicted']) == (1.5, 2.0, pytest.approx(4 / 3))
+    l0, l1 = cal.loc[('diagnostic_validation_2024', 0)], cal.loc[('diagnostic_validation_2024', 1)]
+    assert l0['n_rows'] == 0 and pd.isna(l0['mean_observed']) and l0['support_status'] == 'no_rows_in_bin'
+    assert l1['n_rows'] == 2 and l1['n_above_oof_range'] == 2 and (l1['oof_edge_low'], l1['oof_edge_high']) == (1.0, 2.0)  # same OOF edges
+
+
+def test_attach_panel_fields_validates_keys_labels_eligibility_and_calendar(h):
+    panel = make_panel('2024-01-01', '2024-01-03', split='validation')
+    pred = panel[['split', 'province', 'target_date', TARGET, 'month', 'day_of_month']].assign(pred__m=1.0)
+    out = h['attach_panel_fields'](pred, panel, ['validation'])
+    assert len(out) == 6 and out['day_of_week'].tolist() == panel['day_of_week'].tolist()
+    cases = [(pred.assign(**{TARGET: pred[TARGET] + 1}), panel, ['validation'], 'labels differ'),
+             (pd.concat([pred, pred.iloc[[0]]]), panel, ['validation'], 'duplicate'),
+             (pred.assign(target_date=pred['target_date'] + pd.Timedelta(days=40)), panel, ['validation'], 'not in the verified panel'),
+             (pred, panel.assign(training_eligible=['True', 'False'] * 3), ['validation'], 'training_eligible'),
+             (pred, panel, ['train'], 'outside the splits'),
+             (pred.assign(month=2), panel, ['validation'], 'month stored')]
+    for p, pn, sp, msg in cases:
+        with pytest.raises(ValueError, match=msg):
+            h['attach_panel_fields'](p, pn, sp)
+
+
+def test_cleaning_regime_and_day_equals_month_hand_computed(h):
+    panel = make_panel('2021-01-01', '2021-01-31', y_of=lambda p, d: 1 if d.day == d.month else (0 if d.day <= 12 else 2))
+    panel.loc[panel['day_of_month'] == 5, 'training_eligible'] = False
+    eq = h['day_equals_month_check'](panel, ['train']).iloc[0]
+    assert (eq['eligible_rows_day01_12'], eq['day_equals_month_rows'], eq['positive_rows_day01_12'], eq['positive_day_equals_month_rows']) == (22, 2, 2, 2)
+    assert eq['positive_day_equals_month_share'] == 1.0 and eq['positive_day_not_equal_month_rows'] == 0
+    fr = h['analysis_frame'](panel[panel['day_of_month'].isin([13, 14])].assign(pred__s=1.0, pred__b=2.0), 'oof_train_backtest',
+                             [{'role': 'selected_candidate', 'spec_id': 's'}, {'role': 'strongest_baseline', 'spec_id': 'b'}])
+    roles = [{'role': 'selected_candidate', 'spec_id': 's', 'deviance_domain': 'floor'}, {'role': 'strongest_baseline', 'spec_id': 'b', 'deviance_domain': 'floor'}]
+    rg = h['cleaning_regime_table'](panel, fr, roles, 1e-9, ['train', 'validation']).set_index(['split', 'day_group'])
+    e, l = rg.loc[('train', 'days01-12')], rg.loc[('train', 'days13-31')]
+    assert (e['panel_rows'], e['eligible_rows'], e['eligible_observed_total'], e['error_rows']) == (24, 22, 2, 0)
+    assert e['eligible_share_of_panel'] == pytest.approx(22 / 24) and pd.isna(e['selected_candidate__mae'])
+    assert (l['eligible_rows'], l['eligible_observed_mean'], l['error_rows'], l['selected_candidate__mae'], l['selected_candidate__bias'], l['strongest_baseline__mae']) == (38, 2, 4, 1, -1, 0)
+    v = rg.loc[('validation', 'days01-12')]
+    assert v['panel_rows'] == 0 and pd.isna(v['eligible_share_of_panel']) and pd.isna(v['eligible_observed_mean'])
+    prof = h['day_of_month_profile'](panel, ['train']).set_index('day_of_month')
+    assert len(prof) == 31 and prof.loc[5, 'eligible_rows'] == 0 and pd.isna(prof.loc[5, 'eligible_observed_mean']) and prof.loc[1, 'eligible_observed_mean'] == 1
+
+
+def reversal_metrics(h, devs):
+    return pd.DataFrame([{'evaluation_scope': sc, 'spec_id': sid, 'mean_poisson_deviance': d, 'n_rows': 10, 'mae': 1.0, 'rmse': 1.0}
+                         for sc, dd in devs.items() for sid, d in dd.items()])
+
+
+def test_later_year_reversal_reports_without_changing_frozen_ids_and_deployment_is_withheld(h):
+    s24, s25, pooled = h['LATER_SCOPES_08']
+    devs = {s24: {'p1': 2.1, 'r1': 2.0, 'h1': 1.6, 'b1': 1.1}, s25: {'p1': 2.2, 'r1': 0.9, 'h1': 1.7, 'b1': 1.2},
+            pooled: {'p1': None, 'r1': None, 'h1': None, 'b1': None}}
+    rv = h['later_year_reversal'](reversal_metrics(h, devs), CHOICE, FAMILIES).set_index('evaluation_scope')
+    assert (rv['selected_candidate'] == 'p1').all() and not rv['frozen_choice_changed'].any()
+    assert rv.loc[s24, 'no_family_best_beats_baseline'] == True and rv.loc[s24, 'lowest_deviance_family_best'] == 'h1'  # noqa: E712
+    assert rv.loc[s25, 'n_family_bests_beating_baseline'] == 1 and rv.loc[s25, 'no_family_best_beats_baseline'] == False  # noqa: E712
+    assert rv.loc[pooled, 'no_family_best_beats_baseline'] is None and rv.loc[pooled, 'selected_beats_baseline'] is None
+    rec = h['operational_recommendation'](False, 'BLOCKED', rv.reset_index(), True)
+    assert rec['deployment'] == 'withhold' and rec['prospective_forecast_allowed'] is False and rec['locked_reference_is_deployment_approval'] is False
+    assert any('later-year reversal' in r and s24 in r for r in rec['reasons']) and any('passed the OOF gate' in r for r in rec['reasons'])
+    good = h['later_year_reversal'](reversal_metrics(h, {s24: {'p1': 0.5, 'r1': 0.6, 'h1': 0.7, 'b1': 1.0}}), CHOICE, FAMILIES, [s24])
+    assert h['operational_recommendation'](False, 'READY', good, True)['deployment'] == 'withhold'  # never approval in research mode
+    with pytest.raises(ValueError):
+        h['operational_recommendation'](True, 'BLOCKED', good, True)
+
+
+def test_oof_gate_evidence_and_saved_metric_recheck_reject_disagreement(f, h):
+    lock = {'decision': {'gate': {'candidate': 'p1', 'baseline': 'b1', 'criteria': {'bootstrap_ci_upper_deviance_difference': {'value': -0.05}}}}}
+    comps = [{'candidate': c, 'baseline': 'b1', 'point_estimate': -0.1, 'ci_low': -0.15, 'ci_high': hi} for c, hi in (('p1', -0.05), ('r1', 0.01), ('h1', -0.02))]
+    boot = {'evaluation_scope': OOF, 'comparisons': comps}
+    ev = h['oof_gate_evidence'](lock, boot, CHOICE, FAMILIES).set_index('spec_id')
+    assert ev.loc['p1', 'used_by_gate'] and not ev.loc['r1', 'ci_upper_below_zero'] and ev.loc['h1', 'ci_upper_below_zero']
+    for b, msg in ((dict(boot, evaluation_scope='diagnostic_validation_2024'), 'oof_train_backtest'),
+                   (dict(boot, comparisons=comps[1:]), 'no OOF bootstrap'),
+                   (dict(boot, comparisons=[dict(comps[0], ci_high=-0.04)] + comps[1:]), 'disagrees')):
+        with pytest.raises(ValueError, match=msg):
+            h['oof_gate_evidence'](lock, b, CHOICE, FAMILIES)
+    df = pd.DataFrame({TARGET: [0, 2], 'pred__m': [1.0, 1.0]})
+    spec = [{'id': 'm', 'deviance_domain': 'floor'}]
+    saved = pd.DataFrame([dict(f['regression_metrics'](df[TARGET], df['pred__m']), spec_id='m')])
+    assert h['recompute_metric_check'](df, spec, saved, 1e-9, 'x')['max_scaled_abs_diff'].max() <= 1e-12
+    with pytest.raises(AssertionError, match='mae'):
+        h['recompute_metric_check'](df, spec, saved.assign(mae=saved['mae'] + 1e-6), 1e-9, 'x')
+
+
+def make_diag(f, g, h, root):
+    """A consistent notebook-07 diagnostic manifest on top of make_upstream."""
+    u = make_upstream(f, g, root)
+    for rel, txt in (('data/model/diagnostic_predictions.csv', 'a\n1\n'), ('reports/models/diagnostics/x.csv', 'b\n2\n')):
+        (root / rel).parent.mkdir(parents=True, exist_ok=True)
+        (root / rel).write_text(txt, 'utf-8')
+    files = [{'path': r, 'sha256': f['sha256_file'](root / r)} for r in ('data/model/diagnostic_predictions.csv', 'reports/models/diagnostics/x.csv')]
+    lock = u['lock']
+    dm = {'producer': '07_evaluation_experiment_results', 'format': g['DIAG_FORMAT'], 'status': 'ok', 'production_enabled': False,
+          'later_years_used_for_selection': False, 'refit_or_tuning_performed': False, 'calibration_performed': False, 'diagnostic_2026_labels_used': False,
+          'frozen_choice': lock['choice'], 'decision_sha256': lock['decision_sha256'], 'choice_sha256': lock['choice_sha256'],
+          'selection_lock_check': {'file_sha256_before': u['lock_sha'], 'file_sha256_after': u['lock_sha']},
+          'upstream_06': {'experiment_manifest_sha256': 'expsha', 'model_artifact_manifest_sha256': u['art_sha'], 'oof_predictions_sha256': 'oofsha',
+                          'bundle_sha256': {b['spec_id']: b['bundle_sha256'] for b in u['art']['bundles']}},
+          'contract': u['contract'], 'source': {'verified_06': u['source'], 'notebook_07_semantic_sha256': 'sem07', 'functions_cell_07_sha256': 'f07'},
+          'files': files, 'next_stage_contract': {'predictions': dict(files[0])}}
+    return u, dm
+
+
+def _dmv(h, u, dm, root, **kw):
+    a = dict(lock_sha=u['lock_sha'], sem='sem07', f07='f07')
+    a.update(kw)
+    return h['diagnostic_manifest_violations'](dm, root, u['source'], u['contract'], u['lock'], a['lock_sha'], 'expsha', u['art'], u['art_sha'], a['sem'], a['f07'])
+
+
+def test_diagnostic_manifest_violations_detect_tampering_and_lock_mutation(f, g, h, tmp_path):
+    u, dm = make_diag(f, g, h, tmp_path)
+    assert _dmv(h, u, dm, tmp_path) == []
+    mutations = [(lambda d: d.update(status='running_or_failed'), {}, 'status'),
+                 (lambda d: d['source']['verified_06'].update(functions_cell_sha256='x'), {}, 'verified_06.functions_cell_sha256'),
+                 (lambda d: d['contract'].update(protocol_sha256='q'), {}, 'contract'),
+                 (lambda d: d.update(choice_sha256='forged'), {}, 'lock hashes'),
+                 (lambda d: d['frozen_choice'].update(selected_candidate='rf_1'), {}, 'frozen_choice'),
+                 (lambda d: d['upstream_06']['bundle_sha256'].update(baseline_zero='0'), {}, 'bundle sha256'),
+                 (lambda d: d.update(later_years_used_for_selection=True), {}, 'later_years_used_for_selection'),
+                 (lambda d: None, {'lock_sha': '0' * 64}, 'selection lock bytes'),
+                 (lambda d: None, {'sem': 'edited'}, 'notebook 07 source'),
+                 (lambda d: None, {'f07': 'edited'}, 'FUNCTIONS'),
+                 (lambda d: d['files'].append({'path': '../escape.csv', 'sha256': 'x'}), {}, 'escapes')]
+    for mutate, kw, expect in mutations:
+        d = copy.deepcopy(dm)
+        mutate(d)
+        v = _dmv(h, u, d, tmp_path, **kw)
+        assert any(expect in x for x in v), (expect, v)
+    (tmp_path / 'reports/models/diagnostics/x.csv').write_text('b\n3\n', 'utf-8')
+    assert any('sha256 mismatch reports/models/diagnostics/x.csv' in x for x in _dmv(h, u, dm, tmp_path))
+    before = h['diagnostic_file_hashes'](tmp_path, dm)
+    (tmp_path / 'data/model/diagnostic_predictions.csv').write_text('a\n2\n', 'utf-8')
+    assert h['changed_files'](before, h['diagnostic_file_hashes'](tmp_path, dm)) == ['data/model/diagnostic_predictions.csv']
+
+
+def test_08_function_loading_refuses_tampered_06_or_07_sources(h, tmp_path):
+    src = '# FUNCTIONS\ny = 1\n'
+    p = tmp_path / 'n.ipynb'
+    p.write_text(json.dumps({'cells': [{'cell_type': 'code', 'source': src}]}), 'utf-8')
+    sha = hashlib.sha256(src.encode('utf-8')).hexdigest()
+    ns = {}
+    assert h['load_verified_functions_cell'](p, sha, ns, '07') == sha and ns['y'] == 1
+    ns = {}
+    with pytest.raises(RuntimeError, match='refusing'):
+        h['load_verified_functions_cell'](p, '0' * 64, ns, '07')
+    assert 'y' not in ns
+    dm = {'producer': '07_evaluation_experiment_results', 'status': 'ok', 'format': h['DIAG_FORMAT_EXPECTED'],
+          'source': {'verified_06': {'functions_cell_sha256': 'f06'}, 'functions_cell_07_sha256': 'f07'}}
+    assert h['functions_sha_07_from_manifest'](dm, 'f06') == 'f07'
+    with pytest.raises(RuntimeError, match='different 06'):
+        h['functions_sha_07_from_manifest'](dm, 'other')
+    with pytest.raises(RuntimeError, match='status'):
+        h['functions_sha_07_from_manifest'](dict(dm, status='running_or_failed'), 'f06')
+
+
+def test_runner_requires_status_ok_07_diagnostics_for_08_and_hashes_them(tmp_path):
+    r = load_runner()
+    assert 'not found' in r.diagnostic_outputs_problem(tmp_path)
+    d = tmp_path / 'reports' / 'models' / 'diagnostics'
+    d.mkdir(parents=True)
+    (d / 'diagnostic_manifest.json').write_text(json.dumps({'status': 'running_or_failed', 'files': [{'path': 'data/model/p.csv'}]}), 'utf-8')
+    assert 'running_or_failed' in r.diagnostic_outputs_problem(tmp_path)
+    (d / 'diagnostic_manifest.json').write_text(json.dumps({'status': 'ok', 'files': [{'path': 'data/model/p.csv'}]}), 'utf-8')
+    assert r.diagnostic_outputs_problem(tmp_path) is None
+    (tmp_path / 'data' / 'model').mkdir(parents=True)
+    (tmp_path / 'data' / 'model' / 'p.csv').write_text('1', 'utf-8')
+    hs = r.diagnostic_hashes(tmp_path)
+    assert set(hs) == {'reports/models/diagnostics/diagnostic_manifest.json', 'data/model/p.csv'} and all(hs.values())
+
+
+DIAG_MANIFEST_ACTUAL = BACKEND / 'reports' / 'models' / 'diagnostics' / 'diagnostic_manifest.json'
+
+
+@pytest.mark.skipif(not (DIAG_MANIFEST_ACTUAL.is_file() and ART_MANIFEST.is_file()), reason='notebook 06/07 outputs not present')
+def test_actual_07_functions_hash_matches_the_diagnostic_manifest(f, h):
+    art = json.loads(ART_MANIFEST.read_text('utf-8'))
+    dm = json.loads(DIAG_MANIFEST_ACTUAL.read_text('utf-8'))
+    expected = h['functions_sha_07_from_manifest'](dm, art['source']['functions_cell_sha256'])
+    assert h['functions_source_if_verified'](NB07, expected, '07')
+    assert f['notebook_semantic_sha256'](NB07) == dm['source']['notebook_07_semantic_sha256']

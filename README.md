@@ -1,12 +1,17 @@
-# Model stage — 06 ตรวจรับแล้ว; 07 รันจริงและตรวจแล้ว รอ Codex ตรวจรับขั้นสุดท้าย; 08 ยังไม่ทำ
+# Model stage — 06–08 ตรวจรับแล้ว (งานวิจัยย้อนหลัง)
 
 - **Notebook 06** (Baseline 4 แบบ + Poisson, Random Forest, HGB): Codex ตรวจรับอิสระแล้ว — ดู [หลักฐานตรวจ 06](workflow/model-training-verification-th.md)
-- **Notebook 07** (Evaluation Metrics / Experiment Results): Codex รันจริงผ่าน 12 cells, tests 128 ผ่าน และ metric ตรงกับ oracle อิสระ 22 คู่
-  ภายใน 1e-12 แต่ **ยังรอการตรวจรับขั้นสุดท้าย** — ดู [หลักฐานตรวจ 07](workflow/model-evaluation-verification-th.md)
+- **Notebook 07** (Evaluation Metrics / Experiment Results): Codex ตรวจรับแล้ว (metric ตรงกับ oracle อิสระ 22 คู่ภายใน 1e-12)
+  — ดู [หลักฐานตรวจ 07](workflow/model-evaluation-verification-th.md)
   และผลจริงใน [`backend/reports/models/diagnostics/`](backend/reports/models/diagnostics/)
   ([ตารางหลัก](backend/reports/models/diagnostics/diagnostic_main_results.csv), [coverage 60 เดือน](backend/reports/models/diagnostics/coverage_by_split_month.csv),
   [อันดับปีหลัง](backend/reports/models/diagnostics/later_year_rank_comparison.csv), [manifest](backend/reports/models/diagnostics/diagnostic_manifest.json))
-- **Notebook 08** (Error analysis / model card): ยังไม่ได้ทำ
+- **Notebook 08** (Error analysis / เหตุผลการเลือกโมเดล): วิเคราะห์จาก prediction ที่ตรวจ hash แล้ว (ไม่โหลด bundle, ไม่เลือกใหม่) และสร้าง
+  [model card](backend/reports/models/model_card_th.md), [สรุปการตัดสินใจ](backend/reports/models/model_decision_summary.json) และ
+  [`error_analysis/`](backend/reports/models/error_analysis/) ตรวจรับแล้ว: 143 tests ผ่าน และรัน 06–08 ซ้ำในโฟลเดอร์แยกผ่าน
+  ข้อเสนอคือ **ระงับการนำไปใช้** จนกว่าจะแก้ blocker ของข้อมูล; recommended reference ตาม protocol OOF ไม่ใช่การอนุมัติใช้งาน
+
+หลักฐานตรวจรับรอบสุดท้าย: [รายงานตรวจโมเดลครบชุด](workflow/model-final-verification-th.md) และ [ผลตรวจอิสระ](backend/reports/models/independent_final_review.json)
 
 **คำเตือน:** การเลือกจาก OOF (ปี 2022–2023) ล็อกให้ Poisson เป็นตัวเลือก และ **ไม่เปลี่ยนย้อนหลัง** จากคะแนนปีหลัง
 แต่ใน 07 Baseline ค่าเฉลี่ยรายจังหวัดมี Poisson deviance ต่ำกว่าตัวดีที่สุดของทั้งสามตระกูลทั้งปี 2024 (1.1535 เทียบ Poisson 2.1700)
@@ -20,14 +25,14 @@ quality filter (มี selection bias) ปี 2024 ไม่มีเซลล�
 ## โครงสร้าง
 
 ```
-backend/    งานข้อมูล/ML: notebook 01–07, config, runner, tests  → ดู backend/README.md
+backend/    งานข้อมูล/ML: notebook 01–08, config, runner, tests  → ดู backend/README.md
 frontend/   สงวนไว้สำหรับเว็บไซต์ในอนาคต (ยังไม่มีหน้าจอ)        → ดู frontend/README.md
 workflow/   brief, ทิศทางผลิตภัณฑ์ และงานที่ส่งให้ AI team
 tools/      ตัวเชื่อม AI team
 .venv/      (ไม่อยู่ใน git) Python environment ของโปรเจกต์ ใช้ร่วมกับ backend
 ```
 
-สถานะปัจจุบัน: รากฐานข้อมูล (นำเข้า, EDA, ทำความสะอาด, แบ่งข้อมูล, ตรวจ leakage) เสร็จแล้ว มีโมเดลวิจัยย้อนหลังใน 06–07 (ดูด้านบน) **ยังไม่มีเว็บไซต์และไม่มีโมเดลที่พร้อมใช้งานจริง** ชุด test ปี 2025 เคยถูกดูมาแล้ว (ไม่ใช่ test อิสระ) และความพร้อมของโมเดลจริงยังเป็น BLOCKED
+สถานะปัจจุบัน: รากฐานข้อมูล (นำเข้า, EDA, ทำความสะอาด, แบ่งข้อมูล, ตรวจ leakage) เสร็จแล้ว มีโมเดลวิจัยย้อนหลังและ error analysis ใน 06–08 (ดูด้านบน) **ยังไม่มีเว็บไซต์และไม่มีโมเดลที่พร้อมใช้งานจริง** ชุด test ปี 2025 เคยถูกดูมาแล้ว (ไม่ใช่ test อิสระ) และความพร้อมของโมเดลจริงยังเป็น BLOCKED
 
 เริ่มต้นเร็ว (ที่ root ของ repository):
 
@@ -35,12 +40,12 @@ tools/      ตัวเชื่อม AI team
 python3 -m venv .venv && .venv/bin/pip install -r backend/requirements-data.txt
 .venv/bin/python backend/scripts/run_data_notebooks.py   # รัน notebook 01–05 แบบ headless (ไม่เปิดเบราว์เซอร์)
 .venv/bin/python backend/scripts/run_model_notebooks.py --stage train      # 06 เท่านั้น (fit + lock)
-.venv/bin/python backend/scripts/run_model_notebooks.py --stage analysis   # 07 เท่านั้น บนผลของ 06 (ไม่ refit)
-.venv/bin/python backend/scripts/run_model_notebooks.py                    # --stage all (ค่าเริ่มต้น): 06 → 07
+.venv/bin/python backend/scripts/run_model_notebooks.py --stage analysis   # 07 → 08 บนผลของ 06 (ไม่ refit)
+.venv/bin/python backend/scripts/run_model_notebooks.py                    # --stage all (ค่าเริ่มต้น): 06 → 07 → 08
 .venv/bin/python -m pytest backend/tests -q
 ```
 
-ใน VS Code: เปิด `backend/notebooks/*.ipynb` เลือก kernel `.venv` แล้ว *Run All* ตามลำดับ 01 → 05
+ใน VS Code: เปิด `backend/notebooks/*.ipynb` เลือก kernel `.venv` แล้ว *Run All* ตามลำดับ 01 → 08 (ข้อมูล 01–05 แล้วโมเดล 06–08)
 
 ## AI team
 

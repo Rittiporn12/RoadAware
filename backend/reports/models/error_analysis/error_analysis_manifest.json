@@ -1,0 +1,294 @@
+{
+  "producer": "08_error_analysis_model_selection",
+  "format": "roadaware_error_analysis_v1",
+  "status": "ok",
+  "experiment_id": "roadaware_model_experiment_v1",
+  "research_mode": "retrospective_conditional_research",
+  "production_enabled": false,
+  "final_model_readiness": "BLOCKED",
+  "data_foundation_final_model_readiness": "BLOCKED",
+  "caveats": [
+    "Retrospective conditional research on reported province-days; not the route model and not a verified as-of forecast.",
+    "training_eligible is an offline quality filter known after observing problems (may depend on outcomes); conditioning on it introduces selection bias.",
+    "Scores describe the selected eligible cells only, not complete annual or road coverage.",
+    "Final model readiness remains BLOCKED (date ambiguity, reporting availability, province mapping, route unit).",
+    "Not a personal crash probability; production is disabled.",
+    "2025 was seen before; neither 2024 nor 2025 is an independent untouched test.",
+    "Precheck (outside 06, not acceptance): on eligible 2024/2025 cells the province-mean baseline beat all three candidate families on Poisson deviance, and a cleaning/date-format regime shift was observed; OOF selection does not establish cross-period performance.",
+    "Error analysis of the FROZEN OOF choice; nothing here refits, tunes, calibrates or reselects, and no model bundle is loaded.",
+    "Outcome-defined slices (observed count bins) are diagnostics of the label, never model inputs or causal evidence.",
+    "Calibration-style bins use edges fixed from OOF predictions only; no calibrator is fitted and counts are not probabilities.",
+    "No explanation by weather, festivals/holidays or traffic: none of these are in the models or the data used here.",
+    "Eligible cells only (selection-biased); 2024 lacks eligible cells in Oct-Dec; 2025 was seen before; no 2026 labels."
+  ],
+  "frozen_choice": {
+    "selected_candidate": "poisson_alpha_1e-4",
+    "best_per_family": {
+      "hist_gradient_boosting": "hgb_i120_l15_m50_r1",
+      "poisson": "poisson_alpha_1e-4",
+      "random_forest": "rf_t120_d16_l128_m100"
+    },
+    "best_baseline": "baseline_province_mean",
+    "recommended_reference": "poisson_alpha_1e-4",
+    "recommended_reference_type": "candidate",
+    "stable_gain": true,
+    "gate_criteria_passed": {
+      "bootstrap_ci_upper_deviance_difference": true,
+      "folds_with_lower_deviance": true,
+      "mae_ratio_candidate_over_baseline": true,
+      "relative_deviance_improvement": true
+    }
+  },
+  "decision_sha256": "63aeb27230f9e439ecda7d6f07243510d7ff292c85d411eea6f45d8008ecc787",
+  "choice_sha256": "4781bb5adcf649b0ff8e5cd278067a10d80cd1bd569cea5c39dc336bf7ffb30e",
+  "selection_lock_check": {
+    "file_sha256_before": "630f329d1681f63f2edd66f71e4f1a84d0c946545357843c29efbfec9e874231",
+    "file_sha256_after": "630f329d1681f63f2edd66f71e4f1a84d0c946545357843c29efbfec9e874231",
+    "unchanged": true
+  },
+  "later_years_used_for_selection": false,
+  "refit_or_tuning_performed": false,
+  "calibrator_fitted": false,
+  "model_bundles_loaded": false,
+  "diagnostic_2026_labels_used": false,
+  "permutation_sensitivity": {
+    "performed": false,
+    "reason": "Optional task item omitted: notebook 08 deliberately loads no model bundle and works only from hash-verified saved predictions, while grouped permutation needs fresh predictions from the bundles; the required error analysis was prioritised, and with every family best losing to the strongest baseline on later years a feature-sensitivity ranking would not change the selection or deployment answer. Deferred to a later protocol version."
+  },
+  "inputs": {
+    "oof_predictions": {
+      "path": "data/model/oof_predictions.csv",
+      "sha256": "b3543ab1d461f8f8e9c61bdfc618f16221f255f5fd9cf91543bd7c5576503190",
+      "rows": 42058
+    },
+    "diagnostic_predictions": {
+      "path": "data/model/diagnostic_predictions.csv",
+      "sha256": "81a3b9a70c4ef0c276a1a58a593d42ce062d0b85575dc12d7f7cd2d62c39024a",
+      "rows": 35391
+    },
+    "diagnostic_manifest_sha256": "6748a721bed83715363edeedaff6b2c1fdb766581ac6fde8cdfca3582b445086",
+    "experiment_manifest_sha256": "2cf4ac93459debf5fc1b30960f31881f39b0d3a2141e273a6fc5739a81b4ecb8",
+    "model_artifact_manifest_sha256": "084a5807430f87564b09ad77acf7533acee28257d4281a3cab4e368ed7b8b4b6",
+    "selection_lock_file_sha256": "630f329d1681f63f2edd66f71e4f1a84d0c946545357843c29efbfec9e874231",
+    "n_upstream_06_files_unchanged": 27,
+    "n_upstream_07_files_unchanged": 15
+  },
+  "contract": {
+    "data_inputs_sha256": {
+      "data/interim/artifact_manifest.json": "41d0a79ae380dd9ca69671098801ee867b2a0a60665ac9b43582b2d29649eae1",
+      "data/processed/province_day_panel.csv": "22604a280264d55e2caacb21da2e135ca8896b849457b80f34386c9d54a828a7",
+      "data/processed/split_artifact_manifest.json": "4be68a534084bc564892810679ff80d7afa97a85d1f88dd1b383cf107a324eb3",
+      "data/raw/accidents/source_manifest.json": "708a3607231e4ee2f801f800defcd78ba05fdc60b886ce8b255fc041a98cf9d6",
+      "reports/data/leakage/leakage_audit.json": "f6f566ab77792d2faa81dbf7c98280235d075de0eb9a8f145c1228673ebbf8f4",
+      "reports/data/leakage/readiness_summary.json": "e71163864d1353ea5001f972a11d3f1b795c07b5e7c48119e15c45f32ff5f267"
+    },
+    "protocol_sha256": "671711c62777ee31fe7d3a19f8172795e9dc7455ef9e82306395092051159f4b",
+    "experiment_config_sha256": "95d6bfb627f5521d16a930a032edfa615c98e13605b13b0594fefbc5b78553da",
+    "data_pipeline_config_sha256": "c779fdde27c73ac9466c9a86c71ef86f1b75747914cc985b37df8214749a3098"
+  },
+  "source": {
+    "verified_06": {
+      "protocol_sha256": "671711c62777ee31fe7d3a19f8172795e9dc7455ef9e82306395092051159f4b",
+      "experiment_config_sha256": "95d6bfb627f5521d16a930a032edfa615c98e13605b13b0594fefbc5b78553da",
+      "data_pipeline_config_sha256": "c779fdde27c73ac9466c9a86c71ef86f1b75747914cc985b37df8214749a3098",
+      "notebook_semantic_sha256": "a63749314a0e3572026a893a5b56e038079e9979f052ba3627d8339edbcde76c",
+      "functions_cell_sha256": "73b0f3e16f36c9e71fa8cf1a1990b220a422ab87f78c1d53314c35eb65f09b8e"
+    },
+    "verified_07": {
+      "notebook_07_semantic_sha256": "df98c4c342ea8f3d9cc890e46e899f26ef3370413a0b7d4f1d9419384a8e854e",
+      "functions_cell_07_sha256": "f919274400dbeb7e83cd05b8b598833a02e3d563e72bbcc3e45f09db4d03418c"
+    },
+    "notebook_08_semantic_sha256": "1663cc82b7229fa1115d84d02c040569343c38a226c100475510fde8db5941e0",
+    "functions_cell_08_sha256": "4d8c48b577c793586eaf6f58622ef27b0cbec65336c1a493809d215b1f3b82c3"
+  },
+  "runner_provenance": {
+    "runner_sha256_recorded_by_06": "07d8b3217c1dde697964bb961d9345d92551dac6c6dfb36a92612fcacd1aaafb",
+    "runner_sha256_recorded_by_07": "e1d303a9e9d1c38e5689495dc0dd2d3f618768f1baf71bb1f082dddd8c3813ff",
+    "runner_sha256_current": "e1d303a9e9d1c38e5689495dc0dd2d3f618768f1baf71bb1f082dddd8c3813ff",
+    "note": "provenance only: the runner gains stage support for 07/08, so historical runner hashes are recorded, not required to match"
+  },
+  "package_versions": {
+    "python": "3.9.6",
+    "numpy": "2.0.2",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.6.1",
+    "scipy": "1.13.1",
+    "joblib": "1.5.3",
+    "threadpoolctl": "3.7.0",
+    "matplotlib": "3.9.4"
+  },
+  "settings": {
+    "calibration_bins_requested": 10,
+    "min_rows_province": 30,
+    "min_rows_province_month": 15,
+    "top_k_groups": 5,
+    "deviance_floor": 1e-09
+  },
+  "metric_recheck": {
+    "max_scaled_abs_diff": 1.8189894035458565e-12,
+    "tolerance_scaled": 1e-10,
+    "checked": [
+      "oof_metrics.csv",
+      "selection_lock.json",
+      "fold_metrics.csv",
+      "diagnostic_metrics_long.csv",
+      "bootstrap_comparison.json"
+    ]
+  },
+  "support": [
+    {
+      "evaluation_scope": "oof_train_backtest",
+      "rows": 42058,
+      "distinct_dates": 713,
+      "months_with_support": 24,
+      "provinces": 77,
+      "observed_total": 24448,
+      "first_date": "2022-01-01",
+      "last_date": "2023-12-29"
+    },
+    {
+      "evaluation_scope": "diagnostic_validation_2024",
+      "rows": 7885,
+      "distinct_dates": 103,
+      "months_with_support": 9,
+      "provinces": 77,
+      "observed_total": 6168,
+      "first_date": "2024-01-07",
+      "last_date": "2024-09-30"
+    },
+    {
+      "evaluation_scope": "diagnostic_reused_test_2025",
+      "rows": 27506,
+      "distinct_dates": 359,
+      "months_with_support": 12,
+      "provinces": 77,
+      "observed_total": 21362,
+      "first_date": "2025-01-04",
+      "last_date": "2025-12-30"
+    }
+  ],
+  "files": [
+    {
+      "path": "reports/models/error_analysis/day_equals_month_check.csv",
+      "sha256": "a11d4243c12753398642b703ad32fafc2f78f1b7963a56175dc621ddc7d18cd4",
+      "cross_run_comparison": "exact"
+    },
+    {
+      "path": "reports/models/error_analysis/day_of_month_profile.csv",
+      "sha256": "c54fcc5c3a62c1907ed0c43ac888fb9442a260bed7fa0fb3e3016955712b3cd4",
+      "cross_run_comparison": "exact"
+    },
+    {
+      "path": "data/model/error_analysis_rows.csv",
+      "sha256": "c51488313f8484a4402ecad410903ec7ae3e9a2b9875899c16acf14531c8f84d",
+      "cross_run_comparison": "numeric_tolerance"
+    },
+    {
+      "path": "reports/models/error_analysis/error_slices_calendar_outcome.csv",
+      "sha256": "5412c3ddc87919c8e4143397a99286aee6975a733fe5f1c21b3dafeb43366658",
+      "cross_run_comparison": "numeric_tolerance"
+    },
+    {
+      "path": "reports/models/error_analysis/error_slices_province.csv",
+      "sha256": "97e16358146ba995eab98997ccdfcf96b7b86b8e3977c5d665ffbb5cf9c1dab9",
+      "cross_run_comparison": "numeric_tolerance"
+    },
+    {
+      "path": "reports/models/error_analysis/error_slices_year_month.csv",
+      "sha256": "41b8466781f07c94fc3176f34efdf9a90a2b447e8ca5559bc2b88dae77c3d2ae",
+      "cross_run_comparison": "numeric_tolerance"
+    },
+    {
+      "path": "reports/models/error_analysis/extreme_groups.csv",
+      "sha256": "22b00f9d7efd3ceeec3e79b7d3cb83de9d0c93785f70937eaf18d4bbc2f1d47b",
+      "cross_run_comparison": "numeric_tolerance"
+    },
+    {
+      "path": "reports/models/error_analysis/daily_totals.csv",
+      "sha256": "18fcdbb66e99cd6d487f78a5786af7448bcb5868a86fd745d7999bbca9cecfae",
+      "cross_run_comparison": "numeric_tolerance"
+    },
+    {
+      "path": "reports/models/error_analysis/residual_summary.csv",
+      "sha256": "ae3c7b297dc292e7464c9f0d1ee45e441d6fbd5cea51f8153bda5186e417c8c4",
+      "cross_run_comparison": "numeric_tolerance"
+    },
+    {
+      "path": "reports/models/error_analysis/calibration_bins.csv",
+      "sha256": "b1de552d482934a92c6e15616d8d9cd90ea08f4231c1af01ccac49d344be0193",
+      "cross_run_comparison": "numeric_tolerance"
+    },
+    {
+      "path": "reports/models/error_analysis/calibration_edges.json",
+      "sha256": "6f256eb6bff577d4858c609a66ecb6721f4222068d90e582959e5605167b1900",
+      "cross_run_comparison": "numeric_tolerance"
+    },
+    {
+      "path": "reports/models/error_analysis/cleaning_regime_day_group.csv",
+      "sha256": "8e02fc221eab6932d9ce0990a23eff3c44e51d2fe3951faeedaa98b84e5aa348",
+      "cross_run_comparison": "numeric_tolerance"
+    },
+    {
+      "path": "reports/models/error_analysis/oof_gate_evidence.csv",
+      "sha256": "1efc19acaee7550fa8b38c1a10dce9d30e9a3bb740a613cff3e87175c5815bf7",
+      "cross_run_comparison": "numeric_tolerance"
+    },
+    {
+      "path": "reports/models/error_analysis/fold_evidence.csv",
+      "sha256": "2bda7af8f233ea41767cb7b8d856d508b622d85054c46775cd625b84bd51c415",
+      "cross_run_comparison": "numeric_tolerance"
+    },
+    {
+      "path": "reports/models/error_analysis/later_year_reversal.csv",
+      "sha256": "2ed233ef6872d7fb188e77d2d0af92f26934bb13bf4aee5db45672bc31a642a0",
+      "cross_run_comparison": "numeric_tolerance"
+    },
+    {
+      "path": "reports/models/model_decision_summary.json",
+      "sha256": "14f6b235ee79e268b657d6edd4dfe3a09988eb758eebab90c1de0c7c03b0be4f",
+      "cross_run_comparison": "numeric_tolerance"
+    },
+    {
+      "path": "reports/models/error_analysis/metric_recheck.csv",
+      "sha256": "fe89c8bd0fea6b868a119db27e00d7eb331fed300a90fdc03579b7f7746d7389",
+      "cross_run_comparison": "none"
+    },
+    {
+      "path": "reports/models/model_card_th.md",
+      "sha256": "38fdb69cac360f909a757bfe8c4319696224f5f0501d8b6ba633949132cb7d4d",
+      "cross_run_comparison": "none"
+    },
+    {
+      "path": "reports/models/error_analysis/daily_observed_vs_predicted.png",
+      "sha256": "83b503f3613d0fa3906a2c9c1f3eaabf657211b9c0a339ff2317627ceb94d23f",
+      "cross_run_comparison": "none"
+    },
+    {
+      "path": "reports/models/error_analysis/province_observed_vs_predicted.png",
+      "sha256": "5acbb751ad871019089a5b27b64e5644951aabe1118b12486291a2e54400c9cf",
+      "cross_run_comparison": "none"
+    },
+    {
+      "path": "reports/models/error_analysis/residual_distributions.png",
+      "sha256": "ab227a5781b55501f9179e02a5e2411d3d851c923b15694a33c2737307b39b99",
+      "cross_run_comparison": "none"
+    },
+    {
+      "path": "reports/models/error_analysis/calibration_bins.png",
+      "sha256": "63c8842994fa0ec74fab8ab5f9570dcfb1a4023a7a0e8839552472a9090b69f3",
+      "cross_run_comparison": "none"
+    },
+    {
+      "path": "reports/models/error_analysis/cleaning_regime_shift.png",
+      "sha256": "725f541fcf5d436a487d00ec74d1f5b3b20688367e64c02d23e6af988fca9804",
+      "cross_run_comparison": "none"
+    }
+  ],
+  "run_info_nondeterministic": {
+    "started_utc": "2026-11-10T01:10:52.385097+00:00",
+    "finished_utc": "2026-11-10T01:10:56.056104+00:00",
+    "data_root": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend",
+    "output_root": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend",
+    "python_executable": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/.venv/bin/python"
+  }
+}

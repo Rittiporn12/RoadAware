@@ -1,0 +1,4 @@
+split,eligible_rows_day01_12,day_equals_month_rows,day_equals_month_share,positive_rows_day01_12,positive_day_equals_month_rows,positive_day_equals_month_share,positive_day_not_equal_month_rows
+train,14001,2711,0.1936290264981073,1168,1168,1.0,0
+validation,3067,152,0.049559830453211606,1342,67,0.04992548435171386,1275
+reused_test_2025,10801,843,0.07804832885843903,4654,350,0.07520412548345509,4304

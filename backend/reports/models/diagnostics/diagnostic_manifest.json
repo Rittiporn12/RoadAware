@@ -98,7 +98,7 @@
   },
   "runner_provenance": {
     "runner_sha256_recorded_by_06": "07d8b3217c1dde697964bb961d9345d92551dac6c6dfb36a92612fcacd1aaafb",
-    "runner_sha256_current": "6a2d063149d077d8e6938a5ac1df57d91ee5e1b031501ba3f9c5f44f64bdd2d0",
+    "runner_sha256_current": "e1d303a9e9d1c38e5689495dc0dd2d3f618768f1baf71bb1f082dddd8c3813ff",
     "current_equals_06_record": false,
     "note": "provenance only: the runner gained stage support for 07/08, so its bytes are recorded, not required to equal the 06-time runner"
   },
@@ -164,7 +164,7 @@
   "metric_recomputation": {
     "tolerance_scaled": 1e-10,
     "max_scaled_abs_diff": 0.0,
-    "saved_vs_in_memory_max_abs_diff": 5.4569682106375694e-12,
+    "saved_vs_in_memory_max_abs_diff": 3.637978807091713e-12,
     "prediction_csv_roundtrip_max_abs_diff": 1.7763568394002505e-15,
     "oracle": "scikit-learn mean_absolute_error / mean_squared_error / mean_poisson_deviance + numpy sums"
   },
@@ -219,7 +219,7 @@
       "rmse": 1.2393364596383345,
       "bias": -0.3371772073176547,
       "wape": 0.9773785904484344,
-      "mean_poisson_deviance": 2.029972795597181,
+      "mean_poisson_deviance": 2.0299727955971805,
       "n_floored_for_deviance": 0.0,
       "support_status": "scored",
       "n_distinct_dates": 103,
@@ -227,8 +227,8 @@
       "n_provinces": 77,
       "first_date": "2024-01-07",
       "last_date": "2024-09-30",
-      "deviance_minus_strongest_baseline": 0.8764573988212805,
-      "relative_deviance_improvement_vs_strongest_baseline": -0.7598142177130858,
+      "deviance_minus_strongest_baseline": 0.87645739882128,
+      "relative_deviance_improvement_vs_strongest_baseline": -0.7598142177130853,
       "later_rank_among_main_rows": 3.0,
       "later_rank_differs_from_oof": false,
       "frozen_choice_changed": false
@@ -539,7 +539,7 @@
       "rmse": 1.2579551814846288,
       "bias": -0.3198539952516497,
       "wape": 0.9805563970003193,
-      "mean_poisson_deviance": 2.050078875672579,
+      "mean_poisson_deviance": 2.0500788756725794,
       "n_floored_for_deviance": 0.0,
       "support_status": "scored",
       "n_distinct_dates": 462,
@@ -547,8 +547,8 @@
       "n_provinces": 77,
       "first_date": "2024-01-07",
       "last_date": "2025-12-30",
-      "deviance_minus_strongest_baseline": 0.8251946827029073,
-      "relative_deviance_improvement_vs_strongest_baseline": -0.6736920007941839,
+      "deviance_minus_strongest_baseline": 0.8251946827029077,
+      "relative_deviance_improvement_vs_strongest_baseline": -0.6736920007941842,
       "later_rank_among_main_rows": 3.0,
       "later_rank_differs_from_oof": false,
       "frozen_choice_changed": false
@@ -705,17 +705,17 @@
     },
     {
       "path": "data/model/diagnostic_predictions.csv",
-      "sha256": "6f5138386a5d0c88c4c1a5008abefa655ba3c9e0bce22651e8fae76abd465e23",
+      "sha256": "81a3b9a70c4ef0c276a1a58a593d42ce062d0b85575dc12d7f7cd2d62c39024a",
       "cross_run_comparison": "numeric_tolerance"
     },
     {
       "path": "reports/models/diagnostics/diagnostic_metrics_long.csv",
-      "sha256": "c22bccaeb700466f31e2c4d5d0fb9608339802474b0582fb275fadb63d90f0a6",
+      "sha256": "be1ec990d19c8420b94d4188a37faf80f55ec3111f5918cf04dbd8e1c25b2749",
       "cross_run_comparison": "numeric_tolerance"
     },
     {
       "path": "reports/models/diagnostics/diagnostic_monthly_metrics.csv",
-      "sha256": "fa275f737751606043fc78943b4bcf55d1dc9c8db05ec7bfc72763fb045ee72d",
+      "sha256": "c164bd7b3c4379eb3a0e3ca8426c3fb0800d0c600e8f28b905f7f269480fc897",
       "cross_run_comparison": "numeric_tolerance"
     },
     {
@@ -725,12 +725,12 @@
     },
     {
       "path": "reports/models/diagnostics/diagnostic_main_results.csv",
-      "sha256": "0face8b254eab2a23235713d563b172d84f895a394a7ac92c9627a3271588237",
+      "sha256": "fdf304f5a4cf0e43b5d0093b23a11798744da488353c757a9da1400697bf5cc1",
       "cross_run_comparison": "numeric_tolerance"
     },
     {
       "path": "reports/models/diagnostics/diagnostic_all_configs.csv",
-      "sha256": "3ba90ed2541727ca9c83c3847e9f668a73a44e66d5339e87996f593f7f6d03c9",
+      "sha256": "80a90d1baf1d5284d984527340d5450dbfcf5fb17ad1c3e52b90c8e6020280f6",
       "cross_run_comparison": "numeric_tolerance"
     },
     {
@@ -740,7 +740,7 @@
     },
     {
       "path": "reports/models/diagnostics/train_in_sample_metrics.csv",
-      "sha256": "c12d7c6f7d6846ea5b241474aa6407467c3720b3452c723f632bd0ae54faf915",
+      "sha256": "f144dded6bacea335885210b74eb60ad32b307c615a28abedf6a23e2f419ea13",
       "cross_run_comparison": "numeric_tolerance"
     },
     {
@@ -750,7 +750,7 @@
     },
     {
       "path": "reports/models/diagnostics/runtime_by_spec.csv",
-      "sha256": "eee5072b2e3b6d764fa58d548e69f3749c77275b853e9f2be6dc9081f41b34b7",
+      "sha256": "915bdfd043acd7adfc5c7b7a9a008248ac934566a8b442904df6e4ba441282c4",
       "cross_run_comparison": "none"
     },
     {
@@ -784,7 +784,7 @@
     ],
     "predictions": {
       "path": "data/model/diagnostic_predictions.csv",
-      "sha256": "6f5138386a5d0c88c4c1a5008abefa655ba3c9e0bce22651e8fae76abd465e23",
+      "sha256": "81a3b9a70c4ef0c276a1a58a593d42ce062d0b85575dc12d7f7cd2d62c39024a",
       "rows": 35391,
       "columns": [
         "split",
@@ -887,8 +887,8 @@
     ]
   },
   "run_info_nondeterministic": {
-    "started_utc": "2026-11-10T00:42:41.124404+00:00",
-    "finished_utc": "2026-11-10T00:42:45.591745+00:00",
+    "started_utc": "2026-11-10T01:10:44.230340+00:00",
+    "finished_utc": "2026-11-10T01:10:48.763466+00:00",
     "data_root": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend",
     "output_root": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend",
     "python_executable": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/.venv/bin/python"

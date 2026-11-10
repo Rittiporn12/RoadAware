@@ -1,40 +1,43 @@
 # RoadAware backend — data foundation + model research (ML research only)
 
-โฟลเดอร์นี้เก็บงานข้อมูล/ML ของ RoadAware: notebook ข้อมูล 01–05, notebook โมเดล 06–07, config, runner และ tests **ยังไม่มี API/เว็บ และไม่มีโมเดลที่พร้อมใช้งานจริง** (`production_enabled = false`)
+โฟลเดอร์นี้เก็บงานข้อมูล/ML ของ RoadAware: notebook ข้อมูล 01–05, notebook โมเดล 06–08, config, runner และ tests **ยังไม่มี API/เว็บ และไม่มีโมเดลที่พร้อมใช้งานจริง** (`production_enabled = false`)
 
 ```
 backend/
   config/data_pipeline.json        ค่าตั้งต้น, alias ของ schema, split, allowlist, blocker ที่ยังไม่แก้
   config/model_experiment_v1.json  ค่าที่ล็อกตาม workflow/model-protocol-v1.md (แก้แล้ว 06 จะปฏิเสธการรัน)
-  notebooks/01..07_*.ipynb         business logic ทั้งหมดอยู่ใน notebook (ดู notebooks/README.md)
+  notebooks/01..08_*.ipynb         business logic ทั้งหมดอยู่ใน notebook (ดู notebooks/README.md)
   scripts/run_data_notebooks.py    runner ข้อมูลแบบ headless (nbclient + kernel จริง, ไม่เปิดเบราว์เซอร์)
-  scripts/run_model_notebooks.py   runner โมเดลแบบ headless (--stage train = 06, analysis = 07, all = 06 → 07)
+  scripts/run_model_notebooks.py   runner โมเดลแบบ headless (--stage train = 06, analysis = 07 → 08, all = 06 → 07 → 08)
   tests/test_data_notebooks.py     fixture tests ของเซลล์ "# FUNCTIONS" ใน 01–05
-  tests/test_model_notebooks.py    fixture tests ของเซลล์ "# FUNCTIONS" ใน 06–07 และ stage ของ runner (ข้อมูลสังเคราะห์ขนาดเล็ก)
+  tests/test_model_notebooks.py    fixture tests ของเซลล์ "# FUNCTIONS" ใน 06–08 และ stage ของ runner (ข้อมูลสังเคราะห์ขนาดเล็ก)
   requirements-data.txt            แพ็กเกจที่จำเป็น (รวม scikit-learn, scipy, joblib, threadpoolctl)
   data/                            (ไม่อยู่ใน git) raw snapshot, interim, processed, data/model (OOF รายแถว, bundles *.joblib)
   reports/data/                    (อยู่ใน git) หลักฐานสรุปขนาดเล็ก JSON/CSV/PNG ของ data foundation
   reports/models/                  (อยู่ใน git) ตาราง metric/selection lock/manifest ของโมเดล (ไม่มีข้อมูลรายแถว)
 ```
 
-## Model stage — 06 ตรวจรับแล้ว; 07 Codex รันจริงผ่านแล้ว รอการตรวจรับขั้นสุดท้าย; 08 ยังไม่ทำ
+## Model stage — 06–08 ตรวจรับแล้ว (งานวิจัยย้อนหลัง)
 
 ```bash
-.venv/bin/python backend/scripts/run_model_notebooks.py                                  # --stage all (ค่าเริ่มต้น): 06 → 07
+.venv/bin/python backend/scripts/run_model_notebooks.py                                  # --stage all (ค่าเริ่มต้น): 06 → 07 → 08
 .venv/bin/python backend/scripts/run_model_notebooks.py --stage train                    # 06 เท่านั้น (fit + lock)
-.venv/bin/python backend/scripts/run_model_notebooks.py --stage analysis                 # 07 เท่านั้น บนผลของ 06 ที่มีอยู่ (ไม่ refit)
+.venv/bin/python backend/scripts/run_model_notebooks.py --stage analysis                 # 07 → 08 บนผลของ 06 ที่มีอยู่ (ไม่ refit)
 .venv/bin/python backend/scripts/run_model_notebooks.py --output-dir /tmp/ra-model       # rerun อิสระ อ่าน data ชุดเดิม เขียนผลแยก
 .venv/bin/python -m pytest backend/tests/test_model_notebooks.py -q                      # fixture tests ของโมเดล
 ```
 
-`--stage analysis` ตรวจว่า manifest ของ 06 ใน output dir มี `status == ok` แล้วหา hash ของไฟล์/bundle/lock ของ 06 ก่อนและหลังรัน (ต้องไม่เปลี่ยน) และบันทึก log ที่ `reports/models/run_manifest_analysis.json` เพื่อไม่ทับ `run_manifest.json` ของการรัน 06
+`--stage analysis` ตรวจว่า manifest ของ 06 ใน output dir มี `status == ok` แล้วหา hash ของไฟล์/bundle/lock ของ 06 ก่อนและหลังรัน (ต้องไม่เปลี่ยน) และบันทึก log ที่ `reports/models/run_manifest_analysis.json` เพื่อไม่ทับ `run_manifest.json` ของการรัน 06 ก่อนรัน 08 runner ยังตรวจว่า `diagnostic_manifest.json` ของ 07 มี `status == ok` และ hash ของไฟล์ทุกไฟล์ที่ 07 ระบุต้องไม่เปลี่ยนหลังรัน 08 แต่ละ notebook รันใน kernel ใหม่
+
+**Notebook 08 (Error analysis / เหตุผลการเลือกโมเดล):** ตรวจ hash ของ 06 (source/config/data/contract/ไฟล์/bundle/lock) และ 07 (semantic hash, เซลล์ FUNCTIONS, ไฟล์ทุกไฟล์ใน `diagnostic_manifest.json`) ก่อนอ่าน prediction ที่บันทึกไว้ ตรวจ key/label/eligibility/split เทียบ panel และคำนวณ metric OOF/fold/ปีหลังซ้ำเทียบตารางที่บันทึกและ `selection_lock.json` (lock ต้องเท่ากันทุกไบต์ตลอดการรัน) **ไม่** โหลด bundle ไม่ fit และไม่เลือกใหม่ ผลอยู่ที่ `reports/models/error_analysis/` (slice รายเดือน/วันในสัปดาห์/ช่วงจำนวน 0/1/2–3/≥4/จังหวัด พร้อม n/ผลรวม/MAE/RMSE/bias และ null เมื่อไม่มี support, กลุ่มจังหวัด–เดือนที่ทำนายเกิน/ขาดมากที่สุด, calibration-style bins ที่ขอบมาจาก OOF เท่านั้น, cohort วันที่ 1–12 กับ 13–31 และการตรวจเลขวันเท่ากับเลขเดือน, กราฟ) พร้อม `reports/models/model_card_th.md` และ `model_decision_summary.json` ที่สร้างจากผลจริง: ระบุตัวดีที่สุดของทั้งสามตระกูล หลักฐาน gate/bootstrap/fold บน OOF การกลับอันดับในปีหลัง และข้อเสนอ **ระงับการนำไปใช้** (`production_enabled = false`, readiness BLOCKED) — recommended reference ตาม protocol OOF ไม่ใช่การอนุมัติใช้งาน grouped permutation sensitivity (ทางเลือก) ไม่ได้ทำ เพราะ 08 ไม่โหลด bundle (เหตุผลอยู่ใน model card)
 
 **Notebook 07 (Evaluation Metrics / Experiment Results):** ตรวจ hash ของ data/config/protocol, semantic hash ของ 06 และเซลล์ FUNCTIONS, manifest ของ 06 (`status == ok`) และทุกไฟล์/bundle **ก่อน** unpickle ตรวจ `selection_lock.json` ทั้งก่อนและหลังให้คะแนน จากนั้นทำนายทั้ง 11 วิธีบนเซลล์ eligible ปี 2024/2025 ชุดเดียวกัน (ไม่ใช้ปี 2026) คำนวณ metric จากไฟล์ prediction ที่บันทึกแล้วคำนวณซ้ำด้วย scikit-learn ผลอยู่ที่ `reports/models/diagnostics/` (ตารางผลหลัก = ตัวดีที่สุดของแต่ละตระกูลจาก OOF + Baseline ที่แข็งที่สุด + Zero baseline แยกแถว, ตารางทุก configuration, coverage ครบ 60 เดือนรวมตัวหาร, อันดับปีหลัง, คะแนน Train in-sample แยกไฟล์) และ `diagnostic_manifest.json` มี `next_stage_contract` สำหรับ 08 provenance ของ runner บันทึกแยก (runner เปลี่ยนเพื่อรองรับ stage จึงไม่บังคับให้ตรงกับตอนรัน 06)
 
 - ฝึก Baseline 4 แบบ + 3 ตระกูลจริง (Poisson 3, Random Forest 2, HGB 2 configuration) ด้วย backtest 4 fold ภายใน Train แล้วล็อกการเลือกจาก OOF (`reports/models/selection_lock.json`) ก่อน fit บน eligible Train ทั้งหมด 06 **ไม่** ให้คะแนนปี 2024/2025
 - การตรวจ reload ของ bundle ใช้ `compare_predictions` ที่ rtol = atol = 1e-12 และบันทึก `reload_max_abs_diff` ที่วัดได้ เพราะ Random Forest แบบ `n_jobs=2` รวมผลต้นไม้ในลำดับที่ต่างกันได้ (ความต่างระดับ 1e-15) ส่วน ID ที่เลือก (`choice_sha256`) และ hash ของไฟล์ยังตรวจแบบเท่ากันทุกบิต
 - **หลักฐาน 06 (ตรวจรับแล้ว):** Codex รัน 06 จริงครบทุกเซลล์ fit 44 fold + 11 full และตรวจ hash/reload/metric — ดู [`workflow/model-training-verification-th.md`](../workflow/model-training-verification-th.md)
-- **หลักฐาน 07 (รันจริงและตรวจแล้ว รอตรวจรับขั้นสุดท้าย):** Codex รัน `--stage analysis` ผ่าน 12 cells, `pytest backend/tests` 128 ผ่าน, metric ตรงกับ sklearn oracle อิสระ 22 คู่ภายใน 1e-12 และไฟล์ upstream 61 ไฟล์ไม่เปลี่ยน — ดู [`workflow/model-evaluation-verification-th.md`](../workflow/model-evaluation-verification-th.md)
+- **หลักฐาน 08 (ตรวจรับแล้ว):** 143 tests ผ่าน; รัน 06–08 ซ้ำในโฟลเดอร์แยกผ่านและเทียบ 30 CSV/524 คอลัมน์ตรงภายใน 1e-12; ตรวจอิสระ 618 กลุ่ม และแก้ถ้อยคำ/ป้ายกราฟครบ ดู [หลักฐานรอบสุดท้าย](../workflow/model-final-verification-th.md)
+- **หลักฐาน 07 (ตรวจรับแล้ว):** Codex รัน `--stage analysis` ผ่าน 12 cells, `pytest backend/tests` 128 ผ่าน, metric ตรงกับ sklearn oracle อิสระ 22 คู่ภายใน 1e-12 และไฟล์ upstream 61 ไฟล์ไม่เปลี่ยน — ดู [`workflow/model-evaluation-verification-th.md`](../workflow/model-evaluation-verification-th.md)
 - **คำเตือน (ยืนยันด้วยการรัน 07 จริง):** บนเซลล์ eligible ปี 2024, 2025 และสองปีรวมกัน Baseline ค่าเฉลี่ยรายจังหวัดมี Poisson deviance ต่ำกว่าตัวดีที่สุดของทั้งสามตระกูล และในปีหลัง HGB อยู่อันดับดีกว่า Poisson ที่ถูกเลือกจาก OOF ตัวเลือกที่ล็อกไว้ **ไม่เปลี่ยน** ผลนี้เป็นข้อจำกัดของการข้ามช่วงเวลา (มี regime shift จาก cleaning/รูปแบบวันที่) คะแนนอธิบายเฉพาะ province-day ที่ผ่าน quality filter (มี selection bias) ปี 2024 มีเซลล์ eligible เพียง 28% ของ province-day และไม่มีเลยในเดือน ต.ค.–ธ.ค. ส่วนปี 2025 เคยถูกดูแล้ว จึงไม่ใช่ test อิสระ ไม่ใช้ labels ปี 2026 และ `production_enabled = false`
 - สัญญาสำหรับ 07 อยู่ใน `next_stage_contract` ของ `reports/models/experiment_manifest.json` ส่วนสัญญาสำหรับ 08 อยู่ใน `reports/models/diagnostics/diagnostic_manifest.json` (ทั้งสองไฟล์ต้องมี `status == ok`)
 

@@ -4,6 +4,84 @@ This file is Codex's verification channel for the currently running bounded task
 Read it before final reporting as required by the task. Do not alter the locked
 protocol or parameter grid based on observed scores.
 
+## COMPLETED: task003b / notebook08 — ACCEPTED
+
+Final verification2026-11-10: allClaude-authored patches applied verbatim and
+report/plot artifacts regenerated;143tests passed8.36s; full06/07/08rerun passed
+42.63/8.11/6.16s. Compared30CSV524columns within1e-12 (maxabs2.27e-13), exact
+choicehash/keys,22diagnostic and618group independentoraclespassed, dataunchanged.
+Workerfinalreportread and formalreviewPASS recorded. See model-final-verification-th.md.
+Remaining notes below are chronological history, not open implementation tasks.
+Research Model phase complete; production/routeforecast remainsBLOCKED bydata.
+
+### LIVE08 TOOLING HANDOFF (08:07)
+
+Codex recovered your FOUR failed Edit requests VERBATIM from run events and
+applied their exact old_string/new_string pairs to08 (each matched exactlyonce).
+This fixes your walrus line and three boolean expressions exactly as YOU authored.
+All08codecells now compile. Do NOT rewrite the whole08file again: changes applied.
+Source-only reading aid `.ai-team/references/notebook08-source-current.txt` exists.
+Read this live feedback now, finish runner/tests/docs, and report handoff. If
+further edits are needed, write small JSON old_string/new_string patch requests
+to `backend/notebooks/08_patch_handoff.json` for Codex to apply VERBATIM, avoiding
+huge full notebook rewrites. Allowed as a tooling handoff only; do not execute.
+
+### Actual08 runtime/review (08:08, same run)
+
+After the4verbatim edits, realanalysis07->08 PASSED:07=8.46s,08=13cells4.79s,
+modelcard/decision/error manifest statusok;06+07artifacts unchanged during08.
+Do NOT rewrite entire08. Two precise report wording fixes needed as small JSON
+patch handoff before final:
+1. Modelcard currently says 'ข้อแลกเปลี่ยนบน OOF: ... MAE ต่ำสุด' but this is
+only among the THREE primary-metric-frozen familybest configs. Acrossall7configs,
+HGB160 has MAE0.561516, below HGB1200.563377. Qualify explicitly 'ในสาม
+configuration ที่ล็อกจากแต่ละตระกูลตาม primary metric' (or report both). Do not
+change choice/metrics. Current unqualified 'lowest' statement is misleading.
+2. Card says 'Train eligible2021-01-01–2023-12-31', but actualeligiblelastdate
+is2023-12-29. Use COH actual target_date min/max, or explicitly label configured
+split date range and actual eligible range separately. Recorded source dates
+must match actual support. Write exact authored replacements to08_patch_handoff.json.
+No runtime defects otherwise observed yet; independent618group checks pending.
+Independent618group checks now PASSED within1e-12 (province/yearmonth/weekday/
+outcome bins); fullTrain early14001rows/2407count and1168positive diagonal rows
+match; calibration bin totals correct;08outputhashes/06+datahashesverified.
+VisualQA: province scatter/calibration readable. cleaning_regime_shift.png last
+two xlabels 'reused_test_2025' overlap: shorten display names to e.g.'2025 reused'
+or rotate/space labels via a small authored patch; do not alter data. No Thai
+font is needed currently because plots use numeric province scatter, not Thai
+province labels. Modelcard text fixes above remain necessary.
+At08:09 fulltests with08 fixtures:143 PASSED in7.99s. No failed runtime tests.
+Once the report/plot patch handoff is written Codex will apply it verbatim,
+rerun analysis and full06-08 independent outputroot, then post final evidence.
+Do not mark the entire task accepted before those final checks.
+
+Both06 and07 are ACCEPTED.07checkpoint68893ec: actual12cells8.3s,
+128tests7.97s,22independent oracle comparisons passed,61upstreamhashesunchanged.
+07 initial run timedout only during finalREADME; correction1 report accepted.
+Implement08 only as its task contract; earlier pending/failure notes are history.
+Source-only references06/07 exist under.ai-team/references for small Read.
+Do not modify06/07 or frozen model/diagnostic files. New08 should have no outputs
+until Codex runs it. Update runner and its stage fixture for07->08; README
+VSCode RunAll order should now be01->08 (data01-05 thenmodels06-08).
+Next-run timeout is3000s (budget/tools unchanged), extended because07 took20min
+and was interrupted only at docs. Keep work bounded; prioritize required08 over
+optional permutation sensitivity, which may be omitted with reason.
+For date-regime diagnostics distinguish full eligible originalTrain63,757 rows
+from OOF42,058 rows. FullTrain day1-12 positive rows1168 are all day==month;
+mean0.171916 vsday13-31 mean0.686369. Recompute frompanel; if errors areOOF-only,
+label themOOF separately rather than confusing fullTrain counts withOOF errors.
+Visual QA: province labels are Thai. This Mac has Thonburi/Sarabun/Tahoma fonts
+(confirmed read-only font inventory). Prefer an available Thai font discovered
+with matplotlib.font_manager for province plots; keep English axis labels and
+fallback if unavailable. Do not install fonts/dependencies. Avoid unreadable
+missing-glyph boxes in plots; Codex will inspect PNGs after execution.
+Verification scope: runner `--stage analysis` legitimately re-executes07 then08.
+07 diagnostics/run timestamps may therefore change BEFORE08 starts. During08,
+all06/07 artifacts must stay byte-identical to08's own before snapshot. Across
+the whole analysis rerun,06/lock must remain exact,07 source semantic hash exact,
+and07 metrics/predictions numerically equivalent. Do not accidentally treat a
+normal07 execution's runtime/timestamp changes as tampering in08.
+
 ## Current stage: task003a / notebook07 (2026-11-10)
 
 Task002/002a is ACCEPTED:97 tests passed5.77s, actual06 all13 cells42.45s,

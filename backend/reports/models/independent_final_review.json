@@ -1,0 +1,49 @@
+{
+  "status": "passed",
+  "scope": "independent verification of retrospective conditional model research only",
+  "production_enabled": false,
+  "final_model_readiness": "BLOCKED",
+  "rerun_output_root": "/private/tmp/roadaware-model-final-rerun-20261110",
+  "full_rerun_status": "ok",
+  "full_rerun_notebooks": [
+    {
+      "notebook": "06_baseline_candidate_models",
+      "status": "ok",
+      "seconds": 42.63
+    },
+    {
+      "notebook": "07_evaluation_experiment_results",
+      "status": "ok",
+      "seconds": 8.11
+    },
+    {
+      "notebook": "08_error_analysis_model_selection",
+      "status": "ok",
+      "seconds": 6.16
+    }
+  ],
+  "csv_files_compared": 30,
+  "csv_columns_compared": 524,
+  "comparison_rtol": 1e-12,
+  "comparison_atol": 1e-12,
+  "max_absolute_numeric_difference": 2.2737367544323206e-13,
+  "choice_sha256": "4781bb5adcf649b0ff8e5cd278067a10d80cd1bd569cea5c39dc336bf7ffb30e",
+  "exact_frozen_choice_match": true,
+  "decision_metrics_numerically_equivalent": true,
+  "independent_diagnostic_method_year_checks": 22,
+  "independent_error_group_checks": 618,
+  "original_data_evidence_files_unchanged": 33,
+  "limitations": [
+    "No VS Code UI Run All verification; actual local kernels executed by nbclient.",
+    "RandomForest parallel summation may change last bits; file hashes identify each run, choices and key identities are exact.",
+    "Timings, pickle bytes, audit-roundoff magnitudes, paths and timestamps excluded from cross-run equality.",
+    "2024 limited coverage, reused2025, offline eligibility selection bias, unresolved date formats; no prospective route forecast readiness."
+  ],
+  "tests": {
+    "command": ".venv/bin/python -m pytest backend/tests -q",
+    "passed": 143,
+    "failed": 0,
+    "seconds": 8.36
+  },
+  "review_status": "accepted_for_completed_research_model_phase"
+}

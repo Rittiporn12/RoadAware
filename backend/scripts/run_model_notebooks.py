@@ -4,8 +4,9 @@ Usage (from the repository root):
     .venv/bin/python backend/scripts/run_model_notebooks.py [--stage {train,analysis,all}] [--output-dir DIR]
                                                             [--data-root DIR] [--timeout SEC]
 
-* --stage train runs 06 only; --stage analysis runs 07 only on EXISTING status-ok 06 outputs in the output dir (no
-  refit; 06 artifacts are hashed before and after and must be unchanged); --stage all (default) runs 06 -> 07.
+* --stage train runs 06 only; --stage analysis runs 07 -> 08 on EXISTING status-ok 06 outputs in the output dir (no
+  refit; 06 artifacts are hashed before and after and must be unchanged; 08 additionally needs a status-ok 07
+  diagnostic manifest and must leave every 07 file unchanged); --stage all (default) runs 06 -> 07 -> 08.
 * Must be launched with the project interpreter <repo>/.venv; any other Python is refused. Each notebook runs in its
   own fresh kernel started from that interpreter via a run-local kernelspec.
 * --data-root (default backend/) is the READ-ONLY verified data foundation (data/ and reports/data/ from notebooks
@@ -31,12 +32,14 @@ BACKEND = Path(__file__).resolve().parents[1]
 REPO = BACKEND.parent
 NB_DIR = BACKEND / "notebooks"
 TRAIN_NOTEBOOK = "06_baseline_candidate_models"
-ANALYSIS_NOTEBOOKS = ["07_evaluation_experiment_results"]
+DIAG_NOTEBOOK = "07_evaluation_experiment_results"
+ANALYSIS_NOTEBOOKS = [DIAG_NOTEBOOK, "08_error_analysis_model_selection"]
 STAGES = {"train": [TRAIN_NOTEBOOK], "analysis": list(ANALYSIS_NOTEBOOKS), "all": [TRAIN_NOTEBOOK] + ANALYSIS_NOTEBOOKS}
 ORDER = STAGES["all"]
 KERNEL_NAME = "roadaware-venv"
 MODEL_REPORTS = Path("reports") / "models"
 TRAIN_STATUS_FILES = ("experiment_manifest.json", "model_artifact_manifest.json")
+DIAG_MANIFEST = MODEL_REPORTS / "diagnostics" / "diagnostic_manifest.json"
 PANEL = Path("data") / "processed" / "province_day_panel.csv"
 DATA_RUN_MANIFEST = Path("reports") / "data" / "run_manifest.json"
 
@@ -110,6 +113,36 @@ def upstream_hashes(out):
     return {p: maybe_sha(out / p) for p in sorted(paths)}
 
 
+def needs_diagnostics(name):
+    """Analysis notebooks after 07 read its diagnostics (08)."""
+    return name in ANALYSIS_NOTEBOOKS and ANALYSIS_NOTEBOOKS.index(name) > ANALYSIS_NOTEBOOKS.index(DIAG_NOTEBOOK)
+
+
+def diagnostic_outputs_problem(out):
+    """Why the notebook-07 diagnostics under out cannot feed 08 (None = usable). 08 verifies every hash itself."""
+    p = out / DIAG_MANIFEST
+    if not p.is_file():
+        return f"{p} not found; run notebook 07 (--stage analysis) first"
+    try:
+        status = json.loads(p.read_text("utf-8")).get("status")
+    except ValueError:
+        return f"{p} is not valid JSON"
+    if status != "ok":
+        return f"{p} has status {status!r}; notebook 07 did not finish successfully"
+    return None
+
+
+def diagnostic_hashes(out):
+    """sha256 of the 07 diagnostic manifest and every file it lists; 08 must leave them unchanged."""
+    paths = {DIAG_MANIFEST.as_posix()}
+    try:
+        man = json.loads((out / DIAG_MANIFEST).read_text("utf-8"))
+        paths |= {f["path"] for f in man.get("files", []) if f.get("path")}
+    except (OSError, ValueError, KeyError, TypeError, AttributeError):
+        pass
+    return {p: maybe_sha(out / p) for p in sorted(paths)}
+
+
 def write_kernelspec(py, out):
     """Run-local kernelspec pinned to the .venv interpreter; found via JUPYTER_PATH."""
     kdir = out / ".runner" / "jupyter" / "kernels" / KERNEL_NAME
@@ -125,7 +158,7 @@ def write_kernelspec(py, out):
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--stage", choices=sorted(STAGES), default="all",
-                    help="train = 06 only; analysis = 07 on existing 06 outputs; all = 06 -> 07 (default)")
+                    help="train = 06 only; analysis = 07 -> 08 on existing 06 outputs; all = 06 -> 07 -> 08 (default)")
     ap.add_argument("--output-dir", help="model output root (data/model, reports/models, notebooks/)")
     ap.add_argument("--data-root", help="verified data-foundation root holding data/ and reports/data/ (read-only)")
     ap.add_argument("--timeout", type=int, default=7200, help="per-cell timeout in seconds")
@@ -185,6 +218,17 @@ def main(argv=None):
                 break
             upstream_before = upstream_hashes(out)
             entry["upstream_06_files_hashed"] = len(upstream_before)
+        diag_before = None
+        if needs_diagnostics(name):
+            problem = diagnostic_outputs_problem(out)
+            if problem:
+                entry.update(status="blocked", error=problem)
+                rc = 1
+                save_log()
+                print(f"[blocked] {name}: {problem}", flush=True)
+                break
+            diag_before = diagnostic_hashes(out)
+            entry["upstream_07_files_hashed"] = len(diag_before)
         entry["source_sha256_before"] = sha256(src)
         nb = nbformat.read(src, as_version=4)
         original_kernelspec = nb.metadata.get("kernelspec")
@@ -248,6 +292,15 @@ def main(argv=None):
                 rc = 1
                 entry["status"] = "failed"
                 print(f"ERROR: {name} changed notebook-06 artifacts: {changed}", flush=True)
+        if diag_before is not None:
+            diag_after = diagnostic_hashes(out)
+            changed = sorted(k for k in set(diag_before) | set(diag_after) if diag_before.get(k) != diag_after.get(k))
+            entry["upstream_07_unchanged"] = not changed
+            entry["upstream_07_changed_files"] = changed
+            if changed:
+                rc = 1
+                entry["status"] = "failed"
+                print(f"ERROR: {name} changed notebook-07 artifacts: {changed}", flush=True)
         save_log()
         print(f"[{entry['status']}] {name} ({entry['seconds']}s) -> {dst}", flush=True)
         if rc:
