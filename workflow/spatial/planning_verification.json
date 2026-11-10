@@ -1,0 +1,14 @@
+{
+  "status": "passed",
+  "scope": "Preparation documentation and read-only coordinate preflight only; not spatial model acceptance",
+  "source_hashes_rechecked": 7,
+  "retained_event_total": 106308,
+  "yearly_aggregate_reconciliation": "passed",
+  "candidate_province_count": 6,
+  "not_performed": [
+    "No Claude worker run in this preparation turn",
+    "No spatial notebook/model training or evaluation",
+    "No road-geometry download, map matching or probability/color calibration",
+    "No frontend or API implementation"
+  ]
+}

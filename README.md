@@ -2,11 +2,16 @@
 
 **ML serving ล่าสุด:** Notebook13ตรวจรับแล้ว โหลดHGBและสร้างfeatureสำหรับคำขอใหม่ได้ ตรวจค่าทำนายตรงกับผลเดิม177,335แถว มี57testsผ่านและผลทดสอบข้อมูลขาด/เวลาใช้งาน ดู [หลักฐานML backend](workflow/backend-ml-serving-verification-th.md)
 
-**API/catalog ยังไม่เสร็จ:** Claudeแจ้งsessionquotaเต็มเวลา00:03น.วันที่11พ.ย.2026 และreset04:00Asia/Bangkok สำรองsourceค้างกับจุดต่อไว้ที่ [checkpoint](workflow/wip/009-api-quota-checkpoint/README.md) และ [task009a](workflow/tasks/009a-resume-api-after-quota.md) ยังไม่มีAPIที่รัน/ตรวจรับแล้ว frontendยังไม่ทำ
+**API/catalog ยังไม่เสร็จ:** สำรอง source ค้างและจุดต่อไว้ที่ [checkpoint](workflow/wip/009-api-quota-checkpoint/README.md) และ [task009a](workflow/tasks/009a-resume-api-after-quota.md) ยังไม่มี API ที่รัน/ตรวจรับแล้ว และ frontend ยังไม่ทำ การเริ่ม Claude ต่อจำเป็นต้องพร้อมทั้ง quota และ login (การเรียกครั้งล่าสุดแจ้ง Not logged in)
+
+
+**งานรายจุด/ช่วงถนน:** ผู้ใช้ยืนยันให้ต่อยอดการพยากรณ์และระดับเฝ้าระวังสี เตรียม [แผน Spatial V3](workflow/spatial/README_th.md) และ [task012 สำหรับ Claude](workflow/tasks/012-spatial-data-readiness.md) แล้ว ตรวจเชื่อมพิกัดกลับ raw ได้ครบ 106,308 retained V2 events แต่ยังไม่ตรวจ road matching/zero coverage และยังไม่มี spatial model หรือเกณฑ์สีที่ผ่านการประเมิน ผลจังหวัดด้านล่างไม่ใช่ผลรายจุด
+
+**ผลสำหรับ Presentation:** [10 กราฟ PNG/SVG พร้อม CSV และคำอธิบายไทย](output/model-results/README_th.md) · [ดาวน์โหลด ZIP](output/RoadAware_model_results.zip) เป็นผล V2 จริง ไม่ใช่การทดลอง spatial ใหม่
 
 ทดลองจริง 3 ตระกูล: Poisson Regression, Random Forest (Poisson), HistGradientBoosting (Poisson) พร้อม baseline 6 แบบต่อหน่วย และ feature 5 ชุด เลือกจาก expanding time backtest 4 fold ในปี2022–2023 ตาม protocol ที่ล็อกก่อน fit
 
-| หน่วย | Poisson deviance | Random Forest | HGB ที่เลือก | strongest baseline | ลด deviance |
+| หน่วย | Poisson Regression | Random Forest | HGB ที่เลือก | strongest baseline | ลด deviance |
 |---|---:|---:|---:|---:|---:|
 |จังหวัด×วัน|1.089593|1.127834|**1.064258**|1.146383|**7.16%**|
 |จังหวัด×6ชั่วโมง|0.596262|0.601836|**0.583525**|0.607755|**3.99%**|
@@ -17,7 +22,7 @@
 
 **Research only; production_ready=false.** ยังไม่มี untouched test: ปี2024เป็นdevelopmentและปี2025เคยเห็นแล้ว อากาศมีบางส่วน (204/385 province-years; ปี2024/2025ไม่มี) AADTเป็นปริมาณรถเฉลี่ยจากจุดสำรวจรายปี ไม่ใช่รถติดสด ผลนี้ยังระบุความเสี่ยงส่วนบุคคล/จุดถนน/เส้นทางไม่ได้
 
-MLอยู่ใน `backend/notebooks/01–12` รันด้วยkernelในเครื่องผ่าน **VS Code Integrated Terminal** ตามคู่มือ ไม่ต้องเปิดเว็บJupyter `frontend/`ยังเป็นโครงสร้างสำรอง ไม่มีหน้าจอ/API/Dashboard ผลเดิมห้ามทับ ใช้output rootใหม่ในการรันซ้ำ ข้อมูลรายแถว/raw/bundleไม่อยู่ในGit หลังcloneต้องกู้snapshotและตรวจhash/lock
+MLอยู่ใน `backend/notebooks/01–13` รันด้วยkernelในเครื่องผ่าน **VS Code Integrated Terminal** ตามคู่มือ ไม่ต้องเปิดเว็บJupyter `frontend/`ยังเป็นโครงสร้างสำรอง ไม่มีหน้าจอ/API/Dashboard ผลเดิมห้ามทับ ใช้output rootใหม่ในการรันซ้ำ ข้อมูลรายแถว/raw/bundleไม่อยู่ในGit หลังcloneต้องกู้snapshotและตรวจhash/lock
 
 ## ประวัติ V1 และเอกสารเดิม
 

@@ -84,3 +84,9 @@ weather/traffic sources and hosting scope before bounded implementation tasks.
   landscape behavior, on-screen keyboard behavior, and no horizontal page scroll.
 - Verify actual route search, map selection and detail reading on mobile-sized
   layouts, beyond checking that components shrink to fit.
+
+## Confirmed spatial forecast extension — 11 November 2026
+
+The user explicitly requests location/road-segment forecasts with colored alert zones, and asks for preparation now so Claude can implement when available. This is a new spatial ML workstream; do not distribute provincial predictions to map points. See [Thai spatial plan](spatial/README_th.md) and [bounded readiness task012](tasks/012-spatial-data-readiness.md).
+
+Start with a raw-coordinate/road-inventory/zero-label feasibility audit, then freeze the spatial protocol before fitting three candidate families anew. Proposed segment lengths, horizon, study corridor and color cutoffs await data-readiness evidence; they are not measured results. Forecast recorded counts and personal crash probability are separate targets. Gray denotes insufficient or unsupported data, and a low alert level must not be labeled safe. Preserve the accepted V2 results. Existing API/catalog work remains incomplete and must be reconciled with the later spatial contract. No frontend implementation or worker run was requested for this preparation turn.
