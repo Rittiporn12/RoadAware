@@ -1,0 +1,16 @@
+{
+  "schema": "roadaware-v2-report-only-amendment/1",
+  "created_utc": "2026-11-10T15:35:49.725030+00:00",
+  "reason": "Exclude mutable runner log from immutable report hashes; statistical implementation and configuration unchanged.",
+  "manager_lock_sha256_before": "9f70a9bbcea7569bb69f3daed963fe8aa89964fe669b663bad67215e2b7276c3",
+  "notebook_source_code_sha256_before": "43bf8259dda3e8a45101defab1a4c0bd53fd59d4e7652b51bb3bd6ced70bdccb",
+  "notebook_source_code_sha256_after": "c5fb763f280b59f979cfb2c4a5906896a919f9aeb3c32eb715c08b463263236c",
+  "changed_cells": [
+    16
+  ],
+  "all_functions_fit_selection_diagnostic_cells_unchanged": true,
+  "first_attempt_status": "failed_final_report_hash_check",
+  "first_attempt_seconds": 1209.99,
+  "statistics_and_selection_rules_unchanged": true,
+  "manager_lock_sha256_after": "fe0b46bba5ddd42aea35fed32fc7943e7eb0beef995706f997db8708ca4b451b"
+}

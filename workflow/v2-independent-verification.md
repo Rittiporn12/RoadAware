@@ -65,3 +65,37 @@ Codex ตรวจผลจริงแยกจากรายงานขอ�
 โดย 004c = `20261110-175342-94403`, 005 = `20261110-150447-82585`;
 ไฟล์ข้อมูลรายแถวอยู่ใน `backend/data/` (gitignored) และรันตรวจได้บนเครื่องนี้
 รายงานที่อยู่ใน Git เป็นผลสรุป ไม่ใช้แทน raw snapshot ที่ตรวจ SHA256
+
+## การแก้ส่วนบันทึกผลหลังทดลองครั้งแรก (ยังรอตรวจรับโมเดล)
+
+การทดลองครั้งแรกใช้ 1,209.99 วินาที โดย candidate OOF fits ทั้ง 160 ครั้ง
+และ baseline fits 48 ครั้งมีสถานะ ok, convergence warning 0 แต่ final check
+พบว่า `run_manifest_model.json` ซึ่ง runner แก้ทุกเซลล์ถูกนับเป็น immutable
+report ทำให้ hash ไม่ตรง จึงบันทึกครั้งแรกเป็น **failed** และไม่ตรวจรับ
+หลักฐานอยู่ใน `backend/reports/v2/attempts/model_001_failed/`; ข้อมูลรายแถว/
+bundle ถูกเก็บแยกใน `backend/data/v2/model_attempts/model_001_failed/` (ignored)
+
+Claude แก้เฉพาะ REPORT cell 16 ให้แยกไฟล์ log ดังกล่าว และย้ายตำแหน่ง log
+ของ runner ไปที่ `reports/v2/run_manifest_model.json` นอก model report folder
+FUNCTIONS, fit/selection/diagnostic cells, configuration และ protocol ไม่เปลี่ยน
+บันทึก hash ก่อน/หลังใน `model-protocol-v2-report-amendment.json`;
+manager lock แก้เพียง notebook-source hash และอ้างอิงบันทึกการแก้นี้
+ชุดทดสอบ source/model/analysis หลังแก้ผ่าน 91 ข้อ (2.83 วินาที)
+
+รอบใหม่เริ่มจาก Terminal ภายใน VS Code เวลา 22:38 น. ใช้ข้อมูล/ค่าทดลองเดิม
+ภาพหน้าจอและหน้าต่าง Terminal แสดงคำสั่งและ daily OOF 53,610 แถว/26 methods
+เสร็จใน 157.0 วินาที ณ บันทึกนี้กำลังคำนวณ 6h OOF; ยังไม่ตรวจรับรอบใหม่
+
+การตรวจคำเตือน NumPy แยกจากโมเดล: บน NumPy2.0.2/Accelerate ของเครื่องนี้
+matrix-vector ปกติมีคำเตือน divide/overflow/invalid แต่ผลตรงกับ `einsum`
+ภายใน 1.60e-14 (`reviews/numpy_matmul_probe.json`)
+มีรายงานอาการคล้ายกันใน [NumPy #28687](https://github.com/numpy/numpy/issues/28687)
+และ [#29820](https://github.com/numpy/numpy/issues/29820); ใช้เป็นบริบทประกอบ
+ไม่ใช่หลักฐานว่าทุก warning ปลอดภัยหรือเป็นสาเหตุเดียวกันแน่นอน
+
+จึงตรวจ bundle Poisson ของครั้งแรกด้วย contraction ที่ไม่ใช้ BLAS จริง:
+ตัวอย่าง diagnostic 2,000 แถวต่อหน่วยต่างจากค่าที่บันทึกสูงสุด 1.25e-14
+(daily) และ 1.34e-15 (6h); gradient สูงสุดใน train เท่ากับ 9.96e-7 และ
+8.52e-7 ตามลำดับ ต่ำกว่า tol1e-6 ที่ล็อกไว้ และ coefficient finite ทุกค่า
+ผลละเอียด `backend/reports/v2/reviews/poisson_numeric_attempt1.json`;
+ยังต้องยืนยันผลรอบใหม่และวิเคราะห์ error ด้วย Notebook12 ก่อนสรุปโมเดล

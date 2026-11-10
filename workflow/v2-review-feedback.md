@@ -213,6 +213,24 @@ externalrawrootandv1root. Explicit--source-root/ROADAWARE_V2_SOURCES_ROOT option
 isallowed/encouragedifneeded. Do notrequire09reportstobeundernewemptyoutputdir
 or silentlyfallbackfromanexplicitwrongroot. StagepreparemustNOTrerun09/network;
 allmay09->10. Recordactualinputroots/hashes andrejecttampering.
+# Manager runtime feedback for task007 (2026-11-10 22:07)
+
+Actual11 daily OOF completed139.1s;6h running. Many Poisson NumPy matmul
+RuntimeWarnings (divide byzero/overflow/invalid), fitted status ok. Do not alter
+11/config/locks or suppress warnings. In12 include actual fit_log warning counts
+and convergence warnings byunit/family, linking rawfit_log. Codex separately
+reproduced all3warnings on benign normal random70000x100 matrix @100vector:
+allfinite and maxabsdiff vsnp.einsum1.5987211554602254e-14. LocalNumPy2.0.2 BLAS
+is macOSAccelerate. This points to a numerical-warning/environment issue but
+does NOT automatically validate model predictions; Codex will independently
+compare saved Poisson predictions vsnon-BLAS contraction before acceptance.
+Report observed evidence, do not claim a proven upstreambug or allwarningssafe.
+Codex checked primary upstream reports: https://github.com/numpy/numpy/issues/28687
+and https://github.com/numpy/numpy/issues/29820 describe similar incorrect matmul
+warnings on macOS/M4, including identity matrices. Cite as corroborating context,
+not as model-specific verification or proof this host is the same bug. Local
+probe JSON: backend/reports/v2/reviews/numpy_matmul_probe.json (read-only).
+
 # Manager clarification for task006 (2026-11-10 18:10, BEFORE any V2 fit)
 
 Status update 18:17: source004c independently ACCEPTED (historical run

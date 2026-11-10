@@ -419,6 +419,54 @@ def test_completed_output_root_detected_before_fit(f, tmp_path):
     assert len(hits) == 2 and (rep / 'selection_lock.json').read_text('utf-8') == '{}'  # detected, never deleted
 
 
+def report_helpers(f):
+    """RUNNER_LOGS and report_output_hashes exactly as the REPORT cell defines them (the rest of that cell needs a full run)."""
+    import ast
+    tree = ast.parse(next(c for c in code_cells() if c.startswith('# G. Thai experiment report')))
+    keep = [n for n in tree.body if (isinstance(n, ast.Assign) and any(getattr(t, 'id', None) == 'RUNNER_LOGS' for t in n.targets))
+            or (isinstance(n, ast.FunctionDef) and n.name == 'report_output_hashes')]
+    assert len(keep) == 2, 'REPORT cell must define RUNNER_LOGS and report_output_hashes (task 006a patch)'
+    ns = dict(f)
+    exec(compile(ast.Module(body=keep, type_ignores=[]), '11:REPORT[helpers]', 'exec'), ns)
+    return ns
+
+
+def test_report_outputs_ignore_mutable_runner_log_only(f, tmp_path):
+    g = report_helpers(f)
+    report = next(c for c in code_cells() if c.startswith('# G. Thai experiment report'))
+    checks = next(c for c in code_cells() if c.startswith('# Final checks'))
+    assert "'report_outputs': report_output_hashes(REP)," in report and g['RUNNER_LOGS'] == ('run_manifest_model.json',)
+    assert "assert all(sha256_file(REP / o['path']) == o['sha256'] for o in M['report_outputs'])" in checks   # emulated below
+    rep = tmp_path / 'reports' / 'v2' / 'models'
+    rep.mkdir(parents=True)
+    for name in ('oof_metrics_pooled.csv', 'fit_log.csv', 'ablation_deltas.csv'):
+        (rep / name).write_text(f'{name}\n1\n', 'utf-8')
+    (rep / 'selection_lock.json').write_text('{"units": {}}', 'utf-8')
+    (rep / 'model_manifest.json').write_text('{}', 'utf-8')
+    log = rep / 'run_manifest_model.json'   # legacy layout: the runner log inside REP
+    log.write_text(json.dumps({'status': 'running', 'cells_completed': 10}), 'utf-8')
+    outs = g['report_output_hashes'](rep)
+    assert [o['path'] for o in outs] == ['ablation_deltas.csv', 'fit_log.csv', 'oof_metrics_pooled.csv', 'selection_lock.json']
+
+    def final_check():
+        return all(f['sha256_file'](rep / o['path']) == o['sha256'] for o in outs)
+
+    log.write_text(json.dumps({'status': 'running', 'cells_completed': 11}), 'utf-8')   # runner rewrites its log after the REPORT cell
+    assert final_check()
+    (rep / 'oof_metrics_pooled.csv').write_text('changed\n', 'utf-8')   # a real metric change still fails
+    assert not final_check()
+    (rep / 'oof_metrics_pooled.csv').write_text('oof_metrics_pooled.csv\n1\n', 'utf-8')
+    assert final_check()
+    (rep / 'selection_lock.json').write_text('{"units": {"daily": 1}}', 'utf-8')
+    assert not final_check()
+    # only the exact runner log name is skipped; near-miss names are hashed like any other report
+    (rep / 'run_manifest_model.json.bak').write_text('x', 'utf-8')
+    (rep / 'run_manifest.json').write_text('x', 'utf-8')
+    names = [o['path'] for o in g['report_output_hashes'](rep)]
+    assert 'run_manifest_model.json.bak' in names and 'run_manifest.json' in names
+    assert 'run_manifest_model.json' not in names and 'model_manifest.json' not in names
+
+
 def test_write_roots_guard(f, tmp_path):
     prep, data = tmp_path / 'reports' / 'v2' / 'preparation', tmp_path / 'data' / 'v2'
     ok = f['check_write_roots'](tmp_path / 'reports' / 'v2' / 'models', data / 'models', prep, data, [], [data / 'panel_daily_v2.csv.gz'])
@@ -461,3 +509,23 @@ def test_runner_model_stage_roots_and_env(tmp_path):
     (roots['model_reports']).mkdir(parents=True)
     (roots['model_reports'] / 'selection_lock.json').write_text('{}', 'utf-8')
     assert r.completed_model_outputs(roots) == [str(roots['model_reports'] / 'selection_lock.json')]
+
+
+def test_runner_model_log_outside_model_report_dir(tmp_path):
+    r = load_runner()
+    roots = r.resolve_roots(tmp_path / 'out', tmp_path / 'ext', tmp_path / 'v1', stage='model', preparation_dir=tmp_path / 'prep',
+                            prep_data_dir=tmp_path / 'pdata', experiment_lock=tmp_path / 'lock.json')
+    log = r.run_log_path(roots['output'], 'model')
+    assert log == roots['output'] / 'reports' / 'v2' / 'run_manifest_model.json' and log.parent == roots['model_reports'].parent
+    assert not r._inside(log, roots['model_reports']) and not r._inside(log, roots['model_data'])
+    assert r.run_log_path(roots['output'], 'evaluate').name == 'run_manifest_analysis.json'
+    assert r.run_log_path(roots['output'], 'prepare') == r.run_log_path(roots['output'], 'all') == roots['output'] / 'reports' / 'v2' / 'run_manifest.json'
+    assert r.model_run_logs(roots['model_reports']) == [log, roots['model_reports'] / 'run_manifest_model.json']
+    assert r.completed_model_outputs(roots) == []
+    log.parent.mkdir(parents=True)
+    log.write_text('{"status": "failed"}', 'utf-8')   # an earlier attempt's log is preserved, never overwritten by a new run
+    assert r.completed_model_outputs(roots) == [str(log)]
+    roots['model_reports'].mkdir(parents=True)
+    (roots['model_reports'] / 'run_manifest_model.json').write_text('{}', 'utf-8')   # legacy layout
+    assert r.completed_model_outputs(roots) == [str(log), str(roots['model_reports'] / 'run_manifest_model.json')]
+    assert log.read_text('utf-8') == '{"status": "failed"}'

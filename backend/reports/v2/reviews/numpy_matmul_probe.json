@@ -1,0 +1,27 @@
+{
+  "check": "benign_matrix_vector_numerical_warning_probe",
+  "numpy": "2.0.2",
+  "blas": {
+    "name": "accelerate",
+    "found": true,
+    "version": "unknown",
+    "detection method": "system",
+    "include directory": "unknown",
+    "lib directory": "unknown",
+    "openblas configuration": "unknown",
+    "pc file directory": "unknown"
+  },
+  "shape": [
+    70000,
+    100
+  ],
+  "seed": 42,
+  "all_finite": true,
+  "max_abs_difference_vs_einsum": 1.5987211554602254e-14,
+  "warnings": [
+    "divide by zero encountered in matmul",
+    "overflow encountered in matmul",
+    "invalid value encountered in matmul"
+  ],
+  "interpretation": "Reproduces warnings without extreme input values. Model-specific prediction checks still required; not proof every runtime warning is harmless."
+}
