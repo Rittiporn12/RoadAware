@@ -1,0 +1,386 @@
+year,province_code,name_en,requested_lat,requested_lon,grid_lat,grid_lon,n_expected_hours,n_returned_hours,n_valid_temp,n_valid_rain,n_rain_negative_masked,chunk,status,missing_reason
+2021,10,Bangkok,13.72443265,100.60338529167579,13.5,100.5,8760,8760,8760,8760,0,weather_jma_gsm_2021_b00,complete,
+2021,11,Samut Prakan,13.5985736,100.71990360606564,13.5,100.5,8760,8760,8760,8760,0,weather_jma_gsm_2021_b00,complete,
+2021,12,Nonthaburi,13.964864250000002,100.3836551020613,14.0,100.5,8760,8760,8760,8760,0,weather_jma_gsm_2021_b00,complete,
+2021,13,Pathum Thani,14.09527305,100.6276547583761,14.0,100.5,8760,8760,8760,8760,0,weather_jma_gsm_2021_b00,complete,
+2021,14,Phra Nakhon Si Ayutthaya,14.3972206,100.53194461258316,14.5,100.5,8760,8760,8760,8760,0,weather_jma_gsm_2021_b00,complete,
+2021,15,Ang Thong,14.622914300000001,100.36075512577705,14.5,100.5,8760,8760,8760,8760,0,weather_jma_gsm_2021_b01,complete,
+2021,16,Lop Buri,15.07624815,100.88686597706912,15.0,101.0,8760,8760,8760,8760,0,weather_jma_gsm_2021_b01,complete,
+2021,17,Sing Buri,14.946109799999999,100.32868428774287,15.0,100.5,8760,8760,8760,8760,0,weather_jma_gsm_2021_b01,complete,
+2021,18,Chai Nat,15.1636095,100.02586225445759,15.0,100.0,8760,8760,8760,8760,0,weather_jma_gsm_2021_b01,complete,
+2021,19,Saraburi,14.62135455,100.89166175812957,14.5,101.0,8760,8760,8760,8760,0,weather_jma_gsm_2021_b01,complete,
+2021,20,Chon Buri,13.0923586,101.22550427239965,13.0,101.0,8760,8760,8760,8760,0,weather_jma_gsm_2021_b02,complete,
+2021,21,Rayong,12.866803149999999,101.44234646455587,13.0,101.5,8760,8760,8760,8760,0,weather_jma_gsm_2021_b02,complete,
+2021,22,Chanthaburi,12.8165656,102.17868946338807,13.0,102.0,8760,8760,8760,8760,0,weather_jma_gsm_2021_b02,complete,
+2021,23,Trat,12.20098845,102.42951832061647,12.0,102.5,8760,8760,8760,8754,6,weather_jma_gsm_2021_b02,partial_value_quality_masked,rain_negative_value_masked
+2021,24,Chachoengsao,13.573741,101.58895375382073,13.5,101.5,8760,8760,8760,8760,0,weather_jma_gsm_2021_b02,complete,
+2021,25,Prachin Buri,14.02166555,101.64494587039341,14.0,101.5,8760,8760,8760,8760,0,weather_jma_gsm_2021_b03,complete,
+2021,26,Nakhon Nayok,14.234858500000001,101.16791105063982,14.0,101.0,8760,8760,8760,8760,0,weather_jma_gsm_2021_b03,complete,
+2021,27,Sa Kaeo,13.673167750000001,102.28269834713345,13.5,102.5,8760,8760,8760,8760,0,weather_jma_gsm_2021_b03,complete,
+2021,30,Nakhon Ratchasima,14.948192599999999,101.98987960096676,15.0,102.0,8760,8760,8760,8760,0,weather_jma_gsm_2021_b03,complete,
+2021,31,Buri Ram,14.96027565,103.06839341795057,15.0,103.0,8760,8760,8760,8760,0,weather_jma_gsm_2021_b03,complete,
+2021,32,Surin,14.906581200000002,103.66974057337822,15.0,103.5,8760,8760,8760,8760,0,weather_jma_gsm_2021_b04,complete,
+2021,33,Si Sa Ket,14.94958115,104.33497173306091,15.0,104.5,8760,8760,8760,8760,0,weather_jma_gsm_2021_b04,complete,
+2021,34,Ubon Ratchathani,15.153720499999999,105.10712629961651,15.0,105.0,8760,8760,8760,8760,0,weather_jma_gsm_2021_b04,complete,
+2021,35,Yasothon,15.81500655,104.27250867510719,16.0,104.5,8760,8760,8760,8754,6,weather_jma_gsm_2021_b04,partial_value_quality_masked,rain_negative_value_masked
+2021,36,Chaiyaphum,15.960413899999999,101.88040978393639,16.0,102.0,8760,8760,8760,8760,0,weather_jma_gsm_2021_b04,complete,
+2021,37,Amnat Charoen,15.915693300000001,104.7310667306233,16.0,104.5,8760,8760,8760,8754,6,weather_jma_gsm_2021_b05,partial_value_quality_masked,rain_negative_value_masked
+2021,38,Bueng Kan,18.105615999999998,103.7259613016848,18.0,103.5,8760,8760,8760,8760,0,weather_jma_gsm_2021_b05,complete,
+2021,39,Nong Bua Lam Phu,17.222446599999998,102.24185313182262,17.0,102.0,8760,8760,8760,8760,0,weather_jma_gsm_2021_b05,complete,
+2021,40,Khon Kaen,16.3484688,102.68346957887485,16.5,102.5,8760,8760,8760,8760,0,weather_jma_gsm_2021_b05,complete,
+2021,41,Udon Thani,17.45709985,102.83648125691361,17.5,103.0,8760,8760,8760,8760,0,weather_jma_gsm_2021_b05,complete,
+2021,42,Loei,17.487229499999998,101.64835304996132,17.5,101.5,8760,8760,8760,8760,0,weather_jma_gsm_2021_b06,complete,
+2021,43,Nong Khai,17.94633975,103.1121344154239,18.0,103.0,8760,8760,8760,8760,0,weather_jma_gsm_2021_b06,complete,
+2021,44,Maha Sarakham,16.0241642,103.19295396046545,16.0,103.0,8760,8760,8760,8754,6,weather_jma_gsm_2021_b06,partial_value_quality_masked,rain_negative_value_masked
+2021,45,Roi Et,15.93811835,103.76502284741024,16.0,104.0,8760,8760,8760,8760,0,weather_jma_gsm_2021_b06,complete,
+2021,46,Kalasin,16.6464329,103.67065100495208,16.5,103.5,8760,8760,8760,8760,0,weather_jma_gsm_2021_b06,complete,
+2021,47,Sakon Nakhon,17.42041205,103.65580590958365,,,8760,0,0,0,0,weather_jma_gsm_2021_b07,not_collected,no_accepted_data:failed
+2021,48,Nakhon Phanom,17.4154129,104.60218529664346,,,8760,0,0,0,0,weather_jma_gsm_2021_b07,not_collected,no_accepted_data:failed
+2021,49,Mukdahan,16.543609,104.48047601285035,,,8760,0,0,0,0,weather_jma_gsm_2021_b07,not_collected,no_accepted_data:failed
+2021,50,Chiang Mai,18.697494550000002,98.61771186772636,,,8760,0,0,0,0,weather_jma_gsm_2021_b07,not_collected,no_accepted_data:failed
+2021,51,Lamphun,18.0688858,98.93839718913492,,,8760,0,0,0,0,weather_jma_gsm_2021_b07,not_collected,no_accepted_data:failed
+2021,52,Lampang,18.3540249,99.55772966614919,,,8760,0,0,0,0,weather_jma_gsm_2021_b08,not_collected,no_accepted_data:failed
+2021,53,Uttaradit,17.77191755,100.46378529063892,,,8760,0,0,0,0,weather_jma_gsm_2021_b08,not_collected,no_accepted_data:failed
+2021,54,Phrae,18.2493019,100.1664780145754,,,8760,0,0,0,0,weather_jma_gsm_2021_b08,not_collected,no_accepted_data:failed
+2021,55,Nan,18.823912,100.79290810478656,,,8760,0,0,0,0,weather_jma_gsm_2021_b08,not_collected,no_accepted_data:failed
+2021,56,Phayao,19.27083015,100.15256928907036,,,8760,0,0,0,0,weather_jma_gsm_2021_b08,not_collected,no_accepted_data:failed
+2021,57,Chiang Rai,19.732084450000002,99.88474372876234,,,8760,0,0,0,0,weather_jma_gsm_2021_b09,not_collected,no_accepted_data:failed
+2021,58,Mae Hong Son,18.690552500000003,97.94022528491514,,,8760,0,0,0,0,weather_jma_gsm_2021_b09,not_collected,no_accepted_data:failed
+2021,60,Nakhon Sawan,15.6976768,100.05791517588676,,,8760,0,0,0,0,weather_jma_gsm_2021_b09,not_collected,no_accepted_data:failed
+2021,61,Uthai Thani,15.3598637,99.55306020365907,,,8760,0,0,0,0,weather_jma_gsm_2021_b09,not_collected,no_accepted_data:failed
+2021,62,Kamphaeng Phet,16.336007549999998,99.51987300899806,,,8760,0,0,0,0,weather_jma_gsm_2021_b09,not_collected,no_accepted_data:failed
+2021,63,Tak,16.465842799999997,98.82092191630089,,,8760,0,0,0,0,weather_jma_gsm_2021_b10,not_collected,no_accepted_data:failed
+2021,64,Sukhothai,17.25321445,99.71365696394624,,,8760,0,0,0,0,weather_jma_gsm_2021_b10,not_collected,no_accepted_data:failed
+2021,65,Phitsanulok,17.0458608,100.53112940961353,,,8760,0,0,0,0,weather_jma_gsm_2021_b10,not_collected,no_accepted_data:failed
+2021,66,Phichit,16.252080900000003,100.36497667992526,,,8760,0,0,0,0,weather_jma_gsm_2021_b10,not_collected,no_accepted_data:failed
+2021,67,Phetchabun,16.2077732,101.01168247754299,,,8760,0,0,0,0,weather_jma_gsm_2021_b10,not_collected,no_accepted_data:failed
+2021,70,Ratchaburi,13.542992,99.61944465098878,,,8760,0,0,0,0,weather_jma_gsm_2021_b11,not_collected,no_accepted_data:failed
+2021,71,Kanchanaburi,14.694530499999999,98.90540915049122,,,8760,0,0,0,0,weather_jma_gsm_2021_b11,not_collected,no_accepted_data:failed
+2021,72,Suphan Buri,14.5686083,100.04149004634226,,,8760,0,0,0,0,weather_jma_gsm_2021_b11,not_collected,no_accepted_data:failed
+2021,73,Nakhon Pathom,13.913635249999999,100.11300579787539,,,8760,0,0,0,0,weather_jma_gsm_2021_b11,not_collected,no_accepted_data:failed
+2021,74,Samut Sakhon,13.57440785,100.21404755,,,8760,0,0,0,0,weather_jma_gsm_2021_b11,not_collected,no_accepted_data:failed
+2021,75,Samut Songkhram,13.37691775,99.95434695604638,,,8760,0,0,0,0,weather_jma_gsm_2021_b12,not_collected,no_accepted_data:failed
+2021,76,Phetchaburi,12.937846,99.60082886730547,,,8760,0,0,0,0,weather_jma_gsm_2021_b12,not_collected,no_accepted_data:failed
+2021,77,Prachuap Khiri Khan,11.7940194,99.72574624361204,,,8760,0,0,0,0,weather_jma_gsm_2021_b12,not_collected,no_accepted_data:failed
+2021,80,Nakhon Si Thammarat,8.56069275,99.70986707492915,,,8760,0,0,0,0,weather_jma_gsm_2021_b12,not_collected,no_accepted_data:failed
+2021,81,Krabi,8.16618115,99.02322585396435,,,8760,0,0,0,0,weather_jma_gsm_2021_b12,not_collected,no_accepted_data:failed
+2021,82,Phang-Nga,8.741207,98.42384970042318,,,8760,0,0,0,0,weather_jma_gsm_2021_b13,not_collected,no_accepted_data:failed
+2021,83,Phuket,7.9789708,98.33552472767663,,,8760,0,0,0,0,weather_jma_gsm_2021_b13,not_collected,no_accepted_data:failed
+2021,84,Surat Thani,9.0522203,99.11393724558832,,,8760,0,0,0,0,weather_jma_gsm_2021_b13,not_collected,no_accepted_data:failed
+2021,85,Ranong,10.047964050000001,98.75789395884362,,,8760,0,0,0,0,weather_jma_gsm_2021_b13,not_collected,no_accepted_data:failed
+2021,86,Chumphon,10.3158414,99.04243685448078,,,8760,0,0,0,0,weather_jma_gsm_2021_b13,not_collected,no_accepted_data:failed
+2021,90,Songkhla,7.1125612,100.35718457197359,,,8760,0,0,0,0,weather_jma_gsm_2021_b14,not_collected,no_accepted_data:failed
+2021,91,Satun,6.78467455,99.99878712435566,,,8760,0,0,0,0,weather_jma_gsm_2021_b14,not_collected,no_accepted_data:failed
+2021,92,Trang,7.524143499999999,99.56727499143034,,,8760,0,0,0,0,weather_jma_gsm_2021_b14,not_collected,no_accepted_data:failed
+2021,93,Phatthalung,7.499451199999999,100.0490293902277,,,8760,0,0,0,0,weather_jma_gsm_2021_b14,not_collected,no_accepted_data:failed
+2021,94,Pattani,6.743331899999999,101.32690431961396,,,8760,0,0,0,0,weather_jma_gsm_2021_b14,not_collected,no_accepted_data:failed
+2021,95,Yala,6.146459,101.23785806827593,,,8760,0,0,0,0,weather_jma_gsm_2021_b15,not_collected,no_accepted_data:failed
+2021,96,Narathiwat,6.185983650000001,101.73370837620843,,,8760,0,0,0,0,weather_jma_gsm_2021_b15,not_collected,no_accepted_data:failed
+2022,10,Bangkok,13.72443265,100.60338529167579,,,8760,0,0,0,0,weather_jma_gsm_2022_b00,not_collected,no_accepted_data:failed
+2022,11,Samut Prakan,13.5985736,100.71990360606564,,,8760,0,0,0,0,weather_jma_gsm_2022_b00,not_collected,no_accepted_data:failed
+2022,12,Nonthaburi,13.964864250000002,100.3836551020613,,,8760,0,0,0,0,weather_jma_gsm_2022_b00,not_collected,no_accepted_data:failed
+2022,13,Pathum Thani,14.09527305,100.6276547583761,,,8760,0,0,0,0,weather_jma_gsm_2022_b00,not_collected,no_accepted_data:failed
+2022,14,Phra Nakhon Si Ayutthaya,14.3972206,100.53194461258316,,,8760,0,0,0,0,weather_jma_gsm_2022_b00,not_collected,no_accepted_data:failed
+2022,15,Ang Thong,14.622914300000001,100.36075512577705,,,8760,0,0,0,0,weather_jma_gsm_2022_b01,not_collected,no_accepted_data:failed
+2022,16,Lop Buri,15.07624815,100.88686597706912,,,8760,0,0,0,0,weather_jma_gsm_2022_b01,not_collected,no_accepted_data:failed
+2022,17,Sing Buri,14.946109799999999,100.32868428774287,,,8760,0,0,0,0,weather_jma_gsm_2022_b01,not_collected,no_accepted_data:failed
+2022,18,Chai Nat,15.1636095,100.02586225445759,,,8760,0,0,0,0,weather_jma_gsm_2022_b01,not_collected,no_accepted_data:failed
+2022,19,Saraburi,14.62135455,100.89166175812957,,,8760,0,0,0,0,weather_jma_gsm_2022_b01,not_collected,no_accepted_data:failed
+2022,20,Chon Buri,13.0923586,101.22550427239965,,,8760,0,0,0,0,weather_jma_gsm_2022_b02,not_collected,no_accepted_data:failed
+2022,21,Rayong,12.866803149999999,101.44234646455587,,,8760,0,0,0,0,weather_jma_gsm_2022_b02,not_collected,no_accepted_data:failed
+2022,22,Chanthaburi,12.8165656,102.17868946338807,,,8760,0,0,0,0,weather_jma_gsm_2022_b02,not_collected,no_accepted_data:failed
+2022,23,Trat,12.20098845,102.42951832061647,,,8760,0,0,0,0,weather_jma_gsm_2022_b02,not_collected,no_accepted_data:failed
+2022,24,Chachoengsao,13.573741,101.58895375382073,,,8760,0,0,0,0,weather_jma_gsm_2022_b02,not_collected,no_accepted_data:failed
+2022,25,Prachin Buri,14.02166555,101.64494587039341,,,8760,0,0,0,0,weather_jma_gsm_2022_b03,not_collected,no_accepted_data:failed
+2022,26,Nakhon Nayok,14.234858500000001,101.16791105063982,,,8760,0,0,0,0,weather_jma_gsm_2022_b03,not_collected,no_accepted_data:failed
+2022,27,Sa Kaeo,13.673167750000001,102.28269834713345,,,8760,0,0,0,0,weather_jma_gsm_2022_b03,not_collected,no_accepted_data:failed
+2022,30,Nakhon Ratchasima,14.948192599999999,101.98987960096676,,,8760,0,0,0,0,weather_jma_gsm_2022_b03,not_collected,no_accepted_data:failed
+2022,31,Buri Ram,14.96027565,103.06839341795057,,,8760,0,0,0,0,weather_jma_gsm_2022_b03,not_collected,no_accepted_data:failed
+2022,32,Surin,14.906581200000002,103.66974057337822,,,8760,0,0,0,0,weather_jma_gsm_2022_b04,not_collected,no_accepted_data:failed
+2022,33,Si Sa Ket,14.94958115,104.33497173306091,,,8760,0,0,0,0,weather_jma_gsm_2022_b04,not_collected,no_accepted_data:failed
+2022,34,Ubon Ratchathani,15.153720499999999,105.10712629961651,,,8760,0,0,0,0,weather_jma_gsm_2022_b04,not_collected,no_accepted_data:failed
+2022,35,Yasothon,15.81500655,104.27250867510719,,,8760,0,0,0,0,weather_jma_gsm_2022_b04,not_collected,no_accepted_data:failed
+2022,36,Chaiyaphum,15.960413899999999,101.88040978393639,,,8760,0,0,0,0,weather_jma_gsm_2022_b04,not_collected,no_accepted_data:failed
+2022,37,Amnat Charoen,15.915693300000001,104.7310667306233,,,8760,0,0,0,0,weather_jma_gsm_2022_b05,not_collected,no_accepted_data:failed
+2022,38,Bueng Kan,18.105615999999998,103.7259613016848,,,8760,0,0,0,0,weather_jma_gsm_2022_b05,not_collected,no_accepted_data:failed
+2022,39,Nong Bua Lam Phu,17.222446599999998,102.24185313182262,,,8760,0,0,0,0,weather_jma_gsm_2022_b05,not_collected,no_accepted_data:failed
+2022,40,Khon Kaen,16.3484688,102.68346957887485,,,8760,0,0,0,0,weather_jma_gsm_2022_b05,not_collected,no_accepted_data:failed
+2022,41,Udon Thani,17.45709985,102.83648125691361,,,8760,0,0,0,0,weather_jma_gsm_2022_b05,not_collected,no_accepted_data:failed
+2022,42,Loei,17.487229499999998,101.64835304996132,,,8760,0,0,0,0,weather_jma_gsm_2022_b06,not_collected,no_accepted_data:failed
+2022,43,Nong Khai,17.94633975,103.1121344154239,,,8760,0,0,0,0,weather_jma_gsm_2022_b06,not_collected,no_accepted_data:failed
+2022,44,Maha Sarakham,16.0241642,103.19295396046545,,,8760,0,0,0,0,weather_jma_gsm_2022_b06,not_collected,no_accepted_data:failed
+2022,45,Roi Et,15.93811835,103.76502284741024,,,8760,0,0,0,0,weather_jma_gsm_2022_b06,not_collected,no_accepted_data:failed
+2022,46,Kalasin,16.6464329,103.67065100495208,,,8760,0,0,0,0,weather_jma_gsm_2022_b06,not_collected,no_accepted_data:failed
+2022,47,Sakon Nakhon,17.42041205,103.65580590958365,,,8760,0,0,0,0,weather_jma_gsm_2022_b07,not_collected,no_accepted_data:failed
+2022,48,Nakhon Phanom,17.4154129,104.60218529664346,,,8760,0,0,0,0,weather_jma_gsm_2022_b07,not_collected,no_accepted_data:failed
+2022,49,Mukdahan,16.543609,104.48047601285035,,,8760,0,0,0,0,weather_jma_gsm_2022_b07,not_collected,no_accepted_data:failed
+2022,50,Chiang Mai,18.697494550000002,98.61771186772636,,,8760,0,0,0,0,weather_jma_gsm_2022_b07,not_collected,no_accepted_data:failed
+2022,51,Lamphun,18.0688858,98.93839718913492,,,8760,0,0,0,0,weather_jma_gsm_2022_b07,not_collected,no_accepted_data:failed
+2022,52,Lampang,18.3540249,99.55772966614919,,,8760,0,0,0,0,weather_jma_gsm_2022_b08,not_collected,no_accepted_data:failed
+2022,53,Uttaradit,17.77191755,100.46378529063892,,,8760,0,0,0,0,weather_jma_gsm_2022_b08,not_collected,no_accepted_data:failed
+2022,54,Phrae,18.2493019,100.1664780145754,,,8760,0,0,0,0,weather_jma_gsm_2022_b08,not_collected,no_accepted_data:failed
+2022,55,Nan,18.823912,100.79290810478656,,,8760,0,0,0,0,weather_jma_gsm_2022_b08,not_collected,no_accepted_data:failed
+2022,56,Phayao,19.27083015,100.15256928907036,,,8760,0,0,0,0,weather_jma_gsm_2022_b08,not_collected,no_accepted_data:failed
+2022,57,Chiang Rai,19.732084450000002,99.88474372876234,,,8760,0,0,0,0,weather_jma_gsm_2022_b09,not_collected,no_accepted_data:failed
+2022,58,Mae Hong Son,18.690552500000003,97.94022528491514,,,8760,0,0,0,0,weather_jma_gsm_2022_b09,not_collected,no_accepted_data:failed
+2022,60,Nakhon Sawan,15.6976768,100.05791517588676,,,8760,0,0,0,0,weather_jma_gsm_2022_b09,not_collected,no_accepted_data:failed
+2022,61,Uthai Thani,15.3598637,99.55306020365907,,,8760,0,0,0,0,weather_jma_gsm_2022_b09,not_collected,no_accepted_data:failed
+2022,62,Kamphaeng Phet,16.336007549999998,99.51987300899806,,,8760,0,0,0,0,weather_jma_gsm_2022_b09,not_collected,no_accepted_data:failed
+2022,63,Tak,16.465842799999997,98.82092191630089,,,8760,0,0,0,0,weather_jma_gsm_2022_b10,not_collected,no_accepted_data:failed
+2022,64,Sukhothai,17.25321445,99.71365696394624,,,8760,0,0,0,0,weather_jma_gsm_2022_b10,not_collected,no_accepted_data:failed
+2022,65,Phitsanulok,17.0458608,100.53112940961353,,,8760,0,0,0,0,weather_jma_gsm_2022_b10,not_collected,no_accepted_data:failed
+2022,66,Phichit,16.252080900000003,100.36497667992526,,,8760,0,0,0,0,weather_jma_gsm_2022_b10,not_collected,no_accepted_data:failed
+2022,67,Phetchabun,16.2077732,101.01168247754299,,,8760,0,0,0,0,weather_jma_gsm_2022_b10,not_collected,no_accepted_data:failed
+2022,70,Ratchaburi,13.542992,99.61944465098878,,,8760,0,0,0,0,weather_jma_gsm_2022_b11,not_collected,no_accepted_data:failed
+2022,71,Kanchanaburi,14.694530499999999,98.90540915049122,,,8760,0,0,0,0,weather_jma_gsm_2022_b11,not_collected,no_accepted_data:failed
+2022,72,Suphan Buri,14.5686083,100.04149004634226,,,8760,0,0,0,0,weather_jma_gsm_2022_b11,not_collected,no_accepted_data:failed
+2022,73,Nakhon Pathom,13.913635249999999,100.11300579787539,,,8760,0,0,0,0,weather_jma_gsm_2022_b11,not_collected,no_accepted_data:failed
+2022,74,Samut Sakhon,13.57440785,100.21404755,,,8760,0,0,0,0,weather_jma_gsm_2022_b11,not_collected,no_accepted_data:failed
+2022,75,Samut Songkhram,13.37691775,99.95434695604638,,,8760,0,0,0,0,weather_jma_gsm_2022_b12,not_collected,no_accepted_data:failed
+2022,76,Phetchaburi,12.937846,99.60082886730547,,,8760,0,0,0,0,weather_jma_gsm_2022_b12,not_collected,no_accepted_data:failed
+2022,77,Prachuap Khiri Khan,11.7940194,99.72574624361204,,,8760,0,0,0,0,weather_jma_gsm_2022_b12,not_collected,no_accepted_data:failed
+2022,80,Nakhon Si Thammarat,8.56069275,99.70986707492915,,,8760,0,0,0,0,weather_jma_gsm_2022_b12,not_collected,no_accepted_data:failed
+2022,81,Krabi,8.16618115,99.02322585396435,,,8760,0,0,0,0,weather_jma_gsm_2022_b12,not_collected,no_accepted_data:failed
+2022,82,Phang-Nga,8.741207,98.42384970042318,,,8760,0,0,0,0,weather_jma_gsm_2022_b13,not_collected,no_accepted_data:failed
+2022,83,Phuket,7.9789708,98.33552472767663,,,8760,0,0,0,0,weather_jma_gsm_2022_b13,not_collected,no_accepted_data:failed
+2022,84,Surat Thani,9.0522203,99.11393724558832,,,8760,0,0,0,0,weather_jma_gsm_2022_b13,not_collected,no_accepted_data:failed
+2022,85,Ranong,10.047964050000001,98.75789395884362,,,8760,0,0,0,0,weather_jma_gsm_2022_b13,not_collected,no_accepted_data:failed
+2022,86,Chumphon,10.3158414,99.04243685448078,,,8760,0,0,0,0,weather_jma_gsm_2022_b13,not_collected,no_accepted_data:failed
+2022,90,Songkhla,7.1125612,100.35718457197359,,,8760,0,0,0,0,weather_jma_gsm_2022_b14,not_collected,no_accepted_data:failed
+2022,91,Satun,6.78467455,99.99878712435566,,,8760,0,0,0,0,weather_jma_gsm_2022_b14,not_collected,no_accepted_data:failed
+2022,92,Trang,7.524143499999999,99.56727499143034,,,8760,0,0,0,0,weather_jma_gsm_2022_b14,not_collected,no_accepted_data:failed
+2022,93,Phatthalung,7.499451199999999,100.0490293902277,,,8760,0,0,0,0,weather_jma_gsm_2022_b14,not_collected,no_accepted_data:failed
+2022,94,Pattani,6.743331899999999,101.32690431961396,,,8760,0,0,0,0,weather_jma_gsm_2022_b14,not_collected,no_accepted_data:failed
+2022,95,Yala,6.146459,101.23785806827593,,,8760,0,0,0,0,weather_jma_gsm_2022_b15,not_collected,no_accepted_data:failed
+2022,96,Narathiwat,6.185983650000001,101.73370837620843,,,8760,0,0,0,0,weather_jma_gsm_2022_b15,not_collected,no_accepted_data:failed
+2023,10,Bangkok,13.72443265,100.60338529167579,,,8760,0,0,0,0,weather_jma_gsm_2023_b00,not_collected,no_accepted_data:failed
+2023,11,Samut Prakan,13.5985736,100.71990360606564,,,8760,0,0,0,0,weather_jma_gsm_2023_b00,not_collected,no_accepted_data:failed
+2023,12,Nonthaburi,13.964864250000002,100.3836551020613,,,8760,0,0,0,0,weather_jma_gsm_2023_b00,not_collected,no_accepted_data:failed
+2023,13,Pathum Thani,14.09527305,100.6276547583761,,,8760,0,0,0,0,weather_jma_gsm_2023_b00,not_collected,no_accepted_data:failed
+2023,14,Phra Nakhon Si Ayutthaya,14.3972206,100.53194461258316,,,8760,0,0,0,0,weather_jma_gsm_2023_b00,not_collected,no_accepted_data:failed
+2023,15,Ang Thong,14.622914300000001,100.36075512577705,,,8760,0,0,0,0,weather_jma_gsm_2023_b01,not_collected,no_accepted_data:failed
+2023,16,Lop Buri,15.07624815,100.88686597706912,,,8760,0,0,0,0,weather_jma_gsm_2023_b01,not_collected,no_accepted_data:failed
+2023,17,Sing Buri,14.946109799999999,100.32868428774287,,,8760,0,0,0,0,weather_jma_gsm_2023_b01,not_collected,no_accepted_data:failed
+2023,18,Chai Nat,15.1636095,100.02586225445759,,,8760,0,0,0,0,weather_jma_gsm_2023_b01,not_collected,no_accepted_data:failed
+2023,19,Saraburi,14.62135455,100.89166175812957,,,8760,0,0,0,0,weather_jma_gsm_2023_b01,not_collected,no_accepted_data:failed
+2023,20,Chon Buri,13.0923586,101.22550427239965,,,8760,0,0,0,0,weather_jma_gsm_2023_b02,not_collected,no_accepted_data:failed
+2023,21,Rayong,12.866803149999999,101.44234646455587,,,8760,0,0,0,0,weather_jma_gsm_2023_b02,not_collected,no_accepted_data:failed
+2023,22,Chanthaburi,12.8165656,102.17868946338807,,,8760,0,0,0,0,weather_jma_gsm_2023_b02,not_collected,no_accepted_data:failed
+2023,23,Trat,12.20098845,102.42951832061647,,,8760,0,0,0,0,weather_jma_gsm_2023_b02,not_collected,no_accepted_data:failed
+2023,24,Chachoengsao,13.573741,101.58895375382073,,,8760,0,0,0,0,weather_jma_gsm_2023_b02,not_collected,no_accepted_data:failed
+2023,25,Prachin Buri,14.02166555,101.64494587039341,,,8760,0,0,0,0,weather_jma_gsm_2023_b03,not_collected,no_accepted_data:failed
+2023,26,Nakhon Nayok,14.234858500000001,101.16791105063982,,,8760,0,0,0,0,weather_jma_gsm_2023_b03,not_collected,no_accepted_data:failed
+2023,27,Sa Kaeo,13.673167750000001,102.28269834713345,,,8760,0,0,0,0,weather_jma_gsm_2023_b03,not_collected,no_accepted_data:failed
+2023,30,Nakhon Ratchasima,14.948192599999999,101.98987960096676,,,8760,0,0,0,0,weather_jma_gsm_2023_b03,not_collected,no_accepted_data:failed
+2023,31,Buri Ram,14.96027565,103.06839341795057,,,8760,0,0,0,0,weather_jma_gsm_2023_b03,not_collected,no_accepted_data:failed
+2023,32,Surin,14.906581200000002,103.66974057337822,,,8760,0,0,0,0,weather_jma_gsm_2023_b04,not_collected,no_accepted_data:failed
+2023,33,Si Sa Ket,14.94958115,104.33497173306091,,,8760,0,0,0,0,weather_jma_gsm_2023_b04,not_collected,no_accepted_data:failed
+2023,34,Ubon Ratchathani,15.153720499999999,105.10712629961651,,,8760,0,0,0,0,weather_jma_gsm_2023_b04,not_collected,no_accepted_data:failed
+2023,35,Yasothon,15.81500655,104.27250867510719,,,8760,0,0,0,0,weather_jma_gsm_2023_b04,not_collected,no_accepted_data:failed
+2023,36,Chaiyaphum,15.960413899999999,101.88040978393639,,,8760,0,0,0,0,weather_jma_gsm_2023_b04,not_collected,no_accepted_data:failed
+2023,37,Amnat Charoen,15.915693300000001,104.7310667306233,,,8760,0,0,0,0,weather_jma_gsm_2023_b05,not_collected,no_accepted_data:failed
+2023,38,Bueng Kan,18.105615999999998,103.7259613016848,,,8760,0,0,0,0,weather_jma_gsm_2023_b05,not_collected,no_accepted_data:failed
+2023,39,Nong Bua Lam Phu,17.222446599999998,102.24185313182262,,,8760,0,0,0,0,weather_jma_gsm_2023_b05,not_collected,no_accepted_data:failed
+2023,40,Khon Kaen,16.3484688,102.68346957887485,,,8760,0,0,0,0,weather_jma_gsm_2023_b05,not_collected,no_accepted_data:failed
+2023,41,Udon Thani,17.45709985,102.83648125691361,,,8760,0,0,0,0,weather_jma_gsm_2023_b05,not_collected,no_accepted_data:failed
+2023,42,Loei,17.487229499999998,101.64835304996132,,,8760,0,0,0,0,weather_jma_gsm_2023_b06,not_collected,no_accepted_data:failed
+2023,43,Nong Khai,17.94633975,103.1121344154239,,,8760,0,0,0,0,weather_jma_gsm_2023_b06,not_collected,no_accepted_data:failed
+2023,44,Maha Sarakham,16.0241642,103.19295396046545,,,8760,0,0,0,0,weather_jma_gsm_2023_b06,not_collected,no_accepted_data:failed
+2023,45,Roi Et,15.93811835,103.76502284741024,,,8760,0,0,0,0,weather_jma_gsm_2023_b06,not_collected,no_accepted_data:failed
+2023,46,Kalasin,16.6464329,103.67065100495208,,,8760,0,0,0,0,weather_jma_gsm_2023_b06,not_collected,no_accepted_data:failed
+2023,47,Sakon Nakhon,17.42041205,103.65580590958365,,,8760,0,0,0,0,weather_jma_gsm_2023_b07,not_collected,no_accepted_data:failed
+2023,48,Nakhon Phanom,17.4154129,104.60218529664346,,,8760,0,0,0,0,weather_jma_gsm_2023_b07,not_collected,no_accepted_data:failed
+2023,49,Mukdahan,16.543609,104.48047601285035,,,8760,0,0,0,0,weather_jma_gsm_2023_b07,not_collected,no_accepted_data:failed
+2023,50,Chiang Mai,18.697494550000002,98.61771186772636,,,8760,0,0,0,0,weather_jma_gsm_2023_b07,not_collected,no_accepted_data:failed
+2023,51,Lamphun,18.0688858,98.93839718913492,,,8760,0,0,0,0,weather_jma_gsm_2023_b07,not_collected,no_accepted_data:failed
+2023,52,Lampang,18.3540249,99.55772966614919,,,8760,0,0,0,0,weather_jma_gsm_2023_b08,not_collected,no_accepted_data:failed
+2023,53,Uttaradit,17.77191755,100.46378529063892,,,8760,0,0,0,0,weather_jma_gsm_2023_b08,not_collected,no_accepted_data:failed
+2023,54,Phrae,18.2493019,100.1664780145754,,,8760,0,0,0,0,weather_jma_gsm_2023_b08,not_collected,no_accepted_data:failed
+2023,55,Nan,18.823912,100.79290810478656,,,8760,0,0,0,0,weather_jma_gsm_2023_b08,not_collected,no_accepted_data:failed
+2023,56,Phayao,19.27083015,100.15256928907036,,,8760,0,0,0,0,weather_jma_gsm_2023_b08,not_collected,no_accepted_data:failed
+2023,57,Chiang Rai,19.732084450000002,99.88474372876234,,,8760,0,0,0,0,weather_jma_gsm_2023_b09,not_collected,no_accepted_data:failed
+2023,58,Mae Hong Son,18.690552500000003,97.94022528491514,,,8760,0,0,0,0,weather_jma_gsm_2023_b09,not_collected,no_accepted_data:failed
+2023,60,Nakhon Sawan,15.6976768,100.05791517588676,,,8760,0,0,0,0,weather_jma_gsm_2023_b09,not_collected,no_accepted_data:failed
+2023,61,Uthai Thani,15.3598637,99.55306020365907,,,8760,0,0,0,0,weather_jma_gsm_2023_b09,not_collected,no_accepted_data:failed
+2023,62,Kamphaeng Phet,16.336007549999998,99.51987300899806,,,8760,0,0,0,0,weather_jma_gsm_2023_b09,not_collected,no_accepted_data:failed
+2023,63,Tak,16.465842799999997,98.82092191630089,,,8760,0,0,0,0,weather_jma_gsm_2023_b10,not_collected,no_accepted_data:failed
+2023,64,Sukhothai,17.25321445,99.71365696394624,,,8760,0,0,0,0,weather_jma_gsm_2023_b10,not_collected,no_accepted_data:failed
+2023,65,Phitsanulok,17.0458608,100.53112940961353,,,8760,0,0,0,0,weather_jma_gsm_2023_b10,not_collected,no_accepted_data:failed
+2023,66,Phichit,16.252080900000003,100.36497667992526,,,8760,0,0,0,0,weather_jma_gsm_2023_b10,not_collected,no_accepted_data:failed
+2023,67,Phetchabun,16.2077732,101.01168247754299,,,8760,0,0,0,0,weather_jma_gsm_2023_b10,not_collected,no_accepted_data:failed
+2023,70,Ratchaburi,13.542992,99.61944465098878,,,8760,0,0,0,0,weather_jma_gsm_2023_b11,not_collected,no_accepted_data:failed
+2023,71,Kanchanaburi,14.694530499999999,98.90540915049122,,,8760,0,0,0,0,weather_jma_gsm_2023_b11,not_collected,no_accepted_data:failed
+2023,72,Suphan Buri,14.5686083,100.04149004634226,,,8760,0,0,0,0,weather_jma_gsm_2023_b11,not_collected,no_accepted_data:failed
+2023,73,Nakhon Pathom,13.913635249999999,100.11300579787539,,,8760,0,0,0,0,weather_jma_gsm_2023_b11,not_collected,no_accepted_data:failed
+2023,74,Samut Sakhon,13.57440785,100.21404755,,,8760,0,0,0,0,weather_jma_gsm_2023_b11,not_collected,no_accepted_data:failed
+2023,75,Samut Songkhram,13.37691775,99.95434695604638,,,8760,0,0,0,0,weather_jma_gsm_2023_b12,not_collected,no_accepted_data:failed
+2023,76,Phetchaburi,12.937846,99.60082886730547,,,8760,0,0,0,0,weather_jma_gsm_2023_b12,not_collected,no_accepted_data:failed
+2023,77,Prachuap Khiri Khan,11.7940194,99.72574624361204,,,8760,0,0,0,0,weather_jma_gsm_2023_b12,not_collected,no_accepted_data:failed
+2023,80,Nakhon Si Thammarat,8.56069275,99.70986707492915,,,8760,0,0,0,0,weather_jma_gsm_2023_b12,not_collected,no_accepted_data:failed
+2023,81,Krabi,8.16618115,99.02322585396435,,,8760,0,0,0,0,weather_jma_gsm_2023_b12,not_collected,no_accepted_data:failed
+2023,82,Phang-Nga,8.741207,98.42384970042318,,,8760,0,0,0,0,weather_jma_gsm_2023_b13,not_collected,no_accepted_data:failed
+2023,83,Phuket,7.9789708,98.33552472767663,,,8760,0,0,0,0,weather_jma_gsm_2023_b13,not_collected,no_accepted_data:failed
+2023,84,Surat Thani,9.0522203,99.11393724558832,,,8760,0,0,0,0,weather_jma_gsm_2023_b13,not_collected,no_accepted_data:failed
+2023,85,Ranong,10.047964050000001,98.75789395884362,,,8760,0,0,0,0,weather_jma_gsm_2023_b13,not_collected,no_accepted_data:failed
+2023,86,Chumphon,10.3158414,99.04243685448078,,,8760,0,0,0,0,weather_jma_gsm_2023_b13,not_collected,no_accepted_data:failed
+2023,90,Songkhla,7.1125612,100.35718457197359,,,8760,0,0,0,0,weather_jma_gsm_2023_b14,not_collected,no_accepted_data:failed
+2023,91,Satun,6.78467455,99.99878712435566,,,8760,0,0,0,0,weather_jma_gsm_2023_b14,not_collected,no_accepted_data:failed
+2023,92,Trang,7.524143499999999,99.56727499143034,,,8760,0,0,0,0,weather_jma_gsm_2023_b14,not_collected,no_accepted_data:failed
+2023,93,Phatthalung,7.499451199999999,100.0490293902277,,,8760,0,0,0,0,weather_jma_gsm_2023_b14,not_collected,no_accepted_data:failed
+2023,94,Pattani,6.743331899999999,101.32690431961396,,,8760,0,0,0,0,weather_jma_gsm_2023_b14,not_collected,no_accepted_data:failed
+2023,95,Yala,6.146459,101.23785806827593,,,8760,0,0,0,0,weather_jma_gsm_2023_b15,not_collected,no_accepted_data:failed
+2023,96,Narathiwat,6.185983650000001,101.73370837620843,,,8760,0,0,0,0,weather_jma_gsm_2023_b15,not_collected,no_accepted_data:failed
+2024,10,Bangkok,13.72443265,100.60338529167579,,,8784,0,0,0,0,weather_jma_gsm_2024_b00,not_collected,no_accepted_data:failed
+2024,11,Samut Prakan,13.5985736,100.71990360606564,,,8784,0,0,0,0,weather_jma_gsm_2024_b00,not_collected,no_accepted_data:failed
+2024,12,Nonthaburi,13.964864250000002,100.3836551020613,,,8784,0,0,0,0,weather_jma_gsm_2024_b00,not_collected,no_accepted_data:failed
+2024,13,Pathum Thani,14.09527305,100.6276547583761,,,8784,0,0,0,0,weather_jma_gsm_2024_b00,not_collected,no_accepted_data:failed
+2024,14,Phra Nakhon Si Ayutthaya,14.3972206,100.53194461258316,,,8784,0,0,0,0,weather_jma_gsm_2024_b00,not_collected,no_accepted_data:failed
+2024,15,Ang Thong,14.622914300000001,100.36075512577705,,,8784,0,0,0,0,weather_jma_gsm_2024_b01,not_collected,no_accepted_data:failed
+2024,16,Lop Buri,15.07624815,100.88686597706912,,,8784,0,0,0,0,weather_jma_gsm_2024_b01,not_collected,no_accepted_data:failed
+2024,17,Sing Buri,14.946109799999999,100.32868428774287,,,8784,0,0,0,0,weather_jma_gsm_2024_b01,not_collected,no_accepted_data:failed
+2024,18,Chai Nat,15.1636095,100.02586225445759,,,8784,0,0,0,0,weather_jma_gsm_2024_b01,not_collected,no_accepted_data:failed
+2024,19,Saraburi,14.62135455,100.89166175812957,,,8784,0,0,0,0,weather_jma_gsm_2024_b01,not_collected,no_accepted_data:failed
+2024,20,Chon Buri,13.0923586,101.22550427239965,,,8784,0,0,0,0,weather_jma_gsm_2024_b02,not_collected,no_accepted_data:failed
+2024,21,Rayong,12.866803149999999,101.44234646455587,,,8784,0,0,0,0,weather_jma_gsm_2024_b02,not_collected,no_accepted_data:failed
+2024,22,Chanthaburi,12.8165656,102.17868946338807,,,8784,0,0,0,0,weather_jma_gsm_2024_b02,not_collected,no_accepted_data:failed
+2024,23,Trat,12.20098845,102.42951832061647,,,8784,0,0,0,0,weather_jma_gsm_2024_b02,not_collected,no_accepted_data:failed
+2024,24,Chachoengsao,13.573741,101.58895375382073,,,8784,0,0,0,0,weather_jma_gsm_2024_b02,not_collected,no_accepted_data:failed
+2024,25,Prachin Buri,14.02166555,101.64494587039341,,,8784,0,0,0,0,weather_jma_gsm_2024_b03,not_collected,no_accepted_data:failed
+2024,26,Nakhon Nayok,14.234858500000001,101.16791105063982,,,8784,0,0,0,0,weather_jma_gsm_2024_b03,not_collected,no_accepted_data:failed
+2024,27,Sa Kaeo,13.673167750000001,102.28269834713345,,,8784,0,0,0,0,weather_jma_gsm_2024_b03,not_collected,no_accepted_data:failed
+2024,30,Nakhon Ratchasima,14.948192599999999,101.98987960096676,,,8784,0,0,0,0,weather_jma_gsm_2024_b03,not_collected,no_accepted_data:failed
+2024,31,Buri Ram,14.96027565,103.06839341795057,,,8784,0,0,0,0,weather_jma_gsm_2024_b03,not_collected,no_accepted_data:failed
+2024,32,Surin,14.906581200000002,103.66974057337822,,,8784,0,0,0,0,weather_jma_gsm_2024_b04,not_collected,no_accepted_data:failed
+2024,33,Si Sa Ket,14.94958115,104.33497173306091,,,8784,0,0,0,0,weather_jma_gsm_2024_b04,not_collected,no_accepted_data:failed
+2024,34,Ubon Ratchathani,15.153720499999999,105.10712629961651,,,8784,0,0,0,0,weather_jma_gsm_2024_b04,not_collected,no_accepted_data:failed
+2024,35,Yasothon,15.81500655,104.27250867510719,,,8784,0,0,0,0,weather_jma_gsm_2024_b04,not_collected,no_accepted_data:failed
+2024,36,Chaiyaphum,15.960413899999999,101.88040978393639,,,8784,0,0,0,0,weather_jma_gsm_2024_b04,not_collected,no_accepted_data:failed
+2024,37,Amnat Charoen,15.915693300000001,104.7310667306233,,,8784,0,0,0,0,weather_jma_gsm_2024_b05,not_collected,no_accepted_data:failed
+2024,38,Bueng Kan,18.105615999999998,103.7259613016848,,,8784,0,0,0,0,weather_jma_gsm_2024_b05,not_collected,no_accepted_data:failed
+2024,39,Nong Bua Lam Phu,17.222446599999998,102.24185313182262,,,8784,0,0,0,0,weather_jma_gsm_2024_b05,not_collected,no_accepted_data:failed
+2024,40,Khon Kaen,16.3484688,102.68346957887485,,,8784,0,0,0,0,weather_jma_gsm_2024_b05,not_collected,no_accepted_data:failed
+2024,41,Udon Thani,17.45709985,102.83648125691361,,,8784,0,0,0,0,weather_jma_gsm_2024_b05,not_collected,no_accepted_data:failed
+2024,42,Loei,17.487229499999998,101.64835304996132,,,8784,0,0,0,0,weather_jma_gsm_2024_b06,not_collected,no_accepted_data:failed
+2024,43,Nong Khai,17.94633975,103.1121344154239,,,8784,0,0,0,0,weather_jma_gsm_2024_b06,not_collected,no_accepted_data:failed
+2024,44,Maha Sarakham,16.0241642,103.19295396046545,,,8784,0,0,0,0,weather_jma_gsm_2024_b06,not_collected,no_accepted_data:failed
+2024,45,Roi Et,15.93811835,103.76502284741024,,,8784,0,0,0,0,weather_jma_gsm_2024_b06,not_collected,no_accepted_data:failed
+2024,46,Kalasin,16.6464329,103.67065100495208,,,8784,0,0,0,0,weather_jma_gsm_2024_b06,not_collected,no_accepted_data:failed
+2024,47,Sakon Nakhon,17.42041205,103.65580590958365,,,8784,0,0,0,0,weather_jma_gsm_2024_b07,not_collected,no_accepted_data:failed
+2024,48,Nakhon Phanom,17.4154129,104.60218529664346,,,8784,0,0,0,0,weather_jma_gsm_2024_b07,not_collected,no_accepted_data:failed
+2024,49,Mukdahan,16.543609,104.48047601285035,,,8784,0,0,0,0,weather_jma_gsm_2024_b07,not_collected,no_accepted_data:failed
+2024,50,Chiang Mai,18.697494550000002,98.61771186772636,,,8784,0,0,0,0,weather_jma_gsm_2024_b07,not_collected,no_accepted_data:failed
+2024,51,Lamphun,18.0688858,98.93839718913492,,,8784,0,0,0,0,weather_jma_gsm_2024_b07,not_collected,no_accepted_data:failed
+2024,52,Lampang,18.3540249,99.55772966614919,,,8784,0,0,0,0,weather_jma_gsm_2024_b08,not_collected,no_accepted_data:failed
+2024,53,Uttaradit,17.77191755,100.46378529063892,,,8784,0,0,0,0,weather_jma_gsm_2024_b08,not_collected,no_accepted_data:failed
+2024,54,Phrae,18.2493019,100.1664780145754,,,8784,0,0,0,0,weather_jma_gsm_2024_b08,not_collected,no_accepted_data:failed
+2024,55,Nan,18.823912,100.79290810478656,,,8784,0,0,0,0,weather_jma_gsm_2024_b08,not_collected,no_accepted_data:failed
+2024,56,Phayao,19.27083015,100.15256928907036,,,8784,0,0,0,0,weather_jma_gsm_2024_b08,not_collected,no_accepted_data:failed
+2024,57,Chiang Rai,19.732084450000002,99.88474372876234,,,8784,0,0,0,0,weather_jma_gsm_2024_b09,not_collected,no_accepted_data:failed
+2024,58,Mae Hong Son,18.690552500000003,97.94022528491514,,,8784,0,0,0,0,weather_jma_gsm_2024_b09,not_collected,no_accepted_data:failed
+2024,60,Nakhon Sawan,15.6976768,100.05791517588676,,,8784,0,0,0,0,weather_jma_gsm_2024_b09,not_collected,no_accepted_data:failed
+2024,61,Uthai Thani,15.3598637,99.55306020365907,,,8784,0,0,0,0,weather_jma_gsm_2024_b09,not_collected,no_accepted_data:failed
+2024,62,Kamphaeng Phet,16.336007549999998,99.51987300899806,,,8784,0,0,0,0,weather_jma_gsm_2024_b09,not_collected,no_accepted_data:failed
+2024,63,Tak,16.465842799999997,98.82092191630089,,,8784,0,0,0,0,weather_jma_gsm_2024_b10,not_collected,no_accepted_data:failed
+2024,64,Sukhothai,17.25321445,99.71365696394624,,,8784,0,0,0,0,weather_jma_gsm_2024_b10,not_collected,no_accepted_data:failed
+2024,65,Phitsanulok,17.0458608,100.53112940961353,,,8784,0,0,0,0,weather_jma_gsm_2024_b10,not_collected,no_accepted_data:failed
+2024,66,Phichit,16.252080900000003,100.36497667992526,,,8784,0,0,0,0,weather_jma_gsm_2024_b10,not_collected,no_accepted_data:failed
+2024,67,Phetchabun,16.2077732,101.01168247754299,,,8784,0,0,0,0,weather_jma_gsm_2024_b10,not_collected,no_accepted_data:failed
+2024,70,Ratchaburi,13.542992,99.61944465098878,,,8784,0,0,0,0,weather_jma_gsm_2024_b11,not_collected,no_accepted_data:failed
+2024,71,Kanchanaburi,14.694530499999999,98.90540915049122,,,8784,0,0,0,0,weather_jma_gsm_2024_b11,not_collected,no_accepted_data:failed
+2024,72,Suphan Buri,14.5686083,100.04149004634226,,,8784,0,0,0,0,weather_jma_gsm_2024_b11,not_collected,no_accepted_data:failed
+2024,73,Nakhon Pathom,13.913635249999999,100.11300579787539,,,8784,0,0,0,0,weather_jma_gsm_2024_b11,not_collected,no_accepted_data:failed
+2024,74,Samut Sakhon,13.57440785,100.21404755,,,8784,0,0,0,0,weather_jma_gsm_2024_b11,not_collected,no_accepted_data:failed
+2024,75,Samut Songkhram,13.37691775,99.95434695604638,,,8784,0,0,0,0,weather_jma_gsm_2024_b12,not_collected,no_accepted_data:failed
+2024,76,Phetchaburi,12.937846,99.60082886730547,,,8784,0,0,0,0,weather_jma_gsm_2024_b12,not_collected,no_accepted_data:failed
+2024,77,Prachuap Khiri Khan,11.7940194,99.72574624361204,,,8784,0,0,0,0,weather_jma_gsm_2024_b12,not_collected,no_accepted_data:failed
+2024,80,Nakhon Si Thammarat,8.56069275,99.70986707492915,,,8784,0,0,0,0,weather_jma_gsm_2024_b12,not_collected,no_accepted_data:failed
+2024,81,Krabi,8.16618115,99.02322585396435,,,8784,0,0,0,0,weather_jma_gsm_2024_b12,not_collected,no_accepted_data:failed
+2024,82,Phang-Nga,8.741207,98.42384970042318,,,8784,0,0,0,0,weather_jma_gsm_2024_b13,not_collected,no_accepted_data:failed
+2024,83,Phuket,7.9789708,98.33552472767663,,,8784,0,0,0,0,weather_jma_gsm_2024_b13,not_collected,no_accepted_data:failed
+2024,84,Surat Thani,9.0522203,99.11393724558832,,,8784,0,0,0,0,weather_jma_gsm_2024_b13,not_collected,no_accepted_data:failed
+2024,85,Ranong,10.047964050000001,98.75789395884362,,,8784,0,0,0,0,weather_jma_gsm_2024_b13,not_collected,no_accepted_data:failed
+2024,86,Chumphon,10.3158414,99.04243685448078,,,8784,0,0,0,0,weather_jma_gsm_2024_b13,not_collected,no_accepted_data:failed
+2024,90,Songkhla,7.1125612,100.35718457197359,,,8784,0,0,0,0,weather_jma_gsm_2024_b14,not_collected,no_accepted_data:failed
+2024,91,Satun,6.78467455,99.99878712435566,,,8784,0,0,0,0,weather_jma_gsm_2024_b14,not_collected,no_accepted_data:failed
+2024,92,Trang,7.524143499999999,99.56727499143034,,,8784,0,0,0,0,weather_jma_gsm_2024_b14,not_collected,no_accepted_data:failed
+2024,93,Phatthalung,7.499451199999999,100.0490293902277,,,8784,0,0,0,0,weather_jma_gsm_2024_b14,not_collected,no_accepted_data:failed
+2024,94,Pattani,6.743331899999999,101.32690431961396,,,8784,0,0,0,0,weather_jma_gsm_2024_b14,not_collected,no_accepted_data:failed
+2024,95,Yala,6.146459,101.23785806827593,,,8784,0,0,0,0,weather_jma_gsm_2024_b15,not_collected,no_accepted_data:failed
+2024,96,Narathiwat,6.185983650000001,101.73370837620843,,,8784,0,0,0,0,weather_jma_gsm_2024_b15,not_collected,no_accepted_data:failed
+2025,10,Bangkok,13.72443265,100.60338529167579,,,8760,0,0,0,0,weather_jma_gsm_2025_b00,not_collected,no_accepted_data:failed
+2025,11,Samut Prakan,13.5985736,100.71990360606564,,,8760,0,0,0,0,weather_jma_gsm_2025_b00,not_collected,no_accepted_data:failed
+2025,12,Nonthaburi,13.964864250000002,100.3836551020613,,,8760,0,0,0,0,weather_jma_gsm_2025_b00,not_collected,no_accepted_data:failed
+2025,13,Pathum Thani,14.09527305,100.6276547583761,,,8760,0,0,0,0,weather_jma_gsm_2025_b00,not_collected,no_accepted_data:failed
+2025,14,Phra Nakhon Si Ayutthaya,14.3972206,100.53194461258316,,,8760,0,0,0,0,weather_jma_gsm_2025_b00,not_collected,no_accepted_data:failed
+2025,15,Ang Thong,14.622914300000001,100.36075512577705,,,8760,0,0,0,0,weather_jma_gsm_2025_b01,not_collected,no_accepted_data:failed
+2025,16,Lop Buri,15.07624815,100.88686597706912,,,8760,0,0,0,0,weather_jma_gsm_2025_b01,not_collected,no_accepted_data:failed
+2025,17,Sing Buri,14.946109799999999,100.32868428774287,,,8760,0,0,0,0,weather_jma_gsm_2025_b01,not_collected,no_accepted_data:failed
+2025,18,Chai Nat,15.1636095,100.02586225445759,,,8760,0,0,0,0,weather_jma_gsm_2025_b01,not_collected,no_accepted_data:failed
+2025,19,Saraburi,14.62135455,100.89166175812957,,,8760,0,0,0,0,weather_jma_gsm_2025_b01,not_collected,no_accepted_data:failed
+2025,20,Chon Buri,13.0923586,101.22550427239965,,,8760,0,0,0,0,weather_jma_gsm_2025_b02,not_collected,no_accepted_data:failed
+2025,21,Rayong,12.866803149999999,101.44234646455587,,,8760,0,0,0,0,weather_jma_gsm_2025_b02,not_collected,no_accepted_data:failed
+2025,22,Chanthaburi,12.8165656,102.17868946338807,,,8760,0,0,0,0,weather_jma_gsm_2025_b02,not_collected,no_accepted_data:failed
+2025,23,Trat,12.20098845,102.42951832061647,,,8760,0,0,0,0,weather_jma_gsm_2025_b02,not_collected,no_accepted_data:failed
+2025,24,Chachoengsao,13.573741,101.58895375382073,,,8760,0,0,0,0,weather_jma_gsm_2025_b02,not_collected,no_accepted_data:failed
+2025,25,Prachin Buri,14.02166555,101.64494587039341,,,8760,0,0,0,0,weather_jma_gsm_2025_b03,not_collected,no_accepted_data:failed
+2025,26,Nakhon Nayok,14.234858500000001,101.16791105063982,,,8760,0,0,0,0,weather_jma_gsm_2025_b03,not_collected,no_accepted_data:failed
+2025,27,Sa Kaeo,13.673167750000001,102.28269834713345,,,8760,0,0,0,0,weather_jma_gsm_2025_b03,not_collected,no_accepted_data:failed
+2025,30,Nakhon Ratchasima,14.948192599999999,101.98987960096676,,,8760,0,0,0,0,weather_jma_gsm_2025_b03,not_collected,no_accepted_data:failed
+2025,31,Buri Ram,14.96027565,103.06839341795057,,,8760,0,0,0,0,weather_jma_gsm_2025_b03,not_collected,no_accepted_data:failed
+2025,32,Surin,14.906581200000002,103.66974057337822,,,8760,0,0,0,0,weather_jma_gsm_2025_b04,not_collected,no_accepted_data:failed
+2025,33,Si Sa Ket,14.94958115,104.33497173306091,,,8760,0,0,0,0,weather_jma_gsm_2025_b04,not_collected,no_accepted_data:failed
+2025,34,Ubon Ratchathani,15.153720499999999,105.10712629961651,,,8760,0,0,0,0,weather_jma_gsm_2025_b04,not_collected,no_accepted_data:failed
+2025,35,Yasothon,15.81500655,104.27250867510719,,,8760,0,0,0,0,weather_jma_gsm_2025_b04,not_collected,no_accepted_data:failed
+2025,36,Chaiyaphum,15.960413899999999,101.88040978393639,,,8760,0,0,0,0,weather_jma_gsm_2025_b04,not_collected,no_accepted_data:failed
+2025,37,Amnat Charoen,15.915693300000001,104.7310667306233,,,8760,0,0,0,0,weather_jma_gsm_2025_b05,not_collected,no_accepted_data:failed
+2025,38,Bueng Kan,18.105615999999998,103.7259613016848,,,8760,0,0,0,0,weather_jma_gsm_2025_b05,not_collected,no_accepted_data:failed
+2025,39,Nong Bua Lam Phu,17.222446599999998,102.24185313182262,,,8760,0,0,0,0,weather_jma_gsm_2025_b05,not_collected,no_accepted_data:failed
+2025,40,Khon Kaen,16.3484688,102.68346957887485,,,8760,0,0,0,0,weather_jma_gsm_2025_b05,not_collected,no_accepted_data:failed
+2025,41,Udon Thani,17.45709985,102.83648125691361,,,8760,0,0,0,0,weather_jma_gsm_2025_b05,not_collected,no_accepted_data:failed
+2025,42,Loei,17.487229499999998,101.64835304996132,,,8760,0,0,0,0,weather_jma_gsm_2025_b06,not_collected,no_accepted_data:failed
+2025,43,Nong Khai,17.94633975,103.1121344154239,,,8760,0,0,0,0,weather_jma_gsm_2025_b06,not_collected,no_accepted_data:failed
+2025,44,Maha Sarakham,16.0241642,103.19295396046545,,,8760,0,0,0,0,weather_jma_gsm_2025_b06,not_collected,no_accepted_data:failed
+2025,45,Roi Et,15.93811835,103.76502284741024,,,8760,0,0,0,0,weather_jma_gsm_2025_b06,not_collected,no_accepted_data:failed
+2025,46,Kalasin,16.6464329,103.67065100495208,,,8760,0,0,0,0,weather_jma_gsm_2025_b06,not_collected,no_accepted_data:failed
+2025,47,Sakon Nakhon,17.42041205,103.65580590958365,,,8760,0,0,0,0,weather_jma_gsm_2025_b07,not_collected,no_accepted_data:failed
+2025,48,Nakhon Phanom,17.4154129,104.60218529664346,,,8760,0,0,0,0,weather_jma_gsm_2025_b07,not_collected,no_accepted_data:failed
+2025,49,Mukdahan,16.543609,104.48047601285035,,,8760,0,0,0,0,weather_jma_gsm_2025_b07,not_collected,no_accepted_data:failed
+2025,50,Chiang Mai,18.697494550000002,98.61771186772636,,,8760,0,0,0,0,weather_jma_gsm_2025_b07,not_collected,no_accepted_data:failed
+2025,51,Lamphun,18.0688858,98.93839718913492,,,8760,0,0,0,0,weather_jma_gsm_2025_b07,not_collected,no_accepted_data:failed
+2025,52,Lampang,18.3540249,99.55772966614919,,,8760,0,0,0,0,weather_jma_gsm_2025_b08,not_collected,no_accepted_data:failed
+2025,53,Uttaradit,17.77191755,100.46378529063892,,,8760,0,0,0,0,weather_jma_gsm_2025_b08,not_collected,no_accepted_data:failed
+2025,54,Phrae,18.2493019,100.1664780145754,,,8760,0,0,0,0,weather_jma_gsm_2025_b08,not_collected,no_accepted_data:failed
+2025,55,Nan,18.823912,100.79290810478656,,,8760,0,0,0,0,weather_jma_gsm_2025_b08,not_collected,no_accepted_data:failed
+2025,56,Phayao,19.27083015,100.15256928907036,,,8760,0,0,0,0,weather_jma_gsm_2025_b08,not_collected,no_accepted_data:failed
+2025,57,Chiang Rai,19.732084450000002,99.88474372876234,,,8760,0,0,0,0,weather_jma_gsm_2025_b09,not_collected,no_accepted_data:failed
+2025,58,Mae Hong Son,18.690552500000003,97.94022528491514,,,8760,0,0,0,0,weather_jma_gsm_2025_b09,not_collected,no_accepted_data:failed
+2025,60,Nakhon Sawan,15.6976768,100.05791517588676,,,8760,0,0,0,0,weather_jma_gsm_2025_b09,not_collected,no_accepted_data:failed
+2025,61,Uthai Thani,15.3598637,99.55306020365907,,,8760,0,0,0,0,weather_jma_gsm_2025_b09,not_collected,no_accepted_data:failed
+2025,62,Kamphaeng Phet,16.336007549999998,99.51987300899806,,,8760,0,0,0,0,weather_jma_gsm_2025_b09,not_collected,no_accepted_data:failed
+2025,63,Tak,16.465842799999997,98.82092191630089,,,8760,0,0,0,0,weather_jma_gsm_2025_b10,not_collected,no_accepted_data:failed
+2025,64,Sukhothai,17.25321445,99.71365696394624,,,8760,0,0,0,0,weather_jma_gsm_2025_b10,not_collected,no_accepted_data:failed
+2025,65,Phitsanulok,17.0458608,100.53112940961353,,,8760,0,0,0,0,weather_jma_gsm_2025_b10,not_collected,no_accepted_data:failed
+2025,66,Phichit,16.252080900000003,100.36497667992526,,,8760,0,0,0,0,weather_jma_gsm_2025_b10,not_collected,no_accepted_data:failed
+2025,67,Phetchabun,16.2077732,101.01168247754299,,,8760,0,0,0,0,weather_jma_gsm_2025_b10,not_collected,no_accepted_data:failed
+2025,70,Ratchaburi,13.542992,99.61944465098878,,,8760,0,0,0,0,weather_jma_gsm_2025_b11,not_collected,no_accepted_data:failed
+2025,71,Kanchanaburi,14.694530499999999,98.90540915049122,,,8760,0,0,0,0,weather_jma_gsm_2025_b11,not_collected,no_accepted_data:failed
+2025,72,Suphan Buri,14.5686083,100.04149004634226,,,8760,0,0,0,0,weather_jma_gsm_2025_b11,not_collected,no_accepted_data:failed
+2025,73,Nakhon Pathom,13.913635249999999,100.11300579787539,,,8760,0,0,0,0,weather_jma_gsm_2025_b11,not_collected,no_accepted_data:failed
+2025,74,Samut Sakhon,13.57440785,100.21404755,,,8760,0,0,0,0,weather_jma_gsm_2025_b11,not_collected,no_accepted_data:failed
+2025,75,Samut Songkhram,13.37691775,99.95434695604638,,,8760,0,0,0,0,weather_jma_gsm_2025_b12,not_collected,no_accepted_data:failed
+2025,76,Phetchaburi,12.937846,99.60082886730547,,,8760,0,0,0,0,weather_jma_gsm_2025_b12,not_collected,no_accepted_data:failed
+2025,77,Prachuap Khiri Khan,11.7940194,99.72574624361204,,,8760,0,0,0,0,weather_jma_gsm_2025_b12,not_collected,no_accepted_data:failed
+2025,80,Nakhon Si Thammarat,8.56069275,99.70986707492915,,,8760,0,0,0,0,weather_jma_gsm_2025_b12,not_collected,no_accepted_data:failed
+2025,81,Krabi,8.16618115,99.02322585396435,,,8760,0,0,0,0,weather_jma_gsm_2025_b12,not_collected,no_accepted_data:failed
+2025,82,Phang-Nga,8.741207,98.42384970042318,,,8760,0,0,0,0,weather_jma_gsm_2025_b13,not_collected,no_accepted_data:failed
+2025,83,Phuket,7.9789708,98.33552472767663,,,8760,0,0,0,0,weather_jma_gsm_2025_b13,not_collected,no_accepted_data:failed
+2025,84,Surat Thani,9.0522203,99.11393724558832,,,8760,0,0,0,0,weather_jma_gsm_2025_b13,not_collected,no_accepted_data:failed
+2025,85,Ranong,10.047964050000001,98.75789395884362,,,8760,0,0,0,0,weather_jma_gsm_2025_b13,not_collected,no_accepted_data:failed
+2025,86,Chumphon,10.3158414,99.04243685448078,,,8760,0,0,0,0,weather_jma_gsm_2025_b13,not_collected,no_accepted_data:failed
+2025,90,Songkhla,7.1125612,100.35718457197359,,,8760,0,0,0,0,weather_jma_gsm_2025_b14,not_collected,no_accepted_data:failed
+2025,91,Satun,6.78467455,99.99878712435566,,,8760,0,0,0,0,weather_jma_gsm_2025_b14,not_collected,no_accepted_data:failed
+2025,92,Trang,7.524143499999999,99.56727499143034,,,8760,0,0,0,0,weather_jma_gsm_2025_b14,not_collected,no_accepted_data:failed
+2025,93,Phatthalung,7.499451199999999,100.0490293902277,,,8760,0,0,0,0,weather_jma_gsm_2025_b14,not_collected,no_accepted_data:failed
+2025,94,Pattani,6.743331899999999,101.32690431961396,,,8760,0,0,0,0,weather_jma_gsm_2025_b14,not_collected,no_accepted_data:failed
+2025,95,Yala,6.146459,101.23785806827593,,,8760,0,0,0,0,weather_jma_gsm_2025_b15,not_collected,no_accepted_data:failed
+2025,96,Narathiwat,6.185983650000001,101.73370837620843,,,8760,0,0,0,0,weather_jma_gsm_2025_b15,not_collected,no_accepted_data:failed

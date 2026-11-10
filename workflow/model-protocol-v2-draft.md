@@ -81,6 +81,10 @@ while showing best of the three candidate families and reasons.
 
 Freeze selection/choicehash BEFORE2024/2025 diagnostics. Fit specified methods
 on originalTrain2021-23 only; no refit on2024, no winner change from2024/25 scores.
+For this final diagnostic fit, also exclude any training cell whose target end
+is after the first 2024 issue time (2023-12-31 18:00 Asia/Bangkok): the full
+2023-12-31 daily cell and its 18-24 block are unavailable at that issue. Record
+the actual final cutoff and excluded cell count; never fit those future labels.
 Both later years were seen earlier; no untouched test exists. Report failures,
 coverage gaps, missingness shifts and temporal drift. A win on research folds
 doesn't authorize a production route/personal-risk forecast.

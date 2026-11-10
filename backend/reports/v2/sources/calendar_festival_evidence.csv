@@ -1,0 +1,11 @@
+year,festival_id,name,rule_dates,reviewed_bank_holiday_dates,sources,note
+2021,songkran,วันสงกรานต์ (Songkran),2021-04-13;2021-04-14;2021-04-15,2021-04-13;2021-04-14;2021-04-15,bot_holidays_2021_png,deterministic calendar rule; bank-holiday membership (weekend observances shift) is supporting evidence only
+2021,new_year,วันสิ้นปี / วันขึ้นปีใหม่ (New Year),2021-12-31;2021-01-01,2021-01-01;2021-12-31,bot_holidays_2021_png,deterministic calendar rule; bank-holiday membership (weekend observances shift) is supporting evidence only
+2022,songkran,วันสงกรานต์ (Songkran),2022-04-13;2022-04-14;2022-04-15,2022-04-13;2022-04-14;2022-04-15,bot_holidays_2022_pdf,deterministic calendar rule; bank-holiday membership (weekend observances shift) is supporting evidence only
+2022,new_year,วันสิ้นปี / วันขึ้นปีใหม่ (New Year),2022-12-31;2022-01-01,,,deterministic calendar rule; bank-holiday membership (weekend observances shift) is supporting evidence only
+2023,songkran,วันสงกรานต์ (Songkran),2023-04-13;2023-04-14;2023-04-15,2023-04-13;2023-04-14,bot_holidays_2023_pdf,deterministic calendar rule; bank-holiday membership (weekend observances shift) is supporting evidence only
+2023,new_year,วันสิ้นปี / วันขึ้นปีใหม่ (New Year),2023-12-31;2023-01-01,,,deterministic calendar rule; bank-holiday membership (weekend observances shift) is supporting evidence only
+2024,songkran,วันสงกรานต์ (Songkran),2024-04-13;2024-04-14;2024-04-15,2024-04-15,bot_holidays_2024_pdf,deterministic calendar rule; bank-holiday membership (weekend observances shift) is supporting evidence only
+2024,new_year,วันสิ้นปี / วันขึ้นปีใหม่ (New Year),2024-12-31;2024-01-01,2024-01-01;2024-12-31,bot_holidays_2024_pdf,deterministic calendar rule; bank-holiday membership (weekend observances shift) is supporting evidence only
+2025,songkran,วันสงกรานต์ (Songkran),2025-04-13;2025-04-14;2025-04-15,2025-04-14;2025-04-15,bot_holidays_2025_pdf,deterministic calendar rule; bank-holiday membership (weekend observances shift) is supporting evidence only
+2025,new_year,วันสิ้นปี / วันขึ้นปีใหม่ (New Year),2025-12-31;2025-01-01,2025-01-01;2025-12-31,bot_holidays_2025_pdf,deterministic calendar rule; bank-holiday membership (weekend observances shift) is supporting evidence only

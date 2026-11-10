@@ -1,0 +1,127 @@
+{
+  "_comment": "RoadAware v2 preparation config (notebook 10): date-evidence repair, unknown-label flags, province-day and province x 6 h panels, as-of external features and leakage audit. NO model fitting. Relative paths resolve against the backend root. Env overrides (set by backend/scripts/run_v2_notebooks.py): ROADAWARE_BACKEND_ROOT, ROADAWARE_V1_DATA_ROOT (read-only v1 root), ROADAWARE_V2_EXTERNAL_ROOT (read-only for 10: notebook 09 raw/derived), ROADAWARE_V2_SOURCES_DIR (read-only notebook 09 report dir), ROADAWARE_V2_OUTPUT_ROOT (root for reports/v2/preparation), ROADAWARE_V2_DATA_ROOT (row/panel matrices, gitignored). Status: research only, production_ready false, operational BLOCKED.",
+  "schema": "roadaware-feature-pipeline-v2/1",
+  "producer": "10_v2_preparation_features_leakage",
+  "report_subdir": "reports/v2/preparation",
+  "data_subdir": "data/v2",
+  "sources_config": "config/external_sources_v2.json",
+  "v1_config": "config/data_pipeline.json",
+  "notebook09": "notebooks/09_external_collection_date_evidence.ipynb",
+  "dependencies": {
+    "sources_manifest_schema": "roadaware-v2-sources-manifest/2",
+    "sources_manifest_producer": "09_external_collection_date_evidence",
+    "accepted_09_status": ["completed", "completed_with_gaps"],
+    "require_09_functions_hash_match": true,
+    "required_09_outputs": ["date_evidence_by_year.json", "province_points.csv", "calendar_records.csv", "traffic_province_year_summary.csv", "traffic_resource_metadata.csv"],
+    "required_09_derived": ["derived/date_resolution_by_id.csv"],
+    "optional_09_derived": ["derived/weather_daily_jma_gsm.csv.gz", "derived/weather_6h_jma_gsm.csv.gz"],
+    "v1_interim_files": ["data/interim/row_audit.csv", "data/interim/cleaned_events.csv", "data/interim/quarantine.csv", "data/interim/events_descriptive_outcomes.csv", "data/interim/possible_undercount_flags.csv", "data/interim/reconciliation.csv"],
+    "v1_processed_manifest": "data/processed/split_artifact_manifest.json",
+    "v1_panel": "data/processed/province_day_panel.csv"
+  },
+  "panel": {
+    "start": "2021-01-01",
+    "end": "2025-12-31",
+    "expected_days": 1826,
+    "expected_provinces": 77,
+    "label_years_ce": [2021, 2022, 2023, 2024, 2025],
+    "diagnostic_years_ce": [2026],
+    "timezone": "Asia/Bangkok",
+    "utc_offset_seconds": 25200,
+    "issue_hour_local": 18,
+    "issue_days_before_target": 1,
+    "block_hours": 6,
+    "time_blocks": ["00-06", "06-12", "12-18", "18-24"],
+    "all_provinces_token": "*ALL*",
+    "label_meaning": "y_recorded_count = number of SELECTED retained MOT-source records in the cell (event-time label only). A zero in a known cell means no selected recorded event, not a proven true zero. Cells with training_eligible false are unknown labels, never zeros.",
+    "splits": [
+      {"name": "train", "start": "2021-01-01", "end": "2023-12-31", "v1_name": "train", "status": "provisional_research"},
+      {"name": "development_2024", "start": "2024-01-01", "end": "2024-12-31", "v1_name": "validation", "status": "development_diagnostic_previously_seen"},
+      {"name": "reused_seen_2025", "start": "2025-01-01", "end": "2025-12-31", "v1_name": "reused_test_2025", "status": "reused_previously_seen_not_independent"}
+    ]
+  },
+  "date_repair": {
+    "policy": "Original cached MOT CSV rows only (v1 row_audit lineage). A v1 ambiguous slash-date row is repaired only when notebook 09 resolved it (exact ACC_CODE, every XLSX row of the ID has the same TYPED date, every CSV row of the ID has the same raw date string, the typed date is one of the row's own candidates) AND notebook 10 independently re-checks the publisher-counterpart context: every XLSX row of the ID has the same province key (exact audited alias map on both sides) and the same HH:MM time as the original CSV row. Missing context on either side is NOT treated as verified (row stays ambiguous, reason recorded). v1 unambiguous dates are never changed. id_conflict_* groups stay quarantined. No XLSX-only rows. 2026 stays diagnostic.",
+    "xlsx_years_ce": [2021, 2022, 2023],
+    "context_fields": [{"field": "province", "header": "จังหวัด", "kind": "province"}, {"field": "time", "header": "เวลา", "kind": "time_minute"}],
+    "require_independent_context": true,
+    "accept_partial_context": false,
+    "no_candidate_date_policy": "v1_count_only",
+    "no_candidate_date_policy_options": {"v1_count_only": "rows with no candidate date are counted per province-year (audit column unplaceable_rows_province_year, never a feature); no day can be flagged, so these province-years carry an explicit coverage caveat (same as v1)", "flag_province_year": "flag every day of the source year for the row's province (all 77 when province unknown)"},
+    "confidence_label": "publisher_counterpart_typed_date_context_province_time_agree (not independent ground truth)"
+  },
+  "festivals": {
+    "clip_days": 14,
+    "windows": {"pre_1_3": [-3, -1], "pre_4_7": [-7, -4], "post_1_3": [1, 3], "post_4_7": [4, 7]},
+    "sign_convention": "signed distance = target date - nearest festival day (0 inside the festival, negative before the first day, positive after the last day); nearest occurrence searched in the previous, same and next year; clipped to [-clip_days, clip_days]",
+    "rules_source": "config/external_sources_v2.json calendar.recurring_fixed_festivals"
+  },
+  "season": {
+    "months": {"hot": [3, 4, 5], "wet": [6, 7, 8, 9, 10], "cool": [11, 12, 1, 2]},
+    "note": "simplistic national calendar-month proxy (hot Mar-May, wet Jun-Oct, cool Nov-Feb); not observed rain, not proof all regions share these seasons"
+  },
+  "weather": {
+    "daily_file": "derived/weather_daily_jma_gsm.csv.gz",
+    "block_file": "derived/weather_6h_jma_gsm.csv.gz",
+    "buffer_hours": 6,
+    "note": "JMA GSM previous_day2 (nominal ~48 h lead) archived forecast at the province representative point; feature only when every hour is present (no partial sums) and latest nominal issue bound + 6 h <= issue time; otherwise NaN (train-only imputation later). Never target-day observations/reanalysis."
+  },
+  "traffic": {
+    "summary_file": "traffic_province_year_summary.csv",
+    "metadata_file": "traffic_resource_metadata.csv",
+    "note": "newest PRIOR survey year (survey_year_ce < target year) whose catalog proxy available_from (max(created, last_modified) + 1 day) <= issue time; no target-year actuals, no future/nearest backfill; missing -> NaN. Catalog proxy does not prove historical bytes."
+  },
+  "features": [
+    {"name": "province", "group": "core", "unit": "category (v1 77-province key)", "source": "panel key", "available_at": "static", "panels": ["daily", "6h"], "assumptions": "categorical; encoded train-only in 11"},
+    {"name": "day_of_week", "group": "core", "unit": "0=Mon..6=Sun", "source": "target date", "available_at": "deterministic", "panels": ["daily", "6h"], "assumptions": "local date"},
+    {"name": "month", "group": "core", "unit": "1..12", "source": "target date", "available_at": "deterministic", "panels": ["daily", "6h"], "assumptions": ""},
+    {"name": "day_of_month", "group": "core", "unit": "1..31", "source": "target date", "available_at": "deterministic", "panels": ["daily", "6h"], "assumptions": ""},
+    {"name": "is_weekend", "group": "core", "unit": "0/1", "source": "target date", "available_at": "deterministic", "panels": ["daily", "6h"], "assumptions": "Sat/Sun"},
+    {"name": "doy_sin", "group": "core", "unit": "sin(2*pi*(doy-1)/days_in_year)", "source": "target date", "available_at": "deterministic", "panels": ["daily", "6h"], "assumptions": "leap years use 366"},
+    {"name": "doy_cos", "group": "core", "unit": "cos(2*pi*(doy-1)/days_in_year)", "source": "target date", "available_at": "deterministic", "panels": ["daily", "6h"], "assumptions": "leap years use 366"},
+    {"name": "time_block", "group": "timeblock", "unit": "category 00-06/06-12/12-18/18-24 local", "source": "target block boundary", "available_at": "deterministic", "panels": ["6h"], "assumptions": "block of the TARGET cell; event times are labels only"},
+    {"name": "fest_songkran_dist", "group": "festival", "unit": "days, signed, clipped +-14", "source": "recurring fixed rule Apr 13-15", "available_at": "deterministic", "panels": ["daily", "6h"], "assumptions": "fixed civil dates; observed-day shifts not modelled"},
+    {"name": "fest_songkran_in", "group": "festival", "unit": "0/1", "source": "recurring fixed rule", "available_at": "deterministic", "panels": ["daily", "6h"], "assumptions": ""},
+    {"name": "fest_songkran_pre_1_3", "group": "festival", "unit": "0/1", "source": "recurring fixed rule", "available_at": "deterministic", "panels": ["daily", "6h"], "assumptions": ""},
+    {"name": "fest_songkran_pre_4_7", "group": "festival", "unit": "0/1", "source": "recurring fixed rule", "available_at": "deterministic", "panels": ["daily", "6h"], "assumptions": ""},
+    {"name": "fest_songkran_post_1_3", "group": "festival", "unit": "0/1", "source": "recurring fixed rule", "available_at": "deterministic", "panels": ["daily", "6h"], "assumptions": ""},
+    {"name": "fest_songkran_post_4_7", "group": "festival", "unit": "0/1", "source": "recurring fixed rule", "available_at": "deterministic", "panels": ["daily", "6h"], "assumptions": ""},
+    {"name": "fest_new_year_dist", "group": "festival", "unit": "days, signed, clipped +-14", "source": "recurring fixed rule Dec 31-Jan 1 (crosses year)", "available_at": "deterministic", "panels": ["daily", "6h"], "assumptions": "fixed civil dates"},
+    {"name": "fest_new_year_in", "group": "festival", "unit": "0/1", "source": "recurring fixed rule", "available_at": "deterministic", "panels": ["daily", "6h"], "assumptions": ""},
+    {"name": "fest_new_year_pre_1_3", "group": "festival", "unit": "0/1", "source": "recurring fixed rule", "available_at": "deterministic", "panels": ["daily", "6h"], "assumptions": ""},
+    {"name": "fest_new_year_pre_4_7", "group": "festival", "unit": "0/1", "source": "recurring fixed rule", "available_at": "deterministic", "panels": ["daily", "6h"], "assumptions": ""},
+    {"name": "fest_new_year_post_1_3", "group": "festival", "unit": "0/1", "source": "recurring fixed rule", "available_at": "deterministic", "panels": ["daily", "6h"], "assumptions": ""},
+    {"name": "fest_new_year_post_4_7", "group": "festival", "unit": "0/1", "source": "recurring fixed rule", "available_at": "deterministic", "panels": ["daily", "6h"], "assumptions": ""},
+    {"name": "bank_holiday_asof", "group": "bank_calendar", "unit": "0/1, NaN when coverage unknown at issue", "source": "reviewed BOT bank-holiday records (09 calendar_records.csv, applied only)", "available_at": "known_from + 1 day 00:00 local <= issue (add/remove replay)", "panels": ["daily", "6h"], "assumptions": "bank holiday != public holiday; known_from is a conservative proxy, historical latency unproven"},
+    {"name": "bank_calendar_known_asof", "group": "bank_calendar", "unit": "0/1", "source": "calendar_year_coverage at issue", "available_at": "issue time", "panels": ["daily", "6h"], "assumptions": "source-availability flag known at issue; 1 never claims a complete calendar"},
+    {"name": "season_hot", "group": "season", "unit": "0/1", "source": "target month", "available_at": "deterministic", "panels": ["daily", "6h"], "assumptions": "calendar proxy only"},
+    {"name": "season_wet", "group": "season", "unit": "0/1", "source": "target month", "available_at": "deterministic", "panels": ["daily", "6h"], "assumptions": "calendar proxy only"},
+    {"name": "season_cool", "group": "season", "unit": "0/1", "source": "target month", "available_at": "deterministic", "panels": ["daily", "6h"], "assumptions": "calendar proxy only"},
+    {"name": "wx_rain_sum_mm_d2", "group": "weather", "unit": "mm per target day (sum of 24 preceding-hour values)", "source": "Open-Meteo Previous Runs JMA GSM previous_day2", "available_at": "latest nominal issue bound + 6 h <= issue", "panels": ["daily", "6h"], "assumptions": "representative point, nominal lead, delivery latency unverified"},
+    {"name": "wx_temp_mean_c_d2", "group": "weather", "unit": "deg C mean of 24 instant values", "source": "Open-Meteo Previous Runs JMA GSM previous_day2", "available_at": "latest nominal issue bound + 6 h <= issue", "panels": ["daily", "6h"], "assumptions": "representative point"},
+    {"name": "wx_block_rain_sum_mm_d2", "group": "weather", "unit": "mm per target block (6 preceding-hour values)", "source": "Open-Meteo Previous Runs JMA GSM previous_day2", "available_at": "latest nominal issue bound + 6 h <= issue", "panels": ["6h"], "assumptions": "block of the target cell"},
+    {"name": "wx_block_temp_mean_c_d2", "group": "weather", "unit": "deg C mean of 6 instant values", "source": "Open-Meteo Previous Runs JMA GSM previous_day2", "available_at": "latest nominal issue bound + 6 h <= issue", "panels": ["6h"], "assumptions": "block of the target cell"},
+    {"name": "trf_mean_aadt", "group": "traffic", "unit": "vehicles/day, mean over DOH survey-point station rows", "source": "DOH AADT annual survey (09 summary)", "available_at": "newest prior vintage with proxy available_from <= issue", "panels": ["daily", "6h"], "assumptions": "never a provincial total; catalog proxy"},
+    {"name": "trf_median_aadt", "group": "traffic", "unit": "vehicles/day, median over station rows", "source": "DOH AADT annual survey", "available_at": "as trf_mean_aadt", "panels": ["daily", "6h"], "assumptions": ""},
+    {"name": "trf_mean_heavy_share_pct", "group": "traffic", "unit": "% heavy vehicles, mean over valid station rows", "source": "DOH AADT annual survey", "available_at": "as trf_mean_aadt", "panels": ["daily", "6h"], "assumptions": ""},
+    {"name": "trf_n_station_rows", "group": "traffic", "unit": "count of station rows (survey coverage)", "source": "DOH AADT annual survey", "available_at": "as trf_mean_aadt", "panels": ["daily", "6h"], "assumptions": "coverage of survey points, not traffic volume"}
+  ],
+  "pending_groups": {
+    "history": "PENDING: conditional history sensitivity not implemented; historical publication availability is unverified and Codex must confirm a separate scenario after the primary experiment (30-day minimum delay assumption per v2-feature-policy)."
+  },
+  "forbidden_feature_names": ["acc_code", "event_uid", "source_file", "source_row", "source_year", "source_year_ce", "year", "target_year", "date", "target_date", "event_date", "time_sec", "event_time", "event_block", "target_start_local", "target_end_local", "issue_time_local", "issue_time_utc", "split", "y_recorded_count", "possibly_undercounted", "n_flagged_rows", "flag_reasons", "training_eligible", "unplaceable_rows_province_year", "deaths", "serious_injuries", "minor_injuries", "injured_total", "n_vehicles", "n_involved", "accident_type", "presumed_cause", "vehicle_1", "weather", "location_type", "location_other", "report_date_raw", "report_time_raw", "disposition", "reasons", "date_status", "date_rule", "date_candidates", "time_status", "coord_status", "lat", "lon", "province_code", "wx_rain_missing", "wx_temp_missing", "wx_issue_bound_ok", "trf_vintage_survey_year_ce", "trf_vintage_available_from_utc", "block_index"],
+  "forbidden_feature_substrings": ["undercount", "eligib", "flag_reason", "y_recorded", "target_", "acc_code", "uid", "source_", "death", "injur", "accident_type", "presumed", "vehicle", "involved", "disposition", "reason", "split", "issue_", "event_", "_missing", "vintage", "timestamp"],
+  "readiness": {
+    "production_ready": false,
+    "operational_status": "BLOCKED",
+    "caveats": [
+      "labels are selected recorded MOT-source counts (MOT road network only), not complete all-road accidents",
+      "date repair relies on the publisher's own XLSX counterpart (not independent ground truth)",
+      "training_eligible is an outcome-derived offline research filter, unavailable for prospective claims",
+      "weather: nominal JMA GSM lead; historical public delivery latency unverified; coverage may be quota-partial",
+      "traffic: catalog-vintage proxy does not prove historical bytes; revised resources push availability later",
+      "bank calendar: reviewed BOT transcriptions with conservative known_from; later amendments unknown; not a public-holiday calendar",
+      "no model has been fitted or compared in notebook 10"
+    ]
+  }
+}

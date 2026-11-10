@@ -2,8 +2,8 @@
 Original004/004a/004b contracts remain:realexternalcollection09,sourceprovenance,
 VSCodePythonnotebook, frozenv1, nofabrication. Fixone real-dataquality failure,
 thenCodexindependentlyreruns collection/offlinechecks. This file is an explicit
-scopeextension to the currentfresh005worker (startedafter004bfinished); nosecond
-Claude worker. Read alongside005task. Source09kernelhasFINISHED; itissafeto
+dedicatedfreshworker task AFTER005workerfinished; nosecondconcurrent
+Claude worker. Source09kernelhasFINISHED; itissafeto
 modifytheexactbounded09cellsnow. Task005stillrequired; no fitting/frontend.
 
 # Observed independent evidence / failure

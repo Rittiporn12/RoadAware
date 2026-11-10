@@ -1,0 +1,327 @@
+{
+  "policy": "Exact original ACC_CODE join only (no fuzzy matching, no row-order matching). A v1 CSV row is resolved only when every XLSX row with that ID has the same TYPED date cell, every v1 CSV row with that ID has the same raw date string, that XLSX date is one of the CSV row's own candidate readings, and the supporting context (province, time) of every XLSX row of the ID equals the CSV row. This is a publisher-counterpart-derived resolution, not independent ground truth. Both global readings (M/D and D/M) are reported per year only to show agreement; 2022 is mixed-format, so no global parser is applied. XLSX-only IDs and revisions are never added as events and never replace the v1 raw snapshot.",
+  "data_dictionary_status": "no data-dictionary resource listed in the current MOT package (nothing fetched)",
+  "data_dictionary_attempts": [],
+  "per_row_file": "derived/date_resolution_by_id.csv (under the external root; not in git)",
+  "per_row_sha256": "a35c698d385debf2577cfc9780e4f476a0db25f6da503c824b2e40b5f6d2954d",
+  "years": [
+    {
+      "year_ce": 2021,
+      "year_be": 2564,
+      "csv_file": "accidents_2564_original.csv",
+      "csv_sha256": "044f8ae0a918ec25139bef24257fe274fd17d9bfab2512c0780a7a4bbf5d50f0",
+      "csv_rows": 20062,
+      "csv_has_acc_code": true,
+      "csv_format_summary": "slash:20062",
+      "csv_excel_serial_rows": 0,
+      "csv_slash_rows": 20062,
+      "csv_ambiguous_slash_rows": 7413,
+      "csv_slash_first_part_gt12_rows": 0,
+      "csv_slash_second_part_gt12_rows": 11751,
+      "csv_slash_equal_parts_rows": 898,
+      "xlsx_name": "accident2021.xlsx",
+      "xlsx_url": "https://datagov.mot.go.th/dataset/7e077ffd-dc4f-4dc6-a71c-0813726f3c12/resource/960813aa-f410-4356-bd5a-10f63c8e4ce0/download/accident2021.xlsx",
+      "xlsx_source": "codex_preflight",
+      "xlsx_sha256": "57d1e4828dedf3e074755ce0f9cee5500dba3707919cbe05e622b0894992b4e4",
+      "xlsx_bytes": 4220190,
+      "xlsx_catalog_size": 4220190,
+      "xlsx_catalog_last_modified": "2024-06-14T06:54:36.791816",
+      "xlsx_size_matches_catalog": true,
+      "xlsx_meta": {
+        "sheet": "accident2021",
+        "sheets": [
+          "accident2021"
+        ],
+        "header_row": 1,
+        "blank_rows_skipped": 0,
+        "rows": 20062,
+        "kind_counts": {
+          "typed_datetime": 20062
+        }
+      },
+      "n_csv_rows": 20062,
+      "n_csv_rows_with_id": 20062,
+      "n_csv_unique_ids": 20062,
+      "n_csv_duplicate_id_groups": 0,
+      "n_csv_ids_conflicting_dates": 0,
+      "n_xlsx_rows": 20062,
+      "n_xlsx_rows_with_id": 20062,
+      "n_xlsx_unique_ids": 20062,
+      "n_xlsx_duplicate_id_groups": 0,
+      "xlsx_kind_counts": {
+        "typed_datetime": 20062
+      },
+      "n_ids_csv_only": 0,
+      "n_ids_xlsx_only_not_added": 0,
+      "n_ids_row_count_differs": 0,
+      "status_counts": {
+        "resolved": 20062
+      },
+      "reading_counts": {
+        "mdy": 19164,
+        "equal_parts": 898
+      },
+      "n_resolved": 20062,
+      "n_mismatch": 0,
+      "n_ambiguous_in_v1": 7413,
+      "n_ambiguous_resolved": 7413,
+      "n_ambiguous_unresolved": 0,
+      "conclusion": "mdy_all_id_rows_agree",
+      "n_resolved_id_date_only": 20062,
+      "context_counts": {
+        "agree": 20062
+      },
+      "context_meta": {
+        "sheet": "accident2021",
+        "header_row": 1,
+        "missing_headers": []
+      },
+      "context_missing_csv_headers": [],
+      "rule_compared": 20062,
+      "rule_mdy_agree": 20062,
+      "rule_dmy_agree": 898,
+      "rule_neither": 0,
+      "rule_typed_in_candidates": 20062,
+      "rule_ambiguous_compared": 7413,
+      "rule_ambiguous_mdy_agree": 7413,
+      "rule_ambiguous_dmy_agree": 0,
+      "rule_ambiguous_neither": 0,
+      "rule_unambiguous_compared": 12649,
+      "rule_unambiguous_agree": 12649,
+      "rule_unambiguous_disagree": 0,
+      "rule_mdy_disagree": 0,
+      "rule_dmy_disagree": 19164,
+      "use_policy": "resolve_only_rows_with_unique_typed_id_date_and_context_agreement"
+    },
+    {
+      "year_ce": 2022,
+      "year_be": 2565,
+      "csv_file": "accidents_2565_original.csv",
+      "csv_sha256": "6f7c543a302906925e32fbf6b8da5d2b1920266489ae1c978fd9887d63c4698e",
+      "csv_rows": 20566,
+      "csv_has_acc_code": true,
+      "csv_format_summary": "slash:20566",
+      "csv_excel_serial_rows": 0,
+      "csv_slash_rows": 20566,
+      "csv_ambiguous_slash_rows": 7268,
+      "csv_slash_first_part_gt12_rows": 0,
+      "csv_slash_second_part_gt12_rows": 12431,
+      "csv_slash_equal_parts_rows": 867,
+      "xlsx_name": "accident2022.xlsx",
+      "xlsx_url": "https://datagov.mot.go.th/dataset/7e077ffd-dc4f-4dc6-a71c-0813726f3c12/resource/94b10b47-7bda-4f11-b6ce-e45c447c8dcd/download/accident2022.xlsx",
+      "xlsx_source": "codex_preflight",
+      "xlsx_sha256": "372b7eab60951b1de5ab0deefaf2b919605e30cf756935fbdbe1ea50eabcbec8",
+      "xlsx_bytes": 4162054,
+      "xlsx_catalog_size": 4162054,
+      "xlsx_catalog_last_modified": "2025-07-23T07:17:16.373369",
+      "xlsx_size_matches_catalog": true,
+      "xlsx_meta": {
+        "sheet": "accident2022",
+        "sheets": [
+          "accident2022"
+        ],
+        "header_row": 1,
+        "blank_rows_skipped": 0,
+        "rows": 20566,
+        "kind_counts": {
+          "text": 12431,
+          "typed_datetime": 8135
+        }
+      },
+      "n_csv_rows": 20566,
+      "n_csv_rows_with_id": 20566,
+      "n_csv_unique_ids": 20566,
+      "n_csv_duplicate_id_groups": 0,
+      "n_csv_ids_conflicting_dates": 0,
+      "n_xlsx_rows": 20566,
+      "n_xlsx_rows_with_id": 20566,
+      "n_xlsx_unique_ids": 20566,
+      "n_xlsx_duplicate_id_groups": 0,
+      "xlsx_kind_counts": {
+        "text": 12431,
+        "typed_datetime": 8135
+      },
+      "n_ids_csv_only": 0,
+      "n_ids_xlsx_only_not_added": 0,
+      "n_ids_row_count_differs": 0,
+      "status_counts": {
+        "xlsx_untyped_or_missing_date": 12431,
+        "resolved": 8135
+      },
+      "reading_counts": {
+        "dmy": 7268,
+        "equal_parts": 867
+      },
+      "n_resolved": 8135,
+      "n_mismatch": 0,
+      "n_ambiguous_in_v1": 7268,
+      "n_ambiguous_resolved": 7268,
+      "n_ambiguous_unresolved": 0,
+      "conclusion": "dmy_only_among_resolved_some_rows_unresolved",
+      "n_resolved_id_date_only": 8135,
+      "context_counts": {
+        "not_evaluated": 12431,
+        "agree": 8135
+      },
+      "context_meta": {
+        "sheet": "accident2022",
+        "header_row": 1,
+        "missing_headers": []
+      },
+      "context_missing_csv_headers": [],
+      "rule_compared": 8135,
+      "rule_mdy_agree": 867,
+      "rule_dmy_agree": 8135,
+      "rule_neither": 0,
+      "rule_typed_in_candidates": 8135,
+      "rule_ambiguous_compared": 7268,
+      "rule_ambiguous_mdy_agree": 0,
+      "rule_ambiguous_dmy_agree": 7268,
+      "rule_ambiguous_neither": 0,
+      "rule_unambiguous_compared": 867,
+      "rule_unambiguous_agree": 867,
+      "rule_unambiguous_disagree": 0,
+      "rule_mdy_disagree": 7268,
+      "rule_dmy_disagree": 0,
+      "use_policy": "resolve_only_rows_with_unique_typed_id_date_and_context_agreement"
+    },
+    {
+      "year_ce": 2023,
+      "year_be": 2566,
+      "csv_file": "accidents_2566_original.csv",
+      "csv_sha256": "4d6dbfa4b8e1f4dd476d81062a01c10a858b7acd174fef20cb18f29ad2fbbd55",
+      "csv_rows": 23841,
+      "csv_has_acc_code": true,
+      "csv_format_summary": "slash:23841",
+      "csv_excel_serial_rows": 0,
+      "csv_slash_rows": 23841,
+      "csv_ambiguous_slash_rows": 8295,
+      "csv_slash_first_part_gt12_rows": 0,
+      "csv_slash_second_part_gt12_rows": 14578,
+      "csv_slash_equal_parts_rows": 968,
+      "xlsx_name": "accident2023.xlsx",
+      "xlsx_url": "https://datagov.mot.go.th/dataset/7e077ffd-dc4f-4dc6-a71c-0813726f3c12/resource/f3d529f2-0c20-4e73-9ee3-e3f5a1fa52c9/download/accident2023.xlsx",
+      "xlsx_source": "codex_preflight",
+      "xlsx_sha256": "94c46065cb43ee8a0d16e25799b6ae91f83439fab2f75b38e127a87c3994307b",
+      "xlsx_bytes": 4963630,
+      "xlsx_catalog_size": 4963630,
+      "xlsx_catalog_last_modified": "2024-09-23T03:14:32.364111",
+      "xlsx_size_matches_catalog": true,
+      "xlsx_meta": {
+        "sheet": "accident2023",
+        "sheets": [
+          "accident2023"
+        ],
+        "header_row": 1,
+        "blank_rows_skipped": 0,
+        "rows": 23841,
+        "kind_counts": {
+          "typed_datetime": 23841
+        }
+      },
+      "n_csv_rows": 23841,
+      "n_csv_rows_with_id": 23841,
+      "n_csv_unique_ids": 22139,
+      "n_csv_duplicate_id_groups": 1641,
+      "n_csv_ids_conflicting_dates": 448,
+      "n_xlsx_rows": 23841,
+      "n_xlsx_rows_with_id": 23841,
+      "n_xlsx_unique_ids": 22139,
+      "n_xlsx_duplicate_id_groups": 1641,
+      "xlsx_kind_counts": {
+        "typed_datetime": 23841
+      },
+      "n_ids_csv_only": 0,
+      "n_ids_xlsx_only_not_added": 0,
+      "n_ids_row_count_differs": 0,
+      "status_counts": {
+        "resolved": 22922,
+        "xlsx_id_conflicting_dates": 919
+      },
+      "reading_counts": {
+        "mdy": 21954,
+        "equal_parts": 968
+      },
+      "n_resolved": 22922,
+      "n_mismatch": 0,
+      "n_ambiguous_in_v1": 8295,
+      "n_ambiguous_resolved": 7376,
+      "n_ambiguous_unresolved": 919,
+      "conclusion": "mdy_only_among_resolved_some_rows_unresolved",
+      "n_resolved_id_date_only": 22922,
+      "context_counts": {
+        "agree": 22922,
+        "not_evaluated": 919
+      },
+      "context_meta": {
+        "sheet": "accident2023",
+        "header_row": 1,
+        "missing_headers": []
+      },
+      "context_missing_csv_headers": [],
+      "rule_compared": 22922,
+      "rule_mdy_agree": 22922,
+      "rule_dmy_agree": 968,
+      "rule_neither": 0,
+      "rule_typed_in_candidates": 22922,
+      "rule_ambiguous_compared": 7376,
+      "rule_ambiguous_mdy_agree": 7376,
+      "rule_ambiguous_dmy_agree": 0,
+      "rule_ambiguous_neither": 0,
+      "rule_unambiguous_compared": 15546,
+      "rule_unambiguous_agree": 15546,
+      "rule_unambiguous_disagree": 0,
+      "rule_mdy_disagree": 0,
+      "rule_dmy_disagree": 21954,
+      "use_policy": "resolve_only_rows_with_unique_typed_id_date_and_context_agreement"
+    },
+    {
+      "year_ce": 2024,
+      "year_be": 2567,
+      "csv_file": "accidents_2567_original.csv",
+      "csv_sha256": "2ca1e832a4fa8d29ef6adfe52623a9b447a7f0b12e61e6e7e795a1b6e4be4a10",
+      "csv_rows": 23952,
+      "csv_has_acc_code": true,
+      "csv_format_summary": "excel_serial:23952",
+      "csv_excel_serial_rows": 23952,
+      "csv_slash_rows": 0,
+      "csv_ambiguous_slash_rows": 0,
+      "csv_slash_first_part_gt12_rows": 0,
+      "csv_slash_second_part_gt12_rows": 0,
+      "csv_slash_equal_parts_rows": 0,
+      "use_policy": "csv_dates_unambiguous_no_resolution_needed"
+    },
+    {
+      "year_ce": 2025,
+      "year_be": 2568,
+      "csv_file": "accidents_2568_original.csv",
+      "csv_sha256": "b163fa91170fa7df76b8d71b4eb629ff7ca4ef220bea6c3660e244fbe7e5616d",
+      "csv_rows": 23715,
+      "csv_has_acc_code": true,
+      "csv_format_summary": "excel_serial:23715",
+      "csv_excel_serial_rows": 23715,
+      "csv_slash_rows": 0,
+      "csv_ambiguous_slash_rows": 0,
+      "csv_slash_first_part_gt12_rows": 0,
+      "csv_slash_second_part_gt12_rows": 0,
+      "csv_slash_equal_parts_rows": 0,
+      "use_policy": "csv_dates_unambiguous_no_resolution_needed"
+    },
+    {
+      "year_ce": 2026,
+      "year_be": 2569,
+      "csv_file": "accidents_2569_original.csv",
+      "csv_sha256": "e9e0388614ce46cf815c1796d599d48e029be20b8d8849919fc0f730fc10ff1b",
+      "csv_rows": 15239,
+      "csv_has_acc_code": false,
+      "csv_format_summary": "slash:15239",
+      "csv_excel_serial_rows": 0,
+      "csv_slash_rows": 15239,
+      "csv_ambiguous_slash_rows": 6034,
+      "csv_slash_first_part_gt12_rows": 8522,
+      "csv_slash_second_part_gt12_rows": 0,
+      "csv_slash_equal_parts_rows": 683,
+      "use_policy": "diagnostic_only_no_acc_code_not_a_label"
+    }
+  ]
+}

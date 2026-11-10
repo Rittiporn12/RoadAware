@@ -1,6 +1,6 @@
 {
-  "_comment": "RoadAware v2 external-source collection and date-evidence config (notebook 09). Relative paths resolve against the backend root. Env overrides: ROADAWARE_BACKEND_ROOT, ROADAWARE_V2_EXTERNAL_ROOT (raw/cache root), ROADAWARE_V2_OUTPUT_ROOT (root for reports/v2/sources), ROADAWARE_V1_DATA_ROOT (read-only v1 data root), ROADAWARE_V2_OFFLINE=1 (cache only), ROADAWARE_V2_REFRESH=1 (re-download; changed bytes become a new version, never an overwrite). Status: research in progress; nothing here is an operational forecast source.",
-  "schema": "roadaware-external-sources-v2/1",
+  "_comment": "RoadAware v2 external-source collection and date-evidence config (notebook 09). Relative paths resolve against the backend root. Env overrides: ROADAWARE_BACKEND_ROOT, ROADAWARE_V2_EXTERNAL_ROOT (raw/cache root), ROADAWARE_V2_OUTPUT_ROOT (root for reports/v2/sources), ROADAWARE_V1_DATA_ROOT (read-only v1 data root), ROADAWARE_V2_PREFLIGHT_DIR (Codex preflight evidence, read-only), ROADAWARE_V2_OFFLINE=1 (cache only), ROADAWARE_V2_REFRESH=1 (re-download; changed bytes become a new version, never an overwrite). Status: research in progress; nothing here is an operational forecast source.",
+  "schema": "roadaware-external-sources-v2/2",
   "default_external_root": "data/external_v2",
   "preflight_dir": "data/external_v2/evidence",
   "report_subdir": "reports/v2/sources",
@@ -31,7 +31,7 @@
   "preflight_files": {
     "mot_package": {"file": "mot-package.json", "url": "https://datagov.mot.go.th/api/3/action/package_show?id=roadaccident"},
     "doh_package": {"file": "doh-traffic-package.json", "url": "https://opendata.doh.go.th/api/3/action/package_show?id=ed101df4-f0a1-4d7f-b9d9-76859b2ca73e"},
-    "weather_probe": {"file": "weather-jma-2021-probe.json", "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=14.0&longitude=100.5&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia/Bangkok&start_date=2021-01-01&end_date=2021-01-03"},
+    "weather_probe": {"file": "weather-jma-2021-probe.json", "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=13.75&longitude=100.5&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia/Bangkok&start_date=2021-01-01&end_date=2021-01-03", "note": "Codex probe (Bangkok 13.75N 100.5E, 2021-01-01..03): 72/72 non-null hours for both variables per Codex preflight; the notebook only registers the file hash"},
     "doh_aadt_2564_csv": {"file": "aadt_2021.csv", "url": "https://opendata.doh.go.th/dataset/ed101df4-f0a1-4d7f-b9d9-76859b2ca73e/resource/3d3b9335-5e22-418f-8272-00ff93b80da3/download/aadt_64.csv", "note": "declared by Codex preflight as the official BE2564 (CE2021) CSV; notebook 09 confirms by comparing with its own download"}
   },
   "mot": {
@@ -39,8 +39,8 @@
     "dataset_page": "https://datagov.mot.go.th/dataset/roadaccident",
     "data_dictionary": {
       "url": null,
-      "status": "not_fetched_url_unknown_to_worker",
-      "note": "Codex reported the old MOT data-dictionary PDF URL now returns 404. A cached search snippet claiming MM/DD is NOT treated as a verified document. Typed XLSX date cells matched by original ACC_CODE are the primary evidence. Set url here to log a live attempt."
+      "resource_keywords": ["dictionary", "datadict", "data_dict", "คำอธิบาย", "พจนานุกรม"],
+      "status_note": "Codex reported the old MOT data-dictionary PDF URL returns HTTP 404 (exact URL not recorded in the task files). A cached search snippet claiming MM/DD is NOT a verified document. Any dictionary resource listed in the live package is snapshotted only; its content is not used as date-format proof. Typed XLSX date cells matched by original ACC_CODE are the primary evidence."
     }
   },
   "date_evidence": {
@@ -49,10 +49,14 @@
     "xlsx_name_pattern": "accident{year}.xlsx",
     "id_header": "ACC_CODE",
     "date_header": "วันที่เกิดเหตุ",
+    "context_fields": [
+      {"field": "province", "header": "จังหวัด", "kind": "text"},
+      {"field": "time", "header": "เวลา", "kind": "time"}
+    ],
     "max_header_scan_rows": 30,
     "max_xlsx_bytes": 104857600,
     "diagnostic_only_years_ce": [2026],
-    "policy": "Exact original ACC_CODE join only (no fuzzy matching, no row-order matching). A v1 CSV row is resolved only when every XLSX row with that ID has the same TYPED date cell, every v1 CSV row with that ID has the same raw date string, and that XLSX date is one of the CSV row's own candidate readings. XLSX-only IDs and revisions are never added as events and never replace the v1 raw snapshot."
+    "policy": "Exact original ACC_CODE join only (no fuzzy matching, no row-order matching). A v1 CSV row is resolved only when every XLSX row with that ID has the same TYPED date cell, every v1 CSV row with that ID has the same raw date string, that XLSX date is one of the CSV row's own candidate readings, and the supporting context (province, time) of every XLSX row of the ID equals the CSV row. This is a publisher-counterpart-derived resolution, not independent ground truth. Both global readings (M/D and D/M) are reported per year only to show agreement; 2022 is mixed-format, so no global parser is applied. XLSX-only IDs and revisions are never added as events and never replace the v1 raw snapshot."
   },
   "traffic": {
     "package_url": "https://opendata.doh.go.th/api/3/action/package_show?id=ed101df4-f0a1-4d7f-b9d9-76859b2ca73e",
@@ -60,20 +64,33 @@
     "prefer_format": "CSV",
     "encodings_to_try": ["utf-8-sig", "cp874"],
     "aliases": {
-      "route": ["ทางหลวงสาย", "ทางหลวงหมายเลข", "หมายเลขทางหลวง"],
-      "control_section": ["ตอนควบคุม"],
-      "route_name": ["ชื่อสายทาง", "ชื่อตอนควบคุม"],
-      "survey_point": ["จุดสำรวจ", "กม.จุดสำรวจ"],
-      "highway_district": ["แขวงทางหลวง"],
-      "province": ["จังหวัด"],
-      "total": ["รวม", "รวมทั้งหมด"],
-      "heavy_share_pct": ["%ของยานยนต์หนัก", "%ยานยนต์หนัก"]
+      "route": ["ทางหลวงสาย", "ทางหลวงหมายเลข", "หมายเลขทางหลวง", "สายทาง", "route", "Route", "ROUTE"],
+      "control_section": ["ตอนควบคุม", "control_section", "ControlSection", "CONTROL_SECTION"],
+      "route_name": ["ชื่อสายทาง", "ชื่อตอนควบคุม", "route_name", "RouteName"],
+      "survey_point": ["จุดสำรวจ", "กม.จุดสำรวจ", "กม.", "survey_point", "SurveyPoint", "KM"],
+      "highway_district": ["แขวงทางหลวง", "highway_district"],
+      "province": ["จังหวัด", "province", "Province", "PROVINCE"],
+      "total": ["รวม", "รวมทั้งหมด", "AADT", "aadt", "total", "Total"],
+      "heavy_share_pct": ["%ของยานยนต์หนัก", "%ยานยนต์หนัก", "%รถหนัก", "heavy_pct"]
     },
     "required_fields": ["route", "control_section", "survey_point", "province", "total"],
     "total_components": ["รถยนต์นั่ง(ไม่เกิน7คน)", "รถยนต์นั่ง(เกิน7คน)", "รถโดยสารขนาดเล็ก", "รถโดยสารขนาดกลาง", "รถโดยสารขนาดใหญ่", "รถบรรทุกขนาดเล็ก(4ล้อ)", "รถบรรทุกขนาด2เพลา(6ล้อ)", "รถบรรทุกขนาด3เพลา(10ล้อ)", "รถบรรทุกพ่วง(มากกว่า3เพลา)", "รถบรรทุกกึ่งพ่วง(มากกว่า3เพลา)"],
     "heavy_components": ["รถโดยสารขนาดกลาง", "รถโดยสารขนาดใหญ่", "รถบรรทุกขนาด2เพลา(6ล้อ)", "รถบรรทุกขนาด3เพลา(10ล้อ)", "รถบรรทุกพ่วง(มากกว่า3เพลา)", "รถบรรทุกกึ่งพ่วง(มากกว่า3เพลา)"],
+    "unsupported_unit_patterns": ["pcu", "ชั่วโมง", "ต่อชม", "/ชม", "hour"],
+    "availability_buffer_days": 1,
+    "row_policy": "Every parsed CSV row gets one row_class: blank_nonrecord (all cells blank: a filler line, counted, excluded from station data and statistics; raw bytes kept), incomplete_identity (content but blank route/control_section/survey_point/province: uncertain, never merged or guessed, excluded from statistics), duplicate_key (non-blank complete key shared by another row: flagged, excluded from statistics), station. rows_parsed = sum of the four. Totals valid only when finite and >= 0; heavy share valid only when finite and within 0..100; invalid values are counted and never used.",
+    "station_schema": {
+      "file": "derived/traffic_aadt_normalized.csv (external root; blank non-records excluded)",
+      "columns": {"csv_data_row_index": "0-based parsed data row in the source CSV", "survey_year_be": "survey year (BE) from the resource title", "survey_year_ce": "survey_year_be - 543", "route": "DOH route number text", "control_section": "control section text", "survey_point": "survey point km text", "route_name": "route/section name text", "highway_district": "highway district text", "province_raw": "province cell exactly as published", "province_text": "whitespace-normalized province text", "province": "same as province_text (kept for compatibility)", "province_key": "v1 panel join key via the exact audited alias map ('' when blank)", "province_key_status": "blank | v1_panel_exact | v1_panel_audited_alias | not_in_v1_panel | v1_panel_unavailable", "row_class": "incomplete_identity | duplicate_key | station", "total_aadt": "published total, vehicles/day", "total_valid": "finite and >= 0", "heavy_share_pct": "published heavy-vehicle share %", "heavy_share_valid": "finite and 0..100", "count__*": "published vehicle-class AADT", "source_sha256": "sha256 of the source CSV bytes", "available_from_proxy_utc": "catalog availability proxy"},
+      "next_stage_use": "province_key x survey year mean/median of valid totals of station rows from PRIOR available vintages only; never sums"
+    },
     "unit_note": "Annual average daily traffic (vehicles/day) at DOH survey points on DOH highways. Survey-point AADT cannot be summed into unique vehicles or real-time flow; later stages may use only mean/median/survey-coverage summaries per province.",
-    "availability_policy": "A survey vintage may feed a target date only if a catalog timestamp for that resource precedes the issue time. Catalog created/modified timestamps are proxies, not proof that the current bytes existed then. Never use the target year's own annual AADT as an early-year feature."
+    "availability_policy": "Per-resource proxy available_from = max(catalog created, catalog last_modified) + 1 day (CKAN timestamps read as UTC). created alone is not conservative when bytes were revised. A survey vintage may feed a target date only if survey_year < target year AND available_from <= issue time. The catalog-vintage proxy does not prove the current bytes were publicly delivered then. Never use the target year's own annual AADT."
+  },
+  "province_aliases": {
+    "map": {"พระนครศรีอยุธยา": "อยุธยา"},
+    "policy": "Exact audited full-string aliases only, mapping a source spelling to the v1 77-province panel name for joins (traffic province_key and geography province_key / in_v1_panel). Raw text is preserved (traffic province_raw, points name_th). No fuzzy, substring, prefix or postal-code rules; any other value outside the panel stays explicit as not_in_v1_panel.",
+    "audit": "Codex inspection 2026-11-10: in the DOH AADT CSVs for BE 2563-2568 (CE 2020-2025) every non-blank province value absent from the v1 panel was พระนครศรีอยุธยา (43/45/45/44/44/44 survey rows per year); the v1 panel spells the same province อยุธยา."
   },
   "geography": {
     "geoboundaries_api": "https://www.geoboundaries.org/api/current/gbOpen/THA/ADM1/",
@@ -83,6 +100,14 @@
     "province_table_url": "https://raw.githubusercontent.com/thailand-geography-data/thailand-geography-json/main/src/provinces.json",
     "province_table_repo_api": "https://api.github.com/repos/thailand-geography-data/thailand-geography-json",
     "province_table_commit_api": "https://api.github.com/repos/thailand-geography-data/thailand-geography-json/commits?path=src/provinces.json&per_page=1",
+    "pinned_sources": {
+      "_comment": "Exact sha256 pins of the Codex-verified preflight copies (preflight_dir/file). Local first: a matching registered preflight copy (or a pin-verified notebook cache) is used with no network call; HTTPS download only when neither exists or with ROADAWARE_V2_REFRESH=1. Bytes that differ from a pin are kept as registry versions and never used or relabelled; required sources stop the run for review.",
+      "geoboundaries_api": {"file": "geoboundaries-tha-adm1.json", "url": "https://www.geoboundaries.org/api/current/gbOpen/THA/ADM1/", "expected_sha256": "10119cda1b995f724304f99132ecca4a80dbeb96aaf750b8eabf24747ee5a38d", "resource_id": "geoboundaries_api_tha_adm1", "rel": "raw/geo/geoboundaries_api_THA_ADM1.json", "required": false, "note": "API metadata (license, source, build date); optional"},
+      "geoboundaries_tha_adm1_geojson": {"file": "tha-adm1.geojson", "url": "https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/THA/ADM1/geoBoundaries-THA-ADM1.geojson", "expected_sha256": "145beb11e52785a42e16997c92a65426b3df8d009941db6b012ec8e411f3e33c", "resource_id": "geoboundaries_tha_adm1_geojson_pinned", "rel": "raw/geo/geoBoundaries-THA-ADM1.geojson", "required": true},
+      "thailand_provinces_json": {"file": "thai-provinces.json", "url": "https://raw.githubusercontent.com/thailand-geography-data/thailand-geography-json/main/src/provinces.json", "expected_sha256": "ec29779c963de89a29f72a37eabcd39f89d1c6837586b5f441d26418d1e67024", "resource_id": "thailand_geography_provinces_json", "rel": "raw/geo/provinces.json", "required": true}
+    },
+    "metadata_http": {"timeout_seconds": 10, "max_retries": 0},
+    "download_http": {"timeout_seconds": 60, "max_retries": 1},
     "expected_provinces": 77,
     "point_meaning": "shapely representative_point inside each province polygon: a label/proxy weather query point, not a road or event location"
   },
@@ -93,6 +118,11 @@
     "hourly_variables": ["temperature_2m_previous_day2", "precipitation_previous_day2"],
     "temp_var": "temperature_2m_previous_day2",
     "rain_var": "precipitation_previous_day2",
+    "hourly_units": {"temperature_2m_previous_day2": "°C", "precipitation_previous_day2": "mm"},
+    "max_grid_distance_deg": 1.0,
+    "negative_value_policy": "mask",
+    "negative_value_policy_note": "A negative finite precipitation value (observed: -0.1 mm in archived JMA GSM previous_day2 hours) is a per-hour value-quality error: that hour's rain becomes NaN in memory (never abs/clip/0), raw JSON bytes are kept, temperature and other hours are kept, any rain window containing it is NaN. Structural checks (exact variables, units, time grid, period, location count, timezone, grid coordinates, finite numbers) stay strict and still reject the chunk.",
+    "max_weighted_calls_per_run": 4500,
     "lead_hours": 48,
     "assumed_publication_buffer_hours": 6,
     "timezone": "Asia/Bangkok",
@@ -100,40 +130,70 @@
     "locations_per_request": 5,
     "timeout_seconds": 120,
     "max_retries": 3,
-    "max_requests_per_run": 150,
+    "max_requests_per_run": 300,
     "min_seconds_between_requests": 20,
     "consecutive_failures_to_stop": 3,
     "max_response_bytes": 52428800,
-    "quota_note": "Free non-commercial Open-Meteo API, no key. Long ranges and multiple locations count as several calls against minutely/hourly/daily limits (weight estimate printed by notebook 09 is approximate). On HTTP 429 without a short Retry-After the collection stops with partial coverage; rerun later to resume (completed chunks are reused only when their sha256 matches the registry).",
+    "quota_note": "Free non-commercial Open-Meteo API, no key; official limits 600 calls/min, 5000/hour, 10000/day, requests longer than 14 days count fractionally (https://open-meteo.com/en/pricing). 77 points x 1826 days / 14 is about 10,000 weighted calls, so one run cannot finish: each run stops after max_weighted_calls_per_run (estimated weight) with stop reason quota_budget_per_run_reached_resume_later; rerun after an hour (and on another day if the daily limit is hit). Cached chunks are reused without waiting when their URL and sha256 match the registry. On HTTP 429 without a short Retry-After the run stops with partial coverage. Partial coverage is quota-limited, not a missing archive.",
+    "aggregation_note": "Open-Meteo hourly definitions (https://open-meteo.com/en/docs): temperature_2m is the instant value at valid time; precipitation is the sum over the PRECEDING hour. Temperature is bucketed by valid time; precipitation by its interval start (valid time - 1 h): the 00-06 block sums values valid 01:00..06:00 and a day sums 01:00..next-day 00:00. A day whose next-midnight value is not collected stays rain_missing (never a partial sum or 0). The availability guard uses the original valid times / nominal issue bounds of every row used, including rain's interval end.",
     "lead_note": "previous_day2 = value from the run roughly 48 h before valid time (Open-Meteo docs). The nominal issue bound is valid_time - 48 h; this API lead does not prove the historical public delivery latency, so a 6 h publication buffer is assumed and features must satisfy bound + buffer <= target day - 1 at 18:00 local."
   },
   "calendar": {
-    "pages": [
-      {"id": "bot_holiday_main_page", "url": "https://www.bot.or.th/th/financial-institutions-holiday.html"},
-      {"id": "bot_news_20241127", "url": "https://www.bot.or.th/th/news-and-media/news/news-20241127.html", "announcement_date": "2024-11-27", "announces_for_year": 2025, "date_text_check": ["พฤศจิกายน", "2567"]}
-    ],
-    "pdfs": [
-      {"id": "bot_holiday_pdf_2025", "year": 2025, "url_basis": "known_official_url", "url": "https://www.bot.or.th/content/dam/bot/content-fragments/holiday-calendar/th/bot-notification-holiday/BOT-Notification-Holiday-Calendar-2025-TH.pdf"},
-      {"id": "bot_holiday_pdf_2024", "year": 2024, "url_basis": "pattern_from_2025_url_unverified", "url": "https://www.bot.or.th/content/dam/bot/content-fragments/holiday-calendar/th/bot-notification-holiday/BOT-Notification-Holiday-Calendar-2024-TH.pdf"},
-      {"id": "bot_holiday_pdf_2023", "year": 2023, "url_basis": "pattern_from_2025_url_unverified", "url": "https://www.bot.or.th/content/dam/bot/content-fragments/holiday-calendar/th/bot-notification-holiday/BOT-Notification-Holiday-Calendar-2023-TH.pdf"},
-      {"id": "bot_holiday_pdf_2022", "year": 2022, "url_basis": "pattern_from_2025_url_unverified", "url": "https://www.bot.or.th/content/dam/bot/content-fragments/holiday-calendar/th/bot-notification-holiday/BOT-Notification-Holiday-Calendar-2022-TH.pdf"},
-      {"id": "bot_holiday_pdf_2021", "year": 2021, "url_basis": "pattern_from_2025_url_unverified", "url": "https://www.bot.or.th/content/dam/bot/content-fragments/holiday-calendar/th/bot-notification-holiday/BOT-Notification-Holiday-Calendar-2021-TH.pdf"}
-    ],
+    "scope": "BOT_national_financial_institution_holiday",
+    "scope_note": "Bank of Thailand national financial-institution (bank) holidays only. NOT the national public-holiday calendar; regional extras are not applied nationally; public holidays when banks open are not bank holidays.",
+    "known_from_convention": "known_from is a date-only conservative circular/announcement date; a record is usable only from the END of that local day (known_from + 1 day 00:00 Asia/Bangkok). Original publication latency is not proven; historical bytes retrieved in 2026 are a research proxy.",
+    "review_doc": "workflow/calendar-source-verification.md",
+    "max_source_bytes": 31457280,
     "years": [2021, 2022, 2023, 2024, 2025],
-    "max_discovered_pdfs": 10,
-    "max_pdf_bytes": 31457280,
-    "recurring_fixed_festivals": [
-      {"id": "songkran", "name": "วันสงกรานต์ (Songkran)", "month_days": [[4, 13], [4, 14], [4, 15]], "keywords": ["สงกรานต์"]},
-      {"id": "new_year", "name": "วันสิ้นปี / วันขึ้นปีใหม่ (New Year)", "month_days": [[12, 31], [1, 1]], "keywords": ["สิ้นปี", "ปีใหม่"]}
+    "exact_embedded_assets": [
+      {"url": "https://s7ap1.scene7.com/is/image/bot/news-20210106-1?wid=2000&fmt=png", "parent_url": "https://www.bot.or.th/th/news-and-media/news/news-20210106-1.html", "note": "only this official BOT embedded asset is allowed on the scene7 host"}
     ],
-    "policy": "BOT financial-institution holidays are NOT the full national public-holiday calendar. Only recurring fixed festivals (Songkran 13-15 Apr, New Year 31 Dec / 1 Jan) found with their keyword in an official BOT PDF line are recorded as verified; every other extracted line is kept as an explicitly excluded, unreviewed record. Lunar/moveable and special days need announcement-date evidence before any feature use."
+    "as_of_views": ["2021-01-06T18:00", "2021-01-07T18:00", "2023-11-13T18:00", "2023-11-14T18:00", "2026-01-01T00:00"],
+    "entry_fields": ["date", "name", "action", "page"],
+    "sources": [
+      {"id": "bot_holiday_main_page", "kind": "html", "role": "context", "years": [], "url": "https://www.bot.or.th/th/financial-institutions-holiday.html", "known_from": null, "verified_by": null, "entries": []},
+      {"id": "bot_news_20210106_1", "kind": "html", "role": "parent_page", "years": [2021], "url": "https://www.bot.or.th/th/news-and-media/news/news-20210106-1.html", "known_from": "2021-01-06", "verified_by": "codex_review_2026-11-10", "embedded_asset_check": "is/image/bot/news-20210106-1", "notes": "Announces 2021 specials Feb12, Sep24 and shift Oct25->Oct22 (all included in the embedded 2021 infographic records). Explicitly says banks OPEN 2021-04-12 and 2021-07-27 despite public holidays.", "entries": []},
+      {"id": "bot_holidays_2021_png", "kind": "png", "role": "annual_base", "years": [2021], "url": "https://s7ap1.scene7.com/is/image/bot/news-20210106-1?wid=2000&fmt=png", "parent_url": "https://www.bot.or.th/th/news-and-media/news/news-20210106-1.html", "parent_source_id": "bot_news_20210106_1", "preflight_file": "bot-holidays-2021.png", "reviewed_sha256": "aeeb9f6bab65275e1059fb990ba4ffed72cdc076a6b60e6044ee775ad1871ebf", "known_from": "2021-01-06", "publisher_date": "2021-01-06", "page_ref": "single image", "verified_by": "codex_visual_review_2026-11-10_full_image", "source_quality": "reviewed publisher-dated official embedded image; known_from 2021-01-06 only (not backdated to the older annual decree); current bytes retrieved 2026, historical availability not proven (research proxy)",
+       "entries": [["2021-01-01", "NewYear", "add", "image"], ["2021-02-12", "Special", "add", "image"], ["2021-02-26", "Makha", "add", "image"], ["2021-04-06", "Chakri", "add", "image"], ["2021-04-13", "Songkran", "add", "image"], ["2021-04-14", "Songkran", "add", "image"], ["2021-04-15", "Songkran", "add", "image"], ["2021-05-03", "LabourObserved", "add", "image"], ["2021-05-04", "Coronation", "add", "image"], ["2021-05-26", "Visakha", "add", "image"], ["2021-06-03", "QueenBirthday", "add", "image"], ["2021-07-26", "AsalhaObserved", "add", "image"], ["2021-07-28", "KingBirthday", "add", "image"], ["2021-08-12", "Mother", "add", "image"], ["2021-09-24", "Special", "add", "image"], ["2021-10-13", "Navamindra", "add", "image"], ["2021-10-22", "ChulalongkornObserved", "add", "image"], ["2021-12-06", "FatherObserved", "add", "image"], ["2021-12-10", "Constitution", "add", "image"], ["2021-12-31", "Yearend", "add", "image"]]},
+      {"id": "bot_holidays_2022_pdf", "kind": "pdf", "role": "annual_base", "years": [2022], "url": "https://www.bot.or.th/content/dam/bot/fipcs/documents/FPG/2564/ThaiPDF/25640124.pdf", "preflight_file": "bot-holidays-2022.pdf", "reviewed_sha256": "1913aefbfea8762a0b2469096a2626e79c841709c0a8a38729bf73fb649eb815", "known_from": "2021-07-21", "circular_date": "2021-07-21", "gazette_date": "2021-07-20", "signed_date": "2021-07-07", "page_ref": "pages 1-3 all reviewed (entry page not transcribed)", "verified_by": "codex_visual_review_2026-11-10_all_3_pages", "source_quality": "official BOT FIPCS PDF (image-only); visually transcribed",
+       "entries": [["2022-01-03", "NewYearObserved", "add", null], ["2022-02-16", "Makha", "add", null], ["2022-04-06", "Chakri", "add", null], ["2022-04-13", "Songkran", "add", null], ["2022-04-14", "Songkran", "add", null], ["2022-04-15", "Songkran", "add", null], ["2022-05-02", "LabourObserved", "add", null], ["2022-05-04", "Coronation", "add", null], ["2022-05-16", "VisakhaObserved", "add", null], ["2022-06-03", "QueenBirthday", "add", null], ["2022-07-13", "Asalha", "add", null], ["2022-07-28", "KingBirthday", "add", null], ["2022-08-12", "Mother", "add", null], ["2022-10-13", "Navamindra", "add", null], ["2022-10-24", "ChulalongkornObserved", "add", null], ["2022-12-05", "FatherNational", "add", null], ["2022-12-12", "ConstitutionObserved", "add", null]]},
+      {"id": "bot_news_20211110_2", "kind": "html", "role": "special_announcement", "years": [2022], "url": "https://www.bot.or.th/th/news-and-media/news/news-20211110-2.html", "known_from": "2021-11-10", "verified_by": "codex_review_2026-11-10", "notes": "Do NOT add public Jul15/Dec30 as bank holidays without specific evidence.",
+       "entries": [["2022-07-29", "Special", "add", "html"], ["2022-10-14", "Special", "add", "html"]]},
+      {"id": "bot_news_20221005", "kind": "html", "role": "context", "years": [2022], "url": "https://www.bot.or.th/th/news-and-media/news/news-20221005.html", "known_from": "2022-10-05", "verified_by": "codex_review_2026-11-10", "notes": "APEC 2022-11-16..18 public regional holidays: banks OPEN (no bank-holiday record).", "entries": []},
+      {"id": "bot_holidays_2023_pdf", "kind": "pdf", "role": "annual_base", "years": [2023], "url": "https://www.bot.or.th/content/dam/bot/content-fragments/holiday-calendar/th/bot-notification-holiday/BOT-Notification-Holiday-Calendar-2023-TH.pdf", "preflight_file": "bot-holidays-2023.pdf", "reviewed_sha256": "33aef39ed370eba61dd741437407b2680a604348c0098113847b7ea38c3178d6", "known_from": "2022-07-14", "circular_date": "2022-07-14", "gazette_date": "2022-07-11", "signed_date": "2022-06-20", "page_ref": "p2/p3", "verified_by": "codex_visual_review_2026-11-10_all_pages", "source_quality": "official BOT PDF (image-only); visually transcribed; original is not the final calendar (later May5 special and year-end amendment)",
+       "entries": [["2023-01-02", "NewYearObserved", "add", "p2/p3"], ["2023-03-06", "MakhaBucha", "add", "p2/p3"], ["2023-04-06", "Chakri", "add", "p2/p3"], ["2023-04-13", "Songkran", "add", "p2/p3"], ["2023-04-14", "Songkran", "add", "p2/p3"], ["2023-05-01", "Labour", "add", "p2/p3"], ["2023-05-04", "Coronation", "add", "p2/p3"], ["2023-06-05", "QueenBirthdayAndVisakhaObserved", "add", "p2/p3"], ["2023-07-28", "KingBirthday", "add", "p2/p3"], ["2023-08-01", "AsalhaBucha", "add", "p2/p3"], ["2023-08-14", "MotherObserved", "add", "p2/p3"], ["2023-10-13", "Navamindra", "add", "p2/p3"], ["2023-10-23", "Chulalongkorn", "add", "p2/p3"], ["2023-12-05", "FatherNational", "add", "p2/p3"], ["2023-12-11", "ConstitutionObserved", "add", "p2/p3"]]},
+      {"id": "bot_news_20230130", "kind": "html", "role": "special_announcement", "years": [2023], "url": "https://www.bot.or.th/th/news-and-media/news/news-20230130.html", "known_from": "2023-01-30", "verified_by": "codex_review_2026-11-10",
+       "entries": [["2023-05-05", "Special", "add", "html"]]},
+      {"id": "bot_holidays_2024_pdf", "kind": "pdf", "role": "annual_base", "years": [2024], "url": "https://www.bot.or.th/content/dam/bot/content-fragments/holiday-calendar/th/bot-notification-holiday/BOT-Notification-Holiday-Calendar-2024-TH.pdf", "preflight_file": "bot-holidays-2024.pdf", "reviewed_sha256": "f00b2e42cc7f15b7811c7dbd5ed35879cfed3ae0dc9e4f72a0b95429f71b7345", "known_from": "2023-07-26", "circular_date": "2023-07-26", "gazette_date": "2023-07-18", "signed_date": "2023-06-28", "page_ref": "p2/p3", "verified_by": "codex_visual_review_2026-11-10_all_pages", "source_quality": "official BOT PDF (image-only); visually transcribed; 2024-01-02 later removed by the year-end amendment",
+       "entries": [["2024-01-01", "NewYear", "add", "p2/p3"], ["2024-01-02", "YearendObserved", "add", "p2/p3"], ["2024-02-26", "MakhaObserved", "add", "p2/p3"], ["2024-04-08", "ChakriObserved", "add", "p2/p3"], ["2024-04-15", "Songkran", "add", "p2/p3"], ["2024-04-16", "SongkranObserved", "add", "p2/p3"], ["2024-05-01", "Labour", "add", "p2/p3"], ["2024-05-06", "CoronationObserved", "add", "p2/p3"], ["2024-05-22", "Visakha", "add", "p2/p3"], ["2024-06-03", "QueenBirthday", "add", "p2/p3"], ["2024-07-22", "AsalhaObserved", "add", "p2/p3"], ["2024-07-29", "KingBirthdayObserved", "add", "p2/p3"], ["2024-08-12", "Mother", "add", "p2/p3"], ["2024-10-14", "NavamindraObserved", "add", "p2/p3"], ["2024-10-23", "Chulalongkorn", "add", "p2/p3"], ["2024-12-05", "FatherNational", "add", "p2/p3"], ["2024-12-10", "Constitution", "add", "p2/p3"], ["2024-12-31", "Yearend", "add", "p2/p3"]]},
+      {"id": "bot_yearend_amendment_2023_pdf", "kind": "pdf", "role": "amendment", "years": [2023, 2024], "url": "https://www.bot.or.th/content/dam/bot/fipcs/documents/FPG/2566/ThaiPDF/25660204.pdf", "metadata_url": "https://app.bot.or.th/FIPCS/Thai/PFIPCS_showrelated.aspx?DocID=25660204-02", "preflight_file": "bot-yearend-amendment-2023.pdf", "reviewed_sha256": "c566aee7bc3de96e069976a8cff46894769c1b2622a3692d9e1adefd8800015b", "known_from": "2023-11-13", "circular_date": "2023-11-13", "gazette_date": "2023-11-10", "signed_date": "2023-11-01", "page_ref": "p3", "verified_by": "codex_visual_review_2026-11-10_all_pages", "source_quality": "official BOT FIPCS amendment PDF (image-only); page 3 removes 2024-01-02 and adds 2023-12-29",
+       "entries": [["2024-01-02", "YearendObservedRemoved", "remove", "p3"], ["2023-12-29", "YearendSpecialAdded", "add", "p3"]]},
+      {"id": "bot_news_20240221", "kind": "html", "role": "special_announcement", "years": [2024], "url": "https://www.bot.or.th/th/news-and-media/news/news-20240221.html", "known_from": "2024-02-21", "verified_by": "codex_review_2026-11-10", "notes": "Do not assume the public extra Dec30 is a bank holiday without BOT evidence.",
+       "entries": [["2024-04-12", "Special", "add", "html"]]},
+      {"id": "bot_holidays_2025_pdf", "kind": "pdf", "role": "annual_base", "years": [2025], "url": "https://www.bot.or.th/content/dam/bot/content-fragments/holiday-calendar/th/bot-notification-holiday/BOT-Notification-Holiday-Calendar-2025-TH.pdf", "preflight_file": "bot-holidays-2025.pdf", "reviewed_sha256": "2af0f9ffc7b304f9e0ac9dfc3a3ca2d6208078196e77cf00b0584cbc6da08d07", "known_from": "2024-09-10", "circular_date": "2024-09-10", "gazette_date": "2024-09-05", "signed_date": "2024-08-13", "page_ref": "p2/p3", "verified_by": "codex_visual_review_2026-11-10_all_pages", "source_quality": "official BOT PDF (image-only); visually transcribed",
+       "entries": [["2025-01-01", "NewYear", "add", "p2/p3"], ["2025-02-12", "Makha", "add", "p2/p3"], ["2025-04-07", "ChakriObserved", "add", "p2/p3"], ["2025-04-14", "Songkran", "add", "p2/p3"], ["2025-04-15", "Songkran", "add", "p2/p3"], ["2025-05-01", "Labour", "add", "p2/p3"], ["2025-05-05", "CoronationObserved", "add", "p2/p3"], ["2025-05-12", "VisakhaObserved", "add", "p2/p3"], ["2025-06-03", "QueenBirthday", "add", "p2/p3"], ["2025-07-10", "Asalha", "add", "p2/p3"], ["2025-07-28", "KingBirthday", "add", "p2/p3"], ["2025-08-12", "Mother", "add", "p2/p3"], ["2025-10-13", "Navamindra", "add", "p2/p3"], ["2025-10-23", "Chulalongkorn", "add", "p2/p3"], ["2025-12-05", "FatherNational", "add", "p2/p3"], ["2025-12-10", "Constitution", "add", "p2/p3"], ["2025-12-31", "Yearend", "add", "p2/p3"]]},
+      {"id": "bot_news_20241127", "kind": "html", "role": "special_announcement", "years": [2025], "url": "https://www.bot.or.th/th/news-and-media/news/news-20241127.html", "known_from": "2024-11-27", "verified_by": "codex_review_2026-11-10",
+       "entries": [["2025-06-02", "Special", "add", "html"], ["2025-08-11", "Special", "add", "html"]]}
+    ],
+    "known_gaps": [
+      "Original 2021/2022 annual BOT PDF URLs following the 2025 pattern returned 404 (not evidence; 2021 infographic and 2022 FIPCS PDF used instead)",
+      "2021 Gazette candidate https://ratchakitcha.soc.go.th/DATA/PDF/2563/E/207/T_0062.PDF returned 403 (not evidence; host not allowlisted)",
+      "No national public-holiday calendar collected; BOT bank holidays are a different, narrower list",
+      "Further amendments not listed here are unknown: calendar coverage is never claimed complete",
+      "Historical publication latency of every source is unproven; known_from is the conservative circular/announcement date"
+    ],
+    "recurring_fixed_festivals": [
+      {"id": "songkran", "name": "วันสงกรานต์ (Songkran)", "month_days": [[4, 13], [4, 14], [4, 15]]},
+      {"id": "new_year", "name": "วันสิ้นปี / วันขึ้นปีใหม่ (New Year)", "month_days": [[12, 31], [1, 1]]}
+    ],
+    "policy": "Reviewed BOT bank-holiday transcriptions (Codex visual review) are applied only when the reviewed copy's bytes match the live/cached download (PDF/PNG) or the HTML snapshot text contains every entry date. Records are versioned add/remove actions with known_from; as-of views replay them, never a forever-union. Bank holiday != public holiday. Unknown calendar coverage is not an ordinary day. Recurring Songkran (13-15 Apr) and New Year (31 Dec / 1 Jan) are deterministic calendar rules usable without bank-holiday membership."
   },
   "readiness": [
-    {"group": "holiday_festival", "granularity": "date (national)", "next_stage_allowed_use": "recurring fixed-festival indicators and day-distance windows (Songkran, New Year) only; no general public-holiday flag", "available_at_policy": "fixed recurring dates are known in advance; announced/special days only after a verified announcement_date <= issue date", "leakage_risk": "low for fixed festivals; high if special days announced after issue time are used"},
+    {"group": "holiday_festival", "granularity": "date (national)", "next_stage_allowed_use": "recurring fixed-festival indicators/distances (Songkran, New Year); reviewed BOT bank-holiday as-of flags/distances only where calendar_as_of coverage is known; no public-holiday flag", "available_at_policy": "fixed recurring dates known in advance; bank-holiday records only when known_from + 1 day 00:00 local <= issue time; removals applied in as-of order", "leakage_risk": "low for fixed festivals; medium for bank holidays (publication latency proxy); high if special days announced after issue are used"},
     {"group": "weather", "granularity": "province representative point x local day / 6 h block", "next_stage_allowed_use": "archived JMA GSM previous_day2 forecasts aggregated per province-day/6 h block, only rows with complete hours and issue_bound_ok", "available_at_policy": "nominal issue bound = valid time - 48 h; require bound + 6 h buffer <= target day - 1 at 18:00 local", "leakage_risk": "medium: API lead is nominal and archive delivery latency is unverified; never substitute ERA5/observations"},
     {"group": "season", "granularity": "date", "next_stage_allowed_use": "calendar-month season proxy (not actual rain, not uniform across Thailand)", "available_at_policy": "deterministic from target date", "leakage_risk": "low"},
     {"group": "timeblock", "granularity": "province x 6 h block (00-06/06-12/12-18/18-24)", "next_stage_allowed_use": "define the TARGET unit from each event's own time; never use an event's time to predict that same event", "available_at_policy": "block boundaries are deterministic; event times are labels only", "leakage_risk": "high if event time is used as an input feature"},
-    {"group": "traffic", "granularity": "DOH survey point x survey year (annual)", "next_stage_allowed_use": "province mean/median AADT and survey coverage from PRIOR available vintages only", "available_at_policy": "catalog created timestamp (proxy) must precede the issue time; never the target year's own annual actual", "leakage_risk": "medium: catalog timestamps are proxies; current bytes may be revised"},
+    {"group": "traffic", "granularity": "DOH survey point x survey year (annual)", "next_stage_allowed_use": "province mean/median AADT, heavy-share mean and survey coverage from PRIOR available vintages only (never sums)", "available_at_policy": "survey_year < target year and max(resource created, last_modified) + 1 day <= issue time (catalog proxy)", "leakage_risk": "medium: catalog timestamps are proxies; current bytes may be revised"},
     {"group": "history", "granularity": "province x day/block accident history", "next_stage_allowed_use": "blocked for operational claims; only explicitly conditional research runs that state report-date assumptions", "available_at_policy": "unknown: report availability/latency at issue time not verified", "leakage_risk": "high"}
   ]
 }

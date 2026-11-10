@@ -41,6 +41,13 @@ backend/
 - **คำเตือน (ยืนยันด้วยการรัน 07 จริง):** บนเซลล์ eligible ปี 2024, 2025 และสองปีรวมกัน Baseline ค่าเฉลี่ยรายจังหวัดมี Poisson deviance ต่ำกว่าตัวดีที่สุดของทั้งสามตระกูล และในปีหลัง HGB อยู่อันดับดีกว่า Poisson ที่ถูกเลือกจาก OOF ตัวเลือกที่ล็อกไว้ **ไม่เปลี่ยน** ผลนี้เป็นข้อจำกัดของการข้ามช่วงเวลา (มี regime shift จาก cleaning/รูปแบบวันที่) คะแนนอธิบายเฉพาะ province-day ที่ผ่าน quality filter (มี selection bias) ปี 2024 มีเซลล์ eligible เพียง 28% ของ province-day และไม่มีเลยในเดือน ต.ค.–ธ.ค. ส่วนปี 2025 เคยถูกดูแล้ว จึงไม่ใช่ test อิสระ ไม่ใช้ labels ปี 2026 และ `production_enabled = false`
 - สัญญาสำหรับ 07 อยู่ใน `next_stage_contract` ของ `reports/models/experiment_manifest.json` ส่วนสัญญาสำหรับ 08 อยู่ใน `reports/models/diagnostics/diagnostic_manifest.json` (ทั้งสองไฟล์ต้องมี `status == ok`)
 
+## V2 — เก็บแหล่งข้อมูลภายนอก/หลักฐานวันที่ (Notebook 09, ระหว่างดำเนินการ ยังไม่ตรวจรับ)
+
+- Notebook 09 เก็บ/ตรวจ AADT กรมทางหลวง, ขอบเขตจังหวัด/จุดสอบถามอากาศ, พยากรณ์ JMA GSM ย้อนหลัง (lead 48 ชม.), ปฏิทินวันหยุดธนาคาร ธปท. ที่ตรวจด้วยตา (add/remove + known_from) และหลักฐานวันที่รายปีด้วย ACC_CODE + บริบท ไฟล์ดิบอยู่ใต้ `data/external_v2/` (gitignored) รายงานเล็กใต้ `reports/v2/sources/`
+- Notebook 10 (เขียนโค้ดแล้ว ยังไม่ได้รันกับข้อมูลจริงและยังไม่ตรวจรับ; รันหลัง 09 ผ่านการตรวจรับเท่านั้น): ซ่อมวันที่กำกวมด้วยคู่ข้อมูล XLSX + ตรวจบริบทจังหวัด/เวลาอิสระ, ธง unknown label ใหม่, panel 77 จังหวัด × 1826 วัน และ × 4 บล็อก 6 ชม., feature as-of (เทศกาล, ปฏิทินธนาคาร, ฤดูกาล, อากาศ, จราจร), matrix ความพร้อม + negative controls ไม่มีการ fit โมเดล; `--stage prepare` (ไม่รัน 09/ไม่ใช้เครือข่าย, อ่าน 09 จาก `--sources-dir`, เขียน `<output>/data/v2` และ `<output>/reports/v2/preparation`) หรือ `--stage all` (09 แล้ว 10). production_ready = false, operational = BLOCKED
+- รัน: `.venv/bin/python backend/scripts/run_v2_notebooks.py --stage collect` (รอบแรกอาจใช้ ~30 นาทีจากการเว้นระยะคำขออากาศ; รอบที่แคชแล้วไม่รอ) หรือ `--offline` เพื่อใช้เฉพาะแคชที่ hash ตรง ข้อมูล/รายงาน v1 ถูกอ่านอย่างเดียวและ runner ตรวจ hash ก่อน/หลัง
+- สถานะ: ยังไม่มีผลรันจริงที่ Codex ตรวจรับ, ยังไม่มี feature panel หรือโมเดล V2, ไม่อ้างว่าชนะ baseline
+
 ## ติดตั้ง (ครั้งเดียว, ที่ root ของ repository)
 
 ```bash

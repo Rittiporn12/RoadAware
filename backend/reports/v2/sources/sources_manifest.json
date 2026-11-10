@@ -1,0 +1,1334 @@
+{
+  "producer": "09_external_collection_date_evidence",
+  "schema": "roadaware-v2-sources-manifest/2",
+  "status": "completed_with_gaps",
+  "status_note": "collection/audit only; no feature panel, no model fit, no claim of beating baselines; passing checks is not acceptance",
+  "started_utc": "2026-11-10T10:59:15+00:00",
+  "finished_utc": "2026-11-10T10:59:47+00:00",
+  "offline": true,
+  "refresh": false,
+  "functions_cells_sha256": "bb990bc46150a390145c97a068f2214a5fca13cb50af52ab68f1308ac812f5e5",
+  "config_sha256": "742c25b21e7a7c36f9e80a3609a54d09142ccec8a641384d76a844faef28b93a",
+  "config_path": "config/external_sources_v2.json",
+  "external_root": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/external_v2",
+  "output_root": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend",
+  "v1_data_root": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend",
+  "preflight_dir": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/external_v2/evidence",
+  "v1_raw_manifest_sha256": "708a3607231e4ee2f801f800defcd78ba05fdc60b886ce8b255fc041a98cf9d6",
+  "v1_raw_snapshot_sha256": {
+    "data/raw/accidents/accidents_2564_original.csv": "044f8ae0a918ec25139bef24257fe274fd17d9bfab2512c0780a7a4bbf5d50f0",
+    "data/raw/accidents/accidents_2565_original.csv": "6f7c543a302906925e32fbf6b8da5d2b1920266489ae1c978fd9887d63c4698e",
+    "data/raw/accidents/accidents_2566_original.csv": "4d6dbfa4b8e1f4dd476d81062a01c10a858b7acd174fef20cb18f29ad2fbbd55",
+    "data/raw/accidents/accidents_2567_original.csv": "2ca1e832a4fa8d29ef6adfe52623a9b447a7f0b12e61e6e7e795a1b6e4be4a10",
+    "data/raw/accidents/accidents_2568_original.csv": "b163fa91170fa7df76b8d71b4eb629ff7ca4ef220bea6c3660e244fbe7e5616d",
+    "data/raw/accidents/accidents_2569_original.csv": "e9e0388614ce46cf815c1796d599d48e029be20b8d8849919fc0f730fc10ff1b"
+  },
+  "versions": {
+    "python": "3.9.6",
+    "pandas": "2.3.3",
+    "numpy": "2.0.2",
+    "openpyxl": "3.1.5",
+    "pypdf": "5.9.0",
+    "shapely": "2.0.7",
+    "pyarrow": null
+  },
+  "network": {
+    "requests_used": 0,
+    "max_requests": 500,
+    "weather_requests_used": 0
+  },
+  "sections": {
+    "mot_package": {
+      "used": "notebook_snapshot",
+      "sha256": "1b02b03a8715e50c35c9c6afed0deac85a959f288074d2cbc2f5dee72278a83e",
+      "retrieved_at_utc": "2026-11-10T05:58:13+00:00",
+      "preflight_sha256": "1b02b03a8715e50c35c9c6afed0deac85a959f288074d2cbc2f5dee72278a83e",
+      "preflight_identical": true,
+      "metadata_modified": "2026-11-02T03:23:46.021163",
+      "license": "Open Data Common",
+      "n_resources": 16
+    },
+    "doh_package": {
+      "used": "notebook_snapshot",
+      "sha256": "c7eb5182487a14647a97b39ba79ec30da54d5c4ea29c58cbedd0d091c0269ec9",
+      "retrieved_at_utc": "2026-11-10T05:58:34+00:00",
+      "preflight_sha256": "c7eb5182487a14647a97b39ba79ec30da54d5c4ea29c58cbedd0d091c0269ec9",
+      "preflight_identical": true,
+      "metadata_modified": "2026-03-11T03:35:24.201407",
+      "license": "License not specified",
+      "n_resources": 18
+    },
+    "date_evidence": {
+      "data_dictionary_status": "no data-dictionary resource listed in the current MOT package (nothing fetched)",
+      "years": [
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ]
+    },
+    "traffic": {
+      "preflight_2021_csv_matches_notebook_download": true,
+      "package_metadata_modified": "2026-03-11T03:35:24.201407",
+      "license": "License not specified",
+      "unit_note": "Annual average daily traffic (vehicles/day) at DOH survey points on DOH highways. Survey-point AADT cannot be summed into unique vehicles or real-time flow; later stages may use only mean/median/survey-coverage summaries per province.",
+      "availability_policy": "Per-resource proxy available_from = max(catalog created, catalog last_modified) + 1 day (CKAN timestamps read as UTC). created alone is not conservative when bytes were revised. A survey vintage may feed a target date only if survey_year < target year AND available_from <= issue time. The catalog-vintage proxy does not prove the current bytes were publicly delivered then. Never use the target year's own annual AADT.",
+      "province_year_rows": 462,
+      "row_audit_by_survey_year_be": {
+        "2563": {
+          "rows_parsed": 2701,
+          "rows_blank_nonrecord": 0,
+          "rows_incomplete_identity": 0,
+          "rows_duplicate_key": 0,
+          "rows_station": 2701,
+          "station_valid_total_rows": 2701,
+          "station_valid_heavy_share_rows": 2701,
+          "nonblank_invalid_total_value_rows": 0,
+          "nonblank_invalid_heavy_share_value_rows": 0,
+          "nonblank_invalid_count_value_rows": 0,
+          "nonblank_missing_total_rows": 0,
+          "province_key_status_counts": {
+            "v1_panel_audited_alias": 43,
+            "v1_panel_exact": 2658
+          },
+          "province_alias_values": {
+            "พระนครศรีอยุธยา": "อยุธยา"
+          },
+          "provinces_not_in_v1_panel": []
+        },
+        "2564": {
+          "rows_parsed": 2709,
+          "rows_blank_nonrecord": 0,
+          "rows_incomplete_identity": 0,
+          "rows_duplicate_key": 0,
+          "rows_station": 2709,
+          "station_valid_total_rows": 2709,
+          "station_valid_heavy_share_rows": 2709,
+          "nonblank_invalid_total_value_rows": 0,
+          "nonblank_invalid_heavy_share_value_rows": 0,
+          "nonblank_invalid_count_value_rows": 0,
+          "nonblank_missing_total_rows": 0,
+          "province_key_status_counts": {
+            "v1_panel_audited_alias": 45,
+            "v1_panel_exact": 2664
+          },
+          "province_alias_values": {
+            "พระนครศรีอยุธยา": "อยุธยา"
+          },
+          "provinces_not_in_v1_panel": []
+        },
+        "2565": {
+          "rows_parsed": 2701,
+          "rows_blank_nonrecord": 0,
+          "rows_incomplete_identity": 0,
+          "rows_duplicate_key": 0,
+          "rows_station": 2701,
+          "station_valid_total_rows": 2701,
+          "station_valid_heavy_share_rows": 2701,
+          "nonblank_invalid_total_value_rows": 0,
+          "nonblank_invalid_heavy_share_value_rows": 0,
+          "nonblank_invalid_count_value_rows": 0,
+          "nonblank_missing_total_rows": 0,
+          "province_key_status_counts": {
+            "v1_panel_audited_alias": 45,
+            "v1_panel_exact": 2656
+          },
+          "province_alias_values": {
+            "พระนครศรีอยุธยา": "อยุธยา"
+          },
+          "provinces_not_in_v1_panel": []
+        },
+        "2566": {
+          "rows_parsed": 2710,
+          "rows_blank_nonrecord": 0,
+          "rows_incomplete_identity": 0,
+          "rows_duplicate_key": 0,
+          "rows_station": 2710,
+          "station_valid_total_rows": 2710,
+          "station_valid_heavy_share_rows": 2710,
+          "nonblank_invalid_total_value_rows": 0,
+          "nonblank_invalid_heavy_share_value_rows": 0,
+          "nonblank_invalid_count_value_rows": 0,
+          "nonblank_missing_total_rows": 0,
+          "province_key_status_counts": {
+            "v1_panel_audited_alias": 44,
+            "v1_panel_exact": 2666
+          },
+          "province_alias_values": {
+            "พระนครศรีอยุธยา": "อยุธยา"
+          },
+          "provinces_not_in_v1_panel": []
+        },
+        "2567": {
+          "rows_parsed": 4866,
+          "rows_blank_nonrecord": 2130,
+          "rows_incomplete_identity": 0,
+          "rows_duplicate_key": 0,
+          "rows_station": 2736,
+          "station_valid_total_rows": 2736,
+          "station_valid_heavy_share_rows": 2736,
+          "nonblank_invalid_total_value_rows": 0,
+          "nonblank_invalid_heavy_share_value_rows": 0,
+          "nonblank_invalid_count_value_rows": 0,
+          "nonblank_missing_total_rows": 0,
+          "province_key_status_counts": {
+            "v1_panel_audited_alias": 44,
+            "v1_panel_exact": 2692
+          },
+          "province_alias_values": {
+            "พระนครศรีอยุธยา": "อยุธยา"
+          },
+          "provinces_not_in_v1_panel": []
+        },
+        "2568": {
+          "rows_parsed": 2739,
+          "rows_blank_nonrecord": 0,
+          "rows_incomplete_identity": 0,
+          "rows_duplicate_key": 0,
+          "rows_station": 2739,
+          "station_valid_total_rows": 2739,
+          "station_valid_heavy_share_rows": 2739,
+          "nonblank_invalid_total_value_rows": 0,
+          "nonblank_invalid_heavy_share_value_rows": 0,
+          "nonblank_invalid_count_value_rows": 0,
+          "nonblank_missing_total_rows": 0,
+          "province_key_status_counts": {
+            "v1_panel_audited_alias": 44,
+            "v1_panel_exact": 2695
+          },
+          "province_alias_values": {
+            "พระนครศรีอยุธยา": "อยุธยา"
+          },
+          "provinces_not_in_v1_panel": []
+        }
+      },
+      "province_aliases": {
+        "map": {
+          "พระนครศรีอยุธยา": "อยุธยา"
+        },
+        "policy": "Exact audited full-string aliases only, mapping a source spelling to the v1 77-province panel name for joins (traffic province_key and geography province_key / in_v1_panel). Raw text is preserved (traffic province_raw, points name_th). No fuzzy, substring, prefix or postal-code rules; any other value outside the panel stays explicit as not_in_v1_panel.",
+        "audit": "Codex inspection 2026-11-10: in the DOH AADT CSVs for BE 2563-2568 (CE 2020-2025) every non-blank province value absent from the v1 panel was พระนครศรีอยุธยา (43/45/45/44/44/44 survey rows per year); the v1 panel spells the same province อยุธยา."
+      },
+      "station_schema": {
+        "file": "derived/traffic_aadt_normalized.csv (external root; blank non-records excluded)",
+        "columns": {
+          "csv_data_row_index": "0-based parsed data row in the source CSV",
+          "survey_year_be": "survey year (BE) from the resource title",
+          "survey_year_ce": "survey_year_be - 543",
+          "route": "DOH route number text",
+          "control_section": "control section text",
+          "survey_point": "survey point km text",
+          "route_name": "route/section name text",
+          "highway_district": "highway district text",
+          "province_raw": "province cell exactly as published",
+          "province_text": "whitespace-normalized province text",
+          "province": "same as province_text (kept for compatibility)",
+          "province_key": "v1 panel join key via the exact audited alias map ('' when blank)",
+          "province_key_status": "blank | v1_panel_exact | v1_panel_audited_alias | not_in_v1_panel | v1_panel_unavailable",
+          "row_class": "incomplete_identity | duplicate_key | station",
+          "total_aadt": "published total, vehicles/day",
+          "total_valid": "finite and >= 0",
+          "heavy_share_pct": "published heavy-vehicle share %",
+          "heavy_share_valid": "finite and 0..100",
+          "count__*": "published vehicle-class AADT",
+          "source_sha256": "sha256 of the source CSV bytes",
+          "available_from_proxy_utc": "catalog availability proxy"
+        },
+        "next_stage_use": "province_key x survey year mean/median of valid totals of station rows from PRIOR available vintages only; never sums"
+      }
+    },
+    "geography": {
+      "summary": "shapes 77 (expected 77); joined by ISO code 77, by exact normalized English name 0, unresolved 0; points inside polygon 77; v1 panel provinces without a point: none; point provinces not in panel: none; audited aliases used: {'พระนครศรีอยุธยา': 'อยุธยา'}",
+      "api_metadata": {
+        "boundaryID": "THA-ADM1-36821470",
+        "boundaryISO": "THA",
+        "boundaryType": "ADM1",
+        "boundaryYearRepresented": "2017",
+        "buildDate": "Dec 12, 2023",
+        "sourceDataUpdateDate": "Thu Jan 19 07:31:04 2023",
+        "boundarySource": "OpenStreetMap, Wambacher",
+        "boundaryLicense": "Open Data Commons Open Database License 1.0",
+        "licenseDetail": "Open Data Commons Open Database License 1.0",
+        "licenseSource": "www.openstreetmap.org/copyright",
+        "admUnitCount": "77",
+        "gjDownloadURL": "https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/THA/ADM1/geoBoundaries-THA-ADM1.geojson",
+        "metadata_source": "codex_preflight_registered_pin_verified",
+        "pinned_gj_download_url": "https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/THA/ADM1/geoBoundaries-THA-ADM1.geojson",
+        "current_api_url_matches_pinned": true
+      },
+      "province_table": {
+        "code_key": "provinceCode",
+        "name_th_key": "provinceNameTh",
+        "name_en_key": "provinceNameEn",
+        "repo_api_status": "cache_hit_hash_verified",
+        "repo_api_retrieved_at_utc": "2026-11-10T07:58:17+00:00",
+        "license": "MIT",
+        "default_branch": "main",
+        "commit_api_status": "cache_hit_hash_verified",
+        "commit_api_retrieved_at_utc": "2026-11-10T06:10:04+00:00",
+        "latest_commit_touching_file_at_fetch": "8ab310834e70d00f3be21b938ae6b65fe3363d89",
+        "latest_commit_date": "2026-10-07T14:38:38Z",
+        "revision_note": "bytes are identified by the configured sha256 pin; the raw URL follows the main branch and the commit API answer is from its own fetch time, so it does not prove which revision the pinned bytes came from"
+      },
+      "unresolved_shapes": [],
+      "panel_provinces_missing": [],
+      "points_not_in_panel": [],
+      "pinned_sources": {
+        "geoboundaries_api": {
+          "key": "geoboundaries_api",
+          "url": "https://www.geoboundaries.org/api/current/gbOpen/THA/ADM1/",
+          "expected_sha256": "10119cda1b995f724304f99132ecca4a80dbeb96aaf750b8eabf24747ee5a38d",
+          "used": "codex_preflight_registered_pin_verified",
+          "used_sha256": "10119cda1b995f724304f99132ecca4a80dbeb96aaf750b8eabf24747ee5a38d",
+          "remote_checked": false,
+          "remote_sha256": null,
+          "remote_matches_pin": null,
+          "error": null,
+          "provenance": "codex_preflight_download_original_time_unknown",
+          "cache_mtime_utc": "2026-11-10T01:38:13+00:00",
+          "retrieved_at_utc": null,
+          "verified_at_utc": "2026-11-10T10:59:42+00:00",
+          "original_download_time": "unknown"
+        },
+        "geoboundaries_tha_adm1_geojson": {
+          "key": "geoboundaries_tha_adm1_geojson",
+          "url": "https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/THA/ADM1/geoBoundaries-THA-ADM1.geojson",
+          "expected_sha256": "145beb11e52785a42e16997c92a65426b3df8d009941db6b012ec8e411f3e33c",
+          "used": "codex_preflight_registered_pin_verified",
+          "used_sha256": "145beb11e52785a42e16997c92a65426b3df8d009941db6b012ec8e411f3e33c",
+          "remote_checked": false,
+          "remote_sha256": null,
+          "remote_matches_pin": null,
+          "error": null,
+          "provenance": "codex_preflight_download_original_time_unknown",
+          "cache_mtime_utc": "2026-11-10T01:38:15+00:00",
+          "retrieved_at_utc": null,
+          "verified_at_utc": "2026-11-10T10:59:42+00:00",
+          "original_download_time": "unknown"
+        },
+        "thailand_provinces_json": {
+          "key": "thailand_provinces_json",
+          "url": "https://raw.githubusercontent.com/thailand-geography-data/thailand-geography-json/main/src/provinces.json",
+          "expected_sha256": "ec29779c963de89a29f72a37eabcd39f89d1c6837586b5f441d26418d1e67024",
+          "used": "codex_preflight_registered_pin_verified",
+          "used_sha256": "ec29779c963de89a29f72a37eabcd39f89d1c6837586b5f441d26418d1e67024",
+          "remote_checked": false,
+          "remote_sha256": null,
+          "remote_matches_pin": null,
+          "error": null,
+          "provenance": "codex_preflight_download_original_time_unknown",
+          "cache_mtime_utc": "2026-11-10T01:38:13+00:00",
+          "retrieved_at_utc": null,
+          "verified_at_utc": "2026-11-10T10:59:42+00:00",
+          "original_download_time": "unknown"
+        }
+      },
+      "quality_label": "geoBoundaries gbOpen (OpenStreetMap-derived, ODbL per API metadata); NOT an official Thai-government boundary"
+    },
+    "weather": {
+      "readiness_status": "partial",
+      "requests_used": 0,
+      "estimated_weighted_calls_this_run": 0.0,
+      "stop_reason": "repeated_failures",
+      "quota_limited": false,
+      "chunks_ok": 7,
+      "chunks_total": 80,
+      "negative_value_policy": "mask",
+      "rain_negative_hours_masked": 24,
+      "province_years_retained": 35,
+      "province_years_with_masked_hours": 4,
+      "summary": "JMA GSM previous_day2 chunks with data: 7/80; province-years retained: 35/385, complete (all hours valid): 31/385; negative precipitation hours masked to NaN (raw JSON kept): 24; stop reason: repeated_failures; daily rows 12775 (complete rain 12735); issue bound = valid - 48 h, buffer 6 h, all issue_bound_ok=True",
+      "sample_lead_bounds": [
+        {
+          "province_code": 10,
+          "date": "2021-01-01T00:00:00",
+          "latest_issue_bound_utc": "2020-12-30T17:00:00",
+          "issue_time_utc": "2020-12-31T11:00:00",
+          "issue_bound_ok": true
+        },
+        {
+          "province_code": 27,
+          "date": "2021-07-02T00:00:00",
+          "latest_issue_bound_utc": "2021-06-30T17:00:00",
+          "issue_time_utc": "2021-07-01T11:00:00",
+          "issue_bound_ok": true
+        },
+        {
+          "province_code": 46,
+          "date": "2021-12-31T00:00:00",
+          "latest_issue_bound_utc": "2021-12-29T16:00:00",
+          "issue_time_utc": "2021-12-30T11:00:00",
+          "issue_bound_ok": true
+        }
+      ]
+    },
+    "calendar": {
+      "sources": [
+        {
+          "source_id": "bot_holiday_main_page",
+          "kind": "html",
+          "role": "context",
+          "years": "",
+          "url": "https://www.bot.or.th/th/financial-institutions-holiday.html",
+          "parent_url": null,
+          "known_from": null,
+          "circular_date": null,
+          "gazette_date": null,
+          "verified_by": null,
+          "page_ref": null,
+          "source_quality": null,
+          "n_entries": 0,
+          "notes": null,
+          "live_status": "cache_hit_hash_verified",
+          "live_sha256": "7ffb6434122c01e64a1ceb9887c5b82c0cd65fd1e19b84971d93630c7fd52add",
+          "live_error": null,
+          "reviewed_copy": null,
+          "reviewed_copy_sha256": null,
+          "review_ok": false,
+          "review_status": "no_entries (html_snapshot_date_text_found)"
+        },
+        {
+          "source_id": "bot_news_20210106_1",
+          "kind": "html",
+          "role": "parent_page",
+          "years": "2021",
+          "url": "https://www.bot.or.th/th/news-and-media/news/news-20210106-1.html",
+          "parent_url": null,
+          "known_from": "2021-01-06",
+          "circular_date": null,
+          "gazette_date": null,
+          "verified_by": "codex_review_2026-11-10",
+          "page_ref": null,
+          "source_quality": null,
+          "n_entries": 0,
+          "notes": "Announces 2021 specials Feb12, Sep24 and shift Oct25->Oct22 (all included in the embedded 2021 infographic records). Explicitly says banks OPEN 2021-04-12 and 2021-07-27 despite public holidays.",
+          "live_status": "cache_hit_hash_verified",
+          "live_sha256": "7be2791c83bd7af9e269bcd7d90e76f0891d14b11978b5e213dc3bc7b570c6de",
+          "live_error": null,
+          "reviewed_copy": null,
+          "reviewed_copy_sha256": null,
+          "embedded_asset_reference_found": true,
+          "review_ok": false,
+          "review_status": "no_entries (html_snapshot_date_text_found)"
+        },
+        {
+          "source_id": "bot_holidays_2021_png",
+          "kind": "png",
+          "role": "annual_base",
+          "years": "2021",
+          "url": "https://s7ap1.scene7.com/is/image/bot/news-20210106-1?wid=2000&fmt=png",
+          "parent_url": "https://www.bot.or.th/th/news-and-media/news/news-20210106-1.html",
+          "known_from": "2021-01-06",
+          "circular_date": null,
+          "gazette_date": null,
+          "verified_by": "codex_visual_review_2026-11-10_full_image",
+          "page_ref": "single image",
+          "source_quality": "reviewed publisher-dated official embedded image; known_from 2021-01-06 only (not backdated to the older annual decree); current bytes retrieved 2026, historical availability not proven (research proxy)",
+          "n_entries": 20,
+          "notes": null,
+          "live_status": "cache_hit_hash_verified",
+          "live_sha256": "aeeb9f6bab65275e1059fb990ba4ffed72cdc076a6b60e6044ee775ad1871ebf",
+          "live_error": null,
+          "reviewed_copy": "bot-holidays-2021.png",
+          "reviewed_copy_sha256": "aeeb9f6bab65275e1059fb990ba4ffed72cdc076a6b60e6044ee775ad1871ebf",
+          "review_ok": true,
+          "review_status": "live_bytes_identical_to_reviewed_copy"
+        },
+        {
+          "source_id": "bot_holidays_2022_pdf",
+          "kind": "pdf",
+          "role": "annual_base",
+          "years": "2022",
+          "url": "https://www.bot.or.th/content/dam/bot/fipcs/documents/FPG/2564/ThaiPDF/25640124.pdf",
+          "parent_url": null,
+          "known_from": "2021-07-21",
+          "circular_date": "2021-07-21",
+          "gazette_date": "2021-07-20",
+          "verified_by": "codex_visual_review_2026-11-10_all_3_pages",
+          "page_ref": "pages 1-3 all reviewed (entry page not transcribed)",
+          "source_quality": "official BOT FIPCS PDF (image-only); visually transcribed",
+          "n_entries": 17,
+          "notes": null,
+          "live_status": "cache_hit_hash_verified",
+          "live_sha256": "1913aefbfea8762a0b2469096a2626e79c841709c0a8a38729bf73fb649eb815",
+          "live_error": null,
+          "reviewed_copy": "bot-holidays-2022.pdf",
+          "reviewed_copy_sha256": "1913aefbfea8762a0b2469096a2626e79c841709c0a8a38729bf73fb649eb815",
+          "pages": 3,
+          "text_chars": 1103,
+          "text_layer": "present_not_used_for_records",
+          "review_ok": true,
+          "review_status": "live_bytes_identical_to_reviewed_copy"
+        },
+        {
+          "source_id": "bot_news_20211110_2",
+          "kind": "html",
+          "role": "special_announcement",
+          "years": "2022",
+          "url": "https://www.bot.or.th/th/news-and-media/news/news-20211110-2.html",
+          "parent_url": null,
+          "known_from": "2021-11-10",
+          "circular_date": null,
+          "gazette_date": null,
+          "verified_by": "codex_review_2026-11-10",
+          "page_ref": null,
+          "source_quality": null,
+          "n_entries": 2,
+          "notes": "Do NOT add public Jul15/Dec30 as bank holidays without specific evidence.",
+          "live_status": "cache_hit_hash_verified",
+          "live_sha256": "d1bc7d25cc2c5f78e773bb80f9ee9292a5103f3cad8a3ac2d3d23ec3ea08500a",
+          "live_error": null,
+          "reviewed_copy": null,
+          "reviewed_copy_sha256": null,
+          "review_ok": true,
+          "review_status": "html_snapshot_date_text_found"
+        },
+        {
+          "source_id": "bot_news_20221005",
+          "kind": "html",
+          "role": "context",
+          "years": "2022",
+          "url": "https://www.bot.or.th/th/news-and-media/news/news-20221005.html",
+          "parent_url": null,
+          "known_from": "2022-10-05",
+          "circular_date": null,
+          "gazette_date": null,
+          "verified_by": "codex_review_2026-11-10",
+          "page_ref": null,
+          "source_quality": null,
+          "n_entries": 0,
+          "notes": "APEC 2022-11-16..18 public regional holidays: banks OPEN (no bank-holiday record).",
+          "live_status": "cache_hit_hash_verified",
+          "live_sha256": "96b5f8dfa6d6963709fc6175036c30d0f3c64145a2846cc7f1c89b39fe91f813",
+          "live_error": null,
+          "reviewed_copy": null,
+          "reviewed_copy_sha256": null,
+          "review_ok": false,
+          "review_status": "no_entries (html_snapshot_date_text_found)"
+        },
+        {
+          "source_id": "bot_holidays_2023_pdf",
+          "kind": "pdf",
+          "role": "annual_base",
+          "years": "2023",
+          "url": "https://www.bot.or.th/content/dam/bot/content-fragments/holiday-calendar/th/bot-notification-holiday/BOT-Notification-Holiday-Calendar-2023-TH.pdf",
+          "parent_url": null,
+          "known_from": "2022-07-14",
+          "circular_date": "2022-07-14",
+          "gazette_date": "2022-07-11",
+          "verified_by": "codex_visual_review_2026-11-10_all_pages",
+          "page_ref": "p2/p3",
+          "source_quality": "official BOT PDF (image-only); visually transcribed; original is not the final calendar (later May5 special and year-end amendment)",
+          "n_entries": 15,
+          "notes": null,
+          "live_status": "cache_hit_hash_verified",
+          "live_sha256": "33aef39ed370eba61dd741437407b2680a604348c0098113847b7ea38c3178d6",
+          "live_error": null,
+          "reviewed_copy": "bot-holidays-2023.pdf",
+          "reviewed_copy_sha256": "33aef39ed370eba61dd741437407b2680a604348c0098113847b7ea38c3178d6",
+          "pages": 3,
+          "text_chars": 0,
+          "text_layer": "none_image_only_visual_review_used",
+          "review_ok": true,
+          "review_status": "live_bytes_identical_to_reviewed_copy"
+        },
+        {
+          "source_id": "bot_news_20230130",
+          "kind": "html",
+          "role": "special_announcement",
+          "years": "2023",
+          "url": "https://www.bot.or.th/th/news-and-media/news/news-20230130.html",
+          "parent_url": null,
+          "known_from": "2023-01-30",
+          "circular_date": null,
+          "gazette_date": null,
+          "verified_by": "codex_review_2026-11-10",
+          "page_ref": null,
+          "source_quality": null,
+          "n_entries": 1,
+          "notes": null,
+          "live_status": "cache_hit_hash_verified",
+          "live_sha256": "8f4d0bd5b62d6427d61d81371624e8955f6b98b62181ec40b8bd8300b941290c",
+          "live_error": null,
+          "reviewed_copy": null,
+          "reviewed_copy_sha256": null,
+          "review_ok": true,
+          "review_status": "html_snapshot_date_text_found"
+        },
+        {
+          "source_id": "bot_holidays_2024_pdf",
+          "kind": "pdf",
+          "role": "annual_base",
+          "years": "2024",
+          "url": "https://www.bot.or.th/content/dam/bot/content-fragments/holiday-calendar/th/bot-notification-holiday/BOT-Notification-Holiday-Calendar-2024-TH.pdf",
+          "parent_url": null,
+          "known_from": "2023-07-26",
+          "circular_date": "2023-07-26",
+          "gazette_date": "2023-07-18",
+          "verified_by": "codex_visual_review_2026-11-10_all_pages",
+          "page_ref": "p2/p3",
+          "source_quality": "official BOT PDF (image-only); visually transcribed; 2024-01-02 later removed by the year-end amendment",
+          "n_entries": 18,
+          "notes": null,
+          "live_status": "cache_hit_hash_verified",
+          "live_sha256": "f00b2e42cc7f15b7811c7dbd5ed35879cfed3ae0dc9e4f72a0b95429f71b7345",
+          "live_error": null,
+          "reviewed_copy": "bot-holidays-2024.pdf",
+          "reviewed_copy_sha256": "f00b2e42cc7f15b7811c7dbd5ed35879cfed3ae0dc9e4f72a0b95429f71b7345",
+          "pages": 4,
+          "text_chars": 0,
+          "text_layer": "none_image_only_visual_review_used",
+          "review_ok": true,
+          "review_status": "live_bytes_identical_to_reviewed_copy"
+        },
+        {
+          "source_id": "bot_yearend_amendment_2023_pdf",
+          "kind": "pdf",
+          "role": "amendment",
+          "years": "2023,2024",
+          "url": "https://www.bot.or.th/content/dam/bot/fipcs/documents/FPG/2566/ThaiPDF/25660204.pdf",
+          "parent_url": null,
+          "known_from": "2023-11-13",
+          "circular_date": "2023-11-13",
+          "gazette_date": "2023-11-10",
+          "verified_by": "codex_visual_review_2026-11-10_all_pages",
+          "page_ref": "p3",
+          "source_quality": "official BOT FIPCS amendment PDF (image-only); page 3 removes 2024-01-02 and adds 2023-12-29",
+          "n_entries": 2,
+          "notes": null,
+          "live_status": "cache_hit_hash_verified",
+          "live_sha256": "c566aee7bc3de96e069976a8cff46894769c1b2622a3692d9e1adefd8800015b",
+          "live_error": null,
+          "reviewed_copy": "bot-yearend-amendment-2023.pdf",
+          "reviewed_copy_sha256": "c566aee7bc3de96e069976a8cff46894769c1b2622a3692d9e1adefd8800015b",
+          "pages": 3,
+          "text_chars": 0,
+          "text_layer": "none_image_only_visual_review_used",
+          "review_ok": true,
+          "review_status": "live_bytes_identical_to_reviewed_copy"
+        },
+        {
+          "source_id": "bot_news_20240221",
+          "kind": "html",
+          "role": "special_announcement",
+          "years": "2024",
+          "url": "https://www.bot.or.th/th/news-and-media/news/news-20240221.html",
+          "parent_url": null,
+          "known_from": "2024-02-21",
+          "circular_date": null,
+          "gazette_date": null,
+          "verified_by": "codex_review_2026-11-10",
+          "page_ref": null,
+          "source_quality": null,
+          "n_entries": 1,
+          "notes": "Do not assume the public extra Dec30 is a bank holiday without BOT evidence.",
+          "live_status": "cache_hit_hash_verified",
+          "live_sha256": "ea261af68bef469d8bd8ad5973193ca2b98d30a4f0621c8fb6d153f6996bed7e",
+          "live_error": null,
+          "reviewed_copy": null,
+          "reviewed_copy_sha256": null,
+          "review_ok": true,
+          "review_status": "html_snapshot_date_text_found"
+        },
+        {
+          "source_id": "bot_holidays_2025_pdf",
+          "kind": "pdf",
+          "role": "annual_base",
+          "years": "2025",
+          "url": "https://www.bot.or.th/content/dam/bot/content-fragments/holiday-calendar/th/bot-notification-holiday/BOT-Notification-Holiday-Calendar-2025-TH.pdf",
+          "parent_url": null,
+          "known_from": "2024-09-10",
+          "circular_date": "2024-09-10",
+          "gazette_date": "2024-09-05",
+          "verified_by": "codex_visual_review_2026-11-10_all_pages",
+          "page_ref": "p2/p3",
+          "source_quality": "official BOT PDF (image-only); visually transcribed",
+          "n_entries": 17,
+          "notes": null,
+          "live_status": "cache_hit_hash_verified",
+          "live_sha256": "2af0f9ffc7b304f9e0ac9dfc3a3ca2d6208078196e77cf00b0584cbc6da08d07",
+          "live_error": null,
+          "reviewed_copy": "bot-holidays-2025.pdf",
+          "reviewed_copy_sha256": "2af0f9ffc7b304f9e0ac9dfc3a3ca2d6208078196e77cf00b0584cbc6da08d07",
+          "pages": 4,
+          "text_chars": 0,
+          "text_layer": "none_image_only_visual_review_used",
+          "review_ok": true,
+          "review_status": "live_bytes_identical_to_reviewed_copy"
+        },
+        {
+          "source_id": "bot_news_20241127",
+          "kind": "html",
+          "role": "special_announcement",
+          "years": "2025",
+          "url": "https://www.bot.or.th/th/news-and-media/news/news-20241127.html",
+          "parent_url": null,
+          "known_from": "2024-11-27",
+          "circular_date": null,
+          "gazette_date": null,
+          "verified_by": "codex_review_2026-11-10",
+          "page_ref": null,
+          "source_quality": null,
+          "n_entries": 2,
+          "notes": null,
+          "live_status": "cache_hit_hash_verified",
+          "live_sha256": "268ff21342b0aa8cde686a79c5361286f6fc282214a498eb2580090ea5d4d80b",
+          "live_error": null,
+          "reviewed_copy": null,
+          "reviewed_copy_sha256": null,
+          "review_ok": true,
+          "review_status": "html_snapshot_date_text_found"
+        }
+      ],
+      "summary": "reviewed BOT bank-holiday records applied 95/95; annual bases applied for years [2021, 2022, 2023, 2024, 2025] of [2021, 2022, 2023, 2024, 2025]; sources with bytes/snapshot 13/13; scope BOT_national_financial_institution_holiday (not public holidays); completeness not claimed",
+      "records_applied": 95,
+      "records_total": 95,
+      "annual_bases_applied_years": [
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ]
+    }
+  },
+  "gaps": [
+    "MOT data dictionary: no data-dictionary resource listed in the current MOT package (nothing fetched). Codex reported the old MOT data-dictionary PDF URL returns HTTP 404 (exact URL not recorded in the task files). A cached search snippet claiming MM/DD is NOT a verified document. Any dictionary resource listed in the live package is snapshotted only; its content is not used as date-format proof. Typed XLSX date cells matched by original ACC_CODE are the primary evidence.",
+    "traffic: BE 2567 has 2130 fully blank CSV lines: counted as non-records and excluded from station data/statistics (raw bytes kept; not duplicate survey points)",
+    "traffic: availability uses max(created, last_modified) + 1 day catalog proxy; it does not prove the current bytes were delivered then",
+    "weather coverage incomplete: 31/385 province-years complete, 35 retained (stop reason: repeated_failures; value-quality masked hours: 24); see weather_coverage.csv missing_reason; rerun to resume",
+    "weather value quality: 24 negative precipitation hours (raw min -0.1 mm) masked to NaN in that hour only; raw JSON unchanged; any 6 h/day rain window containing one is NaN (rain_missing_reason); temperature kept",
+    "weather: Open-Meteo previous_day2 lead is nominal; historical public delivery latency is not verified (6 h buffer assumed)",
+    "calendar: Original 2021/2022 annual BOT PDF URLs following the 2025 pattern returned 404 (not evidence; 2021 infographic and 2022 FIPCS PDF used instead)",
+    "calendar: 2021 Gazette candidate https://ratchakitcha.soc.go.th/DATA/PDF/2563/E/207/T_0062.PDF returned 403 (not evidence; host not allowlisted)",
+    "calendar: No national public-holiday calendar collected; BOT bank holidays are a different, narrower list",
+    "calendar: Further amendments not listed here are unknown: calendar coverage is never claimed complete",
+    "calendar: Historical publication latency of every source is unproven; known_from is the conservative circular/announcement date"
+  ],
+  "cached_artifacts": [
+    {
+      "resource_id": "bot_holiday_main_page",
+      "path": "raw/calendar/bot_holiday_main_page.html",
+      "preflight_path": null,
+      "sha256": "7ffb6434122c01e64a1ceb9887c5b82c0cd65fd1e19b84971d93630c7fd52add",
+      "bytes": 139735,
+      "last_status": "cache_hit_hash_verified",
+      "url": "https://www.bot.or.th/th/financial-institutions-holiday.html",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "bot_holidays_2021_png",
+      "path": "raw/calendar/bot_holidays_2021_png.png",
+      "preflight_path": null,
+      "sha256": "aeeb9f6bab65275e1059fb990ba4ffed72cdc076a6b60e6044ee775ad1871ebf",
+      "bytes": 1291200,
+      "last_status": "cache_hit_hash_verified",
+      "url": "https://s7ap1.scene7.com/is/image/bot/news-20210106-1?wid=2000&fmt=png",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "bot_holidays_2022_pdf",
+      "path": "raw/calendar/bot_holidays_2022_pdf.pdf",
+      "preflight_path": null,
+      "sha256": "1913aefbfea8762a0b2469096a2626e79c841709c0a8a38729bf73fb649eb815",
+      "bytes": 1330996,
+      "last_status": "cache_hit_hash_verified",
+      "url": "https://www.bot.or.th/content/dam/bot/fipcs/documents/FPG/2564/ThaiPDF/25640124.pdf",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "bot_holidays_2023_pdf",
+      "path": "raw/calendar/bot_holidays_2023_pdf.pdf",
+      "preflight_path": null,
+      "sha256": "33aef39ed370eba61dd741437407b2680a604348c0098113847b7ea38c3178d6",
+      "bytes": 110624,
+      "last_status": "cache_hit_hash_verified",
+      "url": "https://www.bot.or.th/content/dam/bot/content-fragments/holiday-calendar/th/bot-notification-holiday/BOT-Notification-Holiday-Calendar-2023-TH.pdf",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "bot_holidays_2024_pdf",
+      "path": "raw/calendar/bot_holidays_2024_pdf.pdf",
+      "preflight_path": null,
+      "sha256": "f00b2e42cc7f15b7811c7dbd5ed35879cfed3ae0dc9e4f72a0b95429f71b7345",
+      "bytes": 2805563,
+      "last_status": "cache_hit_hash_verified",
+      "url": "https://www.bot.or.th/content/dam/bot/content-fragments/holiday-calendar/th/bot-notification-holiday/BOT-Notification-Holiday-Calendar-2024-TH.pdf",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "bot_holidays_2025_pdf",
+      "path": "raw/calendar/bot_holidays_2025_pdf.pdf",
+      "preflight_path": null,
+      "sha256": "2af0f9ffc7b304f9e0ac9dfc3a3ca2d6208078196e77cf00b0584cbc6da08d07",
+      "bytes": 2702344,
+      "last_status": "cache_hit_hash_verified",
+      "url": "https://www.bot.or.th/content/dam/bot/content-fragments/holiday-calendar/th/bot-notification-holiday/BOT-Notification-Holiday-Calendar-2025-TH.pdf",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "bot_news_20210106_1",
+      "path": "raw/calendar/bot_news_20210106_1.html",
+      "preflight_path": null,
+      "sha256": "7be2791c83bd7af9e269bcd7d90e76f0891d14b11978b5e213dc3bc7b570c6de",
+      "bytes": 158398,
+      "last_status": "cache_hit_hash_verified",
+      "url": "https://www.bot.or.th/th/news-and-media/news/news-20210106-1.html",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "bot_news_20211110_2",
+      "path": "raw/calendar/bot_news_20211110_2.html",
+      "preflight_path": null,
+      "sha256": "d1bc7d25cc2c5f78e773bb80f9ee9292a5103f3cad8a3ac2d3d23ec3ea08500a",
+      "bytes": 154749,
+      "last_status": "cache_hit_hash_verified",
+      "url": "https://www.bot.or.th/th/news-and-media/news/news-20211110-2.html",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "bot_news_20221005",
+      "path": "raw/calendar/bot_news_20221005.html",
+      "preflight_path": null,
+      "sha256": "96b5f8dfa6d6963709fc6175036c30d0f3c64145a2846cc7f1c89b39fe91f813",
+      "bytes": 156585,
+      "last_status": "cache_hit_hash_verified",
+      "url": "https://www.bot.or.th/th/news-and-media/news/news-20221005.html",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "bot_news_20230130",
+      "path": "raw/calendar/bot_news_20230130.html",
+      "preflight_path": null,
+      "sha256": "8f4d0bd5b62d6427d61d81371624e8955f6b98b62181ec40b8bd8300b941290c",
+      "bytes": 155242,
+      "last_status": "cache_hit_hash_verified",
+      "url": "https://www.bot.or.th/th/news-and-media/news/news-20230130.html",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "bot_news_20240221",
+      "path": "raw/calendar/bot_news_20240221.html",
+      "preflight_path": null,
+      "sha256": "ea261af68bef469d8bd8ad5973193ca2b98d30a4f0621c8fb6d153f6996bed7e",
+      "bytes": 154035,
+      "last_status": "cache_hit_hash_verified",
+      "url": "https://www.bot.or.th/th/news-and-media/news/news-20240221.html",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "bot_news_20241127",
+      "path": "raw/calendar/bot_news_20241127.html",
+      "preflight_path": null,
+      "sha256": "268ff21342b0aa8cde686a79c5361286f6fc282214a498eb2580090ea5d4d80b",
+      "bytes": 154502,
+      "last_status": "cache_hit_hash_verified",
+      "url": "https://www.bot.or.th/th/news-and-media/news/news-20241127.html",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "bot_yearend_amendment_2023_pdf",
+      "path": "raw/calendar/bot_yearend_amendment_2023_pdf.pdf",
+      "preflight_path": null,
+      "sha256": "c566aee7bc3de96e069976a8cff46894769c1b2622a3692d9e1adefd8800015b",
+      "bytes": 1512996,
+      "last_status": "cache_hit_hash_verified",
+      "url": "https://www.bot.or.th/content/dam/bot/fipcs/documents/FPG/2566/ThaiPDF/25660204.pdf",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "doh_aadt_2563_csv",
+      "path": "raw/doh_aadt/aadt-63.csv",
+      "preflight_path": null,
+      "sha256": "1b8e42588099c09e43cf69895effd31e6024ef9f066fe0cccdd71f6644138475",
+      "bytes": 498654,
+      "last_status": "cache_hit_hash_verified",
+      "url": "https://opendata.doh.go.th/dataset/ed101df4-f0a1-4d7f-b9d9-76859b2ca73e/resource/e917f4a6-0cb5-4a81-a863-da4e756cd2ac/download/aadt-63.csv",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "doh_aadt_2564_csv",
+      "path": "raw/doh_aadt/aadt_64.csv",
+      "preflight_path": null,
+      "sha256": "4b6b604c4e0cbf86f5669e9b80ec6c3b0b8c663928db13295e42d30aa9936322",
+      "bytes": 510720,
+      "last_status": "cache_hit_hash_verified",
+      "url": "https://opendata.doh.go.th/dataset/ed101df4-f0a1-4d7f-b9d9-76859b2ca73e/resource/3d3b9335-5e22-418f-8272-00ff93b80da3/download/aadt_64.csv",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "doh_aadt_2565_csv",
+      "path": "raw/doh_aadt/aadt-65.csv",
+      "preflight_path": null,
+      "sha256": "8c204ed54ef80e03757ef7e89fdd7395b1f2881e3e1b19c55c5639abff6d50a5",
+      "bytes": 530470,
+      "last_status": "cache_hit_hash_verified",
+      "url": "https://opendata.doh.go.th/dataset/ed101df4-f0a1-4d7f-b9d9-76859b2ca73e/resource/56bceaa4-1877-4131-8f4e-5a3341deabc4/download/aadt-65.csv",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "doh_aadt_2566_csv",
+      "path": "raw/doh_aadt/aadt-66.csv",
+      "preflight_path": null,
+      "sha256": "cfd5faef92a6531c494025ab88ba79c8f30d3c1b8298e64a3bd5c6cbf6337ea2",
+      "bytes": 502662,
+      "last_status": "cache_hit_hash_verified",
+      "url": "https://opendata.doh.go.th/dataset/ed101df4-f0a1-4d7f-b9d9-76859b2ca73e/resource/6f55e818-7d88-4466-b345-89348882f6c9/download/aadt-66.csv",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "doh_aadt_2567_csv",
+      "path": "raw/doh_aadt/aadt-67.csv",
+      "preflight_path": null,
+      "sha256": "d0df996b5564b9be6f91c9d97347e8be8f064497a1e51c30b6b544a042267ee0",
+      "bytes": 602164,
+      "last_status": "cache_hit_hash_verified",
+      "url": "https://opendata.doh.go.th/dataset/ed101df4-f0a1-4d7f-b9d9-76859b2ca73e/resource/f1a73a43-f496-4f35-a246-b0e5b373c3bd/download/aadt-67.csv",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "doh_aadt_2568_csv",
+      "path": "raw/doh_aadt/aadt-68.csv",
+      "preflight_path": null,
+      "sha256": "899fa137f05d5eee887550e68784f845234007fc65af4bf069e3c0db65bc6330",
+      "bytes": 563610,
+      "last_status": "cache_hit_hash_verified",
+      "url": "https://opendata.doh.go.th/dataset/ed101df4-f0a1-4d7f-b9d9-76859b2ca73e/resource/f88f9c4e-b32e-4cd1-bf51-4e1f84ba7b16/download/aadt-68.csv",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "doh_package_show",
+      "path": "raw/catalog/doh_package.json",
+      "preflight_path": null,
+      "sha256": "c7eb5182487a14647a97b39ba79ec30da54d5c4ea29c58cbedd0d091c0269ec9",
+      "bytes": 44614,
+      "last_status": "cache_hit_hash_verified",
+      "url": "https://opendata.doh.go.th/api/3/action/package_show?id=ed101df4-f0a1-4d7f-b9d9-76859b2ca73e",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "geoboundaries_api_tha_adm1",
+      "path": null,
+      "preflight_path": null,
+      "sha256": null,
+      "bytes": null,
+      "last_status": "unavailable",
+      "url": "https://www.geoboundaries.org/api/current/gbOpen/THA/ADM1/",
+      "provenance": null
+    },
+    {
+      "resource_id": "geoboundaries_tha_adm1_geojson_pinned",
+      "path": null,
+      "preflight_path": null,
+      "sha256": null,
+      "bytes": null,
+      "last_status": "unavailable",
+      "url": "https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/THA/ADM1/geoBoundaries-THA-ADM1.geojson",
+      "provenance": null
+    },
+    {
+      "resource_id": "mot_package_show",
+      "path": "raw/catalog/mot_package.json",
+      "preflight_path": null,
+      "sha256": "1b02b03a8715e50c35c9c6afed0deac85a959f288074d2cbc2f5dee72278a83e",
+      "bytes": 27885,
+      "last_status": "cache_hit_hash_verified",
+      "url": "https://datagov.mot.go.th/api/3/action/package_show?id=roadaccident",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "preflight:bot_holidays_2021_png",
+      "path": null,
+      "preflight_path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/external_v2/evidence/bot-holidays-2021.png",
+      "sha256": "aeeb9f6bab65275e1059fb990ba4ffed72cdc076a6b60e6044ee775ad1871ebf",
+      "bytes": 1291200,
+      "last_status": "preflight_hash_verified",
+      "url": "https://s7ap1.scene7.com/is/image/bot/news-20210106-1?wid=2000&fmt=png",
+      "provenance": "codex_preflight_download_visually_reviewed_original_time_unknown"
+    },
+    {
+      "resource_id": "preflight:bot_holidays_2022_pdf",
+      "path": null,
+      "preflight_path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/external_v2/evidence/bot-holidays-2022.pdf",
+      "sha256": "1913aefbfea8762a0b2469096a2626e79c841709c0a8a38729bf73fb649eb815",
+      "bytes": 1330996,
+      "last_status": "preflight_hash_verified",
+      "url": "https://www.bot.or.th/content/dam/bot/fipcs/documents/FPG/2564/ThaiPDF/25640124.pdf",
+      "provenance": "codex_preflight_download_visually_reviewed_original_time_unknown"
+    },
+    {
+      "resource_id": "preflight:bot_holidays_2023_pdf",
+      "path": null,
+      "preflight_path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/external_v2/evidence/bot-holidays-2023.pdf",
+      "sha256": "33aef39ed370eba61dd741437407b2680a604348c0098113847b7ea38c3178d6",
+      "bytes": 110624,
+      "last_status": "preflight_hash_verified",
+      "url": "https://www.bot.or.th/content/dam/bot/content-fragments/holiday-calendar/th/bot-notification-holiday/BOT-Notification-Holiday-Calendar-2023-TH.pdf",
+      "provenance": "codex_preflight_download_visually_reviewed_original_time_unknown"
+    },
+    {
+      "resource_id": "preflight:bot_holidays_2024_pdf",
+      "path": null,
+      "preflight_path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/external_v2/evidence/bot-holidays-2024.pdf",
+      "sha256": "f00b2e42cc7f15b7811c7dbd5ed35879cfed3ae0dc9e4f72a0b95429f71b7345",
+      "bytes": 2805563,
+      "last_status": "preflight_hash_verified",
+      "url": "https://www.bot.or.th/content/dam/bot/content-fragments/holiday-calendar/th/bot-notification-holiday/BOT-Notification-Holiday-Calendar-2024-TH.pdf",
+      "provenance": "codex_preflight_download_visually_reviewed_original_time_unknown"
+    },
+    {
+      "resource_id": "preflight:bot_holidays_2025_pdf",
+      "path": null,
+      "preflight_path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/external_v2/evidence/bot-holidays-2025.pdf",
+      "sha256": "2af0f9ffc7b304f9e0ac9dfc3a3ca2d6208078196e77cf00b0584cbc6da08d07",
+      "bytes": 2702344,
+      "last_status": "preflight_hash_verified",
+      "url": "https://www.bot.or.th/content/dam/bot/content-fragments/holiday-calendar/th/bot-notification-holiday/BOT-Notification-Holiday-Calendar-2025-TH.pdf",
+      "provenance": "codex_preflight_download_visually_reviewed_original_time_unknown"
+    },
+    {
+      "resource_id": "preflight:bot_yearend_amendment_2023_pdf",
+      "path": null,
+      "preflight_path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/external_v2/evidence/bot-yearend-amendment-2023.pdf",
+      "sha256": "c566aee7bc3de96e069976a8cff46894769c1b2622a3692d9e1adefd8800015b",
+      "bytes": 1512996,
+      "last_status": "preflight_hash_verified",
+      "url": "https://www.bot.or.th/content/dam/bot/fipcs/documents/FPG/2566/ThaiPDF/25660204.pdf",
+      "provenance": "codex_preflight_download_visually_reviewed_original_time_unknown"
+    },
+    {
+      "resource_id": "preflight:doh_aadt_2564_csv",
+      "path": null,
+      "preflight_path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/external_v2/evidence/aadt_2021.csv",
+      "sha256": "4b6b604c4e0cbf86f5669e9b80ec6c3b0b8c663928db13295e42d30aa9936322",
+      "bytes": 510720,
+      "last_status": "preflight_hash_verified",
+      "url": "https://opendata.doh.go.th/dataset/ed101df4-f0a1-4d7f-b9d9-76859b2ca73e/resource/3d3b9335-5e22-418f-8272-00ff93b80da3/download/aadt_64.csv",
+      "provenance": "codex_preflight_download_original_time_unknown"
+    },
+    {
+      "resource_id": "preflight:doh_package",
+      "path": null,
+      "preflight_path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/external_v2/evidence/doh-traffic-package.json",
+      "sha256": "c7eb5182487a14647a97b39ba79ec30da54d5c4ea29c58cbedd0d091c0269ec9",
+      "bytes": 44614,
+      "last_status": "preflight_hash_verified",
+      "url": "https://opendata.doh.go.th/api/3/action/package_show?id=ed101df4-f0a1-4d7f-b9d9-76859b2ca73e",
+      "provenance": "codex_preflight_download_original_time_unknown"
+    },
+    {
+      "resource_id": "preflight:geoboundaries_api",
+      "path": null,
+      "preflight_path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/external_v2/evidence/geoboundaries-tha-adm1.json",
+      "sha256": "10119cda1b995f724304f99132ecca4a80dbeb96aaf750b8eabf24747ee5a38d",
+      "bytes": 1750,
+      "last_status": "preflight_hash_verified",
+      "url": "https://www.geoboundaries.org/api/current/gbOpen/THA/ADM1/",
+      "provenance": "codex_preflight_download_original_time_unknown"
+    },
+    {
+      "resource_id": "preflight:geoboundaries_tha_adm1_geojson",
+      "path": null,
+      "preflight_path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/external_v2/evidence/tha-adm1.geojson",
+      "sha256": "145beb11e52785a42e16997c92a65426b3df8d009941db6b012ec8e411f3e33c",
+      "bytes": 4032763,
+      "last_status": "preflight_hash_verified",
+      "url": "https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/THA/ADM1/geoBoundaries-THA-ADM1.geojson",
+      "provenance": "codex_preflight_download_original_time_unknown"
+    },
+    {
+      "resource_id": "preflight:mot_accident_2021_xlsx",
+      "path": null,
+      "preflight_path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/external_v2/evidence/accident2021.xlsx",
+      "sha256": "57d1e4828dedf3e074755ce0f9cee5500dba3707919cbe05e622b0894992b4e4",
+      "bytes": 4220190,
+      "last_status": "preflight_hash_verified",
+      "url": "https://datagov.mot.go.th/dataset/7e077ffd-dc4f-4dc6-a71c-0813726f3c12/resource/960813aa-f410-4356-bd5a-10f63c8e4ce0/download/accident2021.xlsx",
+      "provenance": "codex_preflight_download_original_time_unknown"
+    },
+    {
+      "resource_id": "preflight:mot_accident_2022_xlsx",
+      "path": null,
+      "preflight_path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/external_v2/evidence/accident2022.xlsx",
+      "sha256": "372b7eab60951b1de5ab0deefaf2b919605e30cf756935fbdbe1ea50eabcbec8",
+      "bytes": 4162054,
+      "last_status": "preflight_hash_verified",
+      "url": "https://datagov.mot.go.th/dataset/7e077ffd-dc4f-4dc6-a71c-0813726f3c12/resource/94b10b47-7bda-4f11-b6ce-e45c447c8dcd/download/accident2022.xlsx",
+      "provenance": "codex_preflight_download_original_time_unknown"
+    },
+    {
+      "resource_id": "preflight:mot_accident_2023_xlsx",
+      "path": null,
+      "preflight_path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/external_v2/evidence/accident2023.xlsx",
+      "sha256": "94c46065cb43ee8a0d16e25799b6ae91f83439fab2f75b38e127a87c3994307b",
+      "bytes": 4963630,
+      "last_status": "preflight_hash_verified",
+      "url": "https://datagov.mot.go.th/dataset/7e077ffd-dc4f-4dc6-a71c-0813726f3c12/resource/f3d529f2-0c20-4e73-9ee3-e3f5a1fa52c9/download/accident2023.xlsx",
+      "provenance": "codex_preflight_download_original_time_unknown"
+    },
+    {
+      "resource_id": "preflight:mot_package",
+      "path": null,
+      "preflight_path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/external_v2/evidence/mot-package.json",
+      "sha256": "1b02b03a8715e50c35c9c6afed0deac85a959f288074d2cbc2f5dee72278a83e",
+      "bytes": 27885,
+      "last_status": "preflight_hash_verified",
+      "url": "https://datagov.mot.go.th/api/3/action/package_show?id=roadaccident",
+      "provenance": "codex_preflight_download_original_time_unknown"
+    },
+    {
+      "resource_id": "preflight:thailand_provinces_json",
+      "path": null,
+      "preflight_path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/external_v2/evidence/thai-provinces.json",
+      "sha256": "ec29779c963de89a29f72a37eabcd39f89d1c6837586b5f441d26418d1e67024",
+      "bytes": 10042,
+      "last_status": "preflight_hash_verified",
+      "url": "https://raw.githubusercontent.com/thailand-geography-data/thailand-geography-json/main/src/provinces.json",
+      "provenance": "codex_preflight_download_original_time_unknown"
+    },
+    {
+      "resource_id": "preflight:weather_jma_2021_probe",
+      "path": null,
+      "preflight_path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/external_v2/evidence/weather-jma-2021-probe.json",
+      "sha256": "6cfa4c44a94b247a7588a736b114783468c8d157d9045033ae91db824be44878",
+      "bytes": 2453,
+      "last_status": "preflight_hash_verified",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=13.75&longitude=100.5&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia/Bangkok&start_date=2021-01-01&end_date=2021-01-03",
+      "provenance": "codex_preflight_probe_original_time_unknown"
+    },
+    {
+      "resource_id": "thailand_geography_provinces_commit_api",
+      "path": "raw/geo/thailand_geography_provinces_commit.json",
+      "preflight_path": null,
+      "sha256": "d1e3ce1e7ee6c334a50bebcf71089b3c269524e4eee27417cc1af6d4ed7c6753",
+      "bytes": 4671,
+      "last_status": "cache_hit_hash_verified",
+      "url": "https://api.github.com/repos/thailand-geography-data/thailand-geography-json/commits?path=src/provinces.json&per_page=1",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "thailand_geography_provinces_json",
+      "path": null,
+      "preflight_path": null,
+      "sha256": null,
+      "bytes": null,
+      "last_status": "unavailable",
+      "url": "https://raw.githubusercontent.com/thailand-geography-data/thailand-geography-json/main/src/provinces.json",
+      "provenance": null
+    },
+    {
+      "resource_id": "thailand_geography_repo_api",
+      "path": "raw/geo/thailand_geography_repo.json",
+      "preflight_path": null,
+      "sha256": "3156f153638b174e528de606aa504fb89a5ce204ae5fdbe38957b74d17390fe8",
+      "bytes": 7942,
+      "last_status": "cache_hit_hash_verified",
+      "url": "https://api.github.com/repos/thailand-geography-data/thailand-geography-json",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2021_b00",
+      "path": "raw/weather/jma_gsm_2021_b00.json",
+      "preflight_path": null,
+      "sha256": "6852ea363fb870e3fddafa0d655de448002f889aa99786898a9fe97ecd7fd59f",
+      "bytes": 1272099,
+      "last_status": "cache_hit_hash_verified",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=13.7244,13.5986,13.9649,14.0953,14.3972&longitude=100.6034,100.7199,100.3837,100.6277,100.5319&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2021-01-01&end_date=2021-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2021_b01",
+      "path": "raw/weather/jma_gsm_2021_b01.json",
+      "preflight_path": null,
+      "sha256": "b1f0d9367aae5fa94fc128769f1e981e3fb055dd68c9169ab94e1424b1b9f702",
+      "bytes": 1272103,
+      "last_status": "cache_hit_hash_verified",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=14.6229,15.0762,14.9461,15.1636,14.6214&longitude=100.3608,100.8869,100.3287,100.0259,100.8917&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2021-01-01&end_date=2021-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2021_b02",
+      "path": "raw/weather/jma_gsm_2021_b02.json",
+      "preflight_path": null,
+      "sha256": "7c55495ee00387f46f18e7e37b29f6ebb168b9be12b47772cdb445f0631cb6f9",
+      "bytes": 1272115,
+      "last_status": "cache_hit_hash_verified",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=13.0924,12.8668,12.8166,12.2010,13.5737&longitude=101.2255,101.4423,102.1787,102.4295,101.5890&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2021-01-01&end_date=2021-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2021_b03",
+      "path": "raw/weather/jma_gsm_2021_b03.json",
+      "preflight_path": null,
+      "sha256": "ebfe76ad1a073417d7055f97b63018631e8e0a15ec672ee5b1713633b2f3f066",
+      "bytes": 1272104,
+      "last_status": "cache_hit_hash_verified",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=14.0217,14.2349,13.6732,14.9482,14.9603&longitude=101.6449,101.1679,102.2827,101.9899,103.0684&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2021-01-01&end_date=2021-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2021_b04",
+      "path": "raw/weather/jma_gsm_2021_b04.json",
+      "preflight_path": null,
+      "sha256": "cc0b5a270940d27b0aef864bbddfd1cac20aef4aeb3c7e36b5654d41fb1abc30",
+      "bytes": 1272116,
+      "last_status": "cache_hit_hash_verified",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=14.9066,14.9496,15.1537,15.8150,15.9604&longitude=103.6697,104.3350,105.1071,104.2725,101.8804&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2021-01-01&end_date=2021-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2021_b05",
+      "path": "raw/weather/jma_gsm_2021_b05.json",
+      "preflight_path": null,
+      "sha256": "6a24eae1703e454d206941227497e4667b565d3179892513a833045b5fd42038",
+      "bytes": 1272033,
+      "last_status": "cache_hit_hash_verified",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=15.9157,18.1056,17.2224,16.3485,17.4571&longitude=104.7311,103.7260,102.2419,102.6835,102.8365&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2021-01-01&end_date=2021-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2021_b06",
+      "path": "raw/weather/jma_gsm_2021_b06.json",
+      "preflight_path": null,
+      "sha256": "b45fe0b26bec7570bfb9dafcf83ad6fcb192c4358e1f85c56c9493c3ae0a7782",
+      "bytes": 1272052,
+      "last_status": "cache_hit_hash_verified",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=17.4872,17.9463,16.0242,15.9381,16.6464&longitude=101.6484,103.1121,103.1930,103.7650,103.6707&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2021-01-01&end_date=2021-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "derived:derived/date_resolution_by_id.csv",
+      "path": "derived/date_resolution_by_id.csv",
+      "sha256": "a35c698d385debf2577cfc9780e4f476a0db25f6da503c824b2e40b5f6d2954d",
+      "bytes": 6519825,
+      "last_status": "derived_by_notebook09",
+      "provenance": "derived_by_notebook09"
+    },
+    {
+      "resource_id": "derived:derived/traffic_aadt_normalized.csv",
+      "path": "derived/traffic_aadt_normalized.csv",
+      "sha256": "cc256d8f48de58b42e58af4e84994c82fc4bc5b8b8156099388f73fe859338e8",
+      "bytes": 7332182,
+      "last_status": "derived_by_notebook09",
+      "provenance": "derived_by_notebook09"
+    },
+    {
+      "resource_id": "derived:derived/weather_hourly_jma_gsm.csv.gz",
+      "path": "derived/weather_hourly_jma_gsm.csv.gz",
+      "sha256": "ded73d6d2cca987159874dad6b16631d16b6829c698faf297889f91b41104b82",
+      "bytes": 3102679,
+      "last_status": "derived_by_notebook09",
+      "provenance": "derived_by_notebook09"
+    },
+    {
+      "resource_id": "derived:derived/weather_daily_jma_gsm.csv.gz",
+      "path": "derived/weather_daily_jma_gsm.csv.gz",
+      "sha256": "6e5e3c0240f9622a5c51d6f8de8f35d1e20e2e0670a4d7d9cd3d2df816c0818d",
+      "bytes": 264524,
+      "last_status": "derived_by_notebook09",
+      "provenance": "derived_by_notebook09"
+    },
+    {
+      "resource_id": "derived:derived/weather_6h_jma_gsm.csv.gz",
+      "path": "derived/weather_6h_jma_gsm.csv.gz",
+      "sha256": "3f65cb4364e6aaa7e19ac2ade64e6c4904a9b79a0a4e35f451285fa9cddfdf9c",
+      "bytes": 880604,
+      "last_status": "derived_by_notebook09",
+      "provenance": "derived_by_notebook09"
+    },
+    {
+      "resource_id": "derived:derived/weather_value_quality_flags_jma_gsm.csv.gz",
+      "path": "derived/weather_value_quality_flags_jma_gsm.csv.gz",
+      "sha256": "0ccf4fdd94d7a714f3e8dec46d9bb458d39b66160e8c7553bcb1e63d91c390c4",
+      "bytes": 253,
+      "last_status": "derived_by_notebook09",
+      "provenance": "derived_by_notebook09"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "reports/v2/sources/calendar_as_of_views.csv",
+      "sha256": "69f85769934b6f8996f1ed229bb76087b81764e0789db38dbb4183da3374400e",
+      "bytes": 4978
+    },
+    {
+      "path": "reports/v2/sources/calendar_festival_evidence.csv",
+      "sha256": "1a05442b8cfd353ae687d90f167dadd6e6ec53a33750b8d35e5d416751f8e26a",
+      "bytes": 2576
+    },
+    {
+      "path": "reports/v2/sources/calendar_records.csv",
+      "sha256": "74902e2c733f5f494e46178d10f1255de9b0850a7530a39be450f99dabd70c11",
+      "bytes": 47037
+    },
+    {
+      "path": "reports/v2/sources/calendar_sources.csv",
+      "sha256": "ebc4dbbbf3fe26eedc36b7005998097f096da56dede559e3c129a3f2c936a92f",
+      "bytes": 6456
+    },
+    {
+      "path": "reports/v2/sources/date_evidence_by_year.csv",
+      "sha256": "c553ca070cbbee8fdec619d6c3d4b3be3d105aeb40a9e0ebc9a158566daec0a1",
+      "bytes": 5354
+    },
+    {
+      "path": "reports/v2/sources/date_evidence_by_year.json",
+      "sha256": "2696ddb9141300b73ce1b49b2ada7c2528b582a6f1452ddcc81395fd66ca551e",
+      "bytes": 11990
+    },
+    {
+      "path": "reports/v2/sources/external_schema_coverage.csv",
+      "sha256": "960b43420ba2cd164a39bdaea16409247f95b5849a331cc5a232f10ca931e586",
+      "bytes": 9022
+    },
+    {
+      "path": "reports/v2/sources/feature_source_readiness.csv",
+      "sha256": "4f408ed6aefca79b43540ab3939cb7b114cad887608c4bee8e72367cc22942e8",
+      "bytes": 3036
+    },
+    {
+      "path": "reports/v2/sources/province_points.csv",
+      "sha256": "c21045179fb235743b5a7adc69014c494d012afd2d5899b28dfb9a9842708ae3",
+      "bytes": 43038
+    },
+    {
+      "path": "reports/v2/sources/source_audit_th.md",
+      "sha256": "628a9380f81026e43bbd5e96bf1fbc6d63f9b11be6a908671f42df4e384eb35c",
+      "bytes": 14455
+    },
+    {
+      "path": "reports/v2/sources/traffic_province_year_summary.csv",
+      "sha256": "5af22e4fbe758615aa0e3409882b76a8ef63b7edfb5f8dbf5f6b290710cb7b0f",
+      "bytes": 106067
+    },
+    {
+      "path": "reports/v2/sources/traffic_resource_metadata.csv",
+      "sha256": "6324ccc217c33589dd420c80b4bc44bf9b79dbfa56a98d9cb185e19d5a56e481",
+      "bytes": 13898
+    },
+    {
+      "path": "reports/v2/sources/weather_chunks.csv",
+      "sha256": "c0a86815ec50878deeaba487a934ff52eaf08b7eb3d6af85a1b501289cde6407",
+      "bytes": 35914
+    },
+    {
+      "path": "reports/v2/sources/weather_coverage.csv",
+      "sha256": "791c2f595b55626740d2c7a70b3c01553e914057760970d16e139920cd98d015",
+      "bytes": 49698
+    },
+    {
+      "path": "reports/v2/sources/weather_value_quality.csv",
+      "sha256": "a4b3fdd35e071df07dd2598f2b41ab38810221a86243d49e0f7829dc7134cb91",
+      "bytes": 79793
+    }
+  ],
+  "next_stage_interface": {
+    "date_rows": "derived/date_resolution_by_id.csv: use resolution_status == resolved only (ID + typed date + context agreement)",
+    "weather_daily": "derived/weather_daily_jma_gsm.csv.gz and weather_6h_jma_gsm.csv.gz: rain_missing/temp_missing False and issue_bound_ok True; rain is a preceding-hour sum bucketed by interval start (rain_interval_convention); negative precipitation hours are masked to NaN per hour (n_rain_value_masked, rain_missing_reason, reports/v2/sources/weather_value_quality.csv) - audit only, never targets or predictors",
+    "traffic": "reports/v2/sources/traffic_province_year_summary.csv (join on province_key = v1 panel province) + traffic_resource_metadata.csv available_from_proxy_utc; survey_year < target year; station rows in derived/traffic_aadt_normalized.csv with row_class == station and total_valid/heavy_share_valid; schema in sections.traffic.station_schema",
+    "calendar": "reports/v2/sources/calendar_records.csv applied rows replayed with bank_holidays_as_of; coverage via calendar_year_coverage; unknown != ordinary day",
+    "points": "reports/v2/sources/province_points.csv (province_code, name_th = original table text, province_key = v1 panel join key via the exact audited alias map, lat, lon)"
+  }
+}
