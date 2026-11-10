@@ -1,0 +1,22 @@
+{
+  "events": 106308,
+  "original_known_uid": 84296,
+  "repaired_uid_recovered": 22012,
+  "fields": {
+    "accident_type": {
+      "known_uid_value_mismatches": 0,
+      "unknown_before": 26147,
+      "unknown_after_raw": 4984
+    },
+    "presumed_cause": {
+      "known_uid_value_mismatches": 0,
+      "unknown_before": 23097,
+      "unknown_after_raw": 1196
+    },
+    "weather": {
+      "known_uid_value_mismatches": 0,
+      "unknown_before": 22604,
+      "unknown_after_raw": 724
+    }
+  }
+}

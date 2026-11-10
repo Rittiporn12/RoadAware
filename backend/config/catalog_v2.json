@@ -1,0 +1,49 @@
+{
+  "_comment": "RoadAware v2 aggregate historical catalog (notebook 14). Reads ONLY accepted, hash-verified 09/10/11/12/13 artifacts; writes aggregates (no event rows, no event IDs, no coordinates of events, no narratives) under reports/v2/catalog. Historical descriptions are NEVER model inputs and NEVER causal explanations. Relative paths resolve against the backend root. Research only.",
+  "schema": "roadaware-v2-catalog-config/1",
+  "producer": "14_backend_catalog",
+  "production_ready": false,
+  "operational_status": "BLOCKED",
+  "trust_anchors": {
+    "preparation_manifest_sha256": "d385a9b3e3d4ded037ca34f4f8626ea1020a738d2aeac0bae3dd4cceb10f3138",
+    "model_manifest_sha256": "1b11f1dc7bb53e7f13955c12c9f136423b231dcebbb9e1aa8da79cdf81ac150f",
+    "analysis_manifest_sha256": "38a5708544aed8ac7c54155a0315d8d63b4ffe63c9f3d6a8c8881d5580751a98",
+    "serving_manifest_sha256": "e683ef9774558a39a4cfb180cd87ca0609f1a662de0389ebb58aea10d560df62",
+    "inference_config_sha256": "f100f47211f8d4778877a7f26acb192cf7d7701aca9a008c362ccb1269ddcde3",
+    "notebook13_functions_sha256": "66b0a4f71265b10f038dcee2a45195de6ca6e986cf236928c8b4f0102b9acf56",
+    "note": "accepted V2 09-12 (main 029e2c6) and accepted notebook 13 (task 008). A different value means a different run: stop."
+  },
+  "paths": {
+    "preparation_report_dir": "reports/v2/preparation",
+    "preparation_data_dir": "data/v2",
+    "sources_report_dir": "reports/v2/sources",
+    "model_report_dir": "reports/v2/models",
+    "analysis_report_dir": "reports/v2/analysis",
+    "serving_report_dir": "reports/v2/serving",
+    "inference_config": "config/inference_v2.json",
+    "v1_descriptive": "data/interim/events_descriptive_outcomes.csv"
+  },
+  "history": {
+    "first_month": "2021-01",
+    "last_month": "2025-12",
+    "expected_provinces": 77,
+    "expected_months": 60,
+    "expected_events": 106308,
+    "max_query_months": 60,
+    "descriptive_categories": ["accident_type", "presumed_cause", "weather"],
+    "event_categories": ["time_block"],
+    "unknown_labels": {
+      "no_descriptive_record": "(unknown: no V1 descriptive record for this event)",
+      "blank_in_source": "(unknown: blank in source)"
+    },
+    "note": "event dates and time blocks come from the repaired notebook 10 events_v2 (never the raw ambiguous dates); accident_type / presumed_cause / weather come from the V1 descriptive file joined 1:1 by event_uid; events without a V1 descriptive row (repaired additions) are counted as explicit unknowns, never imputed"
+  },
+  "evaluation": {
+    "analysis_files": ["decision_summary.csv", "gate_checks.csv"],
+    "model_files": ["diagnostic_metrics.csv"],
+    "note": "copied verbatim (selected method + its strongest baseline only, source row order); decision_summary holds the pooled locked-protocol OOF metrics, diagnostic_metrics the 2024 development / 2025 reused diagnostics. No re-ranking, no new metric."
+  },
+  "outputs": {
+    "report_subdir": "reports/v2/catalog"
+  }
+}

@@ -37,7 +37,9 @@ Notebook 08 วิเคราะห์ความผิดพลาดขอ�
 
 09-12 independently reviewed as research work. 11 selected HGB full (daily) and HGB calendar_traffic (6h), both passed the frozen baseline gate. 12 does not fit or reselect models. Follow the [VS Code guide](../../workflow/v2-vscode-run-guide-th.md) and [final evidence](../../workflow/v2-final-verification-th.md). Data/raw/predictions/bundles are ignored; aggregate reports and plots are tracked. Existing accepted outputs cannot be overwritten: use a fresh output root for replay. No untouched test and production_ready=false; frontend/API/Dashboard deferred.
 
-### 13 — research serving contract (status: authored, NOT yet executed or reviewed)
+### 13 — research serving contract (ACCEPTED: actual run27.32s,57tests passed)
+
+[Independent serving evidence](../../workflow/backend-ml-serving-verification-th.md). All177335 saved predictions match within1e-12; request features reproduce the accepted10->11 numeric representation. API/catalog implementation remains incomplete after a Claude quota interruption; see [resume checkpoint](../../workflow/wip/009-api-quota-checkpoint/README.md).
 
 13 never fits, tunes or reselects. Its two `# FUNCTIONS` cells are the service code a later local API may load (exec only those cells after
 checking their sha256 against `functions_cells_sha256` in `reports/v2/serving/serving_manifest.json`):

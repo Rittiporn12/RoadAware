@@ -1,6 +1,8 @@
 # RoadAware — ผล V2 ล่าสุด
 
-**ML serving ล่าสุด:** Notebook13ตรวจรับแล้ว โหลดHGBและสร้างfeatureสำหรับคำขอใหม่ได้ ตรวจค่าทำนายตรงกับผลเดิม177,335แถว มี57testsผ่านและผลทดสอบข้อมูลขาด/เวลาใช้งาน ดู [หลักฐานML backend](workflow/backend-ml-serving-verification-th.md) ส่วนAPIและcatalogกำลังพัฒนา ก่อนทำfrontend
+**ML serving ล่าสุด:** Notebook13ตรวจรับแล้ว โหลดHGBและสร้างfeatureสำหรับคำขอใหม่ได้ ตรวจค่าทำนายตรงกับผลเดิม177,335แถว มี57testsผ่านและผลทดสอบข้อมูลขาด/เวลาใช้งาน ดู [หลักฐานML backend](workflow/backend-ml-serving-verification-th.md)
+
+**API/catalog ยังไม่เสร็จ:** Claudeแจ้งsessionquotaเต็มเวลา00:03น.วันที่11พ.ย.2026 และreset04:00Asia/Bangkok สำรองsourceค้างกับจุดต่อไว้ที่ [checkpoint](workflow/wip/009-api-quota-checkpoint/README.md) และ [task009a](workflow/tasks/009a-resume-api-after-quota.md) ยังไม่มีAPIที่รัน/ตรวจรับแล้ว frontendยังไม่ทำ
 
 ทดลองจริง 3 ตระกูล: Poisson Regression, Random Forest (Poisson), HistGradientBoosting (Poisson) พร้อม baseline 6 แบบต่อหน่วย และ feature 5 ชุด เลือกจาก expanding time backtest 4 fold ในปี2022–2023 ตาม protocol ที่ล็อกก่อน fit
 

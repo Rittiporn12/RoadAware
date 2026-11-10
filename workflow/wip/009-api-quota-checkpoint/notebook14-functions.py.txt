@@ -1,0 +1,630 @@
+# FUNCTIONS (notebook 14: hash-verified accepted inputs, 1:1 event/descriptive join, monthly provincial history aggregates, category marginals with explicit unknowns, frontend province/evaluation payloads, trusted catalog loader + bounded history query) - self-contained; a service may exec ONLY this cell (no report cell, no network, no fit)
+import datetime as dt, hashlib, json, math, os, re, unicodedata
+from pathlib import Path
+import numpy as np, pandas as pd
+
+CATALOG_CONFIG_SCHEMA = 'roadaware-v2-catalog-config/1'
+CATALOG_SCHEMA = 'roadaware-v2-catalog-manifest/1'
+CATALOG_PRODUCER = '14_backend_catalog'
+HISTORY_SCHEMA = 'roadaware-v2-history/1'
+CATALOG_CONFIG_REL = Path('config') / 'catalog_v2.json'   # the ONLY configuration the catalog reads; never a client-supplied path
+CATALOG_MANIFEST = 'catalog_manifest.json'
+CATALOG_FILES = ('provinces.json', 'evaluation.json', 'history_monthly.csv', 'history_category_monthly.csv',
+                 'history_category_coverage_by_year.csv', 'reconciliation.csv', 'catalog_report_th.md')
+HISTORY_QUANTITY = 'historical_recorded_count'
+HISTORY_NOTE = ('HISTORICAL number of SELECTED RECORDED MOT-source accident records (accepted notebook 10 events_v2, repaired dates). '
+                'Not a prediction, not a complete all-road count, not a collision probability; a month with 0 records does not prove zero accidents.')
+CATEGORY_NOTE = ('historical descriptions recorded with the events (descriptive only): never a prospective model input, never a causal '
+                 'explanation, never personalised advice; single-category marginals only (no cross-classification)')
+LABEL_KNOWN, LABEL_NO_DESC, LABEL_BLANK = 'known', 'unknown_no_descriptive_record', 'unknown_blank_in_source'
+PANEL_COLS = ('province_key', 'target_date', 'y_recorded_count', 'training_eligible', 'possibly_undercounted', 'unplaceable_rows_province_year')
+EVENT_COLS = ('event_uid', 'event_date', 'time_block', 'province_key')
+QUERY_KEYS = ('province_key', 'start_month', 'end_month', 'start_year', 'end_year', 'categories')
+MONTH_RE = re.compile(r'[0-9]{4}-[0-9]{2}')
+YEAR_RE = re.compile(r'[0-9]{4}')
+THAI_BBOX = {'lat': (5.0, 21.0), 'lon': (97.0, 106.0)}
+
+
+class CatalogError(RuntimeError):
+    """An input or catalog file is missing, malformed, from another run or differs from its recorded hash: stop, never guess or fall back."""
+
+
+class CatalogQueryError(ValueError):
+    """A history query was rejected; .errors = [{'index': None, 'field', 'code', 'message'}] (same shape as notebook 13 request errors)."""
+
+    def __init__(self, errors):
+        self.errors = list(errors)
+        super().__init__('; '.join(f"{e['field']}: {e['code']} - {e['message']}" for e in self.errors[:10]))
+
+
+# ---------- generic I/O ----------
+def utc_now():
+    return dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat()
+
+
+def sha256_bytes(b):
+    return hashlib.sha256(b).hexdigest()
+
+
+def sha256_file(path, chunk=1 << 20):
+    h = hashlib.sha256()
+    with open(path, 'rb') as f:
+        for b in iter(lambda: f.read(chunk), b''):
+            h.update(b)
+    return h.hexdigest()
+
+
+def json_safe(o):
+    """Strict-JSON friendly copy: NaN/inf/NaT/NA -> None, numpy scalars -> Python, dates -> ISO strings."""
+    if o is None or o is pd.NaT or o is pd.NA:
+        return None
+    if isinstance(o, dict):
+        return {str(k): json_safe(v) for k, v in o.items()}
+    if isinstance(o, (list, tuple)):
+        return [json_safe(v) for v in o]
+    if isinstance(o, (bool, np.bool_)):
+        return bool(o)
+    if isinstance(o, np.integer):
+        return int(o)
+    if isinstance(o, (float, np.floating)):
+        return float(o) if math.isfinite(float(o)) else None
+    if isinstance(o, (pd.Timestamp, dt.datetime, dt.date)):
+        return o.isoformat()
+    if isinstance(o, Path):
+        return str(o)
+    return o
+
+
+def json_text(obj):
+    return json.dumps(json_safe(obj), indent=2, ensure_ascii=False, allow_nan=False, sort_keys=False) + '\n'
+
+
+def write_text(path, text):
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_name(path.name + '.tmp')
+    tmp.write_bytes(text.encode('utf-8'))
+    os.replace(tmp, path)
+    return path
+
+
+def write_json(path, obj):
+    return write_text(path, json_text(obj))
+
+
+def write_csv(path, df):
+    """Plain CSV, LF line endings, shortest round-trip float text; infinite numeric values are refused."""
+    num = df.select_dtypes(include=[np.number])
+    if len(num.columns) and np.isinf(num.to_numpy(dtype=float)).any():
+        raise ValueError(f'{Path(path).name}: infinite values')
+    return write_text(path, df.to_csv(index=False, lineterminator='\n'))
+
+
+def read_json_strict(path):
+    def _bad(c):
+        raise CatalogError(f'{Path(path).name}: non-strict JSON constant {c}')
+    return json.loads(Path(path).read_text('utf-8'), parse_constant=_bad)
+
+
+def read_str_csv(path):
+    return pd.read_csv(path, dtype=str, keep_default_na=False)
+
+
+def verify_file(path, expected_sha256, label):
+    """sha256 of a file must equal the recorded hash; raises CatalogError otherwise (missing file included)."""
+    p = Path(path)
+    if not p.is_file():
+        raise CatalogError(f'{label}: missing file {p.name}')
+    got = sha256_file(p)
+    if not expected_sha256 or got != expected_sha256:
+        raise CatalogError(f'{label}: sha256 {got[:12]} != recorded {str(expected_sha256)[:12]}; file changed since its producer ran')
+    return got
+
+
+def inside(p, root):
+    p, root = Path(p).resolve(), Path(root).resolve()
+    return p == root or root in p.parents
+
+
+def check_write_roots(writes, read_only_dirs, read_only_files):
+    """writes: [(label, dir)]; a write root may not equal/contain/sit inside a read-only dir and may not contain any read-only file."""
+    for wl, w in writes:
+        for rl, r in read_only_dirs:
+            if inside(w, r) or inside(r, w):
+                raise ValueError(f'{wl} {w} overlaps read-only {rl} {r}')
+        hit = [str(f) for f in read_only_files if inside(f, w)]
+        if hit:
+            raise ValueError(f'{wl} {w} contains read-only inputs {hit[:3]}')
+    return True
+
+
+def functions_cells_source(nb_path):
+    """Concatenated source of every '# FUNCTIONS' code cell in notebook order (same definition notebooks 10-13 hash)."""
+    nb = json.loads(Path(nb_path).read_text('utf-8'))
+    src = [''.join(c['source']) if isinstance(c['source'], list) else c['source'] for c in nb['cells'] if c['cell_type'] == 'code']
+    hits = [s for s in src if s.lstrip().startswith('# FUNCTIONS')]
+    if not hits:
+        raise CatalogError(f'{Path(nb_path).name}: no FUNCTIONS cell')
+    return '\n\n'.join(hits)
+
+
+def code_cells_sha256(nb_path):
+    nb = json.loads(Path(nb_path).read_text('utf-8'))
+    return {f"{i}:{c.get('id', '')}": sha256_bytes((''.join(c['source']) if isinstance(c['source'], list) else c['source']).encode('utf-8'))
+            for i, c in enumerate(nb['cells']) if c['cell_type'] == 'code'}
+
+
+def find_backend():
+    """ROADAWARE_BACKEND_ROOT, else the first cwd ancestor that is (or contains) backend/ with config/catalog_v2.json + notebooks/."""
+    env = os.environ.get('ROADAWARE_BACKEND_ROOT')
+    if env:
+        return Path(env).expanduser().resolve()
+    here = Path.cwd().resolve()
+    for d in (here, *here.parents):
+        for cand in (d, d / 'backend'):
+            if (cand / CATALOG_CONFIG_REL).is_file() and (cand / 'notebooks').is_dir():
+                return cand
+    raise FileNotFoundError('backend root not found from the working directory; set ROADAWARE_BACKEND_ROOT')
+
+
+def load_catalog_config(backend):
+    cfg = read_json_strict(Path(backend) / CATALOG_CONFIG_REL)
+    if cfg.get('schema') != CATALOG_CONFIG_SCHEMA or cfg.get('production_ready') is not False or cfg.get('operational_status') != 'BLOCKED':
+        raise CatalogError('catalog config schema / research status unexpected')
+    return cfg
+
+
+def month_range(first, last):
+    """['YYYY-MM', ...] inclusive."""
+    y, m = int(first[:4]), int(first[5:7])
+    ly, lm = int(last[:4]), int(last[5:7])
+    out = []
+    while (y, m) <= (ly, lm):
+        out.append(f'{y:04d}-{m:02d}')
+        y, m = (y + 1, 1) if m == 12 else (y, m + 1)
+    return out
+
+
+def days_in_month(ym):
+    y, m = int(ym[:4]), int(ym[5:7])
+    nxt = dt.date(y + 1, 1, 1) if m == 12 else dt.date(y, m + 1, 1)
+    return (nxt - dt.date(y, m, 1)).days
+
+
+def parse_bool_col(s, name):
+    """Strict 'True'/'False' text (pandas to_csv of a bool column) -> bool; anything else is a schema error."""
+    bad = ~s.isin(['True', 'False'])
+    if bad.any():
+        raise CatalogError(f'{name}: {int(bad.sum())} non-boolean values')
+    return s.eq('True')
+
+
+def norm_label(v):
+    """NFC + collapsed whitespace; '' stays '' (an explicit blank, mapped to an unknown label by the caller)."""
+    return ' '.join(unicodedata.normalize('NFC', str(v)).split())
+
+
+# ---------- verification of the accepted 09/10/11/12/13 inputs ----------
+def recorded_input(pm, role, name):
+    """sha256 notebook 10 recorded for its input of `role` whose path ends with `name` (exactly one entry)."""
+    hits = [i for i in pm['inputs'] if i['role'] == role and Path(i['path']).as_posix().endswith('/' + str(name).lstrip('/'))]
+    if len(hits) != 1:
+        raise CatalogError(f'preparation manifest records {len(hits)} {role} inputs ending in {name}')
+    return hits[0]['sha256']
+
+
+def resolve_input_roots(backend, cfg):
+    return {k: (Path(backend) / v).resolve() for k, v in cfg['paths'].items()}
+
+
+def verify_catalog_inputs(backend, cfg):
+    """Every input of the catalog against the config trust anchors and the hashes each producer recorded, BEFORE any table is read.
+    Returns {'roots', 'paths', 'hashes', 'manifests'}; raises CatalogError on any missing/tampered/foreign input."""
+    A, R = cfg['trust_anchors'], resolve_input_roots(backend, cfg)
+    H, P, M = {}, {}, {}
+
+    def anchored(label, path, sha):
+        P[label] = Path(path)
+        H[label] = verify_file(path, sha, label)
+        return read_json_strict(path) if str(path).endswith('.json') else None
+
+    cfg13 = anchored('inference_config', R['inference_config'], A['inference_config_sha256'])
+    if cfg13.get('production_ready') is not False or cfg13.get('operational_status') != 'BLOCKED':
+        raise CatalogError('inference config is not research-only')
+    sm = anchored('serving_manifest', R['serving_report_dir'] / 'serving_manifest.json', A['serving_manifest_sha256'])
+    if sm.get('producer') != '13_inference_robustness_contract' or sm.get('status') != 'completed' or sm.get('production_ready') is not False:
+        raise CatalogError('serving manifest is not a completed research-only notebook 13 run')
+    if sm.get('functions_cells_sha256') != A['notebook13_functions_sha256'] or sm.get('config_sha256') != A['inference_config_sha256']:
+        raise CatalogError('serving manifest FUNCTIONS / config hash differs from the trust anchors')
+    if sm.get('analysis_manifest_sha256') != A['analysis_manifest_sha256'] or sm['verified_input_hashes'].get('model_manifest') != A['model_manifest_sha256']:
+        raise CatalogError('serving manifest was verified against another 11/12 run')
+    pm = anchored('preparation_manifest', R['preparation_report_dir'] / 'preparation_manifest.json', A['preparation_manifest_sha256'])
+    if pm.get('producer') != '10_v2_preparation_features_leakage' or pm.get('status') not in ('completed', 'completed_with_gaps') or pm.get('production_ready') is not False:
+        raise CatalogError('preparation manifest is not an accepted research-only notebook 10 run')
+    if sm['verified_input_hashes'].get('11_input:preparation_manifest') != A['preparation_manifest_sha256']:
+        raise CatalogError('serving manifest used another preparation manifest')
+    srcm = anchored('sources_manifest', R['sources_report_dir'] / 'sources_manifest.json', recorded_input(pm, '09_sources_manifest', 'sources_manifest.json'))
+    if srcm.get('producer') != '09_external_collection_date_evidence':
+        raise CatalogError('sources manifest producer unexpected')
+    anchored('province_points', R['sources_report_dir'] / 'province_points.csv', recorded_input(pm, '09_output', 'province_points.csv'))
+    if H['province_points'] != sm['verified_input_hashes'].get('source:province_points.csv'):
+        raise CatalogError('province points differ from the bytes notebook 13 served')
+    data_out = {o['path']: o['sha256'] for o in pm['data_outputs']}
+    for name in ('events_v2.csv.gz', 'panel_daily_v2.csv.gz'):
+        anchored(name, R['preparation_data_dir'] / name, data_out.get(name))
+    anchored('v1_descriptive', R['v1_descriptive'], recorded_input(pm, 'v1_interim', Path(cfg['paths']['v1_descriptive']).name))
+    mm = anchored('model_manifest', R['model_report_dir'] / 'model_manifest.json', A['model_manifest_sha256'])
+    if mm.get('status') != 'completed' or mm.get('production_ready') is not False:
+        raise CatalogError('model manifest is not a completed research-only notebook 11 run')
+    mrep = {o['path']: o['sha256'] for o in mm['report_outputs']}
+    for name in cfg['evaluation']['model_files']:
+        anchored(f'11:{name}', R['model_report_dir'] / name, mrep.get(name))
+    am = anchored('analysis_manifest', R['analysis_report_dir'] / 'analysis_manifest.json', A['analysis_manifest_sha256'])
+    if am.get('status') != 'completed' or am.get('production_ready') is not False:
+        raise CatalogError('analysis manifest is not a completed research-only notebook 12 run')
+    arep = {Path(o['path']).name: o['sha256'] for o in am['outputs']}
+    for name in cfg['evaluation']['analysis_files']:
+        anchored(f'12:{name}', R['analysis_report_dir'] / name, arep.get(name))
+    M.update(inference_config=cfg13, serving=sm, preparation=pm, sources=srcm, model=mm, analysis=am)
+    return {'roots': R, 'paths': P, 'hashes': H, 'manifests': M}
+
+
+# ---------- history tables ----------
+def load_events(path):
+    ev = read_str_csv(path)
+    miss = [c for c in EVENT_COLS if c not in ev.columns]
+    if miss:
+        raise CatalogError(f'events_v2: missing columns {miss}')
+    ev = ev[list(EVENT_COLS)].copy()
+    if not ev['event_date'].str.fullmatch(r'[0-9]{4}-[0-9]{2}-[0-9]{2}').all():
+        raise CatalogError('events_v2: event_date is not ISO YYYY-MM-DD everywhere')
+    return ev
+
+
+def load_descriptive(path, cats):
+    d = read_str_csv(path)
+    miss = [c for c in ['event_uid'] + list(cats) if c not in d.columns]
+    if miss:
+        raise CatalogError(f'descriptive file: missing columns {miss}')
+    return d[['event_uid'] + list(cats)].copy()   # vehicle / location text / injuries / report times are never read further
+
+
+def join_descriptive(events, desc, cats, unknown_labels):
+    """Left join events (repaired notebook 10 events) 1:1 by event_uid to the V1 descriptive rows. Both sides must have unique UIDs; the row
+    count must be preserved. Events without a descriptive row get the explicit no-descriptive-record label, blanks the blank label (never
+    imputed). Returns (frame WITHOUT event_uid, join stats). Descriptive rows with no retained event are counted, not used."""
+    for name, df in (('events_v2', events), ('descriptive', desc)):
+        dup = df['event_uid'].duplicated(keep=False)
+        if dup.any():
+            raise CatalogError(f'{name}: {int(dup.sum())} rows share an event_uid; a 1:1 join is impossible')
+        if df['event_uid'].eq('').any():
+            raise CatalogError(f'{name}: blank event_uid')
+    j = events.merge(desc, on='event_uid', how='left', validate='one_to_one', indicator=True)
+    if len(j) != len(events) or not j['event_uid'].equals(events['event_uid'].reset_index(drop=True)):
+        raise CatalogError('descriptive join changed the event rows or their order')
+    matched = j['_merge'].eq('both').to_numpy()
+    out = pd.DataFrame({'province_key': j['province_key'].to_numpy(), 'event_date': j['event_date'].to_numpy(),
+                        'year_month': j['event_date'].str[:7].to_numpy(), 'time_block': j['time_block'].to_numpy(),
+                        'time_block__status': np.where(j['time_block'].eq(''), LABEL_BLANK, LABEL_KNOWN)})
+    out.loc[out['time_block'].eq(''), 'time_block'] = unknown_labels['blank_in_source']
+    stats = {'n_events': int(len(events)), 'n_descriptive_rows': int(len(desc)), 'n_matched': int(matched.sum()),
+             'n_events_without_descriptive_record': int((~matched).sum()),
+             'n_descriptive_rows_without_retained_event': int((~desc['event_uid'].isin(set(events['event_uid']))).sum()), 'by_category': {}}
+    for c in cats:
+        v = j[c].fillna('').map(norm_label).to_numpy(dtype=object)
+        status = np.where(~matched, LABEL_NO_DESC, np.where(v == '', LABEL_BLANK, LABEL_KNOWN))
+        v = np.where(status == LABEL_NO_DESC, unknown_labels['no_descriptive_record'], np.where(status == LABEL_BLANK, unknown_labels['blank_in_source'], v))
+        out[c], out[f'{c}__status'] = v, status
+        stats['by_category'][c] = {s: int((status == s).sum()) for s in (LABEL_KNOWN, LABEL_NO_DESC, LABEL_BLANK)}
+    return out, stats
+
+
+def load_panel(path):
+    p = read_str_csv(path)
+    miss = [c for c in PANEL_COLS if c not in p.columns]
+    if miss:
+        raise CatalogError(f'daily panel: missing columns {miss}')
+    p = p[list(PANEL_COLS)].copy()
+    p['target_date'] = p['target_date'].str[:10]
+    p['y_recorded_count'] = pd.to_numeric(p['y_recorded_count'], errors='raise').astype(int)
+    p['unplaceable_rows_province_year'] = pd.to_numeric(p['unplaceable_rows_province_year'], errors='raise').astype(int)
+    p['training_eligible'] = parse_bool_col(p['training_eligible'], 'training_eligible')
+    p['possibly_undercounted'] = parse_bool_col(p['possibly_undercounted'], 'possibly_undercounted')
+    if (p['training_eligible'] == p['possibly_undercounted']).any():
+        raise CatalogError('daily panel: label-known flag is not the negation of possibly_undercounted')
+    return p
+
+
+def monthly_history(panel, events_j, provinces, months):
+    """Province x month recorded counts from the daily panel for EVERY province and month (explicit zeros), with label-known day support.
+    The panel month totals must equal the joined event counts cell by cell."""
+    p = panel.assign(year_month=panel['target_date'].str[:7])
+    p = p[p['year_month'].isin(set(months))]
+    g = p.groupby(['province_key', 'year_month'])
+    m = pd.DataFrame({'n_days': g.size(), 'recorded_count': g['y_recorded_count'].sum(),
+                      'n_days_label_known': g['training_eligible'].sum().astype(int),
+                      'n_days_possibly_undercounted': g['possibly_undercounted'].sum().astype(int),
+                      'recorded_count_in_label_known_days': p[p['training_eligible']].groupby(['province_key', 'year_month'])['y_recorded_count'].sum(),
+                      'unplaceable_rows_province_year': g['unplaceable_rows_province_year'].max()})
+    idx = pd.MultiIndex.from_product([list(provinces), list(months)], names=['province_key', 'year_month'])
+    if not set(m.index) <= set(idx):
+        raise CatalogError('daily panel holds provinces outside the 77 canonical keys')
+    m = m.reindex(idx)
+    if m['n_days'].isna().any():
+        raise CatalogError(f'daily panel lacks {int(m["n_days"].isna().sum())} province-months')
+    m['recorded_count_in_label_known_days'] = m['recorded_count_in_label_known_days'].fillna(0)
+    m = m.astype(int).reset_index()
+    want = m['year_month'].map(days_in_month)
+    if not m['n_days'].eq(want).all():
+        raise CatalogError('daily panel: a province-month does not hold every calendar day')
+    ev = events_j.groupby(['province_key', 'year_month']).size().reindex(idx, fill_value=0).to_numpy()
+    if not np.array_equal(ev, m['recorded_count'].to_numpy()):
+        raise CatalogError('panel monthly counts differ from the joined events_v2 counts')
+    m['label_status'] = np.where(m['n_days_possibly_undercounted'].eq(0), 'all_days_label_known',
+                                 np.where(m['n_days_label_known'].eq(0), 'all_days_possibly_undercounted', 'partly_possibly_undercounted'))
+    return m
+
+
+def category_monthly(events_j, cats):
+    """Long table: category, province_key, year_month, value, label_status, n_events (non-zero cells only). One category at a time."""
+    parts = []
+    for c in cats:
+        g = events_j.groupby(['province_key', 'year_month', c, f'{c}__status']).size().rename('n_events').reset_index()
+        parts.append(g.rename(columns={c: 'value', f'{c}__status': 'label_status'}).assign(category=c))
+    out = pd.concat(parts, ignore_index=True)[['category', 'province_key', 'year_month', 'value', 'label_status', 'n_events']]
+    return out.sort_values(['category', 'province_key', 'year_month', 'label_status', 'value'], kind='stable').reset_index(drop=True)
+
+
+def category_coverage_by_year(events_j, cats):
+    rows = []
+    for c in cats:
+        for y, g in events_j.groupby(events_j['event_date'].str[:4]):
+            s = g[f'{c}__status']
+            n, k = int(len(g)), int(s.eq(LABEL_KNOWN).sum())
+            rows.append({'year': y, 'category': c, 'denominator_events': n, 'known_label_events': k,
+                         LABEL_NO_DESC: int(s.eq(LABEL_NO_DESC).sum()), LABEL_BLANK: int(s.eq(LABEL_BLANK).sum()),
+                         'known_label_share': (k / n) if n else None})
+    return pd.DataFrame(rows)
+
+
+def reconcile_catalog(monthly, catm, cov, stats, cats, expected_events, expected_provinces, expected_months):
+    """Hard reconciliation of the aggregates; returns a check table and raises CatalogError if any check fails."""
+    n = stats['n_events']
+    rows = [('events_total_expected', n == expected_events, f'{n} events vs expected {expected_events}'),
+            ('join_preserves_rows', stats['n_matched'] + stats['n_events_without_descriptive_record'] == n,
+             f"{stats['n_matched']} matched + {stats['n_events_without_descriptive_record']} without descriptive record"),
+            ('monthly_grid_complete', len(monthly) == expected_provinces * expected_months and monthly['province_key'].nunique() == expected_provinces,
+             f'{len(monthly)} province-months'),
+            ('monthly_total_equals_events', int(monthly['recorded_count'].sum()) == n, f"{int(monthly['recorded_count'].sum())}")]
+    base = monthly.set_index(['province_key', 'year_month'])['recorded_count']
+    for c in cats:
+        sub = catm[catm['category'].eq(c)]
+        cell = sub.groupby(['province_key', 'year_month'])['n_events'].sum().reindex(base.index, fill_value=0)
+        rows.append((f'{c}_total_equals_events', int(sub['n_events'].sum()) == n, f"{int(sub['n_events'].sum())}"))
+        rows.append((f'{c}_cells_equal_monthly_counts', bool((cell == base).all()), f'{int((cell != base).sum())} province-months differ'))
+        cv = cov[cov['category'].eq(c)]
+        rows.append((f'{c}_coverage_denominator_equals_events', int(cv['denominator_events'].sum()) == n and
+                     int((cv['known_label_events'] + cv[LABEL_NO_DESC] + cv[LABEL_BLANK]).sum()) == n, f"known {int(cv['known_label_events'].sum())}"))
+    out = pd.DataFrame(rows, columns=['check', 'passed', 'detail'])
+    if not out['passed'].all():
+        raise CatalogError(f"catalog reconciliation failed: {out.loc[~out['passed'], 'check'].tolist()}")
+    return out
+
+
+# ---------- frontend payloads ----------
+def provinces_payload(points, provinces):
+    """77 provinces with the 09 representative label point (a proxy query point; NOT an accident, event or road location)."""
+    pts = points[points['province_key'].isin(set(provinces))]
+    if len(pts) != len(provinces) or pts['province_key'].duplicated().any():
+        raise CatalogError(f'{len(pts)} province point rows for {len(provinces)} provinces')
+    out = []
+    for r in pts.sort_values('province_key').itertuples(index=False):
+        lat, lon = float(r.lat), float(r.lon)
+        if not (math.isfinite(lat) and math.isfinite(lon) and THAI_BBOX['lat'][0] <= lat <= THAI_BBOX['lat'][1] and THAI_BBOX['lon'][0] <= lon <= THAI_BBOX['lon'][1]):
+            raise CatalogError(f'{r.province_key}: representative point outside the Thailand bounding box')
+        out.append({'province_key': r.province_key, 'province_code': int(r.province_code), 'name_th': r.name_th, 'name_en': r.name_en,
+                    'representative_point': {'lat': lat, 'lon': lon, 'method': r.point_method,
+                                             'meaning': 'province label proxy point for maps only; NOT an accident, event or road location'}})
+    return out
+
+
+def typed_records(df):
+    """CSV rows (all text) -> records with numbers/bools parsed column by column; '' -> None. Row order kept."""
+    out = df.copy()
+    for c in out.columns:
+        s = out[c]
+        if s.isin(['True', 'False', '']).all() and s.ne('').any():
+            out[c] = s.map({'True': True, 'False': False, '': None})
+            continue
+        num = pd.to_numeric(s.replace('', np.nan), errors='coerce')
+        if num.notna().sum() == s.ne('').sum():
+            out[c] = [None if pd.isna(x) else (int(x) if float(x).is_integer() and 'e' not in t.lower() and '.' not in t else float(x)) for x, t in zip(num, s)]
+        else:
+            out[c] = [None if x == '' else x for x in s]
+    return json_safe(out.to_dict(orient='records'))
+
+
+def evaluation_payload(man, tables, cfg13):
+    """Accepted 11/12 evidence for the selected methods and their strongest baselines, copied (no re-ranking, no new metric)."""
+    am, sm = man['analysis'], man['serving']
+    dec, gate, diag = tables['12:decision_summary.csv'], tables['12:gate_checks.csv'], tables['11:diagnostic_metrics.csv']
+    units = {}
+    for u, d in am['decision'].items():
+        keep = [d['recommended_method'], d['strongest_baseline']]
+        units[u] = {'recommended_method': d['recommended_method'], 'strongest_baseline': d['strongest_baseline'],
+                    'recommendation_kind': d['recommendation_kind'], 'gate_passed': bool(d['gate_passed']), 'gate_bootstrap': d['gate_bootstrap'],
+                    'reasons': d['reasons'],
+                    'locked_protocol_oof_pooled': typed_records(dec[dec['unit'].eq(u) & dec['method_id'].isin(keep)]),
+                    'gate_checks': typed_records(gate[gate['unit'].eq(u)]),
+                    'seen_diagnostics_2024_2025': typed_records(diag[diag['unit'].eq(u) & diag['method_id'].isin(keep)]),
+                    'coverage_facts': am['coverage_facts'].get(u)}
+    return json_safe({'schema': 'roadaware-v2-evaluation-summary/1', 'research_only': True, 'production_ready': False, 'operational_status': 'BLOCKED',
+                      'labels': {'locked_protocol_oof_pooled': 'pooled out-of-fold metrics of the locked protocol backtest (notebook 12 decision_summary)',
+                                 'seen_diagnostics_2024_2025': '2024 development + 2025 reused diagnostics (notebook 11); BOTH previously seen during development - no untouched test',
+                                 'gate_checks': 'locked gate checks of the recommended method vs its strongest baseline (notebook 12)'},
+                      'evaluated_period': cfg13['request']['evaluated_period'], 'evaluated_period_note': cfg13['request']['evaluated_period_note'],
+                      'units': units, 'caveats': am['caveats'],
+                      'provenance': {'analysis_manifest_sha256': man['hashes']['analysis_manifest'], 'model_manifest_sha256': man['hashes']['model_manifest'],
+                                     'serving_manifest_sha256': man['hashes']['serving_manifest'], 'serving_registry_id': sm.get('registry_id'),
+                                     'analysis_finished_utc': am.get('finished_utc')}})
+
+
+# ---------- trusted runtime catalog + bounded history query ----------
+def load_catalog(backend, expected_manifest_sha256, expected_functions_sha256, report_dir=None):
+    """Verify the catalog manifest against the manager pin, its FUNCTIONS / config hashes and every output hash, then load the aggregate
+    tables once (immutable afterwards). report_dir defaults to <backend>/reports/v2/catalog (never client supplied)."""
+    backend = Path(backend).resolve()
+    cfg_path = backend / CATALOG_CONFIG_REL
+    rep = Path(report_dir).resolve() if report_dir else backend / load_catalog_config(backend)['outputs']['report_subdir']
+    mp = rep / CATALOG_MANIFEST
+    msha = verify_file(mp, expected_manifest_sha256, 'catalog manifest (runtime lock)')
+    man = read_json_strict(mp)
+    if man.get('schema') != CATALOG_SCHEMA or man.get('producer') != CATALOG_PRODUCER or man.get('status') != 'completed':
+        raise CatalogError('catalog manifest is not a completed notebook 14 run')
+    if man.get('production_ready') is not False or man.get('operational_status') != 'BLOCKED':
+        raise CatalogError('catalog manifest must stay research-only')
+    if not expected_functions_sha256 or man.get('functions_cells_sha256') != expected_functions_sha256:
+        raise CatalogError('catalog was produced by other notebook 14 FUNCTIONS than the pinned ones')
+    verify_file(cfg_path, man.get('config_sha256'), 'catalog config')
+    outs = {o['path']: o['sha256'] for o in man['outputs']}
+    if sorted(outs) != sorted(CATALOG_FILES):
+        raise CatalogError('catalog manifest output list differs from the catalog contract')
+    for name, sha in outs.items():
+        verify_file(rep / name, sha, f'catalog {name}')
+    cfg = read_json_strict(cfg_path)
+    H = cfg['history']
+    monthly = read_str_csv(rep / 'history_monthly.csv')
+    for c in ('n_days', 'recorded_count', 'n_days_label_known', 'n_days_possibly_undercounted', 'recorded_count_in_label_known_days', 'unplaceable_rows_province_year'):
+        monthly[c] = pd.to_numeric(monthly[c], errors='raise').astype(int)
+    catm = read_str_csv(rep / 'history_category_monthly.csv')
+    catm['n_events'] = pd.to_numeric(catm['n_events'], errors='raise').astype(int)
+    provinces = read_json_strict(rep / 'provinces.json')
+    keys = [p['province_key'] for p in provinces['provinces']]
+    months = month_range(H['first_month'], H['last_month'])
+    if len(monthly) != len(keys) * len(months) or set(monthly['province_key']) != set(keys):
+        raise CatalogError('catalog monthly table is not the full province x month grid')
+    return {'manifest': man, 'manifest_sha256': msha, 'catalog_id': msha[:16], 'config': cfg, 'provinces': provinces,
+            'evaluation': read_json_strict(rep / 'evaluation.json'), 'province_set': frozenset(keys), 'months': months,
+            'categories': list(H['descriptive_categories']) + list(H['event_categories']),
+            'monthly_by_province': {k: g.set_index('year_month').sort_index() for k, g in monthly.groupby('province_key')},
+            'category_by_province': {k: g.reset_index(drop=True) for k, g in catm.groupby('province_key')}, 'loaded_utc': utc_now()}
+
+
+def _qerr(field, code, msg):
+    return {'index': None, 'field': field, 'code': code, 'message': msg}
+
+
+def parse_history_query(cat, pairs):
+    """pairs: [(key, value)] exactly as received (query string). Returns normalized {'province_key', 'start_month', 'end_month', 'categories'}
+    or raises CatalogQueryError. Rules: province_key required (canonical key); either start_month/end_month (YYYY-MM) or start_year/end_year
+    (YYYY), never both; inclusive range inside the catalog months, at most max_query_months; categories = comma list of known categories."""
+    H, errs, q = cat['config']['history'], [], {}
+    for k, v in pairs:
+        if k not in QUERY_KEYS:
+            errs.append(_qerr(str(k)[:40], 'unknown_parameter', f'allowed parameters: {list(QUERY_KEYS)}'))
+        elif k in q:
+            errs.append(_qerr(k, 'duplicate_parameter', 'each parameter may appear once'))
+        elif not isinstance(v, str):
+            errs.append(_qerr(k, 'invalid_type', 'parameters are strings'))
+        else:
+            q[k] = v
+    if errs:
+        raise CatalogQueryError(errs)
+    pk = q.get('province_key')
+    if pk is None:
+        errs.append(_qerr('province_key', 'missing_field', 'province_key is required (one of the 77 canonical keys from /api/v1/provinces)'))
+    elif pk not in cat['province_set']:
+        errs.append(_qerr('province_key', 'unknown_province', 'not one of the 77 canonical province keys'))
+    first, last = H['first_month'], H['last_month']
+    use_m = 'start_month' in q or 'end_month' in q
+    use_y = 'start_year' in q or 'end_year' in q
+    lo, hi = first, last
+    if use_m and use_y:
+        errs.append(_qerr('start_month,start_year', 'conflicting_parameters', 'give months or years, not both'))
+    elif use_m:
+        for f in ('start_month', 'end_month'):
+            v = q.get(f)
+            if v is None:
+                continue
+            if not MONTH_RE.fullmatch(v) or not 1 <= int(v[5:7]) <= 12:
+                errs.append(_qerr(f, 'invalid_format', 'expected YYYY-MM (CE)'))
+            elif not first <= v <= last:
+                errs.append(_qerr(f, 'out_of_catalog_range', f'historical catalog covers {first}..{last}'))
+        lo, hi = q.get('start_month', first), q.get('end_month', last)
+    elif use_y:
+        ys = []
+        for f in ('start_year', 'end_year'):
+            v = q.get(f)
+            if v is None:
+                continue
+            if not YEAR_RE.fullmatch(v):
+                errs.append(_qerr(f, 'invalid_format', 'expected YYYY (CE)'))
+            elif not first[:4] <= v <= last[:4]:
+                errs.append(_qerr(f, 'out_of_catalog_range', f'historical catalog covers {first[:4]}..{last[:4]}'))
+        lo = q['start_year'] + '-01' if 'start_year' in q else first
+        hi = q['end_year'] + '-12' if 'end_year' in q else last
+    if not errs and lo > hi:
+        errs.append(_qerr('end', 'invalid_range', 'start must not be after end'))
+    if not errs and len(month_range(lo, hi)) > int(H['max_query_months']):
+        errs.append(_qerr('end', 'range_too_large', f"at most {H['max_query_months']} months per query"))
+    cats = cat['categories']
+    if 'categories' in q:
+        req = q['categories'].split(',')
+        if any(c not in cats for c in req) or len(set(req)) != len(req) or not req:
+            errs.append(_qerr('categories', 'invalid_category', f'comma-separated subset of {cats} without duplicates'))
+        else:
+            cats = [c for c in cats if c in req]
+    if errs:
+        raise CatalogQueryError(errs)
+    return {'province_key': pk, 'start_month': lo, 'end_month': hi, 'categories': cats}
+
+
+def query_history(cat, pairs):
+    """PUBLIC CATALOG QUERY. Historical aggregates for one province and a bounded month range: monthly recorded counts (explicit zeros) with
+    label-known day support, and per-category marginals with denominators, explicit unknowns and known-label coverage. JSON-safe."""
+    q = parse_history_query(cat, pairs)
+    months = month_range(q['start_month'], q['end_month'])
+    m = cat['monthly_by_province'][q['province_key']].loc[months]
+    total = int(m['recorded_count'].sum())
+    cm = cat['category_by_province'].get(q['province_key'])
+    cm = cm.iloc[0:0] if cm is None else cm[cm['year_month'].isin(set(months))]
+    cats = {}
+    for c in q['categories']:
+        sub = cm[cm['category'].eq(c)]
+        den = int(sub['n_events'].sum())
+        if den != total:
+            raise CatalogError(f'{c}: category denominator {den} != recorded total {total}')
+        by = sub.groupby('label_status')['n_events'].sum()
+        known = sub[sub['label_status'].eq(LABEL_KNOWN)].groupby('value')['n_events'].sum().reset_index()
+        known = known.sort_values(['n_events', 'value'], ascending=[False, True], kind='stable')
+        k = int(by.get(LABEL_KNOWN, 0))
+        cats[c] = {'denominator_events': den, 'known_label_events': k,
+                   'unknown': {LABEL_NO_DESC: int(by.get(LABEL_NO_DESC, 0)), LABEL_BLANK: int(by.get(LABEL_BLANK, 0))},
+                   'known_label_share': (k / den) if den else None,
+                   'values': [{'value': v, 'n_events': int(n)} for v, n in zip(known['value'], known['n_events'])]}
+    rows = [{'year_month': ym, 'n_days': int(r.n_days), HISTORY_QUANTITY: int(r.recorded_count), 'n_days_label_known': int(r.n_days_label_known),
+             'n_days_possibly_undercounted': int(r.n_days_possibly_undercounted),
+             'recorded_count_in_label_known_days': int(r.recorded_count_in_label_known_days), 'label_status': r.label_status}
+            for ym, r in m.iterrows()]
+    unp = {ym[:4]: int(v) for ym, v in m['unplaceable_rows_province_year'].items()}
+    return json_safe({'schema': HISTORY_SCHEMA, 'catalog_id': cat['catalog_id'], 'kind': 'historical_aggregate', 'quantity': HISTORY_QUANTITY,
+                      'quantity_note': HISTORY_NOTE, 'category_note': CATEGORY_NOTE, 'province_key': q['province_key'],
+                      'start_month': q['start_month'], 'end_month': q['end_month'], 'n_months': len(months), 'timezone': 'Asia/Bangkok',
+                      'months': rows,
+                      'totals': {HISTORY_QUANTITY: total, 'n_days': int(m['n_days'].sum()), 'n_days_label_known': int(m['n_days_label_known'].sum()),
+                                 'n_days_possibly_undercounted': int(m['n_days_possibly_undercounted'].sum()),
+                                 'unplaceable_rows_province_year': unp,
+                                 'unplaceable_note': 'source rows of this province-year that could not be placed on a day (possible undercount; not added to any month)'},
+                      'categories': cats,
+                      'research_status': {'research_only': True, 'production_ready': False, 'operational_status': 'BLOCKED', 'live_data': False}})
+
+
+def catalog_summary(cat):
+    """JSON-safe description of the trusted catalog for a metadata endpoint (no filesystem paths)."""
+    man = cat['manifest']
+    return json_safe({'schema': CATALOG_SCHEMA, 'catalog_id': cat['catalog_id'], 'catalog_manifest_sha256': cat['manifest_sha256'],
+                      'functions_cells_sha256': man['functions_cells_sha256'], 'first_month': cat['months'][0], 'last_month': cat['months'][-1],
+                      'n_provinces': len(cat['province_set']), 'categories': cat['categories'], 'join': man['results']['join'],
+                      'coverage_by_category': man['results']['coverage_totals'], 'history_query': {
+                          'parameters': list(QUERY_KEYS), 'max_query_months': cat['config']['history']['max_query_months']},
+                      'notes': [HISTORY_NOTE, CATEGORY_NOTE], 'input_hashes': man['input_hashes']})
