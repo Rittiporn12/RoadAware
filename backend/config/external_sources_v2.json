@@ -1,0 +1,139 @@
+{
+  "_comment": "RoadAware v2 external-source collection and date-evidence config (notebook 09). Relative paths resolve against the backend root. Env overrides: ROADAWARE_BACKEND_ROOT, ROADAWARE_V2_EXTERNAL_ROOT (raw/cache root), ROADAWARE_V2_OUTPUT_ROOT (root for reports/v2/sources), ROADAWARE_V1_DATA_ROOT (read-only v1 data root), ROADAWARE_V2_OFFLINE=1 (cache only), ROADAWARE_V2_REFRESH=1 (re-download; changed bytes become a new version, never an overwrite). Status: research in progress; nothing here is an operational forecast source.",
+  "schema": "roadaware-external-sources-v2/1",
+  "default_external_root": "data/external_v2",
+  "preflight_dir": "data/external_v2/evidence",
+  "report_subdir": "reports/v2/sources",
+  "timezone": "Asia/Bangkok",
+  "utc_offset_seconds": 25200,
+  "forecast_issue": {"issue_hour_local": 18, "issue_days_before_target": 1},
+  "http": {
+    "user_agent": "RoadAware-research-notebook09/1 (+no-credentials; research collection)",
+    "timeout_seconds": 60,
+    "max_retries": 3,
+    "backoff_seconds": 2.0,
+    "max_retry_after_seconds": 90,
+    "max_response_bytes": 52428800,
+    "max_network_requests_per_run": 500,
+    "allowed_hosts": [
+      "datagov.mot.go.th",
+      "opendata.doh.go.th",
+      "www.geoboundaries.org",
+      "github.com",
+      "raw.githubusercontent.com",
+      "media.githubusercontent.com",
+      "objects.githubusercontent.com",
+      "api.github.com",
+      "previous-runs-api.open-meteo.com",
+      "www.bot.or.th"
+    ]
+  },
+  "preflight_files": {
+    "mot_package": {"file": "mot-package.json", "url": "https://datagov.mot.go.th/api/3/action/package_show?id=roadaccident"},
+    "doh_package": {"file": "doh-traffic-package.json", "url": "https://opendata.doh.go.th/api/3/action/package_show?id=ed101df4-f0a1-4d7f-b9d9-76859b2ca73e"},
+    "weather_probe": {"file": "weather-jma-2021-probe.json", "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=14.0&longitude=100.5&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia/Bangkok&start_date=2021-01-01&end_date=2021-01-03"},
+    "doh_aadt_2564_csv": {"file": "aadt_2021.csv", "url": "https://opendata.doh.go.th/dataset/ed101df4-f0a1-4d7f-b9d9-76859b2ca73e/resource/3d3b9335-5e22-418f-8272-00ff93b80da3/download/aadt_64.csv", "note": "declared by Codex preflight as the official BE2564 (CE2021) CSV; notebook 09 confirms by comparing with its own download"}
+  },
+  "mot": {
+    "package_url": "https://datagov.mot.go.th/api/3/action/package_show?id=roadaccident",
+    "dataset_page": "https://datagov.mot.go.th/dataset/roadaccident",
+    "data_dictionary": {
+      "url": null,
+      "status": "not_fetched_url_unknown_to_worker",
+      "note": "Codex reported the old MOT data-dictionary PDF URL now returns 404. A cached search snippet claiming MM/DD is NOT treated as a verified document. Typed XLSX date cells matched by original ACC_CODE are the primary evidence. Set url here to log a live attempt."
+    }
+  },
+  "date_evidence": {
+    "years_ce": [2021, 2022, 2023, 2024, 2025, 2026],
+    "xlsx_years_ce": [2021, 2022, 2023],
+    "xlsx_name_pattern": "accident{year}.xlsx",
+    "id_header": "ACC_CODE",
+    "date_header": "วันที่เกิดเหตุ",
+    "max_header_scan_rows": 30,
+    "max_xlsx_bytes": 104857600,
+    "diagnostic_only_years_ce": [2026],
+    "policy": "Exact original ACC_CODE join only (no fuzzy matching, no row-order matching). A v1 CSV row is resolved only when every XLSX row with that ID has the same TYPED date cell, every v1 CSV row with that ID has the same raw date string, and that XLSX date is one of the CSV row's own candidate readings. XLSX-only IDs and revisions are never added as events and never replace the v1 raw snapshot."
+  },
+  "traffic": {
+    "package_url": "https://opendata.doh.go.th/api/3/action/package_show?id=ed101df4-f0a1-4d7f-b9d9-76859b2ca73e",
+    "survey_years_be": [2563, 2564, 2565, 2566, 2567, 2568],
+    "prefer_format": "CSV",
+    "encodings_to_try": ["utf-8-sig", "cp874"],
+    "aliases": {
+      "route": ["ทางหลวงสาย", "ทางหลวงหมายเลข", "หมายเลขทางหลวง"],
+      "control_section": ["ตอนควบคุม"],
+      "route_name": ["ชื่อสายทาง", "ชื่อตอนควบคุม"],
+      "survey_point": ["จุดสำรวจ", "กม.จุดสำรวจ"],
+      "highway_district": ["แขวงทางหลวง"],
+      "province": ["จังหวัด"],
+      "total": ["รวม", "รวมทั้งหมด"],
+      "heavy_share_pct": ["%ของยานยนต์หนัก", "%ยานยนต์หนัก"]
+    },
+    "required_fields": ["route", "control_section", "survey_point", "province", "total"],
+    "total_components": ["รถยนต์นั่ง(ไม่เกิน7คน)", "รถยนต์นั่ง(เกิน7คน)", "รถโดยสารขนาดเล็ก", "รถโดยสารขนาดกลาง", "รถโดยสารขนาดใหญ่", "รถบรรทุกขนาดเล็ก(4ล้อ)", "รถบรรทุกขนาด2เพลา(6ล้อ)", "รถบรรทุกขนาด3เพลา(10ล้อ)", "รถบรรทุกพ่วง(มากกว่า3เพลา)", "รถบรรทุกกึ่งพ่วง(มากกว่า3เพลา)"],
+    "heavy_components": ["รถโดยสารขนาดกลาง", "รถโดยสารขนาดใหญ่", "รถบรรทุกขนาด2เพลา(6ล้อ)", "รถบรรทุกขนาด3เพลา(10ล้อ)", "รถบรรทุกพ่วง(มากกว่า3เพลา)", "รถบรรทุกกึ่งพ่วง(มากกว่า3เพลา)"],
+    "unit_note": "Annual average daily traffic (vehicles/day) at DOH survey points on DOH highways. Survey-point AADT cannot be summed into unique vehicles or real-time flow; later stages may use only mean/median/survey-coverage summaries per province.",
+    "availability_policy": "A survey vintage may feed a target date only if a catalog timestamp for that resource precedes the issue time. Catalog created/modified timestamps are proxies, not proof that the current bytes existed then. Never use the target year's own annual AADT as an early-year feature."
+  },
+  "geography": {
+    "geoboundaries_api": "https://www.geoboundaries.org/api/current/gbOpen/THA/ADM1/",
+    "pinned_gj_download_url": "https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/THA/ADM1/geoBoundaries-THA-ADM1.geojson",
+    "max_geojson_bytes": 209715200,
+    "source_quality_label": "geoBoundaries gbOpen (OpenStreetMap-derived, ODbL per API metadata); NOT an official Thai-government boundary",
+    "province_table_url": "https://raw.githubusercontent.com/thailand-geography-data/thailand-geography-json/main/src/provinces.json",
+    "province_table_repo_api": "https://api.github.com/repos/thailand-geography-data/thailand-geography-json",
+    "province_table_commit_api": "https://api.github.com/repos/thailand-geography-data/thailand-geography-json/commits?path=src/provinces.json&per_page=1",
+    "expected_provinces": 77,
+    "point_meaning": "shapely representative_point inside each province polygon: a label/proxy weather query point, not a road or event location"
+  },
+  "weather": {
+    "base_url": "https://previous-runs-api.open-meteo.com/v1/forecast",
+    "docs_url": "https://open-meteo.com/en/docs/previous-runs-api",
+    "model": "jma_gsm",
+    "hourly_variables": ["temperature_2m_previous_day2", "precipitation_previous_day2"],
+    "temp_var": "temperature_2m_previous_day2",
+    "rain_var": "precipitation_previous_day2",
+    "lead_hours": 48,
+    "assumed_publication_buffer_hours": 6,
+    "timezone": "Asia/Bangkok",
+    "years": [2021, 2022, 2023, 2024, 2025],
+    "locations_per_request": 5,
+    "timeout_seconds": 120,
+    "max_retries": 3,
+    "max_requests_per_run": 150,
+    "min_seconds_between_requests": 20,
+    "consecutive_failures_to_stop": 3,
+    "max_response_bytes": 52428800,
+    "quota_note": "Free non-commercial Open-Meteo API, no key. Long ranges and multiple locations count as several calls against minutely/hourly/daily limits (weight estimate printed by notebook 09 is approximate). On HTTP 429 without a short Retry-After the collection stops with partial coverage; rerun later to resume (completed chunks are reused only when their sha256 matches the registry).",
+    "lead_note": "previous_day2 = value from the run roughly 48 h before valid time (Open-Meteo docs). The nominal issue bound is valid_time - 48 h; this API lead does not prove the historical public delivery latency, so a 6 h publication buffer is assumed and features must satisfy bound + buffer <= target day - 1 at 18:00 local."
+  },
+  "calendar": {
+    "pages": [
+      {"id": "bot_holiday_main_page", "url": "https://www.bot.or.th/th/financial-institutions-holiday.html"},
+      {"id": "bot_news_20241127", "url": "https://www.bot.or.th/th/news-and-media/news/news-20241127.html", "announcement_date": "2024-11-27", "announces_for_year": 2025, "date_text_check": ["พฤศจิกายน", "2567"]}
+    ],
+    "pdfs": [
+      {"id": "bot_holiday_pdf_2025", "year": 2025, "url_basis": "known_official_url", "url": "https://www.bot.or.th/content/dam/bot/content-fragments/holiday-calendar/th/bot-notification-holiday/BOT-Notification-Holiday-Calendar-2025-TH.pdf"},
+      {"id": "bot_holiday_pdf_2024", "year": 2024, "url_basis": "pattern_from_2025_url_unverified", "url": "https://www.bot.or.th/content/dam/bot/content-fragments/holiday-calendar/th/bot-notification-holiday/BOT-Notification-Holiday-Calendar-2024-TH.pdf"},
+      {"id": "bot_holiday_pdf_2023", "year": 2023, "url_basis": "pattern_from_2025_url_unverified", "url": "https://www.bot.or.th/content/dam/bot/content-fragments/holiday-calendar/th/bot-notification-holiday/BOT-Notification-Holiday-Calendar-2023-TH.pdf"},
+      {"id": "bot_holiday_pdf_2022", "year": 2022, "url_basis": "pattern_from_2025_url_unverified", "url": "https://www.bot.or.th/content/dam/bot/content-fragments/holiday-calendar/th/bot-notification-holiday/BOT-Notification-Holiday-Calendar-2022-TH.pdf"},
+      {"id": "bot_holiday_pdf_2021", "year": 2021, "url_basis": "pattern_from_2025_url_unverified", "url": "https://www.bot.or.th/content/dam/bot/content-fragments/holiday-calendar/th/bot-notification-holiday/BOT-Notification-Holiday-Calendar-2021-TH.pdf"}
+    ],
+    "years": [2021, 2022, 2023, 2024, 2025],
+    "max_discovered_pdfs": 10,
+    "max_pdf_bytes": 31457280,
+    "recurring_fixed_festivals": [
+      {"id": "songkran", "name": "วันสงกรานต์ (Songkran)", "month_days": [[4, 13], [4, 14], [4, 15]], "keywords": ["สงกรานต์"]},
+      {"id": "new_year", "name": "วันสิ้นปี / วันขึ้นปีใหม่ (New Year)", "month_days": [[12, 31], [1, 1]], "keywords": ["สิ้นปี", "ปีใหม่"]}
+    ],
+    "policy": "BOT financial-institution holidays are NOT the full national public-holiday calendar. Only recurring fixed festivals (Songkran 13-15 Apr, New Year 31 Dec / 1 Jan) found with their keyword in an official BOT PDF line are recorded as verified; every other extracted line is kept as an explicitly excluded, unreviewed record. Lunar/moveable and special days need announcement-date evidence before any feature use."
+  },
+  "readiness": [
+    {"group": "holiday_festival", "granularity": "date (national)", "next_stage_allowed_use": "recurring fixed-festival indicators and day-distance windows (Songkran, New Year) only; no general public-holiday flag", "available_at_policy": "fixed recurring dates are known in advance; announced/special days only after a verified announcement_date <= issue date", "leakage_risk": "low for fixed festivals; high if special days announced after issue time are used"},
+    {"group": "weather", "granularity": "province representative point x local day / 6 h block", "next_stage_allowed_use": "archived JMA GSM previous_day2 forecasts aggregated per province-day/6 h block, only rows with complete hours and issue_bound_ok", "available_at_policy": "nominal issue bound = valid time - 48 h; require bound + 6 h buffer <= target day - 1 at 18:00 local", "leakage_risk": "medium: API lead is nominal and archive delivery latency is unverified; never substitute ERA5/observations"},
+    {"group": "season", "granularity": "date", "next_stage_allowed_use": "calendar-month season proxy (not actual rain, not uniform across Thailand)", "available_at_policy": "deterministic from target date", "leakage_risk": "low"},
+    {"group": "timeblock", "granularity": "province x 6 h block (00-06/06-12/12-18/18-24)", "next_stage_allowed_use": "define the TARGET unit from each event's own time; never use an event's time to predict that same event", "available_at_policy": "block boundaries are deterministic; event times are labels only", "leakage_risk": "high if event time is used as an input feature"},
+    {"group": "traffic", "granularity": "DOH survey point x survey year (annual)", "next_stage_allowed_use": "province mean/median AADT and survey coverage from PRIOR available vintages only", "available_at_policy": "catalog created timestamp (proxy) must precede the issue time; never the target year's own annual actual", "leakage_risk": "medium: catalog timestamps are proxies; current bytes may be revised"},
+    {"group": "history", "granularity": "province x day/block accident history", "next_stage_allowed_use": "blocked for operational claims; only explicitly conditional research runs that state report-date assumptions", "available_at_policy": "unknown: report availability/latency at issue time not verified", "leakage_risk": "high"}
+  ]
+}
