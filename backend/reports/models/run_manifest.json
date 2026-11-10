@@ -1,0 +1,40 @@
+{
+  "started_utc": "2026-11-09T19:06:08.253918+00:00",
+  "runner_python": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/.venv/bin/python",
+  "kernel_argv": [
+    "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/.venv/bin/python",
+    "-m",
+    "ipykernel_launcher",
+    "-f",
+    "{connection_file}"
+  ],
+  "backend_root": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend",
+  "data_root": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend",
+  "output_dir": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend",
+  "data_inputs_sha256_before": {
+    "panel": "22604a280264d55e2caacb21da2e135ca8896b849457b80f34386c9d54a828a7",
+    "data_run_manifest": "8c1a586e45054ccf40c355c0190301f99b8692e2b0e132ce5c9a914ae7dcd642"
+  },
+  "status": "ok",
+  "notebooks": [
+    {
+      "notebook": "06_baseline_candidate_models",
+      "source": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/notebooks/06_baseline_candidate_models.ipynb",
+      "status": "ok",
+      "error": null,
+      "cells_completed": 13,
+      "current_cell_index": 21,
+      "source_sha256_before": "ba1073c15759604824794329d2bdf3ffa0bc3467f66f680e6a4ee9c1b24d39d2",
+      "nbformat_valid": true,
+      "seconds": 42.45,
+      "output": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/notebooks/06_baseline_candidate_models.ipynb",
+      "output_sha256": "fb6a7ea2db0eef9769fe0c4316d315896e6f0b55c6537027f30b781d79c9a42d"
+    }
+  ],
+  "data_inputs_sha256_after": {
+    "panel": "22604a280264d55e2caacb21da2e135ca8896b849457b80f34386c9d54a828a7",
+    "data_run_manifest": "8c1a586e45054ccf40c355c0190301f99b8692e2b0e132ce5c9a914ae7dcd642"
+  },
+  "data_inputs_unchanged": true,
+  "finished_utc": "2026-11-09T19:06:50.814155+00:00"
+}

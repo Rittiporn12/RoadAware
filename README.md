@@ -1,15 +1,19 @@
 # Model stage — in progress
 
-มี Notebook ทดลอง Baseline และ 3 อัลกอริทึมแล้ว แต่ **ยังไม่ผ่านการรับงานครบ**
-ผลจริง จุดล้มเหลว และงานที่รอทำต่ออยู่ใน [รายงาน Model เบื้องต้น](workflow/model-preliminary-findings-th.md)
-หลักฐาน Data Foundation ด้านล่างยังคงสถานะเดิม การเลือกโมเดลใน OOF ยังไม่เท่ากับพร้อมใช้งานจริง
+มี Notebook 06 ทดลอง Baseline และ 3 อัลกอริทึม (Poisson, Random Forest, HGB) แล้ว แก้การตรวจ reload ให้ใช้
+tolerance ที่ระบุ (1e-12) และเพิ่ม fixture tests ของโมเดลแล้ว แต่ **ยังรอ Codex ตรวจรับขั้นสุดท้าย**
+ผลจริงจาก precheck และงานที่รอทำต่ออยู่ใน [รายงาน Model เบื้องต้น](workflow/model-preliminary-findings-th.md)
+
+**คำเตือน:** ในการตรวจย้อนหลังปี 2024/2025 (ปี 2025 เคยถูกดูแล้ว ไม่ใช่ test อิสระ) Baseline ค่าเฉลี่ยรายจังหวัด
+ดีกว่าโมเดลทั้งสามตระกูล และพบ regime shift จาก cleaning/รูปแบบวันที่ การเลือกโมเดลใน OOF จึงไม่เท่ากับพร้อมใช้งานจริง
+`production_enabled = false` และความพร้อมของโมเดลจริงยัง BLOCKED หลักฐาน Data Foundation ด้านล่างยังคงสถานะเดิม
 
 # RoadAware
 
 ## โครงสร้าง
 
 ```
-backend/    งานข้อมูล/ML: notebook 01–05, config, runner, tests  → ดู backend/README.md
+backend/    งานข้อมูล/ML: notebook 01–06, config, runner, tests  → ดู backend/README.md
 frontend/   สงวนไว้สำหรับเว็บไซต์ในอนาคต (ยังไม่มีหน้าจอ)        → ดู frontend/README.md
 workflow/   brief, ทิศทางผลิตภัณฑ์ และงานที่ส่งให้ AI team
 tools/      ตัวเชื่อม AI team

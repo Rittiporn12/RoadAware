@@ -13,3 +13,10 @@ __pycache__/
 /reports/data/**/*events*.csv
 /reports/data/**/*panel*.csv
 /reports/data/**/*quarantine*.csv
+# Model stage: row-level OOF predictions and fitted bundles live under /data/model/ (ignored above).
+# reports/models/ keeps only aggregated metrics/locks/manifests; guard against row-level files or bundles there.
+/reports/models/**/*predictions*.csv
+/reports/models/**/*panel*.csv
+*.joblib
+# staging copy used only for a tooling handoff of notebook 06
+/notebooks/*.ipynb.continuation

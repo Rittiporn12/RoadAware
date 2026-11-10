@@ -1,0 +1,5 @@
+fold,eval_start,eval_end,first_issue_time,n_fit_rows,fit_label_sum,fit_first_date,fit_last_date,fit_max_target_end,n_eval_rows,eval_label_sum,eval_first_date,eval_last_date,eval_distinct_dates,n_fit_provinces_any_row,n_fit_provinces_positive_label,n_eval_provinces,n_eval_provinces_without_positive_past_label,n_eval_provinces_without_any_past_row,eval_provinces_without_positive_past_label
+1,2022-01-01,2022-06-30,2021-12-31T18:00:00+07:00,21622,11829,2021-01-01,2021-12-30,2021-12-31T00:00:00+07:00,10675,6623,2022-01-01,2022-06-30,179,77,77,77,0,0,
+2,2022-07-01,2022-12-31,2022-06-30T18:00:00+07:00,32297,18674,2021-01-01,2022-06-29,2022-06-30T00:00:00+07:00,11057,6425,2022-07-01,2022-12-31,184,77,77,77,0,0,
+3,2023-01-01,2023-06-30,2022-12-31T18:00:00+07:00,43354,24944,2021-01-01,2022-12-30,2022-12-31T00:00:00+07:00,9855,5825,2023-01-01,2023-06-30,174,77,77,77,0,0,
+4,2023-07-01,2023-12-31,2023-06-30T18:00:00+07:00,53211,30935,2021-01-01,2023-06-29,2023-06-30T00:00:00+07:00,10471,5575,2023-07-01,2023-12-29,176,77,77,77,0,0,

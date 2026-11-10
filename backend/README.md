@@ -1,17 +1,35 @@
-# RoadAware backend — data foundation (ML research only)
+# RoadAware backend — data foundation + model research (ML research only)
 
-โฟลเดอร์นี้เก็บงานข้อมูล/ML ของ RoadAware: notebook 5 ตัว, config, runner และ tests **ยังไม่มีการเทรนโมเดลและยังไม่มี API/เว็บ**
+โฟลเดอร์นี้เก็บงานข้อมูล/ML ของ RoadAware: notebook ข้อมูล 01–05, notebook โมเดล 06, config, runner และ tests **ยังไม่มี API/เว็บ และไม่มีโมเดลที่พร้อมใช้งานจริง** (`production_enabled = false`)
 
 ```
 backend/
-  config/data_pipeline.json      ค่าตั้งต้น, alias ของ schema, split, allowlist, blocker ที่ยังไม่แก้
-  notebooks/01..05_*.ipynb       business logic ทั้งหมดอยู่ใน notebook (ดู notebooks/README.md)
-  scripts/run_data_notebooks.py  runner แบบ headless (nbclient + kernel จริง, ไม่เปิดเบราว์เซอร์)
-  tests/test_data_notebooks.py   fixture tests ที่รันโค้ดจากเซลล์ "# FUNCTIONS" ของ notebook
-  requirements-data.txt          แพ็กเกจที่จำเป็น (pandas, numpy, matplotlib, nbformat, nbclient, ipykernel, pytest)
-  data/                          (ไม่อยู่ใน git) raw snapshot, interim, processed — ข้อมูลรายแถว
-  reports/data/                  (อยู่ใน git) หลักฐานสรุปขนาดเล็ก JSON/CSV/PNG
+  config/data_pipeline.json        ค่าตั้งต้น, alias ของ schema, split, allowlist, blocker ที่ยังไม่แก้
+  config/model_experiment_v1.json  ค่าที่ล็อกตาม workflow/model-protocol-v1.md (แก้แล้ว 06 จะปฏิเสธการรัน)
+  notebooks/01..06_*.ipynb         business logic ทั้งหมดอยู่ใน notebook (ดู notebooks/README.md)
+  scripts/run_data_notebooks.py    runner ข้อมูลแบบ headless (nbclient + kernel จริง, ไม่เปิดเบราว์เซอร์)
+  scripts/run_model_notebooks.py   runner โมเดลแบบ headless (ลำดับปัจจุบัน: 06)
+  tests/test_data_notebooks.py     fixture tests ของเซลล์ "# FUNCTIONS" ใน 01–05
+  tests/test_model_notebooks.py    fixture tests ของเซลล์ "# FUNCTIONS" ใน 06 (ข้อมูลสังเคราะห์ขนาดเล็ก)
+  requirements-data.txt            แพ็กเกจที่จำเป็น (รวม scikit-learn, scipy, joblib, threadpoolctl)
+  data/                            (ไม่อยู่ใน git) raw snapshot, interim, processed, data/model (OOF รายแถว, bundles *.joblib)
+  reports/data/                    (อยู่ใน git) หลักฐานสรุปขนาดเล็ก JSON/CSV/PNG ของ data foundation
+  reports/models/                  (อยู่ใน git) ตาราง metric/selection lock/manifest ของโมเดล (ไม่มีข้อมูลรายแถว)
 ```
+
+## Model stage (notebook 06) — สถานะ: precheck จริงแล้ว, รอการตรวจรับขั้นสุดท้ายโดย Codex
+
+```bash
+.venv/bin/python backend/scripts/run_model_notebooks.py                                  # อ่าน data จาก backend/, เขียนผลโมเดลลง backend/
+.venv/bin/python backend/scripts/run_model_notebooks.py --output-dir /tmp/ra-model       # rerun อิสระ อ่าน data ชุดเดิม เขียนผลแยก
+.venv/bin/python -m pytest backend/tests/test_model_notebooks.py -q                      # fixture tests ของโมเดล
+```
+
+- ฝึก Baseline 4 แบบ + 3 ตระกูลจริง (Poisson 3, Random Forest 2, HGB 2 configuration) ด้วย backtest 4 fold ภายใน Train แล้วล็อกการเลือกจาก OOF (`reports/models/selection_lock.json`) ก่อน fit บน eligible Train ทั้งหมด 06 **ไม่** ให้คะแนนปี 2024/2025
+- การตรวจ reload ของ bundle ใช้ `compare_predictions` ที่ rtol = atol = 1e-12 และบันทึก `reload_max_abs_diff` ที่วัดได้ เพราะ Random Forest แบบ `n_jobs=2` รวมผลต้นไม้ในลำดับที่ต่างกันได้ (ความต่างระดับ 1e-15) ส่วน ID ที่เลือก (`choice_sha256`) และ hash ของไฟล์ยังตรวจแบบเท่ากันทุกบิต
+- **หลักฐานที่มีตอนนี้:** precheck ของ Codex (9 พ.ย. 2569) fit ครบ 44 + 11 ครั้ง และรอบต่อเนื่อง (10 พ.ย. 2569) รายงานว่า 06 รันผ่านทุกเซลล์ — ดู `workflow/model-review-feedback.md` ส่วนสถานะ "รับงาน" จะอัปเดตโดย Codex หลังตรวจครบเท่านั้น
+- **คำเตือน:** การตรวจย้อนหลังเบื้องต้นบนเซลล์ eligible ปี 2024/2025 พบว่า Baseline ค่าเฉลี่ยรายจังหวัดมี Poisson deviance ดีกว่าโมเดลทั้งสามตระกูล และพบ regime shift จากกฎ cleaning/รูปแบบวันที่ระหว่าง Train กับปีถัดไป ผู้ชนะใน OOF จึงไม่ใช่หลักฐานว่าพร้อมใช้งานจริง ปี 2025 เคยถูกดูแล้วและไม่ใช่ test อิสระ
+- สัญญาสำหรับ 07/08 อยู่ใน `next_stage_contract` ของ `reports/models/experiment_manifest.json` (ต้องมี `status == ok`)
 
 ## ติดตั้ง (ครั้งเดียว, ที่ root ของ repository)
 
