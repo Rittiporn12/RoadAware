@@ -1,7 +1,9 @@
-# V2 experiment protocol draft — not fitted or locked yet
+# V2 experiment protocol — frozen before fitting
 
-Prepared before v2 fitting. Final lock requires accepted notebook10 panel/schema/
-feature lists and data hashes. This draft is planning, not experiment results.
+Prepared before v2 fitting. The companion model-protocol-v2-lock.json records
+accepted notebook10 input hashes and the final model configuration. This file
+retains its original draft filename for the recorded dependency interface;
+once the companion lock is written its exact bytes are frozen. No results yet.
 User requests three candidate models, a serious baseline comparison, feature
 enrichment and evidence runnable as VS Code Python notebooks. No guaranteed win.
 
@@ -14,11 +16,21 @@ Offline quality masks remain outcome-derived; sources cover recorded MOT-network
 events, not complete all-road accidents. Production=false, research only.
 V1 and its selected Poisson stay frozen. V2 has a repaired cohort: report shared-
 key comparison separately if claiming numerical improvement over V1.
+Accepted preparation: 106308 retained records, 140602 daily cells and 562408
+6h cells; 116973 eligible daily cells. The 2024 research mask retains only
+7885/28182 daily cells, so that diagnostic is strongly selected. Current archived
+weather covers all provinces in 2021/22 and 50 provinces in 2023; 2024/25 weather
+features are unavailable, never backfilled. Weather ablations therefore test
+this partial collection and its shift, not complete five-year weather coverage.
 
 ## Feature variants (fixed before fitting)
 Use explicit approved columns from10, forbidden outcome/ID/mask columns rejected.
 All models receive the same variant's information; deterministic transforms such
 as log1p(AADT) allowed, learned encoders/imputers/scalers fitted inside Train.
+Poisson/RF numeric imputers use add_indicator=false: no extra source-quality or
+collection-coverage predictors beyond the declared feature groups. HGB keeps
+native missing handling; retrospective source coverage can still confound its
+splits and must be diagnosed, not presented as proven availability at issue.
 
 1. core: province +date calendar/cyclical features (+block for6h).
 2. calendar: core +festival/bank-calendar/season features.

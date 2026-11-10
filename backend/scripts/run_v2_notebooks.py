@@ -1,12 +1,18 @@
-"""Headless runner for RoadAware V2 notebooks (no browser; real kernel via nbclient): 09 collection, 10 preparation.
+"""Headless runner for RoadAware V2 notebooks (no browser; real kernel via nbclient): 09 collection, 10 preparation, 11 model experiment.
 
 Usage (from the repository root):
-    .venv/bin/python backend/scripts/run_v2_notebooks.py [--stage {collect,prepare,all}] [--output-dir DIR] [--external-root DIR]
+    .venv/bin/python backend/scripts/run_v2_notebooks.py [--stage {collect,prepare,all,model}] [--output-dir DIR] [--external-root DIR]
                                                          [--data-root DIR] [--preflight-dir DIR] [--sources-dir DIR] [--timeout SEC]
+                                                         [--preparation-dir DIR] [--prep-data-dir DIR] [--experiment-lock FILE]
                                                          [--offline | --refresh]
 
 * --stage collect runs 09 (external collection + date evidence); --stage prepare runs 10 (date repair, panels, features, leakage
   audit; no network, no model fit) against an existing accepted 09 run; --stage all runs 09 then 10.
+* --stage model runs ONLY 11 (explicit; never part of 'all') against the accepted 10 outputs: --preparation-dir (default
+  backend/reports/v2/preparation) and --prep-data-dir (default backend/data/v2) are READ-ONLY; --experiment-lock (default
+  workflow/model-protocol-v2-lock.json, created by the manager after acceptance) must exist or 11 stops before fitting. 11 writes
+  aggregates to <output>/reports/v2/models (this run log: reports/v2/models/run_manifest_model.json) and row-level predictions/bundles
+  to <output>/data/v2/models (gitignored). Default per-cell timeout for this stage is 21600 s (OOF backtests are long).
 * --sources-dir is the READ-ONLY 09 report dir used by 10 (default: <output>/reports/v2/sources for --stage all, else
   backend/reports/v2/sources). 10 writes reports to <output>/reports/v2/preparation and row/panel matrices to <output>/data/v2.
 * Must be launched with the project interpreter <repo>/.venv; each notebook runs in a fresh kernel from that interpreter.
@@ -34,12 +40,15 @@ REPO = BACKEND.parent
 NB_DIR = BACKEND / 'notebooks'
 COLLECT = ['09_external_collection_date_evidence']
 PREPARE = ['10_v2_preparation_features_leakage']
-STAGES = {'collect': list(COLLECT), 'prepare': list(PREPARE), 'all': COLLECT + PREPARE}
+MODEL = ['11_v2_model_experiments']
+STAGES = {'collect': list(COLLECT), 'prepare': list(PREPARE), 'all': COLLECT + PREPARE, 'model': list(MODEL)}
+STAGE_TIMEOUT = {'model': 21600}
 KERNEL_NAME = 'roadaware-venv'
 V1_PROTECTED = [Path('data') / 'raw', Path('data') / 'interim', Path('data') / 'processed', Path('data') / 'model', Path('reports') / 'data',
                 Path('reports') / 'models']
 ENV_KEYS = ('ROADAWARE_BACKEND_ROOT', 'ROADAWARE_V2_EXTERNAL_ROOT', 'ROADAWARE_V2_OUTPUT_ROOT', 'ROADAWARE_V1_DATA_ROOT',
-            'ROADAWARE_V2_PREFLIGHT_DIR', 'ROADAWARE_V2_OFFLINE', 'ROADAWARE_V2_REFRESH', 'ROADAWARE_V2_SOURCES_DIR', 'ROADAWARE_V2_DATA_ROOT')
+            'ROADAWARE_V2_PREFLIGHT_DIR', 'ROADAWARE_V2_OFFLINE', 'ROADAWARE_V2_REFRESH', 'ROADAWARE_V2_SOURCES_DIR', 'ROADAWARE_V2_DATA_ROOT',
+            'ROADAWARE_V2_PREPARATION_DIR', 'ROADAWARE_V2_MODEL_DATA_ROOT', 'ROADAWARE_V2_EXPERIMENT_LOCK')
 
 
 def venv_python():
@@ -79,8 +88,9 @@ def _inside(p, root):
     return p == root or root in p.parents
 
 
-def resolve_roots(output_dir=None, external_root=None, data_root=None, preflight_dir=None, sources_dir=None, stage='collect'):
-    """Absolute roots; raises ValueError when a V2 write location overlaps a protected v1 location (or, for 10, its read-only inputs)."""
+def resolve_roots(output_dir=None, external_root=None, data_root=None, preflight_dir=None, sources_dir=None, stage='collect',
+                  preparation_dir=None, prep_data_dir=None, experiment_lock=None):
+    """Absolute roots; raises ValueError when a V2 write location overlaps a protected v1 location (or, for 10/11, its read-only inputs)."""
     roots = {'backend': BACKEND,
              'output': Path(output_dir).resolve() if output_dir else BACKEND,
              'external': Path(external_root).resolve() if external_root else BACKEND / 'data' / 'external_v2',
@@ -102,7 +112,33 @@ def resolve_roots(output_dir=None, external_root=None, data_root=None, preflight
             for rl, r in (('external root', roots['external']), ('09 sources dir', roots['sources'])):
                 if _inside(w, r) or _inside(r, w):
                     raise ValueError(f'{label} {w} overlaps read-only {rl} {r}')
+    if stage == 'model':
+        roots['preparation'] = Path(preparation_dir).resolve() if preparation_dir else BACKEND / 'reports' / 'v2' / 'preparation'
+        roots['prep_data'] = Path(prep_data_dir).resolve() if prep_data_dir else BACKEND / 'data' / 'v2'
+        roots['model_data'] = roots['output'] / 'data' / 'v2' / 'models'
+        roots['model_reports'] = roots['output'] / 'reports' / 'v2' / 'models'
+        roots['lock'] = Path(experiment_lock).resolve() if experiment_lock else REPO / 'workflow' / 'model-protocol-v2-lock.json'
+        for label, w in (('model data root', roots['model_data']), ('model report dir', roots['model_reports'])):
+            for rel in V1_PROTECTED:
+                if _inside(w, roots['data'] / rel) or _inside(roots['data'] / rel, w):
+                    raise ValueError(f'{label} {w} overlaps protected v1 location {roots["data"] / rel}')
+            for rl in ('preparation', 'sources'):
+                if _inside(w, roots[rl]) or _inside(roots[rl], w):
+                    raise ValueError(f'{label} {w} overlaps read-only {rl} dir {roots[rl]}')
+        if _inside(roots['prep_data'], roots['model_data']):
+            raise ValueError(f"model data root {roots['model_data']} equals or contains the read-only 10 data root {roots['prep_data']}")
+        if _inside(roots['model_reports'], roots['prep_data']) or _inside(roots['prep_data'], roots['model_reports']):
+            raise ValueError('model report dir overlaps the read-only 10 data root')
     return roots
+
+
+def completed_model_outputs(roots):
+    """Artifacts of an earlier 11 run under the model roots (same markers the notebook checks before fitting)."""
+    rep, md = roots['model_reports'], roots['model_data']
+    hits = [rep / n for n in ('selection_lock.json', 'model_manifest.json', 'oof_metrics_pooled.csv', 'fit_log.csv') if (rep / n).exists()]
+    for pat in ('oof_predictions_*.csv.gz', 'diagnostic_predictions_*.csv.gz', 'bundles'):
+        hits += sorted(md.glob(pat))
+    return [str(h) for h in hits]
 
 
 def build_env(roots, offline=False, refresh=False, base=None):
@@ -114,6 +150,9 @@ def build_env(roots, offline=False, refresh=False, base=None):
                ROADAWARE_V2_OUTPUT_ROOT=str(roots['output']), ROADAWARE_V1_DATA_ROOT=str(roots['data']),
                ROADAWARE_V2_PREFLIGHT_DIR=str(roots['preflight']), ROADAWARE_V2_SOURCES_DIR=str(roots['sources']),
                ROADAWARE_V2_DATA_ROOT=str(roots['v2_data']))
+    if 'model_data' in roots:  # stage model: 10 matrices are READ-ONLY inputs; 11 writes its own model data root
+        env.update(ROADAWARE_V2_DATA_ROOT=str(roots['prep_data']), ROADAWARE_V2_PREPARATION_DIR=str(roots['preparation']),
+                   ROADAWARE_V2_MODEL_DATA_ROOT=str(roots['model_data']), ROADAWARE_V2_EXPERIMENT_LOCK=str(roots['lock']))
     if offline:
         env['ROADAWARE_V2_OFFLINE'] = '1'
     if refresh:
@@ -146,13 +185,16 @@ def write_kernelspec(py, out):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument('--stage', choices=sorted(STAGES), default='collect', help='collect = 09 (default); prepare = 10; all = 09 then 10')
+    ap.add_argument('--stage', choices=sorted(STAGES), default='collect', help='collect = 09 (default); prepare = 10; all = 09 then 10; model = 11 only')
+    ap.add_argument('--preparation-dir', help='stage model: read-only accepted 10 report dir (default backend/reports/v2/preparation)')
+    ap.add_argument('--prep-data-dir', help='stage model: read-only accepted 10 matrices (default backend/data/v2)')
+    ap.add_argument('--experiment-lock', help='stage model: manager experiment lock (default workflow/model-protocol-v2-lock.json)')
     ap.add_argument('--sources-dir', help='read-only 09 report dir for 10 (default <output>/reports/v2/sources for all, else backend/reports/v2/sources)')
     ap.add_argument('--output-dir', help='report root (reports/v2/...) and executed notebooks/')
     ap.add_argument('--external-root', help='raw/cache/derived root (default backend/data/external_v2)')
     ap.add_argument('--data-root', help='read-only v1 root holding data/raw/accidents (default backend/)')
     ap.add_argument('--preflight-dir', help='read-only Codex preflight evidence (default backend/data/external_v2/evidence)')
-    ap.add_argument('--timeout', type=int, default=7200, help='per-cell timeout in seconds (weather collection can take ~30 min)')
+    ap.add_argument('--timeout', type=int, default=None, help='per-cell timeout in seconds (default 7200; 21600 for --stage model)')
     g = ap.add_mutually_exclusive_group()
     g.add_argument('--offline', action='store_true', help='cache only: no network requests')
     g.add_argument('--refresh', action='store_true', help='re-download sources; changed bytes become new versions')
@@ -163,15 +205,25 @@ def main(argv=None):
     from nbclient import NotebookClient
 
     try:
-        roots = resolve_roots(a.output_dir, a.external_root, a.data_root, a.preflight_dir, a.sources_dir, a.stage)
+        roots = resolve_roots(a.output_dir, a.external_root, a.data_root, a.preflight_dir, a.sources_dir, a.stage,
+                              a.preparation_dir, a.prep_data_dir, a.experiment_lock)
     except ValueError as e:
         sys.exit(str(e))
+    timeout = a.timeout if a.timeout is not None else STAGE_TIMEOUT.get(a.stage, 7200)
+    if a.stage == 'model' and not roots['lock'].is_file():
+        sys.exit(f"experiment lock {roots['lock']} not found: it is created by the manager only after 09/10 acceptance; no V2 fit without it")
+    if a.stage == 'model':
+        old = completed_model_outputs(roots)
+        if old:  # preserve earlier locks/results and their run log; never spend the OOF runtime only to fail at the lock
+            sys.exit(f'{old[:4]} already exist (earlier notebook 11 run). Use a fresh root, e.g.\n'
+                     f'  {sys.executable} backend/scripts/run_v2_notebooks.py --stage model --output-dir backend/rerun-model-<UTC-stamp>')
     if not (roots['data'] / 'data' / 'raw' / 'accidents' / 'source_manifest.json').is_file():
         sys.exit(f"{roots['data']} has no data/raw/accidents/source_manifest.json; pass --data-root")
     out = roots['output']
     nb_out = out / 'notebooks' if a.output_dir else NB_DIR
     nb_out.mkdir(parents=True, exist_ok=True)
-    manifest_path = out / 'reports' / 'v2' / 'run_manifest.json'
+    # stage model keeps its own run log so the 09/10 run log is never overwritten
+    manifest_path = out / 'reports' / 'v2' / ('models/run_manifest_model.json' if a.stage == 'model' else 'run_manifest.json')
     manifest_path.parent.mkdir(parents=True, exist_ok=True)
     env = build_env(roots, a.offline, a.refresh)
     os.environ.clear()
@@ -181,7 +233,7 @@ def main(argv=None):
     v1_before = protected_v1_hashes(roots['data'])
     log = {'started_utc': dt.datetime.now(dt.timezone.utc).isoformat(), 'stage': a.stage, 'notebook_order': order,
            'runner_sha256': sha256(Path(__file__).resolve()), 'runner_python': sys.executable, 'kernel_argv': spec['argv'],
-           'roots': {k: str(v) for k, v in roots.items()}, 'offline': a.offline, 'refresh': a.refresh,
+           'roots': {k: str(v) for k, v in roots.items()}, 'offline': a.offline, 'refresh': a.refresh, 'cell_timeout_seconds': timeout,
            'v1_protected_files_hashed': len(v1_before), 'status': 'running', 'notebooks': []}
 
     def save_log():
@@ -226,7 +278,7 @@ def main(argv=None):
             save_log()
 
         try:
-            NotebookClient(nb, timeout=a.timeout, kernel_name=KERNEL_NAME, resources={'metadata': {'path': str(NB_DIR)}},
+            NotebookClient(nb, timeout=timeout, kernel_name=KERNEL_NAME, resources={'metadata': {'path': str(NB_DIR)}},
                            on_cell_start=on_start, on_cell_executed=on_executed).execute()
             entry['status'] = 'ok'
         except Exception as e:  # CellExecutionError, timeouts, dead kernel: keep evidence

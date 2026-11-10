@@ -3,9 +3,9 @@
   "schema": "roadaware-v2-sources-manifest/2",
   "status": "completed_with_gaps",
   "status_note": "collection/audit only; no feature panel, no model fit, no claim of beating baselines; passing checks is not acceptance",
-  "started_utc": "2026-11-10T10:59:15+00:00",
-  "finished_utc": "2026-11-10T10:59:47+00:00",
-  "offline": true,
+  "started_utc": "2026-11-10T11:00:28+00:00",
+  "finished_utc": "2026-11-10T11:16:39+00:00",
+  "offline": false,
   "refresh": false,
   "functions_cells_sha256": "bb990bc46150a390145c97a068f2214a5fca13cb50af52ab68f1308ac812f5e5",
   "config_sha256": "742c25b21e7a7c36f9e80a3609a54d09142ccec8a641384d76a844faef28b93a",
@@ -33,9 +33,9 @@
     "pyarrow": null
   },
   "network": {
-    "requests_used": 0,
+    "requests_used": 35,
     "max_requests": 500,
-    "weather_requests_used": 0
+    "weather_requests_used": 35
   },
   "sections": {
     "mot_package": {
@@ -289,7 +289,7 @@
           "provenance": "codex_preflight_download_original_time_unknown",
           "cache_mtime_utc": "2026-11-10T01:38:13+00:00",
           "retrieved_at_utc": null,
-          "verified_at_utc": "2026-11-10T10:59:42+00:00",
+          "verified_at_utc": "2026-11-10T11:00:55+00:00",
           "original_download_time": "unknown"
         },
         "geoboundaries_tha_adm1_geojson": {
@@ -305,7 +305,7 @@
           "provenance": "codex_preflight_download_original_time_unknown",
           "cache_mtime_utc": "2026-11-10T01:38:15+00:00",
           "retrieved_at_utc": null,
-          "verified_at_utc": "2026-11-10T10:59:42+00:00",
+          "verified_at_utc": "2026-11-10T11:00:55+00:00",
           "original_download_time": "unknown"
         },
         "thailand_provinces_json": {
@@ -321,7 +321,7 @@
           "provenance": "codex_preflight_download_original_time_unknown",
           "cache_mtime_utc": "2026-11-10T01:38:13+00:00",
           "retrieved_at_utc": null,
-          "verified_at_utc": "2026-11-10T10:59:42+00:00",
+          "verified_at_utc": "2026-11-10T11:00:55+00:00",
           "original_download_time": "unknown"
         }
       },
@@ -329,17 +329,17 @@
     },
     "weather": {
       "readiness_status": "partial",
-      "requests_used": 0,
-      "estimated_weighted_calls_this_run": 0.0,
-      "stop_reason": "repeated_failures",
-      "quota_limited": false,
-      "chunks_ok": 7,
+      "requests_used": 35,
+      "estimated_weighted_calls_this_run": 4407.4,
+      "stop_reason": "quota_budget_per_run_reached_resume_later",
+      "quota_limited": true,
+      "chunks_ok": 42,
       "chunks_total": 80,
       "negative_value_policy": "mask",
-      "rain_negative_hours_masked": 24,
-      "province_years_retained": 35,
-      "province_years_with_masked_hours": 4,
-      "summary": "JMA GSM previous_day2 chunks with data: 7/80; province-years retained: 35/385, complete (all hours valid): 31/385; negative precipitation hours masked to NaN (raw JSON kept): 24; stop reason: repeated_failures; daily rows 12775 (complete rain 12735); issue bound = valid - 48 h, buffer 6 h, all issue_bound_ok=True",
+      "rain_negative_hours_masked": 222,
+      "province_years_retained": 204,
+      "province_years_with_masked_hours": 32,
+      "summary": "JMA GSM previous_day2 chunks with data: 42/80; province-years retained: 204/385, complete (all hours valid): 172/385; negative precipitation hours masked to NaN (raw JSON kept): 222; stop reason: quota_budget_per_run_reached_resume_later; daily rows 74460 (complete rain 74335); issue bound = valid - 48 h, buffer 6 h, all issue_bound_ok=True",
       "sample_lead_bounds": [
         {
           "province_code": 10,
@@ -349,17 +349,17 @@
           "issue_bound_ok": true
         },
         {
-          "province_code": 27,
-          "date": "2021-07-02T00:00:00",
-          "latest_issue_bound_utc": "2021-06-30T17:00:00",
-          "issue_time_utc": "2021-07-01T11:00:00",
+          "province_code": 46,
+          "date": "2021-01-01T00:00:00",
+          "latest_issue_bound_utc": "2020-12-30T17:00:00",
+          "issue_time_utc": "2020-12-31T11:00:00",
           "issue_bound_ok": true
         },
         {
-          "province_code": 46,
-          "date": "2021-12-31T00:00:00",
-          "latest_issue_bound_utc": "2021-12-29T16:00:00",
-          "issue_time_utc": "2021-12-30T11:00:00",
+          "province_code": 96,
+          "date": "2022-12-31T00:00:00",
+          "latest_issue_bound_utc": "2022-12-29T16:00:00",
+          "issue_time_utc": "2022-12-30T11:00:00",
           "issue_bound_ok": true
         }
       ]
@@ -698,8 +698,8 @@
     "MOT data dictionary: no data-dictionary resource listed in the current MOT package (nothing fetched). Codex reported the old MOT data-dictionary PDF URL returns HTTP 404 (exact URL not recorded in the task files). A cached search snippet claiming MM/DD is NOT a verified document. Any dictionary resource listed in the live package is snapshotted only; its content is not used as date-format proof. Typed XLSX date cells matched by original ACC_CODE are the primary evidence.",
     "traffic: BE 2567 has 2130 fully blank CSV lines: counted as non-records and excluded from station data/statistics (raw bytes kept; not duplicate survey points)",
     "traffic: availability uses max(created, last_modified) + 1 day catalog proxy; it does not prove the current bytes were delivered then",
-    "weather coverage incomplete: 31/385 province-years complete, 35 retained (stop reason: repeated_failures; value-quality masked hours: 24); see weather_coverage.csv missing_reason; rerun to resume",
-    "weather value quality: 24 negative precipitation hours (raw min -0.1 mm) masked to NaN in that hour only; raw JSON unchanged; any 6 h/day rain window containing one is NaN (rain_missing_reason); temperature kept",
+    "weather coverage incomplete: 172/385 province-years complete, 204 retained (stop reason: quota_budget_per_run_reached_resume_later; value-quality masked hours: 222); see weather_coverage.csv missing_reason; rerun to resume",
+    "weather value quality: 222 negative precipitation hours (raw min -0.1 mm) masked to NaN in that hour only; raw JSON unchanged; any 6 h/day rain window containing one is NaN (rain_missing_reason); temperature kept",
     "weather: Open-Meteo previous_day2 lead is nominal; historical public delivery latency is not verified (6 h buffer assumed)",
     "calendar: Original 2021/2022 annual BOT PDF URLs following the 2025 pattern returned 404 (not evidence; 2021 infographic and 2022 FIPCS PDF used instead)",
     "calendar: 2021 Gazette candidate https://ratchakitcha.soc.go.th/DATA/PDF/2563/E/207/T_0062.PDF returned 403 (not evidence; host not allowlisted)",
@@ -1199,6 +1199,356 @@
       "provenance": "downloaded_by_notebook09"
     },
     {
+      "resource_id": "weather_jma_gsm_2021_b07",
+      "path": "raw/weather/jma_gsm_2021_b07.json",
+      "preflight_path": null,
+      "sha256": "b088d24abca68198c216b273d87ad0d20a0d1a31b37708ab41a1f7b6f0a28702",
+      "bytes": 1272009,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=17.4204,17.4154,16.5436,18.6975,18.0689&longitude=103.6558,104.6022,104.4805,98.6177,98.9384&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2021-01-01&end_date=2021-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2021_b08",
+      "path": "raw/weather/jma_gsm_2021_b08.json",
+      "preflight_path": null,
+      "sha256": "07a4edad2ab630e18dde6202e2d1fa9f1faedd2171daa837d50767e01cb68ee7",
+      "bytes": 1272066,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=18.3540,17.7719,18.2493,18.8239,19.2708&longitude=99.5577,100.4638,100.1665,100.7929,100.1526&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2021-01-01&end_date=2021-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2021_b09",
+      "path": "raw/weather/jma_gsm_2021_b09.json",
+      "preflight_path": null,
+      "sha256": "102a5e6c269453d2e426086cdf2b9d3b66d833b3625929c60ed29db58869b688",
+      "bytes": 1272084,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=19.7321,18.6906,15.6977,15.3599,16.3360&longitude=99.8847,97.9402,100.0579,99.5531,99.5199&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2021-01-01&end_date=2021-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2021_b10",
+      "path": "raw/weather/jma_gsm_2021_b10.json",
+      "preflight_path": null,
+      "sha256": "23b6dfb86899bf188732fb0911025235d251252674c83055e572afaf0a961901",
+      "bytes": 1272081,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=16.4658,17.2532,17.0459,16.2521,16.2078&longitude=98.8209,99.7137,100.5311,100.3650,101.0117&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2021-01-01&end_date=2021-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2021_b11",
+      "path": "raw/weather/jma_gsm_2021_b11.json",
+      "preflight_path": null,
+      "sha256": "56ae8d2b1ec52f70310b18b57e48c4ff6bde088a1dfb571c5751685cb3120b79",
+      "bytes": 1272085,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=13.5430,14.6945,14.5686,13.9136,13.5744&longitude=99.6194,98.9054,100.0415,100.1130,100.2140&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2021-01-01&end_date=2021-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2021_b12",
+      "path": "raw/weather/jma_gsm_2021_b12.json",
+      "preflight_path": null,
+      "sha256": "98549fe6274db8adb4358bf98aac00a75a987d4cec451b37040be0367c8de6b7",
+      "bytes": 1272096,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=13.3769,12.9378,11.7940,8.5607,8.1662&longitude=99.9543,99.6008,99.7257,99.7099,99.0232&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2021-01-01&end_date=2021-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2021_b13",
+      "path": "raw/weather/jma_gsm_2021_b13.json",
+      "preflight_path": null,
+      "sha256": "0a42c14d83e92786824822ebb200e8f77e2f0b77b209e13ef86cf7aa3bf1dbe3",
+      "bytes": 1272104,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=8.7412,7.9790,9.0522,10.0480,10.3158&longitude=98.4238,98.3355,99.1139,98.7579,99.0424&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2021-01-01&end_date=2021-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2021_b14",
+      "path": "raw/weather/jma_gsm_2021_b14.json",
+      "preflight_path": null,
+      "sha256": "3600220a9320f030174a05a391f7df0972034d40d3ca88dfac8802df064aa916",
+      "bytes": 1272099,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=7.1126,6.7847,7.5241,7.4995,6.7433&longitude=100.3572,99.9988,99.5673,100.0490,101.3269&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2021-01-01&end_date=2021-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2021_b15",
+      "path": "raw/weather/jma_gsm_2021_b15.json",
+      "preflight_path": null,
+      "sha256": "92bedfc34b7f9b6fe866fa732e25cc5ac4717e223e041720c0759be3615e3bd6",
+      "bytes": 508832,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=6.1465,6.1860&longitude=101.2379,101.7337&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2021-01-01&end_date=2021-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2022_b00",
+      "path": "raw/weather/jma_gsm_2022_b00.json",
+      "preflight_path": null,
+      "sha256": "4ef662ec1c7901078ba2a055247644d39577f2cf8c4f8e9cdd4f1dab3589a36f",
+      "bytes": 1272097,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=13.7244,13.5986,13.9649,14.0953,14.3972&longitude=100.6034,100.7199,100.3837,100.6277,100.5319&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2022-01-01&end_date=2022-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2022_b01",
+      "path": "raw/weather/jma_gsm_2022_b01.json",
+      "preflight_path": null,
+      "sha256": "fa21bd8a49a745f1c26ccdb8761bf1b27b481ed73c39ee396e1be97caa99fb2f",
+      "bytes": 1272104,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=14.6229,15.0762,14.9461,15.1636,14.6214&longitude=100.3608,100.8869,100.3287,100.0259,100.8917&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2022-01-01&end_date=2022-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2022_b02",
+      "path": "raw/weather/jma_gsm_2022_b02.json",
+      "preflight_path": null,
+      "sha256": "3fbb112eb6c67287f25e567b94dee6f48df7db82fce0b55207a000c565e145fd",
+      "bytes": 1272107,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=13.0924,12.8668,12.8166,12.2010,13.5737&longitude=101.2255,101.4423,102.1787,102.4295,101.5890&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2022-01-01&end_date=2022-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2022_b03",
+      "path": "raw/weather/jma_gsm_2022_b03.json",
+      "preflight_path": null,
+      "sha256": "e7b65926ee769561e36db68ea71317b3d278611667900dd8b90653c8d436852a",
+      "bytes": 1272106,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=14.0217,14.2349,13.6732,14.9482,14.9603&longitude=101.6449,101.1679,102.2827,101.9899,103.0684&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2022-01-01&end_date=2022-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2022_b04",
+      "path": "raw/weather/jma_gsm_2022_b04.json",
+      "preflight_path": null,
+      "sha256": "94d679796b98bcd55620507c501a5b0cbaf372b6c574363d54379d0dad912fd2",
+      "bytes": 1272110,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=14.9066,14.9496,15.1537,15.8150,15.9604&longitude=103.6697,104.3350,105.1071,104.2725,101.8804&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2022-01-01&end_date=2022-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2022_b05",
+      "path": "raw/weather/jma_gsm_2022_b05.json",
+      "preflight_path": null,
+      "sha256": "465b80263c0427917d1b39524e32d8dec4acbe4e37342cd4061a3b1ce2da5f12",
+      "bytes": 1272109,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=15.9157,18.1056,17.2224,16.3485,17.4571&longitude=104.7311,103.7260,102.2419,102.6835,102.8365&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2022-01-01&end_date=2022-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2022_b06",
+      "path": "raw/weather/jma_gsm_2022_b06.json",
+      "preflight_path": null,
+      "sha256": "373db5499830950f043d891f3b3bc442adb0bc675d9876e77e392cc67fc68550",
+      "bytes": 1272111,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=17.4872,17.9463,16.0242,15.9381,16.6464&longitude=101.6484,103.1121,103.1930,103.7650,103.6707&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2022-01-01&end_date=2022-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2022_b07",
+      "path": "raw/weather/jma_gsm_2022_b07.json",
+      "preflight_path": null,
+      "sha256": "3bc26e0713442593e70d307a8b5c43e8cbaa742a639a91ec4f31a8734eedc192",
+      "bytes": 1272092,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=17.4204,17.4154,16.5436,18.6975,18.0689&longitude=103.6558,104.6022,104.4805,98.6177,98.9384&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2022-01-01&end_date=2022-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2022_b08",
+      "path": "raw/weather/jma_gsm_2022_b08.json",
+      "preflight_path": null,
+      "sha256": "cb5c235ff72a9264733bb6d9c72891d2048922d1a4b8a1df47ce03f0d4bf98d2",
+      "bytes": 1272111,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=18.3540,17.7719,18.2493,18.8239,19.2708&longitude=99.5577,100.4638,100.1665,100.7929,100.1526&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2022-01-01&end_date=2022-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2022_b09",
+      "path": "raw/weather/jma_gsm_2022_b09.json",
+      "preflight_path": null,
+      "sha256": "9f136c2f4e74428e5f7ad1359509eedbc8dd2d6dd3fb13fcd58cc23a3b956707",
+      "bytes": 1272118,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=19.7321,18.6906,15.6977,15.3599,16.3360&longitude=99.8847,97.9402,100.0579,99.5531,99.5199&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2022-01-01&end_date=2022-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2022_b10",
+      "path": "raw/weather/jma_gsm_2022_b10.json",
+      "preflight_path": null,
+      "sha256": "e7ad590b6d30f24f2adcba1d9ab43a5edbe90aa40c94fe26db76a09f9498dc63",
+      "bytes": 1272107,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=16.4658,17.2532,17.0459,16.2521,16.2078&longitude=98.8209,99.7137,100.5311,100.3650,101.0117&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2022-01-01&end_date=2022-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2022_b11",
+      "path": "raw/weather/jma_gsm_2022_b11.json",
+      "preflight_path": null,
+      "sha256": "75d2d0bcb8f3eca50036de17f9de2b7290ce62e5d2c45219081147e62ab5ed48",
+      "bytes": 1272103,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=13.5430,14.6945,14.5686,13.9136,13.5744&longitude=99.6194,98.9054,100.0415,100.1130,100.2140&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2022-01-01&end_date=2022-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2022_b12",
+      "path": "raw/weather/jma_gsm_2022_b12.json",
+      "preflight_path": null,
+      "sha256": "377d9b4ab3002a842e6a4a8e9cab1c64a303cab26d7c8299bfa2124d39f44efe",
+      "bytes": 1272109,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=13.3769,12.9378,11.7940,8.5607,8.1662&longitude=99.9543,99.6008,99.7257,99.7099,99.0232&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2022-01-01&end_date=2022-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2022_b13",
+      "path": "raw/weather/jma_gsm_2022_b13.json",
+      "preflight_path": null,
+      "sha256": "ca6f79e486458d460859d764448b04717aded0b3280cd2c158da5febffb98f26",
+      "bytes": 1272102,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=8.7412,7.9790,9.0522,10.0480,10.3158&longitude=98.4238,98.3355,99.1139,98.7579,99.0424&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2022-01-01&end_date=2022-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2022_b14",
+      "path": "raw/weather/jma_gsm_2022_b14.json",
+      "preflight_path": null,
+      "sha256": "098eed2ad80dcd85dbe12d72efb367d38306e2c81b41f89218edb0ec1e9b38a3",
+      "bytes": 1272105,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=7.1126,6.7847,7.5241,7.4995,6.7433&longitude=100.3572,99.9988,99.5673,100.0490,101.3269&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2022-01-01&end_date=2022-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2022_b15",
+      "path": "raw/weather/jma_gsm_2022_b15.json",
+      "preflight_path": null,
+      "sha256": "fc9726dc9f3d6f0344591e19f4735421135dcf831411d1ac05fa61e9f935a58b",
+      "bytes": 508838,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=6.1465,6.1860&longitude=101.2379,101.7337&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2022-01-01&end_date=2022-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2023_b00",
+      "path": "raw/weather/jma_gsm_2023_b00.json",
+      "preflight_path": null,
+      "sha256": "7784df033630cc613aabdf4a4dafae6d22625cf5183e1a2d4b7dd44031e814f8",
+      "bytes": 1272095,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=13.7244,13.5986,13.9649,14.0953,14.3972&longitude=100.6034,100.7199,100.3837,100.6277,100.5319&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2023-01-01&end_date=2023-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2023_b01",
+      "path": "raw/weather/jma_gsm_2023_b01.json",
+      "preflight_path": null,
+      "sha256": "1497c847ba7c73467fe829f7fc953a6bf093fffb444e8dc190ec0de6cf1832e3",
+      "bytes": 1272124,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=14.6229,15.0762,14.9461,15.1636,14.6214&longitude=100.3608,100.8869,100.3287,100.0259,100.8917&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2023-01-01&end_date=2023-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2023_b02",
+      "path": "raw/weather/jma_gsm_2023_b02.json",
+      "preflight_path": null,
+      "sha256": "6a16d94817360ef0b813e92d4b1ff6c8c9c9fb79c2363cfc53b7ab5e03b10d3a",
+      "bytes": 1272120,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=13.0924,12.8668,12.8166,12.2010,13.5737&longitude=101.2255,101.4423,102.1787,102.4295,101.5890&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2023-01-01&end_date=2023-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2023_b03",
+      "path": "raw/weather/jma_gsm_2023_b03.json",
+      "preflight_path": null,
+      "sha256": "28c29ec7c70d09b8583a563d0f302b3d4c55a29fa725374e2ed4cff2821f8c44",
+      "bytes": 1272119,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=14.0217,14.2349,13.6732,14.9482,14.9603&longitude=101.6449,101.1679,102.2827,101.9899,103.0684&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2023-01-01&end_date=2023-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2023_b04",
+      "path": "raw/weather/jma_gsm_2023_b04.json",
+      "preflight_path": null,
+      "sha256": "cbe51e2187dae3ce4938b891a6c71b7ea97aaf163b418413553a353c6ee5c285",
+      "bytes": 1272133,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=14.9066,14.9496,15.1537,15.8150,15.9604&longitude=103.6697,104.3350,105.1071,104.2725,101.8804&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2023-01-01&end_date=2023-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2023_b05",
+      "path": "raw/weather/jma_gsm_2023_b05.json",
+      "preflight_path": null,
+      "sha256": "bbc70f1aeffe91a8cc4fcdda5554ca079fce5ec595a3463b36065621fd291fb3",
+      "bytes": 1272100,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=15.9157,18.1056,17.2224,16.3485,17.4571&longitude=104.7311,103.7260,102.2419,102.6835,102.8365&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2023-01-01&end_date=2023-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2023_b06",
+      "path": "raw/weather/jma_gsm_2023_b06.json",
+      "preflight_path": null,
+      "sha256": "cd27f474e60ced8b4f21f59bb5a789e555482c8889c4fff84fb430e1eabd1e7c",
+      "bytes": 1272104,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=17.4872,17.9463,16.0242,15.9381,16.6464&longitude=101.6484,103.1121,103.1930,103.7650,103.6707&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2023-01-01&end_date=2023-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2023_b07",
+      "path": "raw/weather/jma_gsm_2023_b07.json",
+      "preflight_path": null,
+      "sha256": "50d046822447d283c5e74b78f705895e8347b18eff35ce76e6974c84d903dc68",
+      "bytes": 1272083,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=17.4204,17.4154,16.5436,18.6975,18.0689&longitude=103.6558,104.6022,104.4805,98.6177,98.9384&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2023-01-01&end_date=2023-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2023_b08",
+      "path": "raw/weather/jma_gsm_2023_b08.json",
+      "preflight_path": null,
+      "sha256": "6b5955b18ff19b305b4c97313e59ab3d26bc2c79517ddae20a0a0cc4920560d1",
+      "bytes": 1272108,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=18.3540,17.7719,18.2493,18.8239,19.2708&longitude=99.5577,100.4638,100.1665,100.7929,100.1526&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2023-01-01&end_date=2023-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
+      "resource_id": "weather_jma_gsm_2023_b09",
+      "path": "raw/weather/jma_gsm_2023_b09.json",
+      "preflight_path": null,
+      "sha256": "ca51d2f50d27bb74fc1b6f0fee908826539ae208285ab0908a9d39299374e569",
+      "bytes": 1272110,
+      "last_status": "downloaded",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=19.7321,18.6906,15.6977,15.3599,16.3360&longitude=99.8847,97.9402,100.0579,99.5531,99.5199&hourly=temperature_2m_previous_day2,precipitation_previous_day2&models=jma_gsm&timezone=Asia%2FBangkok&start_date=2023-01-01&end_date=2023-12-31",
+      "provenance": "downloaded_by_notebook09"
+    },
+    {
       "resource_id": "derived:derived/date_resolution_by_id.csv",
       "path": "derived/date_resolution_by_id.csv",
       "sha256": "a35c698d385debf2577cfc9780e4f476a0db25f6da503c824b2e40b5f6d2954d",
@@ -1217,32 +1567,32 @@
     {
       "resource_id": "derived:derived/weather_hourly_jma_gsm.csv.gz",
       "path": "derived/weather_hourly_jma_gsm.csv.gz",
-      "sha256": "ded73d6d2cca987159874dad6b16631d16b6829c698faf297889f91b41104b82",
-      "bytes": 3102679,
+      "sha256": "8f74b05ab909070bcc7b06030b24a336f3bb780b1838c59f0ffd5790dbf96408",
+      "bytes": 17967335,
       "last_status": "derived_by_notebook09",
       "provenance": "derived_by_notebook09"
     },
     {
       "resource_id": "derived:derived/weather_daily_jma_gsm.csv.gz",
       "path": "derived/weather_daily_jma_gsm.csv.gz",
-      "sha256": "6e5e3c0240f9622a5c51d6f8de8f35d1e20e2e0670a4d7d9cd3d2df816c0818d",
-      "bytes": 264524,
+      "sha256": "bfcd9d044c532b064507ce20cbb83f2ce865a6cd3bff6c2ae6e27704fc905bb3",
+      "bytes": 1509968,
       "last_status": "derived_by_notebook09",
       "provenance": "derived_by_notebook09"
     },
     {
       "resource_id": "derived:derived/weather_6h_jma_gsm.csv.gz",
       "path": "derived/weather_6h_jma_gsm.csv.gz",
-      "sha256": "3f65cb4364e6aaa7e19ac2ade64e6c4904a9b79a0a4e35f451285fa9cddfdf9c",
-      "bytes": 880604,
+      "sha256": "9c625b6a6c79a07d15db09bdb7e65b63e6b08bdf30ce70f27e7227f5956b207f",
+      "bytes": 5091055,
       "last_status": "derived_by_notebook09",
       "provenance": "derived_by_notebook09"
     },
     {
       "resource_id": "derived:derived/weather_value_quality_flags_jma_gsm.csv.gz",
       "path": "derived/weather_value_quality_flags_jma_gsm.csv.gz",
-      "sha256": "0ccf4fdd94d7a714f3e8dec46d9bb458d39b66160e8c7553bcb1e63d91c390c4",
-      "bytes": 253,
+      "sha256": "d4a8dfbbb8f8811b93f19a4558eb6bf6bf2a8c25041558fd58a8b8ffb5986559",
+      "bytes": 956,
       "last_status": "derived_by_notebook09",
       "provenance": "derived_by_notebook09"
     }
@@ -1280,13 +1630,13 @@
     },
     {
       "path": "reports/v2/sources/external_schema_coverage.csv",
-      "sha256": "960b43420ba2cd164a39bdaea16409247f95b5849a331cc5a232f10ca931e586",
-      "bytes": 9022
+      "sha256": "c4e0797013263d27a101121cb496c9cdd0e9fff01b4a2e115364a3193b75e311",
+      "bytes": 9023
     },
     {
       "path": "reports/v2/sources/feature_source_readiness.csv",
-      "sha256": "4f408ed6aefca79b43540ab3939cb7b114cad887608c4bee8e72367cc22942e8",
-      "bytes": 3036
+      "sha256": "280d3d12be5a9a63c48a1fe10fa3669dc317458ccd3330184e829034eb75c8cb",
+      "bytes": 3064
     },
     {
       "path": "reports/v2/sources/province_points.csv",
@@ -1295,8 +1645,8 @@
     },
     {
       "path": "reports/v2/sources/source_audit_th.md",
-      "sha256": "628a9380f81026e43bbd5e96bf1fbc6d63f9b11be6a908671f42df4e384eb35c",
-      "bytes": 14455
+      "sha256": "e8642dce475fdd9f15caa9a30f40a8ef5863e2cd1f6fe4996338ef1877c09ae6",
+      "bytes": 14539
     },
     {
       "path": "reports/v2/sources/traffic_province_year_summary.csv",
@@ -1310,18 +1660,18 @@
     },
     {
       "path": "reports/v2/sources/weather_chunks.csv",
-      "sha256": "c0a86815ec50878deeaba487a934ff52eaf08b7eb3d6af85a1b501289cde6407",
-      "bytes": 35914
+      "sha256": "befd2a818ed1ce56c60014374decb765c76243eaa673b1254e1a4b9c9d4f31e4",
+      "bytes": 34818
     },
     {
       "path": "reports/v2/sources/weather_coverage.csv",
-      "sha256": "791c2f595b55626740d2c7a70b3c01553e914057760970d16e139920cd98d015",
-      "bytes": 49698
+      "sha256": "5c6f9b809e522163ceaa6e2d0a9b0aa52b47bbc7c42f61baaa7a0a03b653a95e",
+      "bytes": 58098
     },
     {
       "path": "reports/v2/sources/weather_value_quality.csv",
-      "sha256": "a4b3fdd35e071df07dd2598f2b41ab38810221a86243d49e0f7829dc7134cb91",
-      "bytes": 79793
+      "sha256": "14b9b5c9e6bf3e1a418d0ba8dc0953a70b58fe9de8a57eb36fe4509c876a216a",
+      "bytes": 114648
     }
   ],
   "next_stage_interface": {

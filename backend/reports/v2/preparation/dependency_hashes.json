@@ -1,0 +1,207 @@
+{
+  "producer": "10_v2_preparation_features_leakage",
+  "inputs": [
+    {
+      "role": "09_sources_manifest",
+      "path": "sources_manifest.json",
+      "sha256": "9e3b996c6d695f8795fad7f76a6e9de81a492d97242d19f795bf5ca7c9be510a"
+    },
+    {
+      "role": "09_config",
+      "path": "external_sources_v2.json",
+      "sha256": "742c25b21e7a7c36f9e80a3609a54d09142ccec8a641384d76a844faef28b93a"
+    },
+    {
+      "role": "09_functions_cells",
+      "path": "09_external_collection_date_evidence.ipynb",
+      "sha256": "bb990bc46150a390145c97a068f2214a5fca13cb50af52ab68f1308ac812f5e5"
+    },
+    {
+      "role": "09_output",
+      "path": "calendar_as_of_views.csv",
+      "sha256": "69f85769934b6f8996f1ed229bb76087b81764e0789db38dbb4183da3374400e"
+    },
+    {
+      "role": "09_output",
+      "path": "calendar_festival_evidence.csv",
+      "sha256": "1a05442b8cfd353ae687d90f167dadd6e6ec53a33750b8d35e5d416751f8e26a"
+    },
+    {
+      "role": "09_output",
+      "path": "calendar_records.csv",
+      "sha256": "74902e2c733f5f494e46178d10f1255de9b0850a7530a39be450f99dabd70c11"
+    },
+    {
+      "role": "09_output",
+      "path": "calendar_sources.csv",
+      "sha256": "ebc4dbbbf3fe26eedc36b7005998097f096da56dede559e3c129a3f2c936a92f"
+    },
+    {
+      "role": "09_output",
+      "path": "date_evidence_by_year.csv",
+      "sha256": "c553ca070cbbee8fdec619d6c3d4b3be3d105aeb40a9e0ebc9a158566daec0a1"
+    },
+    {
+      "role": "09_output",
+      "path": "date_evidence_by_year.json",
+      "sha256": "2696ddb9141300b73ce1b49b2ada7c2528b582a6f1452ddcc81395fd66ca551e"
+    },
+    {
+      "role": "09_output",
+      "path": "external_schema_coverage.csv",
+      "sha256": "c4e0797013263d27a101121cb496c9cdd0e9fff01b4a2e115364a3193b75e311"
+    },
+    {
+      "role": "09_output",
+      "path": "feature_source_readiness.csv",
+      "sha256": "280d3d12be5a9a63c48a1fe10fa3669dc317458ccd3330184e829034eb75c8cb"
+    },
+    {
+      "role": "09_output",
+      "path": "province_points.csv",
+      "sha256": "c21045179fb235743b5a7adc69014c494d012afd2d5899b28dfb9a9842708ae3"
+    },
+    {
+      "role": "09_output",
+      "path": "source_audit_th.md",
+      "sha256": "e8642dce475fdd9f15caa9a30f40a8ef5863e2cd1f6fe4996338ef1877c09ae6"
+    },
+    {
+      "role": "09_output",
+      "path": "traffic_province_year_summary.csv",
+      "sha256": "5af22e4fbe758615aa0e3409882b76a8ef63b7edfb5f8dbf5f6b290710cb7b0f"
+    },
+    {
+      "role": "09_output",
+      "path": "traffic_resource_metadata.csv",
+      "sha256": "6324ccc217c33589dd420c80b4bc44bf9b79dbfa56a98d9cb185e19d5a56e481"
+    },
+    {
+      "role": "09_output",
+      "path": "weather_chunks.csv",
+      "sha256": "befd2a818ed1ce56c60014374decb765c76243eaa673b1254e1a4b9c9d4f31e4"
+    },
+    {
+      "role": "09_output",
+      "path": "weather_coverage.csv",
+      "sha256": "5c6f9b809e522163ceaa6e2d0a9b0aa52b47bbc7c42f61baaa7a0a03b653a95e"
+    },
+    {
+      "role": "09_output",
+      "path": "weather_value_quality.csv",
+      "sha256": "14b9b5c9e6bf3e1a418d0ba8dc0953a70b58fe9de8a57eb36fe4509c876a216a"
+    },
+    {
+      "role": "09_derived",
+      "path": "date_resolution_by_id.csv",
+      "sha256": "a35c698d385debf2577cfc9780e4f476a0db25f6da503c824b2e40b5f6d2954d"
+    },
+    {
+      "role": "09_derived",
+      "path": "weather_daily_jma_gsm.csv.gz",
+      "sha256": "bfcd9d044c532b064507ce20cbb83f2ce865a6cd3bff6c2ae6e27704fc905bb3"
+    },
+    {
+      "role": "09_derived",
+      "path": "weather_6h_jma_gsm.csv.gz",
+      "sha256": "9c625b6a6c79a07d15db09bdb7e65b63e6b08bdf30ce70f27e7227f5956b207f"
+    },
+    {
+      "role": "v1_raw_manifest",
+      "path": "source_manifest.json",
+      "sha256": "708a3607231e4ee2f801f800defcd78ba05fdc60b886ce8b255fc041a98cf9d6"
+    },
+    {
+      "role": "v1_raw_csv",
+      "path": "accidents_2564_original.csv",
+      "sha256": "044f8ae0a918ec25139bef24257fe274fd17d9bfab2512c0780a7a4bbf5d50f0"
+    },
+    {
+      "role": "v1_raw_csv",
+      "path": "accidents_2565_original.csv",
+      "sha256": "6f7c543a302906925e32fbf6b8da5d2b1920266489ae1c978fd9887d63c4698e"
+    },
+    {
+      "role": "v1_raw_csv",
+      "path": "accidents_2566_original.csv",
+      "sha256": "4d6dbfa4b8e1f4dd476d81062a01c10a858b7acd174fef20cb18f29ad2fbbd55"
+    },
+    {
+      "role": "v1_raw_csv",
+      "path": "accidents_2567_original.csv",
+      "sha256": "2ca1e832a4fa8d29ef6adfe52623a9b447a7f0b12e61e6e7e795a1b6e4be4a10"
+    },
+    {
+      "role": "v1_raw_csv",
+      "path": "accidents_2568_original.csv",
+      "sha256": "b163fa91170fa7df76b8d71b4eb629ff7ca4ef220bea6c3660e244fbe7e5616d"
+    },
+    {
+      "role": "v1_raw_csv",
+      "path": "accidents_2569_original.csv",
+      "sha256": "e9e0388614ce46cf815c1796d599d48e029be20b8d8849919fc0f730fc10ff1b"
+    },
+    {
+      "role": "v1_interim",
+      "path": "row_audit.csv",
+      "sha256": "6668cda37582cca208e4e529db7ba5dd0b5b9a93e6c4d9ee14dcca387bd1a07e"
+    },
+    {
+      "role": "v1_interim",
+      "path": "cleaned_events.csv",
+      "sha256": "b7ab13c58dc1389d96c31ff666444953a00ecaf2d10a6cf2c4ab901281afec30"
+    },
+    {
+      "role": "v1_interim",
+      "path": "quarantine.csv",
+      "sha256": "90481247e15adb09c00cbc095cdfd9610a5680731f90bf035e1e8394cf39c076"
+    },
+    {
+      "role": "v1_interim",
+      "path": "events_descriptive_outcomes.csv",
+      "sha256": "6eb4ff134a9d4778aa4c37454159f8806bc765640faa3c6f61dcdcee695570ff"
+    },
+    {
+      "role": "v1_interim",
+      "path": "possible_undercount_flags.csv",
+      "sha256": "ad466b194c1ea2a555d67a052d4bd342180bc063f8ce6f4ba73e410f382ee323"
+    },
+    {
+      "role": "v1_interim",
+      "path": "reconciliation.csv",
+      "sha256": "4811624474a98d29c126942ba21992cee72bb4f3aa90a2d604bb280c140c60e1"
+    },
+    {
+      "role": "v1_panel",
+      "path": "province_day_panel.csv",
+      "sha256": "22604a280264d55e2caacb21da2e135ca8896b849457b80f34386c9d54a828a7"
+    },
+    {
+      "role": "config",
+      "path": "feature_pipeline_v2.json",
+      "sha256": "dd217247db12c8c9c5d30d2770ce368b8f30a6984a9fb1c2f31e8ebe89ab60d7"
+    },
+    {
+      "role": "config",
+      "path": "data_pipeline.json",
+      "sha256": "c779fdde27c73ac9466c9a86c71ef86f1b75747914cc985b37df8214749a3098"
+    },
+    {
+      "role": "09_xlsx_counterpart",
+      "path": "accident2021.xlsx",
+      "sha256": "57d1e4828dedf3e074755ce0f9cee5500dba3707919cbe05e622b0894992b4e4"
+    },
+    {
+      "role": "09_xlsx_counterpart",
+      "path": "accident2022.xlsx",
+      "sha256": "372b7eab60951b1de5ab0deefaf2b919605e30cf756935fbdbe1ea50eabcbec8"
+    },
+    {
+      "role": "09_xlsx_counterpart",
+      "path": "accident2023.xlsx",
+      "sha256": "94c46065cb43ee8a0d16e25799b6ae91f83439fab2f75b38e127a87c3994307b"
+    }
+  ],
+  "09_functions_cells_sha256": "bb990bc46150a390145c97a068f2214a5fca13cb50af52ab68f1308ac812f5e5",
+  "09_status": "completed_with_gaps"
+}

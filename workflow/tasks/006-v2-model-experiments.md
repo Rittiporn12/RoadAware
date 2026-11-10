@@ -1,16 +1,19 @@
 # Goal
 
-Implement the actual V2 model experiment as Python notebooks for VS Code:
+Implement notebook 11 for the actual V2 model experiment in VS Code:
 three candidate families (Poisson, Random Forest, HGB), strong baselines,
-feature ablations, chronological evaluation, error analysis and a documented
-model decision. Do not promise a win or manufacture results.
+feature ablations, chronological evaluation and a documented model decision.
+Detailed notebook 12 error analysis is a subsequent bounded task. Do not promise
+a win or manufacture results.
 
 # Preconditions / context
 
-NOT READY TO DELEGATE until Codex records source task 004c and preparation
-task 005 acceptance and locks the protocol with actual input hashes. Read
+Manager update 2026-11-10 18:03: You may IMPLEMENT now while Codex verifies source
+004c/prepare005. The ONLY previous Claude worker has finished. Codex runs the
+online 09 collector; NEVER modify 09/10 or their inputs/configs. NO fitting or
+execution until Codex accepts both stages and locks actual input hashes. Read
 AGENTS.md, workflow/v2-feature-policy.md, workflow/model-protocol-v2-draft.md
-(then its locked successor), accepted notebooks 09/10, their configs/manifests,
+(then its locked successor when available), notebooks 09/10, their configs/manifests,
 the preparation next_stage_interface and Codex review feedback. V1 is frozen.
 No implementation may choose features or hyperparameters from 2024/25 scores.
 
@@ -23,9 +26,9 @@ all logic without runtime imports from handoff files.
 
 # Allowed scope
 
-New backend/notebooks/11_v2_model_experiments.ipynb and
-12_v2_evaluation_error_analysis.ipynb; new backend/config/model_experiment_v2.json;
-extend backend/scripts/run_v2_notebooks.py with explicit model/evaluate stages;
+New backend/notebooks/11_v2_model_experiments.ipynb;
+new backend/config/model_experiment_v2.json;
+extend backend/scripts/run_v2_notebooks.py with explicit model stage;
 new backend/tests/test_v2_model_notebooks.py; truthful README updates. Generated
 row predictions, serialized models and matrices live only under ignored data/v2.
 Tracked aggregate reports under backend/reports/v2/models. Do not change 01–10,
@@ -58,11 +61,12 @@ frontend, deployment, paid services, Git, shell or additional workers.
    report 2024 development and 2025 reused/previously-seen diagnostics honestly.
    Never call either an untouched test. Reload fitted artifacts and verify
    prediction consistency on a fixed supported sample.
-6. Notebook 12 reads immutable experiment outputs and produces error analysis:
-   month, province, weekday, block, festivals, feature availability, zero/high
-   counts, calibration/support and aggregate residuals; ablation benefits AND
-   harms on identical keys. Plots and Thai model card explain selected model,
-   practical limitations, count-vs-personal-risk distinction and production=false.
+6. Notebook 11 writes a compact Thai experiment report and model card explaining
+   all family results, ablation benefits AND harms on identical keys, selection
+   gate and limitations. Explicit machine-readable next_stage_interface for
+   notebook 12: OOF and diagnostic predictions, panels, selected methods/baselines,
+   selection lock and hashes; keep all fit-time features available by joining
+   accepted 10 immutable feature keys. Detailed plots/slice analysis deferred to12.
 7. Unit fixtures use small hand-calculated examples for smoothing/fallbacks,
    temporal cutoff, no evaluation-label updates, preprocessing leakage, family
    selection/ties, metric floor behavior, bootstrap calendar grouping, selection
@@ -75,3 +79,29 @@ frontend, deployment, paid services, Git, shell or additional workers.
 Report changed files, checks actually run, checks not run, exact commands Codex
 should execute, output/interface paths, runtime expectations and remaining
 issues. Read live review feedback before finishing. CLI success is not acceptance.
+
+# Exact implementation clarifications
+
+Use draft configurations unchanged; protocol is fixed BEFORE any V2 fits.
+Require a manager-created workflow/model-protocol-v2-lock.json at runtime. Its
+schema is roadaware-v2-experiment-lock/1 and contains protocol_sha256 (the draft
+file bytes), model_config_sha256, preparation_manifest_sha256, preparation
+data_outputs (path + sha256 copied exactly from accepted 10 manifest), and
+source_run_id/preparation_run_id. Fail absent/mismatched lock. Exclude unrelated
+changing notebook outputs from the manager lock. Codex creates this planning
+record only after acceptance; worker must not fabricate hashes or write results.
+
+The final final-fit cutoff is 2023-12-31 18:00 +07 as in the amended draft.
+Use cell target_end_local <= issue. At fold starts use the same boundary, not
+merely target_date < first evaluation date. All methods share exactly this fit
+cohort. Additional accident-report publication latency remains unverified.
+
+Keep computation bounded without changing statistical configurations: avoid
+refitting identical baseline predictions per feature variant; cache identical
+fold transforms where safe; constrain numerical thread pools and RF n_jobs=2;
+never share fitted preprocessors across folds. Report full run timing. Daily
+and 6h selections independent, no cross-unit winner by raw metric magnitude.
+Use backend/data/v2/models for local bundles/predictions and reports/v2/models
+for tracked aggregate outputs; configurable output root. If 11 is too large for
+file tools, write ordered plain cell payloads + checked assembler under ignored
+.ai-team/handoffs/006. No need to add notebook 12 or its runner stage yet.

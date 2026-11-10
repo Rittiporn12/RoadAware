@@ -1,0 +1,15 @@
+source_year_ce,disposition,v2_disposition,n_rows
+2021,quarantined,quarantined,66
+2021,quarantined,retained,7397
+2021,retained,retained,12599
+2022,quarantined,quarantined,74
+2022,quarantined,retained,7243
+2022,retained,retained,13249
+2023,quarantined,quarantined,3351
+2023,quarantined,retained,7372
+2023,retained,retained,13118
+2024,quarantined,quarantined,2164
+2024,retained,retained,21788
+2025,quarantined,quarantined,173
+2025,retained,retained,23542
+2026,diagnostic,diagnostic,15239

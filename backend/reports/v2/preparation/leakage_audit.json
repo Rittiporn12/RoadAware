@@ -1,0 +1,260 @@
+{
+  "production_ready": false,
+  "operational_status": "BLOCKED",
+  "caveats": [
+    "labels are selected recorded MOT-source counts (MOT road network only), not complete all-road accidents",
+    "date repair relies on the publisher's own XLSX counterpart (not independent ground truth)",
+    "training_eligible is an outcome-derived offline research filter, unavailable for prospective claims",
+    "weather: nominal JMA GSM lead; historical public delivery latency unverified; coverage may be quota-partial",
+    "traffic: catalog-vintage proxy does not prove historical bytes; revised resources push availability later",
+    "bank calendar: reviewed BOT transcriptions with conservative known_from; later amendments unknown; not a public-holiday calendar",
+    "no model has been fitted or compared in notebook 10"
+  ],
+  "allowlist_daily": [
+    "province",
+    "day_of_week",
+    "month",
+    "day_of_month",
+    "is_weekend",
+    "doy_sin",
+    "doy_cos",
+    "fest_songkran_dist",
+    "fest_songkran_in",
+    "fest_songkran_pre_1_3",
+    "fest_songkran_pre_4_7",
+    "fest_songkran_post_1_3",
+    "fest_songkran_post_4_7",
+    "fest_new_year_dist",
+    "fest_new_year_in",
+    "fest_new_year_pre_1_3",
+    "fest_new_year_pre_4_7",
+    "fest_new_year_post_1_3",
+    "fest_new_year_post_4_7",
+    "bank_holiday_asof",
+    "bank_calendar_known_asof",
+    "season_hot",
+    "season_wet",
+    "season_cool",
+    "wx_rain_sum_mm_d2",
+    "wx_temp_mean_c_d2",
+    "trf_mean_aadt",
+    "trf_median_aadt",
+    "trf_mean_heavy_share_pct",
+    "trf_n_station_rows"
+  ],
+  "allowlist_6h": [
+    "province",
+    "day_of_week",
+    "month",
+    "day_of_month",
+    "is_weekend",
+    "doy_sin",
+    "doy_cos",
+    "time_block",
+    "fest_songkran_dist",
+    "fest_songkran_in",
+    "fest_songkran_pre_1_3",
+    "fest_songkran_pre_4_7",
+    "fest_songkran_post_1_3",
+    "fest_songkran_post_4_7",
+    "fest_new_year_dist",
+    "fest_new_year_in",
+    "fest_new_year_pre_1_3",
+    "fest_new_year_pre_4_7",
+    "fest_new_year_post_1_3",
+    "fest_new_year_post_4_7",
+    "bank_holiday_asof",
+    "bank_calendar_known_asof",
+    "season_hot",
+    "season_wet",
+    "season_cool",
+    "wx_rain_sum_mm_d2",
+    "wx_temp_mean_c_d2",
+    "wx_block_rain_sum_mm_d2",
+    "wx_block_temp_mean_c_d2",
+    "trf_mean_aadt",
+    "trf_median_aadt",
+    "trf_mean_heavy_share_pct",
+    "trf_n_station_rows"
+  ],
+  "forbidden_feature_names": [
+    "acc_code",
+    "event_uid",
+    "source_file",
+    "source_row",
+    "source_year",
+    "source_year_ce",
+    "year",
+    "target_year",
+    "date",
+    "target_date",
+    "event_date",
+    "time_sec",
+    "event_time",
+    "event_block",
+    "target_start_local",
+    "target_end_local",
+    "issue_time_local",
+    "issue_time_utc",
+    "split",
+    "y_recorded_count",
+    "possibly_undercounted",
+    "n_flagged_rows",
+    "flag_reasons",
+    "training_eligible",
+    "unplaceable_rows_province_year",
+    "deaths",
+    "serious_injuries",
+    "minor_injuries",
+    "injured_total",
+    "n_vehicles",
+    "n_involved",
+    "accident_type",
+    "presumed_cause",
+    "vehicle_1",
+    "weather",
+    "location_type",
+    "location_other",
+    "report_date_raw",
+    "report_time_raw",
+    "disposition",
+    "reasons",
+    "date_status",
+    "date_rule",
+    "date_candidates",
+    "time_status",
+    "coord_status",
+    "lat",
+    "lon",
+    "province_code",
+    "wx_rain_missing",
+    "wx_temp_missing",
+    "wx_issue_bound_ok",
+    "trf_vintage_survey_year_ce",
+    "trf_vintage_available_from_utc",
+    "block_index"
+  ],
+  "forbidden_feature_substrings": [
+    "undercount",
+    "eligib",
+    "flag_reason",
+    "y_recorded",
+    "target_",
+    "acc_code",
+    "uid",
+    "source_",
+    "death",
+    "injur",
+    "accident_type",
+    "presumed",
+    "vehicle",
+    "involved",
+    "disposition",
+    "reason",
+    "split",
+    "issue_",
+    "event_",
+    "_missing",
+    "vintage",
+    "timestamp"
+  ],
+  "never_model_inputs": [
+    "target_date",
+    "split",
+    "event_uid",
+    "acc_code",
+    "y_recorded_count",
+    "training_eligible",
+    "possibly_undercounted",
+    "flag_reasons",
+    "n_flagged_rows",
+    "unplaceable_rows_province_year",
+    "label_status"
+  ],
+  "asof_assertions": {
+    "traffic_prior_year_only": true,
+    "traffic_available_before_issue": true,
+    "bank_holiday_known_before_issue": true,
+    "bank_unknown_coverage_is_nan": true,
+    "weather_guard_rechecked_in_10": true,
+    "features_have_no_infinity": true,
+    "same_keys_all_models": true
+  },
+  "negative_controls": [
+    {
+      "control": "traffic_future_or_same_year_vintage",
+      "rejected": true
+    },
+    {
+      "control": "bank_holiday_late_announcement",
+      "rejected": true
+    },
+    {
+      "control": "bank_holiday_removal_after_issue_not_applied_early",
+      "rejected": true
+    },
+    {
+      "control": "unknown_calendar_not_ordinary_day",
+      "rejected": true
+    },
+    {
+      "control": "weather_hour_after_issue",
+      "rejected": true
+    },
+    {
+      "control": "weather_09_guard_tampered_true",
+      "rejected": true
+    },
+    {
+      "control": "allowlist_rejects_accident_type",
+      "rejected": true
+    },
+    {
+      "control": "allowlist_rejects_y_recorded_count",
+      "rejected": true
+    },
+    {
+      "control": "allowlist_rejects_training_eligible",
+      "rejected": true
+    },
+    {
+      "control": "allowlist_rejects_event_uid",
+      "rejected": true
+    },
+    {
+      "control": "allowlist_rejects_target_date",
+      "rejected": true
+    },
+    {
+      "control": "allowlist_rejects_wx_rain_missing",
+      "rejected": true
+    },
+    {
+      "control": "allowlist_rejects_deaths",
+      "rejected": true
+    }
+  ],
+  "weather_lead_audit": {
+    "daily": {
+      "rows": 74460,
+      "rows_guard_ok": 74460,
+      "rows_rain_complete_and_guard_ok": 74335,
+      "rows_temp_complete_and_guard_ok": 74460,
+      "rows_guard_failed": 0,
+      "issue_minus_latest_bound_hours_min": 18.0,
+      "issue_minus_latest_bound_hours_median": 18.0,
+      "issue_minus_latest_bound_hours_max": 19.0
+    },
+    "six_hour": {
+      "rows": 297840,
+      "rows_guard_ok": 297840,
+      "rows_rain_complete_and_guard_ok": 297690,
+      "rows_temp_complete_and_guard_ok": 297840,
+      "rows_guard_failed": 0,
+      "issue_minus_latest_bound_hours_min": 18.0,
+      "issue_minus_latest_bound_hours_median": 27.0,
+      "issue_minus_latest_bound_hours_max": 36.0
+    }
+  },
+  "history": "PENDING: conditional history sensitivity not implemented; historical publication availability is unverified and Codex must confirm a separate scenario after the primary experiment (30-day minimum delay assumption per v2-feature-policy)."
+}

@@ -1,0 +1,116 @@
+{
+  "_comment": "RoadAware v2 model experiment config (notebook 11): three candidate families (Poisson, Random Forest, HGB) x five fixed feature variants, strong Train-only baselines, four expanding issue-time folds per unit (daily and 6 h separately), pooled-OOF selection, stability gate + exploratory paired calendar-block bootstrap, selection lock BEFORE 2024/2025 diagnostics. Configurations copy workflow/model-protocol-v2-draft.md unchanged; nothing here may be changed after observing V2 scores. Relative 'inputs' paths for protocol/lock resolve against the repository root, all others against the backend root. Env overrides (set by backend/scripts/run_v2_notebooks.py --stage model): ROADAWARE_BACKEND_ROOT, ROADAWARE_V2_OUTPUT_ROOT (root for reports/v2/models), ROADAWARE_V2_PREPARATION_DIR (read-only accepted notebook 10 report dir), ROADAWARE_V2_DATA_ROOT (read-only notebook 10 matrices), ROADAWARE_V2_MODEL_DATA_ROOT (row-level OOF/diagnostic predictions and fitted bundles, gitignored), ROADAWARE_V2_SOURCES_DIR (read-only 09 reports, only to cross-check source_run_id), ROADAWARE_V2_EXPERIMENT_LOCK. Research only: production_ready false, operational BLOCKED.",
+  "schema": "roadaware-model-experiment-v2/1",
+  "producer": "11_v2_model_experiments",
+  "production_ready": false,
+  "operational_status": "BLOCKED",
+  "inputs": {
+    "protocol_draft": "workflow/model-protocol-v2-draft.md",
+    "experiment_lock": "workflow/model-protocol-v2-lock.json",
+    "experiment_lock_schema": "roadaware-v2-experiment-lock/1",
+    "experiment_lock_fields": ["schema", "protocol_sha256", "model_config_sha256", "preparation_manifest_sha256", "preparation_data_outputs", "source_run_id", "preparation_run_id"],
+    "run_id_rule": "preparation_run_id == preparation_manifest.json started_utc; source_run_id == 09 sources_manifest.json started_utc (cross-checked only while that file still has the sha256 recorded in the 10 manifest inputs)",
+    "preparation_report_subdir": "reports/v2/preparation",
+    "preparation_manifest": "preparation_manifest.json",
+    "preparation_manifest_schema": "roadaware-v2-preparation-manifest/1",
+    "preparation_producer": "10_v2_preparation_features_leakage",
+    "accepted_preparation_status": ["completed", "completed_with_gaps"],
+    "preparation_data_subdir": "data/v2",
+    "sources_report_subdir": "reports/v2/sources",
+    "feature_config": "config/feature_pipeline_v2.json"
+  },
+  "outputs": {
+    "report_subdir": "reports/v2/models",
+    "model_data_subdir": "data/v2/models"
+  },
+  "units": ["daily", "6h"],
+  "unit_extra_groups": {"daily": [], "6h": ["timeblock"]},
+  "time": {
+    "utc_offset": "+07:00",
+    "issue_hour_local": 18,
+    "issue_days_before_target": 1,
+    "train_split": "train",
+    "fit_cell_rule": "a cell may be fitted for a fold only when split == train AND training_eligible AND target_end_local <= issue time of the first evaluation date (previous day 18:00 Asia/Bangkok); identical boundary at every fold start and for the final fit"
+  },
+  "folds": [
+    {"name": "2022H1", "eval_start": "2022-01-01", "eval_end": "2022-06-30"},
+    {"name": "2022H2", "eval_start": "2022-07-01", "eval_end": "2022-12-31"},
+    {"name": "2023H1", "eval_start": "2023-01-01", "eval_end": "2023-06-30"},
+    {"name": "2023H2", "eval_start": "2023-07-01", "eval_end": "2023-12-31"}
+  ],
+  "final_fit": {
+    "cutoff_local": "2023-12-31T18:00:00+07:00",
+    "first_diagnostic_date": "2024-01-01",
+    "diagnostic_splits": [
+      {"name": "development_2024", "label_th": "2024 development diagnostic (เคยเห็นแล้วตอนพัฒนา ไม่ใช่ test อิสระ)"},
+      {"name": "reused_seen_2025", "label_th": "2025 reused / previously-seen diagnostic (เคยใช้แล้ว ไม่ใช่ test อิสระ)"}
+    ],
+    "note": "No refit on 2024; no selection change from 2024/2025 scores; recent-history baselines stay frozen at the cutoff (no label updates during 2024/2025)."
+  },
+  "feature_variants": {
+    "core": ["core"],
+    "calendar": ["core", "festival", "bank_calendar", "season"],
+    "calendar_weather": ["core", "festival", "bank_calendar", "season", "weather"],
+    "calendar_traffic": ["core", "festival", "bank_calendar", "season", "traffic"],
+    "full": ["core", "festival", "bank_calendar", "season", "weather", "traffic"]
+  },
+  "ablation_comparisons": [
+    ["calendar", "core"],
+    ["calendar_weather", "calendar"],
+    ["calendar_traffic", "calendar"],
+    ["full", "calendar"],
+    ["full", "calendar_weather"],
+    ["full", "calendar_traffic"],
+    ["full", "core"]
+  ],
+  "preprocessors": {
+    "onehot_impute_scale": "categoricals: OneHotEncoder(handle_unknown=ignore) fitted on fold Train; numerics: SimpleImputer(median, add_indicator=False, keep_empty_features=True) + StandardScaler fitted on fold Train (all-missing Train columns kept as constant 0)",
+    "onehot_impute": "categoricals: OneHotEncoder(handle_unknown=ignore) fitted on fold Train; numerics: SimpleImputer(median, add_indicator=False, keep_empty_features=True) fitted on fold Train (no ordinal geography distance; all-missing Train columns kept as constant 0)",
+    "ordinal_native": "categoricals: OrdinalEncoder(handle_unknown=use_encoded_value, unknown_value=NaN) fitted on fold Train and declared categorical to HGB; numerics passed through with NaN handled natively (all-missing columns kept)",
+    "missingness_note": "No missingness-indicator predictors are added (weather/traffic missing or quality flags and source status are not approved inputs; API coverage is a retrospective sampling artifact, not proven historical availability). HGB native NaN handling can still split on missingness: source-coverage confounding is a documented limitation, diagnosed later via feature_missingness_by_split.csv / notebook 12."
+  },
+  "model_configs": [
+    {"id": "poisson_a0.001", "family": "poisson", "preprocessor": "onehot_impute_scale", "params": {"alpha": 0.001, "max_iter": 1000, "tol": 1e-06}},
+    {"id": "poisson_a0.01", "family": "poisson", "preprocessor": "onehot_impute_scale", "params": {"alpha": 0.01, "max_iter": 1000, "tol": 1e-06}},
+    {"id": "rf_poisson", "family": "rf", "preprocessor": "onehot_impute", "params": {"criterion": "poisson", "n_estimators": 80, "max_depth": 18, "max_leaf_nodes": 128, "min_samples_leaf": 50, "max_features": 0.8, "random_state": 42, "n_jobs": 2}},
+    {"id": "hgb_poisson", "family": "hgb", "preprocessor": "ordinal_native", "params": {"loss": "poisson", "max_iter": 160, "max_leaf_nodes": 15, "min_samples_leaf": 100, "l2_regularization": 5.0, "learning_rate": 0.05, "early_stopping": false, "random_state": 42}}
+  ],
+  "family_order": ["poisson", "rf", "hgb"],
+  "baselines": {
+    "daily": [
+      {"id": "zero", "zero": true, "note": "sparsity diagnostic; no finite Poisson deviance"},
+      {"id": "global_mean", "levels": []},
+      {"id": "province_mean", "levels": [["province_key"]]},
+      {"id": "province_weekday_k10", "levels": [["province_key"]], "smooth": {"cols": ["province_key", "bl_weekday"], "k": 10}},
+      {"id": "province_month_k30", "levels": [["province_key"]], "smooth": {"cols": ["province_key", "bl_month"], "k": 30}},
+      {"id": "recent90_province_mean", "levels": [["province_key"]], "recent": {"cols": ["province_key"], "days": 90}}
+    ],
+    "6h": [
+      {"id": "zero", "zero": true, "note": "sparsity diagnostic; no finite Poisson deviance"},
+      {"id": "global_mean", "levels": []},
+      {"id": "province_block_mean", "levels": [["time_block"], ["province_key", "time_block"]]},
+      {"id": "province_block_weekday_k10", "levels": [["time_block"], ["province_key", "time_block"]], "smooth": {"cols": ["province_key", "time_block", "bl_weekday"], "k": 10}},
+      {"id": "province_block_month_k30", "levels": [["time_block"], ["province_key", "time_block"]], "smooth": {"cols": ["province_key", "time_block", "bl_month"], "k": 30}},
+      {"id": "recent90_province_block_mean", "levels": [["time_block"], ["province_key", "time_block"]], "recent": {"cols": ["province_key", "time_block"], "days": 90}}
+    ],
+    "definitions": "All fitted on fold Train rows only. levels are applied coarse -> fine on top of the Train global mean (a finer level overrides only where its key was seen in Train; for 6 h the Train time-block mean is the explicit fallback parent of province-block). smooth: (sum_y_group + k * parent) / (n_group + k), parent = the levels prediction, unseen group -> parent. recent: mean of Train cells whose target_end_local > cutoff - days (90 calendar days of targets ending at the frozen fold-start issue time); a key with no recent cell falls back to the levels prediction (full Train, then block, then global). bl_weekday / bl_month derive from target_date only."
+  },
+  "metrics": {
+    "primary": "mean_poisson_deviance",
+    "deviance_floor": 1e-09,
+    "floor_rule": "predictions must be finite and >= 0 (otherwise the fit is rejected, never clipped); the floor is applied ONLY inside Poisson deviance and its count reported; MAE/RMSE/WAPE/bias/totals use raw predictions; WAPE null when sum y == 0; zero baseline deviance is null"
+  },
+  "selection": {
+    "rule": "per unit independently: best configuration x variant per family by pooled row-weighted OOF mean Poisson deviance (exact ties -> method_id); best candidate across families by the same metric (exact ties -> family_order then method_id); strongest nonzero baseline by pooled OOF deviance (exact ties -> baseline id). Methods with any failed or rejected fold are excluded and reported.",
+    "no_cross_unit_comparison": true
+  },
+  "gate": {
+    "min_relative_deviance_reduction": 0.01,
+    "max_mae_ratio": 1.02,
+    "min_fold_wins": 3,
+    "bootstrap": {"block_days": 7, "n_resamples": 500, "seed": 42, "ci": 0.95, "statistic": "row-weighted mean of (candidate - baseline) Poisson deviance over resampled 7-calendar-day blocks of the pooled OOF period (blocks anchored at the first OOF evaluation date; every province / time block of a day moves together)"},
+    "note": "bootstrap is exploratory after model/variant selection, not adjusted for multiple comparisons; if the gate fails the strongest baseline is the recommended reference"
+  },
+  "compute": {"threads": 2, "note": "OMP/BLAS pools limited to 2 threads; RF n_jobs=2; preprocessors are fitted per fold/variant and shared only between configurations of the same preprocessor kind inside that fold"},
+  "reload_check": {"split": "development_2024", "n_rows": 2000, "seed": 42, "max_abs_diff": 1e-12}
+}

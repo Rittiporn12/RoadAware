@@ -1,0 +1,736 @@
+{
+  "producer": "10_v2_preparation_features_leakage",
+  "schema": "roadaware-v2-preparation-manifest/1",
+  "status": "completed",
+  "status_note": "preparation/audit only; no model fitted; passing checks is not acceptance",
+  "started_utc": "2026-11-10T11:17:21+00:00",
+  "finished_utc": "2026-11-10T11:18:56+00:00",
+  "production_ready": false,
+  "operational_status": "BLOCKED",
+  "functions_cells_sha256": "75d2f29f3adbd4c89acff8e7c05a695503c08ef72562e64d4cf3d6c94c70f12b",
+  "code_cells_sha256": {
+    "1:c10-functions-1": "e7bf59432593c2ef305bf8da5a1f9ab091cb2f45d75b40e83ffd5835e19e6078",
+    "2:c10-functions-2": "0a39f0b5389fce1f2da0f26380eac39ab55bc804927d567f42b6d4de1ea0ffed",
+    "3:c10-setup": "1091679fcc9dca8c560ed8364a846544af5570aa6b98e35d39ec82155b4c5af2",
+    "5:c10-a": "bab54c3b67b905a02110acd9a6b9fa7a28a504c0dd54ff7b92d47061eccdbbd1",
+    "7:c10-b": "7f5fe32d28ffb5d41446845e8d67cff6049665db58134ef3425694be5cc7b890",
+    "9:c10-c": "510b1281ffe1f5dfd64e7566fc96e392888aa9e26a28fa369871396fafb07bfb",
+    "11:c10-d": "ebfa766d7a29b187035b251935daf4cbfda1baf9de62e67a8e88d6a84bccd55a",
+    "13:c10-e": "7156ba1ca122f0c30512130967e09d593bac3ff7c17e9b6e7b07502372c1919e",
+    "15:c10-f": "bf3e56de95d00a3dfde0dd35a54963a3b753570aa1e3132ca732afe8b7ccb364",
+    "17:c10-g": "400a44655b1e6116d803b77e3f6618287d5f12ea441bc766f1900c9797fe643b",
+    "19:c10-h": "f10b22c9657169e11c311f389ad6696ac32880e75209a22ccb24661656dc15d7",
+    "20:c10-final": "a021b7e39f5c4ec294ba95045f4c55296f95768e77af45a6f9b4f6c095de5a19"
+  },
+  "config_sha256": "dd217247db12c8c9c5d30d2770ce368b8f30a6984a9fb1c2f31e8ebe89ab60d7",
+  "inputs": [
+    {
+      "role": "09_sources_manifest",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/sources/sources_manifest.json",
+      "sha256": "9e3b996c6d695f8795fad7f76a6e9de81a492d97242d19f795bf5ca7c9be510a"
+    },
+    {
+      "role": "09_config",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/config/external_sources_v2.json",
+      "sha256": "742c25b21e7a7c36f9e80a3609a54d09142ccec8a641384d76a844faef28b93a"
+    },
+    {
+      "role": "09_functions_cells",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/notebooks/09_external_collection_date_evidence.ipynb",
+      "sha256": "bb990bc46150a390145c97a068f2214a5fca13cb50af52ab68f1308ac812f5e5"
+    },
+    {
+      "role": "09_output",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/sources/calendar_as_of_views.csv",
+      "sha256": "69f85769934b6f8996f1ed229bb76087b81764e0789db38dbb4183da3374400e"
+    },
+    {
+      "role": "09_output",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/sources/calendar_festival_evidence.csv",
+      "sha256": "1a05442b8cfd353ae687d90f167dadd6e6ec53a33750b8d35e5d416751f8e26a"
+    },
+    {
+      "role": "09_output",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/sources/calendar_records.csv",
+      "sha256": "74902e2c733f5f494e46178d10f1255de9b0850a7530a39be450f99dabd70c11"
+    },
+    {
+      "role": "09_output",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/sources/calendar_sources.csv",
+      "sha256": "ebc4dbbbf3fe26eedc36b7005998097f096da56dede559e3c129a3f2c936a92f"
+    },
+    {
+      "role": "09_output",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/sources/date_evidence_by_year.csv",
+      "sha256": "c553ca070cbbee8fdec619d6c3d4b3be3d105aeb40a9e0ebc9a158566daec0a1"
+    },
+    {
+      "role": "09_output",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/sources/date_evidence_by_year.json",
+      "sha256": "2696ddb9141300b73ce1b49b2ada7c2528b582a6f1452ddcc81395fd66ca551e"
+    },
+    {
+      "role": "09_output",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/sources/external_schema_coverage.csv",
+      "sha256": "c4e0797013263d27a101121cb496c9cdd0e9fff01b4a2e115364a3193b75e311"
+    },
+    {
+      "role": "09_output",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/sources/feature_source_readiness.csv",
+      "sha256": "280d3d12be5a9a63c48a1fe10fa3669dc317458ccd3330184e829034eb75c8cb"
+    },
+    {
+      "role": "09_output",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/sources/province_points.csv",
+      "sha256": "c21045179fb235743b5a7adc69014c494d012afd2d5899b28dfb9a9842708ae3"
+    },
+    {
+      "role": "09_output",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/sources/source_audit_th.md",
+      "sha256": "e8642dce475fdd9f15caa9a30f40a8ef5863e2cd1f6fe4996338ef1877c09ae6"
+    },
+    {
+      "role": "09_output",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/sources/traffic_province_year_summary.csv",
+      "sha256": "5af22e4fbe758615aa0e3409882b76a8ef63b7edfb5f8dbf5f6b290710cb7b0f"
+    },
+    {
+      "role": "09_output",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/sources/traffic_resource_metadata.csv",
+      "sha256": "6324ccc217c33589dd420c80b4bc44bf9b79dbfa56a98d9cb185e19d5a56e481"
+    },
+    {
+      "role": "09_output",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/sources/weather_chunks.csv",
+      "sha256": "befd2a818ed1ce56c60014374decb765c76243eaa673b1254e1a4b9c9d4f31e4"
+    },
+    {
+      "role": "09_output",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/sources/weather_coverage.csv",
+      "sha256": "5c6f9b809e522163ceaa6e2d0a9b0aa52b47bbc7c42f61baaa7a0a03b653a95e"
+    },
+    {
+      "role": "09_output",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/sources/weather_value_quality.csv",
+      "sha256": "14b9b5c9e6bf3e1a418d0ba8dc0953a70b58fe9de8a57eb36fe4509c876a216a"
+    },
+    {
+      "role": "09_derived",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/external_v2/derived/date_resolution_by_id.csv",
+      "sha256": "a35c698d385debf2577cfc9780e4f476a0db25f6da503c824b2e40b5f6d2954d"
+    },
+    {
+      "role": "09_derived",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/external_v2/derived/weather_daily_jma_gsm.csv.gz",
+      "sha256": "bfcd9d044c532b064507ce20cbb83f2ce865a6cd3bff6c2ae6e27704fc905bb3"
+    },
+    {
+      "role": "09_derived",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/external_v2/derived/weather_6h_jma_gsm.csv.gz",
+      "sha256": "9c625b6a6c79a07d15db09bdb7e65b63e6b08bdf30ce70f27e7227f5956b207f"
+    },
+    {
+      "role": "v1_raw_manifest",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/raw/accidents/source_manifest.json",
+      "sha256": "708a3607231e4ee2f801f800defcd78ba05fdc60b886ce8b255fc041a98cf9d6"
+    },
+    {
+      "role": "v1_raw_csv",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/raw/accidents/accidents_2564_original.csv",
+      "sha256": "044f8ae0a918ec25139bef24257fe274fd17d9bfab2512c0780a7a4bbf5d50f0"
+    },
+    {
+      "role": "v1_raw_csv",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/raw/accidents/accidents_2565_original.csv",
+      "sha256": "6f7c543a302906925e32fbf6b8da5d2b1920266489ae1c978fd9887d63c4698e"
+    },
+    {
+      "role": "v1_raw_csv",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/raw/accidents/accidents_2566_original.csv",
+      "sha256": "4d6dbfa4b8e1f4dd476d81062a01c10a858b7acd174fef20cb18f29ad2fbbd55"
+    },
+    {
+      "role": "v1_raw_csv",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/raw/accidents/accidents_2567_original.csv",
+      "sha256": "2ca1e832a4fa8d29ef6adfe52623a9b447a7f0b12e61e6e7e795a1b6e4be4a10"
+    },
+    {
+      "role": "v1_raw_csv",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/raw/accidents/accidents_2568_original.csv",
+      "sha256": "b163fa91170fa7df76b8d71b4eb629ff7ca4ef220bea6c3660e244fbe7e5616d"
+    },
+    {
+      "role": "v1_raw_csv",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/raw/accidents/accidents_2569_original.csv",
+      "sha256": "e9e0388614ce46cf815c1796d599d48e029be20b8d8849919fc0f730fc10ff1b"
+    },
+    {
+      "role": "v1_interim",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/interim/row_audit.csv",
+      "sha256": "6668cda37582cca208e4e529db7ba5dd0b5b9a93e6c4d9ee14dcca387bd1a07e"
+    },
+    {
+      "role": "v1_interim",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/interim/cleaned_events.csv",
+      "sha256": "b7ab13c58dc1389d96c31ff666444953a00ecaf2d10a6cf2c4ab901281afec30"
+    },
+    {
+      "role": "v1_interim",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/interim/quarantine.csv",
+      "sha256": "90481247e15adb09c00cbc095cdfd9610a5680731f90bf035e1e8394cf39c076"
+    },
+    {
+      "role": "v1_interim",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/interim/events_descriptive_outcomes.csv",
+      "sha256": "6eb4ff134a9d4778aa4c37454159f8806bc765640faa3c6f61dcdcee695570ff"
+    },
+    {
+      "role": "v1_interim",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/interim/possible_undercount_flags.csv",
+      "sha256": "ad466b194c1ea2a555d67a052d4bd342180bc063f8ce6f4ba73e410f382ee323"
+    },
+    {
+      "role": "v1_interim",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/interim/reconciliation.csv",
+      "sha256": "4811624474a98d29c126942ba21992cee72bb4f3aa90a2d604bb280c140c60e1"
+    },
+    {
+      "role": "v1_panel",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/processed/province_day_panel.csv",
+      "sha256": "22604a280264d55e2caacb21da2e135ca8896b849457b80f34386c9d54a828a7"
+    },
+    {
+      "role": "config",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/config/feature_pipeline_v2.json",
+      "sha256": "dd217247db12c8c9c5d30d2770ce368b8f30a6984a9fb1c2f31e8ebe89ab60d7"
+    },
+    {
+      "role": "config",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/config/data_pipeline.json",
+      "sha256": "c779fdde27c73ac9466c9a86c71ef86f1b75747914cc985b37df8214749a3098"
+    },
+    {
+      "role": "09_xlsx_counterpart",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/external_v2/evidence/accident2021.xlsx",
+      "sha256": "57d1e4828dedf3e074755ce0f9cee5500dba3707919cbe05e622b0894992b4e4"
+    },
+    {
+      "role": "09_xlsx_counterpart",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/external_v2/evidence/accident2022.xlsx",
+      "sha256": "372b7eab60951b1de5ab0deefaf2b919605e30cf756935fbdbe1ea50eabcbec8"
+    },
+    {
+      "role": "09_xlsx_counterpart",
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/external_v2/evidence/accident2023.xlsx",
+      "sha256": "94c46065cb43ee8a0d16e25799b6ae91f83439fab2f75b38e127a87c3994307b"
+    }
+  ],
+  "roots": {
+    "v1": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend",
+    "external": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/external_v2",
+    "sources_09": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/sources",
+    "data": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/v2",
+    "output": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend"
+  },
+  "versions": {
+    "python": "3.9.6",
+    "pandas": "2.3.3",
+    "numpy": "2.0.2",
+    "matplotlib": "3.9.4"
+  },
+  "sections": {
+    "inputs": {
+      "n_inputs_hashed": 40,
+      "xlsx_years_available": [
+        2021,
+        2022,
+        2023
+      ],
+      "weather_daily_rows": 74460,
+      "weather_6h_rows": 297840,
+      "09_status": "completed_with_gaps",
+      "09_gaps": 11
+    },
+    "rows": {
+      "imported": 127375,
+      "v1_retained": 84296,
+      "v2_retained": 106308,
+      "repaired_rows": 22052,
+      "redecided_rows": 22052,
+      "ctx10_counts": {
+        "agree": 22052,
+        "unavailable_province": 5
+      },
+      "xlsx_context_meta": {
+        "2021": {
+          "sheet": "accident2021",
+          "header_row": 1,
+          "rows": 20062,
+          "missing_headers": []
+        },
+        "2022": {
+          "sheet": "accident2022",
+          "header_row": 1,
+          "rows": 20566,
+          "missing_headers": []
+        },
+        "2023": {
+          "sheet": "accident2023",
+          "header_row": 1,
+          "rows": 23841,
+          "missing_headers": []
+        }
+      }
+    },
+    "flags": {
+      "rows_in": 21067,
+      "rows_all_provinces": 1953,
+      "dates_outside_panel": 21273,
+      "rows_without_candidate_date": 0,
+      "flagged_province_days": 23629,
+      "retained_province_unresolved": 0,
+      "policy": "v1_count_only",
+      "rows_without_candidate_by_year": {},
+      "v1_flagged": 41378,
+      "v2_flagged": 23629,
+      "removed": 17749,
+      "added": 0
+    },
+    "panels": {
+      "daily_rows": 140602,
+      "block_rows": 562408,
+      "events_placed": 106308,
+      "checks": {
+        "counts_nonnegative": true,
+        "daily_equals_sum_of_blocks": true,
+        "daily_total_equals_events": true,
+        "block_total_equals_events": true,
+        "blocks_per_day": true,
+        "flags_broadcast_to_blocks": true,
+        "eligible_is_not_flagged": true
+      },
+      "eligible_daily": 116973,
+      "eligible_block": 467892
+    },
+    "features": {
+      "daily_features": [
+        "province",
+        "day_of_week",
+        "month",
+        "day_of_month",
+        "is_weekend",
+        "doy_sin",
+        "doy_cos",
+        "fest_songkran_dist",
+        "fest_songkran_in",
+        "fest_songkran_pre_1_3",
+        "fest_songkran_pre_4_7",
+        "fest_songkran_post_1_3",
+        "fest_songkran_post_4_7",
+        "fest_new_year_dist",
+        "fest_new_year_in",
+        "fest_new_year_pre_1_3",
+        "fest_new_year_pre_4_7",
+        "fest_new_year_post_1_3",
+        "fest_new_year_post_4_7",
+        "bank_holiday_asof",
+        "bank_calendar_known_asof",
+        "season_hot",
+        "season_wet",
+        "season_cool",
+        "wx_rain_sum_mm_d2",
+        "wx_temp_mean_c_d2",
+        "trf_mean_aadt",
+        "trf_median_aadt",
+        "trf_mean_heavy_share_pct",
+        "trf_n_station_rows"
+      ],
+      "block_features": [
+        "province",
+        "day_of_week",
+        "month",
+        "day_of_month",
+        "is_weekend",
+        "doy_sin",
+        "doy_cos",
+        "time_block",
+        "fest_songkran_dist",
+        "fest_songkran_in",
+        "fest_songkran_pre_1_3",
+        "fest_songkran_pre_4_7",
+        "fest_songkran_post_1_3",
+        "fest_songkran_post_4_7",
+        "fest_new_year_dist",
+        "fest_new_year_in",
+        "fest_new_year_pre_1_3",
+        "fest_new_year_pre_4_7",
+        "fest_new_year_post_1_3",
+        "fest_new_year_post_4_7",
+        "bank_holiday_asof",
+        "bank_calendar_known_asof",
+        "season_hot",
+        "season_wet",
+        "season_cool",
+        "wx_rain_sum_mm_d2",
+        "wx_temp_mean_c_d2",
+        "wx_block_rain_sum_mm_d2",
+        "wx_block_temp_mean_c_d2",
+        "trf_mean_aadt",
+        "trf_median_aadt",
+        "trf_mean_heavy_share_pct",
+        "trf_n_station_rows"
+      ],
+      "weather_daily": {
+        "rows": 74460,
+        "rows_guard_ok": 74460,
+        "rows_rain_complete_and_guard_ok": 74335,
+        "rows_temp_complete_and_guard_ok": 74460,
+        "rows_guard_failed": 0,
+        "issue_minus_latest_bound_hours_min": 18.0,
+        "issue_minus_latest_bound_hours_median": 18.0,
+        "issue_minus_latest_bound_hours_max": 19.0
+      },
+      "weather_6h": {
+        "rows": 297840,
+        "rows_guard_ok": 297840,
+        "rows_rain_complete_and_guard_ok": 297690,
+        "rows_temp_complete_and_guard_ok": 297840,
+        "rows_guard_failed": 0,
+        "issue_minus_latest_bound_hours_min": 18.0,
+        "issue_minus_latest_bound_hours_median": 27.0,
+        "issue_minus_latest_bound_hours_max": 36.0
+      },
+      "traffic_vintages_used": {
+        "2021.0": 799,
+        "nan": 449,
+        "2022.0": 363,
+        "2024.0": 215
+      },
+      "history": "PENDING: conditional history sensitivity not implemented; historical publication availability is unverified and Codex must confirm a separate scenario after the primary experiment (30-day minimum delay assumption per v2-feature-policy)."
+    }
+  },
+  "gaps": [],
+  "data_outputs": [
+    {
+      "path": "row_lineage_v2.csv.gz",
+      "sha256": "9333f7bccb2b862f572ae7a75636c12d9f0ca33d9102cf8689702ed2e379aec4",
+      "bytes": 2524479
+    },
+    {
+      "path": "unknown_flags_v2.csv.gz",
+      "sha256": "58dac2e23ae792c0a4d5a5fd3404910fedbe0c2b604f16f2afe3f9d688a038e4",
+      "bytes": 86014
+    },
+    {
+      "path": "events_v2.csv.gz",
+      "sha256": "f80c217fd0065fa90683d15ea36789146c3fd0307a6c70d6b22b44906bd2b0d0",
+      "bytes": 1100288
+    },
+    {
+      "path": "panel_daily_v2.csv.gz",
+      "sha256": "125dd344d5aab4ff9a4e5338aaf49f804a2f569d7be472a9281f15dcbba0469e",
+      "bytes": 2076129
+    },
+    {
+      "path": "panel_6h_v2.csv.gz",
+      "sha256": "abb23519c42ae99ed3f75282d049a9606202dbe86ce21d53bc5d1c318cbc3d23",
+      "bytes": 6053957
+    },
+    {
+      "path": "features_daily_v2.csv.gz",
+      "sha256": "26d819a11dbad20e69949c6343a4f2bba4a17e554ea048fab0ca2aed1c1fabfc",
+      "bytes": 3702749
+    },
+    {
+      "path": "features_6h_v2.csv.gz",
+      "sha256": "009678fc1965f35f6ee263afe46c4438cfce8a3272b9f970a820877579942869",
+      "bytes": 8044937
+    },
+    {
+      "path": "feature_source_audit_by_date.csv.gz",
+      "sha256": "28056ad71ec51b47d32d30f27ac06a0b1fd260338ccc765d4dcab559744513c1",
+      "bytes": 5390
+    }
+  ],
+  "report_outputs": [
+    {
+      "path": "bank_calendar_coverage_by_year.csv",
+      "sha256": "dbc038e33a6f086722a8d10dea9d7b994172a57fb2c8b4f0e69d82f5f099fb69"
+    },
+    {
+      "path": "context_check_counts.csv",
+      "sha256": "3ea6209bfb627245e43ced48d72a48ac7e6811ef337ace0730ac354d3ee6008d"
+    },
+    {
+      "path": "data_preparation_v2_th.md",
+      "sha256": "27eb37af5075327f44a7aeb39512adb777eee2b0ea1f517ca05703884386fce6"
+    },
+    {
+      "path": "date_repair_by_day_of_month.png",
+      "sha256": "ab8d6384d6b3df8a66f92ff0c029f21cddb95af047e85dc60111d0541f676b99"
+    },
+    {
+      "path": "dependency_hashes.json",
+      "sha256": "496d739d62e02b7c946ff7f7694d62c3f44e6aaece1b964b0f1650bad1859a07"
+    },
+    {
+      "path": "descriptive_day_of_month_v1_v2.csv",
+      "sha256": "528f057e9a644b8f10e71c478ff607323776dbfef2ebdc5335bb388137d6da82"
+    },
+    {
+      "path": "descriptive_events_by_province_year.csv",
+      "sha256": "265857a9faa03b5143b85d424a271a4c30fd2a26139119838e76eb43017696ae"
+    },
+    {
+      "path": "descriptive_events_by_year_month.csv",
+      "sha256": "8a7efc9f261bbf5e9d4818d351da2a4436b47d42dd165540f87e27940d0b5fc4"
+    },
+    {
+      "path": "descriptive_events_by_year_time_block.csv",
+      "sha256": "e8362fcd1ae44268361aab7d18eed6c160ef8acfdabbb340f93d811ae775a0b1"
+    },
+    {
+      "path": "descriptive_events_by_year_weekday.csv",
+      "sha256": "d89bb3ab5d534e7b33873b9bd29b93e8ccf017055f1c3acba836285599c4d208"
+    },
+    {
+      "path": "descriptive_only_accident_type_by_year.csv",
+      "sha256": "2bc3c152d20e17c9f11986aee071cbfab8d2afacdc1f5e4b1a52f0dda0da73b6"
+    },
+    {
+      "path": "events_by_time_block.png",
+      "sha256": "9090d4562ea2f6141f93605cd7f56317d537daa29effe9535522739f28c8b43b"
+    },
+    {
+      "path": "feature_availability_matrix.csv",
+      "sha256": "b1a8d83211f30c318bc0346573ed14bc92df00d3366d7fd672bdf7309844f86f"
+    },
+    {
+      "path": "feature_coverage_by_year.csv",
+      "sha256": "dc0c55b8468ac782db2853c67f84d838777b995c0f09f1973125ab4c015ed236"
+    },
+    {
+      "path": "flag_comparison_v1_v2.csv",
+      "sha256": "70baa895c1db273337bb3f6ad758a8b5411c13e78b0b13630490d5a002ca191f"
+    },
+    {
+      "path": "leakage_audit.json",
+      "sha256": "fa31ed48e81b6891e824cc193ab3c7546f63b5f9e7e4312f6ade9bba2efb30a3"
+    },
+    {
+      "path": "panel_target_summary.csv",
+      "sha256": "d11fb02b33629f9452c95ed287951c77f1f0060e8f394ad4c03c32bb3eb9d095"
+    },
+    {
+      "path": "row_policy_counts.csv",
+      "sha256": "2005f60655e42177acd3e64c886e69b16933f98014a80567ff501ff5c855360b"
+    },
+    {
+      "path": "row_reconciliation_v2.csv",
+      "sha256": "5753209ca3a47136adb057606c10a6e759407b40e6e864027bad5d0a7f532416"
+    },
+    {
+      "path": "source_coverage_by_year.png",
+      "sha256": "352eec3bf3f0a1ad7d937d0a28606803b57ab0492b47012db2dfcff29f199ab6"
+    },
+    {
+      "path": "traffic_vintage_by_target_year.csv",
+      "sha256": "72d226f3eb79c4fc458c9a782fef29bfb9b1b6f40aa9a8b5d00ae0e0b3f88e3d"
+    },
+    {
+      "path": "unplaceable_rows_province_year.csv",
+      "sha256": "a2f6c53e415bad733eb2425b50a8d7e294fc3364c4a0c8977e7dde92c6f07fa4"
+    },
+    {
+      "path": "v1_v2_disposition_transitions.csv",
+      "sha256": "ad8880f36b67a5f5bf86a0c31a23f5ed9e729c8962c36c02212a6aaef545d061"
+    },
+    {
+      "path": "weather_lead_bounds.csv",
+      "sha256": "a529db446b27ce16edac89164e3b221b93f4ff49d2a0eab7736926866b8c2b39"
+    }
+  ],
+  "deterministic_outputs_note": "all data_outputs and report_outputs except PNG bytes (matplotlib-version dependent) are expected byte-identical on a rerun with identical inputs",
+  "next_stage_interface": {
+    "daily": {
+      "panel": "panel_daily_v2.csv.gz",
+      "features": "features_daily_v2.csv.gz",
+      "keys": [
+        "province_key",
+        "target_date"
+      ],
+      "target": "y_recorded_count",
+      "mask": "training_eligible",
+      "split": "split",
+      "feature_columns": [
+        "province",
+        "day_of_week",
+        "month",
+        "day_of_month",
+        "is_weekend",
+        "doy_sin",
+        "doy_cos",
+        "fest_songkran_dist",
+        "fest_songkran_in",
+        "fest_songkran_pre_1_3",
+        "fest_songkran_pre_4_7",
+        "fest_songkran_post_1_3",
+        "fest_songkran_post_4_7",
+        "fest_new_year_dist",
+        "fest_new_year_in",
+        "fest_new_year_pre_1_3",
+        "fest_new_year_pre_4_7",
+        "fest_new_year_post_1_3",
+        "fest_new_year_post_4_7",
+        "bank_holiday_asof",
+        "bank_calendar_known_asof",
+        "season_hot",
+        "season_wet",
+        "season_cool",
+        "wx_rain_sum_mm_d2",
+        "wx_temp_mean_c_d2",
+        "trf_mean_aadt",
+        "trf_median_aadt",
+        "trf_mean_heavy_share_pct",
+        "trf_n_station_rows"
+      ]
+    },
+    "6h": {
+      "panel": "panel_6h_v2.csv.gz",
+      "features": "features_6h_v2.csv.gz",
+      "keys": [
+        "province_key",
+        "target_date",
+        "time_block"
+      ],
+      "target": "y_recorded_count",
+      "mask": "training_eligible",
+      "split": "split",
+      "feature_columns": [
+        "province",
+        "day_of_week",
+        "month",
+        "day_of_month",
+        "is_weekend",
+        "doy_sin",
+        "doy_cos",
+        "time_block",
+        "fest_songkran_dist",
+        "fest_songkran_in",
+        "fest_songkran_pre_1_3",
+        "fest_songkran_pre_4_7",
+        "fest_songkran_post_1_3",
+        "fest_songkran_post_4_7",
+        "fest_new_year_dist",
+        "fest_new_year_in",
+        "fest_new_year_pre_1_3",
+        "fest_new_year_pre_4_7",
+        "fest_new_year_post_1_3",
+        "fest_new_year_post_4_7",
+        "bank_holiday_asof",
+        "bank_calendar_known_asof",
+        "season_hot",
+        "season_wet",
+        "season_cool",
+        "wx_rain_sum_mm_d2",
+        "wx_temp_mean_c_d2",
+        "wx_block_rain_sum_mm_d2",
+        "wx_block_temp_mean_c_d2",
+        "trf_mean_aadt",
+        "trf_median_aadt",
+        "trf_mean_heavy_share_pct",
+        "trf_n_station_rows"
+      ]
+    },
+    "feature_groups": {
+      "core": [
+        "province",
+        "day_of_week",
+        "month",
+        "day_of_month",
+        "is_weekend",
+        "doy_sin",
+        "doy_cos"
+      ],
+      "timeblock": [
+        "time_block"
+      ],
+      "festival": [
+        "fest_songkran_dist",
+        "fest_songkran_in",
+        "fest_songkran_pre_1_3",
+        "fest_songkran_pre_4_7",
+        "fest_songkran_post_1_3",
+        "fest_songkran_post_4_7",
+        "fest_new_year_dist",
+        "fest_new_year_in",
+        "fest_new_year_pre_1_3",
+        "fest_new_year_pre_4_7",
+        "fest_new_year_post_1_3",
+        "fest_new_year_post_4_7"
+      ],
+      "bank_calendar": [
+        "bank_holiday_asof",
+        "bank_calendar_known_asof"
+      ],
+      "season": [
+        "season_hot",
+        "season_wet",
+        "season_cool"
+      ],
+      "weather": [
+        "wx_rain_sum_mm_d2",
+        "wx_temp_mean_c_d2",
+        "wx_block_rain_sum_mm_d2",
+        "wx_block_temp_mean_c_d2"
+      ],
+      "traffic": [
+        "trf_mean_aadt",
+        "trf_median_aadt",
+        "trf_mean_heavy_share_pct",
+        "trf_n_station_rows"
+      ]
+    },
+    "categorical": [
+      "province",
+      "time_block"
+    ],
+    "never_model_inputs": [
+      "target_date",
+      "split",
+      "event_uid",
+      "acc_code",
+      "y_recorded_count",
+      "training_eligible",
+      "possibly_undercounted",
+      "flag_reasons",
+      "n_flagged_rows",
+      "unplaceable_rows_province_year",
+      "label_status"
+    ],
+    "history": "pending",
+    "splits": [
+      {
+        "name": "train",
+        "start": "2021-01-01",
+        "end": "2023-12-31",
+        "v1_name": "train",
+        "status": "provisional_research"
+      },
+      {
+        "name": "development_2024",
+        "start": "2024-01-01",
+        "end": "2024-12-31",
+        "v1_name": "validation",
+        "status": "development_diagnostic_previously_seen"
+      },
+      {
+        "name": "reused_seen_2025",
+        "start": "2025-01-01",
+        "end": "2025-12-31",
+        "v1_name": "reused_test_2025",
+        "status": "reused_previously_seen_not_independent"
+      }
+    ]
+  }
+}

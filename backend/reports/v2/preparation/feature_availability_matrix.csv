@@ -1,0 +1,35 @@
+group,name,unit,source,available_at,known_before_issue,panels,non_null_share,test_status,assumptions
+core,province,category (v1 77-province key),panel key,static,True,daily;6h,1.0,deterministic_rule_tested,categorical; encoded train-only in 11
+core,day_of_week,0=Mon..6=Sun,target date,deterministic,True,daily;6h,1.0,deterministic_rule_tested,local date
+core,month,1..12,target date,deterministic,True,daily;6h,1.0,deterministic_rule_tested,
+core,day_of_month,1..31,target date,deterministic,True,daily;6h,1.0,deterministic_rule_tested,
+core,is_weekend,0/1,target date,deterministic,True,daily;6h,1.0,deterministic_rule_tested,Sat/Sun
+core,doy_sin,sin(2*pi*(doy-1)/days_in_year),target date,deterministic,True,daily;6h,1.0,deterministic_rule_tested,leap years use 366
+core,doy_cos,cos(2*pi*(doy-1)/days_in_year),target date,deterministic,True,daily;6h,1.0,deterministic_rule_tested,leap years use 366
+timeblock,time_block,category 00-06/06-12/12-18/18-24 local,target block boundary,deterministic,True,6h,1.0,deterministic_rule_tested,block of the TARGET cell; event times are labels only
+festival,fest_songkran_dist,"days, signed, clipped +-14",recurring fixed rule Apr 13-15,deterministic,True,daily;6h,1.0,deterministic_rule_tested,fixed civil dates; observed-day shifts not modelled
+festival,fest_songkran_in,0/1,recurring fixed rule,deterministic,True,daily;6h,1.0,deterministic_rule_tested,
+festival,fest_songkran_pre_1_3,0/1,recurring fixed rule,deterministic,True,daily;6h,1.0,deterministic_rule_tested,
+festival,fest_songkran_pre_4_7,0/1,recurring fixed rule,deterministic,True,daily;6h,1.0,deterministic_rule_tested,
+festival,fest_songkran_post_1_3,0/1,recurring fixed rule,deterministic,True,daily;6h,1.0,deterministic_rule_tested,
+festival,fest_songkran_post_4_7,0/1,recurring fixed rule,deterministic,True,daily;6h,1.0,deterministic_rule_tested,
+festival,fest_new_year_dist,"days, signed, clipped +-14",recurring fixed rule Dec 31-Jan 1 (crosses year),deterministic,True,daily;6h,1.0,deterministic_rule_tested,fixed civil dates
+festival,fest_new_year_in,0/1,recurring fixed rule,deterministic,True,daily;6h,1.0,deterministic_rule_tested,
+festival,fest_new_year_pre_1_3,0/1,recurring fixed rule,deterministic,True,daily;6h,1.0,deterministic_rule_tested,
+festival,fest_new_year_pre_4_7,0/1,recurring fixed rule,deterministic,True,daily;6h,1.0,deterministic_rule_tested,
+festival,fest_new_year_post_1_3,0/1,recurring fixed rule,deterministic,True,daily;6h,1.0,deterministic_rule_tested,
+festival,fest_new_year_post_4_7,0/1,recurring fixed rule,deterministic,True,daily;6h,1.0,deterministic_rule_tested,
+bank_calendar,bank_holiday_asof,"0/1, NaN when coverage unknown at issue","reviewed BOT bank-holiday records (09 calendar_records.csv, applied only)",known_from + 1 day 00:00 local <= issue (add/remove replay),True,daily;6h,0.9961664841182913,asof_assertions_and_negative_controls_passed,"bank holiday != public holiday; known_from is a conservative proxy, historical latency unproven"
+bank_calendar,bank_calendar_known_asof,0/1,calendar_year_coverage at issue,issue time,True,daily;6h,1.0,asof_assertions_and_negative_controls_passed,source-availability flag known at issue; 1 never claims a complete calendar
+season,season_hot,0/1,target month,deterministic,True,daily;6h,1.0,deterministic_rule_tested,calendar proxy only
+season,season_wet,0/1,target month,deterministic,True,daily;6h,1.0,deterministic_rule_tested,calendar proxy only
+season,season_cool,0/1,target month,deterministic,True,daily;6h,1.0,deterministic_rule_tested,calendar proxy only
+weather,wx_rain_sum_mm_d2,mm per target day (sum of 24 preceding-hour values),Open-Meteo Previous Runs JMA GSM previous_day2,latest nominal issue bound + 6 h <= issue,True,daily;6h,0.5286909147807286,asof_assertions_and_negative_controls_passed,"representative point, nominal lead, delivery latency unverified"
+weather,wx_temp_mean_c_d2,deg C mean of 24 instant values,Open-Meteo Previous Runs JMA GSM previous_day2,latest nominal issue bound + 6 h <= issue,True,daily;6h,0.5295799490761156,asof_assertions_and_negative_controls_passed,representative point
+weather,wx_block_rain_sum_mm_d2,mm per target block (6 preceding-hour values),Open-Meteo Previous Runs JMA GSM previous_day2,latest nominal issue bound + 6 h <= issue,True,6h,0.5293132387874995,asof_assertions_and_negative_controls_passed,block of the target cell
+weather,wx_block_temp_mean_c_d2,deg C mean of 6 instant values,Open-Meteo Previous Runs JMA GSM previous_day2,latest nominal issue bound + 6 h <= issue,True,6h,0.5295799490761156,asof_assertions_and_negative_controls_passed,block of the target cell
+traffic,trf_mean_aadt,"vehicles/day, mean over DOH survey-point station rows",DOH AADT annual survey (09 summary),newest prior vintage with proxy available_from <= issue,True,daily;6h,0.7541073384446878,asof_assertions_and_negative_controls_passed,never a provincial total; catalog proxy
+traffic,trf_median_aadt,"vehicles/day, median over station rows",DOH AADT annual survey,as trf_mean_aadt,True,daily;6h,0.7541073384446878,asof_assertions_and_negative_controls_passed,
+traffic,trf_mean_heavy_share_pct,"% heavy vehicles, mean over valid station rows",DOH AADT annual survey,as trf_mean_aadt,True,daily;6h,0.7541073384446878,asof_assertions_and_negative_controls_passed,
+traffic,trf_n_station_rows,count of station rows (survey coverage),DOH AADT annual survey,as trf_mean_aadt,True,daily;6h,0.7541073384446878,asof_assertions_and_negative_controls_passed,"coverage of survey points, not traffic volume"
+history,(none),,v1/v2 labels,unverified,False,,0.0,pending_not_implemented,PENDING: conditional history sensitivity not implemented; historical publication availability is unverified and Codex must confirm a separate scenario after the primary experiment (30-day minimum delay assumption per v2-feature-policy).

@@ -1,0 +1,47 @@
+{
+  "schema": "roadaware-v2-experiment-lock/1",
+  "locked_at_utc": "2026-11-10T15:01:55.956664+00:00",
+  "protocol_sha256": "dff2fa4cbe2c0ea41647c21fe223a17e6c7118a40a096e53e7d9e0de7e2f52e7",
+  "model_config_sha256": "89272f99de3104bb1b3e63e26a9a772a88a69738209badfd036e2a5672892b11",
+  "preparation_manifest_sha256": "d385a9b3e3d4ded037ca34f4f8626ea1020a738d2aeac0bae3dd4cceb10f3138",
+  "preparation_data_outputs": [
+    {
+      "path": "row_lineage_v2.csv.gz",
+      "sha256": "9333f7bccb2b862f572ae7a75636c12d9f0ca33d9102cf8689702ed2e379aec4"
+    },
+    {
+      "path": "unknown_flags_v2.csv.gz",
+      "sha256": "58dac2e23ae792c0a4d5a5fd3404910fedbe0c2b604f16f2afe3f9d688a038e4"
+    },
+    {
+      "path": "events_v2.csv.gz",
+      "sha256": "f80c217fd0065fa90683d15ea36789146c3fd0307a6c70d6b22b44906bd2b0d0"
+    },
+    {
+      "path": "panel_daily_v2.csv.gz",
+      "sha256": "125dd344d5aab4ff9a4e5338aaf49f804a2f569d7be472a9281f15dcbba0469e"
+    },
+    {
+      "path": "panel_6h_v2.csv.gz",
+      "sha256": "abb23519c42ae99ed3f75282d049a9606202dbe86ce21d53bc5d1c318cbc3d23"
+    },
+    {
+      "path": "features_daily_v2.csv.gz",
+      "sha256": "26d819a11dbad20e69949c6343a4f2bba4a17e554ea048fab0ca2aed1c1fabfc"
+    },
+    {
+      "path": "features_6h_v2.csv.gz",
+      "sha256": "009678fc1965f35f6ee263afe46c4438cfce8a3272b9f970a820877579942869"
+    },
+    {
+      "path": "feature_source_audit_by_date.csv.gz",
+      "sha256": "28056ad71ec51b47d32d30f27ac06a0b1fd260338ccc765d4dcab559744513c1"
+    }
+  ],
+  "source_run_id": "2026-11-10T11:00:28+00:00",
+  "preparation_run_id": "2026-11-10T11:17:21+00:00",
+  "source_review_run_id": "20261110-175342-94403",
+  "preparation_review_run_id": "20261110-150447-82585",
+  "notebook11_source_code_sha256": "43bf8259dda3e8a45101defab1a4c0bd53fd59d4e7652b51bb3bd6ced70bdccb",
+  "note": "Locked before any V2 model fit; accepted research cohort, partial weather coverage, reused diagnostics, production_ready false."
+}

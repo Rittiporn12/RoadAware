@@ -213,3 +213,40 @@ externalrawrootandv1root. Explicit--source-root/ROADAWARE_V2_SOURCES_ROOT option
 isallowed/encouragedifneeded. Do notrequire09reportstobeundernewemptyoutputdir
 or silentlyfallbackfromanexplicitwrongroot. StagepreparemustNOTrerun09/network;
 allmay09->10. Recordactualinputroots/hashes andrejecttampering.
+# Manager clarification for task006 (2026-11-10 18:10, BEFORE any V2 fit)
+
+Status update 18:17: source004c independently ACCEPTED (historical run
+20261110-175342-94403). Actual09 bounded online completed972.28s,42/80chunks,
+204/385province-years retained,172complete,222negative rain hours masked,
+35newrequests/4407.4weightedcallestimate then configuredquota stop. Partial
+coverage explicit. Actual10 is now running; NOT accepted yet. Do not fit.
+One-off backend/notebooks/09_patch moved to ignored
+.ai-team/handoffs/004c-accepted-archive; actual09 contains all logic. Read actual
+notebook/source aid for code, not the old payload path. No09/10 modifications.
+
+Independent static finding 18:13 in authored 03_functions2.py:
+run_unit_oof builds `frame.loc[..., list(keys) + ['y', 'target_date']]`;
+target_date already belongs to both units' keys, so this creates duplicate
+target_date columns. Deduplicate selection columns (preserving order) and add a
+small end-to-end OOF fixture checking unique columns, unique keys and metric/
+calendar-block selection. Fix before handing off; this is pre-review feedback,
+not a request to change statistical settings. Also read the clarification below.
+
+Usability guard before long fits: write_selection_lock intentionally refuses
+existing lock files. Ensure section A rejects an already-completed output root
+BEFORE fitting, with an exact fresh --output-dir / --model-data-root command;
+or use immutable per-run subdirectories. A second VS Code Run All must not spend
+the entire OOF runtime only to fail when discovering an old selection lock.
+Preserve old locks/results; do not silently overwrite them.
+
+Read before final handoff. Current proposed model config uses SimpleImputer
+add_indicator=True. Please set add_indicator=False explicitly for both Poisson
+and RF preprocessing. The locked input allowlist forbids weather missing/quality
+flags and source-status predictors; API collection coverage is a retrospective
+sampling artifact, not established historical availability. Do not add extra
+missingness-indicator predictors outside the declared groups. Preserve numeric
+NaNs until train-only imputation; keep all-missing columns with zero fallback.
+HGB native missing handling remains as drafted (document source-coverage
+confounding and diagnose missingness shifts later; it does not establish that
+missingness was known prospectively). No change to model hyperparameters.
+The protocol draft receives this clarification before the manager lock or fits.
