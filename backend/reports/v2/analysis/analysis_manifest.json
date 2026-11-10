@@ -1,0 +1,514 @@
+{
+  "schema": "roadaware-v2-analysis-manifest/1",
+  "producer": "12_v2_evaluation_error_analysis",
+  "status": "completed",
+  "status_note": "research analysis; passing checks is not acceptance",
+  "production_ready": false,
+  "operational_status": "BLOCKED",
+  "started_utc": "2026-11-10T16:13:24+00:00",
+  "finished_utc": "2026-11-10T16:13:40+00:00",
+  "functions_cells_sha256": "beb425780e4dfd34793c7d15974544e6b0d0871af1adc75f6f752cda37af52e7",
+  "code_cells_sha256": {
+    "1:nb12-01": "50c88acaa3a02330807170b3ce7998d9a5752191dbbf7ff8e3292eb688f946d8",
+    "2:nb12-02": "d9136f72cf057823789b13beeb2a0521ea45baf22ab01a34004b66ca75c50316",
+    "3:nb12-03": "ca048a07de2b2b38576bc5a4b1dc1e29896901e7e080b35cc520e540a8794751",
+    "4:nb12-04": "8a3a5d69a1b71acd44ef2bed080c9155c88316102219411e48790857d9a516a7",
+    "6:nb12-06": "1313c4ad5d296dca1006871b99c4b8c00d62a19465e1c25ba754aac15ec23084",
+    "8:nb12-08": "026317e3932340ec81e5567fbece38e1e49361f045fc8972fe0428133f2575c1",
+    "10:nb12-10": "d13645f6763c5ac2aa4ebf29932fe45f07b7aab21cab524c604e5db9383a9d86",
+    "12:nb12-12": "98a0949e1dc6e436111c1c1c429dceb1585784efd1dea8bb3a5fa93120c3c2b7",
+    "14:nb12-14": "640f0f2e07e832fb7b50b5fe87d37dc2857dfdda30e40ea75543fd34e3e949b6",
+    "16:nb12-16": "21b22bb81af3a673c815d51d89bbb626955dbbfd0e3897f19b689012fcd03f9a",
+    "18:nb12-18": "f08d9d0fa3e8ba2a2dca540229abd26ae3271309345c9c91f368d7534813f60e",
+    "19:nb12-19": "d9b03547d4890f23d7ad4459a94ed27479f24608ec672855b86ba965344aa96e"
+  },
+  "versions": {
+    "python": "3.9.6",
+    "numpy": "2.0.2",
+    "pandas": "2.3.3",
+    "scipy": "1.13.1",
+    "matplotlib": "3.9.4"
+  },
+  "tolerance": {
+    "rtol": 1e-09,
+    "atol": 1e-09
+  },
+  "parameters": {
+    "min_cells": 200,
+    "min_events": 30,
+    "n_cal_bins": 10,
+    "top_residuals": 15,
+    "high_q": 0.99,
+    "high_count_threshold": {
+      "daily": 5.0,
+      "6h": 2.0
+    }
+  },
+  "inputs": [
+    {
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/config/feature_pipeline_v2.json",
+      "sha256": "dd217247db12c8c9c5d30d2770ce368b8f30a6984a9fb1c2f31e8ebe89ab60d7"
+    },
+    {
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/config/model_experiment_v2.json",
+      "sha256": "89272f99de3104bb1b3e63e26a9a772a88a69738209badfd036e2a5672892b11"
+    },
+    {
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/v2/features_6h_v2.csv.gz",
+      "sha256": "009678fc1965f35f6ee263afe46c4438cfce8a3272b9f970a820877579942869"
+    },
+    {
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/v2/features_daily_v2.csv.gz",
+      "sha256": "26d819a11dbad20e69949c6343a4f2bba4a17e554ea048fab0ca2aed1c1fabfc"
+    },
+    {
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/v2/models/diagnostic_predictions_6h.csv.gz",
+      "sha256": "28534d8e394300bc0fe4d93f53d29ead59a2fb1046a348f397617f404eca00eb"
+    },
+    {
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/v2/models/diagnostic_predictions_daily.csv.gz",
+      "sha256": "dc61b4d7351582be56611abfa2dd10a9a195021038d0f29d3a7fc52bf1eac4c3"
+    },
+    {
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/v2/models/oof_predictions_6h.csv.gz",
+      "sha256": "63f2945321d796a09b62b0e7a0298b217f8f8922af5a7bfc235bf1d1f48c8b2d"
+    },
+    {
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/v2/models/oof_predictions_daily.csv.gz",
+      "sha256": "db5cd14f5027091c7af923db307f4d6aa907c1a2736c52e5ef5f71e12a436714"
+    },
+    {
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/v2/panel_6h_v2.csv.gz",
+      "sha256": "abb23519c42ae99ed3f75282d049a9606202dbe86ce21d53bc5d1c318cbc3d23"
+    },
+    {
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/v2/panel_daily_v2.csv.gz",
+      "sha256": "125dd344d5aab4ff9a4e5338aaf49f804a2f569d7be472a9281f15dcbba0469e"
+    },
+    {
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/notebooks/11_v2_model_experiments.ipynb",
+      "sha256": "69ab187fd80688338670655b92d0f3d707db45d731a61923ec60ba8a475f7bad"
+    },
+    {
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/models/ablation_deltas.csv",
+      "sha256": "bd2252673f984e788359b1f9ba32476891082466bb62b0f8d06e78b16d963aff"
+    },
+    {
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/models/diagnostic_metrics.csv",
+      "sha256": "41df9bc7a29e9bff3deb0bb98ff601cefc85929559a03a140c048a5c99aa227f"
+    },
+    {
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/models/experiment_report_th.md",
+      "sha256": "d0863e986d522ea1a067439e2735d2fb61acdcd843a8545d6464f2d79e5c413a"
+    },
+    {
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/models/feature_missingness_by_split.csv",
+      "sha256": "29e06e78938ce7a378a796c0d91ea7c8e8d7c97d71377b2876ecddde3661bc3e"
+    },
+    {
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/models/final_fit_log.csv",
+      "sha256": "d86a241938908178bdf0e03125b6ab717f3b1f4109ae45354fae0b384f5e1ad0"
+    },
+    {
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/models/fit_log.csv",
+      "sha256": "ab22caabe4420ead26c88fcc1749fa7c6eaec4e17d7881073cb66d37cdd27645"
+    },
+    {
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/models/fold_boundaries.csv",
+      "sha256": "d7b78a4e02372c3f1da24b49ef46e3e2bebf841196bac5ce87aceaafddbedc62"
+    },
+    {
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/models/model_card_th.md",
+      "sha256": "1a4ebf131b9a38d2a9bbefee3fb00d54dfc5f4d42e8b9f846328091ef1fb9e15"
+    },
+    {
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/models/model_manifest.json",
+      "sha256": "1b11f1dc7bb53e7f13955c12c9f136423b231dcebbb9e1aa8da79cdf81ac150f"
+    },
+    {
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/models/oof_metrics_by_fold.csv",
+      "sha256": "4ba985e2d37e74b4920e7caf580df56b8600aa9ebec9a71b1cd4f8a694d9a699"
+    },
+    {
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/models/oof_metrics_pooled.csv",
+      "sha256": "1c09e6a2146fab5db3c1a2ff01adb5f7719f56942d9c479bd5f4c947b68b1f57"
+    },
+    {
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/models/reload_check.csv",
+      "sha256": "b7ea7f78dfc1aa7b82c931a1e9163dffca1cab60afed55ab5824abd6ed8e39a7"
+    },
+    {
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/models/selection_lock.json",
+      "sha256": "fef0a1c93efb60276c399e8a41badddbc576796e8ab5f72e7dfe677143973e28"
+    },
+    {
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/preparation/preparation_manifest.json",
+      "sha256": "d385a9b3e3d4ded037ca34f4f8626ea1020a738d2aeac0bae3dd4cceb10f3138"
+    },
+    {
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/run_manifest_model.json",
+      "sha256": "c9f5762ae50fbea2d0bf7b60f74b4b235c4243b3c3e2fc0e2d7484cc67f16968"
+    },
+    {
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/workflow/model-protocol-v2-draft.md",
+      "sha256": "dff2fa4cbe2c0ea41647c21fe223a17e6c7118a40a096e53e7d9e0de7e2f52e7"
+    },
+    {
+      "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/workflow/model-protocol-v2-lock.json",
+      "sha256": "fe0b46bba5ddd42aea35fed32fc7943e7eb0beef995706f997db8708ca4b451b"
+    }
+  ],
+  "notebook11": {
+    "model_manifest_sha256": "1b11f1dc7bb53e7f13955c12c9f136423b231dcebbb9e1aa8da79cdf81ac150f",
+    "functions_cells_sha256": "f163f65a752347bb7fe006d0fc33ea6c9eccc57af16ce9cc3d803fd11fc08114",
+    "selection_lock_sha256": "fef0a1c93efb60276c399e8a41badddbc576796e8ab5f72e7dfe677143973e28",
+    "runner_log": {
+      "canonical": {
+        "status": "ok",
+        "path": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/run_manifest_model.json",
+        "started_utc": "2026-11-10T15:38:32.835911+00:00",
+        "finished_utc": "2026-11-10T16:01:14.480137+00:00",
+        "cells_completed": 11,
+        "layout": "canonical"
+      }
+    },
+    "output_root": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend"
+  },
+  "experiment_lock_sha256": "fe0b46bba5ddd42aea35fed32fc7943e7eb0beef995706f997db8708ca4b451b",
+  "model_config_sha256": "89272f99de3104bb1b3e63e26a9a772a88a69738209badfd036e2a5672892b11",
+  "roots": {
+    "model_reports": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/models",
+    "model_data": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/v2/models",
+    "prep_data": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/v2",
+    "reports": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/analysis",
+    "analysis_data": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/v2/analysis"
+  },
+  "decision": {
+    "daily": {
+      "recommended_method": "hgb_poisson__full",
+      "recommendation_kind": "candidate_passed_gate",
+      "best_candidate": "hgb_poisson__full",
+      "strongest_baseline": "baseline_province_month_k30",
+      "family_best": {
+        "poisson": "poisson_a0.001__full",
+        "rf": "rf_poisson__full",
+        "hgb": "hgb_poisson__full"
+      },
+      "gate_passed": true,
+      "gate_bootstrap": {
+        "point": -0.08212464109612755,
+        "lower": -0.13628324496417807,
+        "upper": -0.042289384536834895,
+        "n_blocks": 104
+      },
+      "failed_methods": [],
+      "reasons": [
+        "hgb_poisson__full passed all four gate checks against baseline_province_month_k30; recommended per protocol (research reference only)"
+      ]
+    },
+    "6h": {
+      "recommended_method": "hgb_poisson__calendar_traffic",
+      "recommendation_kind": "candidate_passed_gate",
+      "best_candidate": "hgb_poisson__calendar_traffic",
+      "strongest_baseline": "baseline_province_block_mean",
+      "family_best": {
+        "poisson": "poisson_a0.001__full",
+        "rf": "rf_poisson__full",
+        "hgb": "hgb_poisson__calendar_traffic"
+      },
+      "gate_passed": true,
+      "gate_bootstrap": {
+        "point": -0.024229965091904147,
+        "lower": -0.04122280781652926,
+        "upper": -0.010806391986002147,
+        "n_blocks": 104
+      },
+      "failed_methods": [],
+      "reasons": [
+        "hgb_poisson__calendar_traffic passed all four gate checks against baseline_province_block_mean; recommended per protocol (research reference only)"
+      ]
+    }
+  },
+  "coverage_facts": {
+    "daily": {
+      "cells_by_split": {
+        "development_2024": {
+          "cells": 28182,
+          "eligible": 7885
+        },
+        "reused_seen_2025": {
+          "cells": 28105,
+          "eligible": 27582
+        },
+        "train": {
+          "cells": 84315,
+          "eligible": 81506
+        }
+      },
+      "province_years_with_any_weather": 204,
+      "province_years_total": 385,
+      "weather_province_years_by_year": {
+        "2021": 77,
+        "2022": 77,
+        "2023": 50,
+        "2024": 0,
+        "2025": 0
+      }
+    },
+    "6h": {
+      "cells_by_split": {
+        "development_2024": {
+          "cells": 112728,
+          "eligible": 31540
+        },
+        "reused_seen_2025": {
+          "cells": 112420,
+          "eligible": 110328
+        },
+        "train": {
+          "cells": 337260,
+          "eligible": 326024
+        }
+      },
+      "province_years_with_any_weather": 204,
+      "province_years_total": 385,
+      "weather_province_years_by_year": {
+        "2021": 77,
+        "2022": 77,
+        "2023": 50,
+        "2024": 0,
+        "2025": 0
+      }
+    }
+  },
+  "checks_run": [
+    {
+      "check": "experiment_lock",
+      "status": "passed",
+      "detail": "protocol/config/10-manifest/data-output hashes equal the manager lock"
+    },
+    {
+      "check": "notebook11_completed",
+      "status": "passed",
+      "detail": "manifest status completed; runner log ok (canonical: /Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/run_manifest_model.json)"
+    },
+    {
+      "check": "notebook11_report_hashes",
+      "status": "passed",
+      "detail": "12 report files equal model_manifest.report_outputs (only the runner-owned log run_manifest_model.json is never hashed: mutable)"
+    },
+    {
+      "check": "notebook11_prediction_hashes",
+      "status": "passed",
+      "detail": "4 prediction files equal model_data_outputs and next_stage_interface"
+    },
+    {
+      "check": "notebook11_code_hashes",
+      "status": "passed",
+      "detail": "FUNCTIONS f163f65a7523 and every code cell equal the manifest"
+    },
+    {
+      "check": "selection_lock",
+      "status": "passed",
+      "detail": "selection_lock.json sha fef0a1c93efb; 6 locked files unchanged; choices equal in lock/manifest/interface; recommendation follows the locked gate"
+    },
+    {
+      "check": "notebook11_inputs_unchanged",
+      "status": "passed",
+      "detail": "9 11 input roles hash-equal; 10 panels/features match the 10 manifest"
+    },
+    {
+      "check": "read_only_snapshot_before",
+      "status": "passed",
+      "detail": "28 read-only files hashed"
+    },
+    {
+      "check": "metric_reconciliation",
+      "status": "passed",
+      "detail": "2664 recomputed values equal 11 within rtol 1e-09 / atol 1e-09; labels equal the 10 panel"
+    },
+    {
+      "check": "selection_and_gate_recheck",
+      "status": "passed",
+      "detail": "locked family winners / best candidate / strongest baseline follow from recomputed OOF; gate outcome and bootstrap interval reproduced"
+    },
+    {
+      "check": "ablation_reconciliation",
+      "status": "passed",
+      "detail": "392 protocol ablation values equal 11; benefit/harm labels equal; 72 paired comparisons on identical keys (2 additional vs-core pairs per configuration)"
+    },
+    {
+      "check": "slice_totals",
+      "status": "passed",
+      "detail": "3176 slice rows; every dimension's level totals add up to its period total (n, actual, predicted)"
+    },
+    {
+      "check": "calibration_bins",
+      "status": "passed",
+      "detail": "240 bins from OOF-only unique quantile edges (ties collapse; empty bins kept with n = 0)"
+    },
+    {
+      "check": "figures_written",
+      "status": "passed",
+      "detail": "14 PNG files (visual inspection is a separate manual check, not done by the notebook)"
+    }
+  ],
+  "checks_not_run_by_notebook": [
+    "visual inspection of the PNG figures (manual)",
+    "independent acceptance review"
+  ],
+  "caveats": [
+    "no untouched test: 2024 development and 2025 reused diagnostics were seen before",
+    "bootstrap intervals are exploratory, after selection, not adjusted for multiple comparisons",
+    "slices and coverage subsets are descriptive; small/empty slices are labelled and not effect estimates",
+    "missingness / availability labels are diagnostics only, never model inputs or causal evidence",
+    "eligible-label mask is outcome-derived (offline only); 2024 labels are only partly known",
+    "no production, deployed-web, all-road or personal/route risk claim"
+  ],
+  "outputs": [
+    {
+      "path": "reports/v2/analysis/metric_reconciliation.csv",
+      "sha256": "1cd16ef854140307b280a320e99ffe98dece452d992fec635a013ce3f8387c79"
+    },
+    {
+      "path": "reports/v2/analysis/decision_summary.csv",
+      "sha256": "b730aa58c18889219db1debe3740f89324121d53a2abb0b780dc7a261845f3d2"
+    },
+    {
+      "path": "reports/v2/analysis/fold_comparison.csv",
+      "sha256": "6dfdc72452e6165a2a03222d548a305cc68e507901a8fe2f0996dff223d8f887"
+    },
+    {
+      "path": "reports/v2/analysis/gate_checks.csv",
+      "sha256": "5447e6856badf1a6cce4693d5081fa32c12b65ffd2e7fda0fe2f6b134f586643"
+    },
+    {
+      "path": "reports/v2/analysis/ablation_all_pairs.csv",
+      "sha256": "f5f81ca9969ca3c345c4b897f6eefaa8f8c8ac26d7d9886ceb20d8b20e324078"
+    },
+    {
+      "path": "reports/v2/analysis/ablation_coverage_sensitivity.csv",
+      "sha256": "dfdd469d35b09eb191d70bd001b2aa40c8aa4ceb4bbd758535488183744a8a84"
+    },
+    {
+      "path": "reports/v2/analysis/ablation_reconciliation.csv",
+      "sha256": "669fefe7eb7d060cabe6a5902005d64e11c5a596499fc145876742646b621bf5"
+    },
+    {
+      "path": "data/v2/analysis/analysis_rows_daily.csv.gz",
+      "sha256": "470ee78261a8baf465bcb05fdf3b0bb9f1011031ef5f71a151e9e220e262b5da"
+    },
+    {
+      "path": "data/v2/analysis/analysis_rows_6h.csv.gz",
+      "sha256": "129e89c1a83b15c12446d29a9f124bfa5f73c8b8bf93a1684b8b7c2f4ce7f27b"
+    },
+    {
+      "path": "reports/v2/analysis/slices_daily.csv",
+      "sha256": "3dec93aafefd6cf8d833dd59a431a671e37bfce493f9692be6ab2d5425552fd5"
+    },
+    {
+      "path": "reports/v2/analysis/calibration_bins_daily.csv",
+      "sha256": "52abbfe1477a774ac1c887bad33469e9c214e4cf63c80941fccd127383e27844"
+    },
+    {
+      "path": "reports/v2/analysis/largest_residuals_daily.csv",
+      "sha256": "e8539cc1fdef7310377a9097777a2d9ab76ad215bf02cce9f6f453671f05172d"
+    },
+    {
+      "path": "reports/v2/analysis/weekly_actual_vs_predicted_daily.csv",
+      "sha256": "71644d502bc3b886ceed67471e867e6e20daf56bed11ef0fa20057c98d05d30f"
+    },
+    {
+      "path": "reports/v2/analysis/coverage_by_month_daily.csv",
+      "sha256": "7566378555d8e04014f33779f3c3e66e7c868ba3af1488d80318b4c671b65dc3"
+    },
+    {
+      "path": "reports/v2/analysis/slices_6h.csv",
+      "sha256": "6a0e2f3afce734095124d704004c1fae113fa3256742d07e456bc5ccaa9dd791"
+    },
+    {
+      "path": "reports/v2/analysis/calibration_bins_6h.csv",
+      "sha256": "b38cd67adb529005a1e3566b79818bd7e0a46fc3265a0fad8c7e29c46dd313a3"
+    },
+    {
+      "path": "reports/v2/analysis/largest_residuals_6h.csv",
+      "sha256": "8a409cfaba85e408591e246cd5473ffb4395af80ea3cbdfc955cc56bbfad8635"
+    },
+    {
+      "path": "reports/v2/analysis/weekly_actual_vs_predicted_6h.csv",
+      "sha256": "820e4269d7eab2b4de8049d705ee3a38942e859838351544e7ed00696ed624c3"
+    },
+    {
+      "path": "reports/v2/analysis/coverage_by_month_6h.csv",
+      "sha256": "9f654642ecd03ab432a7ab2c19c97caea55476c013f929a277d384386b77335c"
+    },
+    {
+      "path": "reports/v2/analysis/drift_summary.csv",
+      "sha256": "62e941f2be8f7c69b44ca1a66afe8c2e33a599c29c54b4eeb777c3cf10b8732f"
+    },
+    {
+      "path": "reports/v2/analysis/fig_oof_methods_daily.png",
+      "sha256": "2e35d77c88521ff810a53c1fef38b222d0fca9dace3406153f5a145942ee756c"
+    },
+    {
+      "path": "reports/v2/analysis/fig_fold_deviance_daily.png",
+      "sha256": "da68b2dc63d4ecd3e6caf0a7fb18828bd0b8af7cbe4b0cfd5f71753e967197e0"
+    },
+    {
+      "path": "reports/v2/analysis/fig_ablation_daily.png",
+      "sha256": "f6ec42bdfa0c00b303c5694ef2f63552f2cedf58f2a30cdc9451c62062a218f8"
+    },
+    {
+      "path": "reports/v2/analysis/fig_calibration_daily.png",
+      "sha256": "81dc41a6ed4761fcc8a56036983b07e74a3598257752a6b4365024e08fe100d6"
+    },
+    {
+      "path": "reports/v2/analysis/fig_weekly_daily.png",
+      "sha256": "c2c71737381f158c8ffde4dd7f276d2133d1992a48c48197b593bdf571954cb6"
+    },
+    {
+      "path": "reports/v2/analysis/fig_bias_by_month_daily.png",
+      "sha256": "98fefe3b87ba638c85c35467ef1f6e84eea21afb39ef9548bfd111f8ad63e49f"
+    },
+    {
+      "path": "reports/v2/analysis/fig_coverage_daily.png",
+      "sha256": "d37783670907c76080bfc34054eaaeefba34b9a4e9f74a3efba3f4ac4a20c3c8"
+    },
+    {
+      "path": "reports/v2/analysis/fig_oof_methods_6h.png",
+      "sha256": "af31688b5e29b50f23ba84ae7ed70b53e69b03fa5c6b317666d1fe756727c2c2"
+    },
+    {
+      "path": "reports/v2/analysis/fig_fold_deviance_6h.png",
+      "sha256": "6705883dd182b5402e451d7ca75a796bf93f267e38f946c943ec08e729bb0e84"
+    },
+    {
+      "path": "reports/v2/analysis/fig_ablation_6h.png",
+      "sha256": "ccadd1d4f6e581d38c99551a6a26032d3a1b80e92f97ccca6912d4406e9f9a4d"
+    },
+    {
+      "path": "reports/v2/analysis/fig_calibration_6h.png",
+      "sha256": "e92d094056fab87587100d50f74b40ac606bd41f53b780c99981df4d5e5c3616"
+    },
+    {
+      "path": "reports/v2/analysis/fig_weekly_6h.png",
+      "sha256": "ae9966f0bf1adc62daa53f24068ba53747eae29c1d4d23f0e1a1da894da71fb8"
+    },
+    {
+      "path": "reports/v2/analysis/fig_bias_by_month_6h.png",
+      "sha256": "4c52e32178799d764119318d4c9a9809aa688b3ece43383e76bbdf5bd72ff9f1"
+    },
+    {
+      "path": "reports/v2/analysis/fig_coverage_6h.png",
+      "sha256": "55dffc86ece32b002784185763305475917786430f3a92d2e8cdcefe7f64daa0"
+    },
+    {
+      "path": "reports/v2/analysis/analysis_report_th.md",
+      "sha256": "9e729a954a7474da43d05cf149c659d837ee01d515778bbad665fa81da855bfa"
+    },
+    {
+      "path": "reports/v2/analysis/model_card_v2_analysis_th.md",
+      "sha256": "3a0273baea589cdaa358800dbfa29f1e414bf25c4356384a7037fc80a2f69399"
+    }
+  ]
+}

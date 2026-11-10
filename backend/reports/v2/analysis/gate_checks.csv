@@ -1,0 +1,9 @@
+unit,candidate,baseline,check,value,threshold,passed,locked_value
+daily,hgb_poisson__full,baseline_province_month_k30,relative_deviance_reduction,0.07163804815373495,0.01,True,0.07163804815373495
+daily,hgb_poisson__full,baseline_province_month_k30,mae_ratio,0.9574901771534761,1.02,True,0.9574901771534761
+daily,hgb_poisson__full,baseline_province_month_k30,fold_wins,4.0,3.0,True,4.0
+daily,hgb_poisson__full,baseline_province_month_k30,bootstrap_upper_ci_lt_0,-0.042289384536834895,0.0,True,-0.0422893845368349
+6h,hgb_poisson__calendar_traffic,baseline_province_block_mean,relative_deviance_reduction,0.039867957699961536,0.01,True,0.039867957699961536
+6h,hgb_poisson__calendar_traffic,baseline_province_block_mean,mae_ratio,0.9632541094642442,1.02,True,0.9632541094642442
+6h,hgb_poisson__calendar_traffic,baseline_province_block_mean,fold_wins,4.0,3.0,True,4.0
+6h,hgb_poisson__calendar_traffic,baseline_province_block_mean,bootstrap_upper_ci_lt_0,-0.010806391986002147,0.0,True,-0.010806391986002148

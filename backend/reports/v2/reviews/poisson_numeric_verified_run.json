@@ -1,0 +1,50 @@
+{
+  "check": "independent_saved_poisson_predictions_and_gradient",
+  "no_model_fits": true,
+  "model_manifest_sha256": "1b11f1dc7bb53e7f13955c12c9f136423b231dcebbb9e1aa8da79cdf81ac150f",
+  "results": [
+    {
+      "unit": "daily",
+      "method_id": "poisson_a0.001__full",
+      "bundle_sha256": "8dce95df43d0d9edd675ad35302aad10896fd7974b91bde4cb212ad6217e9fef",
+      "sample_size": 2000,
+      "max_abs_diff_einsum_vs_stored": 1.2434497875801753e-14,
+      "max_abs_diff_einsum_vs_pipeline": 1.0658141036401503e-14,
+      "training_rows": 81506,
+      "training_gradient_max_abs": 9.952799919269577e-07,
+      "training_intercept_gradient": -1.6288925593849485e-07,
+      "coef_max_abs": 1.6904967018525507,
+      "n_iter": 217,
+      "prediction_warnings": [
+        "divide by zero encountered in matmul",
+        "invalid value encountered in matmul",
+        "overflow encountered in matmul"
+      ],
+      "passed_prediction_comparison": true
+    },
+    {
+      "unit": "6h",
+      "method_id": "poisson_a0.001__full",
+      "bundle_sha256": "959aca14cfd2a204e050a2bc74fb7d6a382099de1da04c352b0b35ceb92562de",
+      "sample_size": 2000,
+      "max_abs_diff_einsum_vs_stored": 1.3322676295501878e-15,
+      "max_abs_diff_einsum_vs_pipeline": 1.1102230246251565e-15,
+      "training_rows": 326024,
+      "training_gradient_max_abs": 8.515660679241327e-07,
+      "training_intercept_gradient": 1.0823783136986394e-07,
+      "coef_max_abs": 1.371632553246677,
+      "n_iter": 137,
+      "prediction_warnings": [
+        "divide by zero encountered in matmul",
+        "invalid value encountered in matmul",
+        "overflow encountered in matmul"
+      ],
+      "passed_prediction_comparison": true
+    }
+  ],
+  "upstream_context": [
+    "https://github.com/numpy/numpy/issues/28687",
+    "https://github.com/numpy/numpy/issues/29820"
+  ],
+  "note": "Independent contraction avoids BLAS. Prediction agreement and gradients are empirical checks; upstream reports do not prove every warning harmless."
+}

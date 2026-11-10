@@ -1,0 +1,110 @@
+{
+  "started_utc": "2026-11-10T15:38:32.835911+00:00",
+  "stage": "model",
+  "notebook_order": [
+    "11_v2_model_experiments"
+  ],
+  "runner_sha256": "19c6ceb05e05dda23b8c6b2cf3a49e9bec1b72430808e15572170ad83875097e",
+  "runner_python": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/.venv/bin/python",
+  "kernel_argv": [
+    "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/.venv/bin/python",
+    "-m",
+    "ipykernel_launcher",
+    "-f",
+    "{connection_file}"
+  ],
+  "roots": {
+    "backend": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend",
+    "output": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend",
+    "external": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/external_v2",
+    "data": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend",
+    "preflight": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/external_v2/evidence",
+    "v2_data": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/v2",
+    "sources": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/sources",
+    "preparation": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/preparation",
+    "prep_data": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/v2",
+    "model_data": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/v2/models",
+    "model_reports": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/models",
+    "lock": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/workflow/model-protocol-v2-lock.json"
+  },
+  "offline": false,
+  "refresh": false,
+  "cell_timeout_seconds": 21600,
+  "v1_protected_files_hashed": 135,
+  "status": "ok",
+  "notebooks": [
+    {
+      "notebook": "11_v2_model_experiments",
+      "source": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/notebooks/11_v2_model_experiments.ipynb",
+      "status": "ok",
+      "error": null,
+      "cells_completed": 11,
+      "current_cell_index": 18,
+      "cell_log": [
+        {
+          "cell_index": 1,
+          "seconds": 0.0,
+          "status": "ok"
+        },
+        {
+          "cell_index": 2,
+          "seconds": 0.3,
+          "status": "ok"
+        },
+        {
+          "cell_index": 3,
+          "seconds": 0.0,
+          "status": "ok"
+        },
+        {
+          "cell_index": 5,
+          "seconds": 5.4,
+          "status": "ok"
+        },
+        {
+          "cell_index": 7,
+          "seconds": 2.5,
+          "status": "ok"
+        },
+        {
+          "cell_index": 9,
+          "seconds": 157.0,
+          "status": "ok"
+        },
+        {
+          "cell_index": 10,
+          "seconds": 1060.5,
+          "status": "ok"
+        },
+        {
+          "cell_index": 12,
+          "seconds": 0.8,
+          "status": "ok"
+        },
+        {
+          "cell_index": 14,
+          "seconds": 130.5,
+          "status": "ok"
+        },
+        {
+          "cell_index": 16,
+          "seconds": 0.0,
+          "status": "ok"
+        },
+        {
+          "cell_index": 17,
+          "seconds": 0.8,
+          "status": "ok"
+        }
+      ],
+      "source_sha256_before": "ff5a1c3b20b657cc5a184c7b56f984e5ed2c4803cf3c6abb8488f7ddd89dee4b",
+      "nbformat_valid": true,
+      "seconds": 1361.44,
+      "output": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/notebooks/11_v2_model_experiments.ipynb",
+      "output_sha256": "69ab187fd80688338670655b92d0f3d707db45d731a61923ec60ba8a475f7bad"
+    }
+  ],
+  "v1_protected_unchanged": true,
+  "v1_protected_changed_files": [],
+  "finished_utc": "2026-11-10T16:01:14.480137+00:00"
+}

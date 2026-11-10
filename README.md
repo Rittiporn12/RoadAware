@@ -1,54 +1,23 @@
-# Model stage — 06–08 ตรวจรับแล้ว (งานวิจัยย้อนหลัง)
+# RoadAware — ผล V2 ล่าสุด
 
-- **Notebook 06** (Baseline 4 แบบ + Poisson, Random Forest, HGB): Codex ตรวจรับอิสระแล้ว — ดู [หลักฐานตรวจ 06](workflow/model-training-verification-th.md)
-- **Notebook 07** (Evaluation Metrics / Experiment Results): Codex ตรวจรับแล้ว (metric ตรงกับ oracle อิสระ 22 คู่ภายใน 1e-12)
-  — ดู [หลักฐานตรวจ 07](workflow/model-evaluation-verification-th.md)
-  และผลจริงใน [`backend/reports/models/diagnostics/`](backend/reports/models/diagnostics/)
-  ([ตารางหลัก](backend/reports/models/diagnostics/diagnostic_main_results.csv), [coverage 60 เดือน](backend/reports/models/diagnostics/coverage_by_split_month.csv),
-  [อันดับปีหลัง](backend/reports/models/diagnostics/later_year_rank_comparison.csv), [manifest](backend/reports/models/diagnostics/diagnostic_manifest.json))
-- **Notebook 08** (Error analysis / เหตุผลการเลือกโมเดล): วิเคราะห์จาก prediction ที่ตรวจ hash แล้ว (ไม่โหลด bundle, ไม่เลือกใหม่) และสร้าง
-  [model card](backend/reports/models/model_card_th.md), [สรุปการตัดสินใจ](backend/reports/models/model_decision_summary.json) และ
-  [`error_analysis/`](backend/reports/models/error_analysis/) ตรวจรับแล้ว: 143 tests ผ่าน และรัน 06–08 ซ้ำในโฟลเดอร์แยกผ่าน
-  ข้อเสนอคือ **ระงับการนำไปใช้** จนกว่าจะแก้ blocker ของข้อมูล; recommended reference ตาม protocol OOF ไม่ใช่การอนุมัติใช้งาน
+ทดลองจริง 3 ตระกูล: Poisson Regression, Random Forest (Poisson), HistGradientBoosting (Poisson) พร้อม baseline 6 แบบต่อหน่วย และ feature 5 ชุด เลือกจาก expanding time backtest 4 fold ในปี2022–2023 ตาม protocol ที่ล็อกก่อน fit
 
-หลักฐานตรวจรับรอบสุดท้าย: [รายงานตรวจโมเดลครบชุด](workflow/model-final-verification-th.md) และ [ผลตรวจอิสระ](backend/reports/models/independent_final_review.json)
+| หน่วย | Poisson deviance | Random Forest | HGB ที่เลือก | strongest baseline | ลด deviance |
+|---|---:|---:|---:|---:|---:|
+|จังหวัด×วัน|1.089593|1.127834|**1.064258**|1.146383|**7.16%**|
+|จังหวัด×6ชั่วโมง|0.596262|0.601836|**0.583525**|0.607755|**3.99%**|
 
-**คำเตือน:** การเลือกจาก OOF (ปี 2022–2023) ล็อกให้ Poisson เป็นตัวเลือก และ **ไม่เปลี่ยนย้อนหลัง** จากคะแนนปีหลัง
-แต่ใน 07 Baseline ค่าเฉลี่ยรายจังหวัดมี Poisson deviance ต่ำกว่าตัวดีที่สุดของทั้งสามตระกูลทั้งปี 2024 (1.1535 เทียบ Poisson 2.1700)
-และปี 2025 (1.2453 เทียบ 2.2546) ซึ่งสอดคล้องกับ regime shift จาก cleaning/รูปแบบวันที่ คะแนนอธิบายเฉพาะ province-day ที่ผ่าน
-quality filter (มี selection bias) ปี 2024 ไม่มีเซลล์ eligible ในเดือน ต.ค.–ธ.ค. ปี 2025 เคยถูกดูแล้วจึงไม่ใช่ test อิสระ
-และไม่ใช้ labels ปี 2026 ดังนั้น `production_enabled = false` และความพร้อมของโมเดลจริงยัง BLOCKED
-หลักฐาน Data Foundation ด้านล่างยังคงสถานะเดิม
+ค่าต่ำดีกว่า แสดงตัวดีที่สุดของแต่ละตระกูลในแต่ละหน่วย ไม่เทียบerrorข้ามหน่วย HGBชนะbaselineครบ4/4foldทั้งสองหน่วยและผ่านgateที่ล็อกไว้ รายวันเลือก `hgb_poisson__full` ราย6ชั่วโมงเลือก `hgb_poisson__calendar_traffic`
 
-**V2 (ระหว่างดำเนินการ ยังไม่ตรวจรับ):** Notebook 09 เก็บแหล่งข้อมูลภายนอกจริง (จราจร AADT, อากาศพยากรณ์ย้อนหลัง, ปฏิทินวันหยุดธนาคาร, จุดจังหวัด)
-และหลักฐานวันที่รายปี ดู [`backend/README.md`](backend/README.md) — ยังไม่มีโมเดล V2 และไม่มีข้ออ้างว่าดีกว่า baseline; V1 ไม่ถูกแก้ไข
+[รายงานวิเคราะห์จริง](backend/reports/v2/analysis/analysis_report_th.md) · [Model card](backend/reports/v2/analysis/model_card_v2_analysis_th.md) · [หลักฐานตรวจอิสระ](workflow/v2-final-verification-th.md) · [คู่มือรัน V2 ใน VS Code](workflow/v2-vscode-run-guide-th.md)
 
-# RoadAware
+**Research only; production_ready=false.** ยังไม่มี untouched test: ปี2024เป็นdevelopmentและปี2025เคยเห็นแล้ว อากาศมีบางส่วน (204/385 province-years; ปี2024/2025ไม่มี) AADTเป็นปริมาณรถเฉลี่ยจากจุดสำรวจรายปี ไม่ใช่รถติดสด ผลนี้ยังระบุความเสี่ยงส่วนบุคคล/จุดถนน/เส้นทางไม่ได้
 
-## โครงสร้าง
+MLอยู่ใน `backend/notebooks/01–12` รันด้วยkernelในเครื่องผ่าน **VS Code Integrated Terminal** ตามคู่มือ ไม่ต้องเปิดเว็บJupyter `frontend/`ยังเป็นโครงสร้างสำรอง ไม่มีหน้าจอ/API/Dashboard ผลเดิมห้ามทับ ใช้output rootใหม่ในการรันซ้ำ ข้อมูลรายแถว/raw/bundleไม่อยู่ในGit หลังcloneต้องกู้snapshotและตรวจhash/lock
 
-```
-backend/    งานข้อมูล/ML: notebook 01–08, config, runner, tests  → ดู backend/README.md
-frontend/   สงวนไว้สำหรับเว็บไซต์ในอนาคต (ยังไม่มีหน้าจอ)        → ดู frontend/README.md
-workflow/   brief, ทิศทางผลิตภัณฑ์ และงานที่ส่งให้ AI team
-tools/      ตัวเชื่อม AI team
-.venv/      (ไม่อยู่ใน git) Python environment ของโปรเจกต์ ใช้ร่วมกับ backend
-```
+## ประวัติ V1 และเอกสารเดิม
 
-สถานะปัจจุบัน: รากฐานข้อมูล (นำเข้า, EDA, ทำความสะอาด, แบ่งข้อมูล, ตรวจ leakage) เสร็จแล้ว มีโมเดลวิจัยย้อนหลังและ error analysis ใน 06–08 (ดูด้านบน) **ยังไม่มีเว็บไซต์และไม่มีโมเดลที่พร้อมใช้งานจริง** ชุด test ปี 2025 เคยถูกดูมาแล้ว (ไม่ใช่ test อิสระ) และความพร้อมของโมเดลจริงยังเป็น BLOCKED
-
-เริ่มต้นเร็ว (ที่ root ของ repository):
-
-```bash
-python3 -m venv .venv && .venv/bin/pip install -r backend/requirements-data.txt
-.venv/bin/python backend/scripts/run_data_notebooks.py   # รัน notebook 01–05 แบบ headless (ไม่เปิดเบราว์เซอร์)
-.venv/bin/python backend/scripts/run_model_notebooks.py --stage train      # 06 เท่านั้น (fit + lock)
-.venv/bin/python backend/scripts/run_model_notebooks.py --stage analysis   # 07 → 08 บนผลของ 06 (ไม่ refit)
-.venv/bin/python backend/scripts/run_model_notebooks.py                    # --stage all (ค่าเริ่มต้น): 06 → 07 → 08
-.venv/bin/python -m pytest backend/tests -q
-```
-
-ใน VS Code: เปิด `backend/notebooks/*.ipynb` เลือก kernel `.venv` แล้ว *Run All* ตามลำดับ 01 → 08 (ข้อมูล 01–05 แล้วโมเดล 06–08)
+ข้อความด้านล่างเป็นสถานะของ V1 ก่อนเริ่ม V2 ให้ใช้ผล V2 ด้านบนเป็นสถานะปัจจุบัน V1เก็บไว้ไม่แก้ย้อนหลังและcohortต่างกัน จึงไม่อ้างเปอร์เซ็นต์ดีขึ้นเทียบV1
 
 ## AI team
 

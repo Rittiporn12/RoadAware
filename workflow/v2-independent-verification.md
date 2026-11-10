@@ -99,3 +99,6 @@ matrix-vector ปกติมีคำเตือน divide/overflow/invalid �
 8.52e-7 ตามลำดับ ต่ำกว่า tol1e-6 ที่ล็อกไว้ และ coefficient finite ทุกค่า
 ผลละเอียด `backend/reports/v2/reviews/poisson_numeric_attempt1.json`;
 ยังต้องยืนยันผลรอบใหม่และวิเคราะห์ error ด้วย Notebook12 ก่อนสรุปโมเดล
+# Final V2 status update — 2026-11-10 23:15 +07
+
+Notebook11 clean run completed successfully in VS Code (1361.44 seconds), followed by notebook12 and an isolated analysis replay. HGB passed the frozen baseline gate for both daily and 6h. The original failed model attempt and initial analysis layout review remain archived. The current authoritative acceptance evidence is [V2 final verification](v2-final-verification-th.md); earlier pending-status notes below describe historical checkpoints.

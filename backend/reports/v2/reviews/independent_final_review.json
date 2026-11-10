@@ -1,0 +1,299 @@
+{
+  "checks": [],
+  "model_input_hashes": 9,
+  "model_prediction_hashes": 4,
+  "model_bundle_hashes": 18,
+  "model_report_hashes": 12,
+  "analysis_output_hashes": 36,
+  "oof_metric_oracle": [
+    {
+      "unit": "daily",
+      "method_id": "baseline_zero",
+      "metrics": 6
+    },
+    {
+      "unit": "daily",
+      "method_id": "baseline_global_mean",
+      "metrics": 7
+    },
+    {
+      "unit": "daily",
+      "method_id": "baseline_province_mean",
+      "metrics": 7
+    },
+    {
+      "unit": "daily",
+      "method_id": "baseline_province_weekday_k10",
+      "metrics": 7
+    },
+    {
+      "unit": "daily",
+      "method_id": "baseline_province_month_k30",
+      "metrics": 7
+    },
+    {
+      "unit": "daily",
+      "method_id": "baseline_recent90_province_mean",
+      "metrics": 7
+    },
+    {
+      "unit": "daily",
+      "method_id": "poisson_a0.001__core",
+      "metrics": 7
+    },
+    {
+      "unit": "daily",
+      "method_id": "poisson_a0.01__core",
+      "metrics": 7
+    },
+    {
+      "unit": "daily",
+      "method_id": "rf_poisson__core",
+      "metrics": 7
+    },
+    {
+      "unit": "daily",
+      "method_id": "hgb_poisson__core",
+      "metrics": 7
+    },
+    {
+      "unit": "daily",
+      "method_id": "poisson_a0.001__calendar",
+      "metrics": 7
+    },
+    {
+      "unit": "daily",
+      "method_id": "poisson_a0.01__calendar",
+      "metrics": 7
+    },
+    {
+      "unit": "daily",
+      "method_id": "rf_poisson__calendar",
+      "metrics": 7
+    },
+    {
+      "unit": "daily",
+      "method_id": "hgb_poisson__calendar",
+      "metrics": 7
+    },
+    {
+      "unit": "daily",
+      "method_id": "poisson_a0.001__calendar_weather",
+      "metrics": 7
+    },
+    {
+      "unit": "daily",
+      "method_id": "poisson_a0.01__calendar_weather",
+      "metrics": 7
+    },
+    {
+      "unit": "daily",
+      "method_id": "rf_poisson__calendar_weather",
+      "metrics": 7
+    },
+    {
+      "unit": "daily",
+      "method_id": "hgb_poisson__calendar_weather",
+      "metrics": 7
+    },
+    {
+      "unit": "daily",
+      "method_id": "poisson_a0.001__calendar_traffic",
+      "metrics": 7
+    },
+    {
+      "unit": "daily",
+      "method_id": "poisson_a0.01__calendar_traffic",
+      "metrics": 7
+    },
+    {
+      "unit": "daily",
+      "method_id": "rf_poisson__calendar_traffic",
+      "metrics": 7
+    },
+    {
+      "unit": "daily",
+      "method_id": "hgb_poisson__calendar_traffic",
+      "metrics": 7
+    },
+    {
+      "unit": "daily",
+      "method_id": "poisson_a0.001__full",
+      "metrics": 7
+    },
+    {
+      "unit": "daily",
+      "method_id": "poisson_a0.01__full",
+      "metrics": 7
+    },
+    {
+      "unit": "daily",
+      "method_id": "rf_poisson__full",
+      "metrics": 7
+    },
+    {
+      "unit": "daily",
+      "method_id": "hgb_poisson__full",
+      "metrics": 7
+    },
+    {
+      "unit": "6h",
+      "method_id": "baseline_zero",
+      "metrics": 6
+    },
+    {
+      "unit": "6h",
+      "method_id": "baseline_global_mean",
+      "metrics": 7
+    },
+    {
+      "unit": "6h",
+      "method_id": "baseline_province_block_mean",
+      "metrics": 7
+    },
+    {
+      "unit": "6h",
+      "method_id": "baseline_province_block_weekday_k10",
+      "metrics": 7
+    },
+    {
+      "unit": "6h",
+      "method_id": "baseline_province_block_month_k30",
+      "metrics": 7
+    },
+    {
+      "unit": "6h",
+      "method_id": "baseline_recent90_province_block_mean",
+      "metrics": 7
+    },
+    {
+      "unit": "6h",
+      "method_id": "poisson_a0.001__core",
+      "metrics": 7
+    },
+    {
+      "unit": "6h",
+      "method_id": "poisson_a0.01__core",
+      "metrics": 7
+    },
+    {
+      "unit": "6h",
+      "method_id": "rf_poisson__core",
+      "metrics": 7
+    },
+    {
+      "unit": "6h",
+      "method_id": "hgb_poisson__core",
+      "metrics": 7
+    },
+    {
+      "unit": "6h",
+      "method_id": "poisson_a0.001__calendar",
+      "metrics": 7
+    },
+    {
+      "unit": "6h",
+      "method_id": "poisson_a0.01__calendar",
+      "metrics": 7
+    },
+    {
+      "unit": "6h",
+      "method_id": "rf_poisson__calendar",
+      "metrics": 7
+    },
+    {
+      "unit": "6h",
+      "method_id": "hgb_poisson__calendar",
+      "metrics": 7
+    },
+    {
+      "unit": "6h",
+      "method_id": "poisson_a0.001__calendar_weather",
+      "metrics": 7
+    },
+    {
+      "unit": "6h",
+      "method_id": "poisson_a0.01__calendar_weather",
+      "metrics": 7
+    },
+    {
+      "unit": "6h",
+      "method_id": "rf_poisson__calendar_weather",
+      "metrics": 7
+    },
+    {
+      "unit": "6h",
+      "method_id": "hgb_poisson__calendar_weather",
+      "metrics": 7
+    },
+    {
+      "unit": "6h",
+      "method_id": "poisson_a0.001__calendar_traffic",
+      "metrics": 7
+    },
+    {
+      "unit": "6h",
+      "method_id": "poisson_a0.01__calendar_traffic",
+      "metrics": 7
+    },
+    {
+      "unit": "6h",
+      "method_id": "rf_poisson__calendar_traffic",
+      "metrics": 7
+    },
+    {
+      "unit": "6h",
+      "method_id": "hgb_poisson__calendar_traffic",
+      "metrics": 7
+    },
+    {
+      "unit": "6h",
+      "method_id": "poisson_a0.001__full",
+      "metrics": 7
+    },
+    {
+      "unit": "6h",
+      "method_id": "poisson_a0.01__full",
+      "metrics": 7
+    },
+    {
+      "unit": "6h",
+      "method_id": "rf_poisson__full",
+      "metrics": 7
+    },
+    {
+      "unit": "6h",
+      "method_id": "hgb_poisson__full",
+      "metrics": 7
+    }
+  ],
+  "replay_csv_files_identical": 18,
+  "model_runner": {
+    "status": "ok",
+    "started_utc": "2026-11-10T15:38:32.835911+00:00",
+    "finished_utc": "2026-11-10T16:01:14.480137+00:00",
+    "v1_protected_unchanged": true
+  },
+  "analysis_runner": {
+    "status": "ok",
+    "started_utc": "2026-11-10T16:13:22.726123+00:00",
+    "finished_utc": "2026-11-10T16:13:40.856308+00:00",
+    "v1_protected_unchanged": true
+  },
+  "status": "passed",
+  "visual_review": {
+    "figures_inspected": 14,
+    "layout_correction": "007a, only nb12-16 changed; two corrected OOF figures inspected at full size",
+    "result": "passed"
+  },
+  "related_checks": {
+    "full_suite_before_layout": "237 passed in 16.41 seconds",
+    "analysis_tests_after_layout": "20 passed in 0.51 seconds",
+    "independent_slice_oracle": "independent_error_analysis_review.json",
+    "numeric_oracle": "poisson_numeric_verified_run.json"
+  },
+  "verified_notebooks": {
+    "11_v2_model_experiments.ipynb": "69ab187fd80688338670655b92d0f3d707db45d731a61923ec60ba8a475f7bad",
+    "12_v2_evaluation_error_analysis.ipynb": "03623bd4ecf73808549bb579ea70ce6cb3b2f68a9bf74b65215f69de72c2892e"
+  }
+}

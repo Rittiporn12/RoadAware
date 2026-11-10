@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "oracle": "Independent pandas grouping, numpy digitize and scikit-learn; no notebook FUNCTIONS imported",
+  "checks": {
+    "daily": {
+      "prediction_rows_matched": 89077,
+      "slice_rows_verified": 1564,
+      "calibration_bins_verified": 120,
+      "weekly_rows_verified": 192
+    },
+    "6h": {
+      "prediction_rows_matched": 356308,
+      "slice_rows_verified": 1612,
+      "calibration_bins_verified": 120,
+      "weekly_rows_verified": 192
+    }
+  }
+}

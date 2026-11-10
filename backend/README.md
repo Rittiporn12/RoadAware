@@ -1,4 +1,14 @@
-# RoadAware backend — data foundation + model research (ML research only)
+# RoadAware backend — V2 research
+
+สถานะปัจจุบัน: Notebook09เก็บแหล่งข้อมูล/หลักฐานวันที่,10ทำpreparation/features/leakage,11ทดลอง3familiesและbaselines,12ทำevaluation/error analysis ผลอยู่ใน `reports/v2/` ข้อมูลรายแถวและbundleใน `data/`ไม่ขึ้นGit
+
+HGBรายวันfullและราย6ชั่วโมงcalendar_trafficผ่านbaseline gate ดู [ผลล่าสุด](../README.md), [หลักฐานตรวจ V2](../workflow/v2-final-verification-th.md), [คู่มือรันใน VS Code](../workflow/v2-vscode-run-guide-th.md)
+
+Business logicอยู่ใน `.ipynb` scriptsเป็นrunner ใช้VS Code Integrated Terminalให้มีrunner logครบสำหรับตรวจขั้นถัดไป ไม่ทับผลเดิม ใช้ `--output-dir backend/rerun-...` และinput rootsตามคู่มือ ยังไม่มีAPI/เว็บและproduction_ready=false
+
+## เอกสาร V1 ที่เก็บเป็นประวัติ
+
+ข้อความด้านล่างอธิบาย01–08และผลV1ก่อนเริ่มV2 สถานะล่าสุดให้ใช้ลิงก์ด้านบน
 
 โฟลเดอร์นี้เก็บงานข้อมูล/ML ของ RoadAware: notebook ข้อมูล 01–05, notebook โมเดล 06–08, config, runner และ tests **ยังไม่มี API/เว็บ และไม่มีโมเดลที่พร้อมใช้งานจริง** (`production_enabled = false`)
 
