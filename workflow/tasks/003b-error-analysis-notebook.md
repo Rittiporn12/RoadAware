@@ -1,0 +1,22 @@
+# Goal
+Finish the Model phase with notebook08 error analysis/model selection rationale, following FULL workflow/tasks/003-model-evaluation-analysis.md. This is the second bounded half, after Codex accepts07. User requires3 actual algorithms plus separate baselines, honest evaluation/error analysis and executable evidence, not a production deployment.
+
+# Context to read
+Read full003 contract, protocol, model-preliminary-findings-th.md, model-training-verification-th.md, model-evaluation-verification-th.md if present, live model-review-feedback.md, actual config and06/07 artifact manifests. Codex supplies source-only06/07 reading aids under .ai-team/references/notebook0{6,7}-source-current.txt; actual notebooks are authoritative for hashing. Never rewrite06/07 or train/tune anything. Real saved diagnostic andOOF predictions are available after accepted07.
+
+# Allowed scope
+Add backend/notebooks/08_error_analysis_model_selection.ipynb. Extend backend/tests/test_model_notebooks.py, backend/scripts/run_model_notebooks.py, backend/notebooks/README.md, backend/README.md, root README only. Business logic in08, aggregate outputs generated from actual data by notebook. No06/07/config/protocol or frozen artifacts changes. No shell/git/new deps/subagents/API/UI/deploy. Small ignored-source references are reading aids only.
+
+# Acceptance criteria
+All relevant003 requirements, specifically6-10,12-14. Independently usable fresh kernel: verify06 semantic/functions/config/data/model/selection and07 semantic/functions/artifact/input hashes before loading saved predictions; no silent trust of editable aggregate tables. ValidateOOF and later-year keys/labels/eligibility and prediction support. Selection lock must stay byte-identical throughout08. Use06/07 helpers via documented verified extraction. Runner historical sourcehashes are provenance: extending runner for08 must not break legitimate analysis rerun.
+
+Analyze frozen selected candidate and strongest baseline: month/province/weekday/outcome bins0,1,2-3,>=4 with n/totals/MAE/RMSE/bias; largest supported over/underprediction groups; observed-predicted daily/group plots; residual distributions. Calibration-style bins defined only fromOOF prediction values, robust to constant/duplicate edges; same edges for laterdiagnostics, no fittingcalibrator or probability claim. Coverage/null groups honest, no2026labels. Required cleaning-regime/day-of-month diagnostics as003 clause14, computed not copied.
+
+Notebook-generated Thai model_card_th.md + model_decision_summary.json: name all3 familybest configurations, OOF-based selected Poisson vsbaseline gate/bootstrap/fold evidence and MAE/RMSE tradeoffs, actual later-year reversal and data shift prominently. Recommended reference in lockedOOF protocol remains frozen; operational recommendation must clearly withhold deployment and propose resolving data blockers before prospectiveforecast. Do not equate locked reference with deployment approval. No invented weather/festival/traffic explanations. Include exact params, features, scope/time horizon, source/training/data support, metrics/results/runtime, known limitations, production_enabledfalse/readinessBLOCKED, next data work and deferred route/UI/dashboard.
+
+Optional grouped permutation sensitivity (003 clause8) may be omitted with explicit reason; prioritize required complete analysis. Reports under reports/models/error_analysis/ plus modelcard/summary root; full rows data/model ignored. Status/input/source/output/versions manifest, finiteJSON and readable plots/summaries in executed08. Not unbounded notebookoutput.
+
+Runner defaultall06->07->08, stage train06, stage analysis07->08; fresh kernel each. Tests: hand slice metrics/outcome bins, constant/duplicate calibrationedges, reuseOOF edges, missing-supportnull, selectedfamilyIDs frozen, tamper/lockmutation refusal. Do not mirror implementation or assert unrun output. Read feedback before final/docs.
+
+# Verification requested
+Codex inspectsdiff, runsalltests, executesanalysisstage from frozenmodels, checksmetrics/shift/group outputs independently and immutability; runscomplete06-08 in separate outputroot and compares numericpredictions/metrics within1e-12 plus strictkeys/choices/datahashes (ignorepaths/timing/picklebytes). Report exact commands, not-run tests, output contracts andremainingissues. Final GitHub checkpoint byCodex. End when08/code/tests/docs ready; never claimwholeproductproductionready.

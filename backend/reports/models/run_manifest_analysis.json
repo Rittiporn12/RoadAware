@@ -1,0 +1,110 @@
+{
+  "started_utc": "2026-11-10T00:42:39.874168+00:00",
+  "stage": "analysis",
+  "notebook_order": [
+    "07_evaluation_experiment_results"
+  ],
+  "runner_sha256": "6a2d063149d077d8e6938a5ac1df57d91ee5e1b031501ba3f9c5f44f64bdd2d0",
+  "runner_python": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/.venv/bin/python",
+  "kernel_argv": [
+    "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/.venv/bin/python",
+    "-m",
+    "ipykernel_launcher",
+    "-f",
+    "{connection_file}"
+  ],
+  "backend_root": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend",
+  "data_root": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend",
+  "output_dir": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend",
+  "data_inputs_sha256_before": {
+    "panel": "22604a280264d55e2caacb21da2e135ca8896b849457b80f34386c9d54a828a7",
+    "data_run_manifest": "8c1a586e45054ccf40c355c0190301f99b8692e2b0e132ce5c9a914ae7dcd642"
+  },
+  "status": "ok",
+  "notebooks": [
+    {
+      "notebook": "07_evaluation_experiment_results",
+      "source": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/notebooks/07_evaluation_experiment_results.ipynb",
+      "status": "ok",
+      "error": null,
+      "cells_completed": 12,
+      "current_cell_index": 19,
+      "cell_log": [
+        {
+          "cell_index": 1,
+          "seconds": 0.3,
+          "status": "ok"
+        },
+        {
+          "cell_index": 3,
+          "seconds": 0.2,
+          "status": "ok"
+        },
+        {
+          "cell_index": 4,
+          "seconds": 0.2,
+          "status": "ok"
+        },
+        {
+          "cell_index": 6,
+          "seconds": 1.9,
+          "status": "ok"
+        },
+        {
+          "cell_index": 8,
+          "seconds": 0.1,
+          "status": "ok"
+        },
+        {
+          "cell_index": 9,
+          "seconds": 0.7,
+          "status": "ok"
+        },
+        {
+          "cell_index": 11,
+          "seconds": 1.0,
+          "status": "ok"
+        },
+        {
+          "cell_index": 13,
+          "seconds": 0.0,
+          "status": "ok"
+        },
+        {
+          "cell_index": 14,
+          "seconds": 0.0,
+          "status": "ok"
+        },
+        {
+          "cell_index": 15,
+          "seconds": 0.5,
+          "status": "ok"
+        },
+        {
+          "cell_index": 17,
+          "seconds": 0.1,
+          "status": "ok"
+        },
+        {
+          "cell_index": 18,
+          "seconds": 0.0,
+          "status": "ok"
+        }
+      ],
+      "upstream_06_files_hashed": 27,
+      "source_sha256_before": "efae27013933fc3b739088dca1919db764b9e9d7bf41fd998adf1fc9cdcecbd6",
+      "nbformat_valid": true,
+      "seconds": 8.3,
+      "output": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/notebooks/07_evaluation_experiment_results.ipynb",
+      "output_sha256": "e2eb89ce5c21f4398c3cc5700dc98be310536dae43666ebe905dd629f7689af3",
+      "upstream_06_unchanged": true,
+      "upstream_06_changed_files": []
+    }
+  ],
+  "data_inputs_sha256_after": {
+    "panel": "22604a280264d55e2caacb21da2e135ca8896b849457b80f34386c9d54a828a7",
+    "data_run_manifest": "8c1a586e45054ccf40c355c0190301f99b8692e2b0e132ce5c9a914ae7dcd642"
+  },
+  "data_inputs_unchanged": true,
+  "finished_utc": "2026-11-10T00:42:48.270319+00:00"
+}

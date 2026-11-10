@@ -1,32 +1,42 @@
-# Model stage — in progress
+# Model stage — 06 ตรวจรับแล้ว; 07 รันจริงและตรวจแล้ว รอ Codex ตรวจรับขั้นสุดท้าย; 08 ยังไม่ทำ
 
-มี Notebook 06 ทดลอง Baseline และ 3 อัลกอริทึม (Poisson, Random Forest, HGB) แล้ว แก้การตรวจ reload ให้ใช้
-tolerance ที่ระบุ (1e-12) และเพิ่ม fixture tests ของโมเดลแล้ว แต่ **ยังรอ Codex ตรวจรับขั้นสุดท้าย**
-ผลจริงจาก precheck และงานที่รอทำต่ออยู่ใน [รายงาน Model เบื้องต้น](workflow/model-preliminary-findings-th.md)
+- **Notebook 06** (Baseline 4 แบบ + Poisson, Random Forest, HGB): Codex ตรวจรับอิสระแล้ว — ดู [หลักฐานตรวจ 06](workflow/model-training-verification-th.md)
+- **Notebook 07** (Evaluation Metrics / Experiment Results): Codex รันจริงผ่าน 12 cells, tests 128 ผ่าน และ metric ตรงกับ oracle อิสระ 22 คู่
+  ภายใน 1e-12 แต่ **ยังรอการตรวจรับขั้นสุดท้าย** — ดู [หลักฐานตรวจ 07](workflow/model-evaluation-verification-th.md)
+  และผลจริงใน [`backend/reports/models/diagnostics/`](backend/reports/models/diagnostics/)
+  ([ตารางหลัก](backend/reports/models/diagnostics/diagnostic_main_results.csv), [coverage 60 เดือน](backend/reports/models/diagnostics/coverage_by_split_month.csv),
+  [อันดับปีหลัง](backend/reports/models/diagnostics/later_year_rank_comparison.csv), [manifest](backend/reports/models/diagnostics/diagnostic_manifest.json))
+- **Notebook 08** (Error analysis / model card): ยังไม่ได้ทำ
 
-**คำเตือน:** ในการตรวจย้อนหลังปี 2024/2025 (ปี 2025 เคยถูกดูแล้ว ไม่ใช่ test อิสระ) Baseline ค่าเฉลี่ยรายจังหวัด
-ดีกว่าโมเดลทั้งสามตระกูล และพบ regime shift จาก cleaning/รูปแบบวันที่ การเลือกโมเดลใน OOF จึงไม่เท่ากับพร้อมใช้งานจริง
-`production_enabled = false` และความพร้อมของโมเดลจริงยัง BLOCKED หลักฐาน Data Foundation ด้านล่างยังคงสถานะเดิม
+**คำเตือน:** การเลือกจาก OOF (ปี 2022–2023) ล็อกให้ Poisson เป็นตัวเลือก และ **ไม่เปลี่ยนย้อนหลัง** จากคะแนนปีหลัง
+แต่ใน 07 Baseline ค่าเฉลี่ยรายจังหวัดมี Poisson deviance ต่ำกว่าตัวดีที่สุดของทั้งสามตระกูลทั้งปี 2024 (1.1535 เทียบ Poisson 2.1700)
+และปี 2025 (1.2453 เทียบ 2.2546) ซึ่งสอดคล้องกับ regime shift จาก cleaning/รูปแบบวันที่ คะแนนอธิบายเฉพาะ province-day ที่ผ่าน
+quality filter (มี selection bias) ปี 2024 ไม่มีเซลล์ eligible ในเดือน ต.ค.–ธ.ค. ปี 2025 เคยถูกดูแล้วจึงไม่ใช่ test อิสระ
+และไม่ใช้ labels ปี 2026 ดังนั้น `production_enabled = false` และความพร้อมของโมเดลจริงยัง BLOCKED
+หลักฐาน Data Foundation ด้านล่างยังคงสถานะเดิม
 
 # RoadAware
 
 ## โครงสร้าง
 
 ```
-backend/    งานข้อมูล/ML: notebook 01–06, config, runner, tests  → ดู backend/README.md
+backend/    งานข้อมูล/ML: notebook 01–07, config, runner, tests  → ดู backend/README.md
 frontend/   สงวนไว้สำหรับเว็บไซต์ในอนาคต (ยังไม่มีหน้าจอ)        → ดู frontend/README.md
 workflow/   brief, ทิศทางผลิตภัณฑ์ และงานที่ส่งให้ AI team
 tools/      ตัวเชื่อม AI team
 .venv/      (ไม่อยู่ใน git) Python environment ของโปรเจกต์ ใช้ร่วมกับ backend
 ```
 
-สถานะปัจจุบัน: วางรากฐานข้อมูล (นำเข้า, EDA, ทำความสะอาด, แบ่งข้อมูล, ตรวจ leakage) **ยังไม่มีการเทรนโมเดลและยังไม่มีเว็บไซต์** ชุด test ปี 2025 เคยถูกดูมาแล้ว (ไม่ใช่ test อิสระ) และความพร้อมของโมเดลจริงยังเป็น BLOCKED
+สถานะปัจจุบัน: รากฐานข้อมูล (นำเข้า, EDA, ทำความสะอาด, แบ่งข้อมูล, ตรวจ leakage) เสร็จแล้ว มีโมเดลวิจัยย้อนหลังใน 06–07 (ดูด้านบน) **ยังไม่มีเว็บไซต์และไม่มีโมเดลที่พร้อมใช้งานจริง** ชุด test ปี 2025 เคยถูกดูมาแล้ว (ไม่ใช่ test อิสระ) และความพร้อมของโมเดลจริงยังเป็น BLOCKED
 
 เริ่มต้นเร็ว (ที่ root ของ repository):
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r backend/requirements-data.txt
 .venv/bin/python backend/scripts/run_data_notebooks.py   # รัน notebook 01–05 แบบ headless (ไม่เปิดเบราว์เซอร์)
+.venv/bin/python backend/scripts/run_model_notebooks.py --stage train      # 06 เท่านั้น (fit + lock)
+.venv/bin/python backend/scripts/run_model_notebooks.py --stage analysis   # 07 เท่านั้น บนผลของ 06 (ไม่ refit)
+.venv/bin/python backend/scripts/run_model_notebooks.py                    # --stage all (ค่าเริ่มต้น): 06 → 07
 .venv/bin/python -m pytest backend/tests -q
 ```
 

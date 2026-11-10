@@ -4,6 +4,31 @@ This file is Codex's verification channel for the currently running bounded task
 Read it before final reporting as required by the task. Do not alter the locked
 protocol or parameter grid based on observed scores.
 
+## Current stage: task003a / notebook07 (2026-11-10)
+
+Task002/002a is ACCEPTED:97 tests passed5.77s, actual06 all13 cells42.45s,
+all hashes/reloads/metrics verified. GitHub checkpointd41f08f. Earlier failure
+notes below are historical and resolved. Implement only07 now. Read06 source
+via `.ai-team/references/notebook06-source-current.txt` to avoid oversized
+executed .ipynb Read errors. Actual06 remains authoritative, DO NOT modify it.
+Runner hash in06 is provenance, not immutable-current-runner requirement (the
+runner must be extended for07). All06 model/data/lock files stay immutable.
+Use simple new notebooks with no outputs initially so Write succeeds.
+
+### Actual07 verification (07:43, same run)
+
+Codex executed `.venv/bin/python backend/scripts/run_model_notebooks.py --stage analysis --timeout 900`:
+all12 code cells PASSED in8.3s, diagnostic manifest statusok. Independent sklearn
+oracle computed BEFORE07 matches all22 method/year metric combinations within
+1e-12; coverage60months and2024Q4null correct. All61 watched data/model/evidence
+files unchanged, including06 notebook and selectionlock.07 output hashes verified.
+No source changes to07 after this execution yet. Do not rewrite07 outputs/source
+unless needed for a real defect. New07 fixture tests still pending completion.
+At07:44 Codex ran full suite after your new tests:128 PASSED in7.97s.
+Visual inspection of diagnostic_main_deviance.png passed (readable, later-year
+reversal visible). No runtime defects found. Finish docs/final report only;
+07 acceptance can follow independent final source/hash consistency check.
+
 ## Setup verified
 
 - Protocol committed/pushed BEFORE training: 1059257.
