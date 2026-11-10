@@ -1,0 +1,90 @@
+{
+  "started_utc": "2026-11-10T16:45:00.021895+00:00",
+  "stage": "serve-check",
+  "notebook_order": [
+    "13_inference_robustness_contract"
+  ],
+  "runner_sha256": "ef5b27c1a445e05e1d25b298d3a922118ca1927b412067c75962a318c38b7fec",
+  "runner_python": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/.venv/bin/python",
+  "kernel_argv": [
+    "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/.venv/bin/python",
+    "-m",
+    "ipykernel_launcher",
+    "-f",
+    "{connection_file}"
+  ],
+  "roots": {
+    "backend": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend",
+    "output": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend",
+    "external": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/external_v2",
+    "data": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend",
+    "preflight": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/external_v2/evidence",
+    "v2_data": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/v2",
+    "sources": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/sources",
+    "preparation": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/preparation",
+    "prep_data": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/v2",
+    "model_reports": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/models",
+    "model_data": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/v2/models",
+    "analysis_dir": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/analysis",
+    "lock": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/workflow/model-protocol-v2-lock.json",
+    "serving_reports": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/serving",
+    "serving_data": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/v2/serving"
+  },
+  "offline": false,
+  "refresh": false,
+  "cell_timeout_seconds": 7200,
+  "v1_protected_files_hashed": 135,
+  "status": "failed",
+  "notebooks": [
+    {
+      "notebook": "13_inference_robustness_contract",
+      "source": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/notebooks/13_inference_robustness_contract.ipynb",
+      "status": "failed",
+      "error": {
+        "type": "CellExecutionError",
+        "ename": "AssertionError",
+        "evalue": "     unit     feature_path      role                      method_id             split       n  max_abs_diff     tolerance   pass\n6   daily  request_builder  selected              hgb_poisson__full               all   35467      4.445918  1.000000e-12  False\n8   daily  request_builder  selected              hgb_poisson__full  reused_seen_2025   27582      4.445918  1.000000e-12  False\n18     6h  request_builder  selected  hgb_poisson__calendar_traffic               all  141868      1.434485  1.000000e-12  False\n20     6h  request_builder  selected  hgb_poisson__calendar_traffic  reused_seen_2025  110328      1.434485  1.000000e-12  False",
+        "message": "t_na=False, usecols=lambda c: c in set(keys) | {'training_eligible'})\n    if len(pan) != len(ref) or not (pan[keys].to_numpy() == ref[keys].to_numpy()).all():\n        raise DependencyError(f'{u}: panel keys differ from feature keys')\n    rng = np.random.default_rng(int(EV['seed']))\n    provs = [REG['provinces'][0], 'กรุงเทพมหานคร', REG['aliases'][next(iter(REG['aliases']))]]\n    m_special = ref['target_date'].isin(SPECIAL_DATES).to_numpy() & ref['province_key'].isin(provs).to_numpy()\n    wx_col = 'wx_rain_sum_mm_d2'\n    wx_rows = np.flatnonzero(ref[wx_col].notna().to_numpy())\n    pick = set(np.flatnonzero(m_special)) | set(rng.choice(len(ref), size=int(EV['builder_parity_random_rows_per_unit']), replace=False))\n    pick |= set(rng.choice(wx_rows, size=min(200, len(wx_rows)), replace=False)) if len(wx_rows) else set()\n    pick = np.array(sorted(pick))\n    s_ref = ref.iloc[pick].reset_index(drop=True)\n    elig = pan['training_eligible'].iloc[pick].to_numpy()\n    built = build_feature_frame(REG, s_ref[keys].to_dict('records'), u)\n    fp = compare_features(built, s_ref, [c for c in ALLOW[u] if c not in keys], CATS, TOL_B).assign(unit=u, sample='deterministic_grid_sample')\n    FEAT_PARITY.append(fp)\n    mu_b, _ = predict_frame(REG, built, u, baseline=False)\n    mu_r, _ = predict_frame(REG, s_ref, u, baseline=False)\n    SAMPLE_INFO[u] = {'n_rows': int(len(pick)), 'n_special_rows': int(m_special.sum()), 'n_eligible': int((elig == 'True').sum()),\n                      'n_unknown_label': int((elig == 'False').sum()), 'years': sorted({d[:4] for d in s_ref['target_date']}),\n                      'blocks': sorted(s_ref['time_block'].unique()) if u == '6h' else None, 'leap_day_included': bool(s_ref['target_date'].eq('2024-02-29').any()),\n                      'rows_with_weather': int(s_ref[wx_col].notna().sum()), 'rows_without_weather': int(s_ref[wx_col].isna().sum()),\n                      'rows_without_traffic': int(s_ref['trf_mean_aadt'].isna().sum()), 'rows_bank_calendar_unknown': int(s_ref['bank_calendar_known_asof'].eq(0).sum()),\n                      'festival_rows': int((s_ref['fest_songkran_in'] + s_ref['fest_new_year_in']).gt(0).sum()),\n                      'prediction_max_abs_diff_builder_vs_10': float(np.abs(mu_b - mu_r).max())}\n    assert SAMPLE_INFO[u]['n_eligible'] > 0 and SAMPLE_INFO[u]['n_unknown_label'] > 0, f'{u}: sample lacks eligible or unknown-label cells'\n    assert SAMPLE_INFO[u]['leap_day_included'] and SAMPLE_INFO[u]['rows_with_weather'] > 0 and SAMPLE_INFO[u]['rows_without_weather'] > 0\n    assert u == 'daily' or SAMPLE_INFO[u]['blocks'] == REG['cfg']['request']['time_blocks']\n    assert SAMPLE_INFO[u]['prediction_max_abs_diff_builder_vs_10'] <= TOL_R\nFEAT_PARITY = pd.concat(FEAT_PARITY, ignore_index=True)\nout_csv('builder_feature_parity.csv', FEAT_PARITY)\nout_csv('builder_parity_sample.csv', pd.DataFrame([dict(unit=u, **{k: json.dumps(v, ensure_ascii=False) if isinstance(v, list) else v for k, v in s.items()})\n                                                    for u, s in SAMPLE_INFO.items()]))\nassert FEAT_PARITY['n_mismatch'].eq(0).all() and FEAT_PARITY['nan_pattern_equal'].all(), FEAT_PARITY[FEAT_PARITY['n_mismatch'] > 0]\npassed('builder_feature_parity', f\"{len(FEAT_PARITY)} feature x sample checks, 0 mismatches; samples {SAMPLE_INFO}\")\nprint(PARITY.to_string(index=False))\n------------------\n\n\n\u001b[0;31m---------------------------------------------------------------------------\u001b[0m\n\u001b[0;31mAssertionError\u001b[0m                            Traceback (most recent call last)\nCell \u001b[0;32mIn[5], line 33\u001b[0m\n\u001b[1;32m     31\u001b[0m PARITY \u001b[38;5;241m=\u001b[39m pd\u001b[38;5;241m.\u001b[39mDataFrame(PARITY)\n\u001b[1;32m     32\u001b[0m out_csv(\u001b[38;5;124m'\u001b[39m\u001b[38;5;124mreload_parity.csv\u001b[39m\u001b[38;5;124m'\u001b[39m, PARITY)\n\u001b[0;32m---> 33\u001b[0m \u001b[38;5;28;01massert\u001b[39;00m PARITY[\u001b[38;5;124m'\u001b[39m\u001b[38;5;124mpass\u001b[39m\u001b[38;5;124m'\u001b[39m]\u001b[38;5;241m.\u001b[39mall(), PARITY[\u001b[38;5;241m~\u001b[39mPARITY[\u001b[38;5;124m'\u001b[39m\u001b[38;5;124mpass\u001b[39m\u001b[38;5;124m'\u001b[39m]]\n\u001b[1;32m     34\u001b[0m passed(\u001b[38;5;124m'\u001b[39m\u001b[38;5;124mreload_parity_all_diagnostic_rows\u001b[39m\u001b[38;5;124m'\u001b[39m, \u001b[38;5;124m'\u001b[39m\u001b[38;5;124m; \u001b[39m\u001b[38;5;124m'\u001b[39m\u001b[38;5;241m.\u001b[39mjoin(\u001b[38;5;124mf\u001b[39m\u001b[38;5;124m\"\u001b[39m\u001b[38;5;132;01m{\u001b[39;00mu\u001b[38;5;132;01m}\u001b[39;00m\u001b[38;5;124m: \u001b[39m\u001b[38;5;132;01m{\u001b[39;00m\u001b[38;5;28mlen\u001b[39m(DIAG[u])\u001b[38;5;132;01m}\u001b[39;00m\u001b[38;5;124m rows, max |diff| selected \u001b[39m\u001b[38;5;124m\"\u001b[39m\n\u001b[1;32m     35\u001b[0m        \u001b[38;5;124mf\u001b[39m\u001b[38;5;124m\"\u001b[39m\u001b[38;5;132;01m{\u001b[39;00mPARITY[(PARITY\u001b[38;5;241m.\u001b[39munit\u001b[38;5;250m \u001b[39m\u001b[38;5;241m==\u001b[39m\u001b[38;5;250m \u001b[39mu)\u001b[38;5;250m \u001b[39m\u001b[38;5;241m&\u001b[39m\u001b[38;5;250m \u001b[39m(PARITY\u001b[38;5;241m.\u001b[39mrole\u001b[38;5;250m \u001b[39m\u001b[38;5;241m==\u001b[39m\u001b[38;5;250m \u001b[39m\u001b[38;5;124m'\u001b[39m\u001b[38;5;124mselected\u001b[39m\u001b[38;5;124m'\u001b[39m)][\u001b[38;5;124m'\u001b[39m\u001b[38;5;124mmax_abs_diff\u001b[39m\u001b[38;5;124m'\u001b[39m]\u001b[38;5;241m.\u001b[39mmax()\u001b[38;5;132;01m:\u001b[39;00m\u001b[38;5;124m.2e\u001b[39m\u001b[38;5;132;01m}\u001b[39;00m\u001b[38;5;124m\"\u001b[39m \u001b[38;5;28;01mfor\u001b[39;00m u \u001b[38;5;129;01min\u001b[39;00m UNITS) \u001b[38;5;241m+\u001b[39m \u001b[38;5;124mf\u001b[39m\u001b[38;5;124m'\u001b[39m\u001b[38;5;124m (tol \u001b[39m\u001b[38;5;132;01m{\u001b[39;00mTOL_R\u001b[38;5;132;01m}\u001b[39;00m\u001b[38;5;124m)\u001b[39m\u001b[38;5;124m'\u001b[39m)\n\u001b[1;32m     37\u001b[0m \u001b[38;5;66;03m# deterministic builder sample over the WHOLE 10 grid (2021-2025, eligible AND unknown-label cells; panel read for annotation only)\u001b[39;00m\n\n\u001b[0;31mAssertionError\u001b[0m:      unit     feature_path      role                      method_id             split       n  max_abs_diff     tolerance   pass\n6   daily  request_builder  selected              hgb_poisson__full               all   35467      4.445918  1.000000e-12  False\n8   daily  request_builder  selected              hgb_poisson__full  reused_seen_2025   27582      4.445918  1.000000e-12  False\n18     6h  request_builder  selected  hgb_poisson__calendar_traffic               all  141868      1.434485  1.000000e-12  False\n20     6h  request_builder  selected  hgb_poisson__calendar_traffic  reused_seen_2025  110328      1.434485  1.000000e-12  False\n",
+        "runner_traceback": "                               for u, s in SAMPLE_INFO.items()]))\nassert FEAT_PARITY['n_mismatch'].eq(0).all() and FEAT_PARITY['nan_pattern_equal'].all(), FEAT_PARITY[FEAT_PARITY['n_mismatch'] > 0]\npassed('builder_feature_parity', f\"{len(FEAT_PARITY)} feature x sample checks, 0 mismatches; samples {SAMPLE_INFO}\")\nprint(PARITY.to_string(index=False))\n------------------\n\n\n\u001b[0;31m---------------------------------------------------------------------------\u001b[0m\n\u001b[0;31mAssertionError\u001b[0m                            Traceback (most recent call last)\nCell \u001b[0;32mIn[5], line 33\u001b[0m\n\u001b[1;32m     31\u001b[0m PARITY \u001b[38;5;241m=\u001b[39m pd\u001b[38;5;241m.\u001b[39mDataFrame(PARITY)\n\u001b[1;32m     32\u001b[0m out_csv(\u001b[38;5;124m'\u001b[39m\u001b[38;5;124mreload_parity.csv\u001b[39m\u001b[38;5;124m'\u001b[39m, PARITY)\n\u001b[0;32m---> 33\u001b[0m \u001b[38;5;28;01massert\u001b[39;00m PARITY[\u001b[38;5;124m'\u001b[39m\u001b[38;5;124mpass\u001b[39m\u001b[38;5;124m'\u001b[39m]\u001b[38;5;241m.\u001b[39mall(), PARITY[\u001b[38;5;241m~\u001b[39mPARITY[\u001b[38;5;124m'\u001b[39m\u001b[38;5;124mpass\u001b[39m\u001b[38;5;124m'\u001b[39m]]\n\u001b[1;32m     34\u001b[0m passed(\u001b[38;5;124m'\u001b[39m\u001b[38;5;124mreload_parity_all_diagnostic_rows\u001b[39m\u001b[38;5;124m'\u001b[39m, \u001b[38;5;124m'\u001b[39m\u001b[38;5;124m; \u001b[39m\u001b[38;5;124m'\u001b[39m\u001b[38;5;241m.\u001b[39mjoin(\u001b[38;5;124mf\u001b[39m\u001b[38;5;124m\"\u001b[39m\u001b[38;5;132;01m{\u001b[39;00mu\u001b[38;5;132;01m}\u001b[39;00m\u001b[38;5;124m: \u001b[39m\u001b[38;5;132;01m{\u001b[39;00m\u001b[38;5;28mlen\u001b[39m(DIAG[u])\u001b[38;5;132;01m}\u001b[39;00m\u001b[38;5;124m rows, max |diff| selected \u001b[39m\u001b[38;5;124m\"\u001b[39m\n\u001b[1;32m     35\u001b[0m        \u001b[38;5;124mf\u001b[39m\u001b[38;5;124m\"\u001b[39m\u001b[38;5;132;01m{\u001b[39;00mPARITY[(PARITY\u001b[38;5;241m.\u001b[39munit\u001b[38;5;250m \u001b[39m\u001b[38;5;241m==\u001b[39m\u001b[38;5;250m \u001b[39mu)\u001b[38;5;250m \u001b[39m\u001b[38;5;241m&\u001b[39m\u001b[38;5;250m \u001b[39m(PARITY\u001b[38;5;241m.\u001b[39mrole\u001b[38;5;250m \u001b[39m\u001b[38;5;241m==\u001b[39m\u001b[38;5;250m \u001b[39m\u001b[38;5;124m'\u001b[39m\u001b[38;5;124mselected\u001b[39m\u001b[38;5;124m'\u001b[39m)][\u001b[38;5;124m'\u001b[39m\u001b[38;5;124mmax_abs_diff\u001b[39m\u001b[38;5;124m'\u001b[39m]\u001b[38;5;241m.\u001b[39mmax()\u001b[38;5;132;01m:\u001b[39;00m\u001b[38;5;124m.2e\u001b[39m\u001b[38;5;132;01m}\u001b[39;00m\u001b[38;5;124m\"\u001b[39m \u001b[38;5;28;01mfor\u001b[39;00m u \u001b[38;5;129;01min\u001b[39;00m UNITS) \u001b[38;5;241m+\u001b[39m \u001b[38;5;124mf\u001b[39m\u001b[38;5;124m'\u001b[39m\u001b[38;5;124m (tol \u001b[39m\u001b[38;5;132;01m{\u001b[39;00mTOL_R\u001b[38;5;132;01m}\u001b[39;00m\u001b[38;5;124m)\u001b[39m\u001b[38;5;124m'\u001b[39m)\n\u001b[1;32m     37\u001b[0m \u001b[38;5;66;03m# deterministic builder sample over the WHOLE 10 grid (2021-2025, eligible AND unknown-label cells; panel read for annotation only)\u001b[39;00m\n\n\u001b[0;31mAssertionError\u001b[0m:      unit     feature_path      role                      method_id             split       n  max_abs_diff     tolerance   pass\n6   daily  request_builder  selected              hgb_poisson__full               all   35467      4.445918  1.000000e-12  False\n8   daily  request_builder  selected              hgb_poisson__full  reused_seen_2025   27582      4.445918  1.000000e-12  False\n18     6h  request_builder  selected  hgb_poisson__calendar_traffic               all  141868      1.434485  1.000000e-12  False\n20     6h  request_builder  selected  hgb_poisson__calendar_traffic  reused_seen_2025  110328      1.434485  1.000000e-12  False\n\n"
+      },
+      "cells_completed": 5,
+      "current_cell_index": 7,
+      "cell_log": [
+        {
+          "cell_index": 1,
+          "seconds": 0.0,
+          "status": "ok"
+        },
+        {
+          "cell_index": 2,
+          "seconds": 0.2,
+          "status": "ok"
+        },
+        {
+          "cell_index": 3,
+          "seconds": 0.0,
+          "status": "ok"
+        },
+        {
+          "cell_index": 5,
+          "seconds": 1.6,
+          "status": "ok"
+        },
+        {
+          "cell_index": 7,
+          "seconds": 3.7,
+          "status": "error"
+        }
+      ],
+      "source_sha256_before": "284584d1b27b5d022f16616776c0ce60575bd7e15d1cd12cbc151a0b6fd153cf",
+      "failed_cell_index": 7,
+      "nbformat_valid": true,
+      "seconds": 6.58,
+      "output": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/notebooks/13_inference_robustness_contract.ipynb",
+      "output_sha256": "fe48a57d36d1611a9e89168ec225b06836abc719dd2a821cad03c993d2e5d761"
+    }
+  ],
+  "v1_protected_unchanged": true,
+  "v1_protected_changed_files": [],
+  "finished_utc": "2026-11-10T16:45:06.728854+00:00"
+}

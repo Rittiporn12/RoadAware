@@ -1,0 +1,9 @@
+batch,unit,role,method_id,n,max_abs_diff,tolerance,pass
+daily_only,daily,selected,hgb_poisson__full,64,4.440892098500626e-16,1e-12,True
+daily_only,daily,baseline_comparator,baseline_province_month_k30,64,4.440892098500626e-16,1e-12,True
+6h_only,6h,selected,hgb_poisson__calendar_traffic,64,2.220446049250313e-16,1e-12,True
+6h_only,6h,baseline_comparator,baseline_province_block_mean,64,1.1102230246251565e-16,1e-12,True
+mixed_interleaved_6h_first,daily,selected,hgb_poisson__full,64,4.440892098500626e-16,1e-12,True
+mixed_interleaved_6h_first,daily,baseline_comparator,baseline_province_month_k30,64,4.440892098500626e-16,1e-12,True
+mixed_interleaved_6h_first,6h,selected,hgb_poisson__calendar_traffic,64,2.220446049250313e-16,1e-12,True
+mixed_interleaved_6h_first,6h,baseline_comparator,baseline_province_block_mean,64,1.1102230246251565e-16,1e-12,True

@@ -1,0 +1,86 @@
+{
+  "_comment": "RoadAware v2 research serving contract (notebook 13). No fit, no tuning, no selection change. Every artifact is hash-verified against the trust anchors below and the hashes its producer recorded BEFORE any joblib.load; requests never carry paths, features, outcomes or masks. Relative paths resolve against the backend root. Research only: production_ready false, operational BLOCKED.",
+  "schema": "roadaware-v2-inference-config/1",
+  "producer": "13_inference_robustness_contract",
+  "production_ready": false,
+  "operational_status": "BLOCKED",
+  "trust_anchors": {
+    "model_manifest_sha256": "1b11f1dc7bb53e7f13955c12c9f136423b231dcebbb9e1aa8da79cdf81ac150f",
+    "preparation_manifest_sha256": "d385a9b3e3d4ded037ca34f4f8626ea1020a738d2aeac0bae3dd4cceb10f3138",
+    "experiment_lock_sha256": "fe0b46bba5ddd42aea35fed32fc7943e7eb0beef995706f997db8708ca4b451b",
+    "selection_lock_sha256": "fef0a1c93efb60276c399e8a41badddbc576796e8ab5f72e7dfe677143973e28",
+    "note": "model/preparation manifest, experiment lock and selection lock bytes of the accepted V2 run (main 029e2c6; model manifest hash as recorded in the accepted notebook 12 analysis_manifest inputs). A different value means a different run: stop."
+  },
+  "expected_selection": {
+    "daily": {"recommended_method": "hgb_poisson__full", "strongest_baseline": "baseline_province_month_k30", "recommendation_kind": "candidate_passed_gate"},
+    "6h": {"recommended_method": "hgb_poisson__calendar_traffic", "strongest_baseline": "baseline_province_block_mean", "recommendation_kind": "candidate_passed_gate"}
+  },
+  "paths": {
+    "model_config": "config/model_experiment_v2.json",
+    "feature_config": "config/feature_pipeline_v2.json",
+    "sources_config": "config/external_sources_v2.json",
+    "model_report_dir": "reports/v2/models",
+    "model_data_dir": "data/v2/models",
+    "preparation_report_dir": "reports/v2/preparation",
+    "preparation_data_dir": "data/v2",
+    "sources_report_dir": "reports/v2/sources",
+    "external_root": "data/external_v2",
+    "analysis_report_dir": "reports/v2/analysis",
+    "notebook10": "notebooks/10_v2_preparation_features_leakage.ipynb",
+    "notebook11": "notebooks/11_v2_model_experiments.ipynb",
+    "experiment_lock": "../workflow/model-protocol-v2-lock.json",
+    "protocol_draft": "../workflow/model-protocol-v2-draft.md"
+  },
+  "source_tables": {
+    "sources_report": ["province_points.csv", "calendar_records.csv", "traffic_province_year_summary.csv", "traffic_resource_metadata.csv"],
+    "external_derived": ["derived/weather_daily_jma_gsm.csv.gz", "derived/weather_6h_jma_gsm.csv.gz"],
+    "rule": "each file must equal the sha256 notebook 10 recorded in preparation_manifest.inputs (09_output / 09_derived); external_sources_v2.json must equal the recorded 09_config hash"
+  },
+  "pinned_functions": {
+    "notebook10": {"hash_source": "preparation_manifest.functions_cells_sha256", "required": ["core_date_features", "festival_features", "season_features", "load_calendar_records", "bank_calendar_features", "weather_features", "traffic_vintage_by_date", "traffic_features", "validate_feature_columns"]},
+    "notebook11": {"hash_source": "model_manifest.functions_cells_sha256 + code_cells_sha256", "required": ["predict_baseline", "validate_predictions", "metric_summary"]}
+  },
+  "request": {
+    "allowed_fields": ["province_key", "target_date", "unit", "time_block"],
+    "units": ["daily", "6h"],
+    "time_blocks": ["00-06", "06-12", "12-18", "18-24"],
+    "max_batch": 128,
+    "service_date_range": ["2024-01-01", "2030-12-31"],
+    "service_date_range_note": "conservative finite resource-control range for research scenarios; NOT a validated period",
+    "evaluated_period": ["2024-01-01", "2025-12-31"],
+    "evaluated_period_note": "2024 development + 2025 reused diagnostics, both previously seen; no untouched test exists",
+    "province_aliases_source": "external_sources_v2.json province_aliases.map (exact audited full-string aliases only)",
+    "timezone": "Asia/Bangkok",
+    "utc_offset": "+07:00",
+    "issue_rule": "issue time = target date - 1 day at 18:00 Asia/Bangkok (fixed by the protocol; clients cannot set it)"
+  },
+  "limitations": {
+    "traffic_stale_after_years": 1,
+    "stale_model_after": "2025-12-31"
+  },
+  "version_policy": {
+    "exact": ["scikit-learn", "joblib"],
+    "same_major_minor": ["python", "numpy", "pandas"],
+    "note": "bundles are joblib pickles: they are deserialized only after hash verification and only with the recorded scikit-learn/joblib versions"
+  },
+  "compute": {"threads": 2},
+  "evaluation": {
+    "reload_parity_max_abs_diff": 1e-12,
+    "builder_parity_max_abs_diff": 1e-12,
+    "builder_parity_random_rows_per_unit": 2000,
+    "seed": 13,
+    "benchmark_batch_sizes": [1, 32, 128],
+    "benchmark_repeats": 15,
+    "stress_scenarios": {
+      "unmodified": [],
+      "weather_missing": ["weather"],
+      "traffic_missing": ["traffic"],
+      "weather_and_traffic_missing": ["weather", "traffic"]
+    },
+    "subgroup_top_k": 8
+  },
+  "outputs": {
+    "report_subdir": "reports/v2/serving",
+    "data_subdir": "data/v2/serving"
+  }
+}

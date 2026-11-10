@@ -1,5 +1,7 @@
 # RoadAware — ผล V2 ล่าสุด
 
+**ML serving ล่าสุด:** Notebook13ตรวจรับแล้ว โหลดHGBและสร้างfeatureสำหรับคำขอใหม่ได้ ตรวจค่าทำนายตรงกับผลเดิม177,335แถว มี57testsผ่านและผลทดสอบข้อมูลขาด/เวลาใช้งาน ดู [หลักฐานML backend](workflow/backend-ml-serving-verification-th.md) ส่วนAPIและcatalogกำลังพัฒนา ก่อนทำfrontend
+
 ทดลองจริง 3 ตระกูล: Poisson Regression, Random Forest (Poisson), HistGradientBoosting (Poisson) พร้อม baseline 6 แบบต่อหน่วย และ feature 5 ชุด เลือกจาก expanding time backtest 4 fold ในปี2022–2023 ตาม protocol ที่ล็อกก่อน fit
 
 | หน่วย | Poisson deviance | Random Forest | HGB ที่เลือก | strongest baseline | ลด deviance |

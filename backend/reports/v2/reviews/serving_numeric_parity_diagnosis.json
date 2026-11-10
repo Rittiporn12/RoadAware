@@ -1,0 +1,40 @@
+[
+  {
+    "unit": "daily",
+    "rows": 35467,
+    "exact_feature_differences": [
+      {
+        "feature": "doy_sin",
+        "n_exact_mismatches": 10335,
+        "max_abs_diff": 1.1102230246251565e-16
+      },
+      {
+        "feature": "doy_cos",
+        "n_exact_mismatches": 12255,
+        "max_abs_diff": 1.1102230246251565e-16
+      }
+    ],
+    "max_abs_original_prediction_diff": 4.445917687922481,
+    "max_abs_default_csv_roundtrip_prediction_diff": 8.881784197001252e-16,
+    "n_roundtrip_pred_differences_above_1e12": 0
+  },
+  {
+    "unit": "6h",
+    "rows": 141868,
+    "exact_feature_differences": [
+      {
+        "feature": "doy_sin",
+        "n_exact_mismatches": 41340,
+        "max_abs_diff": 1.1102230246251565e-16
+      },
+      {
+        "feature": "doy_cos",
+        "n_exact_mismatches": 49020,
+        "max_abs_diff": 1.1102230246251565e-16
+      }
+    ],
+    "max_abs_original_prediction_diff": 1.434485481423968,
+    "max_abs_default_csv_roundtrip_prediction_diff": 4.440892098500626e-16,
+    "n_roundtrip_pred_differences_above_1e12": 0
+  }
+]

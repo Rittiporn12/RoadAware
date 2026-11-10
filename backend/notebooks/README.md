@@ -33,5 +33,26 @@ Notebook 08 วิเคราะห์ความผิดพลาดขอ�
 |10_v2_preparation_features_leakage.ipynb|Repair, preparation, features, leakage checks|reports/v2/preparation; data/v2|
 |11_v2_model_experiments.ipynb|Three candidate families, baselines, frozen time backtest and selection|reports/v2/models; data/v2/models|
 |12_v2_evaluation_error_analysis.ipynb|Metric reconciliation, ablations, slices, calibration and drift|reports/v2/analysis; data/v2/analysis|
+|13_inference_robustness_contract.ipynb|Research serving contract: trusted registry, request feature builder, parity, missing-input stress, latency|reports/v2/serving; data/v2/serving|
 
 09-12 independently reviewed as research work. 11 selected HGB full (daily) and HGB calendar_traffic (6h), both passed the frozen baseline gate. 12 does not fit or reselect models. Follow the [VS Code guide](../../workflow/v2-vscode-run-guide-th.md) and [final evidence](../../workflow/v2-final-verification-th.md). Data/raw/predictions/bundles are ignored; aggregate reports and plots are tracked. Existing accepted outputs cannot be overwritten: use a fresh output root for replay. No untouched test and production_ready=false; frontend/API/Dashboard deferred.
+
+### 13 — research serving contract (status: authored, NOT yet executed or reviewed)
+
+13 never fits, tunes or reselects. Its two `# FUNCTIONS` cells are the service code a later local API may load (exec only those cells after
+checking their sha256 against `functions_cells_sha256` in `reports/v2/serving/serving_manifest.json`):
+
+- `load_registry(backend=None, cfg=None, roots=None, load_models=True, loader=None)` verifies the trust anchors in
+  `backend/config/inference_v2.json`, the 11 manifest/runner log/reports/inputs/code, the selection lock, the pinned 10/11 FUNCTIONS, the 09
+  source tables and both bundle hashes, and the scikit-learn/joblib versions, all BEFORE `joblib.load`; it then caches the small source tables.
+- `predict_batch(reg, requests, include_baseline=True)` accepts 1-128 objects with ONLY `province_key`, `target_date` (CE `YYYY-MM-DD`,
+  2024-01-01..2030-12-31 resource-control range), `unit` (`daily`/`6h`) and `time_block` (6h only). Results keep input order and give a
+  fractional `expected_recorded_count` (selected recorded records; not a probability or personal risk), a labelled baseline comparator, cell
+  and issue times (previous day 18:00 Asia/Bangkok), model hash, source coverage and `limitations` (e.g. `out_of_evaluated_period`,
+  `stale_model`). Invalid batches raise `RequestValidationError(.errors)`; trust/artifact failures raise `DependencyError` (no fallback model).
+- `validate_requests`, `registry_summary`, `daily_block_reconciliation` are documented in the notebook and manifest.
+
+Run: `.venv/bin/python backend/scripts/run_v2_notebooks.py --stage serve-check` (explicit; not part of `all`; refuses an existing
+`serving_manifest.json`, use `--output-dir backend/rerun-serving-<UTC-stamp>` for a fresh replay). Tests:
+`.venv/bin/python -m pytest backend/tests/test_inference_notebook.py -q`. Weather archive has no 2024+ values, so every served date runs with
+weather NaN; traffic is annual AADT; bank calendar is not a public-holiday calendar.

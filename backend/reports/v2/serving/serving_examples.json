@@ -1,0 +1,255 @@
+{
+  "note": "actual responses of predict_batch() in this run (research only)",
+  "requests": [
+    {
+      "province_key": "กรุงเทพมหานคร",
+      "target_date": "2024-05-01",
+      "unit": "daily"
+    },
+    {
+      "province_key": "กรุงเทพมหานคร",
+      "target_date": "2024-05-01",
+      "unit": "6h",
+      "time_block": "18-24"
+    },
+    {
+      "province_key": "พระนครศรีอยุธยา",
+      "target_date": "2028-04-13",
+      "unit": "daily"
+    }
+  ],
+  "response": {
+    "schema": "roadaware-v2-research-prediction/1",
+    "registry_id": "2f8a1e2e910fcd01",
+    "research_only": true,
+    "production_ready": false,
+    "operational_status": "BLOCKED",
+    "n_results": 3,
+    "seconds": 0.038496,
+    "results": [
+      {
+        "index": 0,
+        "request": {
+          "province_key": "กรุงเทพมหานคร",
+          "target_date": "2024-05-01",
+          "unit": "daily",
+          "time_block": null
+        },
+        "province_key": "กรุงเทพมหานคร",
+        "alias_applied": false,
+        "target_date": "2024-05-01",
+        "unit": "daily",
+        "time_block": null,
+        "cell": {
+          "issue_time_local": "2024-04-30T18:00:00+07:00",
+          "target_start_local": "2024-05-01T00:00:00+07:00",
+          "target_end_local": "2024-05-02T00:00:00+07:00",
+          "timezone": "Asia/Bangkok",
+          "utc_offset": "+07:00"
+        },
+        "prediction": {
+          "expected_recorded_count": 5.069141036330536,
+          "quantity_note": "model mean of the number of SELECTED RECORDED MOT-source accident records in this province cell; fractional by design; not a collision probability, not personal or route risk",
+          "method_id": "hgb_poisson__full",
+          "family": "hgb",
+          "variant": "full",
+          "bundle_sha256": "1b7e794d6278cd6ca298cde93defae889723d1bc58e3b4f45fe51859ff46dc8c",
+          "registry_id": "2f8a1e2e910fcd01"
+        },
+        "baseline_comparator": {
+          "expected_recorded_count": 3.704637497022155,
+          "method_id": "baseline_province_month_k30",
+          "sha256": "73b233d4a1fa0eb66a5523ab2404074fb938b7053689c53b48e296a4959c7291",
+          "label": "strongest notebook-11 baseline; reference comparator only, NOT the selected model"
+        },
+        "source_coverage": {
+          "weather_used_by_model": true,
+          "weather_values_available": false,
+          "weather_last_feature_date": "2023-12-31",
+          "traffic_used_by_model": true,
+          "traffic_vintage_survey_year_ce": 2021,
+          "traffic_vintage_lag_years": 3,
+          "bank_calendar_coverage": "reviewed_annual_base_known_later_amendments_unknown",
+          "bank_calendar_known_asof": 1,
+          "missing_covariates_policy": "missing external covariates stay NaN and are handled natively by HGB; no forecast or backfill is fabricated"
+        },
+        "model_age": {
+          "training_cutoff_local": "2023-12-31T18:00:00+07:00",
+          "days_from_training_cutoff_to_target": 122
+        },
+        "limitations": [
+          "research_only_not_operational",
+          "no_untouched_test",
+          "within_evaluated_period_previously_seen_diagnostic",
+          "weather_covariates_missing",
+          "traffic_vintage_stale"
+        ],
+        "research_status": {
+          "research_only": true,
+          "production_ready": false,
+          "operational_status": "BLOCKED",
+          "live_data": false
+        }
+      },
+      {
+        "index": 1,
+        "request": {
+          "province_key": "กรุงเทพมหานคร",
+          "target_date": "2024-05-01",
+          "unit": "6h",
+          "time_block": "18-24"
+        },
+        "province_key": "กรุงเทพมหานคร",
+        "alias_applied": false,
+        "target_date": "2024-05-01",
+        "unit": "6h",
+        "time_block": "18-24",
+        "cell": {
+          "issue_time_local": "2024-04-30T18:00:00+07:00",
+          "target_start_local": "2024-05-01T18:00:00+07:00",
+          "target_end_local": "2024-05-02T00:00:00+07:00",
+          "timezone": "Asia/Bangkok",
+          "utc_offset": "+07:00"
+        },
+        "prediction": {
+          "expected_recorded_count": 1.2581867161487748,
+          "quantity_note": "model mean of the number of SELECTED RECORDED MOT-source accident records in this province cell; fractional by design; not a collision probability, not personal or route risk",
+          "method_id": "hgb_poisson__calendar_traffic",
+          "family": "hgb",
+          "variant": "calendar_traffic",
+          "bundle_sha256": "f006ded45f660be8d05fb0cbe2ab80e0f503176c5ae3c6a13b313ba956d7a2f4",
+          "registry_id": "2f8a1e2e910fcd01"
+        },
+        "baseline_comparator": {
+          "expected_recorded_count": 1.185473411154345,
+          "method_id": "baseline_province_block_mean",
+          "sha256": "5b057d7291ca545bd1af45fd366fa413ff009e897551ad96364e8c7dcc7238ef",
+          "label": "strongest notebook-11 baseline; reference comparator only, NOT the selected model"
+        },
+        "source_coverage": {
+          "weather_used_by_model": false,
+          "weather_values_available": false,
+          "weather_last_feature_date": "2023-12-31",
+          "traffic_used_by_model": true,
+          "traffic_vintage_survey_year_ce": 2021,
+          "traffic_vintage_lag_years": 3,
+          "bank_calendar_coverage": "reviewed_annual_base_known_later_amendments_unknown",
+          "bank_calendar_known_asof": 1,
+          "missing_covariates_policy": "missing external covariates stay NaN and are handled natively by HGB; no forecast or backfill is fabricated"
+        },
+        "model_age": {
+          "training_cutoff_local": "2023-12-31T18:00:00+07:00",
+          "days_from_training_cutoff_to_target": 122
+        },
+        "limitations": [
+          "research_only_not_operational",
+          "no_untouched_test",
+          "within_evaluated_period_previously_seen_diagnostic",
+          "traffic_vintage_stale"
+        ],
+        "research_status": {
+          "research_only": true,
+          "production_ready": false,
+          "operational_status": "BLOCKED",
+          "live_data": false
+        }
+      },
+      {
+        "index": 2,
+        "request": {
+          "province_key": "พระนครศรีอยุธยา",
+          "target_date": "2028-04-13",
+          "unit": "daily",
+          "time_block": null
+        },
+        "province_key": "อยุธยา",
+        "alias_applied": true,
+        "target_date": "2028-04-13",
+        "unit": "daily",
+        "time_block": null,
+        "cell": {
+          "issue_time_local": "2028-04-12T18:00:00+07:00",
+          "target_start_local": "2028-04-13T00:00:00+07:00",
+          "target_end_local": "2028-04-14T00:00:00+07:00",
+          "timezone": "Asia/Bangkok",
+          "utc_offset": "+07:00"
+        },
+        "prediction": {
+          "expected_recorded_count": 3.152257174684277,
+          "quantity_note": "model mean of the number of SELECTED RECORDED MOT-source accident records in this province cell; fractional by design; not a collision probability, not personal or route risk",
+          "method_id": "hgb_poisson__full",
+          "family": "hgb",
+          "variant": "full",
+          "bundle_sha256": "1b7e794d6278cd6ca298cde93defae889723d1bc58e3b4f45fe51859ff46dc8c",
+          "registry_id": "2f8a1e2e910fcd01"
+        },
+        "baseline_comparator": {
+          "expected_recorded_count": 1.5415425355842436,
+          "method_id": "baseline_province_month_k30",
+          "sha256": "73b233d4a1fa0eb66a5523ab2404074fb938b7053689c53b48e296a4959c7291",
+          "label": "strongest notebook-11 baseline; reference comparator only, NOT the selected model"
+        },
+        "source_coverage": {
+          "weather_used_by_model": true,
+          "weather_values_available": false,
+          "weather_last_feature_date": "2023-12-31",
+          "traffic_used_by_model": true,
+          "traffic_vintage_survey_year_ce": 2025,
+          "traffic_vintage_lag_years": 3,
+          "bank_calendar_coverage": "unknown_no_applied_reviewed_annual_source",
+          "bank_calendar_known_asof": 0,
+          "missing_covariates_policy": "missing external covariates stay NaN and are handled natively by HGB; no forecast or backfill is fabricated"
+        },
+        "model_age": {
+          "training_cutoff_local": "2023-12-31T18:00:00+07:00",
+          "days_from_training_cutoff_to_target": 1565
+        },
+        "limitations": [
+          "research_only_not_operational",
+          "no_untouched_test",
+          "out_of_evaluated_period",
+          "stale_model",
+          "weather_covariates_missing",
+          "traffic_vintage_stale",
+          "bank_calendar_unknown"
+        ],
+        "research_status": {
+          "research_only": true,
+          "production_ready": false,
+          "operational_status": "BLOCKED",
+          "live_data": false
+        }
+      }
+    ]
+  },
+  "validation_error_example": {
+    "request": [
+      {
+        "province_key": "กรุงเทพมหานคร",
+        "target_date": "2024-05-01",
+        "unit": "daily",
+        "y_recorded_count": 3
+      },
+      {
+        "province_key": "กรุงเทพมหานคร",
+        "target_date": "2024-05-01",
+        "unit": "6h",
+        "time_block": "24-30"
+      }
+    ],
+    "errors": [
+      {
+        "index": 0,
+        "field": "y_recorded_count",
+        "code": "unknown_field",
+        "message": "fields ['y_recorded_count'] are not accepted (no outcomes, masks, features, paths or issue times)"
+      },
+      {
+        "index": 1,
+        "field": "time_block",
+        "code": "invalid_time_block",
+        "message": "time_block must be one of ['00-06', '06-12', '12-18', '18-24']"
+      }
+    ]
+  }
+}

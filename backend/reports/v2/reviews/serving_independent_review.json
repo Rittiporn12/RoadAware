@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "tests": "57 passed in9.40s; one local joblib core-count warning",
+  "notebook_seconds": 27.32,
+  "serving_output_hashes_verified": 16,
+  "accepted_files_unchanged": 164,
+  "stress_metric_rows_independently_verified": 16,
+  "code_and_trust_pins": {
+    "notebook13_functions_sha256": "66b0a4f71265b10f038dcee2a45195de6ca6e986cf236928c8b4f0102b9acf56",
+    "serving_manifest_sha256": "e683ef9774558a39a4cfb180cd87ca0609f1a662de0389ebb58aea10d560df62",
+    "inference_config_sha256": "f100f47211f8d4778877a7f26acb192cf7d7701aca9a008c362ccb1269ddcde3"
+  },
+  "parity_rows": {
+    "daily": 35467,
+    "6h": 141868
+  },
+  "prediction_tolerance": 1e-12,
+  "production_ready": false
+}

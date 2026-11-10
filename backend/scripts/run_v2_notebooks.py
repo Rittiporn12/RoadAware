@@ -18,6 +18,11 @@ Usage (from the repository root):
   backend/reports/v2/models), --model-data-dir (default backend/data/v2/models), --preparation-dir, --prep-data-dir and --experiment-lock
   are READ-ONLY. 12 writes aggregates/PNG to <output>/reports/v2/analysis and row diagnostics to <output>/data/v2/analysis (gitignored);
   this run log: <output>/reports/v2/run_manifest_analysis.json. An existing analysis_manifest.json in the output root is never overwritten.
+* --stage serve-check runs ONLY 13 (explicit; never part of 'all'; no fit, no tuning) against the accepted 09-12 outputs: --model-dir,
+  --model-data-dir, --preparation-dir, --prep-data-dir, --sources-dir, --external-root, --analysis-dir and --experiment-lock are READ-ONLY
+  (13 additionally checks them against the trust anchors in backend/config/inference_v2.json). 13 writes aggregates to
+  <output>/reports/v2/serving and row-level stress rows to <output>/data/v2/serving (gitignored); this run log:
+  <output>/reports/v2/run_manifest_serving.json (outside the serving report dir). An existing serving_manifest.json is never overwritten.
 * --sources-dir is the READ-ONLY 09 report dir used by 10 (default: <output>/reports/v2/sources for --stage all, else
   backend/reports/v2/sources). 10 writes reports to <output>/reports/v2/preparation and row/panel matrices to <output>/data/v2.
 * Must be launched with the project interpreter <repo>/.venv; each notebook runs in a fresh kernel from that interpreter.
@@ -47,7 +52,9 @@ COLLECT = ['09_external_collection_date_evidence']
 PREPARE = ['10_v2_preparation_features_leakage']
 MODEL = ['11_v2_model_experiments']
 EVALUATE = ['12_v2_evaluation_error_analysis']
-STAGES = {'collect': list(COLLECT), 'prepare': list(PREPARE), 'all': COLLECT + PREPARE, 'model': list(MODEL), 'evaluate': list(EVALUATE)}
+SERVE = ['13_inference_robustness_contract']
+STAGES = {'collect': list(COLLECT), 'prepare': list(PREPARE), 'all': COLLECT + PREPARE, 'model': list(MODEL), 'evaluate': list(EVALUATE),
+          'serve-check': list(SERVE)}
 STAGE_TIMEOUT = {'model': 21600}
 KERNEL_NAME = 'roadaware-venv'
 V1_PROTECTED = [Path('data') / 'raw', Path('data') / 'interim', Path('data') / 'processed', Path('data') / 'model', Path('reports') / 'data',
@@ -55,7 +62,7 @@ V1_PROTECTED = [Path('data') / 'raw', Path('data') / 'interim', Path('data') / '
 ENV_KEYS = ('ROADAWARE_BACKEND_ROOT', 'ROADAWARE_V2_EXTERNAL_ROOT', 'ROADAWARE_V2_OUTPUT_ROOT', 'ROADAWARE_V1_DATA_ROOT',
             'ROADAWARE_V2_PREFLIGHT_DIR', 'ROADAWARE_V2_OFFLINE', 'ROADAWARE_V2_REFRESH', 'ROADAWARE_V2_SOURCES_DIR', 'ROADAWARE_V2_DATA_ROOT',
             'ROADAWARE_V2_PREPARATION_DIR', 'ROADAWARE_V2_MODEL_DATA_ROOT', 'ROADAWARE_V2_EXPERIMENT_LOCK', 'ROADAWARE_V2_MODEL_REPORT_DIR',
-            'ROADAWARE_V2_ANALYSIS_DATA_ROOT', 'ROADAWARE_V2_MODEL_NOTEBOOK')
+            'ROADAWARE_V2_ANALYSIS_DATA_ROOT', 'ROADAWARE_V2_MODEL_NOTEBOOK', 'ROADAWARE_V2_ANALYSIS_REPORT_DIR', 'ROADAWARE_V2_SERVING_DATA_ROOT')
 
 
 def venv_python():
@@ -96,7 +103,7 @@ def _inside(p, root):
 
 
 def resolve_roots(output_dir=None, external_root=None, data_root=None, preflight_dir=None, sources_dir=None, stage='collect',
-                  preparation_dir=None, prep_data_dir=None, experiment_lock=None, model_dir=None, model_data_dir=None):
+                  preparation_dir=None, prep_data_dir=None, experiment_lock=None, model_dir=None, model_data_dir=None, analysis_dir=None):
     """Absolute roots; raises ValueError when a V2 write location overlaps a protected v1 location (or, for 10/11, its read-only inputs)."""
     roots = {'backend': BACKEND,
              'output': Path(output_dir).resolve() if output_dir else BACKEND,
@@ -156,10 +163,29 @@ def resolve_roots(output_dir=None, external_root=None, data_root=None, preflight
                 raise ValueError(f'{label} {w} equals or contains the read-only 10 data root {roots["prep_data"]}')
         if _inside(roots['analysis_reports'], roots['prep_data']):
             raise ValueError('analysis report dir lies inside the read-only 10 data root')
+    if stage == 'serve-check':  # 13: every 09-12 location is READ-ONLY; 13 writes only reports/v2/serving and data/v2/serving under output
+        roots['preparation'] = Path(preparation_dir).resolve() if preparation_dir else BACKEND / 'reports' / 'v2' / 'preparation'
+        roots['prep_data'] = Path(prep_data_dir).resolve() if prep_data_dir else BACKEND / 'data' / 'v2'
+        roots['model_reports'] = Path(model_dir).resolve() if model_dir else BACKEND / 'reports' / 'v2' / 'models'
+        roots['model_data'] = Path(model_data_dir).resolve() if model_data_dir else BACKEND / 'data' / 'v2' / 'models'
+        roots['analysis_dir'] = Path(analysis_dir).resolve() if analysis_dir else BACKEND / 'reports' / 'v2' / 'analysis'
+        roots['lock'] = Path(experiment_lock).resolve() if experiment_lock else REPO / 'workflow' / 'model-protocol-v2-lock.json'
+        roots['serving_reports'] = roots['output'] / 'reports' / 'v2' / 'serving'
+        roots['serving_data'] = roots['output'] / 'data' / 'v2' / 'serving'
+        for label in ('serving_reports', 'serving_data'):
+            w = roots[label]
+            for rel in V1_PROTECTED:
+                if _inside(w, roots['data'] / rel) or _inside(roots['data'] / rel, w):
+                    raise ValueError(f'{label} {w} overlaps protected v1 location {roots["data"] / rel}')
+            for rl in ('preparation', 'sources', 'external', 'model_reports', 'model_data', 'analysis_dir'):
+                if _inside(w, roots[rl]) or _inside(roots[rl], w):
+                    raise ValueError(f'{label} {w} overlaps read-only {rl} dir {roots[rl]}')
+            if _inside(roots['prep_data'], w):
+                raise ValueError(f'{label} {w} equals or contains the read-only 10 data root {roots["prep_data"]}')
     return roots
 
 
-RUN_LOG_NAMES = {'model': 'run_manifest_model.json', 'evaluate': 'run_manifest_analysis.json'}
+RUN_LOG_NAMES = {'model': 'run_manifest_model.json', 'evaluate': 'run_manifest_analysis.json', 'serve-check': 'run_manifest_serving.json'}
 
 
 def run_log_path(out, stage):
@@ -184,6 +210,18 @@ def evaluate_preconditions(roots):
     if (roots['analysis_reports'] / 'analysis_manifest.json').exists():
         return (f"{roots['analysis_reports'] / 'analysis_manifest.json'} already exists (earlier notebook 12 run). Use a fresh root, e.g.\n"
                 f'  {sys.executable} backend/scripts/run_v2_notebooks.py --stage evaluate --output-dir backend/rerun-analysis-<UTC-stamp>')
+    return None
+
+
+def serve_preconditions(roots):
+    """Stage serve-check: completed 11 and 12 manifests must exist; an earlier 13 result (or its run log) in the output root is never overwritten."""
+    for p, what in ((roots['model_reports'] / 'model_manifest.json', 'notebook 11'), (roots['analysis_dir'] / 'analysis_manifest.json', 'notebook 12')):
+        if not p.is_file():
+            return f'{p} not found: run and verify {what} first (13 only serves accepted, completed runs)'
+    old = [p for p in (roots['serving_reports'] / 'serving_manifest.json', run_log_path(roots['output'], 'serve-check')) if p.exists()]
+    if old:
+        return (f'{[str(p) for p in old]} already exist (earlier notebook 13 run). Use a fresh root, e.g.\n'
+                f'  {sys.executable} backend/scripts/run_v2_notebooks.py --stage serve-check --output-dir backend/rerun-serving-<UTC-stamp>')
     return None
 
 
@@ -212,6 +250,9 @@ def build_env(roots, offline=False, refresh=False, base=None):
     if 'analysis_reports' in roots:  # stage evaluate: 11 reports/data are READ-ONLY too; 12 writes only its analysis roots
         env.update(ROADAWARE_V2_MODEL_REPORT_DIR=str(roots['model_reports']), ROADAWARE_V2_ANALYSIS_DATA_ROOT=str(roots['analysis_data']),
                    ROADAWARE_V2_MODEL_NOTEBOOK=str(NB_DIR / f'{MODEL[0]}.ipynb'))
+    if 'serving_reports' in roots:  # stage serve-check: 11/12 reports and data are READ-ONLY; 13 writes only its serving roots
+        env.update(ROADAWARE_V2_MODEL_REPORT_DIR=str(roots['model_reports']), ROADAWARE_V2_ANALYSIS_REPORT_DIR=str(roots['analysis_dir']),
+                   ROADAWARE_V2_SERVING_DATA_ROOT=str(roots['serving_data']))
     if offline:
         env['ROADAWARE_V2_OFFLINE'] = '1'
     if refresh:
@@ -245,7 +286,8 @@ def write_kernelspec(py, out):
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--stage', choices=sorted(STAGES), default='collect',
-                    help='collect = 09 (default); prepare = 10; all = 09 then 10; model = 11 only; evaluate = 12 only')
+                    help='collect = 09 (default); prepare = 10; all = 09 then 10; model = 11 only; evaluate = 12 only; serve-check = 13 only')
+    ap.add_argument('--analysis-dir', help='stage serve-check: read-only accepted 12 report dir (default backend/reports/v2/analysis)')
     ap.add_argument('--model-dir', help='stage evaluate: read-only completed 11 report dir (default backend/reports/v2/models)')
     ap.add_argument('--model-data-dir', help='stage evaluate: read-only 11 row predictions (default backend/data/v2/models)')
     ap.add_argument('--preparation-dir', help='stage model: read-only accepted 10 report dir (default backend/reports/v2/preparation)')
@@ -268,12 +310,12 @@ def main(argv=None):
 
     try:
         roots = resolve_roots(a.output_dir, a.external_root, a.data_root, a.preflight_dir, a.sources_dir, a.stage,
-                              a.preparation_dir, a.prep_data_dir, a.experiment_lock, a.model_dir, a.model_data_dir)
+                              a.preparation_dir, a.prep_data_dir, a.experiment_lock, a.model_dir, a.model_data_dir, a.analysis_dir)
     except ValueError as e:
         sys.exit(str(e))
     timeout = a.timeout if a.timeout is not None else STAGE_TIMEOUT.get(a.stage, 7200)
-    if a.stage == 'evaluate':
-        why = evaluate_preconditions(roots)
+    if a.stage in ('evaluate', 'serve-check'):
+        why = (evaluate_preconditions if a.stage == 'evaluate' else serve_preconditions)(roots)
         if why:
             sys.exit(why)
     if a.stage == 'model' and not roots['lock'].is_file():

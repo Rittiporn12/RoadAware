@@ -1,0 +1,45 @@
+case,expected_code,observed_codes,rejected,kind,error
+empty_batch,batch_size,"[""batch_size""]",True,request_validation,
+batch_129,batch_size,"[""batch_size""]",True,request_validation,
+not_a_list,invalid_type,"[""invalid_type""]",True,request_validation,
+item_not_object,invalid_type,"[""invalid_type""]",True,request_validation,
+unknown_province,unknown_province,"[""unknown_province""]",True,request_validation,
+province_whitespace,unknown_province,"[""unknown_province""]",True,request_validation,
+province_not_string,invalid_type,"[""invalid_type""]",True,request_validation,
+invalid_calendar_date,invalid_date,"[""invalid_date""]",True,request_validation,
+non_iso_format,invalid_format,"[""invalid_format""]",True,request_validation,
+datetime_string,invalid_format,"[""invalid_format""]",True,request_validation,
+thai_digits,invalid_format,"[""invalid_format""]",True,request_validation,
+buddhist_era,buddhist_era_year,"[""buddhist_era_year""]",True,request_validation,
+bool_date,invalid_type,"[""invalid_type""]",True,request_validation,
+nan_date,invalid_type,"[""invalid_type""]",True,request_validation,
+inf_date,invalid_type,"[""invalid_type""]",True,request_validation,
+int_date,invalid_type,"[""invalid_type""]",True,request_validation,
+date_object,invalid_type,"[""invalid_type""]",True,request_validation,
+before_service_range,out_of_service_range,"[""out_of_service_range""]",True,request_validation,
+after_service_range,out_of_service_range,"[""out_of_service_range""]",True,request_validation,
+unknown_unit,invalid_unit,"[""invalid_unit""]",True,request_validation,
+6h_without_block,missing_field,"[""missing_field""]",True,request_validation,
+bad_block,invalid_time_block,"[""invalid_time_block""]",True,request_validation,
+daily_with_block,incompatible_unit,"[""incompatible_unit""]",True,request_validation,
+missing_date,missing_field,"[""missing_field""]",True,request_validation,
+duplicate,duplicate_request,"[""duplicate_request""]",True,request_validation,
+alias_duplicate_of_canonical,duplicate_request,"[""duplicate_request""]",True,request_validation,
+client_field_y_recorded_count,unknown_field,"[""unknown_field""]",True,request_validation,
+client_field_training_eligible,unknown_field,"[""unknown_field""]",True,request_validation,
+client_field_split,unknown_field,"[""unknown_field""]",True,request_validation,
+client_field_wx_rain_sum_mm_d2,unknown_field,"[""unknown_field""]",True,request_validation,
+client_field_features,unknown_field,"[""unknown_field""]",True,request_validation,
+client_field_bundle_path,unknown_field,"[""unknown_field""]",True,request_validation,
+client_field_model_path,unknown_field,"[""unknown_field""]",True,request_validation,
+client_field_issue_time_local,unknown_field,"[""unknown_field""]",True,request_validation,
+client_field_method_id,unknown_field,"[""unknown_field""]",True,request_validation,
+tampered_bundle_byte,,,True,artifact_negative_control,tampered bundle: sha256 d35c2c9e5e8f != recorded 1b7e794d6278 (/var/folders/0j/7j3x0lgn1d7gnzl5z6xjmvdr0000gn/T/tmpaih4a2d8/bundles/daily/hgb_poisson__full.joblib); input changed since its producer ra
+bundle_outside_trusted_root,,,True,artifact_negative_control,foreign root: /Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/data/v2/models/bundles/daily/hgb_poisson__full.joblib is outside the trusted model data root /va
+missing_model_data_root,,,True,artifact_negative_control,daily model bundle hgb_poisson__full: missing input /private/var/folders/0j/7j3x0lgn1d7gnzl5z6xjmvdr0000gn/T/tmpaih4a2d8/empty/bundles/daily/hgb_poisson__full.joblib
+model_manifest_anchor_mismatch,,,True,artifact_negative_control,model manifest (trust anchor): sha256 1b11f1dc7bb5 != recorded 000000000000 (/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/reports/v2/models/model_manifest.
+selection_differs_from_expected,,,True,artifact_negative_control,daily.recommended_method: manifest 'hgb_poisson__full' != expected 'rf_poisson__full' (another selection; 13 never re-selects)
+tampered_notebook11_functions,,,True,artifact_negative_control,nb11: FUNCTIONS sha256 01e77a09fffa != recorded f163f65a7523; code changed since the accepted run
+missing_notebook10,,,True,artifact_negative_control,nb10: notebook /var/folders/0j/7j3x0lgn1d7gnzl5z6xjmvdr0000gn/T/tmpaih4a2d8/absent.ipynb missing
+incompatible_sklearn_version,,,True,artifact_negative_control,incompatible runtime for the recorded bundles: scikit-learn 1.6.1 != recorded 0.0.0
+registry_without_models,,,True,artifact_negative_control,registry was loaded without models
