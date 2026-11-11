@@ -1,0 +1,45 @@
+{
+  "status": "accepted_collection_doh_drr_only",
+  "counts": {
+    "doh_highway": {
+      "exact_ids": 599,
+      "geometry_pages": 30,
+      "all_match": true
+    },
+    "drr_rural": {
+      "exact_ids": 547,
+      "geometry_pages": 28,
+      "all_match": true
+    }
+  },
+  "hash_checks": {
+    "reports": 28,
+    "raw": 70,
+    "derived": 10
+  },
+  "offline_raw_and_derived_hashes_match": true,
+  "geometry_features": 1146,
+  "geodesic_lengths_independently_recomputed": 1146,
+  "max_absolute_length_difference_m": 0.0029327669326448813,
+  "protected_before_snapshot_files": 374,
+  "allowed_changes_in_snapshot": [
+    "backend/.gitignore"
+  ],
+  "other_snapshot_files_unchanged": 373,
+  "visuals": "Both actual online figures inspected: descriptive section overview and length distribution, explicitly not forecast/risk maps",
+  "remaining": [
+    "6non-simple line features require later linkage review",
+    "Units and source vintage remain hypotheses/unverified",
+    "No spatial labels, zero counts, accident-to-road mapping or spatial model evaluated"
+  ],
+  "tests": {
+    "road_specific": 57,
+    "full_backend": 385,
+    "full_suite_seconds": 19.89,
+    "warnings": "existing joblib core-count fallback"
+  },
+  "online_seconds": 37.99,
+  "offline_seconds": 15.8,
+  "worker_run": "20261111-084109-65274",
+  "next_scope": "Add EXAT official source separately before point-to-road linkage; pilot raw includes1073EXAT records"
+}

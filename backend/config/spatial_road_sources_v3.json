@@ -1,0 +1,100 @@
+{
+  "version": "spatial_road_sources_v3.0",
+  "status": "collection_only: read-only official road geometry snapshot for a preregistered pilot envelope; no labels, snapping, model, thresholds or colours",
+  "notebook": "notebooks/17_spatial_road_collection.ipynb",
+  "preregistration": {
+    "envelope_epsg4326": [100.2, 13.5, 102.0, 15.3],
+    "spatial_rel": "esriSpatialRelIntersects",
+    "registered_by": "task 013 (2026-11-11), before any spatial model evaluation",
+    "note": "geometry-collection pilot envelope only: NOT a routed SPU-Khao Yai path and does not cover all six candidate provinces. Changing it (or the budget) requires a documented config change before any model outcome is viewed."
+  },
+  "allowed_hosts": ["giportal.mot.go.th", "gis.drr.go.th"],
+  "budget": {
+    "batch_size": 20,
+    "max_features": 20000,
+    "max_total_geometry_bytes": 268435456,
+    "max_response_bytes": 16777216,
+    "max_metadata_bytes": 4194304,
+    "max_requests": 2500,
+    "max_wall_seconds": 5400,
+    "timeout_seconds": 60,
+    "max_retries": 2,
+    "retry_backoff_seconds": 3
+  },
+  "sources": [
+    {
+      "id": "doh_highway",
+      "authority": "Department of Highways (DOH, กรมทางหลวง)",
+      "catalog_url": "https://datagov.mot.go.th/th/dataset/transportgis",
+      "service_url": "https://giportal.mot.go.th/arcgis/rest/services/Hosted/เส้นทางหลวงแผ่นดิน_ทล/FeatureServer",
+      "layer_id": 0,
+      "expected_geometry_type": "esriGeometryPolyline",
+      "query_format": "json",
+      "query_format_note": "Esri JSON for both services (DRR layer2 advertises only JSON/AMF): keeps official field types and spatialReference; GeoJSON is a separate derivative",
+      "license": "pending: licence text of the MOT catalog resource was not captured; confirm on the catalog resource page before redistribution",
+      "attribute_roles": {
+        "route": ["road_code"],
+        "section": ["section_co"],
+        "km_start": "km_start",
+        "km_end": "km_end",
+        "length": ["length"],
+        "degree_length": ["SHAPE__Length", "Shape__Length"],
+        "year": []
+      }
+    },
+    {
+      "id": "drr_rural",
+      "authority": "Department of Rural Roads (DRR, กรมทางหลวงชนบท)",
+      "catalog_url": "https://datagov.mot.go.th/th/dataset/transportgis",
+      "service_url": "https://gis.drr.go.th/arcgis/rest/services/DRR_Feature/FeatureServer",
+      "layer_id": 2,
+      "expected_geometry_type": "esriGeometryPolyline",
+      "query_format": "json",
+      "query_format_note": "layer advertises supportedQueryFormats JSON, AMF (no GeoJSON)",
+      "license": "pending: licence text of the MOT catalog resource was not captured; confirm on the catalog resource page before redistribution",
+      "attribute_roles": {
+        "route": ["road_code", "route_name"],
+        "section": ["link_id", "sublink_id"],
+        "km_start": "km_start",
+        "km_end": "km_end",
+        "length": ["length_gps", "length_drr"],
+        "degree_length": ["SHAPE__Length", "Shape__Length", "SHAPE.LEN", "Shape_Length"],
+        "year": ["budget_year"]
+      }
+    }
+  ],
+  "discovery_context": {
+    "manifest": "../workflow/spatial/source_discovery/discovery_manifest.json",
+    "pilot_manifest": "../workflow/spatial/source_discovery/pilot_query_manifest.json",
+    "key_map": {"doh": "doh_highway", "drr": "drr_rural"},
+    "note": "manager observations (national and pilot counts) are context only, never expected counts"
+  },
+  "thailand_broad_bbox": {"lat_min": 5.5, "lat_max": 20.5, "lon_min": 97.3, "lon_max": 105.7,
+                          "note": "coarse national box used only for lon/lat-order and out-of-country flags"},
+  "unit_audit": {
+    "band": [0.8, 1.25],
+    "min_share": 0.8,
+    "scales_to_metres": {"m": 1.0, "km": 1000.0},
+    "note": "ratio of attribute value (scaled to metres) to the WGS84 geodesic length of the same full section; a single unit reaching min_share is only a hypothesis pending official documentation"
+  },
+  "segment_length_candidates_km": [0.5, 1, 2],
+  "dependency_pins": {
+    "pandas": "pandas>=2.0,<3",
+    "numpy": "numpy>=1.24,<3",
+    "shapely": "shapely>=2.0,<3",
+    "matplotlib": "matplotlib>=3.7,<4",
+    "pyproj": "pyproj>=3.6.1,<3.7"
+  },
+  "figure_fonts": ["Thonburi", "Tahoma", "Noto Sans Thai", "Sukhumvit Set", "Ayuthaya"],
+  "protected_paths": [
+    "data/v2", "reports/v2", "data/raw/accidents", "data/external_v2",
+    "data/v3/spatial_readiness", "reports/v3/spatial_readiness",
+    "config/data_pipeline.json", "config/external_sources_v2.json", "config/feature_pipeline_v2.json", "config/model_experiment_v2.json",
+    "config/inference_v2.json", "config/catalog_v2.json", "config/spatial_readiness_v3.json", "config/spatial_road_sources_v3.json",
+    "notebooks/09_external_collection_date_evidence.ipynb", "notebooks/10_v2_preparation_features_leakage.ipynb",
+    "notebooks/11_v2_model_experiments.ipynb", "notebooks/12_v2_evaluation_error_analysis.ipynb",
+    "notebooks/13_inference_robustness_contract.ipynb", "notebooks/16_spatial_data_readiness.ipynb",
+    "../workflow/model-protocol-v2-lock.json", "../workflow/spatial"
+  ],
+  "outputs": {"report_dir": "reports/v3/road_collection", "data_dir": "data/v3/road_collection"}
+}

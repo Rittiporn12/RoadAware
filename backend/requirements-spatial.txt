@@ -1,0 +1,7 @@
+# Notebook 17: versions verified by Codex during actual online/offline collection.
+# Core needs are already in requirements-data.txt (pandas, numpy, matplotlib, nbformat/nbclient/ipykernel, shapely>=2,<3).
+# Network access uses the standard library (urllib, default TLS verification); no HTTP client package is required.
+shapely==2.0.7
+# Optional: independent geodesic cross-check (pyproj.Geod.line_length) of the stdlib WGS84 Vincenty lengths.
+# pyproj 3.6.1 supports Python >=3.9 and is installed in the project .venv.
+pyproj==3.6.1

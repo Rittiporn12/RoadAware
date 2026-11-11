@@ -1,0 +1,33 @@
+check,source_id,status,evidence
+preregistered_envelope,all,info,"EPSG4326 [100.2, 13.5, 102.0, 15.3] esriSpatialRelIntersects; geometry pilot only, not a routed path, not all six candidate provinces"
+collection_complete,doh_highway,pass,complete
+count_ids_pages_reconciled,doh_highway,pass,"count 599, IDs 599, pages 30/30, unique features 599"
+inventory_stable_pre_post,doh_highway,pass,"count before 599, after 599; non-transactional caveat remains"
+crs_outsr_4326,doh_highway,pass,every page spatialReference must be 4326; layer wkid 4326
+geometry_nonempty_finite_lines,doh_highway,pass,"0 features flagged (kept in raw, excluded only from the GeoJSON derivative); derivative ok 599"
+lonlat_order_and_bounds,doh_highway,pass,"swap suspects 0, outside Thailand box 0"
+envelope_predicate_consistency,doh_highway,pass,"bbox disjoint 0, empty clip 0"
+geodesic_lengths,doh_highway,pass,WGS84 Vincenty (stdlib) on 599 sections; pyproj 3.6.1 Geod.line_length on 1146 sections: max relative difference 1.61e-07
+topology_simple_valid,doh_highway,review,"not simple 2, invalid 0 (flag only, no repair)"
+units: length,doh_highway,pending,consistent_with_km (hypothesis_pending_official_confirmation)
+units: km_end - km_start,doh_highway,pending,consistent_with_m (hypothesis_pending_official_confirmation)
+units: SHAPE__Length,doh_highway,pending,units per layer geometryProperties: esriDecimalDegrees (not_metres_never_used_as_length)
+vintage_historical_topology,doh_highway,pending,current snapshot only; does not prove the 2021-2025 road network
+licence,doh_highway,pending,pending: licence text of the MOT catalog resource was not captured; confirm on the catalog resource page before redistribution
+collection_complete,drr_rural,pass,complete
+count_ids_pages_reconciled,drr_rural,pass,"count 547, IDs 547, pages 28/28, unique features 547"
+inventory_stable_pre_post,drr_rural,pass,"count before 547, after 547; non-transactional caveat remains"
+crs_outsr_4326,drr_rural,pass,every page spatialReference must be 4326; layer wkid 4326
+geometry_nonempty_finite_lines,drr_rural,pass,"0 features flagged (kept in raw, excluded only from the GeoJSON derivative); derivative ok 547"
+lonlat_order_and_bounds,drr_rural,pass,"swap suspects 0, outside Thailand box 0"
+envelope_predicate_consistency,drr_rural,pass,"bbox disjoint 0, empty clip 0"
+geodesic_lengths,drr_rural,pass,WGS84 Vincenty (stdlib) on 547 sections; pyproj 3.6.1 Geod.line_length on 1146 sections: max relative difference 1.61e-07
+topology_simple_valid,drr_rural,review,"not simple 4, invalid 0 (flag only, no repair)"
+units: length_gps,drr_rural,pending,consistent_with_km (hypothesis_pending_official_confirmation)
+units: length_drr,drr_rural,pending,consistent_with_km (hypothesis_pending_official_confirmation)
+units: km_end - km_start,drr_rural,pending,consistent_with_m (hypothesis_pending_official_confirmation)
+vintage_historical_topology,drr_rural,pending,current snapshot only; does not prove the 2021-2025 road network
+licence,drr_rural,pending,pending: licence text of the MOT catalog resource was not captured; confirm on the catalog resource page before redistribution
+model_segments_0.5_1_2km,all,pending,official records are coarse sections; segmentation not built in this task
+road_snapping_zero_labels_completeness,all,not_in_scope,"no snapping, labels, accident-report completeness or route-level skill"
+routed_spu_khaoyai_path,all,not_in_scope,no route computed; the envelope is not a route

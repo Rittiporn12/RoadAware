@@ -1,0 +1,652 @@
+{
+  "status": "complete",
+  "version": "spatial_road_sources_v3.0",
+  "created_utc": "2026-11-11T02:04:46.531293+00:00",
+  "mode": "online",
+  "notebook": "notebooks/17_spatial_road_collection.ipynb",
+  "config_sha256": "9437221acc08ed2e8857712a99ae644e9b4f45a33a70c4227eade0786a05a757",
+  "preregistration": {
+    "envelope_epsg4326": [
+      100.2,
+      13.5,
+      102.0,
+      15.3
+    ],
+    "spatial_rel": "esriSpatialRelIntersects",
+    "registered_by": "task 013 (2026-11-11), before any spatial model evaluation",
+    "note": "geometry-collection pilot envelope only: NOT a routed SPU-Khao Yai path and does not cover all six candidate provinces. Changing it (or the budget) requires a documented config change before any model outcome is viewed."
+  },
+  "budget": {
+    "batch_size": 20,
+    "max_features": 20000,
+    "max_total_geometry_bytes": 268435456,
+    "max_response_bytes": 16777216,
+    "max_metadata_bytes": 4194304,
+    "max_requests": 2500,
+    "max_wall_seconds": 5400,
+    "timeout_seconds": 60,
+    "max_retries": 2,
+    "retry_backoff_seconds": 3
+  },
+  "cache_source": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/rerun-road-013-online-001/data/v3/road_collection/raw",
+  "cache_manifest_sha256": "e2c313afa10a993e4bf1c14992311c399debe301b8449869fb810340235e8db0",
+  "raw_files": {
+    "doh_highway": [
+      {
+        "kind": "service",
+        "file": "doh_highway/service.json",
+        "sha256": "ce401a56dfe69c7cc7e6da1752bd67c4de6f436fe112f3e9a785ff7c2d7f81da",
+        "bytes": 1802,
+        "page": null
+      },
+      {
+        "kind": "layer",
+        "file": "doh_highway/layer.json",
+        "sha256": "acaebaaf432359ab0bae1b839581baebe4e4329299c016c726eac2c294ba9079",
+        "bytes": 8022,
+        "page": null
+      },
+      {
+        "kind": "count_pre",
+        "file": "doh_highway/count_pre.json",
+        "sha256": "9a60a2cedbae5f1bfa40a87cf3218debb64f094e425b53f31944a73745bb11c2",
+        "bytes": 13,
+        "page": null
+      },
+      {
+        "kind": "ids_pre",
+        "file": "doh_highway/ids_pre.json",
+        "sha256": "2c80ad1e043540eaf40143442aa8c9b7095a760b0ee1930d519c636575272377",
+        "bytes": 2902,
+        "page": null
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00001.json",
+        "sha256": "a39cef39def6cfbad4c3e6282a0b8c97aa171a9e26259fcfdb20a4101c65c624",
+        "bytes": 685114,
+        "page": 1
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00002.json",
+        "sha256": "9c2e7964c1f8568863eaa3fa2b89e73e19703abb2b893f8478a05aadc5a0baa2",
+        "bytes": 2009360,
+        "page": 2
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00003.json",
+        "sha256": "d4e4f12f1c708332b093fb023c9d3dca57805f0402e939e31c10d039d5f91313",
+        "bytes": 595519,
+        "page": 3
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00004.json",
+        "sha256": "736ed81b3d569882614ba21570199e3a731cb6efa3ae094c710992ff1227c5ac",
+        "bytes": 1413407,
+        "page": 4
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00005.json",
+        "sha256": "3ac17d56faa7b3fe803494837911e199b0e8a319ca6129597b17de84bb47741e",
+        "bytes": 1599395,
+        "page": 5
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00006.json",
+        "sha256": "a5a66cf31cf913b784699a3620fc5bfd3ed21c8fd5c7ca21ab72eb4e414a498c",
+        "bytes": 2873183,
+        "page": 6
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00007.json",
+        "sha256": "a28226dd95d89c765436ace644dc604e5281c1879443e21eef017c4e15479d94",
+        "bytes": 1722153,
+        "page": 7
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00008.json",
+        "sha256": "4215f923ebe1d2557faa134ccfa18b906e8cb3939576228499324665d22d1407",
+        "bytes": 1541648,
+        "page": 8
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00009.json",
+        "sha256": "fcb27a66bbc3214b4093b405bff57f6b00231b5f1329fd5f558b046a00ed4e34",
+        "bytes": 3117833,
+        "page": 9
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00010.json",
+        "sha256": "6eca8c405d26dfe6c5c8f2cb692735948c0eccc55903bdee2e37fd24c98d3461",
+        "bytes": 2993841,
+        "page": 10
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00011.json",
+        "sha256": "84d7fc01ccd4e9f5f4781dfe80c1b89989914a8d39d5e7d45b80ae49e7b32b08",
+        "bytes": 1560463,
+        "page": 11
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00012.json",
+        "sha256": "4b00f8503995d0abf859e1c12b13578f8ca5a139816f2c77021959c56d96b011",
+        "bytes": 1884636,
+        "page": 12
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00013.json",
+        "sha256": "d8722f7153650f870a169b9103476f08e4b7d3eea8c497ce11ca83249520633f",
+        "bytes": 964242,
+        "page": 13
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00014.json",
+        "sha256": "0d3dcb6bec0abcd7ee70e6c1c5b9dd725ff2b42103590bc0683499f767014554",
+        "bytes": 1290450,
+        "page": 14
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00015.json",
+        "sha256": "2992bca3010b0e4395c00656169af661b5417bab5781c44fb8c370df6e8a590e",
+        "bytes": 1745005,
+        "page": 15
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00016.json",
+        "sha256": "f74a5d38538c2121300ec2adfb1ebb0e387fd1e60cfd7197a2bf5f48684eb76d",
+        "bytes": 1066538,
+        "page": 16
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00017.json",
+        "sha256": "e846f981a97abc9a2547b18f7ab04d1e30d0bc17d8b1669a54dd69ad09a52431",
+        "bytes": 2274837,
+        "page": 17
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00018.json",
+        "sha256": "97bf6c6e791b35553f4547925e6a301c2ab7d490bff3cc67fe7f32c35acd759f",
+        "bytes": 1083500,
+        "page": 18
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00019.json",
+        "sha256": "184273310a88d301c59f67cea898518430a5a4248ee3b495030e5799a6a9c2a8",
+        "bytes": 753528,
+        "page": 19
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00020.json",
+        "sha256": "87d992ceffb154f56d147ca6aa420b71a80a04a25444fd0bcc77b45a4ec12508",
+        "bytes": 872928,
+        "page": 20
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00021.json",
+        "sha256": "11a05754d6ead8292efdb2d3389cfc95bed5e2dd5b5729d909ddac938956b655",
+        "bytes": 536973,
+        "page": 21
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00022.json",
+        "sha256": "48d0536a251147b91313a235d12a58ae93159c72b5fbc2da80f81c5c8e003646",
+        "bytes": 265481,
+        "page": 22
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00023.json",
+        "sha256": "14ae26655d685250fb2a8dfc4c599ab6ede76140c4961f30edc91c3f2580994b",
+        "bytes": 832875,
+        "page": 23
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00024.json",
+        "sha256": "a2918f67fd5401109a7100cf7495ea705ef7b30aba732070f89a883297320392",
+        "bytes": 81422,
+        "page": 24
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00025.json",
+        "sha256": "8a98f72d0c0dc0b8797d63295245a3b306f859c43e9a856df00fdd7cd2e83d67",
+        "bytes": 294129,
+        "page": 25
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00026.json",
+        "sha256": "a74d4b851235566a425d61c1a3122515796e04cd11a032c855636f129c638ae8",
+        "bytes": 525209,
+        "page": 26
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00027.json",
+        "sha256": "de49a0e9b5cced747b1581b887c0b7988fd0b9b0bc602249fda5a610da890925",
+        "bytes": 1099930,
+        "page": 27
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00028.json",
+        "sha256": "cd5f39a8c005051d8d2bb208c5faa2e1afc017086e2e5dd130cfe3eafef42f7b",
+        "bytes": 204590,
+        "page": 28
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00029.json",
+        "sha256": "ac6f417751bd74824fab77ffaaf011b8ba192a0aabf337e3d446679981a23afc",
+        "bytes": 456497,
+        "page": 29
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00030.json",
+        "sha256": "5a91fffdf405b14f92d0289c327f04130ecd54ad6817eb2eca7db7a82beb6b18",
+        "bytes": 25276,
+        "page": 30
+      },
+      {
+        "kind": "count_post",
+        "file": "doh_highway/count_post.json",
+        "sha256": "9a60a2cedbae5f1bfa40a87cf3218debb64f094e425b53f31944a73745bb11c2",
+        "bytes": 13,
+        "page": null
+      },
+      {
+        "kind": "ids_post",
+        "file": "doh_highway/ids_post.json",
+        "sha256": "2c80ad1e043540eaf40143442aa8c9b7095a760b0ee1930d519c636575272377",
+        "bytes": 2902,
+        "page": null
+      }
+    ],
+    "drr_rural": [
+      {
+        "kind": "service",
+        "file": "drr_rural/service.json",
+        "sha256": "986ba076c47b57eac1b2f6e12e1c795587665c70b82514608f8b3640b62ff4ff",
+        "bytes": 956,
+        "page": null
+      },
+      {
+        "kind": "layer",
+        "file": "drr_rural/layer.json",
+        "sha256": "2ebaa184a6fe0f9a4f1c6083e795edadb3e1968c2a2da7e1b4b91165b4999525",
+        "bytes": 5329,
+        "page": null
+      },
+      {
+        "kind": "count_pre",
+        "file": "drr_rural/count_pre.json",
+        "sha256": "4f8fe98f7cb0430bfe643811216ee41a5351dcb2236d5a97b72fd4941648b1c7",
+        "bytes": 13,
+        "page": null
+      },
+      {
+        "kind": "ids_pre",
+        "file": "drr_rural/ids_pre.json",
+        "sha256": "f799bdcd33086efc008cd5e92eb481d7ec95a7537cde1894a4eb3a5684bb01c1",
+        "bytes": 3875,
+        "page": null
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00001.json",
+        "sha256": "784bce83cef9a0316f8b56324a60ecc17769a17064612eb4e46de8e8c4200ba0",
+        "bytes": 160662,
+        "page": 1
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00002.json",
+        "sha256": "daef0bc3f61a9782dfd48ac27a6ac6671dca0643795b106e6c431cc7f26ab3e5",
+        "bytes": 168227,
+        "page": 2
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00003.json",
+        "sha256": "40119df2b6b7bbf7148fa09cd7539bccfbe4c2239db34ef40b35908debf4a41a",
+        "bytes": 169552,
+        "page": 3
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00004.json",
+        "sha256": "31f80ede30aa2030a49a5af7f9a1fe29cd3bd628b56455f307da0670da945732",
+        "bytes": 140452,
+        "page": 4
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00005.json",
+        "sha256": "3ccf1f85dcfb74147a29cf095b0e28224f45c5b07f710a3f3b66a06fb893bcae",
+        "bytes": 153864,
+        "page": 5
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00006.json",
+        "sha256": "bf5f5aee09774ac90d07b95e17f7a576ee38923f111cbefd4a85377effdddce0",
+        "bytes": 204149,
+        "page": 6
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00007.json",
+        "sha256": "eef1efd36b95c717ecab3f76891954bfd8d5bd9766a93477e583a751a2a0d7d8",
+        "bytes": 161165,
+        "page": 7
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00008.json",
+        "sha256": "cbabb446f741f3d0360b05c70c66f5d05833b165f948c9effaa57290c65b5b77",
+        "bytes": 173683,
+        "page": 8
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00009.json",
+        "sha256": "a055348086d795b315eaf57b238c150735f1d2bb12a633e488f57adb26afe107",
+        "bytes": 150784,
+        "page": 9
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00010.json",
+        "sha256": "bae56774b06c43d1007ac2b53bf5d65695303a1187008377134757228539e6d6",
+        "bytes": 157954,
+        "page": 10
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00011.json",
+        "sha256": "85b49617679436d26d2ac044006edfdfdfb2edc48862851ba297e0266651439b",
+        "bytes": 126657,
+        "page": 11
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00012.json",
+        "sha256": "5a768b36be2fd26f88771e08f54a6be59fc573160bbb4cc64fe9ba410a4d7131",
+        "bytes": 210254,
+        "page": 12
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00013.json",
+        "sha256": "162cba692d44708b10c5d4182f28e8ada1f80d32382b706729b92f494ee300e1",
+        "bytes": 171995,
+        "page": 13
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00014.json",
+        "sha256": "db3033c4a4d95081cac18e31fd183d49e1f898c2781f65ee929a47eb444a5210",
+        "bytes": 229314,
+        "page": 14
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00015.json",
+        "sha256": "ac4afe6a0b4dccfc8f90b289188d514d38803d93d3a56fca68da87981632ff27",
+        "bytes": 138440,
+        "page": 15
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00016.json",
+        "sha256": "0a32cea2010b899c40bc9fc9bd8dd5c069a3bb51a79b0f9188bbcd869d624272",
+        "bytes": 160267,
+        "page": 16
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00017.json",
+        "sha256": "3cbd7916f96d784c5553a90fd90230ba20b40075900c0edb26a4b0c8b96527ba",
+        "bytes": 121423,
+        "page": 17
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00018.json",
+        "sha256": "221e4d9ecbf6c8c004c8ec653414ca9324bf70efcb21e10f12a979e3e8fd4252",
+        "bytes": 206319,
+        "page": 18
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00019.json",
+        "sha256": "434ac47094a295304d2488f2aaced4cdd4ff8b27f7367a4ef00c3ae5174cb43f",
+        "bytes": 228162,
+        "page": 19
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00020.json",
+        "sha256": "57465121d052fc91d5ab0013714cd2d10556d1aa6bfc53cf5c08ab90fd354ffd",
+        "bytes": 122593,
+        "page": 20
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00021.json",
+        "sha256": "9c77bcc8759b2b4ed584896a0be37f3ef08129fe4dd5c408eafb15a06e4df3cb",
+        "bytes": 190249,
+        "page": 21
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00022.json",
+        "sha256": "b61741920d029c3c233019ce011e56c0002d5940be671b74469b7b9de94c43d3",
+        "bytes": 158760,
+        "page": 22
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00023.json",
+        "sha256": "bba351028a802d42f8d07a75a11c6f9046f883e9401e6a8a2796f929ad37162a",
+        "bytes": 142250,
+        "page": 23
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00024.json",
+        "sha256": "593e2b7010ce835d8ac3e474afa1d103f66af8a0217eceb19539e73d3f0f4b72",
+        "bytes": 267659,
+        "page": 24
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00025.json",
+        "sha256": "cc31703240e5ab8f09f1af8e81c53483fb1212fd99337a0874466372ca04e448",
+        "bytes": 207011,
+        "page": 25
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00026.json",
+        "sha256": "46da6bd76a4d28cd114da1ef73da7e03c3e1e369567b57989a8615954acc6e0e",
+        "bytes": 137894,
+        "page": 26
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00027.json",
+        "sha256": "a48edb5957bdfddc21af6a3dec0af6a232cf04d17a38a8ae80a7090413d9ceaa",
+        "bytes": 130567,
+        "page": 27
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00028.json",
+        "sha256": "81271c4d853c59e1c18980a01c13c89ac27b25ba849d09862dd61f076dcd8f8d",
+        "bytes": 143017,
+        "page": 28
+      },
+      {
+        "kind": "count_post",
+        "file": "drr_rural/count_post.json",
+        "sha256": "4f8fe98f7cb0430bfe643811216ee41a5351dcb2236d5a97b72fd4941648b1c7",
+        "bytes": 13,
+        "page": null
+      },
+      {
+        "kind": "ids_post",
+        "file": "drr_rural/ids_post.json",
+        "sha256": "f799bdcd33086efc008cd5e92eb481d7ec95a7537cde1894a4eb3a5684bb01c1",
+        "bytes": 3875,
+        "page": null
+      }
+    ]
+  },
+  "sources": {
+    "doh_highway": {
+      "count": 599,
+      "features": 599,
+      "pages": 30,
+      "geometry_bytes": 36369962,
+      "layer_facts": {
+        "layer_name": "DOH_Road_OpenData",
+        "layer_id": 0,
+        "capabilities": "Query",
+        "object_id_field": "objectid",
+        "max_record_count": 2000,
+        "current_version": 11.5,
+        "supported_query_formats": "JSON, geoJSON, PBF",
+        "layer_wkid": 4326,
+        "source_wkid": 4326,
+        "shape_length_units": "esriDecimalDegrees",
+        "has_z": false,
+        "has_m": false,
+        "copyright_text": "",
+        "description": "",
+        "service_item_id": "7dd9dca0bd7948de9351b29302cd4c2c",
+        "last_edit_date_ms": null,
+        "layer_extent": [
+          97.747635935,
+          5.6707700000000045,
+          105.54479984199997,
+          20.44771395800001
+        ]
+      },
+      "captured_first_utc": "2026-11-11T02:04:10.537238+00:00",
+      "captured_last_utc": "2026-11-11T02:04:19.219961+00:00"
+    },
+    "drr_rural": {
+      "count": 547,
+      "features": 547,
+      "pages": 28,
+      "geometry_bytes": 4733323,
+      "layer_facts": {
+        "layer_name": "ทางหลวงชนบท",
+        "layer_id": 2,
+        "capabilities": "Query",
+        "object_id_field": "OBJECTID",
+        "max_record_count": 1000,
+        "current_version": 10.11,
+        "supported_query_formats": "JSON, AMF",
+        "layer_wkid": 4326,
+        "source_wkid": null,
+        "shape_length_units": null,
+        "has_z": false,
+        "has_m": false,
+        "copyright_text": "",
+        "description": "ข้อมูลเส้นทางคมนาคมจัดเก็บข้อมูลเส้นกึ่งกลางถนนถนนหลายประเภท เช่น ถนน ทางด่วน ทางยกระดับ ซอย ซอยในหมู่บ้าน ที่ปรากฎในแผนที่ภาพถ่ายทางอากาศของกรมแผนที่ทหาร ครอบคลุมพื้นที่ประเทศไทย ข้อมูลชุดนี้มีความละเอียด 1:4000 ในเขตเมืองจำนวน 110 เมือง และ นอกเขตเมืองมีความละเอียด 1:20000",
+        "service_item_id": null,
+        "last_edit_date_ms": null,
+        "layer_extent": [
+          96.98000000000008,
+          5.7216319950000525,
+          105.84300005000006,
+          20.442913112000042
+        ]
+      },
+      "captured_first_utc": "2026-11-11T02:04:19.768057+00:00",
+      "captured_last_utc": "2026-11-11T02:04:33.479811+00:00"
+    }
+  },
+  "report_files": {
+    "field_schema.csv": "296c2f7bcc6b534a7a12daf1d08f69b3e2d316d676f8592c2093b2757b2daa3a",
+    "figures/road_sections_overview.png": "2e2048b547035c02149f2a941137b64a15539fa07722e1a809936df062594081",
+    "figures/section_length_distribution.png": "91e36f06d6f921453dfd66f2bd0ae66bea7a1986652bb6007b9b5e5b09883004",
+    "geometry_quality.csv": "f2c893b0e88d7d1b71a11927b4844252a755773052be39e075605f826520e426",
+    "page_reconciliation.csv": "7c61d68f64d921980f6793093e596e561a14a259aca974b89eaf69f5d533709b",
+    "problems.csv": "d5df08c84d259c3aa5ecd65bd8ecfd59e0d6a4a1c19d5340a75f5bba143e8960",
+    "property_missingness.csv": "42287be5d3706eb349b1f429080b52c71730d695a7e62c6d0ca0cb8f68b2e89a",
+    "readiness.csv": "9ee16e8df44fb392ce5763fbb3cc258dcc3f9ddcb8b558712bf700a3b38371e0",
+    "road_collection_report_th.md": "d45b1db9ac082d144b853b53893d5bdc6775a99daa6e93ebf8d70bb4215eac17",
+    "road_collection_status.json": "00c6467eda98678064e2ee2d352612c5b7f26121d02006734a4d12d9929500ba",
+    "section_vs_segment.csv": "844e90b8eadd169c3f1e5b521f05fdd304fdedb800da3c2512347678be4f6f8d",
+    "source_summary.csv": "7573104edf4e2fdffefb683eac6b35bc6cd6b4e123dbee5f2abf5ead41118ded",
+    "unit_audit.csv": "fa71bbcf1074e4355c125cb8c0086be8dcaa3c2f8bd1f0ed681d5857c61dd1b7",
+    "vintage_metadata.csv": "d7abbfdea9f1814eb563723f28781ccfc5ec511dca10b714c50205156a2d62cb"
+  },
+  "derived_files": {
+    "doh_highway_clipped.geojson": "05a7a1e95ac939f533ebea3daefe40b1394b8ae3289ffbac57ce7589c50a9f38",
+    "doh_highway_full.geojson": "a8d7ade7961d6b11723c5f1feaf3342ee0319e94d661600d06b9538fdb9bc16c",
+    "drr_rural_clipped.geojson": "dcbb253a6a8273738e3ec8109a3f4571cdc3e0d2ec4c4fa5819dc0712a385187",
+    "drr_rural_full.geojson": "1c30231ce2ae50fe3eeb856a51ca1dcbcf4aac68b9e4781d2628fa14fde4c941",
+    "feature_diagnostics.csv": "4789eab9a06b1509cfd4f9efd64f0aa37f72bcec6a54d4b605230074c2a6ce1a"
+  },
+  "dependencies": {
+    "shapely": "2.0.7",
+    "pyproj": "3.6.1",
+    "pandas": "2.3.3",
+    "geodesic_method": "Vincenty inverse on WGS84 (stdlib math); planar degree distances are never used as metres",
+    "pyproj_crosscheck": "pyproj 3.6.1 Geod.line_length on 1146 sections: max relative difference 1.61e-07"
+  },
+  "caveats": [
+    "ArcGIS REST queries are not transactional: count and IDs are re-queried after the download and must match, but an edit to the attributes or geometry of an existing OID between requests cannot be excluded",
+    "snapshot = current service state at capture time; it does not prove the 2021-2025 road topology",
+    "full official sections intersecting the envelope are kept as returned; the envelope-clipped geometry is a separate derivative",
+    "national/pilot counts observed by the manager are context only, never expected values",
+    "official records are coarse road sections, not the proposed 0.5/1/2 km model segments (not built here)",
+    "no road snapping, zero labels, accident-report completeness, model, risk score or route-level skill is evaluated; no SPU-Khao Yai route is computed"
+  ],
+  "protected_unchanged": true,
+  "protected_files_hashed": 384,
+  "python": "3.9.6",
+  "discovery_context": {
+    "national_counts": {
+      "doh_highway": 3044,
+      "drr_rural": 3700
+    },
+    "pilot_counts": {
+      "doh_highway": 599,
+      "drr_rural": 547
+    },
+    "pilot_envelope_matches": true,
+    "checked_utc": {
+      "national": "2026-11-10T23:43:43.893326+00:00",
+      "pilot": "2026-11-11T01:38:11.019640+00:00"
+    },
+    "note": "manager observations (national and pilot counts) are context only, never expected counts"
+  }
+}

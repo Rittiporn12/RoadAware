@@ -9,6 +9,8 @@
 
 **Spatial readiness ตรวจรับแล้ว:** Notebook16 รันจริงผ่าน 27 checks และ tests รวม 94 ผ่าน แก้ output-path guard และกราฟแล้ว ดู [หลักฐานตรวจรับ](workflow/spatial-readiness-verification-th.md) และ [รายงานจริง](backend/reports/v3/spatial_readiness/spatial_readiness_report_th.md) ขั้นต่อไปคือเก็บ geometry ถนนในพื้นที่นำร่อง ยังไม่มี spatial model หรือเกณฑ์สี
 
+**เก็บเส้นถนนแล้ว:** Notebook17 เก็บ DOH599 + DRR547 features ในกรอบนำร่อง ตรวจ online/offline/hash/IDs/ความยาวแล้ว Full backend385testsผ่าน ดู [หลักฐาน](workflow/road-collection-verification-th.md) กำลังเพิ่มแหล่งทางพิเศษ EXAT แยกversionก่อนเชื่อมจุดอุบัติเหตุกับถนน ยังไม่ใช่ผลทำนายความเสี่ยงรายจุด
+
 **ผลสำหรับ Presentation:** [10 กราฟ PNG/SVG พร้อม CSV และคำอธิบายไทย](output/model-results/README_th.md) · [ดาวน์โหลด ZIP](output/RoadAware_model_results.zip) เป็นผล V2 จริง ไม่ใช่การทดลอง spatial ใหม่
 
 ทดลองจริง 3 ตระกูล: Poisson Regression, Random Forest (Poisson), HistGradientBoosting (Poisson) พร้อม baseline 6 แบบต่อหน่วย และ feature 5 ชุด เลือกจาก expanding time backtest 4 fold ในปี2022–2023 ตาม protocol ที่ล็อกก่อน fit

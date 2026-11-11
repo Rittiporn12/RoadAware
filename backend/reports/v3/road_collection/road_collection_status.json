@@ -1,0 +1,43 @@
+{
+  "status": "complete",
+  "mode": "online",
+  "created_utc": "2026-11-11T02:04:46.527994+00:00",
+  "config_version": "spatial_road_sources_v3.0",
+  "config_sha256": "9437221acc08ed2e8857712a99ae644e9b4f45a33a70c4227eade0786a05a757",
+  "preregistration": {
+    "envelope_epsg4326": [
+      100.2,
+      13.5,
+      102.0,
+      15.3
+    ],
+    "spatial_rel": "esriSpatialRelIntersects",
+    "registered_by": "task 013 (2026-11-11), before any spatial model evaluation",
+    "note": "geometry-collection pilot envelope only: NOT a routed SPU-Khao Yai path and does not cover all six candidate provinces. Changing it (or the budget) requires a documented config change before any model outcome is viewed."
+  },
+  "cache_source": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/rerun-road-013-online-001/data/v3/road_collection/raw",
+  "sources": {
+    "doh_highway": {
+      "status": "complete",
+      "count_before": 599,
+      "features": 599,
+      "problems": [],
+      "next_step": "none: complete for the preregistered envelope"
+    },
+    "drr_rural": {
+      "status": "complete",
+      "count_before": 547,
+      "features": 547,
+      "problems": [],
+      "next_step": "none: complete for the preregistered envelope"
+    }
+  },
+  "caveats": [
+    "ArcGIS REST queries are not transactional: count and IDs are re-queried after the download and must match, but an edit to the attributes or geometry of an existing OID between requests cannot be excluded",
+    "snapshot = current service state at capture time; it does not prove the 2021-2025 road topology",
+    "full official sections intersecting the envelope are kept as returned; the envelope-clipped geometry is a separate derivative",
+    "national/pilot counts observed by the manager are context only, never expected values",
+    "official records are coarse road sections, not the proposed 0.5/1/2 km model segments (not built here)",
+    "no road snapping, zero labels, accident-report completeness, model, risk score or route-level skill is evaluated; no SPU-Khao Yai route is computed"
+  ]
+}

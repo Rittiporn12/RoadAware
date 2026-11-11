@@ -1,0 +1,86 @@
+{
+  "started_utc": "2026-11-11T02:04:09.013151+00:00",
+  "notebook": "17_spatial_road_collection",
+  "runner_sha256": "abdd2dfcd3cf3a9bf1e7b0271a530e4459477040315f6d98d2d8c0ee89313c1f",
+  "runner_python": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/.venv/bin/python",
+  "kernel_argv": [
+    "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/.venv/bin/python",
+    "-m",
+    "ipykernel_launcher",
+    "-f",
+    "{connection_file}"
+  ],
+  "output_root": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/rerun-road-013-online-001",
+  "online": true,
+  "cache_from": null,
+  "expect_manifest": null,
+  "cell_timeout_seconds": 7200,
+  "source_sha256_before": "ef36838883fa67450fbc23a7315655b81e96f5b748e75fccb54d110356f8ad88",
+  "status": "ok",
+  "cell_log": [
+    {
+      "cell_index": 1,
+      "seconds": 0.0,
+      "status": "ok"
+    },
+    {
+      "cell_index": 2,
+      "seconds": 0.0,
+      "status": "ok"
+    },
+    {
+      "cell_index": 3,
+      "seconds": 0.0,
+      "status": "ok"
+    },
+    {
+      "cell_index": 4,
+      "seconds": 0.2,
+      "status": "ok"
+    },
+    {
+      "cell_index": 5,
+      "seconds": 0.0,
+      "status": "ok"
+    },
+    {
+      "cell_index": 6,
+      "seconds": 0.3,
+      "status": "ok"
+    },
+    {
+      "cell_index": 8,
+      "seconds": 31.1,
+      "status": "ok"
+    },
+    {
+      "cell_index": 10,
+      "seconds": 0.0,
+      "status": "ok"
+    },
+    {
+      "cell_index": 12,
+      "seconds": 0.0,
+      "status": "ok"
+    },
+    {
+      "cell_index": 14,
+      "seconds": 0.0,
+      "status": "ok"
+    },
+    {
+      "cell_index": 16,
+      "seconds": 0.8,
+      "status": "ok"
+    },
+    {
+      "cell_index": 18,
+      "seconds": 4.2,
+      "status": "ok"
+    }
+  ],
+  "seconds": 37.99,
+  "output_notebook": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/rerun-road-013-online-001/notebooks/17_spatial_road_collection.ipynb",
+  "output_notebook_sha256": "d1247d3af031ffacba3e562a752b8c788d4da0be1ebaafa78c85c099f9ed9649",
+  "finished_utc": "2026-11-11T02:04:47.020516+00:00"
+}

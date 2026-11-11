@@ -18,5 +18,10 @@ __pycache__/
 /reports/models/**/*predictions*.csv
 /reports/models/**/*panel*.csv
 *.joblib
+# Notebook 17: raw responses, cache manifest and GeoJSON derivatives live under /data/v3/road_collection/ (ignored above);
+# reports/v3/road_collection/ keeps only aggregates, figures and manifests. Guard against vectors/row-level files landing there:
+/reports/v3/road_collection/**/*.geojson
+/reports/v3/road_collection/**/*feature_diagnostics*.csv
+/reports/v3/road_collection/**/page_*.json
 # staging copy used only for a tooling handoff of notebook 06
 /notebooks/*.ipynb.continuation
