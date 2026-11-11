@@ -1,0 +1,299 @@
+{
+ "currentVersion": 10.11,
+ "id": 2,
+ "name": "ทางหลวงชนบท",
+ "type": "Feature Layer",
+ "description": "ข้อมูลเส้นทางคมนาคมจัดเก็บข้อมูลเส้นกึ่งกลางถนนถนนหลายประเภท เช่น ถนน ทางด่วน ทางยกระดับ ซอย ซอยในหมู่บ้าน ที่ปรากฎในแผนที่ภาพถ่ายทางอากาศของกรมแผนที่ทหาร ครอบคลุมพื้นที่ประเทศไทย ข้อมูลชุดนี้มีความละเอียด 1:4000 ในเขตเมืองจำนวน 110 เมือง และ นอกเขตเมืองมีความละเอียด 1:20000",
+ "copyrightText": "",
+ "defaultVisibility": true,
+ "editFieldsInfo": null,
+ "ownershipBasedAccessControlForFeatures": null,
+ "syncCanReturnChanges": false,
+ "relationships": [],
+ "isDataVersioned": false,
+ "supportsRollbackOnFailureParameter": true,
+ "supportsStatistics": true,
+ "supportsAdvancedQueries": true,
+ "geometryType": "esriGeometryPolyline",
+ "minScale": 600000,
+ "maxScale": 0,
+ "extent": {
+  "xmin": 96.98000000000008,
+  "ymin": 5.7216319950000525,
+  "xmax": 105.84300005000006,
+  "ymax": 20.442913112000042,
+  "spatialReference": {
+   "wkid": 4326,
+   "latestWkid": 4326
+  }
+ },
+ "drawingInfo": {
+  "renderer": {
+   "type": "simple",
+   "symbol": {
+    "type": "esriSLS",
+    "style": "esriSLSSolid",
+    "color": [
+     255,
+     0,
+     0,
+     255
+    ],
+    "width": 2
+   },
+   "label": "",
+   "description": ""
+  },
+  "transparency": 0,
+  "labelingInfo": [
+   {
+    "labelPlacement": "esriServerLinePlacementAboveAlong",
+    "where": null,
+    "labelExpression": "[road_code]",
+    "useCodedValues": true,
+    "symbol": {
+     "type": "esriTS",
+     "color": [
+      255,
+      0,
+      0,
+      255
+     ],
+     "backgroundColor": null,
+     "borderLineColor": null,
+     "borderLineSize": null,
+     "verticalAlignment": "bottom",
+     "horizontalAlignment": "center",
+     "rightToLeft": false,
+     "angle": 0,
+     "xoffset": 0,
+     "yoffset": 0,
+     "kerning": true,
+     "haloColor": null,
+     "haloSize": null,
+     "font": {
+      "family": "Cordia New",
+      "size": 16,
+      "style": "normal",
+      "weight": "bold",
+      "decoration": "none"
+     }
+    },
+    "minScale": 200000,
+    "maxScale": 0
+   }
+  ]
+ },
+ "hasM": false,
+ "hasZ": false,
+ "allowGeometryUpdates": true,
+ "hasAttachments": false,
+ "htmlPopupType": "esriServerHTMLPopupTypeAsHTMLText",
+ "objectIdField": "OBJECTID",
+ "globalIdField": "",
+ "displayField": "route_name",
+ "typeIdField": "",
+ "fields": [
+  {
+   "name": "OBJECTID",
+   "type": "esriFieldTypeOID",
+   "alias": "OBJECTID",
+   "domain": null,
+   "editable": false,
+   "nullable": false
+  },
+  {
+   "name": "direction",
+   "type": "esriFieldTypeString",
+   "alias": "DIRECTION",
+   "domain": null,
+   "editable": true,
+   "nullable": false,
+   "length": 1
+  },
+  {
+   "name": "status",
+   "type": "esriFieldTypeString",
+   "alias": "status",
+   "domain": null,
+   "editable": true,
+   "nullable": false,
+   "length": 254
+  },
+  {
+   "name": "updated_date",
+   "type": "esriFieldTypeDate",
+   "alias": "updated_date",
+   "domain": null,
+   "editable": true,
+   "nullable": true,
+   "length": 36
+  },
+  {
+   "name": "route_name",
+   "type": "esriFieldTypeString",
+   "alias": "route_name",
+   "domain": null,
+   "editable": true,
+   "nullable": false,
+   "length": 254
+  },
+  {
+   "name": "length_gps",
+   "type": "esriFieldTypeDouble",
+   "alias": "length_gps",
+   "domain": null,
+   "editable": true,
+   "nullable": false
+  },
+  {
+   "name": "length_drr",
+   "type": "esriFieldTypeDouble",
+   "alias": "length_drr",
+   "domain": null,
+   "editable": true,
+   "nullable": false
+  },
+  {
+   "name": "lane_width",
+   "type": "esriFieldTypeDouble",
+   "alias": "lane_width",
+   "domain": null,
+   "editable": true,
+   "nullable": false
+  },
+  {
+   "name": "user_name",
+   "type": "esriFieldTypeString",
+   "alias": "user_name",
+   "domain": null,
+   "editable": true,
+   "nullable": false,
+   "length": 254
+  },
+  {
+   "name": "road_code",
+   "type": "esriFieldTypeString",
+   "alias": "road_code",
+   "domain": null,
+   "editable": true,
+   "nullable": true,
+   "length": 254
+  },
+  {
+   "name": "link_id",
+   "type": "esriFieldTypeInteger",
+   "alias": "link_id",
+   "domain": null,
+   "editable": true,
+   "nullable": true
+  },
+  {
+   "name": "sublink_id",
+   "type": "esriFieldTypeInteger",
+   "alias": "sublink_id",
+   "domain": null,
+   "editable": true,
+   "nullable": true
+  },
+  {
+   "name": "budget_year",
+   "type": "esriFieldTypeInteger",
+   "alias": "budget_year",
+   "domain": null,
+   "editable": true,
+   "nullable": true
+  },
+  {
+   "name": "gid",
+   "type": "esriFieldTypeInteger",
+   "alias": "gid",
+   "domain": null,
+   "editable": true,
+   "nullable": true
+  },
+  {
+   "name": "km_start",
+   "type": "esriFieldTypeInteger",
+   "alias": "km_start",
+   "domain": null,
+   "editable": true,
+   "nullable": true
+  },
+  {
+   "name": "km_end",
+   "type": "esriFieldTypeInteger",
+   "alias": "km_end",
+   "domain": null,
+   "editable": true,
+   "nullable": true
+  },
+  {
+   "name": "sublink_revision",
+   "type": "esriFieldTypeInteger",
+   "alias": "sublink_revision",
+   "domain": null,
+   "editable": true,
+   "nullable": true
+  },
+  {
+   "name": "lane_count",
+   "type": "esriFieldTypeInteger",
+   "alias": "lane_count",
+   "domain": null,
+   "editable": true,
+   "nullable": true
+  },
+  {
+   "name": "link_revision",
+   "type": "esriFieldTypeInteger",
+   "alias": "link_revision",
+   "domain": null,
+   "editable": true,
+   "nullable": true
+  },
+  {
+   "name": "survey_date",
+   "type": "esriFieldTypeDate",
+   "alias": "survey_date",
+   "domain": null,
+   "editable": true,
+   "nullable": true,
+   "length": 36
+  }
+ ],
+ "types": [],
+ "templates": [
+  {
+   "name": "ทางหลวงชนบท",
+   "description": "",
+   "prototype": {
+    "attributes": {
+     "direction": " ",
+     "status": " ",
+     "route_name": " ",
+     "length_gps": 0,
+     "length_drr": 0,
+     "lane_width": 0,
+     "user_name": " ",
+     "survey_date": null,
+     "updated_date": null,
+     "road_code": null,
+     "link_id": null,
+     "sublink_id": null,
+     "budget_year": null,
+     "gid": null,
+     "km_start": null,
+     "km_end": null,
+     "sublink_revision": null,
+     "lane_count": null,
+     "link_revision": null
+    }
+   },
+   "drawingTool": "esriFeatureEditToolLine"
+  }
+ ],
+ "maxRecordCount": 1000,
+ "supportedQueryFormats": "JSON, AMF",
+ "capabilities": "Query"
+}

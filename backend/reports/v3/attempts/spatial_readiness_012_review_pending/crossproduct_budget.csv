@@ -1,0 +1,25 @@
+scope,split,grouping,n_space_keys_observed,n_periods,crossproduct_cells_if_built,within_budget,materialised,universe_status
+candidate_corridor_envelope,train,province x day (proxy),6,1095,6570,True,False,province list known; reporting coverage per province-period NOT established
+candidate_corridor_envelope,train,province x 6h (proxy),6,4380,26280,True,False,province list known; reporting coverage per province-period NOT established
+candidate_corridor_envelope,train,province x 7d (proxy),6,157,942,True,False,province list known; reporting coverage per province-period NOT established
+candidate_corridor_envelope,train,province+route code x day (proxy),278,1095,304410,True,False,UNKNOWN: route keys come only from crash records; no road inventory
+candidate_corridor_envelope,train,province+route code x 6h (proxy),278,4380,1217640,True,False,UNKNOWN: route keys come only from crash records; no road inventory
+candidate_corridor_envelope,train,province+route code x 7d (proxy),278,157,43646,True,False,UNKNOWN: route keys come only from crash records; no road inventory
+candidate_corridor_envelope,seen_diagnostic,province x day (proxy),6,731,4386,True,False,province list known; reporting coverage per province-period NOT established
+candidate_corridor_envelope,seen_diagnostic,province x 6h (proxy),6,2924,17544,True,False,province list known; reporting coverage per province-period NOT established
+candidate_corridor_envelope,seen_diagnostic,province x 7d (proxy),6,105,630,True,False,province list known; reporting coverage per province-period NOT established
+candidate_corridor_envelope,seen_diagnostic,province+route code x day (proxy),270,731,197370,True,False,UNKNOWN: route keys come only from crash records; no road inventory
+candidate_corridor_envelope,seen_diagnostic,province+route code x 6h (proxy),270,2924,789480,True,False,UNKNOWN: route keys come only from crash records; no road inventory
+candidate_corridor_envelope,seen_diagnostic,province+route code x 7d (proxy),270,105,28350,True,False,UNKNOWN: route keys come only from crash records; no road inventory
+all_retained_national,train,province x day (proxy),77,1095,84315,True,False,province list known; reporting coverage per province-period NOT established
+all_retained_national,train,province x 6h (proxy),77,4380,337260,True,False,province list known; reporting coverage per province-period NOT established
+all_retained_national,train,province x 7d (proxy),77,157,12089,True,False,province list known; reporting coverage per province-period NOT established
+all_retained_national,train,province+route code x day (proxy),2487,1095,2723265,True,False,UNKNOWN: route keys come only from crash records; no road inventory
+all_retained_national,train,province+route code x 6h (proxy),2487,4380,10893060,False,False,UNKNOWN: route keys come only from crash records; no road inventory
+all_retained_national,train,province+route code x 7d (proxy),2487,157,390459,True,False,UNKNOWN: route keys come only from crash records; no road inventory
+all_retained_national,seen_diagnostic,province x day (proxy),77,731,56287,True,False,province list known; reporting coverage per province-period NOT established
+all_retained_national,seen_diagnostic,province x 6h (proxy),77,2924,225148,True,False,province list known; reporting coverage per province-period NOT established
+all_retained_national,seen_diagnostic,province x 7d (proxy),77,105,8085,True,False,province list known; reporting coverage per province-period NOT established
+all_retained_national,seen_diagnostic,province+route code x day (proxy),2292,731,1675452,True,False,UNKNOWN: route keys come only from crash records; no road inventory
+all_retained_national,seen_diagnostic,province+route code x 6h (proxy),2292,2924,6701808,False,False,UNKNOWN: route keys come only from crash records; no road inventory
+all_retained_national,seen_diagnostic,province+route code x 7d (proxy),2292,105,240660,True,False,UNKNOWN: route keys come only from crash records; no road inventory

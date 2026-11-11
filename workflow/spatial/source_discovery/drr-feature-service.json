@@ -1,0 +1,61 @@
+{
+ "currentVersion": 10.11,
+ "serviceDescription": "",
+ "hasVersionedData": false,
+ "supportsDisconnectedEditing": true,
+ "supportedQueryFormats": "JSON, AMF",
+ "maxRecordCount": 1000,
+ "capabilities": "Query",
+ "description": "",
+ "copyrightText": "",
+ "spatialReference": {
+  "wkid": 4326,
+  "latestWkid": 4326
+ },
+ "initialExtent": {
+  "xmin": 100.29912058813875,
+  "ymin": 13.88555442137679,
+  "xmax": 101.05293383478579,
+  "ymax": 14.101847426806765,
+  "spatialReference": {
+   "wkid": 4326,
+   "latestWkid": 4326
+  }
+ },
+ "fullExtent": {
+  "xmin": 96.98000000000008,
+  "ymin": 5.7216319950000525,
+  "xmax": 105.84300005000006,
+  "ymax": 20.45404679368809,
+  "spatialReference": {
+   "wkid": 4326,
+   "latestWkid": 4326
+  }
+ },
+ "allowGeometryUpdates": true,
+ "units": "esriDecimalDegrees",
+ "documentInfo": {
+  "Title": "",
+  "Author": "",
+  "Comments": "",
+  "Subject": "",
+  "Category": "",
+  "Keywords": ""
+ },
+ "layers": [
+  {
+   "id": 0,
+   "name": "ตำแหน่งสะพาน"
+  },
+  {
+   "id": 1,
+   "name": "สะพาน"
+  },
+  {
+   "id": 2,
+   "name": "ทางหลวงชนบท"
+  }
+ ],
+ "tables": [],
+ "enableZDefaults": false
+}

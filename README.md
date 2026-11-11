@@ -7,6 +7,8 @@
 
 **งานรายจุด/ช่วงถนน:** ผู้ใช้ยืนยันให้ต่อยอดการพยากรณ์และระดับเฝ้าระวังสี เตรียม [แผน Spatial V3](workflow/spatial/README_th.md) และ [task012 สำหรับ Claude](workflow/tasks/012-spatial-data-readiness.md) แล้ว ตรวจเชื่อมพิกัดกลับ raw ได้ครบ 106,308 retained V2 events แต่ยังไม่ตรวจ road matching/zero coverage และยังไม่มี spatial model หรือเกณฑ์สีที่ผ่านการประเมิน ผลจังหวัดด้านล่างไม่ใช่ผลรายจุด
 
+**Spatial readiness ที่รันแล้วแต่ยังไม่ตรวจรับ:** Notebook16 ผ่านการรัน 27 checks และ tests รวม90ผ่าน แต่ review พบ output-path guard และกราฟที่ต้องแก้ เก็บ [checkpointพร้อมหลักฐาน](workflow/wip/012-spatial-readiness/README.md) ไว้แล้ว รอบแก้ล่าสุดติด Claude login; ยังไม่มี spatial model หรือเกณฑ์สี
+
 **ผลสำหรับ Presentation:** [10 กราฟ PNG/SVG พร้อม CSV และคำอธิบายไทย](output/model-results/README_th.md) · [ดาวน์โหลด ZIP](output/RoadAware_model_results.zip) เป็นผล V2 จริง ไม่ใช่การทดลอง spatial ใหม่
 
 ทดลองจริง 3 ตระกูล: Poisson Regression, Random Forest (Poisson), HistGradientBoosting (Poisson) พร้อม baseline 6 แบบต่อหน่วย และ feature 5 ชุด เลือกจาก expanding time backtest 4 fold ในปี2022–2023 ตาม protocol ที่ล็อกก่อน fit

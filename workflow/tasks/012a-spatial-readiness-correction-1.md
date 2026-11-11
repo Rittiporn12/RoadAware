@@ -1,0 +1,19 @@
+# Goal
+Correction round1 of task012. Retain original task012 acceptance and unchanged V2 constraints. Fix only the independently observed issues below; do not rewrite working audit logic, train models, collect geometry, add frontend/API or run shell. No concurrent worker.
+
+# Current evidence / context
+Original run20261111-064021-50416 completed. Codex read final report and independently ran:
+- pytest new spatial33 + inference57 =90passed,1existing joblib physical-core warning,11.31s.
+- Sandbox attempt backend/rerun-spatial-012-001 blocked before kernel with PermissionError (not code failure).
+- Real run backend/rerun-spatial-012-002 completed15code cells9.87s;27checks allpass;106308retained linked,127375raw audited,345protected files unchanged,30aggregate outputs +2ignored row datasets. preflight matches. Four PNGs manually inspected. DO NOT modify/delete these run dirs or any acceptedV2 files.
+- .venv shapely2.0.7 present, pyproj/h3 absent. Runtime detects correctly. No geometry capabilities or zero labels verified. Model remains untrained spatially.
+
+# Allowed files
+Only backend/scripts/run_spatial_readiness.py, backend/notebooks/16_spatial_data_readiness.ipynb, backend/tests/test_spatial_readiness_notebook.py. NotebookEdit with cell IDs is available; do not use repeated Edit against ipynb (previous run failed that). Prefer targeted edits; keep all original audit functions and raw linkage unchanged except if unavoidable to resolve these exact issues.
+
+# Required fixes / acceptance
+1. Runner must refuse outputs overlapping protected inputs BEFORE it creates notebooks/, run logs or kernelspec dirs. Read-only probe `runner.preconditions(runner.BACKEND/'data/v2')` currently returnsNone. main then mkdir(nb_out),mkdir(log parent),writekernelspec BEFORE notebookcell4 checks report/data overlaps. That allows writes into protected data before rejection. Validate all actual write locations (report/data dirs, executed-notebook path, run log, kernel spec) against config protected paths, including aliases/symlinks/ancestor relations, before any mkdir/write. Default output BACKEND must remain valid because actual write subpaths areV3, not a blanket rejection of backend root. Existing runs must still never be overwritten. Error must be clear. Keep runner orchestration-only (path validation is execution setup, no ML/audit business logic).
+2. Add meaningful negative tests exercising actual main/setup or equivalently a pre-write entry point: tmp protected-root output and symlink alias fail without any filesystem change; output ancestor collisions fail when actual writes overlap; valid fresh temp and normal backendV3 paths remain allowed; preserve old evidence refusal/offline. Do not write to real protectedV2 for testing. Use tmp_path fixtures/monkeypatch config paths.
+3. Notebook plot cell fig_coordinate_status.png: right subplot stacks coordinate statuses on a log xaxis. At the observed auto lower bound, the blue inside-bbox portion of quarantined records disappears while the orange remainder remains, misrepresenting composition. Replace with a clear linear count plot, annotated matrix/table or separated points with actual counts. Do not imply proportions from stacked log components. Use real COORD_RAW; keep row counts/statuses unchanged.
+4. fig_corridor_nn_ecdf.png Thai province legends show displaced/broken combining glyphs. Use readable short English province labels for this figure with a documented mapping; retain Thai labels in tables/report. No new dependency. These are descriptive point-spacing curves, never forecast risk.
+5. Report exact changed files and checks actually run/not run. Codex runs targeted pytest and a NEW notebook output root; all source hashes/preflight/raw counts unchanged, four figures inspected again. Do not claim checks passed without running (worker has no shell). At most this bounded correction, not a full new audit/protocol.

@@ -1,0 +1,6 @@
+capability,requires_role,status,reason
+point_in_province,province_polygons,PENDING_NOT_VERIFIED,no hash-verified province_polygons dataset in the local registry
+road_snapping,road_network,PENDING_NOT_VERIFIED,no hash-verified road_network dataset in the local registry
+road_universe_denominator,road_network,PENDING_NOT_VERIFIED,no hash-verified road_network dataset in the local registry
+stable_segment_ids,road_network,PENDING_NOT_VERIFIED,no hash-verified road_network dataset in the local registry
+route_corridor_intersection,road_network,PENDING_NOT_VERIFIED,no hash-verified road_network dataset in the local registry

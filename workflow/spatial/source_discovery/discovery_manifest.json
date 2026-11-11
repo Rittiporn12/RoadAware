@@ -1,0 +1,61 @@
+{
+  "checked_utc": "2026-11-10T23:43:43.893326+00:00",
+  "catalog_url": "https://datagov.mot.go.th/th/dataset/transportgis",
+  "doh": {
+    "service": "https://giportal.mot.go.th/arcgis/rest/services/Hosted/เส้นทางหลวงแผ่นดิน_ทล/FeatureServer",
+    "layer_id": 0,
+    "feature_count_at_query": 3044,
+    "sample_geometry_type": "LineString",
+    "sample_returned_features": 1,
+    "fields": [
+      "road_code",
+      "road_name",
+      "section_co",
+      "section_na",
+      "km_start",
+      "km_end",
+      "length"
+    ],
+    "wkid": 4326
+  },
+  "drr": {
+    "service": "https://gis.drr.go.th/arcgis/rest/services/DRR_Feature/FeatureServer",
+    "layer_id": 2,
+    "feature_count_at_query": 3700
+  },
+  "metadata_files": {
+    "doh-feature-service": {
+      "file": "doh-feature-service.json",
+      "sha256": "aafffb81fb794aaafe9f71169b56bf7cfc7d615c0e939257fe25d270ffd7b5f3"
+    },
+    "doh-layer": {
+      "file": "doh-layer.json",
+      "sha256": "1d3afdf2428cf0524bcac9b97c548f4b923bb42977b17b7827baefb9dc8b96fb"
+    },
+    "doh-count": {
+      "file": "doh-count.json",
+      "sha256": "f1322590d763b98d8c29d76a35ef4e7b6299c80cfc23bdb8ef3e516ca4100ea6"
+    },
+    "drr-feature-service": {
+      "file": "drr-feature-service.json",
+      "sha256": "b09a0d74be9d0d199af8f62ce04395cbc7e37edef5a84df75f33df7ecdc0ce42"
+    },
+    "drr-layer": {
+      "file": "drr-layer.json",
+      "sha256": "09c5548f21678522455bd505d6bbd7932c4df7016222d28decb1e6537d7c1912"
+    },
+    "drr-count": {
+      "file": "drr-count.json",
+      "sha256": "21df228b1956db82d42e0fd1060e450b785d19987f0736e18266260a309cc131"
+    }
+  },
+  "not_yet_verified": [
+    "Full geometry snapshot not downloaded or pinned",
+    "No topology, road matching or completeness checks",
+    "KM and length units not confirmed",
+    "Current geometry vintage does not establish historical2021-2025 geometry",
+    "No observed-zero reporting coverage evidence",
+    "Road layer counts are records/sections, not standard model segments or unique road routes"
+  ],
+  "status": "source discovery only; not accepted ML geometry"
+}

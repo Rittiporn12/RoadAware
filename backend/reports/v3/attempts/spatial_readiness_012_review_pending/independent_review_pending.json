@@ -1,0 +1,42 @@
+{
+  "review_status": "NOT_ACCEPTED_PENDING_CORRECTION",
+  "created_utc": "2026-11-11T01:27:53.391821+00:00",
+  "worker_run": "20261111-064021-50416",
+  "correction_attempt": "20261111-082455-61421",
+  "correction_attempt_result": "Not logged in; no implementation or tests in correction run",
+  "tests": {
+    "command": ".venv/bin/python -m pytest backend/tests/test_spatial_readiness_notebook.py backend/tests/test_inference_notebook.py -q",
+    "passed": 90,
+    "spatial": 33,
+    "existing_inference": 57,
+    "seconds": 11.31,
+    "warnings": "existing joblib physical-core-count fallback warning"
+  },
+  "notebook": {
+    "code_cells": 15,
+    "seconds": 9.87,
+    "checks_passed": 27,
+    "report_outputs_hash_verified": 30,
+    "row_outputs_hash_verified": 2,
+    "protected_runtime_files_unchanged": 345,
+    "original_tracked_backend_files_unchanged": 302
+  },
+  "independent_reconciliation": {
+    "retained_events": 106308,
+    "route_code_present": 106299,
+    "km_field_present": 105991,
+    "unique_coords_round6": 101473
+  },
+  "issues": [
+    "Runner output-path guard permits protected output root until after setup writes; fix before accepting",
+    "Stacked log-count chart hides early components; replace with clear counts",
+    "Use legible English province labels in point-spacing figure"
+  ],
+  "next_task": "workflow/tasks/012a-spatial-readiness-correction-1.md",
+  "not_verified": [
+    "Road geometry coverage/matching and datum",
+    "Spatial labels including zero counts",
+    "Spatial model quality and color thresholds"
+  ],
+  "no_spatial_model_fit": true
+}

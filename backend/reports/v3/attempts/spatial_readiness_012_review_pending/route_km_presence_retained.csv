@@ -1,0 +1,6 @@
+split,route_present,km_present,n_events
+seen_diagnostic,False,False,9
+seen_diagnostic,True,False,108
+seen_diagnostic,True,True,45213
+train,True,False,200
+train,True,True,60778
