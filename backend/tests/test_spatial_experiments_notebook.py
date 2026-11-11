@@ -346,6 +346,70 @@ def test_routed_context_uses_feature_missingness_only(f):
     assert list(inspect.signature(f['context_complete']).parameters) == ['X', 'unit', 'cfg']
 
 
+@pytest.fixture(scope='module')
+def trig(f):
+    """19 settings rebuilt from the accepted 19 config + pins (no prepared data needed); check_feature_columns proves they reproduce the pins."""
+    c19 = json.loads((BACKEND / 'config' / 'spatial_preparation_v3.json').read_text('utf-8'))['features']
+    core = PINS['feature_columns']['daily']['calendar_geometry']
+    s = {'variants': c19['variants'], 'date_feature_columns': [c for c in core if c not in f['H19']['STATIC_FEATURES']],
+         'forbidden_names': c19['forbidden_names'], 'forbidden_substrings': c19['forbidden_substrings']}
+    return s, f['check_feature_columns'](s, PINS)
+
+
+def test_routed_trigger_configured_columns_pass_incl_heavy_share(f, trig):
+    s, feats = trig
+    for u in ('daily', '6h'):
+        cols = CFG['candidates']['routed_trigger_columns'][u]
+        assert f['routed_trigger_problems'](cols, u, feats, s, CFG) == []
+        assert f['routed_trigger_problems'](list(reversed(cols)), u, feats, s, CFG) == []  # order-free
+    assert 'aadt_mean_heavy_share_pct' in CFG['candidates']['routed_trigger_columns']['daily']
+    assert 'y_' in 'aadt_mean_heavy_share_pct'  # the run-016-001 false failure of the old substring heuristic
+
+
+@pytest.mark.parametrize('unit', ['daily', '6h'])
+@pytest.mark.parametrize('bad', ['y_count', 'y_recorded_count', 'segment_id', 'oid', 'target_date', 'event_lat', 'event_lon', 'bank_holiday_asof',
+                                 'day_of_week', 'route_code', 'geom_mid_lat', 'heavy_share_label'])
+def test_routed_trigger_rejects_label_key_event_bank_calendar(f, trig, unit, bad):
+    s, feats = trig
+    cols = CFG['candidates']['routed_trigger_columns'][unit]
+    assert f['routed_trigger_problems'](cols + [bad], unit, feats, s, CFG)
+    assert f['routed_trigger_problems']([bad], unit, feats, s, CFG)
+
+
+def test_routed_trigger_rejects_incomplete_wrong_unit_and_malformed(f, trig):
+    s, feats = trig
+    six, daily = CFG['candidates']['routed_trigger_columns']['6h'], CFG['candidates']['routed_trigger_columns']['daily']
+    p = f['routed_trigger_problems']([c for c in six if c != 'wx_block_rain_sum_mm_d2'], '6h', feats, s, CFG)
+    assert any('missing' in m and 'wx_block_rain_sum_mm_d2' in m for m in p)
+    assert f['routed_trigger_problems']([c for c in daily if c != 'aadt_mean_heavy_share_pct'], 'daily', feats, s, CFG)
+    assert f['routed_trigger_problems'](six, 'daily', feats, s, CFG)  # 6 h block weather is not a daily predictor
+    assert f['routed_trigger_problems'](daily + ['time_block'], 'daily', feats, s, CFG)
+    assert f['routed_trigger_problems']([], 'daily', feats, s, CFG)
+    assert f['routed_trigger_problems'](daily + [daily[0]], 'daily', feats, s, CFG)
+    assert f['routed_trigger_problems'](daily[:-1] + [None], 'daily', feats, s, CFG)
+
+
+def test_routed_trigger_report_controls_are_the_report_path(f, trig):
+    s, feats = trig
+    rows = f['routed_trigger_controls'](CFG, feats, s)
+    adds = [b for v in f['TRIGGER_REFUSED_ADDITIONS'].values() for b in v]
+    assert len(rows) == 2 * (1 + len(adds)) and all(r['passed'] for r in rows), [r for r in rows if not r['passed']]
+    assert {r['unit'] for r in rows} == {'daily', '6h'} and all(r['detail'] for r in rows if r['control'] != 'routing_trigger_is_exactly_context_weather_aadt')
+    for kind in ('label_target', 'key_identifier', 'event_coordinate', 'bank_calendar'):
+        assert any(r['control'].startswith('routing_trigger_rejects_' + kind) for r in rows)
+    bad = copy.deepcopy(CFG)
+    bad['candidates']['routed_trigger_columns']['6h'] = bad['candidates']['routed_trigger_columns']['6h'] + ['y_count']
+    r6 = [r for r in f['routed_trigger_controls'](bad, feats, s) if r['control'] == 'routing_trigger_is_exactly_context_weather_aadt']
+    assert [r['passed'] for r in r6] == [True, False]
+    # the pipeline cells call exactly these shared helpers (reports negative controls + fail-fast before the lock); old heuristic gone
+    src = code_cells(NB20)
+    rep = next(c for c in src if c.lstrip().startswith('# REPORTS'))
+    lock = next(c for c in src if c.lstrip().startswith('# INPUTS + LOCK'))
+    assert "NEG += routed_trigger_controls(cfg, FEATS, CTX['settings'])" in rep and "'y_' not in" not in rep
+    assert "routed_trigger_problems(cfg['candidates']['routed_trigger_columns'][u], u, FEATS, CTX['settings'], cfg)" in lock
+    assert lock.index('routed_trigger_problems') < lock.index('write_lock(')
+
+
 # ---------- bundles / hashes / guards ----------
 def test_model_bundle_and_data_hash_tamper(f, tmp_path):
     X, y = tiny_frame(400)
