@@ -73,6 +73,14 @@ backend/
 - รัน (root ใหม่ทุกครั้ง ต้องอยู่ใน `backend/rerun-spatial-prep-*`): `.venv/bin/python backend/scripts/run_spatial_preparation.py --output-dir backend/rerun-spatial-prep-015-001` · ทดสอบ: `.venv/bin/python -m pytest backend/tests/test_spatial_preparation_notebook.py -q`
 - สถานะ: ตรวจรับ 015/015a แล้ว — 83 fixtures / 538 backend tests; actual002 89.36s / 41 checks ผ่าน ดู [หลักฐานตรวจอิสระ](reports/v3/spatial_preparation_independent_review.json) และ [คำอธิบาย](../workflow/spatial-preparation-verification-th.md)
 
+## V3 — การทดลอง spatial CountRegression (Notebook 20, WIP ยังไม่ตรวจรับ)
+
+- ตาม protocol draft + addendum: lock การทดลอง (pins ผู้จัดการ, hash ของ 19, คอลัมน์ feature, grid, baseline, fold, sampling, เกณฑ์เลือก) ถูกเขียนก่อน fit/คะแนนใด ๆ · หน่วย daily (หลัก) และ 6 ชม. แยกกัน · 4 fold ขยาย 2022H1–2023H2 พร้อม embargo ป้ายกำกับ 30 วัน (สมมติฐานวิจัย)
+- Poisson/RandomForest/HGB × feature 2 แบบ + นโยบาย `routed_context`; baseline แบบ exact จากปฏิทินฝึกเต็ม (ไม่ใช้แถวที่สุ่ม); ประเมินเต็มประชากร OOF 2022–23 แบบ stream; 2024/25 เป็นการวินิจฉัยที่เคยเห็นแล้ว (ไม่ใช่ชุดทดสอบที่ไม่เคยแตะ); การถ่ายโอนเชิงพื้นที่ตาม `workflow/spatial/spatial-transfer-preregistration-v3.json`
+- target ยังคงเป็นจำนวนบันทึก SELECTED+LINKED ไม่ใช่จำนวนอุบัติเหตุจริง · ยังไม่มี serving/สี/API
+- รัน (root ใหม่ทุกครั้ง ต้องอยู่ใน `backend/rerun-spatial-model-*`): `.venv/bin/python backend/scripts/run_spatial_experiments.py --output-dir backend/rerun-spatial-model-016-001` · ทดสอบ: `.venv/bin/python -m pytest backend/tests/test_spatial_experiments_notebook.py -q`
+- สถานะ: ยังไม่มีผลรันจริงที่ Codex ตรวจรับ
+
 ## ติดตั้ง (ครั้งเดียว, ที่ root ของ repository)
 
 ```bash

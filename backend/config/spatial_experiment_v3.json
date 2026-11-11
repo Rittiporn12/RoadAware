@@ -1,0 +1,139 @@
+{
+  "version": "spatial_experiment_v3.0",
+  "status": "experiment lock source: spatial SELECTED+LINKED recorded-count research experiments (temporal OOF selection, previously-seen 2024/25 diagnostics, fixed spatial-transfer diagnostic); NO serving, colours, API or production claim",
+  "notebook": "notebooks/20_spatial_count_experiments.ipynb",
+  "registered_by": "task 016 (2026-11-11) under workflow/spatial-model-protocol-v3-draft.md + workflow/spatial-model-protocol-v3-addendum.md, before any spatial model fit or score",
+  "label_meaning": "y = count of SELECTED+LINKED retained MOT database records (status_50m == matched AND segment_status == assigned) per qualified DOH segment x local day (daily) or x 6 h block. Zero means zero such recorded+linked records, NOT zero physical accidents. Predictions are expected recorded counts, not per-vehicle or per-person probabilities.",
+  "pins": {
+    "path": "../workflow/spatial/experiment-input-pins-v3.json",
+    "note": "manager pins; every value below must equal the pins file (cross-checked before any fit) and the pins file sha256 is recorded in the lock",
+    "expect": {
+      "preparation_manifest_sha256": "8a53b10cd88283e2b8a5c8c7d4f15f9657bf68f6fb9e58076fed2938176e1d73",
+      "notebook19_functions_sha256": "c13b74dc12e3bd6994fa285888d0c32f629b91e505bc8cc2c1a6b3a1b6bd9e1f",
+      "protocol_draft_sha256": "b286fd5ed7b914bad32b88aec666388b87db2880b51ab00d1f598148dad8dacd",
+      "protocol_addendum_sha256": "923b6bf1f7f440993fba99fa44cb4e816a24e170775679433ea2c48735ba2df7",
+      "transfer_preregistration_sha256": "1e6055329b7799bcb7b7143326c6443a0e8df3288681ab7fdec768592a117570"
+    }
+  },
+  "inputs": {
+    "preparation_manifest": {"path": "reports/v3/spatial_preparation/spatial_preparation_manifest.json", "pins_key": "backend/reports/v3/spatial_preparation/spatial_preparation_manifest.json", "expect_status": "complete"},
+    "preparation_review": {"path": "reports/v3/spatial_preparation_independent_review.json", "pins_key": "backend/reports/v3/spatial_preparation_independent_review.json"},
+    "preparation_config": {"path": "config/spatial_preparation_v3.json", "pins_key": "backend/config/spatial_preparation_v3.json"},
+    "protocol_draft": {"path": "../workflow/spatial-model-protocol-v3-draft.md", "pins_key": "workflow/spatial-model-protocol-v3-draft.md"},
+    "protocol_addendum": {"path": "../workflow/spatial-model-protocol-v3-addendum.md", "pins_key": "workflow/spatial-model-protocol-v3-addendum.md"},
+    "transfer_preregistration": {"path": "../workflow/spatial/spatial-transfer-preregistration-v3.json", "pins_key": "workflow/spatial/spatial-transfer-preregistration-v3.json"},
+    "notebook19": {"path": "notebooks/19_spatial_count_preparation.ipynb", "functions_cells": 6,
+                   "note": "only the six '# FUNCTIONS' cells are executed after the concatenated FUNCTIONS sha256 and every code-cell source sha256 equal the manager pins (the executed 19's full-notebook sha was pre-execution, so source-cell hashes are used)"},
+    "prepared_data_dir": "data/v3/spatial_preparation"
+  },
+  "time": {
+    "timezone": "Asia/Bangkok",
+    "train_start": "2021-01-01",
+    "issue_hour_local": 18,
+    "issue_days_before_target": 1,
+    "label_latency_days": 30,
+    "label_latency_note": "30-day label availability embargo is a RESEARCH ASSUMPTION, not a verified publication delay",
+    "folds": [
+      {"fold_id": "2022H1", "start": "2022-01-01", "end": "2022-06-30"},
+      {"fold_id": "2022H2", "start": "2022-07-01", "end": "2022-12-31"},
+      {"fold_id": "2023H1", "start": "2023-01-01", "end": "2023-06-30"},
+      {"fold_id": "2023H2", "start": "2023-07-01", "end": "2023-12-31"}
+    ],
+    "benchmark": {"fit_issue_target_date": "2024-01-01", "diagnostic_years": [
+      {"name": "seen_2024", "start": "2024-01-01", "end": "2024-12-31"},
+      {"name": "seen_2025", "start": "2025-01-01", "end": "2025-12-31"}],
+      "note": "fit once at issue 2023-12-31T18:00+07 minus 30 days; 2024/25 are PREVIOUSLY SEEN diagnostics, NOT an untouched test; extended 2021-25 refit deferred to notebook 22"},
+    "expected_oof_rows": {"daily": 2266650, "6h": 9066600}
+  },
+  "sampling": {
+    "seed": 42,
+    "max_zero_per_stratum": 32,
+    "stratum": "segment x time_block (daily: one block)",
+    "stratum_seed": "int(sha256('seed|unit|fold_id|segment_id|block').hexdigest()[:16], 16)",
+    "weights": {"positive": 1.0, "zero": "Nzero / Nsampled"},
+    "use": "model training ONLY (never baselines, evaluation metrics, prevalence, calibration or colour cutoffs)"
+  },
+  "baselines": {
+    "order": ["zero", "global_mean", "global_length_rate", "route_length_rate", "segment_mean_k30", "segment_mean_k180", "segment_mean_k365",
+              "segment_weekday_k10", "segment_month_k30", "recent90_segment"],
+    "ineligible": ["zero"],
+    "segment_mean_k": [30, 180, 365],
+    "weekday_k": 10,
+    "month_k": 30,
+    "recent_days": 90,
+    "definitions": {
+      "notation": "b = time block (daily: the single block); T_b = number of training target dates whose block b ends <= training cutoff (exact full calendar, every universe segment counted, NOT sampled rows); C = training record counts from the sparse index; L_s = segment projected length km; S_train = training segment set",
+      "zero": "0 (diagnostic only, never eligible)",
+      "global_mean": "C_b / (|S_train| * T_b)",
+      "global_length_rate": "rate_g_b = C_b / (sum_{s in S_train} L_s * T_b) records per km per cell; prediction rate_g_b * L_s",
+      "route_length_rate": "rate_r_b = C_rb / (sum_{s in S_train, route r} L_s * T_b) (may be 0 when the route has no training records: no pseudocounts); prediction rate_r_b * L_s; route absent from S_train -> global_length_rate",
+      "parent": "P_sb = route_length_rate prediction for s (global_length_rate when the route is unseen)",
+      "segment_mean_k": "(C_sb + k * P_sb) / (N_sb + k), N_sb = T_b for training segments, 0 for unseen segments (-> exactly P_sb)",
+      "segment_weekday_k10": "(C_s,wd,b + 10 * M30_sb) / (N_wd,b + 10), N_wd,b = number of training dates with that weekday for block b (0 for unseen segments), M30 = segment_mean_k30",
+      "segment_month_k30": "(C_s,m,b + 30 * M30_sb) / (N_m,b + 30), N_m,b = training dates in calendar month m for block b",
+      "recent90_segment": "C_sb(last 90 calendar days ending at the last eligible training date of block b, clipped at train_start) / N_recent_b; segment_mean_k30 when N_recent_b == 0 or the segment is unseen",
+      "floor": "no floor is applied to predictions; zero predictions are allowed (route/global rate 0) and are floored at 1e-12 ONLY inside the Poisson deviance metric; negative means are refused"
+    }
+  },
+  "candidates": {
+    "families": ["poisson", "random_forest", "hist_gradient_boosting"],
+    "configs": [
+      {"config_id": "poisson_a1e-05", "family": "poisson", "params": {"alpha": 1e-05, "max_iter": 1000, "tol": 1e-06}},
+      {"config_id": "poisson_a1e-04", "family": "poisson", "params": {"alpha": 0.0001, "max_iter": 1000, "tol": 1e-06}},
+      {"config_id": "rf_poisson_fixed", "family": "random_forest", "params": {"criterion": "poisson", "n_estimators": 80, "max_depth": 16, "max_leaf_nodes": 128, "min_samples_leaf": 100, "max_features": 0.8, "n_jobs": 2, "random_state": 42}},
+      {"config_id": "hgb_poisson_fixed", "family": "hist_gradient_boosting", "params": {"loss": "poisson", "max_iter": 160, "max_leaf_nodes": 15, "min_samples_leaf": 100, "l2_regularization": 5.0, "learning_rate": 0.05, "early_stopping": false, "max_bins": 255, "random_state": 42}}
+    ],
+    "variants": ["calendar_geometry", "calendar_geometry_context"],
+    "core_variant": "calendar_geometry",
+    "context_variant": "calendar_geometry_context",
+    "categorical_columns": ["route_code", "time_block"],
+    "max_category_cardinality": 255,
+    "preprocessing": {
+      "poisson": "OneHotEncoder(handle_unknown='ignore') on categoricals; numeric SimpleImputer(median, keep_empty_features=True) + StandardScaler; all fitted on the fold training sample only",
+      "random_forest": "OneHotEncoder(handle_unknown='ignore') on categoricals; numeric SimpleImputer(median, keep_empty_features=True); training sample only",
+      "hist_gradient_boosting": "OrdinalEncoder(handle_unknown='use_encoded_value', unknown_value=NaN, encoded_missing_value=NaN) on categoricals with categorical mask; numeric NaN native"
+    },
+    "threads": 2,
+    "policies": {
+      "core": "calendar_geometry fit (deployment eligible)",
+      "routed_context": "context fit iff ALL of weather daily (+ weather block for 6h) and the 3 AADT features are finite, else the SAME config calendar_geometry fit (deployment eligible; requires both component fits in every fold)",
+      "context": "pure calendar_geometry_context fit (ablation only, never eligible)"
+    },
+    "routed_trigger_columns": {"daily": ["wx_rain_sum_mm_d2", "wx_temp_mean_c_d2", "aadt_mean_total", "aadt_median_total", "aadt_mean_heavy_share_pct"],
+                               "6h": ["wx_rain_sum_mm_d2", "wx_temp_mean_c_d2", "wx_block_rain_sum_mm_d2", "wx_block_temp_mean_c_d2", "aadt_mean_total", "aadt_median_total", "aadt_mean_heavy_share_pct"]},
+    "eligible_policies": ["core", "routed_context"],
+    "tie_break": "lower pooled OOF mean Poisson deviance; exact ties prefer core over routed_context, then config order above"
+  },
+  "metrics": {"deviance_floor": 1e-12, "primary": "mean_poisson_deviance",
+              "strata": ["fold", "time_block", "season", "festival_window", "context_complete", "actual_zero"]},
+  "selection": {"min_relative_deviance_reduction": 0.01, "max_mae_ratio": 1.02, "min_fold_wins": 3, "n_folds": 4,
+                "rule": "per unit: best deployment-eligible candidate policy by pooled OOF deviance vs strongest NONZERO baseline by pooled OOF deviance; recommend candidate only if relative reduction >= 1% AND MAE ratio <= 1.02 AND strictly lower deviance in >= 3/4 folds, otherwise the baseline. Frozen before any 2024/25 metric is computed."},
+  "bootstrap": {"resamples": 500, "block_days": 7, "seed": 42, "ci": [0.025, 0.975],
+                "policy": "paired exploratory moving-free calendar block bootstrap over the 2022-23 OOF dates: consecutive non-overlapping 7-day blocks from 2022-01-01, the final partial block kept as its own block; all segments/blocks of a day move together; statistic = 1 - sum dev(candidate) / sum dev(baseline); post-selection, not confirmatory, no multiplicity adjustment"},
+  "transfer": {"configs": ["poisson_a1e-05", "rf_poisson_fixed", "hgb_poisson_fixed"], "variant": "calendar_geometry",
+               "first_issue_target_date": "2023-01-01", "eval_start": "2023-01-01", "eval_end": "2023-12-31",
+               "id_hash_encodings": ["lines", "lines_trailing_newline", "json_list"],
+               "note": "geometry-only contiguous unseen-SECTION diagnostic; not all-new routes, not untouched future; never reranks the temporal winner"},
+  "resources": {"artifact_budget_bytes": 4294967296, "batch_rows": 100000, "threads": 2, "bytes_per_value": 8},
+  "dependency_pins": {"pandas": "pandas>=2.0,<3", "numpy": "numpy>=1.24,<3", "sklearn": "scikit-learn==1.6.1", "joblib": "joblib", "threadpoolctl": "threadpoolctl", "shapely": "shapely>=2.0,<3", "pyproj": "pyproj>=3.6.1,<3.7", "matplotlib": "matplotlib>=3.7,<4"},
+  "figure_fonts": ["Thonburi", "Tahoma", "Noto Sans Thai", "Sukhumvit Set", "Ayuthaya"],
+  "protected_paths": [
+    "data/v2", "reports/v2", "data/raw/accidents", "data/external_v2", "models",
+    "data/v3/spatial_readiness", "reports/v3/spatial_readiness", "reports/v3/spatial_readiness_independent_review.json",
+    "reports/v3/road_collection", "data/v3/road_collection", "reports/v3/road_collection_independent_review.json",
+    "reports/v3/road_collection_v3_1", "data/v3/road_collection_v3_1", "reports/v3/road_collection_v3_1_independent_review.json",
+    "reports/v3/linkage_audit", "data/v3/linkage_audit", "reports/v3/linkage_audit_independent_review.json",
+    "reports/v3/spatial_preparation", "data/v3/spatial_preparation", "reports/v3/spatial_preparation_independent_review.json",
+    "config/data_pipeline.json", "config/external_sources_v2.json", "config/feature_pipeline_v2.json", "config/model_experiment_v2.json",
+    "config/model_experiment_v1.json", "config/inference_v2.json", "config/catalog_v2.json", "config/spatial_readiness_v3.json",
+    "config/spatial_road_sources_v3.json", "config/spatial_linkage_v3.json", "config/spatial_preparation_v3.json", "config/archive",
+    "notebooks/09_external_collection_date_evidence.ipynb", "notebooks/10_v2_preparation_features_leakage.ipynb",
+    "notebooks/11_v2_model_experiments.ipynb", "notebooks/12_v2_evaluation_error_analysis.ipynb",
+    "notebooks/13_inference_robustness_contract.ipynb", "notebooks/16_spatial_data_readiness.ipynb",
+    "notebooks/17_spatial_road_collection.ipynb", "notebooks/18_spatial_linkage_audit.ipynb", "notebooks/19_spatial_count_preparation.ipynb",
+    "scripts/run_spatial_readiness.py", "scripts/run_spatial_road_collection.py", "scripts/run_spatial_linkage_audit.py", "scripts/run_spatial_preparation.py",
+    "../workflow/model-protocol-v2-lock.json", "../workflow/spatial", "../workflow/spatial-model-protocol-v3-draft.md", "../workflow/spatial-model-protocol-v3-addendum.md"
+  ],
+  "outputs": {"report_dir": "reports/v3/spatial_experiments", "data_dir": "data/v3/spatial_experiments"},
+  "report_allowed_suffixes": [".csv", ".png", ".md", ".json"]
+}
