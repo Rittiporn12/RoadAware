@@ -1,0 +1,5 @@
+source_label,route_normalized,n,same_string_in_geometry,decision
+drr_rural,ส.001,3,True,unverified_not_matched
+drr_rural,ส.004,3,True,unverified_not_matched
+drr_rural,ส.012,213,True,unverified_not_matched
+drr_rural,ส.013,329,True,unverified_not_matched

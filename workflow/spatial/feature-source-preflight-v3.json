@@ -1,0 +1,118 @@
+{
+  "status": "manager_read_only_preflight_not_feature_acceptance",
+  "inputs": {
+    "adm1_metadata": {
+      "path": "backend/data/external_v2/evidence/geoboundaries-tha-adm1.json",
+      "sha256": "10119cda1b995f724304f99132ecca4a80dbeb96aaf750b8eabf24747ee5a38d",
+      "bytes": 1750
+    },
+    "adm1_geometry": {
+      "path": "backend/data/external_v2/evidence/tha-adm1.geojson",
+      "sha256": "145beb11e52785a42e16997c92a65426b3df8d009941db6b012ec8e411f3e33c",
+      "bytes": 4032763
+    },
+    "province_mapping": {
+      "path": "backend/reports/v2/sources/province_points.csv",
+      "sha256": "c21045179fb235743b5a7adc69014c494d012afd2d5899b28dfb9a9842708ae3",
+      "bytes": 43038
+    },
+    "traffic_stations": {
+      "path": "backend/data/external_v2/derived/traffic_aadt_normalized.csv",
+      "sha256": "cc256d8f48de58b42e58af4e84994c82fc4bc5b8b8156099388f73fe859338e8",
+      "bytes": 7332182
+    },
+    "source_manifest": {
+      "path": "backend/reports/v2/sources/sources_manifest.json",
+      "sha256": "9e3b996c6d695f8795fad7f76a6e9de81a492d97242d19f795bf5ca7c9be510a",
+      "bytes": 89808
+    },
+    "calendar_records": {
+      "path": "backend/reports/v2/sources/calendar_records.csv",
+      "sha256": "74902e2c733f5f494e46178d10f1255de9b0850a7530a39be450f99dabd70c11",
+      "bytes": 47037
+    },
+    "weather_daily": {
+      "path": "backend/data/external_v2/derived/weather_daily_jma_gsm.csv.gz",
+      "sha256": "bfcd9d044c532b064507ce20cbb83f2ce865a6cd3bff6c2ae6e27704fc905bb3",
+      "bytes": 1509968
+    },
+    "weather_6h": {
+      "path": "backend/data/external_v2/derived/weather_6h_jma_gsm.csv.gz",
+      "sha256": "9c625b6a6c79a07d15db09bdb7e65b63e6b08bdf30ce70f27e7227f5956b207f",
+      "bytes": 5091055
+    }
+  },
+  "traffic_availability_by_vintage": [
+    {
+      "survey_year_ce": "2020",
+      "min": "2024-06-01T07:41:10.140471+00:00",
+      "max": "2024-06-01T07:41:10.140471+00:00"
+    },
+    {
+      "survey_year_ce": "2021",
+      "min": "2022-03-25T06:10:50.811162+00:00",
+      "max": "2022-03-25T06:10:50.811162+00:00"
+    },
+    {
+      "survey_year_ce": "2022",
+      "min": "2024-06-01T07:48:05.556631+00:00",
+      "max": "2024-06-01T07:48:05.556631+00:00"
+    },
+    {
+      "survey_year_ce": "2023",
+      "min": "2025-05-30T06:56:57.278942+00:00",
+      "max": "2025-05-30T06:56:57.278942+00:00"
+    },
+    {
+      "survey_year_ce": "2024",
+      "min": "2025-05-30T07:05:03.742919+00:00",
+      "max": "2025-05-30T07:05:03.742919+00:00"
+    },
+    {
+      "survey_year_ce": "2025",
+      "min": "2026-01-21T04:28:53.557666+00:00",
+      "max": "2026-01-21T04:28:53.557666+00:00"
+    }
+  ],
+  "admin_metadata": {
+    "boundaryID": "THA-ADM1-36821470",
+    "boundaryName": "Thailand",
+    "boundaryISO": "THA",
+    "boundaryYearRepresented": "2017",
+    "boundaryType": "ADM1",
+    "boundaryCanonical": "Unknown",
+    "boundarySource": "OpenStreetMap, Wambacher",
+    "boundaryLicense": "Open Data Commons Open Database License 1.0",
+    "licenseDetail": "Open Data Commons Open Database License 1.0",
+    "licenseSource": "www.openstreetmap.org/copyright",
+    "boundarySourceURL": "wambachers-osm.website/boundaries/",
+    "sourceDataUpdateDate": "Thu Jan 19 07:31:04 2023",
+    "buildDate": "Dec 12, 2023",
+    "Continent": "Asia",
+    "UNSDG-region": "Eastern and South-Eastern Asia",
+    "UNSDG-subregion": "South-Eastern Asia",
+    "worldBankIncomeGroup": "Upper-middle-income Countries",
+    "admUnitCount": "77",
+    "meanVertices": "1894.0",
+    "minVertices": "169",
+    "maxVertices": "7440",
+    "meanPerimeterLengthKM": "522.5524698686045",
+    "minPerimeterLengthKM": "100.23381871536978",
+    "maxPerimeterLengthKM": "1293.5187305893078",
+    "meanAreaSqKM": "6687.471304675163",
+    "minAreaSqKM": "415.8026511172183",
+    "maxAreaSqKM": "22682.08410666522",
+    "staticDownloadLink": "https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/THA/ADM1/geoBoundaries-THA-ADM1-all.zip",
+    "gjDownloadURL": "https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/THA/ADM1/geoBoundaries-THA-ADM1.geojson",
+    "tjDownloadURL": "https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/THA/ADM1/geoBoundaries-THA-ADM1.topojson",
+    "imagePreview": "https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/THA/ADM1/geoBoundaries-THA-ADM1-PREVIEW.png",
+    "simplifiedGeometryGeoJSON": "https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/THA/ADM1/geoBoundaries-THA-ADM1_simplified.geojson"
+  },
+  "constraints": [
+    "Register and spatially audit polygons before midpoint province joins; geometry source is OSM-derived geoBoundaries, not current official administrative truth",
+    "Province-point forecast remains a coarse contextual proxy, not road-specific weather",
+    "AADT requires DOH route/control-section identity and prior available vintage; not real-time traffic or per-segment exposure",
+    "No labels/model fits or scores inspected for this preflight",
+    "No source copied, modified or downloaded"
+  ]
+}

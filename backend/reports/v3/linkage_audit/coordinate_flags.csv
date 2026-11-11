@@ -1,0 +1,13 @@
+split,scope,coord_status,precision_class,low_precision,lat_equals_lon,repeated_coord,n
+seen_diagnostic,outside_envelope,inside_broad_bbox_unverified,adequate_unverified,False,False,False,31002
+seen_diagnostic,outside_envelope,inside_broad_bbox_unverified,adequate_unverified,False,False,True,135
+seen_diagnostic,outside_envelope,inside_broad_bbox_unverified,low_precision_unsuitable,True,False,False,14
+seen_diagnostic,pilot,inside_broad_bbox_unverified,adequate_unverified,False,False,False,13761
+seen_diagnostic,pilot,inside_broad_bbox_unverified,adequate_unverified,False,False,True,410
+seen_diagnostic,pilot,inside_broad_bbox_unverified,low_precision_unsuitable,True,False,False,8
+train,outside_envelope,inside_broad_bbox_unverified,adequate_unverified,False,False,False,43958
+train,outside_envelope,inside_broad_bbox_unverified,adequate_unverified,False,False,True,101
+train,outside_envelope,inside_broad_bbox_unverified,low_precision_unsuitable,True,False,False,9
+train,pilot,inside_broad_bbox_unverified,adequate_unverified,False,False,False,16273
+train,pilot,inside_broad_bbox_unverified,adequate_unverified,False,False,True,632
+train,pilot,inside_broad_bbox_unverified,low_precision_unsuitable,True,False,False,5

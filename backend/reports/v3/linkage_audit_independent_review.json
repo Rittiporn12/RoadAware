@@ -1,0 +1,50 @@
+{
+  "status": "accepted_descriptive_linkage_audit_only",
+  "checks": 38,
+  "all_checks_pass": true,
+  "hash_checks": {
+    "reports": 28,
+    "data": 8
+  },
+  "all8data_files_identical_to_failed001": true,
+  "retained_rows": 106308,
+  "pilot": 31089,
+  "outside": 75219,
+  "lineage_columns_exactly_preserved": true,
+  "year_agency_split_reconciled": true,
+  "segments_independently_recomputed": 45722,
+  "max_segment_projected_length_diff_m": 3.306695361970924e-09,
+  "max_segment_geodesic_length_diff_m": 2.2737367544323206e-13,
+  "matched_any_distance_recomputed": 28753,
+  "max_chosen_distance_diff_m": 0.0,
+  "all_primary_assigned_segment_identities_verified": true,
+  "protected_snapshot_files": 575,
+  "allowed_changes": [
+    "backend/README.md"
+  ],
+  "remaining": [
+    "No external ground-truth positional accuracy established; event datum unverified",
+    "123primary road matches have no assigned segment: conservative clip/tolerance outcome, not proof points outside envelope",
+    "EXAT identities and DRRspecialcodes unverified, keep unknown",
+    "ChosenOID/part CSV values may serialize integral floats (e.g.8.0); consumers must validate finite integral identity then cast, not join formatted strings",
+    "No spatial count labels/models trained yet; source geometry/reporting vintage limitations remain"
+  ],
+  "tests": {
+    "targeted": 61,
+    "targeted_seconds": 0.69,
+    "full_backend": 455,
+    "full_seconds": 22.34,
+    "warnings": "40pyproj/NumPy deprecations,1pandas futurewarning,1existingjoblib core-count fallback"
+  },
+  "actual_notebook_seconds": 48.87,
+  "worker_runs": [
+    "20261111-122930-81266",
+    "20261111-124650-85166"
+  ],
+  "visual_review": "Three actual producer PNGs inspected; corrected002 PNG hashes identical. Additional9deterministic internal road/point case panels inspected; this is internal consistency, not external ground-truth positional accuracy.",
+  "primary_matches": 28476,
+  "primary_matches_with_segment": 28353,
+  "primary_matched_unassigned_clip_or_tolerance": 123,
+  "provided_review_sample_rows": 211,
+  "provided_review_sample_unique_uids": 211
+}

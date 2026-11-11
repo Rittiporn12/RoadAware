@@ -4,7 +4,7 @@
 
 **ความคืบหน้าจากการลงมือทำ:** Notebook16 ตรวจรับ audit แล้วหลังแก้ 012a: 94 tests ผ่าน, 15 code cells ใน 11.03s, 27 checks ผ่าน ดู [หลักฐานตรวจรับ](../spatial-readiness-verification-th.md) Notebook17 เก็บ geometry จริงและตรวจรับ V3.1 แล้ว: DOH599/DRR547/EXAT8 รายการ, 66 tests เฉพาะและ394 tests backend ผ่าน, online/offline hashes ตรงกัน ดู [หลักฐานถนน V3.1](../road-collection-v3-1-verification-th.md) กำลังทำ [014: linkage audit และ candidate segments](../tasks/014-spatial-linkage-audit.md) ส่วน zero labels และโมเดลรายจุดยังไม่ตรวจรับ แหล่งข้อมูลอยู่ใน [source_discovery](source_discovery/README_th.md)
 
-**Checkpointล่าสุด:** 014หยุดด้วยClaude API429 session limit แจ้งรีเซ็ต11:40วันที่11พฤศจิกายน2026 (Asia/Bangkok) เขียนnotebook18/configแล้วแต่ยังขาดrunner/testsและผลรันจริง จึงเป็นWIPไม่ตรวจรับ ดู [สถานะและหลักฐาน](../wip/014-spatial-linkage/README.md) กับ [taskทำต่อ014a](../tasks/014a-resume-spatial-linkage.md) ก่อนเริ่มworkerหลังรีเซ็ต
+**Checkpointล่าสุด:** 014a/014bทำต่อและตรวจรับdescriptive linkage auditแล้ว:61testsเฉพาะ/455testsbackend,actual00248.87วินาที/38checks เหตุprimary50mที่มีsegment28,353จากpilot31,089 ส่วนunknownคงสถานะ ดู [หลักฐานตรวจรับ](../spatial-linkage-verification-th.md) ขั้นต่อไปคือprotocol/preparationและโมเดลรายถนน ยังไม่มีspatialforecastหรือเกณฑ์สี
 
 ## 1. สิ่งที่จะทำให้ผู้ใช้เห็น
 

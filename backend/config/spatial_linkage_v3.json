@@ -7,19 +7,19 @@
     "pin_policy": "every input is read offline and hash-verified before any analysis. A null sha256 is a fail-closed placeholder: the notebook refuses to run until the accepted file hash is pinned here (shasum -a 256 <file>). Derived file hashes must equal BOTH this config and the accepted road manifest.",
     "road_manifest": {
       "path": "reports/v3/road_collection_v3_1/road_collection_manifest.json",
-      "sha256": null,
+      "sha256": "6783d259ae91db2e2b684d0c3cd9ae376b70dfeb1af74fbe436e86f15e6fb465",
       "expect_status": "complete",
       "expect_version": "spatial_road_sources_v3.1",
       "expect_cache_manifest_sha256": "f3d87fc70a4f50929e6eff24bffa7ce510c3761dc20e54975ae00331768b8689"
     },
     "road_review": {
       "path": "reports/v3/road_collection_v3_1_independent_review.json",
-      "sha256": null,
+      "sha256": "864eb24f2feed41d37935b29f17eef59778fbc362909c6f730cdd8b5b1121320",
       "expect_status": "accepted_collection_doh_drr_exat_only"
     },
     "readiness_manifest": {
       "path": "reports/v3/spatial_readiness/spatial_readiness_manifest.json",
-      "sha256": null,
+      "sha256": "0004b14460fef8af8a5de69f0b0d1711faf27c9acfeb897087ebaba03ad6e243",
       "expect_status": "complete"
     },
     "lineage": {

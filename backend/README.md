@@ -58,6 +58,13 @@ backend/
 - รัน: `.venv/bin/python backend/scripts/run_v2_notebooks.py --stage collect` (รอบแรกอาจใช้ ~30 นาทีจากการเว้นระยะคำขออากาศ; รอบที่แคชแล้วไม่รอ) หรือ `--offline` เพื่อใช้เฉพาะแคชที่ hash ตรง ข้อมูล/รายงาน v1 ถูกอ่านอย่างเดียวและ runner ตรวจ hash ก่อน/หลัง
 - สถานะ: ยังไม่มีผลรันจริงที่ Codex ตรวจรับ, ยังไม่มี feature panel หรือโมเดล V2, ไม่อ้างว่าชนะ baseline
 
+## V3 — ตรวจ linkage อุบัติเหตุ→ถนน และคลัง segment (Notebook 18, WIP ยังไม่ตรวจรับ)
+
+- อ่าน lineage ของ notebook 16 และ snapshot ถนน DOH/DRR/EXAT v3.1 ของ notebook 17 แบบ offline ตรวจ hash กับ `config/spatial_linkage_v3.json` และ manifest ที่ตรวจรับแล้วก่อนวิเคราะห์ (ไม่ตรง = หยุด) จับคู่แบบอนุรักษ์นิยม (agency ตรงตัว + route ที่ยืนยัน + ≤50 ม., sensitivity 25/100 ม., คู่แข่งภายใน 5 ม. หรือ geometry ไม่ simple = ambiguous, EXAT = identity_unresolved) และสร้าง segment 0.5/1/2 กม. จาก geometry
+- เป็นหลักฐานเชิงพรรณนาเท่านั้น: ไม่มีโมเดล/probability/threshold/สีความเสี่ยง/zero-filled panel; ไม่มีบันทึก ≠ ไม่มีอุบัติเหตุ; datum ของพิกัดเหตุยังไม่ยืนยัน; geometry เป็น snapshot ปัจจุบัน
+- รัน (root ใหม่ทุกครั้ง ต้องอยู่ใน `backend/rerun-linkage-*`): `.venv/bin/python backend/scripts/run_spatial_linkage_audit.py --output-dir backend/rerun-linkage-014-001` · ทดสอบ: `.venv/bin/python -m pytest backend/tests/test_spatial_linkage_audit_notebook.py -q`
+- สถานะ: ยังไม่มีผลรันจริงที่ Codex ตรวจรับ
+
 ## ติดตั้ง (ครั้งเดียว, ที่ root ของ repository)
 
 ```bash

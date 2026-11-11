@@ -1,0 +1,10 @@
+table,source_label,km_status,hypothesis,n,n_evaluable,n_within
+km_status_counts,doh_highway,missing,,169,,
+km_status_counts,doh_highway,parsed_unvalidated,,28557,,
+km_status_counts,drr_rural,missing,,25,,
+km_status_counts,drr_rural,parsed_unvalidated,,1265,,
+km_status_counts,exat_expressway,parsed_unvalidated,,1073,,
+matched_raw_km_within_section_range,doh_highway,any,section km fields in km,27779,27666.0,9215.0
+matched_raw_km_within_section_range,doh_highway,any,section km fields in m,27779,27666.0,27471.0
+matched_raw_km_within_section_range,drr_rural,any,section km fields in km,697,696.0,632.0
+matched_raw_km_within_section_range,drr_rural,any,section km fields in m,697,696.0,695.0

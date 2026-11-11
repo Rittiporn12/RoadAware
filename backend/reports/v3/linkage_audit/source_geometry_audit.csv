@@ -1,0 +1,4 @@
+source_id,features,multipart_features,features_with_clip,unsafe_features,unsafe_reasons,unsafe_full_geod_km,unsafe_clipped_geod_km,pieces_total,pieces_usable,usable_clipped_utm_km,usable_clipped_geod_km,usable_pieces_cut_at_envelope,route_status_counts
+doh_highway,599,0,599,2,not_simple=2,44.0273681268683,9.990452107593919,601,599,5947.663908440592,5946.730646819912,61,standard=599
+drr_rural,547,0,547,4,not_simple=4,38.99458113481642,38.99458113481642,551,547,5948.550070376091,5947.550105427966,63,route_special_unverified=23;standard=524
+exat_expressway,8,8,8,4,not_simple=4,379.71406156035846,379.71406156035846,1417,567,309.7880355528792,309.7836789059364,2,identity_unresolved=8

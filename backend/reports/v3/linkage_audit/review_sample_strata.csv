@@ -1,0 +1,16 @@
+stratum,population,sampled
+ambiguous|doh_highway,263,20
+ambiguous|drr_rural,2,2
+identity_unverified|doh_highway,5,5
+identity_unverified|drr_rural,564,20
+identity_unverified|exat_expressway,1070,20
+low_precision_unsuitable|doh_highway,7,7
+low_precision_unsuitable|drr_rural,3,3
+low_precision_unsuitable|exat_expressway,3,3
+matched_high_distance|doh_highway,1998,20
+matched_high_distance|drr_rural,11,11
+matched|doh_highway,25781,20
+matched|drr_rural,686,20
+too_far|doh_highway,672,20
+too_far|drr_rural,24,20
+repeated_coordinate|any,1042,20
