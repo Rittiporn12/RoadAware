@@ -1,0 +1,22 @@
+{
+  "status": "WIP_NOT_ACCEPTED_QUOTA_429",
+  "cells": 13,
+  "code_cells": 11,
+  "syntax_errors": [],
+  "protected_files_checked": 575,
+  "protected_changed": [],
+  "not_run": [
+    "targetedpytest: tests not written",
+    "notebookexecution: runner absent and config has null pins",
+    "fullbackend after014: no complete014 implementation",
+    "No actual geometric linkage or segment inventory results produced"
+  ],
+  "independent_function_smoke_checks": [
+    "config rules parse with25/50/100m",
+    "unfilled manifest pins fail closed: road_manifest: sha256 is not pinned in the config ",
+    "DOH leading-zero and decimal-code rejection",
+    "DRR special code remains unverified",
+    "EXAT no forced identity mapping",
+    "segment boundary/final-index helper examples"
+  ]
+}

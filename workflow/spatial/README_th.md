@@ -1,8 +1,10 @@
 # แผนต่อยอด RoadAware: คาดการณ์รายพื้นที่/ช่วงถนนและระดับเฝ้าระวังสี
 
-สถานะ 11 พฤศจิกายน 2026: **เตรียมข้อกำหนดและตรวจข้อมูลเบื้องต้นแล้ว ยังไม่มีโมเดลรายจุดที่ฝึกหรือผ่านการประเมิน** ผู้ใช้ต้องการเตรียมงานไว้ก่อนและรอ Claude พร้อมจึงเริ่ม implementation ไม่รัน worker ในรอบวางแผนนี้
+สถานะ 11 พฤศจิกายน 2026: **ลงมือทำ spatial pipeline แล้ว ยังไม่มีโมเดลรายจุดที่ฝึกหรือผ่านการประเมิน** ผู้ใช้อนุญาตให้ดำเนินการต่อหลัง Claude พร้อมแล้ว ข้อเสนอด้านโมเดลและสียังต้องผ่าน audit และล็อก protocol ก่อน
 
-**ความคืบหน้าจากการลงมือทำ:** Notebook16 ตรวจรับ audit แล้วหลังแก้ 012a: 94 tests ผ่าน, 15 code cells ใน 11.03s, 27 checks ผ่าน ดู [หลักฐานตรวจรับ](../spatial-readiness-verification-th.md) งานถัดไปคือ [013: เก็บ geometry ถนน](../tasks/013-spatial-road-snapshot-collection.md) ส่วน road/zero labels และโมเดลรายจุดยังไม่ตรวจรับ แหล่งข้อมูลอยู่ใน [source_discovery](source_discovery/README_th.md)
+**ความคืบหน้าจากการลงมือทำ:** Notebook16 ตรวจรับ audit แล้วหลังแก้ 012a: 94 tests ผ่าน, 15 code cells ใน 11.03s, 27 checks ผ่าน ดู [หลักฐานตรวจรับ](../spatial-readiness-verification-th.md) Notebook17 เก็บ geometry จริงและตรวจรับ V3.1 แล้ว: DOH599/DRR547/EXAT8 รายการ, 66 tests เฉพาะและ394 tests backend ผ่าน, online/offline hashes ตรงกัน ดู [หลักฐานถนน V3.1](../road-collection-v3-1-verification-th.md) กำลังทำ [014: linkage audit และ candidate segments](../tasks/014-spatial-linkage-audit.md) ส่วน zero labels และโมเดลรายจุดยังไม่ตรวจรับ แหล่งข้อมูลอยู่ใน [source_discovery](source_discovery/README_th.md)
+
+**Checkpointล่าสุด:** 014หยุดด้วยClaude API429 session limit แจ้งรีเซ็ต11:40วันที่11พฤศจิกายน2026 (Asia/Bangkok) เขียนnotebook18/configแล้วแต่ยังขาดrunner/testsและผลรันจริง จึงเป็นWIPไม่ตรวจรับ ดู [สถานะและหลักฐาน](../wip/014-spatial-linkage/README.md) กับ [taskทำต่อ014a](../tasks/014a-resume-spatial-linkage.md) ก่อนเริ่มworkerหลังรีเซ็ต
 
 ## 1. สิ่งที่จะทำให้ผู้ใช้เห็น
 
@@ -80,7 +82,7 @@ Regression ให้ค่าเฉลี่ยจำนวนบันทึก
 | ปฏิทิน | ใช้ festival/time/season rules เดิม และเพิ่มปฏิทินปีใหม่เมื่อมีหลักฐาน | BOT calendar เป็นวันหยุดธนาคาร ไม่เท่ากับวันหยุดทุกประเภท |
 | Historical explanations | กู้ประเภทเหตุ/สาเหตุ/เวลาจาก raw แบบตรวจ identity ได้ ใช้เฉพาะประวัติก่อน cutoff ที่อ้าง | “มูลเหตุสันนิษฐาน” ไม่ใช่เหตุที่พิสูจน์แล้ว; sample น้อยต้องบอก n และ unknown |
 
-แหล่งที่ตรวจ metadata แล้ว: [MOT แผนที่โครงข่ายถนนในความรับผิดชอบ](https://datagov.mot.go.th/th/dataset/transportgis) ระบุบริการ WMS ต้องตรวจต่อว่ามี vector/API ดาวน์โหลดและสิทธิ์ใช้ที่เหมาะสมหรือไม่ ยังไม่ได้ดาวน์โหลดหรือรับรอง geometry หากใช้ OSM เป็นทางเลือกให้บันทึก snapshot/coverage และ [attribution/ODbL ของ OSM](https://www.openstreetmap.org/copyright?locale=en-GB) ไม่เรียก OSM ว่าเป็นโครงข่ายครบถ้วนของแหล่งรายงาน MOT; [H3 cell statistics](https://h3geo.org/docs/core-library/restable/) ใช้ตรวจขนาดพื้นที่ตาม resolution
+แหล่งที่เก็บ geometry จริงแล้ว: [MOT แผนที่โครงข่ายถนนในความรับผิดชอบ](https://datagov.mot.go.th/th/dataset/transportgis) แม้ catalog ระบุ WMS แต่ลิงก์ resource มี ArcGIS FeatureServer ที่ query vector ได้ เก็บ DOH/DRR/EXAT ครบตาม query ของกรอบนำร่องและตรวจ OID/hash/ความยาวแล้ว สิทธิ์ redistribution และ historical vintage ยังต้องยืนยันตามรายงาน หากใช้ OSM เป็นทางเลือกให้บันทึก snapshot/coverage และ [attribution/ODbL ของ OSM](https://www.openstreetmap.org/copyright?locale=en-GB) ไม่เรียก OSM ว่าเป็นโครงข่ายครบถ้วนของแหล่งรายงาน MOT; [H3 cell statistics](https://h3geo.org/docs/core-library/restable/) ใช้ตรวจขนาดพื้นที่ตาม resolution
 
 ## 7. โมเดลและการทดสอบที่จะต้องทำใหม่
 
@@ -104,10 +106,10 @@ Regression ให้ค่าเฉลี่ยจำนวนบันทึก
 
 ## 9. ลำดับงานเมื่อ Claude พร้อม
 
-1. **เริ่ม [task 012: Spatial Data Readiness](../tasks/012-spatial-data-readiness.md)** — สร้าง notebook audit และรายงาน feasibility ก่อน ยังไม่ fit โมเดล ไม่มี frontend
-2. Codex ตรวจ notebook/lineage/geometry/zero-policy จริง แล้วจัดและล็อก spatial protocol/config ในงานแยก กำหนด study area, unit/horizon, folds, baselines, feature/as-of, selection/color gates และ resource budget
+1. **012/013 ตรวจรับแล้ว; กำลังทำ [014: Spatial Linkage Audit](../tasks/014-spatial-linkage-audit.md)** — ตรวจการเชื่อมจุดกับ geometry/รหัสถนน ระยะ25/50/100เมตร และ inventory0.5/1/2กม. ก่อน ยังไม่ fit โมเดล ไม่มี frontend
+2. Codex ตรวจ notebook/lineage/geometry/linkage/zero-policy จริง แล้วจัดและล็อก spatial protocol/config ในงานแยก กำหนด study area, unit/horizon, folds, baselines, feature/as-of, selection/color gates และ resource budget
 3. Claude สร้าง preparation → model experiments → evaluation/error analysis → spatial serving เป็น notebook แยก และ Codex รันตรวจทุกช่วง ผลรายจุดเก็บ V3 แยกจาก V2
 4. ปรับงาน API/catalog 009a ให้มีขอบเขตจังหวัดและ spatial แยกชัด หลังมี spatial contract ที่ผ่านตรวจแล้ว งาน 009a ยังเป็นงานค้าง ไม่ลบทิ้ง ไม่ถือว่าเสร็จเพราะมีแผนนี้
 5. ทดสอบ API จริง/GeoJSON/การเลือกพื้นที่/unknown behavior และจัดเอกสาร ก่อนเริ่ม frontend/mobile และ routing UX
 
-ตอนนี้ห้ามเริ่มฝึก/สร้างสีตัวเลข/ซื้อบริการ/ทำหน้าเว็บอัตโนมัติ ข้อความร่างเหล่านี้เป็นข้อเสนอที่รอผล audit ไม่ใช่ผลทดลอง พอ Claude พร้อมเริ่ม 012 ได้โดยไม่ต้องถามยืนยันรายละเอียดเดิมซ้ำ งานบางส่วนอาจติด **login** แยกจาก **quota reset**: รอบล่าสุดของ bridge ตอบ Not logged in จึงต้องตรวจสถานะบัญชีด้วยก่อนเริ่ม worker
+ตอนนี้ยังไม่เริ่มฝึกหรือสร้างเกณฑ์สีตัวเลขก่อนตรวจรับ linkage/labels และล็อก protocol ข้อความด้านสีและโมเดลเป็นข้อเสนอที่รอผล audit ไม่ใช่ผลทดลอง ยังไม่ทำหน้าเว็บหรือซื้อบริการ ผู้ใช้อนุญาตให้ทำงานต่อแล้ว ไม่ต้องถามยืนยันขอบเขตเดิมซ้ำ Bridge ใช้งาน Claude ได้จริงแล้วเมื่อรันด้วยสิทธิ์ที่เข้าถึงบัญชีในเครื่อง; ข้อความ Not logged in ใน sandbox ก่อนหน้านี้ไม่ใช่หลักฐานว่าโควต้าหมด
