@@ -104,11 +104,48 @@ class FakeArcGIS:
         return self.f['_bounded_read'](200, {'Content-Type': 'application/json'}, io.BytesIO(json.dumps(body).encode()), max_bytes)
 
 
-def one_source_cfg(**budget):
+def exat_feature(oid):
+    # real-shaped EXAT_Road_OpenData record: identity is objectid_1 (esriFieldTypeOID); objectid is an ordinary integer that repeats
+    ft = make_feature(oid, 'objectid_1')
+    ft['attributes'] = {'objectid_1': oid, 'objectid': 7, 'route': 'R' + str(oid % 3), 'centerline': 'C' + str(oid), 'SHAPE__Length': 0.009}
+    return ft
+
+
+def exat_fake(f, n=45):
+    fake = FakeArcGIS(f, n=n, oid='objectid_1', name='EXAT_Road_OpenData')
+    fake.features = {i: exat_feature(i) for i in range(101, 101 + n)}
+    fake.layer['fields'] = [{'name': 'objectid_1', 'type': 'esriFieldTypeOID'}, {'name': 'objectid', 'type': 'esriFieldTypeInteger'},
+                            {'name': 'route', 'type': 'esriFieldTypeString'}, {'name': 'centerline', 'type': 'esriFieldTypeString'},
+                            {'name': 'SHAPE__Length', 'type': 'esriFieldTypeDouble', 'virtual': True}]
+    return fake
+
+
+def source_cfg(sid, **budget):
     cfg = copy.deepcopy(CFG)
-    cfg['sources'] = [cfg['sources'][0]]
+    cfg['sources'] = [s for s in cfg['sources'] if s['id'] == sid]
     cfg['budget'].update(budget)
     return cfg
+
+
+def one_source_cfg(**budget):
+    return source_cfg('doh_highway', **budget)
+
+
+def three_fakes(f):
+    return {'doh_highway': FakeArcGIS(f), 'drr_rural': FakeArcGIS(f, oid='OBJECTID', layer_id=2), 'exat_expressway': exat_fake(f, n=25)}
+
+
+def router(cfg, fakes):
+    # DOH and EXAT share the MOT host: route by FeatureServer path, never by host alone
+    prefixes = [(urlsplit(s['service_url']).path, fakes[s['id']]) for s in cfg['sources']]
+
+    def route(url, timeout, max_bytes):
+        p = unquote(urlsplit(url).path)
+        for prefix, fake in prefixes:
+            if p == prefix or p.startswith(prefix + '/'):
+                return fake(url, timeout, max_bytes)
+        raise AssertionError('unrouted ' + url)
+    return route
 
 
 def pipeline(f, cfg, out, mode, transport=None, cache=None, expected=None, sleeps=None):
@@ -328,17 +365,87 @@ def test_http_404_is_not_retried(f, tmp_path):
     assert_incomplete(paths, res, 'collection_failed')
 
 
-def test_one_endpoint_down_means_no_completed_manifest_and_no_silent_fallback(f, tmp_path):
-    cfg = copy.deepcopy(CFG)
-    doh, drr = FakeArcGIS(f), FakeArcGIS(f, oid='OBJECTID', layer_id=2)
-    drr.status_plan = ['transient'] * 100
-    route = lambda url, t, m: (drr if urlsplit(url).hostname == 'gis.drr.go.th' else doh)(url, t, m)
-    paths, res, _, _, ok = pipeline(f, cfg, tmp_path, 'online', route)
-    assert not ok and res['doh_highway']['status'] == 'complete' and res['drr_rural']['status'] == 'incomplete'
-    assert all(urlsplit(u).hostname == 'gis.drr.go.th' for u in drr.calls)
+@pytest.mark.parametrize('down', ['doh_highway', 'drr_rural', 'exat_expressway'])
+def test_one_endpoint_down_means_no_completed_manifest_and_no_silent_fallback(f, tmp_path, down):
+    cfg, fakes = copy.deepcopy(CFG), three_fakes(f)
+    fakes[down].status_plan = ['transient'] * 100
+    paths, res, _, _, ok = pipeline(f, cfg, tmp_path, 'online', router(cfg, fakes))
+    assert not ok and res[down]['status'] == 'incomplete'
+    assert all(res[s]['status'] == 'complete' for s in res if s != down) and len(res) == len(cfg['sources'])
+    want = urlsplit(next(s['service_url'] for s in cfg['sources'] if s['id'] == down)).path
+    assert fakes[down].calls and all(unquote(urlsplit(u).path).startswith(want) for u in fakes[down].calls)
     st = json.loads((paths['report_dir'] / 'road_collection_status.json').read_text('utf-8'))
-    assert st['status'] == 'incomplete' and 'No OSM' in st['sources']['drr_rural']['next_step']
+    assert st['status'] == 'incomplete' and 'No OSM' in st['sources'][down]['next_step']
     assert not (paths['report_dir'] / 'road_collection_manifest.json').exists()
+    assert not (paths['raw_dir'] / 'cache_manifest.json').exists()
+
+
+# ---------------------------------------------------------------- EXAT (objectid_1 identity) and the three-source snapshot
+def test_exat_identity_is_objectid_1_through_paging_and_offline_replay(f, tmp_path):
+    cfg, fake = source_cfg('exat_expressway'), exat_fake(f, n=45)
+    p1, r1, t1, rows1, ok1 = pipeline(f, cfg, tmp_path / 'a', 'online', fake)
+    v = r1['exat_expressway']
+    assert ok1 and v['status'] == 'complete' and v['problems'] == [] and v['layer_facts']['object_id_field'] == 'objectid_1'
+    assert [r['n_requested'] for r in v['page_rows']] == [20, 20, 5]
+    pages = [r for r in v['requests'] if r['kind'] == 'geometry_page']
+    assert [r['requested_ids'] for r in pages] == [list(range(101, 121)), list(range(121, 141)), list(range(141, 146))]
+    assert rows1['oid'].tolist() == list(range(101, 146))  # objectid (constant 7) would have collapsed to duplicates
+    u = t1['unit_audit']
+    assert u['field'].tolist() == ['SHAPE__Length'] and u['status'].tolist() == ['not_metres_never_used_as_length']  # no km/length roles
+    fc = json.loads((p1['derived_dir'] / 'exat_expressway_full.geojson').read_text('utf-8'))
+    assert [ft['properties'] for ft in fc['features']] == [fake.features[i]['attributes'] for i in range(101, 146)]
+    exp = p1['report_dir'] / 'road_collection_manifest.json'
+
+    p2, r2, t2, rows2, ok2 = pipeline(f, cfg, tmp_path / 'b', 'offline', cache=p1['data_dir'], expected=exp)
+    assert ok2 and r2['exat_expressway']['layer_facts']['object_id_field'] == 'objectid_1'
+    assert rows2['oid'].tolist() == rows1['oid'].tolist() and rows2['length_full_m'].tolist() == rows1['length_full_m'].tolist()
+    assert t2['page_reconciliation']['sha256'].tolist() == t1['page_reconciliation']['sha256'].tolist()
+    m1, m2 = json.loads(exp.read_text('utf-8')), json.loads((p2['report_dir'] / 'road_collection_manifest.json').read_text('utf-8'))
+    assert m1['raw_files'] == m2['raw_files']
+
+
+@pytest.mark.parametrize('case,code,needle', [('ids_field', 'collection_failed', 'objectIdFieldName'),
+                                              ('two_oid_fields', 'collection_failed', 'single esriFieldTypeOID'),
+                                              ('page_lacks_objectid_1', 'feature_without_oid', 'objectid_1')])
+def test_exat_never_falls_back_to_the_ordinary_objectid_field(f, tmp_path, case, code, needle):
+    fake = exat_fake(f)
+    if case == 'ids_field':
+        fake.on_ids = lambda body: body.update(objectIdFieldName='objectid')
+    elif case == 'two_oid_fields':
+        fake.layer['fields'][1]['type'] = 'esriFieldTypeOID'
+    else:
+        fake.on_page = lambda n, body, fk: body['features'][0]['attributes'].pop('objectid_1') if n == 1 else None
+    paths, res, _, _, ok = pipeline(f, source_cfg('exat_expressway'), tmp_path, 'online', fake)
+    v = res['exat_expressway']
+    assert not ok and v['status'] == 'incomplete'
+    assert any(p['code'] == code and needle in p['message'] for p in v['problems']), v['problems']
+    assert not (paths['report_dir'] / 'road_collection_manifest.json').exists()
+    if case != 'page_lacks_objectid_1':
+        assert fake.page_calls == 0
+
+
+def test_three_source_snapshot_complete_and_offline_replay_pinned(f, tmp_path):
+    cfg, fakes = copy.deepcopy(CFG), three_fakes(f)
+    p1, r1, t1, rows1, ok1 = pipeline(f, cfg, tmp_path / 'a', 'online', router(cfg, fakes))
+    assert ok1 and set(r1) == {s['id'] for s in cfg['sources']} and all(v['status'] == 'complete' for v in r1.values())
+    assert all(fk.page_calls > 0 for fk in fakes.values())
+    exp = p1['report_dir'] / 'road_collection_manifest.json'
+    m1 = json.loads(exp.read_text('utf-8'))
+    assert set(m1['sources']) == set(r1) and m1['version'] == cfg['version']
+    assert {sid: s['features'] for sid, s in m1['sources'].items()} == {sid: len(fk.features) for sid, fk in fakes.items()}
+    p2, r2, t2, rows2, ok2 = pipeline(f, cfg, tmp_path / 'b', 'offline', cache=p1['data_dir'], expected=exp)
+    assert ok2 and json.loads((p2['report_dir'] / 'road_collection_manifest.json').read_text('utf-8'))['raw_files'] == m1['raw_files']
+    assert rows2[['source_id', 'oid', 'length_full_m']].values.tolist() == rows1[['source_id', 'oid', 'length_full_m']].values.tolist()
+
+
+def test_two_source_cache_is_never_replayed_as_a_three_source_snapshot(f, tmp_path):
+    two = copy.deepcopy(CFG)
+    two['sources'] = [s for s in two['sources'] if s['id'] != 'exat_expressway']
+    fakes = three_fakes(f)
+    paths, _, _, _, ok = pipeline(f, two, tmp_path / 'two', 'online', router(two, fakes))
+    assert ok
+    with pytest.raises(f['RoadCollectionError'], match='differs from the config'):
+        f['run_offline'](copy.deepcopy(CFG), paths['data_dir'])
 
 
 # ---------------------------------------------------------------- malformed geometry: retained, flagged, reconciled
@@ -546,6 +653,21 @@ def test_outputs_never_overlap_protected_inputs(f):
         f['check_protected'](f['output_paths'](BACKEND / 'data' / 'v2', CFG), BACKEND, CFG['protected_paths'])
 
 
+def test_v3_1_writes_new_dirs_and_protects_accepted_v3_0_outputs(f, runner):
+    old = ('reports/v3/road_collection', 'data/v3/road_collection', 'config/archive/spatial_road_sources_v3_0.json',
+           'rerun-road-013-online-001', 'rerun-road-013-offline-001')
+    assert set(old) <= set(CFG['protected_paths'])
+    assert all(CFG['outputs'][k] not in old for k in ('report_dir', 'data_dir'))
+    assert runner.default_cache() == BACKEND / CFG['outputs']['data_dir']  # default offline cache follows the config, never the v3.0 cache
+    v30 = copy.deepcopy(CFG)
+    v30['outputs'] = {'report_dir': 'reports/v3/road_collection', 'data_dir': 'data/v3/road_collection'}
+    with pytest.raises(f['RoadCollectionError'], match='protected'):
+        f['check_protected'](f['output_paths'](BACKEND, v30), BACKEND, CFG['protected_paths'])
+    for root in ('rerun-road-013-online-001', 'rerun-road-013-offline-001'):
+        assert runner.write_conflicts(runner.BACKEND / root, True)  # accepted v3.0 rerun roots cannot be reused
+    assert len({s['service_url'] + '#' + str(s['layer_id']) for s in CFG['sources']}) == len(CFG['sources'])
+
+
 # ---------------------------------------------------------------- runner (execution only)
 def test_runner_env_is_explicit(runner, tmp_path):
     e = runner.build_env(tmp_path, True, base={'ROADAWARE_ROAD_CACHE_DIR': '/stale', 'PATH': '/bin'})
@@ -559,13 +681,13 @@ def test_runner_refuses_overlaps_and_reused_roots(runner, tmp_path):
     assert runner.write_conflicts(tmp_path / 'fresh', True) is None
     assert runner.write_conflicts(runner.BACKEND / 'data' / 'v2' / 'x', True)
     assert runner.write_conflicts(runner.BACKEND, False, cache=runner.default_cache())  # offline default root would write into the cache
-    assert runner.write_conflicts(tmp_path, True, cache=tmp_path / 'data' / 'v3' / 'road_collection')
-    rep = tmp_path / 'reports' / 'v3' / 'road_collection'
+    assert runner.write_conflicts(tmp_path, True, cache=tmp_path / CFG['outputs']['data_dir'])
+    rep = tmp_path / CFG['outputs']['report_dir']
     rep.mkdir(parents=True)
     assert runner.preconditions(tmp_path, False) is None
     (rep / 'x.csv').write_text('a')
     assert 'already exist' in runner.preconditions(tmp_path, False)
-    raw = tmp_path / 'r2' / 'data' / 'v3' / 'road_collection' / 'raw'
+    raw = tmp_path / 'r2' / CFG['outputs']['data_dir'] / 'raw'
     raw.mkdir(parents=True)
     (raw / 'x').write_text('a')
     assert runner.preconditions(tmp_path / 'r2', True) and runner.preconditions(tmp_path / 'r2', False) is None

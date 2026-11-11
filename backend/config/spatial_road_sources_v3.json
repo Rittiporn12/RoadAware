@@ -1,6 +1,7 @@
 {
-  "version": "spatial_road_sources_v3.0",
+  "version": "spatial_road_sources_v3.1",
   "status": "collection_only: read-only official road geometry snapshot for a preregistered pilot envelope; no labels, snapping, model, thresholds or colours",
+  "version_note": "v3.1 (task 013a, 2026-11-11) adds the third MOT accident agency EXAT (source coverage extension, not a correction of v3.0). Envelope, predicate, hosts and budget are unchanged. v3.0 (DOH/DRR) is archived read-only at config/archive/spatial_road_sources_v3_0.json with its outputs in reports|data/v3/road_collection; v3.1 writes to the new road_collection_v3_1 dirs and never reuses a two-source cache.",
   "notebook": "notebooks/17_spatial_road_collection.ipynb",
   "preregistration": {
     "envelope_epsg4326": [100.2, 13.5, 102.0, 15.3],
@@ -61,13 +62,33 @@
         "degree_length": ["SHAPE__Length", "Shape__Length", "SHAPE.LEN", "Shape_Length"],
         "year": ["budget_year"]
       }
+    },
+    {
+      "id": "exat_expressway",
+      "authority": "Expressway Authority of Thailand (EXAT, การทางพิเศษแห่งประเทศไทย)",
+      "catalog_url": "https://datagov.mot.go.th/th/dataset/transportgis",
+      "service_url": "https://giportal.mot.go.th/arcgis/rest/services/Hosted/เส้นทางด่วน_กทพ/FeatureServer",
+      "layer_id": 0,
+      "expected_geometry_type": "esriGeometryPolyline",
+      "query_format": "json",
+      "query_format_note": "Esri JSON like the other sources; layer EXAT_Road_OpenData objectIdField is objectid_1 (objectid is an ordinary integer field, not the identity)",
+      "license": "pending: licence text of the MOT catalog resource was not captured; confirm on the catalog resource page before redistribution",
+      "attribute_roles": {
+        "route": ["route"],
+        "section": ["centerline"],
+        "km_start": null,
+        "km_end": null,
+        "length": [],
+        "degree_length": ["SHAPE__Length"],
+        "year": []
+      }
     }
   ],
   "discovery_context": {
-    "manifest": "../workflow/spatial/source_discovery/discovery_manifest.json",
-    "pilot_manifest": "../workflow/spatial/source_discovery/pilot_query_manifest.json",
-    "key_map": {"doh": "doh_highway", "drr": "drr_rural"},
-    "note": "manager observations (national and pilot counts) are context only, never expected counts"
+    "manifest": "../workflow/spatial/source_discovery/discovery_manifest_v3_1.json",
+    "pilot_manifest": "../workflow/spatial/source_discovery/pilot_query_manifest_v3_1.json",
+    "key_map": {"doh": "doh_highway", "drr": "drr_rural", "exat": "exat_expressway"},
+    "note": "manager observations (national and pilot counts) are context only, never expected counts; the national EXAT count was not queried (null)"
   },
   "thailand_broad_bbox": {"lat_min": 5.5, "lat_max": 20.5, "lon_min": 97.3, "lon_max": 105.7,
                           "note": "coarse national box used only for lon/lat-order and out-of-country flags"},
@@ -94,7 +115,9 @@
     "notebooks/09_external_collection_date_evidence.ipynb", "notebooks/10_v2_preparation_features_leakage.ipynb",
     "notebooks/11_v2_model_experiments.ipynb", "notebooks/12_v2_evaluation_error_analysis.ipynb",
     "notebooks/13_inference_robustness_contract.ipynb", "notebooks/16_spatial_data_readiness.ipynb",
-    "../workflow/model-protocol-v2-lock.json", "../workflow/spatial"
+    "../workflow/model-protocol-v2-lock.json", "../workflow/spatial",
+    "reports/v3/road_collection", "data/v3/road_collection", "config/archive/spatial_road_sources_v3_0.json",
+    "rerun-road-013-online-001", "rerun-road-013-offline-001"
   ],
-  "outputs": {"report_dir": "reports/v3/road_collection", "data_dir": "data/v3/road_collection"}
+  "outputs": {"report_dir": "reports/v3/road_collection_v3_1", "data_dir": "data/v3/road_collection_v3_1"}
 }

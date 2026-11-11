@@ -1,0 +1,60 @@
+{
+  "status": "accepted_collection_doh_drr_exat_only",
+  "counts": {
+    "doh_highway": {
+      "exact_ids": 599,
+      "pages": 30,
+      "oid_field": "objectid",
+      "not_simple": 2
+    },
+    "drr_rural": {
+      "exact_ids": 547,
+      "pages": 28,
+      "oid_field": "OBJECTID",
+      "not_simple": 4
+    },
+    "exat_expressway": {
+      "exact_ids": 8,
+      "pages": 1,
+      "oid_field": "objectid_1",
+      "not_simple": 4
+    }
+  },
+  "hash_checks": {
+    "raw": 154,
+    "reports": 28,
+    "derived": 14
+  },
+  "offline_raw_and_derived_hashes_match": true,
+  "geodesic_lengths_independently_recomputed": 1154,
+  "max_absolute_length_difference_m": 0.004276178631698713,
+  "doh_drr_full_geojson_identical_to_v3_0": true,
+  "protected_before_snapshot_files": 473,
+  "allowed_changes_in_snapshot": [
+    "backend/config/spatial_road_sources_v3.json",
+    "backend/notebooks/17_spatial_road_collection.ipynb",
+    "backend/scripts/run_spatial_road_collection.py",
+    "backend/tests/test_spatial_road_collection_notebook.py"
+  ],
+  "other_snapshot_files_unchanged": 469,
+  "tests": {
+    "road_specific": 66,
+    "full_backend": 394,
+    "full_suite_seconds": 21.26,
+    "warnings": "one existing joblib physical-core fallback"
+  },
+  "online_seconds": 35.14,
+  "worker_run": "20261111-091924-71069",
+  "remaining": [
+    "No accident-to-road linkage or spatial model yet",
+    "10 non-simple features flagged, including 4 EXAT multipart features",
+    "Event datum and historical road vintage remain unverified",
+    "Source coverage does not establish accident reporting completeness"
+  ],
+  "offline_seconds": 17.09,
+  "corrected_offline_seconds": 18.03,
+  "correction_worker_run": "20261111-093111-74173",
+  "corrected_report_hashes_verified": 14,
+  "visuals": "Both real PNGs inspected; title clipping corrected and actual rerender inspected; descriptive geometry only, no risk/forecast colours",
+  "minor_nonfunctional_note": "Two legacy error hints still mention the v3.0 cache path; current config, runner docstring, report runbook and commands below use v3.1. Runtime default derives from config."
+}

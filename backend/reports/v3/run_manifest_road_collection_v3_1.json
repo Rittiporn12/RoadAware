@@ -1,0 +1,86 @@
+{
+  "started_utc": "2026-11-11T02:32:01.935933+00:00",
+  "notebook": "17_spatial_road_collection",
+  "runner_sha256": "c34617dc196d75e797716eac0df68e08573006838ca20e063059c5bccfd3ee0b",
+  "runner_python": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/.venv/bin/python",
+  "kernel_argv": [
+    "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/.venv/bin/python",
+    "-m",
+    "ipykernel_launcher",
+    "-f",
+    "{connection_file}"
+  ],
+  "output_root": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/rerun-road-013a-offline-002",
+  "online": false,
+  "cache_from": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/rerun-road-013a-online-001/data/v3/road_collection_v3_1",
+  "expect_manifest": "backend/rerun-road-013a-online-001/reports/v3/road_collection_v3_1/road_collection_manifest.json",
+  "cell_timeout_seconds": 7200,
+  "source_sha256_before": "e08a1a5e8fb9c3da54a8d67c078252a953fd6cc26235175aec5c5342787b73a7",
+  "status": "ok",
+  "cell_log": [
+    {
+      "cell_index": 1,
+      "seconds": 0.0,
+      "status": "ok"
+    },
+    {
+      "cell_index": 2,
+      "seconds": 0.0,
+      "status": "ok"
+    },
+    {
+      "cell_index": 3,
+      "seconds": 0.1,
+      "status": "ok"
+    },
+    {
+      "cell_index": 4,
+      "seconds": 0.3,
+      "status": "ok"
+    },
+    {
+      "cell_index": 5,
+      "seconds": 0.0,
+      "status": "ok"
+    },
+    {
+      "cell_index": 6,
+      "seconds": 0.7,
+      "status": "ok"
+    },
+    {
+      "cell_index": 8,
+      "seconds": 9.9,
+      "status": "ok"
+    },
+    {
+      "cell_index": 10,
+      "seconds": 0.0,
+      "status": "ok"
+    },
+    {
+      "cell_index": 12,
+      "seconds": 0.0,
+      "status": "ok"
+    },
+    {
+      "cell_index": 14,
+      "seconds": 0.0,
+      "status": "ok"
+    },
+    {
+      "cell_index": 16,
+      "seconds": 0.8,
+      "status": "ok"
+    },
+    {
+      "cell_index": 18,
+      "seconds": 4.9,
+      "status": "ok"
+    }
+  ],
+  "seconds": 18.03,
+  "output_notebook": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/rerun-road-013a-offline-002/notebooks/17_spatial_road_collection.ipynb",
+  "output_notebook_sha256": "99dfd8fbe6aabaede4e2c9bba641e0daa6d55844421c6222d675d4d993e54399",
+  "finished_utc": "2026-11-11T02:32:19.986592+00:00"
+}

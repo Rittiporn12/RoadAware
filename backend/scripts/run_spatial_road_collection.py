@@ -3,13 +3,15 @@
 Usage (from the repository root):
     .venv/bin/python backend/scripts/run_spatial_road_collection.py --online --output-dir backend/rerun-road-<UTC>
     .venv/bin/python backend/scripts/run_spatial_road_collection.py --output-dir backend/rerun-road-<UTC2> \
-        --cache-from backend/rerun-road-<UTC>/data/v3/road_collection \
-        --expect-manifest backend/rerun-road-<UTC>/reports/v3/road_collection/road_collection_manifest.json
+        --cache-from backend/rerun-road-<UTC>/data/v3/road_collection_v3_1 \
+        --expect-manifest backend/rerun-road-<UTC>/reports/v3/road_collection_v3_1/road_collection_manifest.json
 
-* Default is OFFLINE: the notebook reads only a complete, hash-verified cache (default --cache-from backend/data/v3/road_collection) and
+* Report/data dirs come from config outputs (v3.1: reports|data/v3/road_collection_v3_1); the v3.0 DOH/DRR outputs in road_collection are
+  protected and a cache whose source set differs from the config is refused.
+* Default is OFFLINE: the notebook reads only a complete, hash-verified cache (default --cache-from backend/<config data_dir>) and
   re-validates it from raw bytes. --online is the only way the notebook makes network requests (public MOT/DRR ArcGIS Query endpoints).
-* --output-dir (default backend/) receives reports/v3/road_collection/ (aggregates, figures, Thai report, status, acceptance manifest),
-  data/v3/road_collection/ (raw responses, cache manifest, GeoJSON derivatives; gitignored) and, when given, notebooks/.
+* --output-dir (default backend/) receives <config report_dir>/ (aggregates, figures, Thai report, status, acceptance manifest),
+  <config data_dir>/ (raw responses, cache manifest, GeoJSON derivatives; gitignored) and, when given, notebooks/.
 * An earlier result is never overwritten: use a NEW root. Before anything is created, every planned write is checked against the config
   protected_paths (symlink/alias and ancestor overlaps included) and against the offline cache; an overlapping root is refused.
 * All collection/geospatial logic lives in the notebook; this runner only sets roots/flags, executes and records a run log at
