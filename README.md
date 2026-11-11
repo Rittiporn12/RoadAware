@@ -1,4 +1,16 @@
-# RoadAware — ผล V2 ล่าสุด
+# RoadAware
+
+## สถานะงาน Spatial V3 — 11 พฤศจิกายน 2026
+
+ตรวจรับการเก็บถนน การเชื่อมพิกัด และ Notebook19 เตรียมข้อมูลแล้ว: จักรวาลทดลอง DOH 3,105 ช่วงถนน มีบันทึกที่คัดเลือกและเชื่อมได้ 27,459 รายการในปี 2021–25 พร้อม target รายวัน/6 ชั่วโมงและ feature builder เดียวสำหรับฝึกและ serving ตรวจเฉพาะ preparation 83 กรณี และ backend รวม 538 กรณีผ่าน ดู [หลักฐาน](workflow/spatial-preparation-verification-th.md)
+
+กำลังทำ Notebook20 เปรียบเทียบ Poisson / Random Forest / HGB กับ strong baseline ตาม [ข้อกำหนดที่ล็อกก่อนทดลอง](workflow/tasks/016-spatial-count-experiments.md) **ยังไม่มีผลโมเดลรายถนนที่ตรวจรับ** ผล V2 ด้านล่างเป็นระดับจังหวัด ไม่ใช่คะแนนรายถนน
+
+งานที่เหลือก่อน frontend: ตรวจผลโมเดล → error analysis/กราฟ/ระดับสี → verified spatial serving → historical catalog และ local HTTP API พร้อมทดสอบจริง ติดตาม [เกณฑ์ปิดงาน backend](workflow/backend-ml-completion-v3-th.md) ส่วน frontend ยังไม่สร้างหน้าจอ และ `production_ready=false`
+
+สีที่วางแผนจะใช้บอกระดับค่าคาดหมายของบันทึกที่เข้าเกณฑ์ต่อกิโลเมตรในช่วงเวลาเดียวกัน ไม่ใช่โอกาสชนของบุคคล พื้นที่ไม่รองรับต้องแสดงว่าไม่ทราบ
+
+## ผล V2 ที่ตรวจรับแล้วและประวัติความคืบหน้าก่อน V3
 
 **ML serving ล่าสุด:** Notebook13ตรวจรับแล้ว โหลดHGBและสร้างfeatureสำหรับคำขอใหม่ได้ ตรวจค่าทำนายตรงกับผลเดิม177,335แถว มี57testsผ่านและผลทดสอบข้อมูลขาด/เวลาใช้งาน ดู [หลักฐานML backend](workflow/backend-ml-serving-verification-th.md)
 
