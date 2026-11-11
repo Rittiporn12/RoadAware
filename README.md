@@ -4,7 +4,7 @@
 
 ตรวจรับการเก็บถนน การเชื่อมพิกัด และ Notebook19 เตรียมข้อมูลแล้ว: จักรวาลทดลอง DOH 3,105 ช่วงถนน มีบันทึกที่คัดเลือกและเชื่อมได้ 27,459 รายการในปี 2021–25 พร้อม target รายวัน/6 ชั่วโมงและ feature builder เดียวสำหรับฝึกและ serving ตรวจเฉพาะ preparation 83 กรณี และ backend รวม 538 กรณีผ่าน ดู [หลักฐาน](workflow/spatial-preparation-verification-th.md)
 
-กำลังทำ Notebook20 เปรียบเทียบ Poisson / Random Forest / HGB กับ strong baseline ตาม [ข้อกำหนดที่ล็อกก่อนทดลอง](workflow/tasks/016-spatial-count-experiments.md) **ยังไม่มีผลโมเดลรายถนนที่ตรวจรับ** ผล V2 ด้านล่างเป็นระดับจังหวัด ไม่ใช่คะแนนรายถนน
+กำลังทำ Notebook20 เปรียบเทียบ Poisson / Random Forest / HGB กับ strong baseline ตาม [ข้อกำหนดที่ล็อกก่อนทดลอง](workflow/tasks/016-spatial-count-experiments.md) รอบแรกหยุดที่ตัวตรวจชื่อคอลัมน์ก่อนสร้างรายงาน กำลังให้ Claude แก้และเพิ่ม regression test ดู [หลักฐานรอบแรก](workflow/spatial-experiment-016-first-run-failure-th.md) **ยังไม่มีผลโมเดลรายถนนที่ตรวจรับ** ผล V2 ด้านล่างเป็นระดับจังหวัด ไม่ใช่คะแนนรายถนน
 
 งานที่เหลือก่อน frontend: ตรวจผลโมเดล → error analysis/กราฟ/ระดับสี → verified spatial serving → historical catalog และ local HTTP API พร้อมทดสอบจริง ติดตาม [เกณฑ์ปิดงาน backend](workflow/backend-ml-completion-v3-th.md) ส่วน frontend ยังไม่สร้างหน้าจอ และ `production_ready=false`
 
