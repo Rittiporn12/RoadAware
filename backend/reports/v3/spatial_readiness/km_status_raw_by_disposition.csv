@@ -1,0 +1,11 @@
+split,v2_disposition,km_format,km_status,n_records
+diagnostic_no_id,diagnostic,decimal_number,parsed_unvalidated,15090
+diagnostic_no_id,diagnostic,missing,missing,149
+seen_diagnostic,quarantined,decimal_number,parsed_unvalidated,2010
+seen_diagnostic,quarantined,missing,missing,327
+seen_diagnostic,retained,decimal_number,parsed_unvalidated,45213
+seen_diagnostic,retained,missing,missing,117
+train,quarantined,decimal_number,parsed_unvalidated,3218
+train,quarantined,missing,missing,273
+train,retained,decimal_number,parsed_unvalidated,60778
+train,retained,missing,missing,200

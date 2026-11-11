@@ -1,0 +1,7 @@
+source_file,ce_year,role,encoding,records,read_as,header_latitude,header_longitude,header_route_code,header_route_name,header_km,header_province,header_agency,header_road_agency_type,header_acc_code,crs_or_datum_documented
+accidents_2564_original.csv,2021,linked,utf-8-sig,20062,str; parsed values kept beside raw strings,LATITUDE,LONGITUDE,รหัสสายทาง,สายทาง,KM,จังหวัด,หน่วยงาน,สายทางหน่วยงาน,ACC_CODE,NOT DOCUMENTED (datum unknown)
+accidents_2565_original.csv,2022,linked,utf-8-sig,20566,str; parsed values kept beside raw strings,LATITUDE,LONGITUDE,รหัสสายทาง,สายทาง,KM,จังหวัด,หน่วยงาน,สายทางหน่วยงาน,ACC_CODE,NOT DOCUMENTED (datum unknown)
+accidents_2566_original.csv,2023,linked,utf-8-sig,23841,str; parsed values kept beside raw strings,LATITUDE,LONGITUDE,รหัสสายทาง,สายทาง,KM,จังหวัด,หน่วยงาน,สายทางหน่วยงาน,ACC_CODE,NOT DOCUMENTED (datum unknown)
+accidents_2567_original.csv,2024,linked,utf-8-sig,23952,str; parsed values kept beside raw strings,LATITUDE,LONGITUDE,รหัสสายทาง,สายทาง,KM,จังหวัด,หน่วยงาน,สายทางหน่วยงาน,ACC_CODE,NOT DOCUMENTED (datum unknown)
+accidents_2568_original.csv,2025,linked,utf-8-sig,23715,str; parsed values kept beside raw strings,LATITUDE,LONGITUDE,รหัสสายทาง,สายทาง,KM,จังหวัด,หน่วยงาน,สายทางหน่วยงาน,ACC_CODE,NOT DOCUMENTED (datum unknown)
+accidents_2569_original.csv,2026,"diagnostic_no_id (audited, never linked)",utf-8-sig,15239,str; parsed values kept beside raw strings,LATITUDE,LONGITUDE,รหัสสายทาง,สายทาง,ก.ม.,จังหวัด,หน่วยงาน,สายทางหน่วยงาน,ABSENT,NOT DOCUMENTED (datum unknown)

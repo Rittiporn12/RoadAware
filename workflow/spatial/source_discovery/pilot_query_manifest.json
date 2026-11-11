@@ -1,0 +1,23 @@
+{
+  "checked_utc": "2026-11-11T01:38:11.019640+00:00",
+  "envelope_epsg4326": [
+    100.2,
+    13.5,
+    102.0,
+    15.3
+  ],
+  "spatial_relation": "esriSpatialRelIntersects",
+  "results": {
+    "doh": {
+      "count": 599,
+      "file": "doh-pilot-count.json",
+      "sha256": "9a60a2cedbae5f1bfa40a87cf3218debb64f094e425b53f31944a73745bb11c2"
+    },
+    "drr": {
+      "count": 547,
+      "file": "drr-pilot-count.json",
+      "sha256": "4f8fe98f7cb0430bfe643811216ee41a5351dcb2236d5a97b72fd4941648b1c7"
+    }
+  },
+  "status": "count discovery only; geometry not collected; pilot envelope not actual route"
+}

@@ -1,0 +1,33 @@
+{
+  "status": "accepted_readiness_audit_only",
+  "worker_run": "20261111-064021-50416",
+  "correction_worker_run": "20261111-083007-62646",
+  "tests": {
+    "passed": 94,
+    "spatial": 37,
+    "existing_inference": 57,
+    "seconds": 12.28,
+    "warning": "existing joblib physical-core fallback"
+  },
+  "notebook": {
+    "code_cells": 15,
+    "seconds": 11.03,
+    "checks_passed": 27,
+    "protected_files_unchanged": 345,
+    "report_hashes_verified": 30,
+    "row_output_hashes_verified": 2
+  },
+  "independent_evidence": [
+    "All25aggregate CSVs bitwise equal initial real run",
+    "Two changed figures visually inspected; other two figures bitwise unchanged from inspected initial run",
+    "Actual main refusal fixtures protect temp directories including symlink/ancestor cases without filesystem changes",
+    "Only notebook figures source cell22 changed during correction",
+    "106308retained/106299route/105991KM/101473rounded coords independently reconciled"
+  ],
+  "mechanical_assembly": "Applied exact worker-authored figures-cell script from012a final report; no manager-authored implementation",
+  "no_spatial_model_fit": true,
+  "spatial_model_ready": false,
+  "zero_labels_verified": false,
+  "road_geometry_verified": false,
+  "next_task": "workflow/tasks/013-spatial-road-snapshot-collection.md"
+}

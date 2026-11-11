@@ -9,6 +9,8 @@ Usage (from the repository root):
 * --output-dir (default backend/) receives reports/v3/spatial_readiness/ (aggregates, figures, Thai report, manifest), data/v3/
   spatial_readiness/ (row-level, gitignored) and, when given, notebooks/. Without --output-dir the executed notebook is saved in place.
 * An earlier result in the output root is never overwritten: use a NEW root, e.g. backend/rerun-spatial-<UTC-stamp>.
+* Before anything is created, every planned write (report/data dirs, executed notebook, run log, kernel spec) is checked against the
+  config protected_paths (symlink/alias and ancestor overlaps included); an overlapping root is refused with nothing written.
 * All audit logic lives in the notebook; this runner only sets roots/env, executes and records a run log at
   <output>/reports/v3/run_manifest_spatial_readiness.json (outside the report dir the notebook hashes).
 """
@@ -60,6 +62,55 @@ def run_log_path(out):
     return Path(out) / 'reports' / 'v3' / 'run_manifest_spatial_readiness.json'
 
 
+def config_path():
+    return BACKEND / 'config' / 'spatial_readiness_v3.json'
+
+
+def kernelspec_dir(out):
+    return Path(out) / '.runner' / 'jupyter' / 'kernels' / KERNEL_NAME
+
+
+def planned_writes(out, explicit):
+    """Every location this run writes (runner and notebook), known before anything is created."""
+    outs = json.loads(config_path().read_text('utf-8'))['outputs']
+    out = Path(out)
+    nb_dir = out / 'notebooks' if explicit else NB_DIR
+    return {'notebook report dir': out / outs['report_dir'], 'notebook row-level data dir': out / outs['data_dir'],
+            'executed notebook': nb_dir / f'{NOTEBOOK}.ipynb', 'run log': run_log_path(out), 'kernel spec': kernelspec_dir(out) / 'kernel.json'}
+
+
+def _same(a, b):
+    try:
+        return os.path.samefile(a, b)
+    except OSError:
+        return False
+
+
+def _inside(child, parent):
+    """child is parent or beneath it: by resolved path (symlinks, ..) or by file identity of an existing ancestor (aliases, case-insensitive volumes)."""
+    c, p = Path(child).resolve(), Path(parent).resolve()
+    if c == p or p in c.parents:
+        return True
+    return p.exists() and any(_same(a, p) for a in (c, *c.parents) if a.exists())
+
+
+def write_conflicts(out, explicit):
+    """None when no planned write touches a protected input; otherwise why the run is refused. Read-only: call before any mkdir/write."""
+    protected = [BACKEND / p for p in json.loads(config_path().read_text('utf-8'))['protected_paths']]
+    hits = []
+    for label, w in planned_writes(out, explicit).items():
+        for p in protected:
+            if _inside(w, p):
+                hits.append(f'  {label} {w} is inside protected {p}')
+            elif _inside(p, w):
+                hits.append(f'  {label} {w} contains protected {p}')
+    if hits:
+        return (f'Refusing output root {out}: planned writes overlap protected inputs ({config_path().name} protected_paths); nothing was '
+                f'created.\n' + '\n'.join(hits) + f'\nUse a fresh root, e.g.\n  {sys.executable} backend/scripts/run_spatial_readiness.py '
+                f'--output-dir backend/rerun-spatial-<UTC-stamp>')
+    return None
+
+
 def preconditions(out):
     """None when the output root is fresh; otherwise why the run must use a new root (earlier evidence is never overwritten)."""
     rep = Path(out) / REPORT_REL
@@ -79,12 +130,12 @@ def build_env(out, base=None):
 
 def write_kernelspec(py, out):
     """Run-local kernelspec pinned to the .venv interpreter; found via JUPYTER_PATH."""
-    kdir = out / '.runner' / 'jupyter' / 'kernels' / KERNEL_NAME
+    kdir = kernelspec_dir(out)
     kdir.mkdir(parents=True, exist_ok=True)
     spec = {'argv': [str(py), '-m', 'ipykernel_launcher', '-f', '{connection_file}'], 'display_name': 'RoadAware .venv', 'language': 'python'}
     (kdir / 'kernel.json').write_text(json.dumps(spec, indent=2), 'utf-8')
     os.environ['JUPYTER_PATH'] = os.pathsep.join(
-        [str(out / '.runner' / 'jupyter')] + [p for p in os.environ.get('JUPYTER_PATH', '').split(os.pathsep) if p])
+        [str(kdir.parents[1])] +[p for p in os.environ.get('JUPYTER_PATH', '').split(os.pathsep) if p])
     return spec
 
 
@@ -95,13 +146,13 @@ def main(argv=None):
     a = ap.parse_args(argv)
 
     py = ensure_venv()
+    out = Path(a.output_dir).resolve() if a.output_dir else BACKEND
+    why = write_conflicts(out, bool(a.output_dir)) or preconditions(out)  # before any mkdir/write
+    if why:
+        sys.exit(why)
     import nbformat  # imported after the venv check so a wrong interpreter fails clearly
     from nbclient import NotebookClient
 
-    out = Path(a.output_dir).resolve() if a.output_dir else BACKEND
-    why = preconditions(out)
-    if why:
-        sys.exit(why)
     src = NB_DIR / f'{NOTEBOOK}.ipynb'
     if not src.exists():
         sys.exit(f'{src} not found')

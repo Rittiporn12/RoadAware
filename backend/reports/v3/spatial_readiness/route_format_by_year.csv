@@ -1,0 +1,12 @@
+ce_year,route_format,n_events,n_route_codes_with_leading_zero
+2021,digits_only,18655,0
+2021,letters_and_digits,1341,0
+2022,digits_only,19243,0
+2022,letters_and_digits,1249,0
+2023,digits_only,20490,0
+2024,digits_only,20606,0
+2024,letters_and_digits,1180,0
+2024,missing,2,0
+2025,digits_only,22370,0
+2025,letters_and_digits,1165,0
+2025,missing,7,0

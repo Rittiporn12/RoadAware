@@ -2,12 +2,12 @@
 
 **ML serving ล่าสุด:** Notebook13ตรวจรับแล้ว โหลดHGBและสร้างfeatureสำหรับคำขอใหม่ได้ ตรวจค่าทำนายตรงกับผลเดิม177,335แถว มี57testsผ่านและผลทดสอบข้อมูลขาด/เวลาใช้งาน ดู [หลักฐานML backend](workflow/backend-ml-serving-verification-th.md)
 
-**API/catalog ยังไม่เสร็จ:** สำรอง source ค้างและจุดต่อไว้ที่ [checkpoint](workflow/wip/009-api-quota-checkpoint/README.md) และ [task009a](workflow/tasks/009a-resume-api-after-quota.md) ยังไม่มี API ที่รัน/ตรวจรับแล้ว และ frontend ยังไม่ทำ การเริ่ม Claude ต่อจำเป็นต้องพร้อมทั้ง quota และ login (การเรียกครั้งล่าสุดแจ้ง Not logged in)
+**API/catalog ยังไม่เสร็จ:** ดู [checkpoint](workflow/wip/009-api-quota-checkpoint/README.md) และ [task009a](workflow/tasks/009a-resume-api-after-quota.md) ยังไม่มี API ที่รันและตรวจรับแล้ว ส่วน frontend ยังไม่ทำ
 
 
 **งานรายจุด/ช่วงถนน:** ผู้ใช้ยืนยันให้ต่อยอดการพยากรณ์และระดับเฝ้าระวังสี เตรียม [แผน Spatial V3](workflow/spatial/README_th.md) และ [task012 สำหรับ Claude](workflow/tasks/012-spatial-data-readiness.md) แล้ว ตรวจเชื่อมพิกัดกลับ raw ได้ครบ 106,308 retained V2 events แต่ยังไม่ตรวจ road matching/zero coverage และยังไม่มี spatial model หรือเกณฑ์สีที่ผ่านการประเมิน ผลจังหวัดด้านล่างไม่ใช่ผลรายจุด
 
-**Spatial readiness ที่รันแล้วแต่ยังไม่ตรวจรับ:** Notebook16 ผ่านการรัน 27 checks และ tests รวม90ผ่าน แต่ review พบ output-path guard และกราฟที่ต้องแก้ เก็บ [checkpointพร้อมหลักฐาน](workflow/wip/012-spatial-readiness/README.md) ไว้แล้ว รอบแก้ล่าสุดติด Claude login; ยังไม่มี spatial model หรือเกณฑ์สี
+**Spatial readiness ตรวจรับแล้ว:** Notebook16 รันจริงผ่าน 27 checks และ tests รวม 94 ผ่าน แก้ output-path guard และกราฟแล้ว ดู [หลักฐานตรวจรับ](workflow/spatial-readiness-verification-th.md) และ [รายงานจริง](backend/reports/v3/spatial_readiness/spatial_readiness_report_th.md) ขั้นต่อไปคือเก็บ geometry ถนนในพื้นที่นำร่อง ยังไม่มี spatial model หรือเกณฑ์สี
 
 **ผลสำหรับ Presentation:** [10 กราฟ PNG/SVG พร้อม CSV และคำอธิบายไทย](output/model-results/README_th.md) · [ดาวน์โหลด ZIP](output/RoadAware_model_results.zip) เป็นผล V2 จริง ไม่ใช่การทดลอง spatial ใหม่
 

@@ -1,0 +1,6 @@
+ce_year,split,coord_status,n_events
+2021,train,inside_broad_bbox_unverified,19996
+2022,train,inside_broad_bbox_unverified,20492
+2023,train,inside_broad_bbox_unverified,20490
+2024,seen_diagnostic,inside_broad_bbox_unverified,21788
+2025,seen_diagnostic,inside_broad_bbox_unverified,23542

@@ -8,6 +8,7 @@ gitignored files are absent. Run from the repository root:
 import importlib.util
 import json
 import math
+import sys
 from pathlib import Path
 
 import numpy as np
@@ -367,6 +368,73 @@ def test_runner_never_overwrites_and_forces_offline(runner, tmp_path):
     assert 'fresh root' in runner.preconditions(tmp_path)
     env = runner.build_env(tmp_path, base={'ROADAWARE_V3_OFFLINE': '0', 'ROADAWARE_V3_OUTPUT_ROOT': '/stale', 'PATH': '/bin'})
     assert env['ROADAWARE_V3_OFFLINE'] == '1' and env['ROADAWARE_V3_OUTPUT_ROOT'] == str(tmp_path.resolve()) and env['PATH'] == '/bin'
+
+
+def tree(root):
+    return sorted((str(p.relative_to(root)), p.is_symlink(), p.lstat().st_mtime_ns) for p in root.rglob('*'))
+
+
+@pytest.fixture
+def fake_backend(runner, tmp_path, monkeypatch):
+    """A throwaway backend/ with its own config; the real protected V2 tree is never touched."""
+    b = tmp_path / 'backend'
+    for d in ('backend/config', 'backend/data/v2', 'backend/reports/v2', 'backend/notebooks', 'workflow/spatial'):
+        (tmp_path / d).mkdir(parents=True)
+    (b / 'data' / 'v2' / 'events_v2.csv.gz').write_bytes(b'x')
+    set_protected(b, ['data/v2', 'reports/v2', 'notebooks/13_inference_robustness_contract.ipynb', '../workflow/spatial'])
+    monkeypatch.setattr(runner, 'BACKEND', b)
+    monkeypatch.setattr(runner, 'NB_DIR', b / 'notebooks')
+    monkeypatch.setattr(runner, 'ensure_venv', lambda: Path(sys.executable))
+    return b
+
+
+def set_protected(backend, paths):
+    (backend / 'config' / 'spatial_readiness_v3.json').write_text(json.dumps({'protected_paths': paths, 'outputs': CFG['outputs']}), 'utf-8')
+
+
+def refused_by_main(runner, root, out):
+    before = tree(root)
+    with pytest.raises(SystemExit) as e:
+        runner.main(['--output-dir', str(out)])
+    assert tree(root) == before  # no notebooks/, run log, kernel spec or report dir was created
+    return str(e.value.code)
+
+
+def test_runner_refuses_protected_output_root_before_any_write(runner, fake_backend, tmp_path):
+    alias = tmp_path / 'alias'
+    alias.symlink_to(fake_backend / 'data' / 'v2', target_is_directory=True)
+    for out in (fake_backend / 'data' / 'v2', fake_backend / 'reports' / 'v2' / 'sub', alias, f'{fake_backend}/../workflow/spatial'):
+        msg = refused_by_main(runner, tmp_path, out)
+        assert 'overlap protected' in msg and 'nothing was created' in msg and 'is inside protected' in msg, out
+    assert runner.write_conflicts(alias, True)  # the unresolved alias is caught too, not only main's resolved path
+
+
+def test_runner_refuses_when_a_write_location_contains_or_is_protected(runner, fake_backend, tmp_path):
+    set_protected(fake_backend, ['data/v2', 'rerun/data/v3/spatial_readiness/keep.csv'])
+    msg = refused_by_main(runner, tmp_path, fake_backend / 'rerun')
+    assert 'notebook row-level data dir' in msg and 'contains protected' in msg
+    set_protected(fake_backend, ['rerun2/reports'])
+    msg = refused_by_main(runner, tmp_path, fake_backend / 'rerun2')
+    assert 'run log' in msg and 'notebook report dir' in msg
+    set_protected(fake_backend, ['.runner'])
+    assert 'kernel spec' in runner.write_conflicts(fake_backend, False)
+    set_protected(fake_backend, ['notebooks/16_spatial_data_readiness.ipynb'])
+    assert 'executed notebook' in runner.write_conflicts(fake_backend, False)
+    assert runner.write_conflicts(tmp_path / 'fresh', True) is None  # same protection, writes elsewhere
+
+
+def test_runner_allows_fresh_and_default_v3_roots(runner, fake_backend, tmp_path):
+    before = tree(tmp_path)
+    assert runner.write_conflicts(tmp_path / 'fresh', True) is None
+    assert runner.write_conflicts(fake_backend, False) is None  # default backend/ root: actual writes are under */v3, not blanket refused
+    assert runner.write_conflicts(fake_backend / 'data', True) is None  # ancestor of data/v2, but its writes do not overlap it
+    assert tree(tmp_path) == before
+
+
+def test_runner_real_config_default_root_allowed_v2_refused(runner):
+    assert runner.write_conflicts(runner.BACKEND, False) is None  # read-only probes; nothing is created
+    assert 'is inside protected' in runner.write_conflicts(runner.BACKEND / 'data' / 'v2', True)
+    assert runner.write_conflicts(runner.BACKEND / 'data' / 'v2' / '..' / 'v2', True)
 
 
 # ---------------------------------------------------------------- integration on the real accepted files (skipped when absent)

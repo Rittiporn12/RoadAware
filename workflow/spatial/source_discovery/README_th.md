@@ -1,5 +1,7 @@
 # ผลค้นหาแหล่ง geometry ระหว่าง Claude ทำ readiness audit
 
+**กรอบเก็บข้อมูลนำร่อง:** EPSG4326 lon100.2..102.0, lat13.5..15.3 ใช้ envelope-intersects ได้ count DOH599 และ DRR547 ดู `pilot_query_manifest.json` ยังไม่ได้เก็บ geometry ครบ กรอบนี้ไม่ใช่เส้นทางที่คำนวณแล้วและไม่ครอบคลุม6จังหวัดทั้งหมด task013 จะตรวจครบเฉพาะประชากรใน query นี้ ภายใต้ขนาดข้อมูลที่จำกัดไว้
+
 Codex ตรวจแบบ read-only วันที่ 11 พ.ย. 2026 จาก [MOT catalog](https://datagov.mot.go.th/th/dataset/transportgis) และติดตามลิงก์ทรัพยากรจริง พบว่าแม้คำอธิบาย catalog ระบุ WMS แต่ทรัพยากรทางหลวง/ทางหลวงชนบทชี้ไปที่ ArcGIS FeatureServer ซึ่งตอบ Query ได้
 
 - DOH layer0: query count คืน 3,044 records, มี road_code/section_co/km_start/km_end/length และ polyline geometry ใช้ wkid4326 ทดสอบ query ขอ1รายการแบบ GeoJSON ได้ LineString จริง

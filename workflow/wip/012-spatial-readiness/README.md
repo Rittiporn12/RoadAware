@@ -1,5 +1,7 @@
 # Spatial readiness 012 — งานจริงที่รันแล้ว แต่ยังรอแก้ก่อนตรวจรับ
 
+**สถานะภายหลัง:** แก้และตรวจรับ audit แล้ว: 94 tests / 27 checks, notebook รอบ003สำเร็จ 11.03s ดู [หลักฐานใหม่](../../spatial-readiness-verification-th.md) ข้อความด้านล่างและ archive คงเป็นประวัติรอบก่อนแก้ ปัญหา login ใน sandbox แก้โดยเรียก bridge ด้วย require_escalated หลัง Terminal connection ผ่านแล้ว
+
 - Notebook16, config, runner และ tests มี source จริงแล้ว ไม่มี spatial model fit หรือเกณฑ์สี
 - รัน `.venv/bin/python -m pytest backend/tests/test_spatial_readiness_notebook.py backend/tests/test_inference_notebook.py -q`: **90 passed** (spatial33 + inferenceเดิม57), 11.31s, joblib warningเดิมเรื่อง physical-core fallback
 - รัน notebook ด้วย kernel .venv จริง: **15 code cells, 9.87s, 27 checksผ่าน** เชื่อม retained106308, auditraw127375, input protected345ไม่เปลี่ยน และตรวจ backend302 trackedfilesเดิมไม่เปลี่ยน

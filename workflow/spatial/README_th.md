@@ -2,7 +2,7 @@
 
 สถานะ 11 พฤศจิกายน 2026: **เตรียมข้อกำหนดและตรวจข้อมูลเบื้องต้นแล้ว ยังไม่มีโมเดลรายจุดที่ฝึกหรือผ่านการประเมิน** ผู้ใช้ต้องการเตรียมงานไว้ก่อนและรอ Claude พร้อมจึงเริ่ม implementation ไม่รัน worker ในรอบวางแผนนี้
 
-**ความคืบหน้าจากการลงมือทำ:** Notebook16 รันกับข้อมูลจริงแล้ว (27 checks; testsรวม90ผ่าน) แต่ยังไม่ตรวจรับเพราะต้องแก้ runner output-path guard และการแสดงผลบางภาพ ดู [checkpoint012](../wip/012-spatial-readiness/README.md) และ [task012a](../tasks/012a-spatial-readiness-correction-1.md) รอบแก้ติด Not logged in; sourceถนนที่ค้นพบเพิ่มอยู่ใน [source_discovery](source_discovery/README_th.md)
+**ความคืบหน้าจากการลงมือทำ:** Notebook16 ตรวจรับ audit แล้วหลังแก้ 012a: 94 tests ผ่าน, 15 code cells ใน 11.03s, 27 checks ผ่าน ดู [หลักฐานตรวจรับ](../spatial-readiness-verification-th.md) งานถัดไปคือ [013: เก็บ geometry ถนน](../tasks/013-spatial-road-snapshot-collection.md) ส่วน road/zero labels และโมเดลรายจุดยังไม่ตรวจรับ แหล่งข้อมูลอยู่ใน [source_discovery](source_discovery/README_th.md)
 
 ## 1. สิ่งที่จะทำให้ผู้ใช้เห็น
 

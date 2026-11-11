@@ -1,0 +1,6 @@
+source_file,ce_year,source_sha256,n_linked,min_source_row,max_source_row,n_event_year_ne_file_year,raw_records,split,identity_rule
+accidents_2564_original.csv,2021,044f8ae0a918ec25139bef24257fe274fd17d9bfab2512c0780a7a4bbf5d50f0,19996,2,20063,0,20062,train,event_uid == BE-year:norm(ACC_CODE) at data index source_row-2
+accidents_2565_original.csv,2022,6f7c543a302906925e32fbf6b8da5d2b1920266489ae1c978fd9887d63c4698e,20492,2,20567,0,20566,train,event_uid == BE-year:norm(ACC_CODE) at data index source_row-2
+accidents_2566_original.csv,2023,4d6dbfa4b8e1f4dd476d81062a01c10a858b7acd174fef20cb18f29ad2fbbd55,20490,4,22924,0,23841,train,event_uid == BE-year:norm(ACC_CODE) at data index source_row-2
+accidents_2567_original.csv,2024,2ca1e832a4fa8d29ef6adfe52623a9b447a7f0b12e61e6e7e795a1b6e4be4a10,21788,2,23949,0,23952,seen_diagnostic,event_uid == BE-year:norm(ACC_CODE) at data index source_row-2
+accidents_2568_original.csv,2025,b163fa91170fa7df76b8d71b4eb629ff7ca4ef220bea6c3660e244fbe7e5616d,23542,2,23716,0,23715,seen_diagnostic,event_uid == BE-year:norm(ACC_CODE) at data index source_row-2
