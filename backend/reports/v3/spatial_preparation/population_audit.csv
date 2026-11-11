@@ -1,0 +1,3 @@
+unit,rows,batches,max_batch_rows,count_sum,positive_cells,first_key,last_key
+daily,5669730,57,100000,27459,26064,"{""segment_id"": ""rsv1-rc31f3d87fc7:doh:1036:p0:c0:r2000:00000"", ""target_date"": ""2021-01-01""}","{""segment_id"": ""rsv1-rc31f3d87fc7:doh:985:p0:c0:r2000:00005"", ""target_date"": ""2025-12-31""}"
+6h,22678920,227,100000,27459,26772,"{""segment_id"": ""rsv1-rc31f3d87fc7:doh:1036:p0:c0:r2000:00000"", ""target_date"": ""2021-01-01"", ""time_block"": ""00-06""}","{""segment_id"": ""rsv1-rc31f3d87fc7:doh:985:p0:c0:r2000:00005"", ""target_date"": ""2025-12-31"", ""time_block"": ""18-24""}"

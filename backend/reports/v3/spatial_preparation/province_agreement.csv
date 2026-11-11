@@ -1,0 +1,5 @@
+split,agreement,selected_records
+train,same_province,14945
+seen_diagnostic,same_province,12006
+train,different_province,268
+seen_diagnostic,different_province,240

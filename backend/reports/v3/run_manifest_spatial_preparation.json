@@ -1,0 +1,103 @@
+{
+  "started_utc": "2026-11-11T06:39:31.208866+00:00",
+  "notebook": "19_spatial_count_preparation",
+  "runner_sha256": "893e5799153a43fea7954db616bf02c77015f3607a3c0ccdf389ff7eec213547",
+  "runner_python": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/.venv/bin/python",
+  "kernel_name": "roadaware-venv",
+  "kernel_argv": [
+    "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/.venv/bin/python",
+    "-m",
+    "ipykernel_launcher",
+    "-f",
+    "{connection_file}"
+  ],
+  "output_root": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/rerun-spatial-prep-015-002",
+  "env_set": {
+    "ROADAWARE_BACKEND_ROOT": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend",
+    "ROADAWARE_V3_OUTPUT_ROOT": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/rerun-spatial-prep-015-002",
+    "MPLBACKEND": "Agg"
+  },
+  "cell_timeout_seconds": 7200,
+  "source_sha256_before": "66cb5d42e22573857787bbbc563c1917f48d11ff0a381ef1e950d7a16ef230ff",
+  "config_sha256_before": "10720c6f1ea457277666d29837598c2b4d83950907173560ad3f87f93778f386",
+  "status": "ok",
+  "cell_log": [
+    {
+      "cell_index": 1,
+      "seconds": 0.0,
+      "status": "ok"
+    },
+    {
+      "cell_index": 2,
+      "seconds": 0.3,
+      "status": "ok"
+    },
+    {
+      "cell_index": 3,
+      "seconds": 0.0,
+      "status": "ok"
+    },
+    {
+      "cell_index": 4,
+      "seconds": 0.0,
+      "status": "ok"
+    },
+    {
+      "cell_index": 5,
+      "seconds": 0.0,
+      "status": "ok"
+    },
+    {
+      "cell_index": 6,
+      "seconds": 0.0,
+      "status": "ok"
+    },
+    {
+      "cell_index": 7,
+      "seconds": 0.0,
+      "status": "ok"
+    },
+    {
+      "cell_index": 8,
+      "seconds": 0.8,
+      "status": "ok"
+    },
+    {
+      "cell_index": 9,
+      "seconds": 0.1,
+      "status": "ok"
+    },
+    {
+      "cell_index": 10,
+      "seconds": 2.4,
+      "status": "ok"
+    },
+    {
+      "cell_index": 11,
+      "seconds": 6.4,
+      "status": "ok"
+    },
+    {
+      "cell_index": 12,
+      "seconds": 5.5,
+      "status": "ok"
+    },
+    {
+      "cell_index": 13,
+      "seconds": 71.3,
+      "status": "ok"
+    },
+    {
+      "cell_index": 14,
+      "seconds": 1.3,
+      "status": "ok"
+    }
+  ],
+  "seconds": 89.36,
+  "output_notebook": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/rerun-spatial-prep-015-002/notebooks/19_spatial_count_preparation.ipynb",
+  "output_notebook_sha256": "2f6fea94dc3787beb9bcf7723aa0bfa2ea9d959dca06e4846d02ff5ab96a6879",
+  "notebook_manifest_status": "complete",
+  "source_sha256_after": "66cb5d42e22573857787bbbc563c1917f48d11ff0a381ef1e950d7a16ef230ff",
+  "config_sha256_after": "10720c6f1ea457277666d29837598c2b4d83950907173560ad3f87f93778f386",
+  "finished_utc": "2026-11-11T06:41:00.585133+00:00"
+}

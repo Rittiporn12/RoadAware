@@ -7,8 +7,8 @@
 | ขั้น | สิ่งที่ต้องตรวจจริง | สถานะเริ่มรอบ |
 |---|---|---|
 | Spatial lineage/road snapshot | UID/hash/geometry/ความยาวและoffline replay | Notebook16/17ตรวจรับแล้ว |
-| Linkage/segment inventory | exactagency+route+ระยะ,unknown/ambiguous,0.5/1/2กม.,ไม่จัดเหตุซ้ำ,อนุรักษ์ความยาว | 014aกำลังปิดrunner/tests/pinsก่อนรันจริง |
-| Protocol/preparation | targetแบบconditional recorded+linked count,roaduniverseก่อนดูผล,train-onlyเลือกความละเอียด/horizon,missinglabel/zero policy,featureavailability,chronological/spatialfolds,resourcebudget | รอผลauditจริง ไม่ล็อกจากการเดา |
+| Linkage/segment inventory | exactagency+route+ระยะ,unknown/ambiguous,0.5/1/2กม.,ไม่จัดเหตุซ้ำ,อนุรักษ์ความยาว | ตรวจรับแล้วที่bbdea89:61testsเฉพาะ/455backendtests,actual00248.87s/38checks |
+| Protocol/preparation | targetแบบconditional recorded+linked count,roaduniverseก่อนดูผล,train-onlyเลือกความละเอียด/horizon,missinglabel/zero policy,featureavailability,chronological/spatialfolds,resourcebudget | ตรวจรับ015/015aแล้ว: 83 fixtures, 538 backend tests; actual002 89.36s, 41 checks; ยังไม่มีคะแนนโมเดลรายถนน |
 | Experiments | Poisson/RF/HGBและstrongtrain-onlybaselinesบนlabelเดียวกัน,ไม่มีrandomtimesplit,selectionlockก่อนseen2024/25diagnostics | ยังไม่ทำโมเดลรายถนน |
 | Evaluation/colours | Deviance/MAE/RMSE/bias/calibration/errorgroups,thresholdsจากtrain/OOF,เทาเมื่อunknown,outofscopeไม่เป็นปลอดภัย | ยังไม่ทำ |
 | Serving | โหลดbundleที่ตรวจhash,predictตรงsavedresults,featureparity,finiteJSON,coverage/fallback/researchflags,historyก่อนcutoff,ไม่fitในrequest | V2มีหลักฐานแล้ว;V3ยังไม่มี |

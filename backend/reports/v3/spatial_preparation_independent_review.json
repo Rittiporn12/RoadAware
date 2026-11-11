@@ -1,0 +1,66 @@
+{
+  "status": "accepted_spatial_count_preparation_only",
+  "checks": 41,
+  "data_hashes": 18,
+  "report_hashes": 21,
+  "all_data_byte_identical_to001": true,
+  "universe_segments": 3105,
+  "selected_events": 27459,
+  "selection_by_year": {
+    "2021": 4512,
+    "2022": 4908,
+    "2023": 5793,
+    "2024": 6015,
+    "2025": 6231
+  },
+  "all_retained_UIDs_reconciled": 106308,
+  "unknown_scope_rows": 78849,
+  "daily_and_6h_sparse_counts_independently_recomputed": true,
+  "daily_population_rows": 5669730,
+  "6h_population_rows": 22678920,
+  "static_midpoints_and_lengths_recomputed": 3105,
+  "max_static_geometry_diff_m": 4.547473508864641e-12,
+  "midpoint_admin_join_recomputed": {
+    "mapped": 3105,
+    "ambiguous_border": 0,
+    "unmapped": 0
+  },
+  "all_research_date_AADT_asof_choices_recomputed": 2556,
+  "future_bank_calendar_unknown_preserved": true,
+  "protected_snapshot_files": 545,
+  "allowed_changed_files": [
+    "backend/README.md"
+  ],
+  "remaining": [
+    "No spatial model fitted yet",
+    "Counts conditional on selected+linked records, not complete physical accident counts",
+    "Sourceweathercoarseprovincepoint/nominalissuebound;AADTannualpointproxy andsourcepublicationproxy",
+    "No2024-27weather in snapshot;2026/27bankcalendarunknown; preregisteredcontext-routing policy before20scores",
+    "Currentroadgeometry/eventdatumvintage assumptions remain"
+  ],
+  "weather_context_rows_independently_recomputed": {
+    "daily": 74460,
+    "6h": 297840
+  },
+  "weather_values_max_raw_parser_difference": 1.4210854715202004e-14,
+  "weather_values_match_within_1e_12_and_asof_valid": true,
+  "aadt_groups_independently_recomputed": 12714,
+  "aadt_values_match": true,
+  "runtime_reference_features_exact_rows": 4000,
+  "population_counterexamples_now_rejected": 4,
+  "tests": {
+    "targeted": 83,
+    "targeted_seconds": 3.13,
+    "full_backend": 538,
+    "full_seconds": 24.27,
+    "warnings": "42previousdocumentedwarnings; no new015warnings"
+  },
+  "actual_notebook_seconds": 89.36,
+  "initial_actual_notebook_seconds": 90.08,
+  "full_population_feature_audit": true,
+  "worker_runs": [
+    "20261111-130509-89067",
+    "20261111-132922-95919"
+  ],
+  "visual_review": "All3actual producer PNGs inspected: selectedmonthlycounts,historicalcontextcoverage,prospectivesourcegaps; preparationonlynotforecast."
+}

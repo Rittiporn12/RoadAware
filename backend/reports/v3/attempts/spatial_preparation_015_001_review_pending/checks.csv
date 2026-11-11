@@ -1,0 +1,24 @@
+check,status
+every pinned input equals its manager pin and producer-manifest hash,pass
+calendar/festival/season/issue/weather-buffer policy identical to the accepted notebook-10 config (no changed as-of rules),pass
+"2000 m GeoJSON feature ids equal the 2000 m inventory ids (stable 18 IDs, no re-segmentation)",pass
+every 2000 m inventory segment is either in the universe or explicitly unsupported,pass
+"ADM1 registered before the join: 77 valid unrepaired polygons, unique ISO/ID, ISO <-> province_points mapping consistent",pass
+universe segment ids unique and equal to the geometry predicate (zero-record segments included),pass
+one selection category per retained record (selected + every exclusion == retained),pass
+selected records are primary 50 m matched AND assigned; 100 m-only matches never selected,pass
+"every label year has selected records (a missing year fails closed, never a zero-filled year)",pass
+sparse counts: daily_keys_unique,pass
+sparse counts: block_keys_unique,pass
+sparse counts: counts_integer_ge_1,pass
+sparse counts: daily_equals_sum_of_blocks,pass
+sparse counts: daily_total_equals_selected,pass
+sparse counts: block_total_equals_selected,pass
+"virtual population: rows == segments x dates (x blocks), count sum == selected records, batches <= limit",pass
+AADT vintage strictly prior to the target year and available by the issue time (no future/current-year backfill),pass
+bank holiday is NaN exactly when reviewed coverage is unknown at issue (never an ordinary day),pass
+every leakage / invalid-request negative control is rejected by the production functions,pass
+"reference parity daily: same builder, reload and CSV round-trip identical, order preserved, no multiplication",pass
+"reference parity 6h: same builder, reload and CSV round-trip identical, order preserved, no multiplication",pass
+protected inputs/outputs unchanged (sha256 before == after),pass
+source notebook and config unchanged during the run,pass

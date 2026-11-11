@@ -65,6 +65,14 @@ backend/
 - รัน (root ใหม่ทุกครั้ง ต้องอยู่ใน `backend/rerun-linkage-*`): `.venv/bin/python backend/scripts/run_spatial_linkage_audit.py --output-dir backend/rerun-linkage-014-001` · ทดสอบ: `.venv/bin/python -m pytest backend/tests/test_spatial_linkage_audit_notebook.py -q`
 - สถานะ: ยังไม่มีผลรันจริงที่ Codex ตรวจรับ
 
+## V3 — เตรียมข้อมูล spatial CountRegression (Notebook 19 ตรวจรับแล้ว)
+
+- ตาม `workflow/spatial-model-protocol-v3-draft.md`: จักรวาลจาก geometry เท่านั้น (DOH, route มาตรฐาน, segment 2 กม. ของ 18, ยาว ≥500 ม.) · target = จำนวนบันทึก SELECTED+LINKED (`status_50m == matched` และ `segment_status == assigned`) ต่อ segment×วัน / ×ช่วง 6 ชม. (Asia/Bangkok) เก็บแบบ sparse + แกนวัน/ช่วง (ไม่มี dense panel) · ศูนย์ = ไม่มีบันทึกที่คัดเลือกในประชากรเงื่อนไขนี้ ไม่ใช่ไม่มีอุบัติเหตุ
+- feature: geometry คงที่, ปฏิทินเป้าหมาย/เทศกาล/ฤดู/วันหยุดธนาคาร as-of (helper FUNCTIONS ของ notebook 10 ที่ตรวจ hash), สภาพอากาศจุดตัวแทนจังหวัด (ผ่าน polygon geoBoundaries ของจุดกึ่งกลาง segment), AADT ตาม route+ตอนควบคุมจาก vintage ก่อนหน้าที่เผยแพร่แล้ว · ขาดข้อมูล = NaN พร้อมเหตุผล
+- notebook 20/22 ใช้ builder เดียวกัน: `load_prepared_context(data_dir, manifest['data_files_gitignored'])` + `build_feature_rows(ctx, requests, unit, variant)` · ยังไม่มีการฝึกโมเดล/คะแนน/สี
+- รัน (root ใหม่ทุกครั้ง ต้องอยู่ใน `backend/rerun-spatial-prep-*`): `.venv/bin/python backend/scripts/run_spatial_preparation.py --output-dir backend/rerun-spatial-prep-015-001` · ทดสอบ: `.venv/bin/python -m pytest backend/tests/test_spatial_preparation_notebook.py -q`
+- สถานะ: ตรวจรับ 015/015a แล้ว — 83 fixtures / 538 backend tests; actual002 89.36s / 41 checks ผ่าน ดู [หลักฐานตรวจอิสระ](reports/v3/spatial_preparation_independent_review.json) และ [คำอธิบาย](../workflow/spatial-preparation-verification-th.md)
+
 ## ติดตั้ง (ครั้งเดียว, ที่ root ของ repository)
 
 ```bash

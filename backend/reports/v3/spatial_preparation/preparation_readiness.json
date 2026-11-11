@@ -1,0 +1,25 @@
+{
+  "status": "preparation_checks_passed_pending_codex_review",
+  "production_ready": false,
+  "model_trained": false,
+  "feature_variants": [
+    "calendar_geometry",
+    "calendar_geometry_context"
+  ],
+  "units": [
+    "daily",
+    "6h"
+  ],
+  "builder": "build_feature_rows(load_prepared_context(data_dir, manifest.data_files_gitignored), requests, unit, variant)",
+  "caveats": [
+    "label = SELECTED+LINKED retained MOT records (status_50m matched AND segment assigned) per segment x local day / 6 h block; a zero is exact only inside this conditional target, never zero real accidents or complete reporting",
+    "unknown / unmatched / unassigned / outside-envelope / unsupported-segment records are audited separately and never allocated as zero events",
+    "current road snapshot applied retrospectively; historical topology, control sections and event datum are unverified",
+    "geoBoundaries ADM1 (OSM-derived, year represented 2017, ODbL) is not a current official boundary; ambiguous/unmapped midpoints have no province context",
+    "weather = coarse province representative-point JMA GSM previous_day2 archive (nominal issue bound + 6 h buffer); not road weather; historical delivery unverified",
+    "AADT = DOH annual survey-point proxy by current route/control section from the newest prior vintage with catalog proxy availability <= issue; not live traffic or segment exposure",
+    "bank calendar = reviewed BOT records as of issue; unknown coverage is NaN, never an ordinary day; bank holiday != public holiday",
+    "dates 2024-2025 are previously seen diagnostics; 2026-2027 are beyond the evaluated period (features only, no labels)",
+    "preparation only: no model was fitted, no score, threshold or risk colour exists"
+  ]
+}

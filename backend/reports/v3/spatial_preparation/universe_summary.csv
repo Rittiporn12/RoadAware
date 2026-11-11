@@ -1,0 +1,2 @@
+segments,routes,projected_km,geodesic_km,utm_over_geodesic_min,utm_over_geodesic_max,short_final_segments,piece_overlap_segments,piece_duplicate_segments,chord_zero_guard_segments,aadt_identity_ok,preflight_segments_context,preflight_routes_context,preflight_km_context
+3105,218,5900.233,5899.307,0.9998060745886163,1.0008970517882472,403,0,0,0,3105,3105,218,5900.233

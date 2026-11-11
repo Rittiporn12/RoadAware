@@ -1,0 +1,20 @@
+{
+  "status": "geometry_only_preregistered_split_no_labels_or_scores_read",
+  "universe_segments": 3105,
+  "eval_midpoint_predicate": {
+    "lon_gte": 101.25,
+    "lat_gte": 14.5
+  },
+  "buffer_m_epsg32647": 1000,
+  "exclude_training_features_sharing_eval_source_oid": true,
+  "eval_segments": 410,
+  "eval_source_oids": 69,
+  "train_segments": 2648,
+  "train_source_oids": 462,
+  "removed_same_source_oid": 455,
+  "removed_buffer_additional": 2,
+  "train_source_oids_disjoint": true,
+  "eval_segment_ids_sha256": "dcca2d3c708ae273d0a6e6524edee4af2f2cded38ddb2c63b2239ac3982da8b3",
+  "train_segment_ids_sha256": "0d88b5f42227e2506dc8f91a639f5b156cccb7f3026b43df0fc9d54b22a580df",
+  "interpretation": "Contiguous northeast unseen-sections transfer diagnostic, not all-new-route or untouched-future evaluation. Fixed calendar_geometry configs per family, train2021-22with30dembargo,eval2023; not used for temporal winner selection."
+}
