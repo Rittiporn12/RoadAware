@@ -9,10 +9,10 @@
 | Spatial lineage/road snapshot | UID/hash/geometry/ความยาวและoffline replay | Notebook16/17ตรวจรับแล้ว |
 | Linkage/segment inventory | exactagency+route+ระยะ,unknown/ambiguous,0.5/1/2กม.,ไม่จัดเหตุซ้ำ,อนุรักษ์ความยาว | ตรวจรับแล้วที่bbdea89:61testsเฉพาะ/455backendtests,actual00248.87s/38checks |
 | Protocol/preparation | targetแบบconditional recorded+linked count,roaduniverseก่อนดูผล,train-onlyเลือกความละเอียด/horizon,missinglabel/zero policy,featureavailability,chronological/spatialfolds,resourcebudget | ตรวจรับ015/015aแล้ว: 83 fixtures, 538 backend tests; actual002 89.36s, 41 checks; ยังไม่มีคะแนนโมเดลรายถนน |
-| Experiments | Poisson/RF/HGBและstrongtrain-onlybaselinesบนlabelเดียวกัน,ไม่มีrandomtimesplit,selectionlockก่อนseen2024/25diagnostics | ยังไม่ทำโมเดลรายถนน |
-| Evaluation/colours | Deviance/MAE/RMSE/bias/calibration/errorgroups,thresholdsจากtrain/OOF,เทาเมื่อunknown,outofscopeไม่เป็นปลอดภัย | ยังไม่ทำ |
+| Experiments | Poisson/RF/HGBและstrongtrain-onlybaselinesบนlabelเดียวกัน,ไม่มีrandomtimesplit,selectionlockก่อนseen2024/25diagnostics | รับ016-002แล้ว:3416.75s/52checks,6labeloracles/254metrics+45calibrationcomparisons;HGB routedทั้งสองหน่วยผ่านเกณฑ์เดิม ไม่มีtrainingซ้ำ |
+| Evaluation/colours | Deviance/MAE/RMSE/bias/calibration/errorgroups,thresholdsจากtrain/OOF,เทาเมื่อunknown,outofscopeไม่เป็นปลอดภัย | ส่งClaude017แล้ว ใช้accepted20arraysเดิม;ยังไม่ตรวจรับ21 |
 | Serving | โหลดbundleที่ตรวจhash,predictตรงsavedresults,featureparity,finiteJSON,coverage/fallback/researchflags,historyก่อนcutoff,ไม่fitในrequest | V2มีหลักฐานแล้ว;V3ยังไม่มี |
-| API/catalog | prediction/geometry/metadata/evaluation/history,readinessจริง,missing/tampered/invalidinputs,limits,CORS,OpenAPIและliveHTTPsmoke | งาน009เดิมยังWIP ต้องทำต่อรวมV3 |
+| API/catalog | prediction/geometry/metadata/evaluation/history,readinessจริง,missing/tampered/invalidinputs,limits,CORS,OpenAPIและliveHTTPsmoke | รับCatalog020/020a/020bแล้ว:actual0037.98s,18checks/61controls,independent67checks,50targeted/642backendtests;APIยังไม่เริ่ม งาน009เดิมยังWIP |
 | Delivery | .ipynbเปิดVSCodeรันได้,runnerและdependencies,กราฟ/metricsจริง,runbookและfrontendcontract,GitHubตรงเครื่อง | สำรองทุกช่วงสำคัญ |
 
 ## ข้อกำหนดตลอดงาน

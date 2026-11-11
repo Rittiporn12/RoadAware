@@ -1,6 +1,15 @@
 # Goal (queued after20/21/22 accepted)
 Finish historical catalog and thin local FastAPI backend for frontend/mobile integration, including actual spatial predictions, stable geometry IDs and colours. No frontend/route engine/clouddeploy. Read AGENTS.md. User authorizes complete backend; Codex verifies and GitHub checkpoints each stage. This queued contract needs actual22 interfaces/pins appended before worker starts.
 
+## Manager closure update11Nov (22 acceptance/pins still required)
+Catalog14 is NOW ACCEPTED at backend/rerun-historical-catalog-020-003;manager pins workflow/catalog/accepted-runtime-v3.json. Source14/functions/config/outputdata IMMUTABLE. Originalcatalogacceptancebelow is satisfied,notpermissiontoimplementcatalogagain. Reuseverifiedfunctions,noadditionalcatalogpipeline/refactor. Datahistory2021–25coverage explicit. Source14/publicschemasprivacychecks already exist.
+
+Scope019now is APItransport/integration/readiness/docs/smoke only plus minimalnotebook-ownedgeometry/metadataqueryhelpers if missing. If helpers needed, put NEW reusable FUNCTIONS in an API-contract notebook (e.g24_backend_api_contract.ipynb) rather than rewriting accepted14/19/21/22;no model/data changes. Keep scopebounded andavoidunusedframeworks. No newmodels/refits/features.
+
+Useaccepted22benchmarkfor2024–27supportedrequests,strictunsupported/invalid/unavailable separate;2021–23prospectivepredictionrequestsreject unless appropriatefoldartifactactuallyexists(none retained).2026observed-recorddiagnosticevaluation may be unavailableuntil023passes;API must exposehoneststatus andeventualmanager-pinnedsummary,notfakescores.2026source presence doesnotturnmissingcellsintozeros orproductionvalidatedfutureforecasts.
+
+Worker must supply liveHTTPsmoke CLI that starts/stops localuvicorn using subprocess,testsactualserver against saved22requestpredictions/catalogexamples/geometryIDroundtrip/errors/readiness/CORS/bodylimits, exportsboundedJSON/OpenAPIonlytoaNEWrunrootandcleansupitsownprocesswithoutkillingotherprocesses. CodexrunsCLIwithrequiredlocalportpermission. Also provide actualstartupcommands/curlJSONexamples,dependencyversionscurrentlyinstalled,artifactrestore/runbook(source-onlyGitnotbulkdata),frontendintegrationcontract. Nofrontend/deploy.
+
 # Existing context and reuse
 Read tasks009-local-backend-api-catalog.md,009a-resume-api-after-quota.md and010-historical-description-source-recovery.md: preserve all compatible acceptance criteria, source recovery, limits and strict trust lock. Original009 was quota-interrupted, no assembled14/API exists; partial FUNCTIONS backup workflow/wip/009-api-quota-checkpoint/notebook14-functions.py.txt is untested WIP, not accepted code. Catalog config provisional only. AcceptedV2 serving13 immutable; V3 prediction path must use accepted22, not rescale provincepredictions to roads. Do not change accepted20selection or21colour thresholds. Installed FastAPI0.115.14/uvicorn0.34.3/httpx0.28.1/pydantic2.11.10/starlette0.46.2; use existingenvironment.
 

@@ -81,6 +81,14 @@ backend/
 - รัน (root ใหม่ทุกครั้ง ต้องอยู่ใน `backend/rerun-spatial-model-*`): `.venv/bin/python backend/scripts/run_spatial_experiments.py --output-dir backend/rerun-spatial-model-016-001` · ทดสอบ: `.venv/bin/python -m pytest backend/tests/test_spatial_experiments_notebook.py -q`
 - สถานะ: ยังไม่มีผลรันจริงที่ Codex ตรวจรับ
 
+## V3 — ประเมินผลและเกณฑ์สีความหนาแน่นสัมพัทธ์ (Notebook 21, WIP ยังไม่ตรวจรับ)
+
+- ใช้เฉพาะ array/การเลือกที่ตรวจรับแล้วของ 20 (`backend/rerun-spatial-model-016-002`, pins `workflow/evaluation/input-pins-v3.json`) · ไม่ฝึกใหม่ ไม่เลือกใหม่ ไม่อ่านข้อมูล 2026 · ไม่มี serving/frontend/API
+- metric เต็มประชากรตามกลุ่ม, floor audit (sensitivity ไม่ใช่ gate), calibration, capture ที่งบ road-km เท่ากัน, เกณฑ์สี P50/P80/P95 ของ density OOF 2022–23 แยก daily/6 ชม. (`colour_contract_*.json`; base = ต่ำกว่าเชิงสัมพัทธ์ ไม่ใช่ "ปลอดภัย"; เทา = ไม่มีข้อมูล)
+- ประกอบ notebook: `.venv/bin/python tools/assemble_notebook_payloads.py --spec .ai-team/handoffs/017/notebook_cells.json --target backend/notebooks/21_spatial_evaluation_colours.ipynb`
+- รัน (root ใหม่ทุกครั้ง `backend/rerun-spatial-eval-*`): `.venv/bin/python backend/scripts/run_spatial_evaluation.py --output-dir backend/rerun-spatial-eval-017-001` · ทดสอบ: `.venv/bin/python -m pytest backend/tests/test_spatial_evaluation_notebook.py -q` · ตรวจอิสระ: `.venv/bin/python backend/scripts/verify_spatial_evaluation.py --run-root backend/rerun-spatial-eval-017-001`
+- สถานะ: ยังไม่มีผลรันจริงที่ Codex ตรวจรับ
+
 ## ติดตั้ง (ครั้งเดียว, ที่ root ของ repository)
 
 ```bash
@@ -129,3 +137,14 @@ runner หยุดที่ notebook แรกที่ล้มเหลว �
 - **ความพร้อมของโมเดลจริง: BLOCKED** (ดู `unresolved_blockers` ใน config และ `reports/data/leakage/readiness_summary.json`)
 
 หลัง clone ใหม่ ดู [วิธีนำ source snapshot กลับมารัน](../workflow/source-snapshot-recovery-th.md) และ [แผน Analytics/Dashboard ที่ยังไม่เริ่มทำ](../workflow/analytics-and-dashboard-plan-th.md)
+
+## V3 — catalog ประวัติอุบัติเหตุ (Notebook 14, WIP ยังไม่ตรวจรับ)
+
+- กู้ `accident_type` / `presumed_cause` / `weather` จากไฟล์ raw แบบ exact (UID → row_lineage → raw record, ตรวจ `BE-year:ACC_CODE`) สำหรับเหตุการณ์ V2 ที่ยอมรับแล้วเท่านั้น; วันที่/ช่วงเวลา/จังหวัดใช้ค่า V2 ที่ซ่อมแล้ว ค่าว่างคง unknown · เป็นบริบทย้อนหลัง ไม่ใช่ feature หรือสาเหตุ
+- catalog จังหวัด 77×60 เดือน (ย้อนหลัง ไม่ใช่ as-of) และประวัติเชิงพื้นที่ของ selected records ของ notebook 19 (as-of: issue = target−1 วัน 18:00, ใช้เฉพาะ record ที่ target end ≤ issue−30 วัน) · ฟังก์ชัน `load_catalog` / `query_province_history` / `query_spatial_history(_batch)` อยู่ใน FUNCTIONS cells
+- config `config/catalog_v3.json`, pins `workflow/catalog/input-pins-v3.json`, ผล `reports/v3/historical_catalog` + `data/v3/historical_catalog` (gitignored) · production_ready = false
+- ประกอบ notebook: `.venv/bin/python tools/assemble_notebook_payloads.py --spec .ai-team/handoffs/020/notebook_cells.json --target backend/notebooks/14_backend_catalog.ipynb` (เพิ่ม `--check` เพื่อเทียบอย่างเดียว; ไม่เขียนทับ notebook ที่มี outputs)
+- รัน (root ใหม่ทุกครั้ง): `.venv/bin/python backend/scripts/run_historical_catalog.py --output-dir backend/rerun-historical-catalog-020-001` · ทดสอบ: `.venv/bin/python -m pytest backend/tests/test_historical_catalog_notebook.py -q`
+- ตรวจอิสระแบบอ่านอย่างเดียว (ไม่ exec โค้ด notebook): `.venv/bin/python backend/scripts/verify_historical_catalog.py --catalog-root backend/rerun-historical-catalog-<id> [--output <ไฟล์ .json ใหม่>]` · กู้คำอธิบายจาก raw ซ้ำเอง เทียบ legacy, ตาราง 77×60/หมวดหมู่, selected daily/6h, ตัวอย่าง as-of และสแกนว่าไม่มี event UID ในไฟล์ที่เสิร์ฟ
+- ความเป็นส่วนตัวของผล query: key ต้องตรง `PUBLIC_RESULT_SCHEMA` (บังคับใน query ทุกครั้ง) และตรวจ event UID ด้วยการเทียบกับชุด UID จริงแบบ exact — segment id สาธารณะเช่น `...:doh:2577:p0:...` ไม่ถือว่ารั่ว (round 020a)
+- สถานะ: ยังไม่มีผลรันจริงที่ Codex ตรวจรับ (run 020-002 ล้มที่ control regex UID-like ซึ่งเป็น false positive จาก segment id ของถนน DOH 25xx)

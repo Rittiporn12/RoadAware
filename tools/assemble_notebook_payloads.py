@@ -3,6 +3,8 @@
 Usage from the repository root (Python >= 3.9, standard library only; nbformat validation runs only if nbformat is importable):
     .venv/bin/python tools/assemble_notebook_payloads.py --spec .ai-team/handoffs/016/notebook_cells.json \
         --target backend/notebooks/20_spatial_count_experiments.ipynb            # write (replaces the approved target)
+    .venv/bin/python tools/assemble_notebook_payloads.py --spec .ai-team/handoffs/020/notebook_cells.json \
+        --target backend/notebooks/14_backend_catalog.ipynb
     .venv/bin/python tools/assemble_notebook_payloads.py --spec ... --target ... --check   # compare only, never writes; exit 1 on drift
 
 Spec format (the existing notebook_cells.json): {"target": <repo-relative .ipynb>, "kernelspec": {name, display_name, language},
@@ -10,7 +12,8 @@ Spec format (the existing notebook_cells.json): {"target": <repo-relative .ipynb
 
 Refuses (nothing written): --target differing from the spec target or not in APPROVED_TARGETS (all under backend/notebooks/); absolute paths,
 '..', symlinked path components or files outside the repository; source files outside the spec's directory, missing or non-regular; invalid
-cell types/ids, duplicate ids, unknown cell keys; non-UTF-8 sources; code cells that do not compile or reference '.ai-team'. Every cell
+cell types/ids, duplicate ids, unknown cell keys; non-UTF-8 sources; code cells that do not compile or reference '.ai-team'; an existing
+target that has outputs or execution counts (an executed notebook is never overwritten). Every cell
 source is the exact file content. Code cells get no outputs and execution_count null. Nothing is executed. After writing, the notebook is
 re-read and every cell source is compared byte-for-byte with its payload.
 """
@@ -23,7 +26,8 @@ import sys
 from pathlib import Path, PurePosixPath
 
 REPO = Path(__file__).resolve().parents[1]
-APPROVED_TARGETS = ('backend/notebooks/20_spatial_count_experiments.ipynb',)
+APPROVED_TARGETS = ('backend/notebooks/20_spatial_count_experiments.ipynb', 'backend/notebooks/14_backend_catalog.ipynb',
+                    'backend/notebooks/21_spatial_evaluation_colours.ipynb')
 TARGET_DIR = 'backend/notebooks'
 CELL_TYPES = ('code', 'markdown')
 CELL_KEYS = {'cell_type', 'id', 'source_path'}
@@ -116,6 +120,18 @@ def check_target(root, spec, target_rel, approved):
     return p
 
 
+def refuse_executed(path):
+    """An existing target carrying outputs or execution counts is an executed notebook: never overwritten (executed copies live in rerun roots)."""
+    if not path.is_file():
+        return
+    try:
+        cells = json.loads(path.read_text('utf-8')).get('cells', [])
+    except ValueError:
+        raise AssemblyError('existing target is not valid JSON; refusing to overwrite it')
+    if any(c.get('outputs') or c.get('execution_count') is not None for c in cells if isinstance(c, dict) and c.get('cell_type') == 'code'):
+        raise AssemblyError('existing target has outputs/execution counts (executed notebook); refusing to overwrite it')
+
+
 def build_notebook(spec, cells):
     nb_cells = []
     for c in cells:
@@ -166,6 +182,7 @@ def assemble(spec_rel, target_rel, root=REPO, approved=APPROVED_TARGETS, check_o
         if not target.is_file():
             return lines, ['target does not exist: ' + target_rel]
         return lines, drift(target, cells)
+    refuse_executed(target)
     data = notebook_bytes(build_notebook(spec, cells))
     tmp = target.with_name('.' + target.name + '.assemble-' + str(os.getpid()))
     fh = open(tmp, 'xb')  # exclusive: never reuses or follows an existing temp path

@@ -1,0 +1,18 @@
+{
+  "kind": "manager_accepted_spatial20_evaluation_inputs",
+  "accepted_run": "backend/rerun-spatial-model-016-002",
+  "accepted_review": ".ai-team/references/016-002-independent-review.json",
+  "files": {
+    "backend/notebooks/20_spatial_count_experiments.ipynb": "e1f0f6ff02c26f1751b0bd40ce1a3944e477cc5c10e1fb271f73492cc384b89a",
+    "backend/config/spatial_experiment_v3.json": "fbd053cca837fa184f28f6b6839c6f538ce5c458bb9fc7368cfbc552afbf90b0",
+    "backend/rerun-spatial-model-016-002/reports/v3/spatial_experiments/spatial_experiments_manifest.json": "4d0f23496fafd65cfba664b0d1f79a4d21ed38e6320dd1c00722387513ecc42d",
+    "backend/rerun-spatial-model-016-002/reports/v3/spatial_experiments/experiment_lock.json": "e5678e26d5715b28ac8c4331f02d28ae64abc8a32f8fba9787232f0269578e7c",
+    "backend/rerun-spatial-model-016-002/reports/v3/spatial_experiments/selection_frozen.json": "9e08ac0a5ea1597b14acd0167b91b3060c7a38776edf8f98fbb387dacb037e30",
+    "backend/rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays_index.json": "6f72e3b74cda0ae3eae6142366fa9791b6ba780fa54155df7b34acea7be8e46e",
+    "backend/reports/v3/spatial_preparation/spatial_preparation_manifest.json": "8a53b10cd88283e2b8a5c8c7d4f15f9657bf68f6fb9e58076fed2938176e1d73",
+    "backend/notebooks/19_spatial_count_preparation.ipynb": "2f6fea94dc3787beb9bcf7723aa0bfa2ea9d959dca06e4846d02ff5ab96a6879",
+    "backend/config/spatial_preparation_v3.json": "10720c6f1ea457277666d29837598c2b4d83950907173560ad3f87f93778f386"
+  },
+  "prepared_functions_sha256": "c13b74dc12e3bd6994fa285888d0c32f629b91e505bc8cc2c1a6b3a1b6bd9e1f",
+  "notes": "Manager independently verified all24report/90data file hashes,6labeloracles,254arraymetrics,45calibration/strata checks; accepted20 research results only. Review path is development evidence and MUST NOT be a runtime dependency. Every consumed20data/report must also match its accepted producer manifest membership/hash; every consumed19data must match accepted19manifest. Source20 file is unexecuted and immutable; executed20source must match canonical cell sources. No2026scores used here."
+}

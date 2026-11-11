@@ -1,0 +1,112 @@
+{
+  "schema": "roadaware-historical-catalog-v3-config/1",
+  "version": "historical_catalog_v3.0",
+  "notebook": "notebooks/14_backend_catalog.ipynb",
+  "purpose": "historical recorded-accident catalog: exact raw description recovery for accepted V2 retained events, province x month history and notebook-19 selected spatial history with bounded as-of query functions; NOT a model, forecast or safety rating",
+  "research_only": true,
+  "production_ready": false,
+  "operational_status": "BLOCKED",
+  "pins": {
+    "path": "workflow/catalog/input-pins-v3.json",
+    "path_base": "repository",
+    "schema": "roadaware-catalog-input-pins/1",
+    "registered_flag": "registered_before_catalog_implementation"
+  },
+  "inputs": {
+    "preparation_manifest": {"path": "reports/v2/preparation/preparation_manifest.json", "corroborate": {"rule": "producer10_self"}},
+    "sources_manifest": {"path": "reports/v2/sources/sources_manifest.json", "corroborate": {"rule": "producer10_input", "role": "09_sources_manifest"}},
+    "data_pipeline": {"path": "config/data_pipeline.json", "corroborate": {"rule": "producer10_input", "role": "config"}},
+    "raw_manifest": {"path": "data/raw/accidents/source_manifest.json", "corroborate": {"rule": "producer10_input", "role": "v1_raw_manifest"}},
+    "legacy_descriptive": {"path": "data/interim/events_descriptive_outcomes.csv", "corroborate": {"rule": "producer10_input", "role": "v1_interim"}},
+    "events_v2": {"path": "data/v2/events_v2.csv.gz", "corroborate": {"rule": "producer10_data_output", "name": "events_v2.csv.gz"}},
+    "row_lineage_v2": {"path": "data/v2/row_lineage_v2.csv.gz", "corroborate": {"rule": "producer10_data_output", "name": "row_lineage_v2.csv.gz"}},
+    "province_points": {"path": "reports/v2/sources/province_points.csv", "corroborate": {"rule": "producer10_input", "role": "09_output"}},
+    "spatial_preparation_manifest": {"path": "reports/v3/spatial_preparation/spatial_preparation_manifest.json", "corroborate": {"rule": "producer19_self"}},
+    "spatial_review": {"path": "reports/v3/spatial_preparation_independent_review.json", "corroborate": {"rule": "review19"}},
+    "selected_events": {"path": "data/v3/spatial_preparation/selected_events.csv.gz", "corroborate": {"rule": "producer19_data", "name": "selected_events.csv.gz"}},
+    "universe_segments": {"path": "data/v3/spatial_preparation/universe_segments.csv", "corroborate": {"rule": "producer19_data", "name": "universe_segments.csv"}},
+    "counts_daily": {"path": "data/v3/spatial_preparation/counts_daily.csv.gz", "corroborate": {"rule": "producer19_data", "name": "counts_daily.csv.gz"}},
+    "counts_6h": {"path": "data/v3/spatial_preparation/counts_6h.csv.gz", "corroborate": {"rule": "producer19_data", "name": "counts_6h.csv.gz"}}
+  },
+  "producers": {
+    "10": {"input": "preparation_manifest", "producer": "10_v2_preparation_features_leakage", "schema": "roadaware-v2-preparation-manifest/1", "status": "completed", "data_dir": "data/v2"},
+    "19": {"input": "spatial_preparation_manifest", "status": "complete", "data_dir": "data/v3/spatial_preparation"},
+    "19_review": {"input": "spatial_review", "status": "accepted_spatial_count_preparation_only"}
+  },
+  "raw": {
+    "producer10_role": "v1_raw_csv",
+    "allowed_encodings": ["utf-8-sig", "utf-8", "cp874", "tis-620"],
+    "first_data_row": 2,
+    "source_row_definition": "1-based CSV record ordinal counting the header as record 1 (first data record = 2), as recorded in the raw source manifest"
+  },
+  "recovery": {
+    "fields": ["accident_type", "presumed_cause", "weather"],
+    "id_field": "acc_code",
+    "uid_rule": "event_uid == str(be_year) + ':' + norm_text(raw ACC_CODE)",
+    "normalization": "V1 norm_text: fillna(''), str, whitespace runs -> one space, strip; a blank stays '' (= unknown)",
+    "retained_disposition": "retained",
+    "preflight_reference": {
+      "source": ".ai-team/references/catalog_raw_enrichment_preflight.json (manager read-only preflight; reference only, never a substitute for the actual checks)",
+      "events": 106308, "legacy_matched": 84296, "repaired_recovered": 22012,
+      "unknown_before": {"accident_type": 26147, "presumed_cause": 23097, "weather": 22604},
+      "unknown_after": {"accident_type": 4984, "presumed_cause": 1196, "weather": 724}
+    }
+  },
+  "catalog": {
+    "first_month": "2021-01",
+    "last_month": "2025-12",
+    "expected_provinces": 77,
+    "time_blocks": ["00-06", "06-12", "12-18", "18-24"],
+    "categories": ["accident_type", "presumed_cause", "weather", "time_block"],
+    "coverage_years": [2021, 2022, 2023, 2024, 2025, 2026, 2027],
+    "timezone": "Asia/Bangkok",
+    "utc_offset_seconds": 25200
+  },
+  "query": {
+    "min_target_date": "2021-01-01",
+    "max_target_date": "2027-12-31",
+    "issue_day_offset": -1,
+    "issue_hour_local": 18,
+    "latency_days": 30,
+    "max_lookback_days": 1827,
+    "default_lookback_days": 1827,
+    "max_months": 60,
+    "max_top_k": 10,
+    "default_top_k": 5,
+    "max_batch": 128,
+    "max_request_bytes": 65536
+  },
+  "controls": {"seed": 20261111, "n_bruteforce_queries": 300},
+  "outputs": {
+    "report_dir": "reports/v3/historical_catalog",
+    "data_dir": "data/v3/historical_catalog",
+    "report_allowed_suffixes": [".csv", ".json", ".md", ".png"]
+  },
+  "protected_paths": [
+    "reports/v2", "data/v2", "data/raw", "data/interim", "data/processed", "data/external_v2",
+    "reports/v3/spatial_readiness", "reports/v3/road_collection", "reports/v3/road_collection_v3_1", "reports/v3/linkage_audit", "reports/v3/spatial_preparation",
+    "data/v3/spatial_readiness", "data/v3/road_collection", "data/v3/road_collection_v3_1", "data/v3/linkage_audit", "data/v3/spatial_preparation",
+    "reports/v3/run_manifest_spatial_readiness.json", "reports/v3/spatial_readiness_independent_review.json",
+    "reports/v3/run_manifest_road_collection.json", "reports/v3/road_collection_independent_review.json",
+    "reports/v3/run_manifest_road_collection_v3_1.json", "reports/v3/road_collection_v3_1_independent_review.json",
+    "reports/v3/run_manifest_linkage_audit.json", "reports/v3/linkage_audit_independent_review.json",
+    "reports/v3/run_manifest_spatial_preparation.json", "reports/v3/spatial_preparation_independent_review.json",
+    "config",
+    "notebooks/09_external_collection_date_evidence.ipynb", "notebooks/10_v2_preparation_features_leakage.ipynb",
+    "notebooks/11_v2_model_experiments.ipynb", "notebooks/12_v2_evaluation_error_analysis.ipynb", "notebooks/13_inference_robustness_contract.ipynb",
+    "notebooks/16_spatial_data_readiness.ipynb", "notebooks/17_spatial_road_collection.ipynb", "notebooks/18_spatial_linkage_audit.ipynb",
+    "notebooks/19_spatial_count_preparation.ipynb"
+  ],
+  "readonly_hashed_paths": [
+    "notebooks/20_spatial_count_experiments.ipynb", "scripts/run_spatial_experiments.py", "tests/test_spatial_experiments_notebook.py"
+  ],
+  "write_guard_paths": [
+    "rerun-spatial-model-016-001", "rerun-spatial-model-016-002", "reports/v3/spatial_experiments", "data/v3/spatial_experiments",
+    "notebooks/14_backend_catalog.ipynb", "notebooks/20_spatial_count_experiments.ipynb"
+  ],
+  "repo_write_guard_paths": ["workflow/spatial", "workflow/catalog", ".ai-team"],
+  "runtime_output_paths": ["rerun-spatial-model-016-001", "rerun-spatial-model-016-002", "reports/v3/spatial_experiments", "data/v3/spatial_experiments"],
+  "runtime_output_prefixes": ["rerun-"],
+  "snapshot_note": "protected_paths + readonly_hashed_paths are hashed before and after (must be identical). Runtime outputs (runtime_output_paths, any backend/rerun-* root, this catalog's own report/data dirs and the executing notebook-14 source) change legitimately and are NEVER snapshotted; snapshot_rels fails closed if a snapshot path overlaps one. Protected SOURCE files of notebook 20 (notebook, runner, tests, config) are hashed read-only. The executing notebook-14 source is hashed separately (source sha + code-cell hashes). workflow/ and .ai-team/ are write-guarded only (manager documents may change concurrently).",
+  "dependency_pins": {"pandas": "pandas==2.3.3", "numpy": "numpy==2.0.2", "matplotlib": "matplotlib==3.9.4"}
+}

@@ -1,0 +1,17 @@
+{
+  "status": "accepted_historical_catalog_research_only",
+  "worker_review_run": "20261111-193600-50178",
+  "root": "backend/rerun-historical-catalog-020-003",
+  "report_dir": "backend/rerun-historical-catalog-020-003/reports/v3/historical_catalog",
+  "data_dir": "backend/rerun-historical-catalog-020-003/data/v3/historical_catalog",
+  "config": "backend/config/catalog_v3.json",
+  "source_notebook": "backend/notebooks/14_backend_catalog.ipynb",
+  "manifest_sha256": "df65865c4182c31453e48d3fee0e50a80d5f65beb9d159806e29cfaedb6ce86a",
+  "config_sha256": "ce0911b3f4ca3b6e6f7933f8549bc00ea24e27b06a69c55a1f5ea5df2e668a2d",
+  "source_notebook_sha256": "54cd544d42c968e93365ac65f882b839cb7a344e5869b502f85abb3a27680375",
+  "functions_sha256": "6b71e64a3949c3eb4029ecfe028907b4b2ab97067e464427804c99c3a0542517",
+  "evidence": "backend/rerun-historical-catalog-020-003/verification/historical_catalog_verification.json",
+  "checks": {"targeted_tests":50,"full_backend_tests":642,"notebook_checks":18,"query_controls":61,"independent_checks":67,"actual_pngs_inspected":2},
+  "production_ready": false,
+  "note": "Manager pins following actual independent acceptance; output hashes must also be verified against this trusted manifest. No automatic promotion to canonical report/data dirs. API paths come from server config only. No event-level provenance file may be exposed."
+}

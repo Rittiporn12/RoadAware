@@ -118,6 +118,43 @@ def make_repo_fresh(tmp_path, **kw):
     return make_repo(tmp_path, **kw)
 
 
+def test_refuses_overwriting_an_executed_target(A, tmp_path):
+    spec = make_repo(tmp_path)
+    run(A, tmp_path, spec)
+    run(A, tmp_path, spec)  # an unexecuted (assembled) target may be re-assembled
+    nb = json.loads((tmp_path / TGT).read_text('utf-8'))
+    nb['cells'][1]['execution_count'] = 1
+    (tmp_path / TGT).write_text(json.dumps(nb), 'utf-8')
+    before = (tmp_path / TGT).read_bytes()
+    with pytest.raises(A.AssemblyError, match='executed'):
+        run(A, tmp_path, spec)
+    assert (tmp_path / TGT).read_bytes() == before
+    assert run(A, tmp_path, spec, check_only=True)[1] == []  # --check stays read-only and still compares sources
+
+
+def test_approved_targets_are_exactly_20_14_and_21(A):
+    assert A.APPROVED_TARGETS == ('backend/notebooks/20_spatial_count_experiments.ipynb', 'backend/notebooks/14_backend_catalog.ipynb',
+                                  'backend/notebooks/21_spatial_evaluation_colours.ipynb')
+
+
+def test_real_notebook21_spec_is_approved_and_well_formed(A):
+    """Read-only: the notebook-21 spec loads, targets the approved notebook 21, ids unique, sources compile, four FUNCTIONS cells. Never writes."""
+    spec, d = A.read_spec(A.REPO, '.ai-team/handoffs/017/notebook_cells.json')
+    assert spec['target'] == 'backend/notebooks/21_spatial_evaluation_colours.ipynb' and spec['target'] in A.APPROVED_TARGETS
+    A.check_target(A.REPO, spec, spec['target'], A.APPROVED_TARGETS)
+    cells = A.load_cells(A.REPO, spec, d)
+    assert sum(c['source'].lstrip().startswith('# FUNCTIONS') for c in cells) == 4
+
+
+def test_real_notebook14_spec_is_approved_and_well_formed(A):
+    """Read-only: the notebook-14 spec loads, targets the approved notebook 14, ids unique, sources compile, five FUNCTIONS cells. Never writes."""
+    spec, d = A.read_spec(A.REPO, '.ai-team/handoffs/020/notebook_cells.json')
+    assert spec['target'] == 'backend/notebooks/14_backend_catalog.ipynb' and spec['target'] in A.APPROVED_TARGETS
+    A.check_target(A.REPO, spec, spec['target'], A.APPROVED_TARGETS)
+    cells = A.load_cells(A.REPO, spec, d)
+    assert sum(c['source'].lstrip().startswith('# FUNCTIONS') for c in cells) == 5
+
+
 def test_real_notebook20_spec_is_approved_and_well_formed(A):
     """Read-only: the real spec loads, its target is the approved notebook 20, ids unique, sources compile. Never writes."""
     spec, d = A.read_spec(A.REPO, '.ai-team/handoffs/016/notebook_cells.json')
