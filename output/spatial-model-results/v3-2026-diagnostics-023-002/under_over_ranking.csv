@@ -1,0 +1,45 @@
+unit,method,kind,rank,dim,group,pred_to_actual_ratio,n_positive_cells,n_raw_records,note,n_supported_groups,n_groups_under,n_groups_over,n_groups_total_match
+6h,selected,under_predicted,1.0,route,0006,1.4743049069241525e-05,169.0,171.0,descriptive only; never used to change eligibility,117,117,0,0
+6h,selected,under_predicted,2.0,route,0081,1.5190076347123809e-05,46.0,46.0,descriptive only; never used to change eligibility,117,117,0,0
+6h,selected,under_predicted,3.0,route,0331,0.0003776814103469709,27.0,27.0,descriptive only; never used to change eligibility,117,117,0,0
+6h,selected,under_predicted,4.0,route,0366,0.00046145613966096715,29.0,29.0,descriptive only; never used to change eligibility,117,117,0,0
+6h,selected,under_predicted,5.0,route,0205,0.0004781678183872864,45.0,47.0,descriptive only; never used to change eligibility,117,117,0,0
+6h,selected,under_predicted,6.0,route,3017,0.00048098592295706214,33.0,33.0,descriptive only; never used to change eligibility,117,117,0,0
+6h,selected,under_predicted,7.0,route,0352,0.0006158575204597605,28.0,28.0,descriptive only; never used to change eligibility,117,117,0,0
+6h,selected,under_predicted,8.0,province,ลพบุรี,0.0007669619645711657,295.0,298.0,descriptive only; never used to change eligibility,117,117,0,0
+6h,selected,under_predicted,9.0,province,สุพรรณบุรี,0.0008255595490491495,23.0,23.0,descriptive only; never used to change eligibility,117,117,0,0
+6h,selected,under_predicted,10.0,route,0024,0.0008323285194605606,30.0,30.0,descriptive only; never used to change eligibility,117,117,0,0
+6h,selected,over_predicted,,none,NONE,,,,no supported group with pred/actual ratio > 1,117,117,0,0
+6h,strong_baseline,under_predicted,1.0,route,0081,0.0,46.0,46.0,descriptive only; never used to change eligibility,117,117,0,0
+6h,strong_baseline,under_predicted,2.0,route,0006,1.7853382060435382e-05,169.0,171.0,descriptive only; never used to change eligibility,117,117,0,0
+6h,strong_baseline,under_predicted,3.0,route,0331,0.0002344189250251348,27.0,27.0,descriptive only; never used to change eligibility,117,117,0,0
+6h,strong_baseline,under_predicted,4.0,route,0366,0.0003746115474923534,29.0,29.0,descriptive only; never used to change eligibility,117,117,0,0
+6h,strong_baseline,under_predicted,5.0,route,3017,0.000397836022961759,33.0,33.0,descriptive only; never used to change eligibility,117,117,0,0
+6h,strong_baseline,under_predicted,6.0,route,0352,0.0005016212363163129,28.0,28.0,descriptive only; never used to change eligibility,117,117,0,0
+6h,strong_baseline,under_predicted,7.0,route,0205,0.0006428314273894921,45.0,47.0,descriptive only; never used to change eligibility,117,117,0,0
+6h,strong_baseline,under_predicted,8.0,route,0024,0.0006863931813233348,30.0,30.0,descriptive only; never used to change eligibility,117,117,0,0
+6h,strong_baseline,under_predicted,9.0,province,ลพบุรี,0.0007340481911158963,295.0,298.0,descriptive only; never used to change eligibility,117,117,0,0
+6h,strong_baseline,under_predicted,10.0,route,0311,0.0008602325452284057,33.0,33.0,descriptive only; never used to change eligibility,117,117,0,0
+6h,strong_baseline,over_predicted,,none,NONE,,,,no supported group with pred/actual ratio > 1,117,117,0,0
+daily,selected,under_predicted,1.0,route,0006,7.622152380798025e-05,164.0,171.0,descriptive only; never used to change eligibility,114,114,0,0
+daily,selected,under_predicted,2.0,route,0081,8.639519837023437e-05,45.0,46.0,descriptive only; never used to change eligibility,114,114,0,0
+daily,selected,under_predicted,3.0,route,3017,0.0020009964372715073,33.0,33.0,descriptive only; never used to change eligibility,114,114,0,0
+daily,selected,under_predicted,4.0,route,0331,0.0020478198634889806,27.0,27.0,descriptive only; never used to change eligibility,114,114,0,0
+daily,selected,under_predicted,5.0,route,0205,0.0022460103779759722,45.0,47.0,descriptive only; never used to change eligibility,114,114,0,0
+daily,selected,under_predicted,6.0,route,0352,0.002404471254629058,28.0,28.0,descriptive only; never used to change eligibility,114,114,0,0
+daily,selected,under_predicted,7.0,route,0366,0.002488777705127292,29.0,29.0,descriptive only; never used to change eligibility,114,114,0,0
+daily,selected,under_predicted,8.0,province,สุพรรณบุรี,0.0034205956646116064,23.0,23.0,descriptive only; never used to change eligibility,114,114,0,0
+daily,selected,under_predicted,9.0,route,0033,0.0035118846593377375,66.0,66.0,descriptive only; never used to change eligibility,114,114,0,0
+daily,selected,under_predicted,10.0,province,ลพบุรี,0.0035328869323768605,295.0,298.0,descriptive only; never used to change eligibility,114,114,0,0
+daily,selected,over_predicted,,none,NONE,,,,no supported group with pred/actual ratio > 1,114,114,0,0
+daily,strong_baseline,under_predicted,1.0,route,0081,0.0,45.0,46.0,descriptive only; never used to change eligibility,114,114,0,0
+daily,strong_baseline,under_predicted,2.0,route,0006,5.9976847614968654e-05,164.0,171.0,descriptive only; never used to change eligibility,114,114,0,0
+daily,strong_baseline,under_predicted,3.0,route,0331,0.001237441130344363,27.0,27.0,descriptive only; never used to change eligibility,114,114,0,0
+daily,strong_baseline,under_predicted,4.0,route,3017,0.0015825197724569562,33.0,33.0,descriptive only; never used to change eligibility,114,114,0,0
+daily,strong_baseline,under_predicted,5.0,route,0366,0.0019223979508774056,29.0,29.0,descriptive only; never used to change eligibility,114,114,0,0
+daily,strong_baseline,under_predicted,6.0,route,0352,0.001959648540063694,28.0,28.0,descriptive only; never used to change eligibility,114,114,0,0
+daily,strong_baseline,under_predicted,7.0,route,0205,0.002098616877066102,45.0,47.0,descriptive only; never used to change eligibility,114,114,0,0
+daily,strong_baseline,under_predicted,8.0,route,0024,0.002466057946234243,30.0,30.0,descriptive only; never used to change eligibility,114,114,0,0
+daily,strong_baseline,under_predicted,9.0,province,ลพบุรี,0.0027430418427978748,295.0,298.0,descriptive only; never used to change eligibility,114,114,0,0
+daily,strong_baseline,under_predicted,10.0,route,0201,0.00310662338593316,20.0,20.0,descriptive only; never used to change eligibility,114,114,0,0
+daily,strong_baseline,over_predicted,,none,NONE,,,,no supported group with pred/actual ratio > 1,114,114,0,0

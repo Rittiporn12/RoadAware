@@ -1,0 +1,11 @@
+event_month,old_raw_records,new_raw_records,net_record_count_change,identical_full_rows_in_both,old_rows_without_identical_new_row,new_rows_without_identical_old_row,interpretation
+2026-01,2631,2661,30,2352,279,309,net raw record-count change/revision; not proven unique late-arriving events (no ACC_CODE)
+2026-02,1893,1933,40,1604,289,329,net raw record-count change/revision; not proven unique late-arriving events (no ACC_CODE)
+2026-03,1743,1844,101,1370,373,474,net raw record-count change/revision; not proven unique late-arriving events (no ACC_CODE)
+2026-04,2473,2733,260,1957,516,776,net raw record-count change/revision; not proven unique late-arriving events (no ACC_CODE)
+2026-05,1746,1756,10,1647,99,109,net raw record-count change/revision; not proven unique late-arriving events (no ACC_CODE)
+2026-06,1674,1683,9,1439,235,244,net raw record-count change/revision; not proven unique late-arriving events (no ACC_CODE)
+2026-07,1600,1663,63,911,689,752,net raw record-count change/revision; not proven unique late-arriving events (no ACC_CODE)
+2026-08,1361,1564,203,850,511,714,net raw record-count change/revision; not proven unique late-arriving events (no ACC_CODE)
+2026-09,118,1435,1317,40,78,1395,net raw record-count change/revision; not proven unique late-arriving events (no ACC_CODE)
+2026-10,0,1176,1176,0,0,1176,net raw record-count change/revision; not proven unique late-arriving events (no ACC_CODE)

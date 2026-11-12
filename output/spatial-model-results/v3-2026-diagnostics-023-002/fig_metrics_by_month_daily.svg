@@ -1,0 +1,2146 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="788.002398pt" height="324.544377pt" viewBox="0 0 788.002398 324.544377" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:format>image/svg+xml</dc:format>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 324.544377 
+L 788.002398 324.544377 
+L 788.002398 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 51.376563 272.3175 
+L 381.103835 272.3175 
+L 381.103835 22.8375 
+L 51.376563 22.8375 
+z
+" style="fill: #ffffff"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <defs>
+       <path id="m4e1d16a40f" d="M 0 0 
+L 0 3.5 
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m4e1d16a40f" x="66.364166" y="272.3175" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <!-- 2026-01 -->
+      <g transform="translate(52.924718 315.843985) rotate(-45) scale(0.1 -0.1)">
+       <defs>
+        <path id="Thonburi-32" d="M 558 0 
+L 558 503 
+Q 558 898 801 1361 
+Q 1045 1825 1620 2270 
+L 1948 2523 
+Q 2603 3028 2783 3278 
+Q 2958 3528 2958 3800 
+Q 2958 4078 2723 4294 
+Q 2488 4510 2048 4510 
+Q 1648 4510 1454 4355 
+Q 1260 4200 1260 4008 
+L 1260 3975 
+L 678 3975 
+L 678 4008 
+Q 678 4263 851 4491 
+Q 1025 4720 1320 4857 
+Q 1615 4995 2065 4995 
+Q 2888 4995 3238 4646 
+Q 3588 4298 3588 3810 
+Q 3588 3550 3479 3287 
+Q 3370 3025 3046 2739 
+Q 2723 2453 2520 2313 
+L 2283 2150 
+Q 1163 1383 1163 653 
+L 1163 535 
+L 3685 535 
+L 3685 0 
+L 558 0 
+z
+" transform="scale(0.015625)"/>
+        <path id="Thonburi-30" d="M 2133 -148 
+Q 1340 -148 851 545 
+Q 363 1238 363 2425 
+Q 363 3613 851 4304 
+Q 1340 4995 2133 4995 
+Q 2925 4995 3414 4304 
+Q 3903 3613 3903 2425 
+Q 3903 1238 3414 545 
+Q 2925 -148 2133 -148 
+z
+M 2133 340 
+Q 2748 340 3023 974 
+Q 3298 1608 3298 2425 
+Q 3298 3240 3023 3875 
+Q 2748 4510 2133 4510 
+Q 1520 4510 1245 3875 
+Q 970 3240 970 2425 
+Q 970 1608 1245 974 
+Q 1520 340 2133 340 
+z
+" transform="scale(0.015625)"/>
+        <path id="Thonburi-36" d="M 1150 2263 
+Q 1363 2540 1569 2681 
+Q 1775 2823 1981 2890 
+Q 2188 2958 2428 2958 
+Q 3053 2958 3430 2511 
+Q 3808 2065 3808 1433 
+Q 3808 988 3611 625 
+Q 3415 263 3067 57 
+Q 2720 -148 2308 -148 
+Q 1828 -148 1408 136 
+Q 988 420 773 989 
+Q 558 1558 558 2395 
+Q 558 3583 1043 4289 
+Q 1528 4995 2438 4995 
+Q 3058 4995 3371 4722 
+Q 3685 4450 3685 4103 
+L 3685 4073 
+L 3103 4073 
+L 3103 4103 
+Q 3103 4253 2939 4381 
+Q 2775 4510 2448 4510 
+Q 2063 4510 1773 4279 
+Q 1483 4048 1315 3521 
+Q 1148 2995 1148 2435 
+L 1150 2263 
+z
+M 2308 340 
+Q 2688 340 2944 657 
+Q 3200 975 3200 1450 
+Q 3200 1923 2930 2198 
+Q 2660 2473 2273 2473 
+Q 1845 2473 1576 2159 
+Q 1308 1845 1308 1410 
+Q 1308 1123 1440 865 
+Q 1573 608 1804 474 
+Q 2035 340 2308 340 
+z
+" transform="scale(0.015625)"/>
+        <path id="Thonburi-2d" d="M 245 1723 
+L 245 2208 
+L 2185 2208 
+L 2185 1723 
+L 245 1723 
+z
+" transform="scale(0.015625)"/>
+        <path id="Thonburi-31" d="M 1928 0 
+L 1928 4248 
+L 948 3858 
+L 948 4398 
+L 1928 4850 
+L 2510 4850 
+L 2510 0 
+L 1928 0 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#Thonburi-32"/>
+       <use xlink:href="#Thonburi-30" x="66.640625"/>
+       <use xlink:href="#Thonburi-32" x="133.28125"/>
+       <use xlink:href="#Thonburi-36" x="199.921875"/>
+       <use xlink:href="#Thonburi-2d" x="266.5625"/>
+       <use xlink:href="#Thonburi-30" x="304.453125"/>
+       <use xlink:href="#Thonburi-31" x="371.09375"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_2">
+      <g>
+       <use xlink:href="#m4e1d16a40f" x="103.833174" y="272.3175" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <!-- 2026-02 -->
+      <g transform="translate(90.393726 315.843985) rotate(-45) scale(0.1 -0.1)">
+       <use xlink:href="#Thonburi-32"/>
+       <use xlink:href="#Thonburi-30" x="66.640625"/>
+       <use xlink:href="#Thonburi-32" x="133.28125"/>
+       <use xlink:href="#Thonburi-36" x="199.921875"/>
+       <use xlink:href="#Thonburi-2d" x="266.5625"/>
+       <use xlink:href="#Thonburi-30" x="304.453125"/>
+       <use xlink:href="#Thonburi-32" x="371.09375"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_3">
+      <g>
+       <use xlink:href="#m4e1d16a40f" x="141.302182" y="272.3175" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <!-- 2026-03 -->
+      <g transform="translate(127.862734 315.843985) rotate(-45) scale(0.1 -0.1)">
+       <defs>
+        <path id="Thonburi-33" d="M 1238 2425 
+L 1238 2910 
+L 1600 2910 
+Q 2025 2910 2266 3044 
+Q 2508 3178 2648 3380 
+Q 2788 3583 2788 3833 
+Q 2788 4148 2556 4329 
+Q 2325 4510 1945 4510 
+Q 1725 4510 1535 4454 
+Q 1345 4398 1242 4263 
+Q 1140 4128 1140 3983 
+L 1140 3950 
+L 585 3950 
+L 585 3983 
+Q 585 4363 906 4679 
+Q 1228 4995 1975 4995 
+Q 2685 4995 3041 4691 
+Q 3398 4388 3398 3910 
+Q 3398 3648 3294 3421 
+Q 3190 3195 2989 3016 
+Q 2788 2838 2410 2728 
+Q 3000 2560 3294 2227 
+Q 3588 1895 3588 1398 
+Q 3588 813 3176 332 
+Q 2765 -148 1933 -148 
+Q 1203 -148 869 163 
+Q 535 475 535 865 
+L 535 898 
+L 1115 898 
+L 1115 865 
+Q 1115 603 1361 471 
+Q 1608 340 1990 340 
+Q 2290 340 2519 451 
+Q 2748 563 2866 813 
+Q 2985 1063 2985 1358 
+Q 2985 1810 2627 2117 
+Q 2270 2425 1533 2425 
+L 1238 2425 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#Thonburi-32"/>
+       <use xlink:href="#Thonburi-30" x="66.640625"/>
+       <use xlink:href="#Thonburi-32" x="133.28125"/>
+       <use xlink:href="#Thonburi-36" x="199.921875"/>
+       <use xlink:href="#Thonburi-2d" x="266.5625"/>
+       <use xlink:href="#Thonburi-30" x="304.453125"/>
+       <use xlink:href="#Thonburi-33" x="371.09375"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#m4e1d16a40f" x="178.771191" y="272.3175" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <!-- 2026-04 -->
+      <g transform="translate(165.331742 315.843985) rotate(-45) scale(0.1 -0.1)">
+       <defs>
+        <path id="Thonburi-34" d="M 3250 0 
+L 2670 0 
+L 2670 1478 
+L 340 1478 
+L 340 1963 
+L 2670 4850 
+L 3250 4850 
+L 3250 1963 
+L 3928 1963 
+L 3928 1478 
+L 3250 1478 
+L 3250 0 
+z
+M 2670 1963 
+L 2670 4083 
+L 983 1963 
+L 2670 1963 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#Thonburi-32"/>
+       <use xlink:href="#Thonburi-30" x="66.640625"/>
+       <use xlink:href="#Thonburi-32" x="133.28125"/>
+       <use xlink:href="#Thonburi-36" x="199.921875"/>
+       <use xlink:href="#Thonburi-2d" x="266.5625"/>
+       <use xlink:href="#Thonburi-30" x="304.453125"/>
+       <use xlink:href="#Thonburi-34" x="371.09375"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_5">
+      <g>
+       <use xlink:href="#m4e1d16a40f" x="216.240199" y="272.3175" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <!-- 2026-05 -->
+      <g transform="translate(202.800751 315.843985) rotate(-45) scale(0.1 -0.1)">
+       <defs>
+        <path id="Thonburi-35" d="M 948 2498 
+L 948 4850 
+L 3445 4850 
+L 3445 4315 
+L 1483 4315 
+L 1483 3008 
+L 1628 3008 
+Q 2383 3008 2795 2821 
+Q 3208 2635 3423 2299 
+Q 3638 1963 3638 1485 
+Q 3638 850 3244 351 
+Q 2850 -148 2045 -148 
+Q 1403 -148 1018 136 
+Q 633 420 633 820 
+L 633 850 
+L 1213 850 
+L 1213 820 
+Q 1213 610 1435 474 
+Q 1658 338 2035 338 
+Q 2545 338 2789 668 
+Q 3033 998 3033 1408 
+Q 3033 1870 2708 2184 
+Q 2383 2498 1390 2498 
+L 948 2498 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#Thonburi-32"/>
+       <use xlink:href="#Thonburi-30" x="66.640625"/>
+       <use xlink:href="#Thonburi-32" x="133.28125"/>
+       <use xlink:href="#Thonburi-36" x="199.921875"/>
+       <use xlink:href="#Thonburi-2d" x="266.5625"/>
+       <use xlink:href="#Thonburi-30" x="304.453125"/>
+       <use xlink:href="#Thonburi-35" x="371.09375"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_6">
+     <g id="line2d_6">
+      <g>
+       <use xlink:href="#m4e1d16a40f" x="253.709207" y="272.3175" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_6">
+      <!-- 2026-06 -->
+      <g transform="translate(240.269759 315.843985) rotate(-45) scale(0.1 -0.1)">
+       <use xlink:href="#Thonburi-32"/>
+       <use xlink:href="#Thonburi-30" x="66.640625"/>
+       <use xlink:href="#Thonburi-32" x="133.28125"/>
+       <use xlink:href="#Thonburi-36" x="199.921875"/>
+       <use xlink:href="#Thonburi-2d" x="266.5625"/>
+       <use xlink:href="#Thonburi-30" x="304.453125"/>
+       <use xlink:href="#Thonburi-36" x="371.09375"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_7">
+     <g id="line2d_7">
+      <g>
+       <use xlink:href="#m4e1d16a40f" x="291.178215" y="272.3175" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <!-- 2026-07 -->
+      <g transform="translate(277.738767 315.843985) rotate(-45) scale(0.1 -0.1)">
+       <defs>
+        <path id="Thonburi-37" d="M 1745 0 
+L 1115 0 
+L 1115 210 
+Q 1115 720 1261 1240 
+Q 1408 1760 2021 2671 
+Q 2635 3583 3060 4165 
+L 3170 4315 
+L 485 4315 
+L 485 4850 
+L 3758 4850 
+L 3758 4315 
+Q 3685 4210 3675 4198 
+L 3228 3598 
+Q 2808 3028 2361 2213 
+Q 1915 1398 1830 975 
+Q 1745 553 1745 240 
+L 1745 0 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#Thonburi-32"/>
+       <use xlink:href="#Thonburi-30" x="66.640625"/>
+       <use xlink:href="#Thonburi-32" x="133.28125"/>
+       <use xlink:href="#Thonburi-36" x="199.921875"/>
+       <use xlink:href="#Thonburi-2d" x="266.5625"/>
+       <use xlink:href="#Thonburi-30" x="304.453125"/>
+       <use xlink:href="#Thonburi-37" x="371.09375"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_8">
+     <g id="line2d_8">
+      <g>
+       <use xlink:href="#m4e1d16a40f" x="328.647224" y="272.3175" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_8">
+      <!-- 2026-08 -->
+      <g transform="translate(315.207775 315.843985) rotate(-45) scale(0.1 -0.1)">
+       <defs>
+        <path id="Thonburi-38" d="M 3795 1323 
+Q 3795 945 3589 582 
+Q 3383 220 3030 36 
+Q 2678 -148 2133 -148 
+Q 1588 -148 1236 36 
+Q 885 220 679 582 
+Q 473 945 473 1323 
+Q 473 1725 705 2094 
+Q 938 2463 1413 2675 
+Q 1040 2860 852 3129 
+Q 665 3398 665 3748 
+Q 665 4088 851 4388 
+Q 1038 4688 1393 4841 
+Q 1748 4995 2133 4995 
+Q 2520 4995 2874 4840 
+Q 3228 4685 3414 4386 
+Q 3600 4088 3600 3748 
+Q 3600 3398 3412 3129 
+Q 3225 2860 2850 2675 
+Q 3325 2463 3560 2094 
+Q 3795 1725 3795 1323 
+z
+M 2133 2910 
+Q 2508 2910 2751 3150 
+Q 2995 3390 2995 3715 
+Q 2995 4073 2734 4291 
+Q 2473 4510 2133 4510 
+Q 1795 4510 1534 4291 
+Q 1273 4073 1273 3715 
+Q 1273 3390 1515 3150 
+Q 1758 2910 2133 2910 
+z
+M 2133 2425 
+Q 1858 2425 1611 2287 
+Q 1365 2150 1221 1891 
+Q 1078 1633 1078 1360 
+Q 1078 1098 1214 848 
+Q 1350 598 1601 469 
+Q 1853 340 2133 340 
+Q 2413 340 2664 469 
+Q 2915 598 3051 848 
+Q 3188 1098 3188 1360 
+Q 3188 1633 3044 1891 
+Q 2900 2150 2654 2287 
+Q 2408 2425 2133 2425 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#Thonburi-32"/>
+       <use xlink:href="#Thonburi-30" x="66.640625"/>
+       <use xlink:href="#Thonburi-32" x="133.28125"/>
+       <use xlink:href="#Thonburi-36" x="199.921875"/>
+       <use xlink:href="#Thonburi-2d" x="266.5625"/>
+       <use xlink:href="#Thonburi-30" x="304.453125"/>
+       <use xlink:href="#Thonburi-38" x="371.09375"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_9">
+     <g id="line2d_9">
+      <g>
+       <use xlink:href="#m4e1d16a40f" x="366.116232" y="272.3175" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_9">
+      <!-- 2026-09 -->
+      <g transform="translate(352.676784 315.843985) rotate(-45) scale(0.1 -0.1)">
+       <defs>
+        <path id="Thonburi-39" d="M 3115 2585 
+Q 2903 2308 2695 2168 
+Q 2488 2028 2281 1959 
+Q 2075 1890 1838 1890 
+Q 1210 1890 835 2337 
+Q 460 2785 460 3415 
+Q 460 3863 655 4224 
+Q 850 4585 1199 4790 
+Q 1548 4995 1960 4995 
+Q 2438 4995 2858 4711 
+Q 3278 4428 3494 3861 
+Q 3710 3295 3710 2458 
+Q 3710 1265 3222 558 
+Q 2735 -148 1825 -148 
+Q 1208 -148 895 125 
+Q 583 398 583 745 
+L 583 775 
+L 1163 775 
+L 1163 745 
+Q 1163 598 1325 468 
+Q 1488 338 1815 338 
+Q 2203 338 2493 569 
+Q 2783 800 2951 1326 
+Q 3120 1853 3120 2413 
+L 3115 2585 
+z
+M 1958 4510 
+Q 1578 4510 1321 4192 
+Q 1065 3875 1065 3400 
+Q 1065 2925 1336 2650 
+Q 1608 2375 1995 2375 
+Q 2420 2375 2689 2691 
+Q 2958 3008 2958 3440 
+Q 2958 3725 2826 3985 
+Q 2695 4245 2461 4377 
+Q 2228 4510 1958 4510 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#Thonburi-32"/>
+       <use xlink:href="#Thonburi-30" x="66.640625"/>
+       <use xlink:href="#Thonburi-32" x="133.28125"/>
+       <use xlink:href="#Thonburi-36" x="199.921875"/>
+       <use xlink:href="#Thonburi-2d" x="266.5625"/>
+       <use xlink:href="#Thonburi-30" x="304.453125"/>
+       <use xlink:href="#Thonburi-39" x="371.09375"/>
+      </g>
+     </g>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_10">
+      <defs>
+       <path id="m80e154af81" d="M 0 0 
+L -3.5 0 
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m80e154af81" x="51.376563" y="246.704172" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_10">
+      <!-- 1.00 -->
+      <g transform="translate(21.353125 250.645578) scale(0.1 -0.1)">
+       <defs>
+        <path id="Thonburi-2e" d="M 1383 0 
+L 558 0 
+L 558 825 
+L 1383 825 
+L 1383 0 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#Thonburi-31"/>
+       <use xlink:href="#Thonburi-2e" x="66.640625"/>
+       <use xlink:href="#Thonburi-30" x="96.953125"/>
+       <use xlink:href="#Thonburi-30" x="163.59375"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_11">
+      <g>
+       <use xlink:href="#m80e154af81" x="51.376563" y="207.879233" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_11">
+      <!-- 1.01 -->
+      <g transform="translate(21.353125 211.82064) scale(0.1 -0.1)">
+       <use xlink:href="#Thonburi-31"/>
+       <use xlink:href="#Thonburi-2e" x="66.640625"/>
+       <use xlink:href="#Thonburi-30" x="96.953125"/>
+       <use xlink:href="#Thonburi-31" x="163.59375"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_12">
+      <g>
+       <use xlink:href="#m80e154af81" x="51.376563" y="169.054295" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_12">
+      <!-- 1.02 -->
+      <g transform="translate(21.353125 172.995701) scale(0.1 -0.1)">
+       <use xlink:href="#Thonburi-31"/>
+       <use xlink:href="#Thonburi-2e" x="66.640625"/>
+       <use xlink:href="#Thonburi-30" x="96.953125"/>
+       <use xlink:href="#Thonburi-32" x="163.59375"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_13">
+      <g>
+       <use xlink:href="#m80e154af81" x="51.376563" y="130.229356" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_13">
+      <!-- 1.03 -->
+      <g transform="translate(21.353125 134.170762) scale(0.1 -0.1)">
+       <use xlink:href="#Thonburi-31"/>
+       <use xlink:href="#Thonburi-2e" x="66.640625"/>
+       <use xlink:href="#Thonburi-30" x="96.953125"/>
+       <use xlink:href="#Thonburi-33" x="163.59375"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_5">
+     <g id="line2d_14">
+      <g>
+       <use xlink:href="#m80e154af81" x="51.376563" y="91.404417" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_14">
+      <!-- 1.04 -->
+      <g transform="translate(21.353125 95.345824) scale(0.1 -0.1)">
+       <use xlink:href="#Thonburi-31"/>
+       <use xlink:href="#Thonburi-2e" x="66.640625"/>
+       <use xlink:href="#Thonburi-30" x="96.953125"/>
+       <use xlink:href="#Thonburi-34" x="163.59375"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_6">
+     <g id="line2d_15">
+      <g>
+       <use xlink:href="#m80e154af81" x="51.376563" y="52.579479" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_15">
+      <!-- 1.05 -->
+      <g transform="translate(21.353125 56.520885) scale(0.1 -0.1)">
+       <use xlink:href="#Thonburi-31"/>
+       <use xlink:href="#Thonburi-2e" x="66.640625"/>
+       <use xlink:href="#Thonburi-30" x="96.953125"/>
+       <use xlink:href="#Thonburi-35" x="163.59375"/>
+      </g>
+     </g>
+    </g>
+    <g id="text_16">
+     <!-- MAE (raw records per observed positive cell) -->
+     <g transform="translate(15.23125 255.89625) rotate(-90) scale(0.1 -0.1)">
+      <defs>
+       <path id="Thonburi-4d" d="M 995 0 
+L 460 0 
+L 460 4850 
+L 1078 4850 
+L 2585 1385 
+L 3970 4850 
+L 4583 4850 
+L 4583 0 
+L 4023 0 
+L 4023 2890 
+L 4038 3758 
+L 4023 3758 
+L 3710 2888 
+L 2850 728 
+L 2215 728 
+L 1283 2898 
+L 995 3685 
+L 978 3685 
+L 995 2898 
+L 995 0 
+z
+" transform="scale(0.015625)"/>
+       <path id="Thonburi-41" d="M 683 0 
+L 98 0 
+L 2085 4850 
+L 2723 4850 
+L 4558 0 
+L 3875 0 
+L 3373 1335 
+L 1233 1335 
+L 683 0 
+z
+M 1423 1820 
+L 3185 1820 
+L 2335 4073 
+L 1423 1820 
+z
+" transform="scale(0.015625)"/>
+       <path id="Thonburi-45" d="M 460 0 
+L 460 4850 
+L 3200 4850 
+L 3200 4315 
+L 1090 4315 
+L 1090 2788 
+L 2933 2788 
+L 2933 2303 
+L 1090 2303 
+L 1090 535 
+L 3370 535 
+L 3370 0 
+L 460 0 
+z
+" transform="scale(0.015625)"/>
+       <path id="Thonburi-20" transform="scale(0.015625)"/>
+       <path id="Thonburi-28" d="M 2448 5140 
+Q 1903 4565 1665 4101 
+Q 1428 3638 1301 3085 
+Q 1175 2533 1175 1988 
+Q 1175 1445 1301 891 
+Q 1428 338 1665 -126 
+Q 1903 -590 2448 -1163 
+L 1963 -1163 
+Q 1560 -813 1211 -269 
+Q 863 275 710 850 
+Q 558 1425 558 1988 
+Q 558 2550 710 3125 
+Q 863 3700 1211 4244 
+Q 1560 4788 1963 5140 
+L 2448 5140 
+z
+" transform="scale(0.015625)"/>
+       <path id="Thonburi-72" d="M 1040 0 
+L 460 0 
+L 460 3490 
+L 1040 3490 
+L 1040 2875 
+Q 1185 3140 1355 3287 
+Q 1525 3435 1717 3511 
+Q 1910 3588 2110 3588 
+Q 2290 3588 2423 3535 
+L 2423 2933 
+Q 2215 3033 1985 3033 
+Q 1658 3033 1349 2745 
+Q 1040 2458 1040 1725 
+L 1040 0 
+z
+" transform="scale(0.015625)"/>
+       <path id="Thonburi-61" d="M 2613 0 
+Q 2523 283 2523 485 
+Q 2140 108 1870 5 
+Q 1600 -98 1353 -98 
+Q 938 -98 639 157 
+Q 340 413 340 860 
+Q 340 1365 761 1640 
+Q 1183 1915 2210 2115 
+L 2523 2175 
+L 2523 2570 
+Q 2523 2890 2306 3020 
+Q 2090 3150 1788 3150 
+Q 1425 3150 1222 2991 
+Q 1020 2833 1020 2620 
+L 1020 2570 
+L 388 2570 
+L 388 2615 
+Q 388 2848 583 3094 
+Q 778 3340 1101 3465 
+Q 1425 3590 1810 3590 
+Q 2190 3590 2502 3471 
+Q 2815 3353 2959 3151 
+Q 3103 2950 3103 2395 
+L 3103 1038 
+Q 3103 815 3114 570 
+Q 3125 325 3225 0 
+L 2613 0 
+z
+M 2523 1763 
+L 2348 1720 
+Q 1463 1503 1216 1309 
+Q 970 1115 970 848 
+Q 970 710 1042 591 
+Q 1115 473 1259 406 
+Q 1403 340 1545 340 
+Q 1788 340 2024 482 
+Q 2260 625 2391 862 
+Q 2523 1100 2523 1415 
+L 2523 1763 
+z
+" transform="scale(0.015625)"/>
+       <path id="Thonburi-77" d="M 1095 0 
+L 98 3490 
+L 708 3490 
+L 1323 1320 
+L 1403 800 
+L 1470 800 
+L 1560 1320 
+L 2183 3490 
+L 2765 3490 
+L 3460 1325 
+L 3578 800 
+L 3640 800 
+L 3733 1325 
+L 4348 3490 
+L 4898 3490 
+L 3900 0 
+L 3313 0 
+L 2595 2283 
+L 2498 2788 
+L 2448 2788 
+L 2345 2283 
+L 1685 0 
+L 1095 0 
+z
+" transform="scale(0.015625)"/>
+       <path id="Thonburi-65" d="M 2740 898 
+L 3323 898 
+L 3323 865 
+Q 3323 635 3138 394 
+Q 2953 153 2650 27 
+Q 2348 -98 1953 -98 
+Q 1158 -98 724 418 
+Q 290 935 290 1723 
+Q 290 2528 749 3058 
+Q 1208 3588 1928 3588 
+Q 2325 3588 2647 3416 
+Q 2970 3245 3157 2880 
+Q 3345 2515 3345 1865 
+L 3345 1673 
+L 865 1673 
+Q 865 1113 1167 750 
+Q 1470 388 2003 388 
+Q 2388 388 2564 536 
+Q 2740 685 2740 865 
+L 2740 898 
+z
+M 903 2110 
+L 2788 2110 
+L 2788 2178 
+Q 2788 2423 2670 2653 
+Q 2553 2883 2346 2993 
+Q 2140 3103 1865 3103 
+Q 1540 3103 1265 2843 
+Q 990 2583 903 2110 
+z
+" transform="scale(0.015625)"/>
+       <path id="Thonburi-63" d="M 2640 898 
+L 3225 898 
+L 3225 865 
+Q 3225 633 3049 395 
+Q 2873 158 2586 30 
+Q 2300 -98 1898 -98 
+Q 1125 -98 707 392 
+Q 290 883 290 1748 
+Q 290 2610 707 3099 
+Q 1125 3588 1898 3588 
+Q 2300 3588 2586 3461 
+Q 2873 3335 3049 3115 
+Q 3225 2895 3225 2625 
+L 3225 2595 
+L 2640 2595 
+L 2640 2625 
+Q 2650 2815 2474 2959 
+Q 2298 3103 1928 3103 
+Q 1490 3103 1194 2781 
+Q 898 2460 898 1748 
+Q 898 1033 1194 710 
+Q 1490 388 1928 388 
+Q 2298 388 2469 531 
+Q 2640 675 2640 865 
+L 2640 898 
+z
+" transform="scale(0.015625)"/>
+       <path id="Thonburi-6f" d="M 1940 -98 
+Q 1258 -98 774 367 
+Q 290 833 290 1748 
+Q 290 2660 774 3124 
+Q 1258 3588 1940 3588 
+Q 2623 3588 3105 3124 
+Q 3588 2660 3588 1748 
+Q 3588 833 3105 367 
+Q 2623 -98 1940 -98 
+z
+M 1940 388 
+Q 2410 388 2696 761 
+Q 2983 1135 2983 1748 
+Q 2983 2358 2696 2730 
+Q 2410 3103 1940 3103 
+Q 1470 3103 1184 2730 
+Q 898 2358 898 1748 
+Q 898 1135 1184 761 
+Q 1470 388 1940 388 
+z
+" transform="scale(0.015625)"/>
+       <path id="Thonburi-64" d="M 2860 5045 
+L 3440 5045 
+L 3440 0 
+L 2860 0 
+L 2860 608 
+Q 2683 270 2514 139 
+Q 2345 8 2134 -45 
+Q 1923 -98 1715 -98 
+Q 1323 -98 991 120 
+Q 660 338 475 769 
+Q 290 1200 290 1738 
+Q 290 2535 675 3061 
+Q 1060 3588 1748 3588 
+Q 1973 3588 2169 3524 
+Q 2365 3460 2520 3334 
+Q 2675 3208 2860 2883 
+L 2860 5045 
+z
+M 2860 1748 
+Q 2860 2340 2604 2721 
+Q 2348 3103 1885 3103 
+Q 1460 3103 1179 2765 
+Q 898 2428 898 1758 
+Q 898 973 1169 668 
+Q 1440 363 1870 363 
+Q 2148 363 2386 531 
+Q 2625 700 2742 1029 
+Q 2860 1358 2860 1748 
+z
+" transform="scale(0.015625)"/>
+       <path id="Thonburi-73" d="M 245 923 
+L 825 923 
+L 825 910 
+Q 825 685 997 536 
+Q 1170 388 1578 388 
+Q 1938 388 2161 563 
+Q 2385 738 2385 975 
+Q 2385 1298 1948 1433 
+L 1650 1523 
+L 1453 1585 
+L 1050 1710 
+Q 360 1963 360 2550 
+Q 360 2963 694 3275 
+Q 1028 3588 1688 3588 
+Q 2338 3588 2613 3320 
+Q 2888 3053 2888 2728 
+L 2888 2715 
+L 2303 2715 
+L 2303 2728 
+Q 2303 2903 2126 3003 
+Q 1950 3103 1658 3103 
+Q 1308 3103 1121 2958 
+Q 935 2813 935 2600 
+Q 935 2438 1055 2336 
+Q 1175 2235 1460 2153 
+L 1740 2075 
+L 1945 2015 
+Q 2370 1895 2474 1845 
+Q 2578 1795 2685 1715 
+Q 2833 1603 2903 1444 
+Q 2973 1285 2973 1073 
+Q 2973 578 2618 240 
+Q 2263 -98 1583 -98 
+Q 1150 -98 866 31 
+Q 583 160 414 386 
+Q 245 613 245 910 
+L 245 923 
+z
+" transform="scale(0.015625)"/>
+       <path id="Thonburi-70" d="M 995 -1358 
+L 413 -1358 
+L 413 3490 
+L 995 3490 
+L 995 2885 
+Q 1175 3195 1339 3322 
+Q 1503 3450 1709 3519 
+Q 1915 3588 2135 3588 
+Q 2535 3588 2866 3370 
+Q 3198 3153 3380 2721 
+Q 3563 2290 3563 1753 
+Q 3563 958 3180 430 
+Q 2798 -98 2108 -98 
+Q 1885 -98 1686 -32 
+Q 1488 33 1335 159 
+Q 1183 285 995 610 
+L 995 -1358 
+z
+M 995 1745 
+Q 995 1150 1251 769 
+Q 1508 388 1973 388 
+Q 2398 388 2679 725 
+Q 2960 1063 2960 1735 
+Q 2960 2520 2662 2824 
+Q 2365 3128 1985 3128 
+Q 1710 3128 1471 2961 
+Q 1233 2795 1114 2465 
+Q 995 2135 995 1745 
+z
+" transform="scale(0.015625)"/>
+       <path id="Thonburi-62" d="M 995 0 
+L 413 0 
+Q 428 173 439 419 
+Q 450 665 456 821 
+Q 463 978 463 1033 
+L 463 5045 
+L 1045 5045 
+L 1045 2885 
+Q 1235 3183 1402 3316 
+Q 1570 3450 1767 3519 
+Q 1965 3588 2185 3588 
+Q 2583 3588 2914 3370 
+Q 3245 3153 3429 2721 
+Q 3613 2290 3613 1753 
+Q 3613 958 3229 430 
+Q 2845 -98 2158 -98 
+Q 1933 -98 1735 -32 
+Q 1538 33 1383 159 
+Q 1228 285 1045 610 
+L 1025 358 
+Q 1013 148 995 0 
+z
+M 1045 1745 
+Q 1045 1150 1301 769 
+Q 1558 388 2020 388 
+Q 2445 388 2726 725 
+Q 3008 1063 3008 1735 
+Q 3008 2520 2720 2824 
+Q 2433 3128 2035 3128 
+Q 1758 3128 1518 2961 
+Q 1278 2795 1161 2465 
+Q 1045 2135 1045 1745 
+z
+" transform="scale(0.015625)"/>
+       <path id="Thonburi-76" d="M 1495 0 
+L 73 3490 
+L 698 3490 
+L 1815 753 
+L 2960 3490 
+L 3538 3490 
+L 2075 0 
+L 1495 0 
+z
+" transform="scale(0.015625)"/>
+       <path id="Thonburi-69" d="M 460 3490 
+L 1040 3490 
+L 1040 0 
+L 460 0 
+L 460 3490 
+z
+M 460 4265 
+L 460 4850 
+L 1040 4850 
+L 1040 4265 
+L 460 4265 
+z
+" transform="scale(0.015625)"/>
+       <path id="Thonburi-74" d="M 2595 495 
+L 2595 8 
+Q 2170 -98 1945 -98 
+Q 1620 -98 1359 33 
+Q 1098 165 961 415 
+Q 825 665 825 1213 
+L 825 3008 
+L 220 3008 
+L 220 3490 
+L 825 3490 
+L 825 4315 
+L 1408 4315 
+L 1408 3490 
+L 2425 3490 
+L 2425 3008 
+L 1408 3008 
+L 1408 1378 
+Q 1408 915 1479 736 
+Q 1550 558 1705 473 
+Q 1860 388 2075 388 
+Q 2248 388 2595 495 
+z
+" transform="scale(0.015625)"/>
+       <path id="Thonburi-6c" d="M 1040 0 
+L 460 0 
+L 460 5045 
+L 1040 5045 
+L 1040 0 
+z
+" transform="scale(0.015625)"/>
+       <path id="Thonburi-29" d="M 413 -1163 
+Q 958 -590 1195 -126 
+Q 1433 338 1559 891 
+Q 1685 1445 1685 1988 
+Q 1685 2533 1559 3085 
+Q 1433 3638 1195 4104 
+Q 958 4570 413 5140 
+L 898 5140 
+Q 1300 4788 1649 4244 
+Q 1998 3700 2150 3125 
+Q 2303 2550 2303 1988 
+Q 2303 1425 2150 850 
+Q 1998 275 1649 -269 
+Q 1300 -813 898 -1163 
+L 413 -1163 
+z
+" transform="scale(0.015625)"/>
+      </defs>
+      <use xlink:href="#Thonburi-4d"/>
+      <use xlink:href="#Thonburi-41" x="78.828125"/>
+      <use xlink:href="#Thonburi-45" x="151.523438"/>
+      <use xlink:href="#Thonburi-20" x="209.101562"/>
+      <use xlink:href="#Thonburi-28" x="242.304688"/>
+      <use xlink:href="#Thonburi-72" x="286.992188"/>
+      <use xlink:href="#Thonburi-61" x="325.625"/>
+      <use xlink:href="#Thonburi-77" x="380.9375"/>
+      <use xlink:href="#Thonburi-20" x="458.984375"/>
+      <use xlink:href="#Thonburi-72" x="492.1875"/>
+      <use xlink:href="#Thonburi-65" x="530.820312"/>
+      <use xlink:href="#Thonburi-63" x="588.398438"/>
+      <use xlink:href="#Thonburi-6f" x="642.929688"/>
+      <use xlink:href="#Thonburi-72" x="703.515625"/>
+      <use xlink:href="#Thonburi-64" x="742.148438"/>
+      <use xlink:href="#Thonburi-73" x="802.34375"/>
+      <use xlink:href="#Thonburi-20" x="853.28125"/>
+      <use xlink:href="#Thonburi-70" x="886.484375"/>
+      <use xlink:href="#Thonburi-65" x="946.679688"/>
+      <use xlink:href="#Thonburi-72" x="1004.257812"/>
+      <use xlink:href="#Thonburi-20" x="1042.890625"/>
+      <use xlink:href="#Thonburi-6f" x="1076.09375"/>
+      <use xlink:href="#Thonburi-62" x="1136.679688"/>
+      <use xlink:href="#Thonburi-73" x="1197.65625"/>
+      <use xlink:href="#Thonburi-65" x="1248.59375"/>
+      <use xlink:href="#Thonburi-72" x="1306.171875"/>
+      <use xlink:href="#Thonburi-76" x="1344.804688"/>
+      <use xlink:href="#Thonburi-65" x="1401.25"/>
+      <use xlink:href="#Thonburi-64" x="1458.828125"/>
+      <use xlink:href="#Thonburi-20" x="1519.023438"/>
+      <use xlink:href="#Thonburi-70" x="1552.226562"/>
+      <use xlink:href="#Thonburi-6f" x="1612.421875"/>
+      <use xlink:href="#Thonburi-73" x="1673.007812"/>
+      <use xlink:href="#Thonburi-69" x="1723.945312"/>
+      <use xlink:href="#Thonburi-74" x="1747.421875"/>
+      <use xlink:href="#Thonburi-69" x="1791.757812"/>
+      <use xlink:href="#Thonburi-76" x="1815.234375"/>
+      <use xlink:href="#Thonburi-65" x="1871.679688"/>
+      <use xlink:href="#Thonburi-20" x="1929.257812"/>
+      <use xlink:href="#Thonburi-63" x="1962.460938"/>
+      <use xlink:href="#Thonburi-65" x="2016.992188"/>
+      <use xlink:href="#Thonburi-6c" x="2074.570312"/>
+      <use xlink:href="#Thonburi-6c" x="2098.046875"/>
+      <use xlink:href="#Thonburi-29" x="2121.523438"/>
+     </g>
+    </g>
+   </g>
+   <g id="line2d_16">
+    <path d="M 66.364166 163.983845 
+L 103.833174 154.322232 
+L 141.302182 150.989646 
+L 178.771191 192.92732 
+L 216.240199 241.530108 
+L 253.709207 220.758823 
+L 291.178215 255.263875 
+L 328.647224 220.640187 
+L 366.116232 63.35351 
+" clip-path="url(#p7f4963c0ad)" style="fill: none; stroke: #1f77b4; stroke-width: 1.5; stroke-linecap: square"/>
+    <defs>
+     <path id="m517017398a" d="M 0 3 
+C 0.795609 3 1.55874 2.683901 2.12132 2.12132 
+C 2.683901 1.55874 3 0.795609 3 0 
+C 3 -0.795609 2.683901 -1.55874 2.12132 -2.12132 
+C 1.55874 -2.683901 0.795609 -3 0 -3 
+C -0.795609 -3 -1.55874 -2.683901 -2.12132 -2.12132 
+C -2.683901 -1.55874 -3 -0.795609 -3 0 
+C -3 0.795609 -2.683901 1.55874 -2.12132 2.12132 
+C -1.55874 2.683901 -0.795609 3 0 3 
+z
+" style="stroke: #1f77b4"/>
+    </defs>
+    <g clip-path="url(#p7f4963c0ad)">
+     <use xlink:href="#m517017398a" x="66.364166" y="163.983845" style="fill: #1f77b4; stroke: #1f77b4"/>
+     <use xlink:href="#m517017398a" x="103.833174" y="154.322232" style="fill: #1f77b4; stroke: #1f77b4"/>
+     <use xlink:href="#m517017398a" x="141.302182" y="150.989646" style="fill: #1f77b4; stroke: #1f77b4"/>
+     <use xlink:href="#m517017398a" x="178.771191" y="192.92732" style="fill: #1f77b4; stroke: #1f77b4"/>
+     <use xlink:href="#m517017398a" x="216.240199" y="241.530108" style="fill: #1f77b4; stroke: #1f77b4"/>
+     <use xlink:href="#m517017398a" x="253.709207" y="220.758823" style="fill: #1f77b4; stroke: #1f77b4"/>
+     <use xlink:href="#m517017398a" x="291.178215" y="255.263875" style="fill: #1f77b4; stroke: #1f77b4"/>
+     <use xlink:href="#m517017398a" x="328.647224" y="220.640187" style="fill: #1f77b4; stroke: #1f77b4"/>
+     <use xlink:href="#m517017398a" x="366.116232" y="63.35351" style="fill: #1f77b4; stroke: #1f77b4"/>
+    </g>
+   </g>
+   <g id="line2d_17">
+    <path d="M 66.364166 146.675178 
+L 103.833174 153.889616 
+L 141.302182 138.338217 
+L 178.771191 171.046595 
+L 216.240199 251.714566 
+L 253.709207 227.648248 
+L 291.178215 260.9775 
+L 328.647224 204.6406 
+L 366.116232 34.1775 
+" clip-path="url(#p7f4963c0ad)" style="fill: none; stroke: #ff7f0e; stroke-width: 1.5; stroke-linecap: square"/>
+    <defs>
+     <path id="m2e0db2ec58" d="M 0 3 
+C 0.795609 3 1.55874 2.683901 2.12132 2.12132 
+C 2.683901 1.55874 3 0.795609 3 0 
+C 3 -0.795609 2.683901 -1.55874 2.12132 -2.12132 
+C 1.55874 -2.683901 0.795609 -3 0 -3 
+C -0.795609 -3 -1.55874 -2.683901 -2.12132 -2.12132 
+C -2.683901 -1.55874 -3 -0.795609 -3 0 
+C -3 0.795609 -2.683901 1.55874 -2.12132 2.12132 
+C -1.55874 2.683901 -0.795609 3 0 3 
+z
+" style="stroke: #ff7f0e"/>
+    </defs>
+    <g clip-path="url(#p7f4963c0ad)">
+     <use xlink:href="#m2e0db2ec58" x="66.364166" y="146.675178" style="fill: #ff7f0e; stroke: #ff7f0e"/>
+     <use xlink:href="#m2e0db2ec58" x="103.833174" y="153.889616" style="fill: #ff7f0e; stroke: #ff7f0e"/>
+     <use xlink:href="#m2e0db2ec58" x="141.302182" y="138.338217" style="fill: #ff7f0e; stroke: #ff7f0e"/>
+     <use xlink:href="#m2e0db2ec58" x="178.771191" y="171.046595" style="fill: #ff7f0e; stroke: #ff7f0e"/>
+     <use xlink:href="#m2e0db2ec58" x="216.240199" y="251.714566" style="fill: #ff7f0e; stroke: #ff7f0e"/>
+     <use xlink:href="#m2e0db2ec58" x="253.709207" y="227.648248" style="fill: #ff7f0e; stroke: #ff7f0e"/>
+     <use xlink:href="#m2e0db2ec58" x="291.178215" y="260.9775" style="fill: #ff7f0e; stroke: #ff7f0e"/>
+     <use xlink:href="#m2e0db2ec58" x="328.647224" y="204.6406" style="fill: #ff7f0e; stroke: #ff7f0e"/>
+     <use xlink:href="#m2e0db2ec58" x="366.116232" y="34.1775" style="fill: #ff7f0e; stroke: #ff7f0e"/>
+    </g>
+   </g>
+   <g id="patch_3">
+    <path d="M 51.376563 272.3175 
+L 51.376563 22.8375 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 381.103835 272.3175 
+L 381.103835 22.8375 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 51.376563 272.3175 
+L 381.103835 272.3175 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 51.376563 22.8375 
+L 381.103835 22.8375 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_17">
+    <!-- daily: MAE on observed positive cells (outcome-conditioned) -->
+    <g transform="translate(40.935199 16.8375) scale(0.12 -0.12)">
+     <defs>
+      <path id="Thonburi-79" d="M 1598 150 
+L 98 3490 
+L 740 3490 
+L 1910 898 
+L 3003 3490 
+L 3588 3490 
+L 2115 -3 
+Q 1820 -710 1620 -940 
+Q 1420 -1170 1196 -1264 
+Q 973 -1358 600 -1358 
+L 163 -1358 
+L 163 -873 
+L 490 -873 
+Q 733 -873 914 -809 
+Q 1095 -745 1215 -604 
+Q 1335 -463 1538 15 
+L 1598 150 
+z
+" transform="scale(0.015625)"/>
+      <path id="Thonburi-3a" d="M 1383 0 
+L 558 0 
+L 558 825 
+L 1383 825 
+L 1383 0 
+z
+M 1383 2665 
+L 558 2665 
+L 558 3490 
+L 1383 3490 
+L 1383 2665 
+z
+" transform="scale(0.015625)"/>
+      <path id="Thonburi-6e" d="M 1040 0 
+L 460 0 
+L 460 3490 
+L 1040 3490 
+L 1040 2888 
+Q 1225 3173 1399 3310 
+Q 1573 3448 1761 3518 
+Q 1950 3588 2183 3588 
+Q 2510 3588 2771 3454 
+Q 3033 3320 3176 3059 
+Q 3320 2798 3320 2223 
+L 3320 0 
+L 2738 0 
+L 2738 1973 
+Q 2738 2440 2675 2636 
+Q 2613 2833 2431 2943 
+Q 2250 3053 2038 3053 
+Q 1783 3053 1551 2903 
+Q 1320 2753 1180 2484 
+Q 1040 2215 1040 1715 
+L 1040 0 
+z
+" transform="scale(0.015625)"/>
+      <path id="Thonburi-75" d="M 2690 3490 
+L 3273 3490 
+L 3273 0 
+L 2690 0 
+L 2690 610 
+Q 2510 328 2335 188 
+Q 2160 48 1975 -25 
+Q 1790 -98 1573 -98 
+Q 1088 -98 750 176 
+Q 413 450 413 1278 
+L 413 3490 
+L 995 3490 
+L 995 1523 
+Q 995 758 1197 598 
+Q 1400 438 1700 438 
+Q 1960 438 2190 589 
+Q 2420 740 2555 1014 
+Q 2690 1288 2690 1775 
+L 2690 3490 
+z
+" transform="scale(0.015625)"/>
+      <path id="Thonburi-6d" d="M 1040 0 
+L 460 0 
+L 460 3490 
+L 1040 3490 
+L 1040 2860 
+Q 1220 3175 1380 3312 
+Q 1540 3450 1731 3519 
+Q 1923 3588 2138 3588 
+Q 2353 3588 2550 3520 
+Q 2748 3453 2891 3319 
+Q 3035 3185 3175 2860 
+Q 3353 3163 3526 3305 
+Q 3700 3448 3882 3518 
+Q 4065 3588 4273 3588 
+Q 4570 3588 4810 3449 
+Q 5050 3310 5180 3054 
+Q 5310 2798 5310 2183 
+L 5310 0 
+L 4725 0 
+L 4725 1940 
+Q 4725 2558 4651 2720 
+Q 4578 2883 4449 2968 
+Q 4320 3053 4135 3053 
+Q 3875 3053 3656 2893 
+Q 3438 2733 3306 2460 
+Q 3175 2188 3175 1698 
+L 3175 0 
+L 2595 0 
+L 2595 1940 
+Q 2595 2558 2527 2720 
+Q 2460 2883 2312 2970 
+Q 2165 3058 1998 3058 
+Q 1760 3058 1530 2890 
+Q 1300 2723 1170 2446 
+Q 1040 2170 1040 1698 
+L 1040 0 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#Thonburi-64"/>
+     <use xlink:href="#Thonburi-61" x="60.195312"/>
+     <use xlink:href="#Thonburi-69" x="115.507812"/>
+     <use xlink:href="#Thonburi-6c" x="138.984375"/>
+     <use xlink:href="#Thonburi-79" x="162.460938"/>
+     <use xlink:href="#Thonburi-3a" x="219.648438"/>
+     <use xlink:href="#Thonburi-20" x="249.960938"/>
+     <use xlink:href="#Thonburi-4d" x="283.164062"/>
+     <use xlink:href="#Thonburi-41" x="361.992188"/>
+     <use xlink:href="#Thonburi-45" x="434.6875"/>
+     <use xlink:href="#Thonburi-20" x="492.265625"/>
+     <use xlink:href="#Thonburi-6f" x="525.46875"/>
+     <use xlink:href="#Thonburi-6e" x="586.054688"/>
+     <use xlink:href="#Thonburi-20" x="644.414062"/>
+     <use xlink:href="#Thonburi-6f" x="677.617188"/>
+     <use xlink:href="#Thonburi-62" x="738.203125"/>
+     <use xlink:href="#Thonburi-73" x="799.179688"/>
+     <use xlink:href="#Thonburi-65" x="850.117188"/>
+     <use xlink:href="#Thonburi-72" x="907.695312"/>
+     <use xlink:href="#Thonburi-76" x="946.328125"/>
+     <use xlink:href="#Thonburi-65" x="1002.773438"/>
+     <use xlink:href="#Thonburi-64" x="1060.351562"/>
+     <use xlink:href="#Thonburi-20" x="1120.546875"/>
+     <use xlink:href="#Thonburi-70" x="1153.75"/>
+     <use xlink:href="#Thonburi-6f" x="1213.945312"/>
+     <use xlink:href="#Thonburi-73" x="1274.53125"/>
+     <use xlink:href="#Thonburi-69" x="1325.46875"/>
+     <use xlink:href="#Thonburi-74" x="1348.945312"/>
+     <use xlink:href="#Thonburi-69" x="1393.28125"/>
+     <use xlink:href="#Thonburi-76" x="1416.757812"/>
+     <use xlink:href="#Thonburi-65" x="1473.203125"/>
+     <use xlink:href="#Thonburi-20" x="1530.78125"/>
+     <use xlink:href="#Thonburi-63" x="1563.984375"/>
+     <use xlink:href="#Thonburi-65" x="1618.515625"/>
+     <use xlink:href="#Thonburi-6c" x="1676.09375"/>
+     <use xlink:href="#Thonburi-6c" x="1699.570312"/>
+     <use xlink:href="#Thonburi-73" x="1723.046875"/>
+     <use xlink:href="#Thonburi-20" x="1773.984375"/>
+     <use xlink:href="#Thonburi-28" x="1807.1875"/>
+     <use xlink:href="#Thonburi-6f" x="1851.875"/>
+     <use xlink:href="#Thonburi-75" x="1912.460938"/>
+     <use xlink:href="#Thonburi-74" x="1970.820312"/>
+     <use xlink:href="#Thonburi-63" x="2015.15625"/>
+     <use xlink:href="#Thonburi-6f" x="2069.6875"/>
+     <use xlink:href="#Thonburi-6d" x="2130.273438"/>
+     <use xlink:href="#Thonburi-65" x="2219.6875"/>
+     <use xlink:href="#Thonburi-2d" x="2277.265625"/>
+     <use xlink:href="#Thonburi-63" x="2315.15625"/>
+     <use xlink:href="#Thonburi-6f" x="2369.6875"/>
+     <use xlink:href="#Thonburi-6e" x="2430.273438"/>
+     <use xlink:href="#Thonburi-64" x="2488.632812"/>
+     <use xlink:href="#Thonburi-69" x="2548.828125"/>
+     <use xlink:href="#Thonburi-74" x="2572.304688"/>
+     <use xlink:href="#Thonburi-69" x="2616.640625"/>
+     <use xlink:href="#Thonburi-6f" x="2640.117188"/>
+     <use xlink:href="#Thonburi-6e" x="2700.703125"/>
+     <use xlink:href="#Thonburi-65" x="2759.0625"/>
+     <use xlink:href="#Thonburi-64" x="2816.640625"/>
+     <use xlink:href="#Thonburi-29" x="2876.835938"/>
+    </g>
+   </g>
+   <g id="legend_1">
+    <g id="patch_7">
+     <path d="M 56.976563 53.37 
+L 144.034063 53.37 
+Q 145.634062 53.37 145.634062 51.77 
+L 145.634062 28.4375 
+Q 145.634062 26.8375 144.034063 26.8375 
+L 56.976563 26.8375 
+Q 55.376563 26.8375 55.376563 28.4375 
+L 55.376563 51.77 
+Q 55.376563 53.37 56.976563 53.37 
+z
+" style="fill: #ffffff; opacity: 0.8; stroke: #cccccc; stroke-linejoin: miter"/>
+    </g>
+    <g id="line2d_18">
+     <path d="M 58.576563 33.54375 
+L 66.576563 33.54375 
+L 74.576563 33.54375 
+" style="fill: none; stroke: #1f77b4; stroke-width: 1.5; stroke-linecap: square"/>
+     <g>
+      <use xlink:href="#m517017398a" x="66.576563" y="33.54375" style="fill: #1f77b4; stroke: #1f77b4"/>
+     </g>
+    </g>
+    <g id="text_18">
+     <!-- selected -->
+     <g transform="translate(80.976562 36.34375) scale(0.08 -0.08)">
+      <use xlink:href="#Thonburi-73"/>
+      <use xlink:href="#Thonburi-65" x="50.9375"/>
+      <use xlink:href="#Thonburi-6c" x="108.515625"/>
+      <use xlink:href="#Thonburi-65" x="131.992188"/>
+      <use xlink:href="#Thonburi-63" x="189.570312"/>
+      <use xlink:href="#Thonburi-74" x="244.101562"/>
+      <use xlink:href="#Thonburi-65" x="288.4375"/>
+      <use xlink:href="#Thonburi-64" x="346.015625"/>
+     </g>
+    </g>
+    <g id="line2d_19">
+     <path d="M 58.576563 45.5475 
+L 66.576563 45.5475 
+L 74.576563 45.5475 
+" style="fill: none; stroke: #ff7f0e; stroke-width: 1.5; stroke-linecap: square"/>
+     <g>
+      <use xlink:href="#m2e0db2ec58" x="66.576563" y="45.5475" style="fill: #ff7f0e; stroke: #ff7f0e"/>
+     </g>
+    </g>
+    <g id="text_19">
+     <!-- strong_baseline -->
+     <g transform="translate(80.976562 48.3475) scale(0.08 -0.08)">
+      <defs>
+       <path id="Thonburi-67" d="M 2860 738 
+Q 2683 370 2398 185 
+Q 2113 0 1723 0 
+Q 1100 0 695 489 
+Q 290 978 290 1775 
+Q 290 2300 471 2731 
+Q 653 3163 981 3375 
+Q 1310 3588 1750 3588 
+Q 2078 3588 2338 3458 
+Q 2598 3328 2860 2933 
+L 2860 3490 
+L 3440 3490 
+L 3440 638 
+Q 3440 -438 3215 -781 
+Q 2990 -1125 2645 -1291 
+Q 2300 -1458 1835 -1458 
+Q 1403 -1458 1061 -1329 
+Q 720 -1200 541 -976 
+Q 363 -753 363 -513 
+L 363 -460 
+L 945 -460 
+L 945 -510 
+Q 945 -740 1195 -880 
+Q 1445 -1020 1828 -1020 
+Q 2140 -1020 2364 -911 
+Q 2588 -803 2724 -561 
+Q 2860 -320 2860 320 
+L 2860 738 
+z
+M 2860 1850 
+Q 2860 2410 2572 2756 
+Q 2285 3103 1885 3103 
+Q 1460 3103 1179 2753 
+Q 898 2403 898 1770 
+Q 898 1370 1010 1070 
+Q 1123 770 1361 615 
+Q 1600 460 1873 460 
+Q 2313 460 2586 849 
+Q 2860 1238 2860 1850 
+z
+" transform="scale(0.015625)"/>
+       <path id="Thonburi-5f" d="M 195 -485 
+L 195 0 
+L 4073 0 
+L 4073 -485 
+L 195 -485 
+z
+" transform="scale(0.015625)"/>
+      </defs>
+      <use xlink:href="#Thonburi-73"/>
+      <use xlink:href="#Thonburi-74" x="50.9375"/>
+      <use xlink:href="#Thonburi-72" x="95.273438"/>
+      <use xlink:href="#Thonburi-6f" x="133.90625"/>
+      <use xlink:href="#Thonburi-6e" x="194.492188"/>
+      <use xlink:href="#Thonburi-67" x="252.851562"/>
+      <use xlink:href="#Thonburi-5f" x="313.828125"/>
+      <use xlink:href="#Thonburi-62" x="380.46875"/>
+      <use xlink:href="#Thonburi-61" x="441.445312"/>
+      <use xlink:href="#Thonburi-73" x="496.757812"/>
+      <use xlink:href="#Thonburi-65" x="547.695312"/>
+      <use xlink:href="#Thonburi-6c" x="605.273438"/>
+      <use xlink:href="#Thonburi-69" x="628.75"/>
+      <use xlink:href="#Thonburi-6e" x="652.226562"/>
+      <use xlink:href="#Thonburi-65" x="710.585938"/>
+     </g>
+    </g>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="patch_8">
+    <path d="M 447.04929 272.3175 
+L 776.776562 272.3175 
+L 776.776562 22.8375 
+L 447.04929 22.8375 
+z
+" style="fill: #ffffff"/>
+   </g>
+   <g id="matplotlib.axis_3">
+    <g id="xtick_10">
+     <g id="line2d_20">
+      <g>
+       <use xlink:href="#m4e1d16a40f" x="462.036893" y="272.3175" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_20">
+      <!-- 2026-01 -->
+      <g transform="translate(448.597445 315.843985) rotate(-45) scale(0.1 -0.1)">
+       <use xlink:href="#Thonburi-32"/>
+       <use xlink:href="#Thonburi-30" x="66.640625"/>
+       <use xlink:href="#Thonburi-32" x="133.28125"/>
+       <use xlink:href="#Thonburi-36" x="199.921875"/>
+       <use xlink:href="#Thonburi-2d" x="266.5625"/>
+       <use xlink:href="#Thonburi-30" x="304.453125"/>
+       <use xlink:href="#Thonburi-31" x="371.09375"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_11">
+     <g id="line2d_21">
+      <g>
+       <use xlink:href="#m4e1d16a40f" x="499.505901" y="272.3175" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_21">
+      <!-- 2026-02 -->
+      <g transform="translate(486.066453 315.843985) rotate(-45) scale(0.1 -0.1)">
+       <use xlink:href="#Thonburi-32"/>
+       <use xlink:href="#Thonburi-30" x="66.640625"/>
+       <use xlink:href="#Thonburi-32" x="133.28125"/>
+       <use xlink:href="#Thonburi-36" x="199.921875"/>
+       <use xlink:href="#Thonburi-2d" x="266.5625"/>
+       <use xlink:href="#Thonburi-30" x="304.453125"/>
+       <use xlink:href="#Thonburi-32" x="371.09375"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_12">
+     <g id="line2d_22">
+      <g>
+       <use xlink:href="#m4e1d16a40f" x="536.97491" y="272.3175" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_22">
+      <!-- 2026-03 -->
+      <g transform="translate(523.535461 315.843985) rotate(-45) scale(0.1 -0.1)">
+       <use xlink:href="#Thonburi-32"/>
+       <use xlink:href="#Thonburi-30" x="66.640625"/>
+       <use xlink:href="#Thonburi-32" x="133.28125"/>
+       <use xlink:href="#Thonburi-36" x="199.921875"/>
+       <use xlink:href="#Thonburi-2d" x="266.5625"/>
+       <use xlink:href="#Thonburi-30" x="304.453125"/>
+       <use xlink:href="#Thonburi-33" x="371.09375"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_13">
+     <g id="line2d_23">
+      <g>
+       <use xlink:href="#m4e1d16a40f" x="574.443918" y="272.3175" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_23">
+      <!-- 2026-04 -->
+      <g transform="translate(561.00447 315.843985) rotate(-45) scale(0.1 -0.1)">
+       <use xlink:href="#Thonburi-32"/>
+       <use xlink:href="#Thonburi-30" x="66.640625"/>
+       <use xlink:href="#Thonburi-32" x="133.28125"/>
+       <use xlink:href="#Thonburi-36" x="199.921875"/>
+       <use xlink:href="#Thonburi-2d" x="266.5625"/>
+       <use xlink:href="#Thonburi-30" x="304.453125"/>
+       <use xlink:href="#Thonburi-34" x="371.09375"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_14">
+     <g id="line2d_24">
+      <g>
+       <use xlink:href="#m4e1d16a40f" x="611.912926" y="272.3175" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_24">
+      <!-- 2026-05 -->
+      <g transform="translate(598.473478 315.843985) rotate(-45) scale(0.1 -0.1)">
+       <use xlink:href="#Thonburi-32"/>
+       <use xlink:href="#Thonburi-30" x="66.640625"/>
+       <use xlink:href="#Thonburi-32" x="133.28125"/>
+       <use xlink:href="#Thonburi-36" x="199.921875"/>
+       <use xlink:href="#Thonburi-2d" x="266.5625"/>
+       <use xlink:href="#Thonburi-30" x="304.453125"/>
+       <use xlink:href="#Thonburi-35" x="371.09375"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_15">
+     <g id="line2d_25">
+      <g>
+       <use xlink:href="#m4e1d16a40f" x="649.381934" y="272.3175" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_25">
+      <!-- 2026-06 -->
+      <g transform="translate(635.942486 315.843985) rotate(-45) scale(0.1 -0.1)">
+       <use xlink:href="#Thonburi-32"/>
+       <use xlink:href="#Thonburi-30" x="66.640625"/>
+       <use xlink:href="#Thonburi-32" x="133.28125"/>
+       <use xlink:href="#Thonburi-36" x="199.921875"/>
+       <use xlink:href="#Thonburi-2d" x="266.5625"/>
+       <use xlink:href="#Thonburi-30" x="304.453125"/>
+       <use xlink:href="#Thonburi-36" x="371.09375"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_16">
+     <g id="line2d_26">
+      <g>
+       <use xlink:href="#m4e1d16a40f" x="686.850943" y="272.3175" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_26">
+      <!-- 2026-07 -->
+      <g transform="translate(673.411494 315.843985) rotate(-45) scale(0.1 -0.1)">
+       <use xlink:href="#Thonburi-32"/>
+       <use xlink:href="#Thonburi-30" x="66.640625"/>
+       <use xlink:href="#Thonburi-32" x="133.28125"/>
+       <use xlink:href="#Thonburi-36" x="199.921875"/>
+       <use xlink:href="#Thonburi-2d" x="266.5625"/>
+       <use xlink:href="#Thonburi-30" x="304.453125"/>
+       <use xlink:href="#Thonburi-37" x="371.09375"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_17">
+     <g id="line2d_27">
+      <g>
+       <use xlink:href="#m4e1d16a40f" x="724.319951" y="272.3175" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_27">
+      <!-- 2026-08 -->
+      <g transform="translate(710.880503 315.843985) rotate(-45) scale(0.1 -0.1)">
+       <use xlink:href="#Thonburi-32"/>
+       <use xlink:href="#Thonburi-30" x="66.640625"/>
+       <use xlink:href="#Thonburi-32" x="133.28125"/>
+       <use xlink:href="#Thonburi-36" x="199.921875"/>
+       <use xlink:href="#Thonburi-2d" x="266.5625"/>
+       <use xlink:href="#Thonburi-30" x="304.453125"/>
+       <use xlink:href="#Thonburi-38" x="371.09375"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_18">
+     <g id="line2d_28">
+      <g>
+       <use xlink:href="#m4e1d16a40f" x="761.788959" y="272.3175" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_28">
+      <!-- 2026-09 -->
+      <g transform="translate(748.349511 315.843985) rotate(-45) scale(0.1 -0.1)">
+       <use xlink:href="#Thonburi-32"/>
+       <use xlink:href="#Thonburi-30" x="66.640625"/>
+       <use xlink:href="#Thonburi-32" x="133.28125"/>
+       <use xlink:href="#Thonburi-36" x="199.921875"/>
+       <use xlink:href="#Thonburi-2d" x="266.5625"/>
+       <use xlink:href="#Thonburi-30" x="304.453125"/>
+       <use xlink:href="#Thonburi-39" x="371.09375"/>
+      </g>
+     </g>
+    </g>
+   </g>
+   <g id="matplotlib.axis_4">
+    <g id="ytick_7">
+     <g id="line2d_29">
+      <g>
+       <use xlink:href="#m80e154af81" x="447.04929" y="265.460112" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_29">
+      <!-- 0 -->
+      <g transform="translate(433.385227 269.401518) scale(0.1 -0.1)">
+       <use xlink:href="#Thonburi-30"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_8">
+     <g id="line2d_30">
+      <g>
+       <use xlink:href="#m80e154af81" x="447.04929" y="229.434783" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_30">
+      <!-- 100 -->
+      <g transform="translate(420.057102 233.376189) scale(0.1 -0.1)">
+       <use xlink:href="#Thonburi-31"/>
+       <use xlink:href="#Thonburi-30" x="66.640625"/>
+       <use xlink:href="#Thonburi-30" x="133.28125"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_9">
+     <g id="line2d_31">
+      <g>
+       <use xlink:href="#m80e154af81" x="447.04929" y="193.409454" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_31">
+      <!-- 200 -->
+      <g transform="translate(420.057102 197.35086) scale(0.1 -0.1)">
+       <use xlink:href="#Thonburi-32"/>
+       <use xlink:href="#Thonburi-30" x="66.640625"/>
+       <use xlink:href="#Thonburi-30" x="133.28125"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_10">
+     <g id="line2d_32">
+      <g>
+       <use xlink:href="#m80e154af81" x="447.04929" y="157.384125" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_32">
+      <!-- 300 -->
+      <g transform="translate(420.057102 161.325531) scale(0.1 -0.1)">
+       <use xlink:href="#Thonburi-33"/>
+       <use xlink:href="#Thonburi-30" x="66.640625"/>
+       <use xlink:href="#Thonburi-30" x="133.28125"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_11">
+     <g id="line2d_33">
+      <g>
+       <use xlink:href="#m80e154af81" x="447.04929" y="121.358796" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_33">
+      <!-- 400 -->
+      <g transform="translate(420.057102 125.300202) scale(0.1 -0.1)">
+       <use xlink:href="#Thonburi-34"/>
+       <use xlink:href="#Thonburi-30" x="66.640625"/>
+       <use xlink:href="#Thonburi-30" x="133.28125"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_12">
+     <g id="line2d_34">
+      <g>
+       <use xlink:href="#m80e154af81" x="447.04929" y="85.333467" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_34">
+      <!-- 500 -->
+      <g transform="translate(420.057102 89.274873) scale(0.1 -0.1)">
+       <use xlink:href="#Thonburi-35"/>
+       <use xlink:href="#Thonburi-30" x="66.640625"/>
+       <use xlink:href="#Thonburi-30" x="133.28125"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_13">
+     <g id="line2d_35">
+      <g>
+       <use xlink:href="#m80e154af81" x="447.04929" y="49.308138" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_35">
+      <!-- 600 -->
+      <g transform="translate(420.057102 53.249544) scale(0.1 -0.1)">
+       <use xlink:href="#Thonburi-36"/>
+       <use xlink:href="#Thonburi-30" x="66.640625"/>
+       <use xlink:href="#Thonburi-30" x="133.28125"/>
+      </g>
+     </g>
+    </g>
+    <g id="text_36">
+     <!-- raw records (sum over observed positive cells) -->
+     <g transform="translate(413.935227 260.765781) rotate(-90) scale(0.1 -0.1)">
+      <use xlink:href="#Thonburi-72"/>
+      <use xlink:href="#Thonburi-61" x="38.632812"/>
+      <use xlink:href="#Thonburi-77" x="93.945312"/>
+      <use xlink:href="#Thonburi-20" x="171.992188"/>
+      <use xlink:href="#Thonburi-72" x="205.195312"/>
+      <use xlink:href="#Thonburi-65" x="243.828125"/>
+      <use xlink:href="#Thonburi-63" x="301.40625"/>
+      <use xlink:href="#Thonburi-6f" x="355.9375"/>
+      <use xlink:href="#Thonburi-72" x="416.523438"/>
+      <use xlink:href="#Thonburi-64" x="455.15625"/>
+      <use xlink:href="#Thonburi-73" x="515.351562"/>
+      <use xlink:href="#Thonburi-20" x="566.289062"/>
+      <use xlink:href="#Thonburi-28" x="599.492188"/>
+      <use xlink:href="#Thonburi-73" x="644.179688"/>
+      <use xlink:href="#Thonburi-75" x="695.117188"/>
+      <use xlink:href="#Thonburi-6d" x="753.476562"/>
+      <use xlink:href="#Thonburi-20" x="842.890625"/>
+      <use xlink:href="#Thonburi-6f" x="876.09375"/>
+      <use xlink:href="#Thonburi-76" x="936.679688"/>
+      <use xlink:href="#Thonburi-65" x="993.125"/>
+      <use xlink:href="#Thonburi-72" x="1050.703125"/>
+      <use xlink:href="#Thonburi-20" x="1089.335938"/>
+      <use xlink:href="#Thonburi-6f" x="1122.539062"/>
+      <use xlink:href="#Thonburi-62" x="1183.125"/>
+      <use xlink:href="#Thonburi-73" x="1244.101562"/>
+      <use xlink:href="#Thonburi-65" x="1295.039062"/>
+      <use xlink:href="#Thonburi-72" x="1352.617188"/>
+      <use xlink:href="#Thonburi-76" x="1391.25"/>
+      <use xlink:href="#Thonburi-65" x="1447.695312"/>
+      <use xlink:href="#Thonburi-64" x="1505.273438"/>
+      <use xlink:href="#Thonburi-20" x="1565.46875"/>
+      <use xlink:href="#Thonburi-70" x="1598.671875"/>
+      <use xlink:href="#Thonburi-6f" x="1658.867188"/>
+      <use xlink:href="#Thonburi-73" x="1719.453125"/>
+      <use xlink:href="#Thonburi-69" x="1770.390625"/>
+      <use xlink:href="#Thonburi-74" x="1793.867188"/>
+      <use xlink:href="#Thonburi-69" x="1838.203125"/>
+      <use xlink:href="#Thonburi-76" x="1861.679688"/>
+      <use xlink:href="#Thonburi-65" x="1918.125"/>
+      <use xlink:href="#Thonburi-20" x="1975.703125"/>
+      <use xlink:href="#Thonburi-63" x="2008.90625"/>
+      <use xlink:href="#Thonburi-65" x="2063.4375"/>
+      <use xlink:href="#Thonburi-6c" x="2121.015625"/>
+      <use xlink:href="#Thonburi-6c" x="2144.492188"/>
+      <use xlink:href="#Thonburi-73" x="2167.96875"/>
+      <use xlink:href="#Thonburi-29" x="2218.90625"/>
+     </g>
+    </g>
+   </g>
+   <g id="line2d_36">
+    <path d="M 462.036893 258.253341 
+L 499.505901 259.05877 
+L 536.97491 258.203897 
+L 574.443918 258.071581 
+L 611.912926 260.9775 
+L 649.381934 260.342119 
+L 686.850943 260.821756 
+L 724.319951 259.524639 
+L 761.788959 258.561636 
+" clip-path="url(#p4e21ce4043)" style="fill: none; stroke: #1f77b4; stroke-width: 1.5; stroke-linecap: square"/>
+    <g clip-path="url(#p4e21ce4043)">
+     <use xlink:href="#m517017398a" x="462.036893" y="258.253341" style="fill: #1f77b4; stroke: #1f77b4"/>
+     <use xlink:href="#m517017398a" x="499.505901" y="259.05877" style="fill: #1f77b4; stroke: #1f77b4"/>
+     <use xlink:href="#m517017398a" x="536.97491" y="258.203897" style="fill: #1f77b4; stroke: #1f77b4"/>
+     <use xlink:href="#m517017398a" x="574.443918" y="258.071581" style="fill: #1f77b4; stroke: #1f77b4"/>
+     <use xlink:href="#m517017398a" x="611.912926" y="260.9775" style="fill: #1f77b4; stroke: #1f77b4"/>
+     <use xlink:href="#m517017398a" x="649.381934" y="260.342119" style="fill: #1f77b4; stroke: #1f77b4"/>
+     <use xlink:href="#m517017398a" x="686.850943" y="260.821756" style="fill: #1f77b4; stroke: #1f77b4"/>
+     <use xlink:href="#m517017398a" x="724.319951" y="259.524639" style="fill: #1f77b4; stroke: #1f77b4"/>
+     <use xlink:href="#m517017398a" x="761.788959" y="258.561636" style="fill: #1f77b4; stroke: #1f77b4"/>
+    </g>
+   </g>
+   <g id="line2d_37">
+    <path d="M 462.036893 259.157551 
+L 499.505901 259.077717 
+L 536.97491 258.768551 
+L 574.443918 259.316151 
+L 611.912926 260.582487 
+L 649.381934 260.074907 
+L 686.850943 260.611282 
+L 724.319951 260.082844 
+L 761.788959 259.584964 
+" clip-path="url(#p4e21ce4043)" style="fill: none; stroke: #ff7f0e; stroke-width: 1.5; stroke-linecap: square"/>
+    <g clip-path="url(#p4e21ce4043)">
+     <use xlink:href="#m2e0db2ec58" x="462.036893" y="259.157551" style="fill: #ff7f0e; stroke: #ff7f0e"/>
+     <use xlink:href="#m2e0db2ec58" x="499.505901" y="259.077717" style="fill: #ff7f0e; stroke: #ff7f0e"/>
+     <use xlink:href="#m2e0db2ec58" x="536.97491" y="258.768551" style="fill: #ff7f0e; stroke: #ff7f0e"/>
+     <use xlink:href="#m2e0db2ec58" x="574.443918" y="259.316151" style="fill: #ff7f0e; stroke: #ff7f0e"/>
+     <use xlink:href="#m2e0db2ec58" x="611.912926" y="260.582487" style="fill: #ff7f0e; stroke: #ff7f0e"/>
+     <use xlink:href="#m2e0db2ec58" x="649.381934" y="260.074907" style="fill: #ff7f0e; stroke: #ff7f0e"/>
+     <use xlink:href="#m2e0db2ec58" x="686.850943" y="260.611282" style="fill: #ff7f0e; stroke: #ff7f0e"/>
+     <use xlink:href="#m2e0db2ec58" x="724.319951" y="260.082844" style="fill: #ff7f0e; stroke: #ff7f0e"/>
+     <use xlink:href="#m2e0db2ec58" x="761.788959" y="259.584964" style="fill: #ff7f0e; stroke: #ff7f0e"/>
+    </g>
+   </g>
+   <g id="line2d_38">
+    <path d="M 462.036893 51.109405 
+L 499.505901 84.973214 
+L 536.97491 80.650174 
+L 574.443918 34.1775 
+L 611.912926 110.190944 
+L 649.381934 108.749931 
+L 686.850943 118.116517 
+L 724.319951 123.160063 
+L 761.788959 115.954997 
+" clip-path="url(#p4e21ce4043)" style="fill: none; stroke: #000000; stroke-width: 1.5; stroke-linecap: square"/>
+    <defs>
+     <path id="m44374ac35e" d="M -3 3 
+L 3 3 
+L 3 -3 
+L -3 -3 
+z
+" style="stroke: #000000; stroke-linejoin: miter"/>
+    </defs>
+    <g clip-path="url(#p4e21ce4043)">
+     <use xlink:href="#m44374ac35e" x="462.036893" y="51.109405" style="stroke: #000000; stroke-linejoin: miter"/>
+     <use xlink:href="#m44374ac35e" x="499.505901" y="84.973214" style="stroke: #000000; stroke-linejoin: miter"/>
+     <use xlink:href="#m44374ac35e" x="536.97491" y="80.650174" style="stroke: #000000; stroke-linejoin: miter"/>
+     <use xlink:href="#m44374ac35e" x="574.443918" y="34.1775" style="stroke: #000000; stroke-linejoin: miter"/>
+     <use xlink:href="#m44374ac35e" x="611.912926" y="110.190944" style="stroke: #000000; stroke-linejoin: miter"/>
+     <use xlink:href="#m44374ac35e" x="649.381934" y="108.749931" style="stroke: #000000; stroke-linejoin: miter"/>
+     <use xlink:href="#m44374ac35e" x="686.850943" y="118.116517" style="stroke: #000000; stroke-linejoin: miter"/>
+     <use xlink:href="#m44374ac35e" x="724.319951" y="123.160063" style="stroke: #000000; stroke-linejoin: miter"/>
+     <use xlink:href="#m44374ac35e" x="761.788959" y="115.954997" style="stroke: #000000; stroke-linejoin: miter"/>
+    </g>
+   </g>
+   <g id="patch_9">
+    <path d="M 447.04929 272.3175 
+L 447.04929 22.8375 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 776.776562 272.3175 
+L 776.776562 22.8375 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 447.04929 272.3175 
+L 776.776562 272.3175 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 447.04929 22.8375 
+L 776.776562 22.8375 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_37">
+    <!-- daily: totals on observed positive cells -->
+    <g transform="translate(501.271051 16.8375) scale(0.12 -0.12)">
+     <use xlink:href="#Thonburi-64"/>
+     <use xlink:href="#Thonburi-61" x="60.195312"/>
+     <use xlink:href="#Thonburi-69" x="115.507812"/>
+     <use xlink:href="#Thonburi-6c" x="138.984375"/>
+     <use xlink:href="#Thonburi-79" x="162.460938"/>
+     <use xlink:href="#Thonburi-3a" x="219.648438"/>
+     <use xlink:href="#Thonburi-20" x="249.960938"/>
+     <use xlink:href="#Thonburi-74" x="283.164062"/>
+     <use xlink:href="#Thonburi-6f" x="327.5"/>
+     <use xlink:href="#Thonburi-74" x="388.085938"/>
+     <use xlink:href="#Thonburi-61" x="432.421875"/>
+     <use xlink:href="#Thonburi-6c" x="487.734375"/>
+     <use xlink:href="#Thonburi-73" x="511.210938"/>
+     <use xlink:href="#Thonburi-20" x="562.148438"/>
+     <use xlink:href="#Thonburi-6f" x="595.351562"/>
+     <use xlink:href="#Thonburi-6e" x="655.9375"/>
+     <use xlink:href="#Thonburi-20" x="714.296875"/>
+     <use xlink:href="#Thonburi-6f" x="747.5"/>
+     <use xlink:href="#Thonburi-62" x="808.085938"/>
+     <use xlink:href="#Thonburi-73" x="869.0625"/>
+     <use xlink:href="#Thonburi-65" x="920"/>
+     <use xlink:href="#Thonburi-72" x="977.578125"/>
+     <use xlink:href="#Thonburi-76" x="1016.210938"/>
+     <use xlink:href="#Thonburi-65" x="1072.65625"/>
+     <use xlink:href="#Thonburi-64" x="1130.234375"/>
+     <use xlink:href="#Thonburi-20" x="1190.429688"/>
+     <use xlink:href="#Thonburi-70" x="1223.632812"/>
+     <use xlink:href="#Thonburi-6f" x="1283.828125"/>
+     <use xlink:href="#Thonburi-73" x="1344.414062"/>
+     <use xlink:href="#Thonburi-69" x="1395.351562"/>
+     <use xlink:href="#Thonburi-74" x="1418.828125"/>
+     <use xlink:href="#Thonburi-69" x="1463.164062"/>
+     <use xlink:href="#Thonburi-76" x="1486.640625"/>
+     <use xlink:href="#Thonburi-65" x="1543.085938"/>
+     <use xlink:href="#Thonburi-20" x="1600.664062"/>
+     <use xlink:href="#Thonburi-63" x="1633.867188"/>
+     <use xlink:href="#Thonburi-65" x="1688.398438"/>
+     <use xlink:href="#Thonburi-6c" x="1745.976562"/>
+     <use xlink:href="#Thonburi-6c" x="1769.453125"/>
+     <use xlink:href="#Thonburi-73" x="1792.929688"/>
+    </g>
+   </g>
+   <g id="legend_2">
+    <g id="patch_13">
+     <path d="M 611.180312 65.4925 
+L 771.176562 65.4925 
+Q 772.776562 65.4925 772.776562 63.8925 
+L 772.776562 28.4375 
+Q 772.776562 26.8375 771.176562 26.8375 
+L 611.180312 26.8375 
+Q 609.580312 26.8375 609.580312 28.4375 
+L 609.580312 63.8925 
+Q 609.580312 65.4925 611.180312 65.4925 
+z
+" style="fill: #ffffff; opacity: 0.8; stroke: #cccccc; stroke-linejoin: miter"/>
+    </g>
+    <g id="line2d_39">
+     <path d="M 612.780312 33.54375 
+L 620.780312 33.54375 
+L 628.780312 33.54375 
+" style="fill: none; stroke: #1f77b4; stroke-width: 1.5; stroke-linecap: square"/>
+     <g>
+      <use xlink:href="#m517017398a" x="620.780312" y="33.54375" style="fill: #1f77b4; stroke: #1f77b4"/>
+     </g>
+    </g>
+    <g id="text_38">
+     <!-- selected predicted total -->
+     <g transform="translate(635.180312 36.34375) scale(0.08 -0.08)">
+      <use xlink:href="#Thonburi-73"/>
+      <use xlink:href="#Thonburi-65" x="50.9375"/>
+      <use xlink:href="#Thonburi-6c" x="108.515625"/>
+      <use xlink:href="#Thonburi-65" x="131.992188"/>
+      <use xlink:href="#Thonburi-63" x="189.570312"/>
+      <use xlink:href="#Thonburi-74" x="244.101562"/>
+      <use xlink:href="#Thonburi-65" x="288.4375"/>
+      <use xlink:href="#Thonburi-64" x="346.015625"/>
+      <use xlink:href="#Thonburi-20" x="406.210938"/>
+      <use xlink:href="#Thonburi-70" x="439.414062"/>
+      <use xlink:href="#Thonburi-72" x="499.609375"/>
+      <use xlink:href="#Thonburi-65" x="538.242188"/>
+      <use xlink:href="#Thonburi-64" x="595.820312"/>
+      <use xlink:href="#Thonburi-69" x="656.015625"/>
+      <use xlink:href="#Thonburi-63" x="679.492188"/>
+      <use xlink:href="#Thonburi-74" x="734.023438"/>
+      <use xlink:href="#Thonburi-65" x="778.359375"/>
+      <use xlink:href="#Thonburi-64" x="835.9375"/>
+      <use xlink:href="#Thonburi-20" x="896.132812"/>
+      <use xlink:href="#Thonburi-74" x="929.335938"/>
+      <use xlink:href="#Thonburi-6f" x="973.671875"/>
+      <use xlink:href="#Thonburi-74" x="1034.257812"/>
+      <use xlink:href="#Thonburi-61" x="1078.59375"/>
+      <use xlink:href="#Thonburi-6c" x="1133.90625"/>
+     </g>
+    </g>
+    <g id="line2d_40">
+     <path d="M 612.780312 45.5475 
+L 620.780312 45.5475 
+L 628.780312 45.5475 
+" style="fill: none; stroke: #ff7f0e; stroke-width: 1.5; stroke-linecap: square"/>
+     <g>
+      <use xlink:href="#m2e0db2ec58" x="620.780312" y="45.5475" style="fill: #ff7f0e; stroke: #ff7f0e"/>
+     </g>
+    </g>
+    <g id="text_39">
+     <!-- strong_baseline predicted total -->
+     <g transform="translate(635.180312 48.3475) scale(0.08 -0.08)">
+      <use xlink:href="#Thonburi-73"/>
+      <use xlink:href="#Thonburi-74" x="50.9375"/>
+      <use xlink:href="#Thonburi-72" x="95.273438"/>
+      <use xlink:href="#Thonburi-6f" x="133.90625"/>
+      <use xlink:href="#Thonburi-6e" x="194.492188"/>
+      <use xlink:href="#Thonburi-67" x="252.851562"/>
+      <use xlink:href="#Thonburi-5f" x="313.828125"/>
+      <use xlink:href="#Thonburi-62" x="380.46875"/>
+      <use xlink:href="#Thonburi-61" x="441.445312"/>
+      <use xlink:href="#Thonburi-73" x="496.757812"/>
+      <use xlink:href="#Thonburi-65" x="547.695312"/>
+      <use xlink:href="#Thonburi-6c" x="605.273438"/>
+      <use xlink:href="#Thonburi-69" x="628.75"/>
+      <use xlink:href="#Thonburi-6e" x="652.226562"/>
+      <use xlink:href="#Thonburi-65" x="710.585938"/>
+      <use xlink:href="#Thonburi-20" x="768.164062"/>
+      <use xlink:href="#Thonburi-70" x="801.367188"/>
+      <use xlink:href="#Thonburi-72" x="861.5625"/>
+      <use xlink:href="#Thonburi-65" x="900.195312"/>
+      <use xlink:href="#Thonburi-64" x="957.773438"/>
+      <use xlink:href="#Thonburi-69" x="1017.96875"/>
+      <use xlink:href="#Thonburi-63" x="1041.445312"/>
+      <use xlink:href="#Thonburi-74" x="1095.976562"/>
+      <use xlink:href="#Thonburi-65" x="1140.3125"/>
+      <use xlink:href="#Thonburi-64" x="1197.890625"/>
+      <use xlink:href="#Thonburi-20" x="1258.085938"/>
+      <use xlink:href="#Thonburi-74" x="1291.289062"/>
+      <use xlink:href="#Thonburi-6f" x="1335.625"/>
+      <use xlink:href="#Thonburi-74" x="1396.210938"/>
+      <use xlink:href="#Thonburi-61" x="1440.546875"/>
+      <use xlink:href="#Thonburi-6c" x="1495.859375"/>
+     </g>
+    </g>
+    <g id="line2d_41">
+     <path d="M 612.780312 57.795 
+L 620.780312 57.795 
+L 628.780312 57.795 
+" style="fill: none; stroke: #000000; stroke-width: 1.5; stroke-linecap: square"/>
+     <g>
+      <use xlink:href="#m44374ac35e" x="620.780312" y="57.795" style="stroke: #000000; stroke-linejoin: miter"/>
+     </g>
+    </g>
+    <g id="text_40">
+     <!-- observed total (positive cells only) -->
+     <g transform="translate(635.180312 60.595) scale(0.08 -0.08)">
+      <use xlink:href="#Thonburi-6f"/>
+      <use xlink:href="#Thonburi-62" x="60.585938"/>
+      <use xlink:href="#Thonburi-73" x="121.5625"/>
+      <use xlink:href="#Thonburi-65" x="172.5"/>
+      <use xlink:href="#Thonburi-72" x="230.078125"/>
+      <use xlink:href="#Thonburi-76" x="268.710938"/>
+      <use xlink:href="#Thonburi-65" x="325.15625"/>
+      <use xlink:href="#Thonburi-64" x="382.734375"/>
+      <use xlink:href="#Thonburi-20" x="442.929688"/>
+      <use xlink:href="#Thonburi-74" x="476.132812"/>
+      <use xlink:href="#Thonburi-6f" x="520.46875"/>
+      <use xlink:href="#Thonburi-74" x="581.054688"/>
+      <use xlink:href="#Thonburi-61" x="625.390625"/>
+      <use xlink:href="#Thonburi-6c" x="680.703125"/>
+      <use xlink:href="#Thonburi-20" x="704.179688"/>
+      <use xlink:href="#Thonburi-28" x="737.382812"/>
+      <use xlink:href="#Thonburi-70" x="782.070312"/>
+      <use xlink:href="#Thonburi-6f" x="842.265625"/>
+      <use xlink:href="#Thonburi-73" x="902.851562"/>
+      <use xlink:href="#Thonburi-69" x="953.789062"/>
+      <use xlink:href="#Thonburi-74" x="977.265625"/>
+      <use xlink:href="#Thonburi-69" x="1021.601562"/>
+      <use xlink:href="#Thonburi-76" x="1045.078125"/>
+      <use xlink:href="#Thonburi-65" x="1101.523438"/>
+      <use xlink:href="#Thonburi-20" x="1159.101562"/>
+      <use xlink:href="#Thonburi-63" x="1192.304688"/>
+      <use xlink:href="#Thonburi-65" x="1246.835938"/>
+      <use xlink:href="#Thonburi-6c" x="1304.414062"/>
+      <use xlink:href="#Thonburi-6c" x="1327.890625"/>
+      <use xlink:href="#Thonburi-73" x="1351.367188"/>
+      <use xlink:href="#Thonburi-20" x="1402.304688"/>
+      <use xlink:href="#Thonburi-6f" x="1435.507812"/>
+      <use xlink:href="#Thonburi-6e" x="1496.09375"/>
+      <use xlink:href="#Thonburi-6c" x="1554.453125"/>
+      <use xlink:href="#Thonburi-79" x="1577.929688"/>
+      <use xlink:href="#Thonburi-29" x="1635.117188"/>
+     </g>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p7f4963c0ad">
+   <rect x="51.376563" y="22.8375" width="329.727273" height="249.48"/>
+  </clipPath>
+  <clipPath id="p4e21ce4043">
+   <rect x="447.04929" y="22.8375" width="329.727273" height="249.48"/>
+  </clipPath>
+ </defs>
+</svg>

@@ -1,0 +1,17 @@
+{
+  "kind": "manager_accepted_2026_record_diagnostics_v3",
+  "run_root": "backend/rerun-2026-eval-023-002",
+  "report_dir": "backend/rerun-2026-eval-023-002/reports/v3/evaluation_2026",
+  "data_dir": "backend/rerun-2026-eval-023-002/data/v3/evaluation_2026",
+  "files": {
+    "backend/notebooks/23_2026_record_diagnostics.ipynb": "de9c9ca1e97b300e87d519ac127870bcc0da621e7535e64a51bb6b0de3408960",
+    "backend/config/spatial_2026_evaluation_v3.json": "896b6bd197b3d520e60ea405c330fcb58acc16d94123d3cf8fb3810b2ddeee8d",
+    "backend/rerun-2026-eval-023-002/reports/v3/evaluation_2026/evaluation_2026_manifest.json": "6aa2c663670c0293ecb2ed173a2bfd4fc4eb3dfabe3c024a8b57955605c1cd6a",
+    "backend/rerun-2026-eval-023-002/reports/v3/evaluation_2026/source_facts.json": "1135a253c2758c118ea938d162150918754a68d7151893bf2de1c60574010d9f"
+  },
+  "functions": {"cells": 4, "join": "\n\n", "sha256": "26f7c84fb772c7f6504ce33433579d24c1b07c7f25b762b5a2eb6ab865e894a6"},
+  "acceptance": {"worker_run": "20261112-081538-41494", "actual_seconds": 21.91, "notebook_checks": 32, "independent_checks": 36, "targeted_tests": 52, "backend_tests": 765, "raw_rows": 18448, "requested_window_rows": 17272, "eligible_raw_records": 4336, "daily_positive_cells": 4116, "six_hour_positive_cells": 4232, "segments_with_observed_records": 1128, "recorded_provinces": 19, "eligible_first_date": "2026-01-01", "eligible_last_date": "2026-09-30", "production_ready": false},
+  "same_byte_for_byte_as001": ["row_ledger.csv", "cells_daily.csv", "cells_6h.csv", "predictions_daily.csv", "predictions_6h.csv"],
+  "source_checksum_status": "local_sha256_snapshot_pin_matches; CKAN_hash_does_not_equal_file_md5; provider_algorithm_unspecified_in_saved_metadata; provider_checksum_not_verified",
+  "policy": "Accept reproducible source audit and outcome-conditioned positive-observed-record diagnostic ONLY. No ACC_CODE means unique physical-event identity unverified. Full calendar/segment completeness and zero labels unverified; missing stays unknown. All lag maturity unverified. Not strict untouched test; OOF selection unchanged. Raw baseline deviance +infinity on50daily/175six-hour cells encoded null+status; original1e-12floor audit separate. No production or fullpopulation2026accuracy claim. API may expose aggregates/status only, never raw row ledger, ids or event coordinates."
+}

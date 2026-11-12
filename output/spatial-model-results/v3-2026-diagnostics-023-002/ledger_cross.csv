@@ -1,0 +1,13 @@
+exclusive_reason,outside_window,exact_duplicate_after_first,invalid_date_time,agency_outside_doh_scope,invalid_or_unknown_route,invalid_coordinates_or_province,outside_pilot_envelope,linkage_outside_50m,linkage_ambiguous,linkage_unknown,no_accepted_segment
+outside_window,1176,0,0,92,526,41,757,7,3,0,7
+exact_duplicate_after_first,0,22,0,22,22,5,0,0,0,0,0
+invalid_date_time,0,0,0,0,0,0,0,0,0,0,0
+agency_outside_doh_scope,0,0,0,1086,946,174,381,0,0,0,0
+invalid_or_unknown_route,0,0,0,0,7344,1,7344,0,0,0,0
+invalid_coordinates_or_province,0,0,0,0,0,250,0,9,0,0,0
+outside_pilot_envelope,0,0,0,0,0,0,4052,0,0,0,0
+linkage_outside_50m,0,0,0,0,0,0,0,96,0,0,0
+linkage_ambiguous,0,0,0,0,0,0,0,0,43,0,0
+linkage_unknown,0,0,0,0,0,0,0,0,0,0,0
+no_accepted_segment,0,0,0,0,0,0,0,0,0,0,43
+eligible,0,0,0,0,0,0,0,0,0,0,0

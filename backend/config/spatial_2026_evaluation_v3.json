@@ -1,0 +1,116 @@
+{
+  "version": "spatial_2026_evaluation_v3.0",
+  "status": "research-only 2026 raw observed-record source audit + bounded positive-observed-cell diagnostic of the ACCEPTED notebook-22 runtime (selected HGB routed policy vs locked strong baseline). No training, refit, reselection, tuning or new model families; production_ready is always false",
+  "notebook": "notebooks/23_2026_record_diagnostics.ipynb",
+  "registered_by": "task 023 (2026-11-12); rules preregistered in workflow/backend-delivery-20261111-th.md before any 2026 model score",
+  "record_meaning": "one row of the official MOT CSV = one RAW OBSERVED RECORD. The file has no ACC_CODE, so unique physical-event identity is UNVERIFIED; exact full-row duplicates are the only deduplication",
+  "pins": {
+    "runtime": "../workflow/serving/accepted-runtime-v3.json",
+    "runtime_kind": "manager_accepted_spatial_runtime_v3",
+    "source": "../workflow/evaluation-2026/source-pins-v3.json",
+    "source_kind": "manager_2026_source_snapshot_pins_before_scores",
+    "linkage": "../workflow/evaluation-2026/linkage-pins-v3.json",
+    "linkage_kind": "manager_accepted_2026_linkage_inputs",
+    "repo_prefix": "backend/"
+  },
+  "runtime": {
+    "notebook22": "notebooks/22_spatial_inference_contract.ipynb",
+    "config22": "config/spatial_inference_v3.json",
+    "functions_cells": 5,
+    "functions_join": "\n\n",
+    "serving_record": "rerun-spatial-serving-018-001/reports/v3/spatial_serving/serving_record.json",
+    "serving_manifest": "rerun-spatial-serving-018-001/reports/v3/spatial_serving/spatial_serving_manifest.json",
+    "serving_data_dir": "rerun-spatial-serving-018-001/data/v3/spatial_serving",
+    "selftest": true,
+    "chunk_rows": 128
+  },
+  "linkage": {
+    "notebook18": "notebooks/18_spatial_linkage_audit.ipynb",
+    "config18": "config/spatial_linkage_v3.json",
+    "functions_cells": 4,
+    "functions_join": "\n\n",
+    "province_points": "reports/v2/sources/province_points.csv",
+    "primary_status_column": "status_50m",
+    "segment_column": "segment_id_2000m",
+    "doh_source_id": "doh_highway",
+    "geometry_recheck_tol_m": 0.001
+  },
+  "source": {
+    "new_csv": "data/v3/evaluation_2026_source/20261111/accident2026.csv",
+    "ckan": "data/v3/evaluation_2026_source/20261111/ckan_package.json",
+    "original_csv": "data/raw/accidents/accidents_2569_original.csv",
+    "resource_id": "4625b7aa-99a4-4dfb-9a0f-6402814d0f2c",
+    "encoding": "utf-8-sig",
+    "expected_columns": 38,
+    "date_format": "D/M/YYYY (day/month/4-digit CE year, 1-2 digit day and month, no time part); parsed explicitly, never inferred",
+    "time_format": "H:MM or HH:MM[:SS] 24 h local; 24:00 and above invalid",
+    "columns": {"year": "ปีที่เกิดเหตุ", "event_date": "วันที่เกิดเหตุ", "event_time": "เวลา", "report_date": "วันที่รายงาน", "report_time": "เวลาที่รายงาน",
+                "agency": "หน่วยงาน", "route_code": "รหัสสายทาง", "route_name": "สายทาง", "km": "ก.ม.", "province": "จังหวัด",
+                "latitude": "LATITUDE", "longitude": "LONGITUDE", "weather_at_event": "สภาพอากาศ"},
+    "never_features": ["weather_at_event", "latitude", "longitude", "route_name", "km", "all description and casualty columns"],
+    "snapshot_report_last_date": "2026-11-02"
+  },
+  "window": {"start": "2026-01-01", "end": "2026-09-30", "note": "October excluded by date rule before any score; requested Jan-Sep support is reported against actual observed support"},
+  "coordinates": {
+    "rule": "exact replica of the accepted notebook-16 audit_coordinates flags with the accepted spatial_readiness_v3 constants (raw strings parsed as given; nothing swapped, rounded or repaired)",
+    "readiness_config": "config/spatial_readiness_v3.json",
+    "thailand_broad_bbox": {"lat_min": 5.5, "lat_max": 20.5, "lon_min": 97.3, "lon_max": 105.7},
+    "round_dp": 6, "low_precision_max_decimals": 3, "repeated_min_events": 5
+  },
+  "ledger_order": ["outside_window", "exact_duplicate_after_first", "invalid_date_time", "agency_outside_doh_scope", "invalid_or_unknown_route",
+                   "invalid_coordinates_or_province", "outside_pilot_envelope", "linkage_outside_50m", "linkage_ambiguous", "linkage_unknown",
+                   "no_accepted_segment", "eligible"],
+  "calendar": {
+    "seasons": {"cool": [11, 12, 1, 2], "hot": [3, 4, 5], "rainy": [6, 7, 8, 9, 10]},
+    "season_note": "fixed month convention for grouping only (not observed weather, not a feature)",
+    "festivals": {"new_year_2026": ["2026-01-01", "2026-01-04"], "songkran_2026": ["2026-04-11", "2026-04-17"]},
+    "festival_note": "preregistered calendar windows for grouping only; not an official verification of holiday periods and never a model input",
+    "timeline_note": "ช่วงปฏิทินเหล่านี้กำหนดใน config เวลา 07:19 วันที่ 2026-11-12 ก่อนรันจริง 001; ผู้จัดการยืนยันหลัง runner 001 ทำงานเสร็จแต่ก่อนดูผลรายกลุ่ม (timeline แก้ไขเวลา 08:13); correction 1 ไม่ได้เปลี่ยนช่วงใด"
+  },
+  "metrics": {
+    "min_group_support_cells": 20,
+    "rank_top_n": 10,
+    "min_positive_cells_for_evaluation": 1,
+    "label_assumption_days": 30,
+    "lag_reference_months": [1, 2, 3],
+    "note": "Raw Poisson deviance on unmodified lambdas: a zero prediction on a positive cell makes the limiting value +infinity, written as null with deviance_status infinite_due_zero_prediction and n_zero_pred_on_positive (statuses finite | infinite_due_zero_prediction | unavailable_empty). WAPE undefined when the actual total is zero. No imputation",
+    "original_deviance_floor_audit": {
+      "source": "runtime config22 inputs.config20, sha256 verified against the pinned notebook-22 input pins before reading",
+      "config20_key": "metrics.deviance_floor",
+      "expected_floor": 1e-12,
+      "rule": "numerical-floor AUDIT of the original locked notebook-20 criterion: m = max(lambda, floor) inside the deviance only, recomputed from the saved lambdas; floored count and contribution reported. Not a new criterion; never used to reselect, tune or change eligibility; does not replace the raw null"
+    }
+  },
+  "figure_fonts": ["Thonburi", "Tahoma", "Noto Sans Thai", "Sukhumvit Set", "Ayuthaya"],
+  "dependency_pins": {"pandas": "pandas>=2.0,<3", "numpy": "numpy>=1.24,<3", "sklearn": "scikit-learn==1.6.1", "joblib": "joblib", "threadpoolctl": "threadpoolctl",
+                      "shapely": "shapely>=2.0,<3", "pyproj": "pyproj>=3.6.1,<3.7", "matplotlib": "matplotlib>=3.7,<4"},
+  "protected_paths": [
+    "data/v2", "reports/v2", "data/raw/accidents", "data/external_v2", "models", "data/v3/evaluation_2026_source",
+    "reports/v3/spatial_readiness", "data/v3/spatial_readiness", "reports/v3/road_collection", "reports/v3/road_collection_v3_1", "data/v3/road_collection_v3_1",
+    "reports/v3/linkage_audit", "data/v3/linkage_audit", "reports/v3/linkage_audit_independent_review.json",
+    "reports/v3/spatial_preparation", "data/v3/spatial_preparation", "reports/v3/spatial_preparation_independent_review.json",
+    "reports/v3/spatial_experiments", "data/v3/spatial_experiments", "reports/v3/spatial_evaluation", "reports/v3/catalog_v3", "data/v3/catalog_v3",
+    "rerun-spatial-model-016-002/reports", "rerun-spatial-model-016-002/data/v3/spatial_experiments/models",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays_index.json", "rerun-spatial-model-016-002/data/v3/spatial_experiments/model_bundles.json",
+    "rerun-spatial-eval-017-002/reports", "rerun-spatial-serving-018-001/reports", "rerun-spatial-serving-018-001/data",
+    "config/data_pipeline.json", "config/spatial_readiness_v3.json", "config/spatial_linkage_v3.json", "config/spatial_preparation_v3.json",
+    "config/spatial_experiment_v3.json", "config/spatial_evaluation_v3.json", "config/spatial_inference_v3.json", "config/catalog_v3.json", "config/archive",
+    "notebooks/14_backend_catalog.ipynb", "notebooks/16_spatial_data_readiness.ipynb", "notebooks/17_spatial_road_collection.ipynb",
+    "notebooks/18_spatial_linkage_audit.ipynb", "notebooks/19_spatial_count_preparation.ipynb", "notebooks/20_spatial_count_experiments.ipynb",
+    "notebooks/21_spatial_evaluation_colours.ipynb", "notebooks/22_spatial_inference_contract.ipynb",
+    "scripts/run_spatial_linkage_audit.py", "scripts/run_spatial_preparation.py", "scripts/run_spatial_experiments.py", "scripts/run_spatial_evaluation.py",
+    "scripts/run_spatial_inference.py",
+    "../workflow/serving", "../workflow/evaluation-2026", "../workflow/catalog", "../workflow/spatial"
+  ],
+  "guarded_roots": ["rerun-spatial-model-016-002", "rerun-spatial-eval-017-002", "rerun-spatial-serving-018-001"],
+  "outputs": {"report_dir": "reports/v3/evaluation_2026", "data_dir": "data/v3/evaluation_2026"},
+  "report_allowed_suffixes": [".csv", ".md", ".json", ".png", ".svg"],
+  "caveats": [
+    "RAW OBSERVED-RECORD diagnostic: no ACC_CODE, so unique physical-event identity and event-level deduplication are unverified; only exact full-row duplicates are removed.",
+    "Only observed POSITIVE eligible linked segment x date (or 6 h block) cells are scored. Full calendar x segment zero-label coverage is NOT verified; unobserved cells stay unknown (never zero). The cell selection is outcome-conditioned, so these metrics are biased and NOT comparable with the full-population 2022-23 OOF or 2024-25 seen diagnostics.",
+    "The snapshot (CKAN last_modified 2026-11-02) does not prove completeness; later arrivals after 2026-11-02 are unknown. The 30-day label availability of the old protocol is a research assumption that the measured report lag contradicts as a completeness claim; no reweighting or correction is applied.",
+    "2026 had earlier diagnostic data audits in this project; this is NOT a strict untouched test. The models were selected on 2022-23 OOF before any 2026 score.",
+    "Expected SELECTED+LINKED recorded-count rate per segment and horizon; not a probability, not a safety statement, no causal interpretation.",
+    "Research only: production_ready is false."
+  ]
+}

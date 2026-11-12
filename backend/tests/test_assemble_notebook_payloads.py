@@ -132,9 +132,19 @@ def test_refuses_overwriting_an_executed_target(A, tmp_path):
     assert run(A, tmp_path, spec, check_only=True)[1] == []  # --check stays read-only and still compares sources
 
 
-def test_approved_targets_are_exactly_20_14_21_and_22(A):
+def test_approved_targets_are_exactly_20_14_21_22_and_23(A):
     assert A.APPROVED_TARGETS == ('backend/notebooks/20_spatial_count_experiments.ipynb', 'backend/notebooks/14_backend_catalog.ipynb',
-                                  'backend/notebooks/21_spatial_evaluation_colours.ipynb', 'backend/notebooks/22_spatial_inference_contract.ipynb')
+                                  'backend/notebooks/21_spatial_evaluation_colours.ipynb', 'backend/notebooks/22_spatial_inference_contract.ipynb',
+                                  'backend/notebooks/23_2026_record_diagnostics.ipynb')
+
+
+def test_real_notebook23_spec_is_approved_and_well_formed(A):
+    """Read-only: the notebook-23 spec loads, targets the approved notebook 23, ids unique, sources compile, four FUNCTIONS cells. Never writes."""
+    spec, d = A.read_spec(A.REPO, '.ai-team/handoffs/023/notebook_cells.json')
+    assert spec['target'] == 'backend/notebooks/23_2026_record_diagnostics.ipynb' and spec['target'] in A.APPROVED_TARGETS
+    A.check_target(A.REPO, spec, spec['target'], A.APPROVED_TARGETS)
+    cells = A.load_cells(A.REPO, spec, d)
+    assert sum(c['source'].lstrip().startswith('# FUNCTIONS') for c in cells) == 4
 
 
 def test_real_notebook22_spec_is_approved_and_well_formed(A):

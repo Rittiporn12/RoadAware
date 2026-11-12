@@ -1,0 +1,4 @@
+agency,raw_records,outside_window,exact_duplicate_after_first,invalid_date_time,agency_outside_doh_scope,invalid_or_unknown_route,invalid_coordinates_or_province,outside_pilot_envelope,linkage_outside_50m,linkage_ambiguous,linkage_unknown,no_accepted_segment,eligible,excluded
+กรมทางหลวง,17248,1084,0,0,0,7344,250,4052,96,43,0,43,4336,12912
+กรมทางหลวงชนบท,634,25,0,0,609,0,0,0,0,0,0,0,0,634
+การทางพิเศษแห่งประเทศไทย,566,67,22,0,477,0,0,0,0,0,0,0,0,566
