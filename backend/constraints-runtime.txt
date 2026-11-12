@@ -1,0 +1,18 @@
+# Exact versions of the accepted research runtime (Python 3.9.6, project .venv). No upgrades: bundles were fitted with scikit-learn 1.6.1.
+# ML/data versions come from the accepted notebook-22/23 manifests; API versions are the ones installed in the .venv (task 019).
+# Use with:  .venv/bin/python -m pip install -r backend/requirements-api.txt -c backend/constraints-runtime.txt   (only with explicit authorization)
+pandas==2.3.3
+numpy==2.0.2
+scikit-learn==1.6.1
+joblib==1.5.3
+threadpoolctl==3.7.0
+shapely==2.0.7
+pyproj==3.6.1
+matplotlib==3.9.4
+fastapi==0.115.14
+starlette==0.46.2
+pydantic==2.11.10
+uvicorn==0.34.3
+httpx==0.28.1
+scipy==1.13.1
+# scipy (used by notebook 13, province V2) is the version Codex observed installed in the actual .venv (Python 3.9.6) for task 019a; not upgraded.

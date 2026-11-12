@@ -48,3 +48,35 @@
 - Codexประกอบ21จากexactpayloadหลังหยุด รันทดสอบ/actual001/verifierและตรวจ9PNGครบแล้ว. ไม่retryClaudeก่อนreset ไม่เปลี่ยนmodel/criteria
 - กลับมาทำต่อ23:12วันที่11พ.ย.หลังresetแล้ว:ส่ง workflow/tasks/017b-evaluation-final-correction-2.md ผ่านbridgeเดิมและClaudeตอบ/แก้ไฟล์ได้จริง. ครั้งละworker →ตรวจรับ21→เติมpinsและส่ง018→ตรวจรับ22→023dataaudit/observed-recorddiagnostic→019API→ปิดModelGate/presentation/runbook. APIยังไม่มี จึงยังไม่มีคำสั่งเปิดAPIที่ทดสอบผ่าน
 - โค้ด/ผลที่รันจริงยังคงอยู่ ไม่มีการทับ016-002/rawเดิม/Catalog003. 2026snapshotใหม่เก็บignoredแยก;ไม่มี2026scoresจนกว่าระบบruntimeและlabelsผ่านตรวจ
+
+## Checkpoint ล่าสุด 12 พฤศจิกายน 2026 เวลา09:17
+
+- Accepted evaluation21/runtime22/2026diagnostic23 ถูกบันทึกและpushแล้วที่ b4fbd80 และ bc27de1 ตามลำดับ;ไม่ต้องตรวจหรือรันpipelineเก่าทั้งหมดซ้ำ
+- เปิด Monitor AI Team.command สำเร็จ08:40;มีClaudeworkerจริงผ่านbridgeครั้งละหนึ่งตัว CUAไม่อนุญาตตรวจTerminal จึงไม่ได้อ้างว่าเห็นหน้าต่างด้วยภาพ
+- API019แรก coreHTTP00146/46ผ่าน6.06s แต่reviewfailเพราะnumeric21/OpenAPI/fixtureยังขาด. หมายเหตุreviewครั้งแรกพิมพ์เวลา16.89ผิด;หลักฐานJSONจริงคือ6.06s
+- 019a run20261112-090253-55674แก้numeric21/OpenAPI/NaNfixture/SciPypinและhelperบางส่วนก่อนหยุดsessionlimit09:14:44 API429/reset12:10Asia/Bangkok. ไม่มีfinalworkerreport;ไม่เรียกClaudeซ้ำก่อนพร้อม ไม่เปลี่ยนผู้เขียน
+- Codexประกอบ24จากexactpayloadที่บันทึกไว้และตรวจsourceก่อนเติมprovisional24/configpinsเพื่อทดสอบในเครื่องเท่านั้น. Targeted76passed/2skipped0.75s;fullbackend822passed/2skipped40.29s;opt-inactual2passed/55deselected4.31s. สองskipแรกคือmanager-pins-pendingtestและactualflagtest ไม่ใช่การทดสอบhelperที่ขาด
+- LiveHTTP00268/69checks7.21s/startup4.09s:32numeric21rowsตรงCSVที่verifyhash,ผล22selected/baselineทั้งสองหน่วย128rowsตรงsaved,13province/14history/3105geometry/unsupported/errors/CORS/OpenAPIexamplesผ่าน เซิร์ฟเวอร์ทั้งสองหยุดและคืนportแล้ว หลักฐาน backend/rerun-api-019-002/{smoke_evidence,read_only_evidence,sample_responses,openapi}.json
+- Solefailedcheck:corrupt-sourcefixturechildขาด--run-rootจึงexit2 ไม่ได้พิสูจน์503บนHTTP. Staticread-onlyset67filesไม่รวมjoblibเพราะpathต้องมีmodels/<unit>/และยังขาดrootmanagerlock;portable14/23specwrappersยังไม่ครบ. ห้ามอ้างว่าAPIรับงานแล้วหรือหลักฐานhashครอบคลุมbundleทั้งหมด
+- reviewfailCLIสำหรับ019aปฏิเสธ `No completed worker run is awaiting review.` เพราะworkerจบด้วยAPIerror จึงบันทึกrejection/pendingในnoteและcheckpointแทน ไม่อ้างว่าreviewstatusถูกเปลี่ยน
+- งานค้างรวมชุดเดียว workflow/tasks/019b-api-final-correction-2.md (ยังไม่เรียก);nextHTTProot003. รักษา001/002และacceptedartifactsเดิม ห้ามCodexแก้implementationแทนClaude
+- ModelGateภาษาไทยครบ5หัวข้อและ12สไลด์พร้อมประเด็นพูดอยู่workflow/model-gate-presentation-th.md;index output/spatial-model-results/README_th.md. ยังไม่มีfrontend/deploy/productionacceptance. APIและเอกสารรอบนี้ยังเป็นuncommittedworkingtreeโดยตั้งใจจนแก้และตรวจรับครบ
+
+## Checkpoint 12 พฤศจิกายน 2026 เวลา12:55
+
+- ผู้ใช้แจ้งquotaรีเซ็ตและให้ทำต่อ ส่ง019b12:46:30ผ่านbridgeเดิมrun20261112-124630-96550;Claudeเชื่อมต่อ/เขียนไฟล์ได้และจบ12:51:58 โดยไม่แก้accepted24/config/businesslogic
+- TargetedAPI+assembler82passed/2skipped0.91s;ยืนยัน24/configยังตรงprovisionalpins. LiveHTTP00372/73checks7.38s/startup4.06s;healthyและfixtureprocessreturncode0/คืนportsแล้ว
+- Actualcorrupt-sourcefixturehealth200/ready503artifact_hash_mismatch/prediction503nofakezeroผ่านจริง. 78consumedfilesรวม4chosen22bundles/4chosen13bundles/2baselineNPZ/rootmanagerlockตรงtrustedpinsและunchanged;32numeric21rows/savedprediction/OpenAPIexamplesยังตรงทั้งหมด
+- SoleFAILเป็นcategoryaccounting:21manifestถูกaddผ่าน22servingpinsก่อน,add(setdefault)จึงเก็บoriginแรกและcoverage_problemsรายงานevaluation_record0<1ทั้งที่hashอยู่ครบ ไม่ใช่model/APIresponsefailure ไม่เปลี่ยนเกณฑ์หรือแก้implementationแทนClaude
+- reviewfail019bบันทึกแล้ว12:53:34. ถึงtwo-roundlimitตามAGENTSจึงถามอนุญาตรอบพิเศษด้วยasyncquestion และเตรียมworkflow/tasks/019c-smoke-multiple-origin-final-fix.mdไว้แต่ยังไม่เรียก คำขอของผู้ใช้ให้แจ้งเมื่อพร้อมFrontend/Dashboardเป็นstatussteering ยังไม่ใช่approvalชัดเจนสำหรับรอบพิเศษ
+- ข้อมูล/MLbackendรับแล้ว APIทำงานเชิงวิจัยแต่ยังไม่รับรวมก่อนhelperนี้ผ่าน Nextroot004;ห้ามทับ001/002/003. RootREADME/ModelGate/indexอัปเดตสถานะจริงแล้ว ยังไม่มีfrontend/deploy
+
+## ส่งมอบครบ 12 พฤศจิกายน 2026 เวลา13:02
+
+- ผู้ใช้อนุญาตชัดเจนให้แก้เพิ่มเพื่อปิด73/73แล้ว ส่ง019c12:58:36ผ่านbridgeเดิมrun20261112-125836-275. Claudeแก้เฉพาะhelpermulti-origin/testsและdocrootreferences จบ13:00:22 Codexไม่ได้แก้implementation
+- Sourceตรวจแล้ว:ทุกmembershipถูกเก็บโดยยังมีphysicalfileหนึ่งครั้งและrefuseconflictinghash;requiredcategoryเกณฑ์เดิมไม่ลด Newregressionจำลองoverlapจริงและทดสอบmissingmembership/file/hashconflict
+- Targeted84passed/2conditional-skips0.86s. Final `ROADAWARE_API_ACTUAL=1 .venv/bin/python -m pytest backend/tests -q`:831passed/1conditional-skip48.21s;actualruntimeรันจริง ข้อskipคือpre-manager-pins testซึ่งไม่เข้าเงื่อนไขเมื่อpinsเติมแล้ว
+- ActualHTTP00473/73PASS8.69s/startup5.14s.78consumedfilesตรงtrustedpinsและunchangedรวม4chosen22bundles/4chosen13bundles/2baselineNPZ/rootlock. Livecorrupt-sourcehealth200/ready503/prediction503nofakezero;ทั้งสองownprocessesreturncode0/คืนports ผล32numericCSVrows/OpenAPI/saved22predictionทั้งสองหน่วยและbaseline/V2/history/3105geometry/strictinput/CORSผ่านทั้งหมด
+- reviewpass019cบันทึก13:02:18. Manageracceptedrecord workflow/api/accepted-runtime-v3.json เชื่อมsource/config/inputlock/componentrecords/exporthashes. Export4aggregate/publicJSONbyteidenticalอยู่output/spatial-model-results/v3-api-019-004;serverlogs/fixturelocks/raw/bundlesไม่ขึ้นGit. inputlockhash989857dadad567a7ba4cc2aa9b6be7f0e087e7a6be748671dae23d4297d37053ไม่เปลี่ยนหลังรัน
+- **ตรวจรับbackendข้อมูล/ML/APIครบตามขอบเขตวิจัย พร้อมเริ่มFrontend/Dashboard** ModelGateครบ5หัวข้อ/12สไลด์/table/actualgraphs;README/runbook/APIcontractอัปเดตผลจริง ไม่มีfit/refit016/tuning/frontend/deploy งานค้างที่ขออนุมัติรอบพิเศษปิดแล้ว
+- ข้อจำกัดคงเดิม:2026positive-cell4336records/1128segments/19จังหวัด,providerchecksum/completeness/uniquephysicaleventไม่ยืนยัน ไม่ใช่untouched/fullpopulationaccuracy;history2026unsupported,geometryนอก3105/targetนอก2024–2027unsupported;production_ready=false. เครื่องใหม่ต้องกู้ignoredartifactdataตามrunbook ไม่มีfakezero

@@ -1,0 +1,88 @@
+{
+  "kind": "manager_accepted_local_research_backend_api_v3",
+  "status": "accepted_research_backend",
+  "accepted_utc": "2026-11-12T06:03:01.307211+00:00",
+  "worker_run": "20261112-125836-275",
+  "review": "pass after independent source/diff, targeted tests, actual HTTP and final regression",
+  "base_checkpoint": "bc27de1",
+  "actual_root": "backend/rerun-api-019-004",
+  "exports_sha256": {
+    "output/spatial-model-results/v3-api-019-004/smoke_evidence.json": "7f4a10571b76102ea40774c1d3e376f1ecccd85d794bb545635e6334d98e602e",
+    "output/spatial-model-results/v3-api-019-004/read_only_evidence.json": "bd99880a30ca96f844df74ac6ce2c77a51532c8b5768106443b931df0a53e966",
+    "output/spatial-model-results/v3-api-019-004/sample_responses.json": "1ac3ae883c7fa74ce93f2b319b7ccc8b860419c70e64d9bdf0dc3babbad00eb9",
+    "output/spatial-model-results/v3-api-019-004/openapi.json": "c52121bc56e4b439af9834ce3dd146fda1a0ca783847238ae9aabbd3371fa2f5"
+  },
+  "files": {
+    "workflow/api/input-pins-v3.json": "989857dadad567a7ba4cc2aa9b6be7f0e087e7a6be748671dae23d4297d37053",
+    "backend/config/backend_api_v3.json": "6c1e76c75e45f1696bc1af76407206b9e7bcb00a985519e184c515d8b2b33f64",
+    "backend/notebooks/24_backend_api_contract.ipynb": "22e7b4cc418d3fcccb6eda791a4abf09892a9ac146c6604db8c4b065ae96fd49",
+    "backend/scripts/run_api_server.py": "e34cb0b1c0b441ab2428c37e88f3e73af6ea8f578f55013e1fa71e830bf1d1a8",
+    "backend/scripts/smoke_api_live.py": "f00828e82ad7d267c908e85325868263a32407647649280e598c3e7e14b78757",
+    "backend/tests/test_backend_api.py": "c7482a865e72e7fa56d05809e20207c99246ade6feabf6c7bb0ce976d76bf82b",
+    "backend/tests/test_assemble_notebook_payloads.py": "94a0138f325dd3c74495ba834126d962999831c5f0719d05bfb733aa0d19a963",
+    "tools/assemble_notebook_payloads.py": "4a54e243b4f9b606cda5196f9028ee0bc55eef4bc7c5035309bf06996f1c0341",
+    "backend/requirements-api.txt": "37b55bc0d8646135164fa581ed8a0d9a33962db67b60f02cd5fbc9375f7d44d9",
+    "backend/constraints-runtime.txt": "8c3d0c99a0dd501c3225fb8fa63638dc4231768a7283f434022b7ce90d3f6e1e",
+    "backend/api/__init__.py": "ef2d5d83187535e14cbc92fcd528c3e8c363ee97f4b654e4e5ca3c20a6bd25f3",
+    "backend/api/app.py": "007cf864a1658cb7888b615e08e1c3caaf8ccefb5caa1b349d673f633ff6be10",
+    "backend/api/openapi_docs.py": "d6259b35b6b9889303294e807266871cff13ef149722f8bc9f2cd89e88877ea7",
+    "backend/api/runtime.py": "ed6968fe2f92b083cd617b45875be7c85ba5172c10f93a0aeac57a5d4d10c3ca"
+  },
+  "acceptance": {
+    "http_checks_passed": 73,
+    "http_checks_failed": 0,
+    "http_seconds": 8.69,
+    "startup_seconds": 5.14,
+    "targeted": {
+      "passed": 84,
+      "skipped": 2,
+      "seconds": 0.86
+    },
+    "full_backend": {
+      "command": "ROADAWARE_API_ACTUAL=1 .venv/bin/python -m pytest backend/tests -q",
+      "passed": 831,
+      "skipped": 1,
+      "seconds": 48.21,
+      "skip_reason": "pre-manager-pins test is conditional and skips because manager pins are already filled; actual runtime test executed"
+    },
+    "read_only_unique_files": 78,
+    "input_changes": [],
+    "numerical_evaluation_csv_rows": 32,
+    "saved_22_exact_prediction_rows_per_unit_and_method": 128,
+    "units": [
+      "daily",
+      "6h"
+    ],
+    "methods": [
+      "selected",
+      "baseline"
+    ],
+    "qualified_geometry_segments": 3105,
+    "corrupt_source_fixture": "live health200 / ready503 artifact_hash_mismatch / prediction503 no fake zero; copied fixture lock only",
+    "own_processes_stopped": true
+  },
+  "scope": {
+    "research_backend_ready": true,
+    "production_ready": false,
+    "frontend_implemented": false,
+    "deployed": false,
+    "spatial_targets": [
+      "2024-01-01",
+      "2027-12-31"
+    ],
+    "history_months": [
+      "2021-01",
+      "2025-12"
+    ],
+    "unsupported": "unknown roads/outside dates explicit errors or unsupported period; missing data never fabricated zero",
+    "diagnostic_2026": "4336 observed raw records;1128 segments;19 recorded provinces;positive-cell diagnostic only;providerchecksum/completeness/unique physical events unverified;not untouched test"
+  },
+  "component_records": {
+    "catalog": "workflow/catalog/accepted-runtime-v3.json",
+    "evaluation": "workflow/evaluation/accepted-runtime-v3.json",
+    "spatial_runtime": "workflow/serving/accepted-runtime-v3.json",
+    "province_runtime": "workflow/serving/accepted-province-runtime-v2.json",
+    "diagnostics_2026": "workflow/evaluation-2026/accepted-diagnostics-v3.json"
+  },
+  "preserved": "No016 rerun/refit/tuning;accepted data/model snapshots and failedAPIroots001/002/003 retained. No raw event data/bundles in tracked exports."
+}

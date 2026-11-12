@@ -1,6 +1,16 @@
 # RoadAware
 
-## สถานะงาน Spatial V3 — 11 พฤศจิกายน 2026
+## สถานะล่าสุด — 12 พฤศจิกายน 2026
+
+**ส่วนข้อมูลและ ML backend ตรวจรับแล้ว:** Catalog, ผลโมเดล016-002, evaluation/error analysis21, โหลดโมเดล22 และ diagnosticข้อมูลจริงปี2026ถึง30กันยายนเฉพาะขอบเขตที่ตรวจสอบได้ โมเดลเดิมถูกใช้ต่อโดยไม่ฝึก016ซ้ำ ดู [Model Gateภาษาไทย5หัวข้อและเนื้อหา12สไลด์](workflow/model-gate-presentation-th.md) และ [ตาราง/กราฟจากผลจริง](output/spatial-model-results/README_th.md)
+
+**Local API ตรวจรับแล้ว — พร้อมเริ่ม Frontend/Dashboard:** HTTP004ผ่าน73/73checks รวมprediction/history/geometry/evaluation/OpenAPIและกรณีไฟล์เสีย503;78ไฟล์ตรงtrustedhashและไม่เปลี่ยน Regressionสุดท้าย831passed/1conditional-skip ดู [บันทึกตรวจรับและรุ่นไฟล์](workflow/api/accepted-runtime-v3.json) และ [หลักฐานHTTPจริง](output/spatial-model-results/v3-api-019-004/smoke_evidence.json) ยังไม่สร้างFrontend/Dashboardหรือdeploy และproduction_ready=false
+
+คำสั่งเปิดในrootโปรเจกต์: `.venv/bin/python backend/scripts/run_api_server.py` → `http://127.0.0.1:8000` หยุดด้วยCtrl+C ดู [runbook/ตัวอย่างcurl/การกู้artifacts](workflow/api/backend-api-runbook-v3-th.md) และ [API contractสำหรับขั้นFrontend](workflow/api/frontend-integration-contract-v3.md) Gitเก็บsourceและaggregate reports;เครื่องใหม่ต้องกู้ignoredartifactsที่ตรงpinsก่อน
+
+ปี2026มีeligibleobservedrecords4,336รายการ/1,128ช่วงถนน/19จังหวัด เป็นpositive-cell diagnostic ไม่ใช่fullpopulationaccuracy ความครบถ้วน/providerchecksumยังไม่ยืนยัน ประวัติ2026ไม่อยู่ในCatalog;APIแจ้งunsupported ไม่มีการเติมzeroแทนข้อมูลขาด
+
+## ประวัติสถานะงาน Spatial V3 — 11 พฤศจิกายน 2026
 
 ตรวจรับการเก็บถนน การเชื่อมพิกัด และ Notebook19 เตรียมข้อมูลแล้ว: จักรวาลทดลอง DOH 3,105 ช่วงถนน มีบันทึกที่คัดเลือกและเชื่อมได้ 27,459 รายการในปี 2021–25 พร้อม target รายวัน/6 ชั่วโมงและ feature builder เดียวสำหรับฝึกและ serving ตรวจเฉพาะ preparation 83 กรณี และ backend รวม 538 กรณีผ่าน ดู [หลักฐาน](workflow/spatial-preparation-verification-th.md)
 

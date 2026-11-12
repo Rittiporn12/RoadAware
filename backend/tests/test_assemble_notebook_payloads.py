@@ -132,15 +132,45 @@ def test_refuses_overwriting_an_executed_target(A, tmp_path):
     assert run(A, tmp_path, spec, check_only=True)[1] == []  # --check stays read-only and still compares sources
 
 
-def test_approved_targets_are_exactly_20_14_21_22_and_23(A):
+def test_approved_targets_are_exactly_20_14_21_22_23_and_24(A):
     assert A.APPROVED_TARGETS == ('backend/notebooks/20_spatial_count_experiments.ipynb', 'backend/notebooks/14_backend_catalog.ipynb',
                                   'backend/notebooks/21_spatial_evaluation_colours.ipynb', 'backend/notebooks/22_spatial_inference_contract.ipynb',
-                                  'backend/notebooks/23_2026_record_diagnostics.ipynb')
+                                  'backend/notebooks/23_2026_record_diagnostics.ipynb', 'backend/notebooks/24_backend_api_contract.ipynb')
+
+
+def local_spec(rel):
+    """The .ai-team handoff payloads are ignored by Git: a fresh clone has none, so these local-payload integration checks skip explicitly."""
+    if not (REPO / rel).is_file():
+        pytest.skip('local ignored payload spec absent (fresh clone): ' + rel + '; pure assembler fixtures and canonical notebook tests still run')
+    return rel
+
+
+def test_missing_payload_spec_is_refused_and_writes_nothing(A, tmp_path):
+    """Portability: without the ignored handoff payloads the assembler refuses explicitly and never creates or alters a target."""
+    clone = tmp_path / 'clone'
+    (clone / 'backend' / 'notebooks').mkdir(parents=True)
+    with pytest.raises(A.AssemblyError, match='spec not found'):
+        A.assemble('.ai-team/handoffs/019/notebook_cells.json', 'backend/notebooks/24_backend_api_contract.ipynb', root=clone)
+    assert list((clone / 'backend' / 'notebooks').iterdir()) == []
+    spec = make_repo(tmp_path)
+    (tmp_path / 'h' / 'b.py').unlink()  # spec present but one payload file missing
+    with pytest.raises(A.AssemblyError, match='missing'):
+        run(A, tmp_path, spec)
+    assert not (tmp_path / TGT).exists()
+
+
+def test_real_notebook24_spec_is_approved_and_well_formed(A):
+    """Read-only: the notebook-24 spec loads, targets the approved notebook 24, sources compile, three FUNCTIONS cells. Never writes."""
+    spec, d = A.read_spec(A.REPO, local_spec('.ai-team/handoffs/019/notebook_cells.json'))
+    assert spec['target'] == 'backend/notebooks/24_backend_api_contract.ipynb' and spec['target'] in A.APPROVED_TARGETS
+    A.check_target(A.REPO, spec, spec['target'], A.APPROVED_TARGETS)
+    cells = A.load_cells(A.REPO, spec, d)
+    assert sum(c['source'].lstrip().startswith('# FUNCTIONS') for c in cells) == 3
 
 
 def test_real_notebook23_spec_is_approved_and_well_formed(A):
     """Read-only: the notebook-23 spec loads, targets the approved notebook 23, ids unique, sources compile, four FUNCTIONS cells. Never writes."""
-    spec, d = A.read_spec(A.REPO, '.ai-team/handoffs/023/notebook_cells.json')
+    spec, d = A.read_spec(A.REPO, local_spec('.ai-team/handoffs/023/notebook_cells.json'))
     assert spec['target'] == 'backend/notebooks/23_2026_record_diagnostics.ipynb' and spec['target'] in A.APPROVED_TARGETS
     A.check_target(A.REPO, spec, spec['target'], A.APPROVED_TARGETS)
     cells = A.load_cells(A.REPO, spec, d)
@@ -149,7 +179,7 @@ def test_real_notebook23_spec_is_approved_and_well_formed(A):
 
 def test_real_notebook22_spec_is_approved_and_well_formed(A):
     """Read-only: the notebook-22 spec loads, targets the approved notebook 22, ids unique, sources compile, five FUNCTIONS cells. Never writes."""
-    spec, d = A.read_spec(A.REPO, '.ai-team/handoffs/018/notebook_cells.json')
+    spec, d = A.read_spec(A.REPO, local_spec('.ai-team/handoffs/018/notebook_cells.json'))
     assert spec['target'] == 'backend/notebooks/22_spatial_inference_contract.ipynb' and spec['target'] in A.APPROVED_TARGETS
     A.check_target(A.REPO, spec, spec['target'], A.APPROVED_TARGETS)
     cells = A.load_cells(A.REPO, spec, d)
@@ -158,7 +188,7 @@ def test_real_notebook22_spec_is_approved_and_well_formed(A):
 
 def test_real_notebook21_spec_is_approved_and_well_formed(A):
     """Read-only: the notebook-21 spec loads, targets the approved notebook 21, ids unique, sources compile, four FUNCTIONS cells. Never writes."""
-    spec, d = A.read_spec(A.REPO, '.ai-team/handoffs/017/notebook_cells.json')
+    spec, d = A.read_spec(A.REPO, local_spec('.ai-team/handoffs/017/notebook_cells.json'))
     assert spec['target'] == 'backend/notebooks/21_spatial_evaluation_colours.ipynb' and spec['target'] in A.APPROVED_TARGETS
     A.check_target(A.REPO, spec, spec['target'], A.APPROVED_TARGETS)
     cells = A.load_cells(A.REPO, spec, d)
@@ -167,7 +197,7 @@ def test_real_notebook21_spec_is_approved_and_well_formed(A):
 
 def test_real_notebook14_spec_is_approved_and_well_formed(A):
     """Read-only: the notebook-14 spec loads, targets the approved notebook 14, ids unique, sources compile, five FUNCTIONS cells. Never writes."""
-    spec, d = A.read_spec(A.REPO, '.ai-team/handoffs/020/notebook_cells.json')
+    spec, d = A.read_spec(A.REPO, local_spec('.ai-team/handoffs/020/notebook_cells.json'))
     assert spec['target'] == 'backend/notebooks/14_backend_catalog.ipynb' and spec['target'] in A.APPROVED_TARGETS
     A.check_target(A.REPO, spec, spec['target'], A.APPROVED_TARGETS)
     cells = A.load_cells(A.REPO, spec, d)
@@ -176,7 +206,7 @@ def test_real_notebook14_spec_is_approved_and_well_formed(A):
 
 def test_real_notebook20_spec_is_approved_and_well_formed(A):
     """Read-only: the real spec loads, its target is the approved notebook 20, ids unique, sources compile. Never writes."""
-    spec, d = A.read_spec(A.REPO, '.ai-team/handoffs/016/notebook_cells.json')
+    spec, d = A.read_spec(A.REPO, local_spec('.ai-team/handoffs/016/notebook_cells.json'))
     assert spec['target'] in A.APPROVED_TARGETS
     A.check_target(A.REPO, spec, spec['target'], A.APPROVED_TARGETS)
     cells = A.load_cells(A.REPO, spec, d)

@@ -1,0 +1,5150 @@
+{
+ "ready": {
+  "ok": true,
+  "api_version": "roadaware-api-v3.0",
+  "research_backend_ready": true,
+  "production_ready": false,
+  "components": {
+   "notebook24": {
+    "status": "available",
+    "code": null
+   },
+   "spatial_runtime": {
+    "status": "available",
+    "code": null
+   },
+   "province_runtime": {
+    "status": "available",
+    "code": null
+   },
+   "catalog": {
+    "status": "available",
+    "code": null
+   },
+   "geometry": {
+    "status": "available",
+    "code": null
+   },
+   "evaluation": {
+    "status": "available",
+    "code": null
+   },
+   "diagnostics_2026": {
+    "status": "available",
+    "code": null
+   }
+  }
+ },
+ "metadata_keys": [
+  "api_version",
+  "catalog",
+  "components",
+  "evaluation_status",
+  "geometry",
+  "limits",
+  "ok",
+  "production_ready",
+  "province_runtime_v2",
+  "research_only",
+  "routes",
+  "scope_statements",
+  "service",
+  "spatial_runtime"
+ ],
+ "evaluation": {
+  "ok": true,
+  "api_version": "roadaware-api-v3.0",
+  "production_ready": false,
+  "spatial_evaluation_21": {
+   "status": "accepted_spatial_evaluation_research_only",
+   "version": "spatial_evaluation_v3.0",
+   "label_meaning": "y = count of SELECTED+LINKED retained MOT database records (status_50m == matched AND segment_status == assigned) per qualified DOH segment x local day (daily) or x 6 h block. Zero means zero such recorded+linked records, NOT zero physical accidents. Predictions are expected recorded counts, not per-vehicle or per-person probabilities.",
+   "selected": {
+    "daily": {
+     "selected": "hgb_poisson_fixed::routed_context",
+     "baseline": "segment_mean_k365"
+    },
+    "6h": {
+     "selected": "hgb_poisson_fixed::routed_context",
+     "baseline": "segment_mean_k365"
+    }
+   },
+   "experiment_lock_sha256": "e5678e26d5715b28ac8c4331f02d28ae64abc8a32f8fba9787232f0269578e7c",
+   "colour_contract_sha256": {
+    "daily": "4e8f86dac8bc522bb0fa67ece76da7ac33c359e2cd5964f847e016a3b97f2273",
+    "6h": "7ee7b1f34ed87e2ae5aee485fab4d60161073c597690fb8fbc345608f76d3658"
+   },
+   "checks_passed": 36,
+   "scope": "2022-23 out-of-fold selection and PREVIOUSLY SEEN 2024-25 full-population diagnostics of the selected policy; no untouched test",
+   "metrics": [
+    {
+     "unit": "daily",
+     "horizon": "local day (Asia/Bangkok)",
+     "scope": "oof",
+     "scope_meaning": "2022-23 out-of-fold (the selection period)",
+     "role": "selected",
+     "method": "hgb_poisson_fixed::routed_context",
+     "dimension": "pooled",
+     "group": "all",
+     "wape_status": "ok",
+     "n": 2266650,
+     "zero_cells": 2256534,
+     "nonzero_cells": 10116,
+     "total_actual": 10701.0,
+     "total_pred": 9574.098230117164,
+     "pred_over_actual": 0.8946919194577296,
+     "mean_poisson_deviance": 0.039898070402242164,
+     "mae": 0.008661958157075265,
+     "rmse": 0.07149566939885867,
+     "bias": -0.0004971662011703773,
+     "wape": 1.8347469822198532,
+     "exposure_segment_km_periods": 4307170.314688374,
+     "observed_records_per_km_period": 0.002484461773779248,
+     "predicted_records_per_km_period": 0.002222827873201911,
+     "metric_floor_cells": 0,
+     "metric_floor_actual_positive_cells": 0,
+     "metric_floor_actual_records": 0.0,
+     "metric_floor_deviance_sum": 0.0
+    },
+    {
+     "unit": "daily",
+     "horizon": "local day (Asia/Bangkok)",
+     "scope": "oof",
+     "scope_meaning": "2022-23 out-of-fold (the selection period)",
+     "role": "baseline",
+     "method": "segment_mean_k365",
+     "dimension": "pooled",
+     "group": "all",
+     "wape_status": "ok",
+     "n": 2266650,
+     "zero_cells": 2256534,
+     "nonzero_cells": 10116,
+     "total_actual": 10701.0,
+     "total_pred": 9352.693073539955,
+     "pred_over_actual": 0.8740017824072475,
+     "mean_poisson_deviance": 0.040956040048540386,
+     "mae": 0.008600932535442429,
+     "rmse": 0.07151650598946219,
+     "bias": -0.0005948456649504975,
+     "wape": 1.821820739319744,
+     "exposure_segment_km_periods": 4307170.314688374,
+     "observed_records_per_km_period": 0.002484461773779248,
+     "predicted_records_per_km_period": 0.002171424018605734,
+     "metric_floor_cells": 168780,
+     "metric_floor_actual_positive_cells": 48,
+     "metric_floor_actual_records": 48.0,
+     "metric_floor_deviance_sum": 2556.5780274710555
+    },
+    {
+     "unit": "daily",
+     "horizon": "local day (Asia/Bangkok)",
+     "scope": "oof",
+     "scope_meaning": "2022-23 out-of-fold (the selection period)",
+     "role": "selected",
+     "method": "hgb_poisson_fixed::routed_context",
+     "dimension": "period",
+     "group": "2022H1",
+     "wape_status": "ok",
+     "n": 562005,
+     "zero_cells": 559704,
+     "nonzero_cells": 2301,
+     "total_actual": 2392.0,
+     "total_pred": 2354.6959531242996,
+     "pred_over_actual": 0.9844046626773828,
+     "mean_poisson_deviance": 0.03899016886376834,
+     "mae": 0.008251421856568917,
+     "rmse": 0.0671881499032435,
+     "bias": -6.63767170678203e-05,
+     "wape": 1.9386874333198219,
+     "exposure_segment_km_periods": 1067942.2287102148,
+     "observed_records_per_km_period": 0.002239821533126271,
+     "predicted_records_per_km_period": 0.002204890760774705,
+     "metric_floor_cells": 0,
+     "metric_floor_actual_positive_cells": 0,
+     "metric_floor_actual_records": 0.0,
+     "metric_floor_deviance_sum": 0.0
+    },
+    {
+     "unit": "daily",
+     "horizon": "local day (Asia/Bangkok)",
+     "scope": "oof",
+     "scope_meaning": "2022-23 out-of-fold (the selection period)",
+     "role": "baseline",
+     "method": "segment_mean_k365",
+     "dimension": "period",
+     "group": "2022H1",
+     "wape_status": "ok",
+     "n": 562005,
+     "zero_cells": 559704,
+     "nonzero_cells": 2301,
+     "total_actual": 2392.0,
+     "total_pred": 2203.9730538918957,
+     "pred_over_actual": 0.9213934171788861,
+     "mean_poisson_deviance": 0.040697770654291955,
+     "mae": 0.008008002177224437,
+     "rmse": 0.06714223585560082,
+     "bias": -0.0003345645432124346,
+     "wape": 1.8814955115430685,
+     "exposure_segment_km_periods": 1067942.2287102148,
+     "observed_records_per_km_period": 0.002239821533126271,
+     "predicted_records_per_km_period": 0.0020637568162780663,
+     "metric_floor_cells": 74029,
+     "metric_floor_actual_positive_cells": 21,
+     "metric_floor_actual_records": 21.0,
+     "metric_floor_deviance_sum": 1118.5028870183787
+    },
+    {
+     "unit": "daily",
+     "horizon": "local day (Asia/Bangkok)",
+     "scope": "oof",
+     "scope_meaning": "2022-23 out-of-fold (the selection period)",
+     "role": "selected",
+     "method": "hgb_poisson_fixed::routed_context",
+     "dimension": "period",
+     "group": "2022H2",
+     "wape_status": "ok",
+     "n": 571320,
+     "zero_cells": 568930,
+     "nonzero_cells": 2390,
+     "total_actual": 2516.0,
+     "total_pred": 2250.955637628941,
+     "pred_over_actual": 0.8946564537475918,
+     "mean_poisson_deviance": 0.037134349552009685,
+     "mae": 0.008082768956746297,
+     "rmse": 0.06872468419907593,
+     "bias": -0.0004639157781472011,
+     "wape": 1.8353925120700694,
+     "exposure_segment_km_periods": 1085642.9286335737,
+     "observed_records_per_km_period": 0.0023175207369210437,
+     "predicted_records_per_km_period": 0.0020733848839802867,
+     "metric_floor_cells": 0,
+     "metric_floor_actual_positive_cells": 0,
+     "metric_floor_actual_records": 0.0,
+     "metric_floor_deviance_sum": 0.0
+    },
+    {
+     "unit": "daily",
+     "horizon": "local day (Asia/Bangkok)",
+     "scope": "oof",
+     "scope_meaning": "2022-23 out-of-fold (the selection period)",
+     "role": "baseline",
+     "method": "segment_mean_k365",
+     "dimension": "period",
+     "group": "2022H2",
+     "wape_status": "ok",
+     "n": 571320,
+     "zero_cells": 568930,
+     "nonzero_cells": 2390,
+     "total_actual": 2516.0,
+     "total_pred": 2336.6213592233325,
+     "pred_over_actual": 0.9287048327596711,
+     "mean_poisson_deviance": 0.03811855132124999,
+     "mae": 0.008262455011709764,
+     "rmse": 0.06878437959262508,
+     "bias": -0.00031397227609162545,
+     "wape": 1.8761946730087529,
+     "exposure_segment_km_periods": 1085642.9286335737,
+     "observed_records_per_km_period": 0.0023175207369210437,
+     "predicted_records_per_km_period": 0.002152292708399328,
+     "metric_floor_cells": 36432,
+     "metric_floor_actual_positive_cells": 9,
+     "metric_floor_actual_records": 9.0,
+     "metric_floor_deviance_sum": 479.3583801593021
+    },
+    {
+     "unit": "daily",
+     "horizon": "local day (Asia/Bangkok)",
+     "scope": "oof",
+     "scope_meaning": "2022-23 out-of-fold (the selection period)",
+     "role": "selected",
+     "method": "hgb_poisson_fixed::routed_context",
+     "dimension": "period",
+     "group": "2023H1",
+     "wape_status": "ok",
+     "n": 562005,
+     "zero_cells": 559199,
+     "nonzero_cells": 2806,
+     "total_actual": 3016.0,
+     "total_pred": 2448.1330568101853,
+     "pred_over_actual": 0.8117152045126609,
+     "mean_poisson_deviance": 0.04480334334124017,
+     "mae": 0.009433683301911293,
+     "rmse": 0.0773759888606291,
+     "bias": -0.0010104304110992157,
+     "wape": 1.757883681727671,
+     "exposure_segment_km_periods": 1067942.2287102148,
+     "observed_records_per_km_period": 0.0028241228026374718,
+     "predicted_records_per_km_period": 0.0022923834183117445,
+     "metric_floor_cells": 0,
+     "metric_floor_actual_positive_cells": 0,
+     "metric_floor_actual_records": 0.0,
+     "metric_floor_deviance_sum": 0.0
+    },
+    {
+     "unit": "daily",
+     "horizon": "local day (Asia/Bangkok)",
+     "scope": "oof",
+     "scope_meaning": "2022-23 out-of-fold (the selection period)",
+     "role": "baseline",
+     "method": "segment_mean_k365",
+     "dimension": "period",
+     "group": "2023H1",
+     "wape_status": "ok",
+     "n": 562005,
+     "zero_cells": 559199,
+     "nonzero_cells": 2806,
+     "total_actual": 3016.0,
+     "total_pred": 2315.9713876962096,
+     "pred_over_actual": 0.7678950224456929,
+     "mean_poisson_deviance": 0.045977436264494936,
+     "mae": 0.009222468144018319,
+     "rmse": 0.07739000662684431,
+     "bias": -0.0012455914312217691,
+     "wape": 1.718525599893573,
+     "exposure_segment_km_periods": 1067942.2287102148,
+     "observed_records_per_km_period": 0.0028241228026374718,
+     "predicted_records_per_km_period": 0.0021686298429206947,
+     "metric_floor_cells": 33847,
+     "metric_floor_actual_positive_cells": 13,
+     "metric_floor_actual_records": 13.0,
+     "metric_floor_deviance_sum": 692.4065490819421
+    },
+    {
+     "unit": "daily",
+     "horizon": "local day (Asia/Bangkok)",
+     "scope": "oof",
+     "scope_meaning": "2022-23 out-of-fold (the selection period)",
+     "role": "selected",
+     "method": "hgb_poisson_fixed::routed_context",
+     "dimension": "period",
+     "group": "2023H2",
+     "wape_status": "ok",
+     "n": 571320,
+     "zero_cells": 568701,
+     "nonzero_cells": 2619,
+     "total_actual": 2777.0,
+     "total_pred": 2520.313582553351,
+     "pred_over_actual": 0.9075670084815811,
+     "mean_poisson_deviance": 0.03872959438566066,
+     "mae": 0.008885847461623485,
+     "rmse": 0.07229580005438475,
+     "bias": -0.000449286594984683,
+     "wape": 1.8281103247298267,
+     "exposure_segment_km_periods": 1085642.9286335593,
+     "observed_records_per_km_period": 0.0025579312744156697,
+     "predicted_records_per_km_period": 0.0023214940346229077,
+     "metric_floor_cells": 0,
+     "metric_floor_actual_positive_cells": 0,
+     "metric_floor_actual_records": 0.0,
+     "metric_floor_deviance_sum": 0.0
+    },
+    {
+     "unit": "daily",
+     "horizon": "local day (Asia/Bangkok)",
+     "scope": "oof",
+     "scope_meaning": "2022-23 out-of-fold (the selection period)",
+     "role": "baseline",
+     "method": "segment_mean_k365",
+     "dimension": "period",
+     "group": "2023H2",
+     "wape_status": "ok",
+     "n": 571320,
+     "zero_cells": 568701,
+     "nonzero_cells": 2619,
+     "total_actual": 2777.0,
+     "total_pred": 2496.127272726707,
+     "pred_over_actual": 0.8988574982811331,
+     "mean_poisson_deviance": 0.0391080616306786,
+     "mae": 0.00891127119876903,
+     "rmse": 0.07234797448947643,
+     "bias": -0.0004916206806575878,
+     "wape": 1.8333408214910771,
+     "exposure_segment_km_periods": 1085642.9286335593,
+     "observed_records_per_km_period": 0.0025579312744156697,
+     "predicted_records_per_km_period": 0.0022992157060963397,
+     "metric_floor_cells": 24472,
+     "metric_floor_actual_positive_cells": 5,
+     "metric_floor_actual_records": 5.0,
+     "metric_floor_deviance_sum": 266.3102112081312
+    },
+    {
+     "unit": "daily",
+     "horizon": "local day (Asia/Bangkok)",
+     "scope": "diag",
+     "scope_meaning": "PREVIOUSLY SEEN 2024-25 full-population diagnostic of the frozen benchmark artifact (not an untouched test)",
+     "role": "selected",
+     "method": "hgb_poisson_fixed::routed_context",
+     "dimension": "pooled",
+     "group": "all",
+     "wape_status": "ok",
+     "n": 2269755,
+     "zero_cells": 2258139,
+     "nonzero_cells": 11616,
+     "total_actual": 12246.0,
+     "total_pred": 10449.450006705281,
+     "pred_over_actual": 0.8532949540017378,
+     "mean_poisson_deviance": 0.044860353989922774,
+     "mae": 0.009614605902971432,
+     "rmse": 0.07588268571623318,
+     "bias": -0.0007915171431695133,
+     "wape": 1.7820349355952083,
+     "exposure_segment_km_periods": 4313070.547996165,
+     "observed_records_per_km_period": 0.0028392765348318823,
+     "predicted_records_per_km_period": 0.0024227403401875847,
+     "metric_floor_cells": 0,
+     "metric_floor_actual_positive_cells": 0,
+     "metric_floor_actual_records": 0.0,
+     "metric_floor_deviance_sum": 0.0
+    },
+    {
+     "unit": "daily",
+     "horizon": "local day (Asia/Bangkok)",
+     "scope": "diag",
+     "scope_meaning": "PREVIOUSLY SEEN 2024-25 full-population diagnostic of the frozen benchmark artifact (not an untouched test)",
+     "role": "baseline",
+     "method": "segment_mean_k365",
+     "dimension": "pooled",
+     "group": "all",
+     "wape_status": "ok",
+     "n": 2269755,
+     "zero_cells": 2258139,
+     "nonzero_cells": 11616,
+     "total_actual": 12246.0,
+     "total_pred": 10101.403195495244,
+     "pred_over_actual": 0.8248736890001016,
+     "mean_poisson_deviance": 0.04605492664453492,
+     "mae": 0.009487389890110831,
+     "rmse": 0.07593661855970676,
+     "bias": -0.000944858279640206,
+     "wape": 1.7584558745736165,
+     "exposure_segment_km_periods": 4313070.547996165,
+     "observed_records_per_km_period": 0.0028392765348318823,
+     "predicted_records_per_km_period": 0.0023420445093782004,
+     "metric_floor_cells": 86989,
+     "metric_floor_actual_positive_cells": 19,
+     "metric_floor_actual_records": 19.0,
+     "metric_floor_deviance_sum": 1011.9788025796528
+    },
+    {
+     "unit": "daily",
+     "horizon": "local day (Asia/Bangkok)",
+     "scope": "diag",
+     "scope_meaning": "PREVIOUSLY SEEN 2024-25 full-population diagnostic of the frozen benchmark artifact (not an untouched test)",
+     "role": "selected",
+     "method": "hgb_poisson_fixed::routed_context",
+     "dimension": "period",
+     "group": "seen_2024",
+     "wape_status": "ok",
+     "n": 1136430,
+     "zero_cells": 1130731,
+     "nonzero_cells": 5699,
+     "total_actual": 6015.0,
+     "total_pred": 5261.713414616358,
+     "pred_over_actual": 0.8747653224632349,
+     "mean_poisson_deviance": 0.043461940488275105,
+     "mae": 0.009536877255565563,
+     "rmse": 0.0752166229448029,
+     "bias": -0.0006628534844941104,
+     "wape": 1.8018276674218408,
+     "exposure_segment_km_periods": 2159485.3906519823,
+     "observed_records_per_km_period": 0.002785385826659368,
+     "predicted_records_per_km_period": 0.0024365589308422064,
+     "metric_floor_cells": 0,
+     "metric_floor_actual_positive_cells": 0,
+     "metric_floor_actual_records": 0.0,
+     "metric_floor_deviance_sum": 0.0
+    },
+    {
+     "unit": "daily",
+     "horizon": "local day (Asia/Bangkok)",
+     "scope": "diag",
+     "scope_meaning": "PREVIOUSLY SEEN 2024-25 full-population diagnostic of the frozen benchmark artifact (not an untouched test)",
+     "role": "baseline",
+     "method": "segment_mean_k365",
+     "dimension": "period",
+     "group": "seen_2024",
+     "wape_status": "ok",
+     "n": 1136430,
+     "zero_cells": 1130731,
+     "nonzero_cells": 5699,
+     "total_actual": 6015.0,
+     "total_pred": 5057.610902258915,
+     "pred_over_actual": 0.8408330677072179,
+     "mean_poisson_deviance": 0.04422936647394669,
+     "mae": 0.009383223343600991,
+     "rmse": 0.07526107702386872,
+     "bias": -0.0008424532067448806,
+     "wape": 1.7727974238351578,
+     "exposure_segment_km_periods": 2159485.3906519823,
+     "observed_records_per_km_period": 0.002785385826659368,
+     "predicted_records_per_km_period": 0.0023420445093782012,
+     "metric_floor_cells": 43554,
+     "metric_floor_actual_positive_cells": 7,
+     "metric_floor_actual_records": 7.0,
+     "metric_floor_deviance_sum": 372.83429570984845
+    },
+    {
+     "unit": "daily",
+     "horizon": "local day (Asia/Bangkok)",
+     "scope": "diag",
+     "scope_meaning": "PREVIOUSLY SEEN 2024-25 full-population diagnostic of the frozen benchmark artifact (not an untouched test)",
+     "role": "selected",
+     "method": "hgb_poisson_fixed::routed_context",
+     "dimension": "period",
+     "group": "seen_2025",
+     "wape_status": "ok",
+     "n": 1133325,
+     "zero_cells": 1127408,
+     "nonzero_cells": 5917,
+     "total_actual": 6231.0,
+     "total_pred": 5187.736592088961,
+     "pred_over_actual": 0.83256886408104,
+     "mean_poisson_deviance": 0.046262598761435424,
+     "mae": 0.00969254750557566,
+     "rmse": 0.07654475387819985,
+     "bias": -0.0009205333050193364,
+     "wape": 1.7629283263932813,
+     "exposure_segment_km_periods": 2153585.1573441103,
+     "observed_records_per_km_period": 0.0028933148887803095,
+     "predicted_records_per_km_period": 0.002408883890380583,
+     "metric_floor_cells": 0,
+     "metric_floor_actual_positive_cells": 0,
+     "metric_floor_actual_records": 0.0,
+     "metric_floor_deviance_sum": 0.0
+    },
+    {
+     "unit": "daily",
+     "horizon": "local day (Asia/Bangkok)",
+     "scope": "diag",
+     "scope_meaning": "PREVIOUSLY SEEN 2024-25 full-population diagnostic of the frozen benchmark artifact (not an untouched test)",
+     "role": "baseline",
+     "method": "segment_mean_k365",
+     "dimension": "period",
+     "group": "seen_2025",
+     "wape_status": "ok",
+     "n": 1133325,
+     "zero_cells": 1127408,
+     "nonzero_cells": 5917,
+     "total_actual": 6231.0,
+     "total_pred": 5043.792293235292,
+     "pred_over_actual": 0.8094675482643704,
+     "mean_poisson_deviance": 0.047885488349843915,
+     "mae": 0.0095918418244199,
+     "rmse": 0.07660802959400279,
+     "bias": -0.001047543914379995,
+     "wape": 1.7446114806067539,
+     "exposure_segment_km_periods": 2153585.1573441103,
+     "observed_records_per_km_period": 0.0028933148887803095,
+     "predicted_records_per_km_period": 0.0023420445093777966,
+     "metric_floor_cells": 43435,
+     "metric_floor_actual_positive_cells": 12,
+     "metric_floor_actual_records": 12.0,
+     "metric_floor_deviance_sum": 639.1445068696589
+    },
+    {
+     "unit": "6h",
+     "horizon": "6 h block (Asia/Bangkok)",
+     "scope": "oof",
+     "scope_meaning": "2022-23 out-of-fold (the selection period)",
+     "role": "selected",
+     "method": "hgb_poisson_fixed::routed_context",
+     "dimension": "pooled",
+     "group": "all",
+     "wape_status": "ok",
+     "n": 9066600,
+     "zero_cells": 9056203,
+     "nonzero_cells": 10397,
+     "total_actual": 10701.0,
+     "total_pred": 9446.016245708895,
+     "pred_over_actual": 0.8827227591541814,
+     "mean_poisson_deviance": 0.013133061222371147,
+     "mae": 0.002202908055638438,
+     "rmse": 0.03522219569172803,
+     "bias": -0.00013841834362286905,
+     "wape": 1.8664504417579162,
+     "exposure_segment_km_periods": 17228681.258753642,
+     "observed_records_per_km_period": 0.0006211154434448068,
+     "predicted_records_per_km_period": 0.0005482727379908728,
+     "metric_floor_cells": 0,
+     "metric_floor_actual_positive_cells": 0,
+     "metric_floor_actual_records": 0.0,
+     "metric_floor_deviance_sum": 0.0
+    },
+    {
+     "unit": "6h",
+     "horizon": "6 h block (Asia/Bangkok)",
+     "scope": "oof",
+     "scope_meaning": "2022-23 out-of-fold (the selection period)",
+     "role": "baseline",
+     "method": "segment_mean_k365",
+     "dimension": "pooled",
+     "group": "all",
+     "wape_status": "ok",
+     "n": 9066600,
+     "zero_cells": 9056203,
+     "nonzero_cells": 10397,
+     "total_actual": 10701.0,
+     "total_pred": 9352.16981651267,
+     "pred_over_actual": 0.8739528844512355,
+     "mean_poisson_deviance": 0.014298734780984843,
+     "mae": 0.00219399495048114,
+     "rmse": 0.03522591977297359,
+     "bias": -0.00014876912883410862,
+     "wape": 1.8588986653613966,
+     "exposure_segment_km_periods": 17228681.258753642,
+     "observed_records_per_km_period": 0.0006211154434448068,
+     "predicted_records_per_km_period": 0.000542825633375797,
+     "metric_floor_cells": 1953307,
+     "metric_floor_actual_positive_cells": 217,
+     "metric_floor_actual_records": 217.0,
+     "metric_floor_deviance_sum": 11557.86316823608
+    },
+    {
+     "unit": "6h",
+     "horizon": "6 h block (Asia/Bangkok)",
+     "scope": "oof",
+     "scope_meaning": "2022-23 out-of-fold (the selection period)",
+     "role": "selected",
+     "method": "hgb_poisson_fixed::routed_context",
+     "dimension": "period",
+     "group": "2022H1",
+     "wape_status": "ok",
+     "n": 2248020,
+     "zero_cells": 2245676,
+     "nonzero_cells": 2344,
+     "total_actual": 2392.0,
+     "total_pred": 2315.274315139219,
+     "pred_over_actual": 0.9679240447906434,
+     "mean_poisson_deviance": 0.01263283612754769,
+     "mae": 0.0020809969277472426,
+     "rmse": 0.033264700234947105,
+     "bias": -3.413033908096049e-05,
+     "wape": 1.9557369203655335,
+     "exposure_segment_km_periods": 4271768.91484163,
+     "observed_records_per_km_period": 0.0005599553832814668,
+     "predicted_records_per_km_period": 0.0005419942794880924,
+     "metric_floor_cells": 0,
+     "metric_floor_actual_positive_cells": 0,
+     "metric_floor_actual_records": 0.0,
+     "metric_floor_deviance_sum": 0.0
+    },
+    {
+     "unit": "6h",
+     "horizon": "6 h block (Asia/Bangkok)",
+     "scope": "oof",
+     "scope_meaning": "2022-23 out-of-fold (the selection period)",
+     "role": "baseline",
+     "method": "segment_mean_k365",
+     "dimension": "period",
+     "group": "2022H1",
+     "wape_status": "ok",
+     "n": 2248020,
+     "zero_cells": 2245676,
+     "nonzero_cells": 2344,
+     "total_actual": 2392.0,
+     "total_pred": 2203.4036375009337,
+     "pred_over_actual": 0.9211553668482164,
+     "mean_poisson_deviance": 0.014471724782042616,
+     "mae": 0.0020322181513481937,
+     "rmse": 0.033267729633206705,
+     "bias": -8.389443265587777e-05,
+     "wape": 1.9098942510843506,
+     "exposure_segment_km_periods": 4271768.91484163,
+     "observed_records_per_km_period": 0.0005599553832814668,
+     "predicted_records_per_km_period": 0.0005158059065052731,
+     "metric_floor_cells": 663365,
+     "metric_floor_actual_positive_cells": 93,
+     "metric_floor_actual_records": 93.0,
+     "metric_floor_deviance_sum": 4953.369928883518
+    },
+    {
+     "unit": "6h",
+     "horizon": "6 h block (Asia/Bangkok)",
+     "scope": "oof",
+     "scope_meaning": "2022-23 out-of-fold (the selection period)",
+     "role": "selected",
+     "method": "hgb_poisson_fixed::routed_context",
+     "dimension": "period",
+     "group": "2022H2",
+     "wape_status": "ok",
+     "n": 2285280,
+     "zero_cells": 2282818,
+     "nonzero_cells": 2462,
+     "total_actual": 2516.0,
+     "total_pred": 2280.269072377251,
+     "pred_over_actual": 0.9063072624710855,
+     "mean_poisson_deviance": 0.012216683126377413,
+     "mae": 0.0020804325272996416,
+     "rmse": 0.03375162264167638,
+     "bias": -0.00010315187969209411,
+     "wape": 1.889654549279541,
+     "exposure_segment_km_periods": 4342571.714534998,
+     "observed_records_per_km_period": 0.0005793801842301671,
+     "predicted_records_per_km_period": 0.000525096468699636,
+     "metric_floor_cells": 0,
+     "metric_floor_actual_positive_cells": 0,
+     "metric_floor_actual_records": 0.0,
+     "metric_floor_deviance_sum": 0.0
+    },
+    {
+     "unit": "6h",
+     "horizon": "6 h block (Asia/Bangkok)",
+     "scope": "oof",
+     "scope_meaning": "2022-23 out-of-fold (the selection period)",
+     "role": "baseline",
+     "method": "segment_mean_k365",
+     "dimension": "period",
+     "group": "2022H2",
+     "wape_status": "ok",
+     "n": 2285280,
+     "zero_cells": 2282818,
+     "nonzero_cells": 2462,
+     "total_actual": 2516.0,
+     "total_pred": 2337.8614585685254,
+     "pred_over_actual": 0.9291977180320053,
+     "mean_poisson_deviance": 0.01332204094043963,
+     "mae": 0.002107240269423984,
+     "rmse": 0.033753436278683595,
+     "bias": -7.795042245653686e-05,
+     "wape": 1.9140039916173457,
+     "exposure_segment_km_periods": 4342571.714534998,
+     "observed_records_per_km_period": 0.0005793801842301671,
+     "predicted_records_per_km_period": 0.0005383587450596342,
+     "metric_floor_cells": 506184,
+     "metric_floor_actual_positive_cells": 50,
+     "metric_floor_actual_records": 50.0,
+     "metric_floor_deviance_sum": 2663.1021126122046
+    },
+    {
+     "unit": "6h",
+     "horizon": "6 h block (Asia/Bangkok)",
+     "scope": "oof",
+     "scope_meaning": "2022-23 out-of-fold (the selection period)",
+     "role": "selected",
+     "method": "hgb_poisson_fixed::routed_context",
+     "dimension": "period",
+     "group": "2023H1",
+     "wape_status": "ok",
+     "n": 2248020,
+     "zero_cells": 2245122,
+     "nonzero_cells": 2898,
+     "total_actual": 3016.0,
+     "total_pred": 2390.1587154099025,
+     "pred_over_actual": 0.7924929427751666,
+     "mean_poisson_deviance": 0.01479423758832391,
+     "mae": 0.0023846875516920075,
+     "rmse": 0.03795782190132977,
+     "bias": -0.00027839667111062067,
+     "wape": 1.77746197279664,
+     "exposure_segment_km_periods": 4271768.9148413595,
+     "observed_records_per_km_period": 0.0007060307006592853,
+     "predicted_records_per_km_period": 0.0005595243476550898,
+     "metric_floor_cells": 0,
+     "metric_floor_actual_positive_cells": 0,
+     "metric_floor_actual_records": 0.0,
+     "metric_floor_deviance_sum": 0.0
+    },
+    {
+     "unit": "6h",
+     "horizon": "6 h block (Asia/Bangkok)",
+     "scope": "oof",
+     "scope_meaning": "2022-23 out-of-fold (the selection period)",
+     "role": "baseline",
+     "method": "segment_mean_k365",
+     "dimension": "period",
+     "group": "2023H1",
+     "wape_status": "ok",
+     "n": 2248020,
+     "zero_cells": 2245122,
+     "nonzero_cells": 2898,
+     "total_actual": 3016.0,
+     "total_pred": 2315.0399386870754,
+     "pred_over_actual": 0.7675861865673327,
+     "mean_poisson_deviance": 0.016035990944382177,
+     "mae": 0.002352033249652394,
+     "rmse": 0.037959045723799066,
+     "bias": -0.0003118121997637586,
+     "wape": 1.7531226080515834,
+     "exposure_segment_km_periods": 4271768.9148413595,
+     "observed_records_per_km_period": 0.0007060307006592853,
+     "predicted_records_per_km_period": 0.0005419394131185229,
+     "metric_floor_cells": 426798,
+     "metric_floor_actual_positive_cells": 57,
+     "metric_floor_actual_records": 57.0,
+     "metric_floor_deviance_sum": 3035.9364080773244
+    },
+    {
+     "unit": "6h",
+     "horizon": "6 h block (Asia/Bangkok)",
+     "scope": "oof",
+     "scope_meaning": "2022-23 out-of-fold (the selection period)",
+     "role": "selected",
+     "method": "hgb_poisson_fixed::routed_context",
+     "dimension": "period",
+     "group": "2023H2",
+     "wape_status": "ok",
+     "n": 2285280,
+     "zero_cells": 2282587,
+     "nonzero_cells": 2693,
+     "total_actual": 2777.0,
+     "total_pred": 2460.3141427824976,
+     "pred_over_actual": 0.8859611605266466,
+     "mean_poisson_deviance": 0.012907416600569058,
+     "mae": 0.002266491330513107,
+     "rmse": 0.03573488399378283,
+     "bias": -0.00013857639204714628,
+     "wape": 1.865166477419875,
+     "exposure_segment_km_periods": 4342571.714534833,
+     "observed_records_per_km_period": 0.0006394828186038296,
+     "predicted_records_per_km_period": 0.0005665569401070999,
+     "metric_floor_cells": 0,
+     "metric_floor_actual_positive_cells": 0,
+     "metric_floor_actual_records": 0.0,
+     "metric_floor_deviance_sum": 0.0
+    },
+    {
+     "unit": "6h",
+     "horizon": "6 h block (Asia/Bangkok)",
+     "scope": "oof",
+     "scope_meaning": "2022-23 out-of-fold (the selection period)",
+     "role": "baseline",
+     "method": "segment_mean_k365",
+     "dimension": "period",
+     "group": "2023H2",
+     "wape_status": "ok",
+     "n": 2285280,
+     "zero_cells": 2282587,
+     "nonzero_cells": 2693,
+     "total_actual": 2777.0,
+     "total_pred": 2495.8647817561796,
+     "pred_over_actual": 0.8987629750652429,
+     "mean_poisson_deviance": 0.013396327774966752,
+     "mae": 0.0022844271776954516,
+     "rmse": 0.035743680649522776,
+     "bias": -0.0001230200317877111,
+     "wape": 1.8799264460366802,
+     "exposure_segment_km_periods": 4342571.714534833,
+     "observed_records_per_km_period": 0.0006394828186038296,
+     "predicted_records_per_km_period": 0.000574743480551485,
+     "metric_floor_cells": 356960,
+     "metric_floor_actual_positive_cells": 17,
+     "metric_floor_actual_records": 17.0,
+     "metric_floor_deviance_sum": 905.454718653765
+    },
+    {
+     "unit": "6h",
+     "horizon": "6 h block (Asia/Bangkok)",
+     "scope": "diag",
+     "scope_meaning": "PREVIOUSLY SEEN 2024-25 full-population diagnostic of the frozen benchmark artifact (not an untouched test)",
+     "role": "selected",
+     "method": "hgb_poisson_fixed::routed_context",
+     "dimension": "pooled",
+     "group": "all",
+     "wape_status": "ok",
+     "n": 9079020,
+     "zero_cells": 9067053,
+     "nonzero_cells": 11967,
+     "total_actual": 12246.0,
+     "total_pred": 10219.618660513748,
+     "pred_over_actual": 0.8345270831711373,
+     "mean_poisson_deviance": 0.014796596320940325,
+     "mae": 0.0024481426498036336,
+     "rmse": 0.03741554549465903,
+     "bias": -0.00022319384024776373,
+     "wape": 1.8150200947591202,
+     "exposure_segment_km_periods": 17252282.191984817,
+     "observed_records_per_km_period": 0.0007098191337079642,
+     "predicted_records_per_km_period": 0.0005923632912323708,
+     "metric_floor_cells": 0,
+     "metric_floor_actual_positive_cells": 0,
+     "metric_floor_actual_records": 0.0,
+     "metric_floor_deviance_sum": 0.0
+    },
+    {
+     "unit": "6h",
+     "horizon": "6 h block (Asia/Bangkok)",
+     "scope": "diag",
+     "scope_meaning": "PREVIOUSLY SEEN 2024-25 full-population diagnostic of the frozen benchmark artifact (not an untouched test)",
+     "role": "baseline",
+     "method": "segment_mean_k365",
+     "dimension": "pooled",
+     "group": "all",
+     "wape_status": "ok",
+     "n": 9079020,
+     "zero_cells": 9067053,
+     "nonzero_cells": 11967,
+     "total_actual": 12246.0,
+     "total_pred": 10101.793480173623,
+     "pred_over_actual": 0.8249055593805016,
+     "mean_poisson_deviance": 0.016234563199518555,
+     "mae": 0.002434321514077668,
+     "rmse": 0.03741082745487168,
+     "bias": -0.00023617158237633325,
+     "wape": 1.8047732902777587,
+     "exposure_segment_km_periods": 17252282.191984817,
+     "observed_records_per_km_period": 0.0007098191337079642,
+     "predicted_records_per_km_period": 0.0005855337495503512,
+     "metric_floor_cells": 1331151,
+     "metric_floor_actual_positive_cells": 284,
+     "metric_floor_actual_records": 286.0,
+     "metric_floor_deviance_sum": 15238.489258444224
+    },
+    {
+     "unit": "6h",
+     "horizon": "6 h block (Asia/Bangkok)",
+     "scope": "diag",
+     "scope_meaning": "PREVIOUSLY SEEN 2024-25 full-population diagnostic of the frozen benchmark artifact (not an untouched test)",
+     "role": "selected",
+     "method": "hgb_poisson_fixed::routed_context",
+     "dimension": "period",
+     "group": "seen_2024",
+     "wape_status": "ok",
+     "n": 4545720,
+     "zero_cells": 4539852,
+     "nonzero_cells": 5868,
+     "total_actual": 6015.0,
+     "total_pred": 5141.337887431028,
+     "pred_over_actual": 0.8547527659901959,
+     "mean_poisson_deviance": 0.014371586750928115,
+     "mae": 0.0024279454098667724,
+     "rmse": 0.03711231961404365,
+     "bias": -0.00019219444060984215,
+     "wape": 1.834872819374827,
+     "exposure_segment_km_periods": 8637941.562607922,
+     "observed_records_per_km_period": 0.0006963464566648426,
+     "predicted_records_per_km_period": 0.0005952040599217463,
+     "metric_floor_cells": 0,
+     "metric_floor_actual_positive_cells": 0,
+     "metric_floor_actual_records": 0.0,
+     "metric_floor_deviance_sum": 0.0
+    },
+    {
+     "unit": "6h",
+     "horizon": "6 h block (Asia/Bangkok)",
+     "scope": "diag",
+     "scope_meaning": "PREVIOUSLY SEEN 2024-25 full-population diagnostic of the frozen benchmark artifact (not an untouched test)",
+     "role": "baseline",
+     "method": "segment_mean_k365",
+     "dimension": "period",
+     "group": "seen_2024",
+     "wape_status": "ok",
+     "n": 4545720,
+     "zero_cells": 4539852,
+     "nonzero_cells": 5868,
+     "total_actual": 6015.0,
+     "total_pred": 5057.80631155089,
+     "pred_over_actual": 0.8408655547050524,
+     "mean_poisson_deviance": 0.015493309765840103,
+     "mae": 0.002408599061306705,
+     "rmse": 0.03710455582281782,
+     "bias": -0.00021057031415245764,
+     "wape": 1.8202521903513076,
+     "exposure_segment_km_periods": 8637941.562607922,
+     "observed_records_per_km_period": 0.0006963464566648426,
+     "predicted_records_per_km_period": 0.0005855337495503806,
+     "metric_floor_cells": 666486,
+     "metric_floor_actual_positive_cells": 109,
+     "metric_floor_actual_records": 110.0,
+     "metric_floor_deviance_sum": 5861.59723557139
+    },
+    {
+     "unit": "6h",
+     "horizon": "6 h block (Asia/Bangkok)",
+     "scope": "diag",
+     "scope_meaning": "PREVIOUSLY SEEN 2024-25 full-population diagnostic of the frozen benchmark artifact (not an untouched test)",
+     "role": "selected",
+     "method": "hgb_poisson_fixed::routed_context",
+     "dimension": "period",
+     "group": "seen_2025",
+     "wape_status": "ok",
+     "n": 4533300,
+     "zero_cells": 4527201,
+     "nonzero_cells": 6099,
+     "total_actual": 6231.0,
+     "total_pred": 5078.280773082667,
+     "pred_over_actual": 0.8150025313886482,
+     "mean_poisson_deviance": 0.015222770300733662,
+     "mae": 0.0024683952246444436,
+     "rmse": 0.037717154408171236,
+     "bias": -0.00025427816974771863,
+     "wape": 1.7958555724411258,
+     "exposure_segment_km_periods": 8614340.629376598,
+     "observed_records_per_km_period": 0.0007233287221950642,
+     "predicted_records_per_km_period": 0.0005895147396150936,
+     "metric_floor_cells": 0,
+     "metric_floor_actual_positive_cells": 0,
+     "metric_floor_actual_records": 0.0,
+     "metric_floor_deviance_sum": 0.0
+    },
+    {
+     "unit": "6h",
+     "horizon": "6 h block (Asia/Bangkok)",
+     "scope": "diag",
+     "scope_meaning": "PREVIOUSLY SEEN 2024-25 full-population diagnostic of the frozen benchmark artifact (not an untouched test)",
+     "role": "baseline",
+     "method": "segment_mean_k365",
+     "dimension": "period",
+     "group": "seen_2025",
+     "wape_status": "ok",
+     "n": 4533300,
+     "zero_cells": 4527201,
+     "nonzero_cells": 6099,
+     "total_actual": 6231.0,
+     "total_pred": 5043.987168623478,
+     "pred_over_actual": 0.8094988234029014,
+     "mean_poisson_deviance": 0.01697784746451989,
+     "mae": 0.002460114439322108,
+     "rmse": 0.03771544093329504,
+     "bias": -0.0002618429910609317,
+     "wape": 1.7898309722001142,
+     "exposure_segment_km_periods": 8614340.629376598,
+     "observed_records_per_km_period": 0.0007233287221950642,
+     "predicted_records_per_km_period": 0.0005855337495504286,
+     "metric_floor_cells": 664665,
+     "metric_floor_actual_positive_cells": 175,
+     "metric_floor_actual_records": 176.0,
+     "metric_floor_deviance_sum": 9376.892022869528
+    }
+   ],
+   "metrics_source": "metrics_by_group.csv (sha256 verified against the accepted 21 manifest)",
+   "metrics_columns": "n = scored cells (segment x day or x 6 h block); nonzero_cells = cells with >= 1 recorded+linked record; total_actual = recorded+linked records; total_pred = sum of predicted expected counts; bias = mean(pred - actual); wape with wape_status; metric_floor_* = the original metric-floor audit (cells floored, floored positive cells/records, floored deviance sum) where the method needed it",
+   "metrics_note": "selection is unchanged (accepted 21); the 2026 record diagnostic is reported separately under diagnostics_2026 and is outcome-conditioned",
+   "report_files": [
+    "README_th.md",
+    "arrays_used.csv",
+    "bootstrap_exploratory.json",
+    "capture_equal_road_km.csv",
+    "colour_contract_6h.json",
+    "colour_contract_daily.json",
+    "colour_exposure_capture.csv",
+    "figure_calibration.csv",
+    "figure_colour_exposure_capture.csv",
+    "figure_errors_by_group.csv",
+    "figure_floor_audit.csv",
+    "figure_method_comparison.csv",
+    "figure_period_performance.csv",
+    "figure_spatial_transfer.csv",
+    "floor_audit.csv",
+    "floor_audit_summary.csv",
+    "inputs.csv",
+    "metrics_by_group.csv",
+    "model_gate_presentation_th.md",
+    "province_reconciliation.csv",
+    "reconciliation.csv",
+    "results_th.md",
+    "selection_reason.csv",
+    "spatial_transfer.csv"
+   ],
+   "research_only": true,
+   "production_ready": false
+  },
+  "diagnostics_2026": {
+   "status": "available_diagnostic_aggregates_only",
+   "kind": "manager_accepted_2026_record_diagnostics_v3",
+   "version": "spatial_2026_evaluation_v3.0",
+   "record_meaning": "one row of the official MOT CSV = one RAW OBSERVED RECORD. The file has no ACC_CODE, so unique physical-event identity is UNVERIFIED; exact full-row duplicates are the only deduplication",
+   "window": {
+    "first_date": "2026-01-01",
+    "last_date": "2026-09-30"
+   },
+   "counts": {
+    "raw_rows_in_snapshot": 18448,
+    "requested_window_rows": 17272,
+    "eligible_raw_records": 4336,
+    "positive_cells": {
+     "daily": 4116,
+     "6h": 4232
+    },
+    "segments_with_observed_records": 1128,
+    "recorded_provinces": 19,
+    "exclusion_reasons": {
+     "invalid_or_unknown_route": 7344,
+     "eligible": 4336,
+     "outside_pilot_envelope": 4052,
+     "outside_window": 1176,
+     "agency_outside_doh_scope": 1086,
+     "invalid_coordinates_or_province": 250,
+     "linkage_outside_50m": 96,
+     "no_accepted_segment": 43,
+     "linkage_ambiguous": 43,
+     "exact_duplicate_after_first": 22
+    }
+   },
+   "overall_metrics": [
+    {
+     "unit": "daily",
+     "method": "selected",
+     "deviance_status": "finite",
+     "n_segments": 1128,
+     "n_positive_cells": 4116,
+     "n_raw_records": 4336,
+     "actual_total": 4336.0,
+     "pred_total": 153.57464368946762,
+     "mean_poisson_deviance": 7.197724272276187,
+     "n_zero_pred_on_positive": 0,
+     "mae": 1.0161383275778746,
+     "rmse": 1.0461678279044855,
+     "bias_pred_minus_actual": -1.0161383275778746,
+     "wape": 0.9645814936140527,
+     "pred_to_actual_ratio": 0.03541850638594733,
+     "deviance_floor_audit": 7.197724272276187,
+     "deviance_floor_audit_floor": 1e-12,
+     "deviance_floor_audit_n_floored": 0,
+     "deviance_floor_audit_floored_contribution": 0.0,
+     "deviance_floor_audit_floored_share": 0.0
+    },
+    {
+     "unit": "daily",
+     "method": "strong_baseline",
+     "deviance_status": "infinite_due_zero_prediction",
+     "n_segments": 1128,
+     "n_positive_cells": 4116,
+     "n_raw_records": 4336,
+     "actual_total": 4336.0,
+     "pred_total": 144.02243788780976,
+     "mean_poisson_deviance": null,
+     "n_zero_pred_on_positive": 50,
+     "mae": 1.0184590772867321,
+     "rmse": 1.0485522946556594,
+     "bias_pred_minus_actual": -1.0184590772867321,
+     "wape": 0.9667844931070548,
+     "pred_to_actual_ratio": 0.03321550689294506,
+     "deviance_floor_audit": 8.010877040043505,
+     "deviance_floor_audit_floor": 1e-12,
+     "deviance_floor_audit_n_floored": 50,
+     "deviance_floor_audit_floored_contribution": 0.6606260307451535,
+     "deviance_floor_audit_floored_share": 0.08246613041779577
+    },
+    {
+     "unit": "6h",
+     "method": "selected",
+     "deviance_status": "finite",
+     "n_segments": 1128,
+     "n_positive_cells": 4232,
+     "n_raw_records": 4336,
+     "actual_total": 4336.0,
+     "pred_total": 41.412212548617674,
+     "mean_poisson_deviance": 9.76328810004678,
+     "n_zero_pred_on_positive": 0,
+     "mae": 1.0147891747285875,
+     "rmse": 1.027788328427634,
+     "bias_pred_minus_actual": -1.0147891747285875,
+     "wape": 0.9904492129731048,
+     "pred_to_actual_ratio": 0.00955078702689522,
+     "deviance_floor_audit": 9.76328810004678,
+     "deviance_floor_audit_floor": 1e-12,
+     "deviance_floor_audit_n_floored": 0,
+     "deviance_floor_audit_floored_contribution": 0.0,
+     "deviance_floor_audit_floored_share": 0.0
+    },
+    {
+     "unit": "6h",
+     "method": "strong_baseline",
+     "deviance_status": "infinite_due_zero_prediction",
+     "n_segments": 1128,
+     "n_positive_cells": 4232,
+     "n_raw_records": 4336,
+     "actual_total": 4336.0,
+     "pred_total": 43.822730471174424,
+     "mean_poisson_deviance": null,
+     "n_zero_pred_on_positive": 175,
+     "mae": 1.014219581646698,
+     "rmse": 1.027225694319967,
+     "bias_pred_minus_actual": -1.014219581646698,
+     "wape": 0.9898932817179026,
+     "pred_to_actual_ratio": 0.010106718282097422,
+     "deviance_floor_audit": 11.507676026523985,
+     "deviance_floor_audit_floor": 1e-12,
+     "deviance_floor_audit_n_floored": 175,
+     "deviance_floor_audit_floored_contribution": 2.202471028018748,
+     "deviance_floor_audit_floored_share": 0.19139146974091756
+    }
+   ],
+   "lower_mae_on_this_conditional_cohort": {
+    "daily": "selected",
+    "6h": "strong_baseline"
+   },
+   "source_checksum_status": "local_sha256_snapshot_pin_matches; CKAN_hash_does_not_equal_file_md5; provider_algorithm_unspecified_in_saved_metadata; provider_checksum_not_verified",
+   "limits": [
+    "January-September 2026 RAW OBSERVED-RECORD diagnostic of the official MOT snapshot; NOT a strict untouched test (2026 was audited before) and NOT a validated nationwide or complete-September evaluation.",
+    "Only observed POSITIVE eligible linked cells are scored (outcome-conditioned): zero labels, full calendar x segment population and unique physical-event identity (no ACC_CODE) are UNVERIFIED; missing cells stay unknown, never zero.",
+    "Provider checksum NOT verified (the CKAN hash differs from the downloaded file MD5 and the saved metadata does not name its algorithm); the local SHA-256 snapshot pin matches.",
+    "Raw strong-baseline deviance is +infinity where it predicts 0 on a positive cell: encoded as null with deviance_status; the original 1e-12 floor audit is reported separately with its floored counts."
+   ],
+   "caveats": [
+    "RAW OBSERVED-RECORD diagnostic: no ACC_CODE, so unique physical-event identity and event-level deduplication are unverified; only exact full-row duplicates are removed.",
+    "Only observed POSITIVE eligible linked segment x date (or 6 h block) cells are scored. Full calendar x segment zero-label coverage is NOT verified; unobserved cells stay unknown (never zero). The cell selection is outcome-conditioned, so these metrics are biased and NOT comparable with the full-population 2022-23 OOF or 2024-25 seen diagnostics.",
+    "The snapshot (CKAN last_modified 2026-11-02) does not prove completeness; later arrivals after 2026-11-02 are unknown. The 30-day label availability of the old protocol is a research assumption that the measured report lag contradicts as a completeness claim; no reweighting or correction is applied.",
+    "2026 had earlier diagnostic data audits in this project; this is NOT a strict untouched test. The models were selected on 2022-23 OOF before any 2026 score.",
+    "Expected SELECTED+LINKED recorded-count rate per segment and horizon; not a probability, not a safety statement, no causal interpretation.",
+    "Research only: production_ready is false."
+   ],
+   "runtime": {
+    "model_version": "roadaware-spatial-v3-benchmark-issue-2023-12-31T18",
+    "selected": {
+     "daily": "hgb_poisson_fixed::routed_context",
+     "6h": "hgb_poisson_fixed::routed_context"
+    },
+    "baseline": "segment_mean_k365",
+    "bundle_sha256": {
+     "daily": {
+      "core": "5d0a8de9840d68198f9d82d5e173048fddb0f5b2bb4149c94eb6339fb8c2efd9",
+      "context": "4d8ac4f650b003d6ecc6b65c58562fbed057041ec3006df32b1eec74c0b48081"
+     },
+     "6h": {
+      "core": "46b207d3cb39e4fc232ee28a34fb8c7609c161c517d93a730b038429668f10ef",
+      "context": "819b821e917752dbe933c7ee1aeb13205b37a36f95f898cc0ee9e10501155be1"
+     }
+    },
+    "baseline_stats_sha256": {
+     "daily": "15d9a6307fbe69b86e5c1f5192a810cb60ce3cab84b4202d4251abdfb8a253b5",
+     "6h": "128c2199c72e1d0937e15fe259baaf435addfde07bbc33e200170da3ad132faf"
+    },
+    "experiment_lock_sha256": "e5678e26d5715b28ac8c4331f02d28ae64abc8a32f8fba9787232f0269578e7c",
+    "selection_sha256": "9e08ac0a5ea1597b14acd0167b91b3060c7a38776edf8f98fbb387dacb037e30"
+   },
+   "research_only": true,
+   "production_ready": false
+  }
+ },
+ "segments_page": {
+  "ok": true,
+  "api_version": "roadaware-api-v3.0",
+  "production_ready": false,
+  "type": "FeatureCollection",
+  "bbox": [
+   97.0,
+   5.0,
+   106.0,
+   21.0
+  ],
+  "features": [
+   {
+    "type": "Feature",
+    "id": "rsv1-rc31f3d87fc7:doh:1036:p0:c0:r2000:00000",
+    "geometry": {
+     "type": "LineString",
+     "coordinates": [
+      [
+       100.59975975300006,
+       13.985689456000047
+      ],
+      [
+       100.59975959600007,
+       13.985689429000045
+      ],
+      [
+       100.59971417600008,
+       13.985682024000026
+      ],
+      [
+       100.59966844400009,
+       13.985674881000023
+      ],
+      [
+       100.59962202800006,
+       13.985667654000052
+      ],
+      [
+       100.59957538600008,
+       13.985659609000038
+      ],
+      [
+       100.59953042200004,
+       13.985651850000067
+      ],
+      [
+       100.59948427100005,
+       13.98564410800003
+      ],
+      [
+       100.59943881600009,
+       13.985636582000039
+      ],
+      [
+       100.59939511600005,
+       13.98562964100006
+      ],
+      [
+       100.59934977800003,
+       13.98562303700004
+      ],
+      [
+       100.59930461900007,
+       13.985616458000038
+      ],
+      [
+       100.59925937300005,
+       13.98560999400007
+      ],
+      [
+       100.59921392100006,
+       13.985603601000035
+      ],
+      [
+       100.59916825000005,
+       13.985597120000019
+      ],
+      [
+       100.59912250200006,
+       13.985590167000055
+      ],
+      [
+       100.59907696300007,
+       13.985583391000034
+      ],
+      [
+       100.59903130800006,
+       13.985576598000021
+      ],
+      [
+       100.59898605700005,
+       13.985569905000036
+      ],
+      [
+       100.59893920400003,
+       13.985562979000061
+      ],
+      [
+       100.59889219600007,
+       13.985555229000056
+      ],
+      [
+       100.59884597500007,
+       13.985547559000056
+      ],
+      [
+       100.5988003020001,
+       13.985540192000029
+      ],
+      [
+       100.59875533000009,
+       13.985533471000053
+      ],
+      [
+       100.59871089000006,
+       13.985526771000027
+      ],
+      [
+       100.59866532800004,
+       13.985520558000076
+      ],
+      [
+       100.59861865800008,
+       13.985514110000054
+      ],
+      [
+       100.59857041300006,
+       13.985506509000057
+      ],
+      [
+       100.59852322700004,
+       13.985497590000023
+      ],
+      [
+       100.59847980100005,
+       13.985489272000049
+      ],
+      [
+       100.59843679600004,
+       13.985482422000073
+      ],
+      [
+       100.59839206700008,
+       13.985475821000023
+      ],
+      [
+       100.59834650000005,
+       13.985469170000044
+      ],
+      [
+       100.59830138400008,
+       13.985462810000056
+      ],
+      [
+       100.59825561000008,
+       13.985456385000077
+      ],
+      [
+       100.59820950000005,
+       13.98544972600007
+      ],
+      [
+       100.59816349500005,
+       13.985442896000048
+      ],
+      [
+       100.59811754200007,
+       13.985436073000072
+      ],
+      [
+       100.59807113900007,
+       13.985429042000023
+      ],
+      [
+       100.59802526600004,
+       13.985422046000053
+      ],
+      [
+       100.59798019200008,
+       13.985415241000055
+      ],
+      [
+       100.59793431100007,
+       13.98540881400004
+      ],
+      [
+       100.59788811300007,
+       13.985402314000053
+      ],
+      [
+       100.59784268800007,
+       13.98539595200003
+      ],
+      [
+       100.59779786100006,
+       13.985389889000034
+      ],
+      [
+       100.59775220800003,
+       13.985383742000064
+      ],
+      [
+       100.59770582600004,
+       13.98537714500003
+      ],
+      [
+       100.59765950200006,
+       13.985370282000076
+      ],
+      [
+       100.59761370200005,
+       13.98536338200006
+      ],
+      [
+       100.59756789500005,
+       13.98535659600003
+      ],
+      [
+       100.59752221200006,
+       13.985349798000072
+      ],
+      [
+       100.59747584700006,
+       13.985342944000024
+      ],
+      [
+       100.59742989900008,
+       13.98533577400008
+      ],
+      [
+       100.59738454700005,
+       13.98532866600004
+      ],
+      [
+       100.59733919700005,
+       13.985321543000051
+      ],
+      [
+       100.59729325400008,
+       13.985314204000078
+      ],
+      [
+       100.59724744400006,
+       13.985306786000024
+      ],
+      [
+       100.59720192900005,
+       13.985299416000029
+      ],
+      [
+       100.59715650300006,
+       13.985292228000047
+      ],
+      [
+       100.59711096800004,
+       13.985284922000059
+      ],
+      [
+       100.59706552000006,
+       13.98527769900005
+      ],
+      [
+       100.59701941700008,
+       13.98527016500003
+      ],
+      [
+       100.59697403700005,
+       13.985262769000032
+      ],
+      [
+       100.59692892700008,
+       13.985255416000028
+      ],
+      [
+       100.59688325500008,
+       13.985248236000073
+      ],
+      [
+       100.59683786500005,
+       13.98524095400006
+      ],
+      [
+       100.59679255600008,
+       13.985233930000051
+      ],
+      [
+       100.59674706900006,
+       13.985227077000046
+      ],
+      [
+       100.59670147500003,
+       13.985220293000056
+      ],
+      [
+       100.59665618800005,
+       13.985213565000038
+      ],
+      [
+       100.59661007300008,
+       13.985206532000062
+      ],
+      [
+       100.59656426500004,
+       13.985199531000033
+      ],
+      [
+       100.59651961500003,
+       13.98519271500004
+      ],
+      [
+       100.59647430900009,
+       13.985186285000056
+      ],
+      [
+       100.59642869800007,
+       13.98517976900007
+      ],
+      [
+       100.59638367600007,
+       13.98517328100007
+      ],
+      [
+       100.59633774000008,
+       13.985166790000052
+      ],
+      [
+       100.59629227300007,
+       13.985160294000021
+      ],
+      [
+       100.59624678900008,
+       13.985153896000044
+      ],
+      [
+       100.59620112500005,
+       13.98514738700004
+      ],
+      [
+       100.59615532500004,
+       13.985140887000053
+      ],
+      [
+       100.59610882000004,
+       13.985134258000075
+      ],
+      [
+       100.59606239400006,
+       13.985127481000063
+      ],
+      [
+       100.59601699100007,
+       13.985120535000021
+      ],
+      [
+       100.59597165900004,
+       13.98511364500007
+      ],
+      [
+       100.59592649300004,
+       13.985106796000025
+      ],
+      [
+       100.59588068000005,
+       13.98510013800006
+      ],
+      [
+       100.59583478000008,
+       13.985093438000034
+      ],
+      [
+       100.59578850400004,
+       13.985086712000054
+      ],
+      [
+       100.59574283000006,
+       13.985079886000051
+      ],
+      [
+       100.59569713500008,
+       13.985073087000044
+      ],
+      [
+       100.59565086900005,
+       13.985066177000022
+      ],
+      [
+       100.59560537600004,
+       13.985059348000048
+      ],
+      [
+       100.59555964900005,
+       13.98505234400005
+      ],
+      [
+       100.59551355900004,
+       13.985045400000045
+      ],
+      [
+       100.59546771100008,
+       13.98503811300003
+      ],
+      [
+       100.59542187200003,
+       13.98503070700002
+      ],
+      [
+       100.59537604600007,
+       13.98502338700007
+      ],
+      [
+       100.59533065500005,
+       13.98501593900005
+      ],
+      [
+       100.59528540900004,
+       13.985008448000027
+      ],
+      [
+       100.59523999000004,
+       13.985001045000047
+      ],
+      [
+       100.59519409800004,
+       13.984993430000031
+      ],
+      [
+       100.59514863400005,
+       13.984985936000044
+      ],
+      [
+       100.59510281900003,
+       13.98497836600006
+      ],
+      [
+       100.59505763000004,
+       13.98497108400005
+      ],
+      [
+       100.59501224400003,
+       13.98496368600007
+      ],
+      [
+       100.59496609700005,
+       13.98495626300007
+      ],
+      [
+       100.59492069900006,
+       13.98494873000004
+      ],
+      [
+       100.59487496100009,
+       13.984941191000075
+      ],
+      [
+       100.59482884200008,
+       13.98493331900005
+      ],
+      [
+       100.59478311400005,
+       13.98492539700004
+      ],
+      [
+       100.59473760500003,
+       13.984917513000028
+      ],
+      [
+       100.59469217600008,
+       13.984909725000023
+      ],
+      [
+       100.59464681100008,
+       13.984901931000024
+      ],
+      [
+       100.59460198600004,
+       13.98489427800007
+      ],
+      [
+       100.59455674600008,
+       13.984886754000058
+      ],
+      [
+       100.59451169400006,
+       13.984879478000039
+      ],
+      [
+       100.59446591400007,
+       13.98487200000005
+      ],
+      [
+       100.5944206380001,
+       13.984864252000023
+      ],
+      [
+       100.59437567500004,
+       13.984856659000059
+      ],
+      [
+       100.59433033000005,
+       13.984848934000073
+      ],
+      [
+       100.59428493000007,
+       13.984841134000021
+      ],
+      [
+       100.59423982300007,
+       13.98483345000005
+      ],
+      [
+       100.59419401500008,
+       13.984825666000061
+      ],
+      [
+       100.59414887800007,
+       13.984818059000077
+      ],
+      [
+       100.59410306700006,
+       13.98481024000006
+      ],
+      [
+       100.59405782100004,
+       13.984802515000068
+      ],
+      [
+       100.59401211900007,
+       13.98479458000003
+      ],
+      [
+       100.59396699100006,
+       13.984786693000043
+      ],
+      [
+       100.59392176700004,
+       13.98477890600003
+      ],
+      [
+       100.59387618600005,
+       13.984771009000038
+      ],
+      [
+       100.59383116900005,
+       13.984763275000034
+      ],
+      [
+       100.59378627300003,
+       13.984755842000027
+      ],
+      [
+       100.59374127600006,
+       13.98474847500006
+      ],
+      [
+       100.59369591000006,
+       13.98474114800007
+      ],
+      [
+       100.59365013400009,
+       13.984733502000037
+      ],
+      [
+       100.59360461500006,
+       13.984725899000068
+      ],
+      [
+       100.59355897700004,
+       13.984718259000033
+      ],
+      [
+       100.59351324800008,
+       13.984710403000063
+      ],
+      [
+       100.59346775700004,
+       13.984702487000048
+      ],
+      [
+       100.59342225700004,
+       13.984694587000035
+      ],
+      [
+       100.59337698600007,
+       13.984686709000071
+      ],
+      [
+       100.59333158600003,
+       13.984678944000049
+      ],
+      [
+       100.59328612000007,
+       13.984671215000047
+      ],
+      [
+       100.59324047800004,
+       13.984663256000031
+      ],
+      [
+       100.59319467800003,
+       13.984655156000029
+      ],
+      [
+       100.59314937100004,
+       13.984647255000025
+      ],
+      [
+       100.59310435600008,
+       13.984639287000048
+      ],
+      [
+       100.59305889500007,
+       13.984631528000019
+      ],
+      [
+       100.59301344800008,
+       13.98462370300007
+      ],
+      [
+       100.59296813200007,
+       13.984615835000056
+      ],
+      [
+       100.59292255800005,
+       13.98460815600004
+      ],
+      [
+       100.59287744600006,
+       13.98460043700004
+      ],
+      [
+       100.59283213000003,
+       13.984592700000062
+      ],
+      [
+       100.59278635300006,
+       13.984584669000071
+      ],
+      [
+       100.59274047200006,
+       13.984576672000058
+      ],
+      [
+       100.59269511500008,
+       13.98456873200007
+      ],
+      [
+       100.59265031700005,
+       13.98456123300002
+      ],
+      [
+       100.59260520800007,
+       13.984553881000068
+      ],
+      [
+       100.59258396200005,
+       13.98455044800005
+      ],
+      [
+       100.59255913400006,
+       13.984546436000072
+      ],
+      [
+       100.59251261300005,
+       13.98453859800003
+      ],
+      [
+       100.59246658100007,
+       13.984530403000068
+      ],
+      [
+       100.59242150300008,
+       13.984522325000057
+      ],
+      [
+       100.59237696200007,
+       13.984514506000039
+      ],
+      [
+       100.59233190500004,
+       13.984506847000032
+      ],
+      [
+       100.59228615100007,
+       13.984499038000019
+      ],
+      [
+       100.59224043800003,
+       13.984491218000075
+      ],
+      [
+       100.59219515300003,
+       13.984483386000019
+      ],
+      [
+       100.59214987200006,
+       13.98447547200004
+      ],
+      [
+       100.59210347800008,
+       13.984467373000028
+      ],
+      [
+       100.59205774300005,
+       13.98445938500004
+      ],
+      [
+       100.59201214300003,
+       13.98445148500002
+      ],
+      [
+       100.59196652500003,
+       13.984443516000056
+      ],
+      [
+       100.59192135900008,
+       13.984435856000061
+      ],
+      [
+       100.59187611400006,
+       13.984428165000056
+      ],
+      [
+       100.59183059700007,
+       13.984420496000041
+      ],
+      [
+       100.59178491600005,
+       13.984412899000064
+      ],
+      [
+       100.59173913400008,
+       13.98440520200006
+      ],
+      [
+       100.59169367900006,
+       13.98439766000007
+      ],
+      [
+       100.59164819900008,
+       13.984390327000026
+      ],
+      [
+       100.59160266600009,
+       13.984383154000055
+      ],
+      [
+       100.59155703100004,
+       13.984375948000032
+      ],
+      [
+       100.59151153100004,
+       13.984368748000067
+      ],
+      [
+       100.59146594800006,
+       13.984361551000063
+      ],
+      [
+       100.59142012800004,
+       13.984354316000065
+      ],
+      [
+       100.59137425300008,
+       13.984346872000057
+      ],
+      [
+       100.59132827900004,
+       13.984339360000037
+      ],
+      [
+       100.59128273700009,
+       13.984331902000063
+      ],
+      [
+       100.59123756500009,
+       13.984324754000058
+      ],
+      [
+       100.59119196900008,
+       13.98431758600003
+      ],
+      [
+       100.59114833200005,
+       13.984310858000068
+      ],
+      [
+       100.59110573300006,
+       13.984305649000078
+      ],
+      [
+       100.59106122000009,
+       13.984301585000024
+      ],
+      [
+       100.59101630200009,
+       13.984297395000057
+      ],
+      [
+       100.59097211300008,
+       13.984294373000067
+      ],
+      [
+       100.59092683700004,
+       13.984292434000054
+      ],
+      [
+       100.59088131600004,
+       13.98429057000004
+      ],
+      [
+       100.59083714900004,
+       13.98428942600003
+      ],
+      [
+       100.59079270000007,
+       13.98428942600003
+      ],
+      [
+       100.59074708300005,
+       13.984289426000034
+      ],
+      [
+       100.59070343000008,
+       13.984289998000067
+      ],
+      [
+       100.59065879800005,
+       13.984291837000056
+      ],
+      [
+       100.59061326600005,
+       13.98429371800006
+      ],
+      [
+       100.59057136200006,
+       13.984295822000034
+      ],
+      [
+       100.59052851300004,
+       13.984300820000044
+      ],
+      [
+       100.59048246700007,
+       13.984306225000068
+      ],
+      [
+       100.59043821400007,
+       13.984311346000025
+      ],
+      [
+       100.59039398200008,
+       13.984317885000053
+      ],
+      [
+       100.59034824700007,
+       13.98432477500006
+      ],
+      [
+       100.59030438800005,
+       13.984331315000077
+      ],
+      [
+       100.59026143900007,
+       13.98433927900004
+      ],
+      [
+       100.59021665900008,
+       13.984348077000048
+      ],
+      [
+       100.59017311400004,
+       13.984356612000054
+      ],
+      [
+       100.59013138700004,
+       13.984365968000077
+      ],
+      [
+       100.59008793100008,
+       13.984377073000074
+      ],
+      [
+       100.59004362600008,
+       13.98438844600002
+      ],
+      [
+       100.59000129600008,
+       13.984399709000057
+      ],
+      [
+       100.58995982600004,
+       13.984412835000056
+      ],
+      [
+       100.58991595100008,
+       13.98442655800005
+      ],
+      [
+       100.58987316900004,
+       13.984440028000053
+      ],
+      [
+       100.58983241100003,
+       13.98445491000007
+      ],
+      [
+       100.58978898300008,
+       13.984470820000066
+      ],
+      [
+       100.58974763400005,
+       13.98448589000003
+      ],
+      [
+       100.58970836300006,
+       13.98450266700007
+      ],
+      [
+       100.58966579800006,
+       13.984520909000027
+      ],
+      [
+       100.58962501800005,
+       13.98453846900003
+      ],
+      [
+       100.58958540800006,
+       13.984557176000068
+      ],
+      [
+       100.58954398900005,
+       13.984577041000023
+      ],
+      [
+       100.58950473700008,
+       13.984595871000069
+      ],
+      [
+       100.58946708200006,
+       13.984616656000071
+      ],
+      [
+       100.5894270510001,
+       13.984638962000075
+      ],
+      [
+       100.58938830400008,
+       13.984660541000038
+      ],
+      [
+       100.58935107700006,
+       13.98468312600005
+      ],
+      [
+       100.58931216600007,
+       13.984706789000029
+      ],
+      [
+       100.58927526500008,
+       13.984729628000025
+      ],
+      [
+       100.58923892200005,
+       13.984754334000057
+      ],
+      [
+       100.5892015620001,
+       13.984779668000046
+      ],
+      [
+       100.58916583300004,
+       13.984804631000026
+      ],
+      [
+       100.58912970700005,
+       13.984831434000057
+      ],
+      [
+       100.58909276500005,
+       13.984858717000069
+      ],
+      [
+       100.58905684900009,
+       13.984885580000023
+      ],
+      [
+       100.58902071700004,
+       13.984913076000057
+      ],
+      [
+       100.58898492700007,
+       13.984940217000029
+      ],
+      [
+       100.58894931100008,
+       13.984967614000027
+      ],
+      [
+       100.58891362900005,
+       13.984995784000036
+      ],
+      [
+       100.58887745400006,
+       13.985024221000058
+      ],
+      [
+       100.58884097800006,
+       13.98505275900004
+      ],
+      [
+       100.58880464100008,
+       13.985081066000074
+      ],
+      [
+       100.58876787100007,
+       13.985109631000057
+      ],
+      [
+       100.58873063700008,
+       13.98513794100006
+      ],
+      [
+       100.58869340700005,
+       13.985165508000023
+      ],
+      [
+       100.58865686200005,
+       13.985192414000037
+      ],
+      [
+       100.58862001600005,
+       13.98521949600007
+      ],
+      [
+       100.58858285600007,
+       13.985246512000058
+      ],
+      [
+       100.58854604800007,
+       13.985273345000053
+      ],
+      [
+       100.58850918400003,
+       13.985300272000073
+      ],
+      [
+       100.58847230800008,
+       13.985327481000068
+      ],
+      [
+       100.58843529000006,
+       13.985354694000021
+      ],
+      [
+       100.58839828400005,
+       13.985381972000027
+      ],
+      [
+       100.58836088700008,
+       13.98540931600007
+      ],
+      [
+       100.58832392000005,
+       13.985436292000033
+      ],
+      [
+       100.58828760100005,
+       13.985462893000033
+      ],
+      [
+       100.58825180100007,
+       13.985489940000035
+      ],
+      [
+       100.58821500100004,
+       13.985517740000033
+      ],
+      [
+       100.58817911700004,
+       13.985544850000053
+      ],
+      [
+       100.58814354200007,
+       13.98557244300002
+      ],
+      [
+       100.58810741100007,
+       13.985600490000024
+      ],
+      [
+       100.58807166800005,
+       13.985628312000074
+      ],
+      [
+       100.58803569400004,
+       13.985656754000047
+      ],
+      [
+       100.58799974800009,
+       13.98568521100003
+      ],
+      [
+       100.58796383200007,
+       13.985713686000052
+      ],
+      [
+       100.58792860800008,
+       13.985741984000072
+      ],
+      [
+       100.58789316100007,
+       13.985770641000046
+      ],
+      [
+       100.58785729500005,
+       13.985799533000032
+      ],
+      [
+       100.58782217200007,
+       13.985828126000058
+      ],
+      [
+       100.58778708200003,
+       13.985856954000042
+      ],
+      [
+       100.58775122900005,
+       13.98588646200005
+      ],
+      [
+       100.58771553800005,
+       13.98591539800003
+      ],
+      [
+       100.58768008400006,
+       13.985944142000047
+      ],
+      [
+       100.58764453000003,
+       13.98597288600007
+      ],
+      [
+       100.58760901700003,
+       13.98600159600005
+      ],
+      [
+       100.58757365900004,
+       13.986030162000075
+      ],
+      [
+       100.58753813000004,
+       13.986058948000052
+      ],
+      [
+       100.58750160400007,
+       13.986088108000045
+      ],
+      [
+       100.58746570300008,
+       13.986116708000054
+      ],
+      [
+       100.58743000300007,
+       13.986145208000039
+      ],
+      [
+       100.58739413000006,
+       13.986173787000041
+      ],
+      [
+       100.58735831100006,
+       13.986202422000078
+      ],
+      [
+       100.58732254100005,
+       13.986231039000074
+      ],
+      [
+       100.58728713000005,
+       13.986259686000036
+      ],
+      [
+       100.58725181300008,
+       13.986288218000025
+      ],
+      [
+       100.58721680200006,
+       13.986316665000057
+      ],
+      [
+       100.58718164200008,
+       13.986345351000068
+      ],
+      [
+       100.58714598700004,
+       13.986374532000074
+      ],
+      [
+       100.58711048400005,
+       13.986403716000039
+      ],
+      [
+       100.58707467700003,
+       13.986432867000074
+      ],
+      [
+       100.58703901000007,
+       13.986461721000065
+      ],
+      [
+       100.58700346900008,
+       13.986490554000055
+      ],
+      [
+       100.58696742600007,
+       13.986519650000046
+      ],
+      [
+       100.58693157900007,
+       13.986548368000058
+      ],
+      [
+       100.58689605500007,
+       13.98657682700002
+      ],
+      [
+       100.58686090600008,
+       13.986605243000044
+      ],
+      [
+       100.58682579400005,
+       13.986633890000062
+      ],
+      [
+       100.58679047200008,
+       13.986662726000079
+      ],
+      [
+       100.58675510900008,
+       13.986691696000033
+      ],
+      [
+       100.58671940900007,
+       13.986720896000067
+      ],
+      [
+       100.58668407400006,
+       13.986749842000046
+      ],
+      [
+       100.58664857000008,
+       13.986778982000033
+      ],
+      [
+       100.58661389700006,
+       13.986807677000057
+      ],
+      [
+       100.58657872200007,
+       13.98683673800002
+      ],
+      [
+       100.58654341100004,
+       13.986865848000038
+      ],
+      [
+       100.58650836800007,
+       13.986894783000025
+      ],
+      [
+       100.58647286000007,
+       13.986923990000035
+      ],
+      [
+       100.58643754500008,
+       13.986953137000055
+      ],
+      [
+       100.58640231800007,
+       13.986982393000064
+      ],
+      [
+       100.58636700700004,
+       13.987011803000032
+      ],
+      [
+       100.58633174000005,
+       13.987041076000025
+      ],
+      [
+       100.58629619400006,
+       13.987070730000026
+      ],
+      [
+       100.58626098300005,
+       13.98710003900004
+      ],
+      [
+       100.58622613800009,
+       13.987129094000064
+      ],
+      [
+       100.58619103800004,
+       13.98715839400006
+      ],
+      [
+       100.58615616000009,
+       13.987187475000038
+      ],
+      [
+       100.58612167700005,
+       13.987216294000065
+      ],
+      [
+       100.58608685700005,
+       13.987245658000063
+      ],
+      [
+       100.58605203600008,
+       13.987275190000044
+      ],
+      [
+       100.58601731800007,
+       13.987304591000052
+      ],
+      [
+       100.58598219400005,
+       13.98733419500007
+      ],
+      [
+       100.58594686000005,
+       13.98736392400002
+      ],
+      [
+       100.58591172300004,
+       13.987393487000077
+      ],
+      [
+       100.58587718800004,
+       13.987422792000071
+      ],
+      [
+       100.58584339800007,
+       13.987451925000073
+      ],
+      [
+       100.58580904200005,
+       13.987481559000058
+      ],
+      [
+       100.58577307100006,
+       13.987512319000073
+      ],
+      [
+       100.58573695600008,
+       13.987542228000052
+      ],
+      [
+       100.58570142200006,
+       13.987571656000055
+      ],
+      [
+       100.58566594800004,
+       13.98760098300005
+      ],
+      [
+       100.58563025200004,
+       13.987630124000075
+      ],
+      [
+       100.58559466100007,
+       13.987659099000043
+      ],
+      [
+       100.58555970200007,
+       13.987687503000076
+      ],
+      [
+       100.58552472300005,
+       13.98771633800004
+      ],
+      [
+       100.58548957600004,
+       13.987745377000067
+      ],
+      [
+       100.58545451300006,
+       13.98777421100004
+      ],
+      [
+       100.58541908200004,
+       13.987803237000035
+      ],
+      [
+       100.58538385800006,
+       13.987832156000023
+      ],
+      [
+       100.58534868100008,
+       13.98786093700005
+      ],
+      [
+       100.58531343700008,
+       13.987889909000042
+      ],
+      [
+       100.58527812600005,
+       13.98791903600005
+      ],
+      [
+       100.58524262500005,
+       13.987948354000023
+      ],
+      [
+       100.58520725100004,
+       13.987977684000041
+      ],
+      [
+       100.58517247800006,
+       13.988006893000033
+      ],
+      [
+       100.58513762400008,
+       13.98803613900003
+      ],
+      [
+       100.58510222000007,
+       13.988065793000032
+      ],
+      [
+       100.58508588200004,
+       13.988079286000072
+      ],
+      [
+       100.58506638000006,
+       13.988095391000058
+      ],
+      [
+       100.58503099200006,
+       13.988124664000052
+      ],
+      [
+       100.58499546000007,
+       13.988153873000043
+      ],
+      [
+       100.58496009400005,
+       13.988182927000025
+      ],
+      [
+       100.58492463900006,
+       13.988211971000053
+      ],
+      [
+       100.58488939100005,
+       13.988240847000041
+      ],
+      [
+       100.58485483800007,
+       13.988269378000039
+      ],
+      [
+       100.58481981100005,
+       13.988298749000023
+      ],
+      [
+       100.58478460300006,
+       13.988328239000056
+      ],
+      [
+       100.58474923800009,
+       13.988357728000041
+      ],
+      [
+       100.58471326100005,
+       13.988387136000028
+      ],
+      [
+       100.58467816700005,
+       13.988415831000053
+      ],
+      [
+       100.58464342100007,
+       13.988444241000025
+      ],
+      [
+       100.58460869100008,
+       13.988473166000063
+      ],
+      [
+       100.58457398500008,
+       13.988502404000027
+      ],
+      [
+       100.58453862000005,
+       13.988532158000051
+      ],
+      [
+       100.58450371200007,
+       13.988561464000043
+      ],
+      [
+       100.58446911200008,
+       13.988590564000049
+      ],
+      [
+       100.58443426400004,
+       13.988619821000041
+      ],
+      [
+       100.58439900100007,
+       13.988649559000065
+      ],
+      [
+       100.58436356200008,
+       13.988679057000068
+      ],
+      [
+       100.58432825100004,
+       13.988708466000045
+      ],
+      [
+       100.58429326000004,
+       13.988737576000062
+      ],
+      [
+       100.58425853900007,
+       13.988766659000078
+      ],
+      [
+       100.58422381200006,
+       13.988796127000054
+      ],
+      [
+       100.58418923700003,
+       13.98882550500002
+      ],
+      [
+       100.58415461200008,
+       13.98885492700003
+      ],
+      [
+       100.58411968600007,
+       13.988884564000044
+      ],
+      [
+       100.58408500500009,
+       13.988914148000049
+      ],
+      [
+       100.58404963100008,
+       13.988944195000043
+      ],
+      [
+       100.58401438900006,
+       13.98897398500003
+      ],
+      [
+       100.58397915000006,
+       13.989003385000048
+      ],
+      [
+       100.58394405000007,
+       13.989032685000039
+      ],
+      [
+       100.58390898400008,
+       13.989061939000065
+      ],
+      [
+       100.58387392800006,
+       13.98909110200003
+      ],
+      [
+       100.58383916100007,
+       13.98912017500004
+      ],
+      [
+       100.58380447900004,
+       13.989149077000032
+      ],
+      [
+       100.58376938100008,
+       13.989178606000053
+      ],
+      [
+       100.58373395600006,
+       13.98920844400004
+      ],
+      [
+       100.58369848100006,
+       13.98923840700007
+      ],
+      [
+       100.58366262600003,
+       13.989268488000047
+      ],
+      [
+       100.58362758600003,
+       13.989297386000032
+      ],
+      [
+       100.58359262100004,
+       13.989326357000039
+      ],
+      [
+       100.58355762000008,
+       13.989355276000026
+      ],
+      [
+       100.58352253800007,
+       13.989384494000035
+      ],
+      [
+       100.5834872600001,
+       13.989413976000035
+      ],
+      [
+       100.58345173900005,
+       13.989443594000022
+      ],
+      [
+       100.58341677000004,
+       13.989472784000045
+      ],
+      [
+       100.58338194500004,
+       13.989502021000021
+      ],
+      [
+       100.58334676600003,
+       13.989531503000025
+      ],
+      [
+       100.58331146000006,
+       13.989561177000043
+      ],
+      [
+       100.58327608700006,
+       13.989590503000047
+      ],
+      [
+       100.58325676936376,
+       13.989606509247725
+      ]
+     ]
+    },
+    "properties": {
+     "segment_id": "rsv1-rc31f3d87fc7:doh:1036:p0:c0:r2000:00000",
+     "route_code": "0346",
+     "segment_km": 1.9999999999994045,
+     "province_code": 13,
+     "coverage": "supported_qualified_doh_segment"
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "rsv1-rc31f3d87fc7:doh:1036:p0:c0:r2000:00001",
+    "geometry": {
+     "type": "LineString",
+     "coordinates": [
+      [
+       100.58325676936376,
+       13.989606509247725
+      ],
+      [
+       100.58324104400003,
+       13.989619539000048
+      ],
+      [
+       100.58320580000009,
+       13.98964869200006
+      ],
+      [
+       100.58317028900007,
+       13.989678202000052
+      ],
+      [
+       100.58313497000006,
+       13.98970740000004
+      ],
+      [
+       100.58309951200005,
+       13.989736683000045
+      ],
+      [
+       100.58306457100008,
+       13.98976578400004
+      ],
+      [
+       100.58303006500007,
+       13.989794821000032
+      ],
+      [
+       100.58299473100004,
+       13.989824549000048
+      ],
+      [
+       100.58295967900006,
+       13.989853993000054
+      ],
+      [
+       100.58292476000008,
+       13.989883293000046
+      ],
+      [
+       100.58288971100006,
+       13.989912550000044
+      ],
+      [
+       100.58285477900006,
+       13.989941940000051
+      ],
+      [
+       100.58282011500006,
+       13.989971440000032
+      ],
+      [
+       100.58278503400004,
+       13.990001324000046
+      ],
+      [
+       100.58274936500004,
+       13.990031708000062
+      ],
+      [
+       100.58271347000004,
+       13.990061383000068
+      ],
+      [
+       100.58267815000005,
+       13.990090400000042
+      ],
+      [
+       100.58264277800004,
+       13.990119611000065
+      ],
+      [
+       100.58260856200008,
+       13.990148058000047
+      ],
+      [
+       100.58257370700005,
+       13.990177121000045
+      ],
+      [
+       100.58253769600009,
+       13.990207130000043
+      ],
+      [
+       100.58250292800005,
+       13.990236103000028
+      ],
+      [
+       100.58246726000004,
+       13.990265876000022
+      ],
+      [
+       100.58243167200004,
+       13.990295583000032
+      ],
+      [
+       100.58239750200005,
+       13.990324273000056
+      ],
+      [
+       100.58236218300004,
+       13.990353958000071
+      ],
+      [
+       100.58232654700004,
+       13.99038353700007
+      ],
+      [
+       100.58229087000008,
+       13.990413000000046
+      ],
+      [
+       100.58225567600005,
+       13.990442095000049
+      ],
+      [
+       100.58222110600008,
+       13.990470653000045
+      ],
+      [
+       100.58218509700004,
+       13.990500313000041
+      ],
+      [
+       100.58215122900003,
+       13.990528719000054
+      ],
+      [
+       100.58211390200006,
+       13.990559842000037
+      ],
+      [
+       100.58207903100003,
+       13.990588142000036
+      ],
+      [
+       100.58204366600006,
+       13.990617069000054
+      ],
+      [
+       100.58200855100006,
+       13.990646068000045
+      ],
+      [
+       100.58197290200008,
+       13.990675974000053
+      ],
+      [
+       100.58193915000004,
+       13.990704365000056
+      ],
+      [
+       100.58190158400004,
+       13.990736291000074
+      ],
+      [
+       100.58186680400009,
+       13.990765140000066
+      ],
+      [
+       100.58183231300006,
+       13.990794180000023
+      ],
+      [
+       100.58179305600005,
+       13.99082411000006
+      ],
+      [
+       100.58175804800004,
+       13.990852192000034
+      ],
+      [
+       100.58172451000007,
+       13.990880399000046
+      ],
+      [
+       100.58169097500007,
+       13.990908844000044
+      ],
+      [
+       100.58165632900005,
+       13.99093808300006
+      ],
+      [
+       100.58162121800007,
+       13.990967792000047
+      ],
+      [
+       100.58158626700003,
+       13.990997272000072
+      ],
+      [
+       100.58155017000007,
+       13.991027100000055
+      ],
+      [
+       100.58151526500006,
+       13.991055939000034
+      ],
+      [
+       100.58148034000004,
+       13.991085093000034
+      ],
+      [
+       100.58144548400008,
+       13.991114157000027
+      ],
+      [
+       100.58141072500007,
+       13.991143239000055
+      ],
+      [
+       100.58137582100005,
+       13.99117255800007
+      ],
+      [
+       100.58134049100005,
+       13.991202267000062
+      ],
+      [
+       100.58130506900005,
+       13.991231819000063
+      ],
+      [
+       100.58126932700009,
+       13.99126121800003
+      ],
+      [
+       100.58123418200006,
+       13.991290173000035
+      ],
+      [
+       100.58119890200004,
+       13.99131927400003
+      ],
+      [
+       100.58116397600008,
+       13.99134823000003
+      ],
+      [
+       100.58112891900004,
+       13.99137741100003
+      ],
+      [
+       100.58109476100009,
+       13.991405942000027
+      ],
+      [
+       100.58106004100006,
+       13.991435518000058
+      ],
+      [
+       100.58102489700008,
+       13.991465467000065
+      ],
+      [
+       100.58098883900006,
+       13.99149515500005
+      ],
+      [
+       100.58095325700003,
+       13.991524003000052
+      ],
+      [
+       100.58091784700008,
+       13.99155288500003
+      ],
+      [
+       100.58088216100003,
+       13.991582408000054
+      ],
+      [
+       100.58084699900007,
+       13.991611411000065
+      ],
+      [
+       100.58081211600006,
+       13.991640630000063
+      ],
+      [
+       100.58077705100004,
+       13.99166988400003
+      ],
+      [
+       100.58074184200007,
+       13.991699275000027
+      ],
+      [
+       100.58070651100007,
+       13.991728584000038
+      ],
+      [
+       100.58067148700007,
+       13.991757621000032
+      ],
+      [
+       100.58063631800007,
+       13.991786912000064
+      ],
+      [
+       100.58060126200007,
+       13.991816175000048
+      ],
+      [
+       100.58056619500007,
+       13.991845448000047
+      ],
+      [
+       100.58053148300009,
+       13.991874474000042
+      ],
+      [
+       100.58049667400007,
+       13.991903666000042
+      ],
+      [
+       100.58046150900009,
+       13.991932903000079
+      ],
+      [
+       100.58042656400005,
+       13.991961957000058
+      ],
+      [
+       100.58039170700005,
+       13.99199102100005
+      ],
+      [
+       100.58035644900009,
+       13.992020403000025
+      ],
+      [
+       100.58032141600006,
+       13.992049830000042
+      ],
+      [
+       100.58028592600004,
+       13.992079355000044
+      ],
+      [
+       100.58025012000007,
+       13.992108824000068
+      ],
+      [
+       100.58021478100005,
+       13.99213791000005
+      ],
+      [
+       100.58018022600004,
+       13.992166739000023
+      ],
+      [
+       100.58014556500007,
+       13.992195937000076
+      ],
+      [
+       100.58011076500009,
+       13.992225337000036
+      ],
+      [
+       100.58007563600006,
+       13.992254930000056
+      ],
+      [
+       100.58004041600009,
+       13.992284330000073
+      ],
+      [
+       100.58000546000005,
+       13.99231359300006
+      ],
+      [
+       100.57997055000004,
+       13.992342802000055
+      ],
+      [
+       100.57993557300006,
+       13.99237206600003
+      ],
+      [
+       100.57990024900005,
+       13.992401503000051
+      ],
+      [
+       100.57986539100006,
+       13.992430784000023
+      ],
+      [
+       100.57983060000004,
+       13.99245999200002
+      ],
+      [
+       100.57979575600007,
+       13.992489429000047
+      ],
+      [
+       100.57976041600006,
+       13.992519030000038
+      ],
+      [
+       100.57972476200007,
+       13.992548776000033
+      ],
+      [
+       100.57968969300003,
+       13.99257806600002
+      ],
+      [
+       100.57965492100004,
+       13.992607275000065
+      ],
+      [
+       100.57962009900007,
+       13.992636708000076
+      ],
+      [
+       100.57958525300006,
+       13.992666100000067
+      ],
+      [
+       100.57954968800004,
+       13.992695620000061
+      ],
+      [
+       100.57951454300007,
+       13.992724858000033
+      ],
+      [
+       100.57947970900005,
+       13.99275370300006
+      ],
+      [
+       100.57944485900003,
+       13.992782795000037
+      ],
+      [
+       100.57940951200004,
+       13.99281245000003
+      ],
+      [
+       100.57937369600006,
+       13.99284243100004
+      ],
+      [
+       100.57933825700007,
+       13.992871829000023
+      ],
+      [
+       100.57930300300006,
+       13.992900974000069
+      ],
+      [
+       100.57926762500006,
+       13.99293023800004
+      ],
+      [
+       100.57923249100008,
+       13.992959166000045
+      ],
+      [
+       100.57919744800006,
+       13.99298810200003
+      ],
+      [
+       100.57916248800007,
+       13.993016822000074
+      ],
+      [
+       100.57912783200004,
+       13.993045949000077
+      ],
+      [
+       100.57909266300004,
+       13.993075523000071
+      ],
+      [
+       100.57905723200008,
+       13.993105349000071
+      ],
+      [
+       100.57902228100005,
+       13.993134692000066
+      ],
+      [
+       100.57898721700008,
+       13.993164129000034
+      ],
+      [
+       100.57895184300008,
+       13.993193575000078
+      ],
+      [
+       100.57891663400005,
+       13.993222865000064
+      ],
+      [
+       100.57888109400005,
+       13.993252281000025
+      ],
+      [
+       100.57884548300007,
+       13.993281690000062
+      ],
+      [
+       100.57881021400004,
+       13.993310865000069
+      ],
+      [
+       100.57877509900004,
+       13.993339911000021
+      ],
+      [
+       100.57874012800006,
+       13.993369121000056
+      ],
+      [
+       100.57870517100008,
+       13.993398384000045
+      ],
+      [
+       100.57866994300008,
+       13.993427875000064
+      ],
+      [
+       100.57863420400008,
+       13.993457438000064
+      ],
+      [
+       100.57859891500004,
+       13.993486311000023
+      ],
+      [
+       100.57856415600008,
+       13.993514930000057
+      ],
+      [
+       100.57852913000005,
+       13.99354410200004
+      ],
+      [
+       100.57849389700004,
+       13.993573530000049
+      ],
+      [
+       100.57845910600008,
+       13.993602456000074
+      ],
+      [
+       100.57842465500005,
+       13.993631545000028
+      ],
+      [
+       100.57838966700007,
+       13.993661020000046
+      ],
+      [
+       100.57835441400005,
+       13.993690649000028
+      ],
+      [
+       100.57831890800009,
+       13.993720320000024
+      ],
+      [
+       100.57828328700003,
+       13.993749938000063
+      ],
+      [
+       100.57824833100005,
+       13.993779118000077
+      ],
+      [
+       100.57821451500007,
+       13.993807447000052
+      ],
+      [
+       100.57817893400005,
+       13.993837280000038
+      ],
+      [
+       100.57814435300008,
+       13.993866738000065
+      ],
+      [
+       100.57810981500006,
+       13.99389649900007
+      ],
+      [
+       100.57807368200008,
+       13.99392754200005
+      ],
+      [
+       100.57803776200006,
+       13.993957476000046
+      ],
+      [
+       100.57800238400006,
+       13.993987057000025
+      ],
+      [
+       100.57796731900004,
+       13.994016311000054
+      ],
+      [
+       100.57793268400007,
+       13.994045174000062
+      ],
+      [
+       100.57789834500007,
+       13.994074070000064
+      ],
+      [
+       100.57786374700004,
+       13.994103454000024
+      ],
+      [
+       100.57782844900004,
+       13.994133003000057
+      ],
+      [
+       100.57779320400005,
+       13.994162474000062
+      ],
+      [
+       100.57775920600005,
+       13.994191165000075
+      ],
+      [
+       100.57772530300008,
+       13.99422042300006
+      ],
+      [
+       100.57769129000009,
+       13.994249738000063
+      ],
+      [
+       100.57765503400003,
+       13.994279866000054
+      ],
+      [
+       100.57761950800005,
+       13.994309301000042
+      ],
+      [
+       100.57758310600008,
+       13.994338731000026
+      ],
+      [
+       100.57754637300008,
+       13.994367773000022
+      ],
+      [
+       100.57751127300008,
+       13.994395524000026
+      ],
+      [
+       100.57747728100009,
+       13.994424108000034
+      ],
+      [
+       100.57744305900007,
+       13.994452942000068
+      ],
+      [
+       100.57740826800006,
+       13.994482320000033
+      ],
+      [
+       100.57737291300003,
+       13.994511966000063
+      ],
+      [
+       100.57733805900006,
+       13.994541311000033
+      ],
+      [
+       100.57730249500008,
+       13.994571048000068
+      ],
+      [
+       100.57726737500008,
+       13.99460036500005
+      ],
+      [
+       100.57723292500003,
+       13.99462914000003
+      ],
+      [
+       100.57719765700006,
+       13.994658812000068
+      ],
+      [
+       100.57716270600008,
+       13.994688056000033
+      ],
+      [
+       100.57712771100006,
+       13.994717419000038
+      ],
+      [
+       100.57709191500004,
+       13.99474706500007
+      ],
+      [
+       100.57705680100008,
+       13.994776076000049
+      ],
+      [
+       100.57702233900005,
+       13.994804596000051
+      ],
+      [
+       100.57698743300006,
+       13.99483394900005
+      ],
+      [
+       100.57695225800006,
+       13.99486351200005
+      ],
+      [
+       100.57691697400008,
+       13.994893066000028
+      ],
+      [
+       100.57688170900008,
+       13.994922420000025
+      ],
+      [
+       100.57684664200008,
+       13.994951693000075
+      ],
+      [
+       100.57681175200008,
+       13.994980784000065
+      ],
+      [
+       100.57677663900007,
+       13.995010112000044
+      ],
+      [
+       100.57674151800006,
+       13.995039530000042
+      ],
+      [
+       100.57670639800006,
+       13.995068829000045
+      ],
+      [
+       100.57667111100005,
+       13.995098202000065
+      ],
+      [
+       100.57663565700007,
+       13.99512764700006
+      ],
+      [
+       100.57660052000006,
+       13.995156811000072
+      ],
+      [
+       100.57656558300005,
+       13.99518607500005
+      ],
+      [
+       100.57653061700006,
+       13.995215347000054
+      ],
+      [
+       100.57649581700008,
+       13.995244547000025
+      ],
+      [
+       100.57646068500009,
+       13.995273957000052
+      ],
+      [
+       100.57642522000003,
+       13.995303511000031
+      ],
+      [
+       100.57639013300007,
+       13.995332784000025
+      ],
+      [
+       100.57635458400006,
+       13.995362273000069
+      ],
+      [
+       100.57631891900007,
+       13.99539149000003
+      ],
+      [
+       100.57628373100005,
+       13.995420281000063
+      ],
+      [
+       100.57624870300003,
+       13.995448993000023
+      ],
+      [
+       100.57621375000008,
+       13.995478303000027
+      ],
+      [
+       100.57617868300008,
+       13.995507575000033
+      ],
+      [
+       100.57614355300007,
+       13.995537085000022
+      ],
+      [
+       100.57610805000007,
+       13.995566518000032
+      ],
+      [
+       100.57607244100006,
+       13.995595808000077
+      ],
+      [
+       100.57603713000003,
+       13.99562491800003
+      ],
+      [
+       100.57600182700008,
+       13.995653937000041
+      ],
+      [
+       100.57596705600008,
+       13.995682748000034
+      ],
+      [
+       100.57593194700007,
+       13.995711955000049
+      ],
+      [
+       100.57589628400007,
+       13.995741490000059
+      ],
+      [
+       100.57586091600007,
+       13.995770664000075
+      ],
+      [
+       100.57582581300005,
+       13.99579978400004
+      ],
+      [
+       100.57579057000004,
+       13.99582900200005
+      ],
+      [
+       100.57575548100004,
+       13.995857893000048
+      ],
+      [
+       100.57572031600006,
+       13.995887064000044
+      ],
+      [
+       100.57568468700003,
+       13.995916453000062
+      ],
+      [
+       100.57564903100007,
+       13.995945681000023
+      ],
+      [
+       100.57561369900009,
+       13.995974589000072
+      ],
+      [
+       100.57557831300005,
+       13.996003396000049
+      ],
+      [
+       100.57554325900009,
+       13.996032246000023
+      ],
+      [
+       100.57550856900008,
+       13.996061303000033
+      ],
+      [
+       100.57547339000007,
+       13.99609088500006
+      ],
+      [
+       100.57543801500003,
+       13.996120548000022
+      ],
+      [
+       100.57540284000004,
+       13.996150011000054
+      ],
+      [
+       100.57536762900008,
+       13.996179420000033
+      ],
+      [
+       100.57533279300009,
+       13.996208583000056
+      ],
+      [
+       100.57529806700006,
+       13.996237837000024
+      ],
+      [
+       100.57526328700006,
+       13.99626722000005
+      ],
+      [
+       100.57522795900009,
+       13.996297012000074
+      ],
+      [
+       100.57519262000005,
+       13.996326511000062
+      ],
+      [
+       100.57515733100007,
+       13.996355902000065
+      ],
+      [
+       100.57512207700006,
+       13.996385347000055
+      ],
+      [
+       100.57508662300006,
+       13.996414792000051
+      ],
+      [
+       100.57505136600008,
+       13.99644415600005
+      ],
+      [
+       100.57501622000007,
+       13.996473411000068
+      ],
+      [
+       100.57498118400008,
+       13.996502675000043
+      ],
+      [
+       100.57494633800007,
+       13.996531929000069
+      ],
+      [
+       100.57491102100005,
+       13.99656151100004
+      ],
+      [
+       100.57487544700007,
+       13.996591038000076
+      ],
+      [
+       100.57484037000006,
+       13.996620002000041
+      ],
+      [
+       100.57480539000005,
+       13.996648920000041
+      ],
+      [
+       100.57477049500005,
+       13.996678066000072
+      ],
+      [
+       100.57473557000009,
+       13.996707403000071
+      ],
+      [
+       100.57470015000007,
+       13.99673710300004
+      ],
+      [
+       100.57466509400007,
+       13.996766366000033
+      ],
+      [
+       100.57463005900007,
+       13.996795812000073
+      ],
+      [
+       100.57459483000008,
+       13.996825320000024
+      ],
+      [
+       100.57456022100007,
+       13.996854211000027
+      ],
+      [
+       100.57452545500007,
+       13.996883166000032
+      ],
+      [
+       100.57449075900007,
+       13.996912029000041
+      ],
+      [
+       100.57445518800006,
+       13.996941352000023
+      ],
+      [
+       100.57441954500008,
+       13.996970587000018
+      ],
+      [
+       100.57438418800007,
+       13.996999670000038
+      ],
+      [
+       100.57434868400009,
+       13.997029008000027
+      ],
+      [
+       100.57431331200007,
+       13.997058401000059
+      ],
+      [
+       100.57427836400007,
+       13.997087475000054
+      ],
+      [
+       100.57424345900006,
+       13.997116712000036
+      ],
+      [
+       100.57420842400006,
+       13.997146157000032
+      ],
+      [
+       100.57417307500003,
+       13.997175866000076
+      ],
+      [
+       100.57413757000006,
+       13.997205319000042
+      ],
+      [
+       100.57410213900005,
+       13.997234628000056
+      ],
+      [
+       100.5740666870001,
+       13.997263836000057
+      ],
+      [
+       100.57403093600004,
+       13.997293022000065
+      ],
+      [
+       100.57399514800005,
+       13.997321974000046
+      ],
+      [
+       100.57396000000007,
+       13.997350390000065
+      ],
+      [
+       100.57392533700005,
+       13.997378947000072
+      ],
+      [
+       100.57389053400004,
+       13.997407884000037
+      ],
+      [
+       100.57385538800008,
+       13.997437138000064
+      ],
+      [
+       100.57382005200009,
+       13.997466602000031
+      ],
+      [
+       100.57378519500008,
+       13.997495865000074
+      ],
+      [
+       100.5737496660001,
+       13.997525557000072
+      ],
+      [
+       100.57371403100007,
+       13.997555118000035
+      ],
+      [
+       100.57367833700005,
+       13.997584276000053
+      ],
+      [
+       100.57364297400005,
+       13.99761331700006
+      ],
+      [
+       100.57360817100005,
+       13.997642402000052
+      ],
+      [
+       100.57357344200005,
+       13.997671673000069
+      ],
+      [
+       100.57353834000008,
+       13.997701430000063
+      ],
+      [
+       100.57350249700005,
+       13.997731163000024
+      ],
+      [
+       100.57346686500006,
+       13.997760371000027
+      ],
+      [
+       100.57343194800006,
+       13.997789138000034
+      ],
+      [
+       100.57339716500007,
+       13.997818075000055
+      ],
+      [
+       100.57336224900007,
+       13.997847320000062
+      ],
+      [
+       100.57332730400003,
+       13.997876674000054
+      ],
+      [
+       100.57329234800005,
+       13.997906037000064
+      ],
+      [
+       100.57325746200007,
+       13.997935410000022
+      ],
+      [
+       100.57322267200004,
+       13.99796450100007
+      ],
+      [
+       100.57318782500005,
+       13.99799385700004
+      ],
+      [
+       100.57315247000008,
+       13.998023503000066
+      ],
+      [
+       100.57311734100006,
+       13.998053011000023
+      ],
+      [
+       100.57308188900004,
+       13.998082538000062
+      ],
+      [
+       100.57304647800004,
+       13.99811204700006
+      ],
+      [
+       100.57301132100008,
+       13.99814131100004
+      ],
+      [
+       100.57297621900005,
+       13.99817062900007
+      ],
+      [
+       100.57294134100005,
+       13.998199811000063
+      ],
+      [
+       100.57290568100007,
+       13.998229629000036
+      ],
+      [
+       100.57286966800007,
+       13.998259352000048
+      ],
+      [
+       100.57283392800008,
+       13.998288447000048
+      ],
+      [
+       100.57279821500003,
+       13.998317557000062
+      ],
+      [
+       100.57276275300006,
+       13.998346408000032
+      ],
+      [
+       100.57272749900005,
+       13.998375052000027
+      ],
+      [
+       100.57269214500008,
+       13.998403733000032
+      ],
+      [
+       100.57265705600008,
+       13.998432461000048
+      ],
+      [
+       100.57262150400004,
+       13.998461622000034
+      ],
+      [
+       100.57258615200004,
+       13.998490636000042
+      ],
+      [
+       100.57255128600008,
+       13.998519757000052
+      ],
+      [
+       100.57251609700006,
+       13.998549148000052
+      ],
+      [
+       100.57248062400004,
+       13.998578792000044
+      ],
+      [
+       100.57244507100006,
+       13.998608219000062
+      ],
+      [
+       100.57240994900008,
+       13.998637338000037
+      ],
+      [
+       100.57237481400006,
+       13.998666383000055
+      ],
+      [
+       100.57233973700005,
+       13.998695564000059
+      ],
+      [
+       100.57230442400004,
+       13.998724792000077
+      ],
+      [
+       100.57226959100007,
+       13.998753902000031
+      ],
+      [
+       100.57223491700006,
+       13.998783310000022
+      ],
+      [
+       100.57219962500005,
+       13.998813157000027
+      ],
+      [
+       100.57216423000006,
+       13.998842720000026
+      ],
+      [
+       100.57212917600003,
+       13.998872065000057
+      ],
+      [
+       100.57209387600005,
+       13.998901465000072
+      ],
+      [
+       100.57205896400006,
+       13.998930692000044
+      ],
+      [
+       100.57202405300006,
+       13.998959901000033
+      ],
+      [
+       100.57198900100008,
+       13.998989229000076
+      ],
+      [
+       100.57195353700007,
+       13.999018665000046
+      ],
+      [
+       100.57191820600008,
+       13.999047973000073
+      ],
+      [
+       100.57188258200006,
+       13.999077340000042
+      ],
+      [
+       100.57184660700005,
+       13.999106683000036
+      ],
+      [
+       100.57181124500005,
+       13.99913557000002
+      ],
+      [
+       100.57177593300008,
+       13.99916458000007
+      ],
+      [
+       100.57174049700006,
+       13.999193509000062
+      ],
+      [
+       100.57170567200006,
+       13.999222066000074
+      ],
+      [
+       100.57167052000005,
+       13.99925102700007
+      ],
+      [
+       100.57163507700005,
+       13.99928016200005
+      ],
+      [
+       100.57159987400007,
+       13.999309100000062
+      ],
+      [
+       100.57156474600004,
+       13.999338274000026
+      ],
+      [
+       100.57152985600004,
+       13.999367366000058
+      ],
+      [
+       100.57149506600007,
+       13.999396274000047
+      ],
+      [
+       100.57146071300008,
+       13.999425084000052
+      ],
+      [
+       100.57142577300004,
+       13.99945464800004
+      ],
+      [
+       100.57139072300004,
+       13.999484290000057
+      ],
+      [
+       100.57135596000006,
+       13.999513628000047
+      ],
+      [
+       100.57132057100007,
+       13.99954330200006
+      ],
+      [
+       100.57128561500008,
+       13.999572666000061
+      ],
+      [
+       100.57125026700004,
+       13.999602374000059
+      ],
+      [
+       100.57121438200005,
+       13.999632127000039
+      ],
+      [
+       100.57117925700004,
+       13.99966136500006
+      ],
+      [
+       100.57114412200008,
+       13.999690611000059
+      ],
+      [
+       100.57110888900007,
+       13.999720038000078
+      ],
+      [
+       100.57107395600008,
+       13.999749065000062
+      ],
+      [
+       100.57103893600004,
+       13.999778266000021
+      ],
+      [
+       100.57100366300006,
+       13.999807391000044
+      ],
+      [
+       100.57096817700005,
+       13.999836562000041
+      ],
+      [
+       100.57093276600006,
+       13.999865671000062
+      ],
+      [
+       100.57089732100007,
+       13.99989479000004
+      ],
+      [
+       100.57086188800008,
+       13.999923699000018
+      ],
+      [
+       100.57082656300008,
+       13.999952519000033
+      ],
+      [
+       100.57079179500005,
+       13.99998084900005
+      ],
+      [
+       100.57075693500008,
+       14.000009783000051
+      ],
+      [
+       100.57072147800005,
+       14.000039347000039
+      ],
+      [
+       100.57068646600004,
+       14.000068475000033
+      ],
+      [
+       100.57065147500003,
+       14.000097783000056
+      ],
+      [
+       100.57061661900008,
+       14.000126946000023
+      ],
+      [
+       100.57058183600009,
+       14.000156148000032
+      ],
+      [
+       100.57054642300005,
+       14.000185959000078
+      ],
+      [
+       100.57051099200004,
+       14.000215685000054
+      ],
+      [
+       100.57047586100003,
+       14.00024521100005
+      ],
+      [
+       100.57044099000008,
+       14.000274419000048
+      ],
+      [
+       100.57040642700008,
+       14.000303818000072
+      ],
+      [
+       100.57037151700007,
+       14.000333426000052
+      ],
+      [
+       100.57033682300005,
+       14.000362921000034
+      ],
+      [
+       100.57030226200004,
+       14.00039224300002
+      ],
+      [
+       100.57026670700009,
+       14.000422057000037
+      ],
+      [
+       100.57023170900004,
+       14.00045135500005
+      ],
+      [
+       100.57019701900003,
+       14.000480446000038
+      ],
+      [
+       100.57016178800006,
+       14.000509956000027
+      ],
+      [
+       100.57012642300003,
+       14.000539411000036
+      ],
+      [
+       100.57009137700004,
+       14.000568665000058
+      ],
+      [
+       100.57005637200007,
+       14.00059790300003
+      ],
+      [
+       100.57002142400006,
+       14.000627374000027
+      ],
+      [
+       100.56998665900005,
+       14.000656645000047
+      ],
+      [
+       100.56995185900007,
+       14.00068604500007
+      ],
+      [
+       100.56991700400005,
+       14.000715391000028
+      ],
+      [
+       100.56988212500005,
+       14.00074477400005
+      ],
+      [
+       100.56984721400006,
+       14.000774198000045
+      ],
+      [
+       100.56981247700008,
+       14.000803599000053
+      ],
+      [
+       100.56977696800004,
+       14.000833156000056
+      ],
+      [
+       100.56974159200007,
+       14.000862620000076
+      ],
+      [
+       100.56970650300008,
+       14.000891711000065
+      ],
+      [
+       100.56967129900005,
+       14.000921047000077
+      ],
+      [
+       100.56963630700005,
+       14.00095035700002
+      ],
+      [
+       100.56960112800006,
+       14.000979839000022
+      ],
+      [
+       100.56956574200007,
+       14.00100951100006
+      ],
+      [
+       100.56953053600006,
+       14.001038883000033
+      ],
+      [
+       100.56949516100008,
+       14.001068228000065
+      ],
+      [
+       100.5694598950001,
+       14.001097383000056
+      ],
+      [
+       100.56942458700007,
+       14.001126572000032
+      ],
+      [
+       100.56938900000006,
+       14.001155826000057
+      ],
+      [
+       100.56935366900007,
+       14.001184751000041
+      ],
+      [
+       100.56931800500008,
+       14.001214021000067
+      ],
+      [
+       100.56928302300008,
+       14.001242714000057
+      ],
+      [
+       100.56924943300004,
+       14.001271182000039
+      ],
+      [
+       100.56921509800009,
+       14.001300112000026
+      ],
+      [
+       100.56918190200008,
+       14.001328194000052
+      ],
+      [
+       100.56917152992706,
+       14.001337501448663
+      ]
+     ]
+    },
+    "properties": {
+     "segment_id": "rsv1-rc31f3d87fc7:doh:1036:p0:c0:r2000:00001",
+     "route_code": "0346",
+     "segment_km": 2.0000000000004823,
+     "province_code": 13,
+     "coverage": "supported_qualified_doh_segment"
+    }
+   }
+  ],
+  "page": {
+   "limit": 500,
+   "cursor": "0",
+   "next_cursor": "500",
+   "returned": 500,
+   "total_matched": 3105,
+   "order": "segment_id ascending (stable for this geometry snapshot)"
+  },
+  "coordinate_reference": "EPSG:4326 longitude, latitude (RFC 7946)",
+  "geometry_snapshot": "accepted notebook-19 universe (3105 qualified DOH 2000 m segments), manifest sha256 8a53b10cd88283e2b8a5c8c7d4f15f9657bf68f6fb9e58076fed2938176e1d73",
+  "notes": [
+   "current qualified DOH 2000 m segment snapshot (EPSG:4326 lon/lat, RFC 7946 order) applied retrospectively; NOT a routing graph and NOT the true historical road network of earlier years",
+   "roads outside the 3105 qualified DOH segments are unsupported: render them grey / \"no data\"; the API never returns a prediction, a zero or a lambda of 0 for them and never snaps a location to a segment"
+  ]
+ },
+ "spatial_prediction": {
+  "ok": true,
+  "api_version": "roadaware-api-v3.0",
+  "production_ready": false,
+  "unit": "daily",
+  "rows": 128,
+  "model_version": "roadaware-spatial-v3-benchmark-issue-2023-12-31T18",
+  "method": "hgb_poisson_fixed::routed_context",
+  "quantity": "expected SELECTED+LINKED recorded count per segment and horizon (lambda); not a probability",
+  "results": [
+   {
+    "segment_id": "rsv1-rc31f3d87fc7:doh:64:p0:c0:r2000:00003",
+    "target_date": "2025-12-16",
+    "time_block": null,
+    "unit": "daily",
+    "horizon": "local day 2025-12-16 (Asia/Bangkok)",
+    "issue_time_local": "2025-12-15T18:00:00+07:00",
+    "issue_time_utc": "2025-12-15T11:00:00+00:00",
+    "model_version": "roadaware-spatial-v3-benchmark-issue-2023-12-31T18",
+    "method": "hgb_poisson_fixed::routed_context",
+    "role": "selected_policy",
+    "component_used": "core",
+    "routing_reason": "core_fallback_missing_context:wx_rain_sum_mm_d2,wx_temp_mean_c_d2",
+    "expected_recorded_count": 0.0013229405634793071,
+    "segment_km": 1.9999999999995528,
+    "density_per_km": 0.0006614702817398015,
+    "colour": "base",
+    "colour_hex": "#2c7fb8",
+    "colour_text": "Lower relative predicted recorded density (below the median reference cell). NOT safe and NOT an accident probability.",
+    "colour_status": "relative_contract_relative_density_colour_v3.0",
+    "research_scenario": false,
+    "data_period": "previously_seen_diagnostic_2024_2025",
+    "coverage": "supported_qualified_doh_segment",
+    "source_availability": {
+     "weather_daily_rain": "not_in_weather_archive",
+     "weather_daily_temp": "not_in_weather_archive",
+     "aadt": "ok",
+     "bank_calendar": "known",
+     "bank_calendar_coverage": "reviewed_annual_base_known_later_amendments_unknown"
+    }
+   },
+   {
+    "segment_id": "rsv1-rc31f3d87fc7:doh:1123:p0:c0:r2000:00006",
+    "target_date": "2026-04-09",
+    "time_block": null,
+    "unit": "daily",
+    "horizon": "local day 2026-04-09 (Asia/Bangkok)",
+    "issue_time_local": "2026-04-08T18:00:00+07:00",
+    "issue_time_utc": "2026-04-08T11:00:00+00:00",
+    "model_version": "roadaware-spatial-v3-benchmark-issue-2023-12-31T18",
+    "method": "hgb_poisson_fixed::routed_context",
+    "role": "selected_policy",
+    "component_used": "core",
+    "routing_reason": "core_fallback_missing_context:wx_rain_sum_mm_d2,wx_temp_mean_c_d2",
+    "expected_recorded_count": 0.0077538860374688195,
+    "segment_km": 2.0000000000001243,
+    "density_per_km": 0.0038769430187341686,
+    "colour": "orange",
+    "colour_hex": "#f07c1b",
+    "colour_text": "High relative predicted recorded density (80th-95th percentile of reference cells).",
+    "colour_status": "relative_contract_relative_density_colour_v3.0",
+    "research_scenario": true,
+    "data_period": "research_scenario_no_observed_ground_truth",
+    "coverage": "supported_qualified_doh_segment",
+    "source_availability": {
+     "weather_daily_rain": "not_in_weather_archive",
+     "weather_daily_temp": "not_in_weather_archive",
+     "aadt": "ok",
+     "bank_calendar": "unknown_preserved_missing",
+     "bank_calendar_coverage": "unknown_no_applied_reviewed_annual_source"
+    }
+   }
+  ],
+  "caveats": [
+   "Expected SELECTED+LINKED recorded-count rate per segment and horizon; not an individual accident probability, not per-vehicle risk; never sum into a route probability.",
+   "2024/25 are PREVIOUSLY SEEN diagnostics; target dates after 2025-12-31 are research scenarios with no observed ground truth.",
+   "Colour is relative to the 2022-23 OOF reference density of the selected policy; 'base' (lowest band) is NOT safe.",
+   "Only the 3105 qualified DOH segments are supported; other roads are outside coverage (no snapping, no fake zero).",
+   "Research readiness only: production_ready is false; nothing is deployed."
+  ]
+ },
+ "spatial_history": {
+  "ok": true,
+  "api_version": "roadaware-api-v3.0",
+  "production_ready": false,
+  "history": {
+   "schema": "roadaware-spatial-history/1",
+   "catalog_id": "df65865c4182c314",
+   "kind": "spatial_selected_history_as_of",
+   "segment_id": "rsv1-rc31f3d87fc7:doh:64:p0:c0:r2000:00003",
+   "target_date": "2024-03-01",
+   "unit": "daily",
+   "time_block": null,
+   "timezone": "Asia/Bangkok",
+   "issue_time_local": "2024-02-29T18:00:00+07:00",
+   "history_cutoff_local": "2024-01-30T18:00:00+07:00",
+   "latency_days": 30,
+   "eligibility": "target day end <= cutoff",
+   "history_window": {
+    "lookback_days": 1827,
+    "window_start_local_exclusive": "2019-01-29T18:00:00+07:00",
+    "window_end_local_inclusive": "2024-01-30T18:00:00+07:00",
+    "catalog_data_start_local": "2021-01-01T00:00:00+07:00",
+    "catalog_data_end_local_exclusive": "2026-01-01T00:00:00+07:00",
+    "covered_days": 1124.75,
+    "window_fully_inside_catalog_data": false
+   },
+   "n_selected_records": 5,
+   "empty_history_is_not_safety": true,
+   "counts_by_year": {
+    "2021": 2,
+    "2022": 3
+   },
+   "counts_by_month": [
+    {
+     "year_month": "2021-01",
+     "records": 0
+    },
+    {
+     "year_month": "2021-02",
+     "records": 0
+    },
+    {
+     "year_month": "2021-03",
+     "records": 0
+    },
+    {
+     "year_month": "2021-04",
+     "records": 0
+    },
+    {
+     "year_month": "2021-05",
+     "records": 1
+    },
+    {
+     "year_month": "2021-06",
+     "records": 0
+    },
+    {
+     "year_month": "2021-07",
+     "records": 0
+    },
+    {
+     "year_month": "2021-08",
+     "records": 0
+    },
+    {
+     "year_month": "2021-09",
+     "records": 0
+    },
+    {
+     "year_month": "2021-10",
+     "records": 1
+    },
+    {
+     "year_month": "2021-11",
+     "records": 0
+    },
+    {
+     "year_month": "2021-12",
+     "records": 0
+    },
+    {
+     "year_month": "2022-01",
+     "records": 0
+    },
+    {
+     "year_month": "2022-02",
+     "records": 1
+    },
+    {
+     "year_month": "2022-03",
+     "records": 0
+    },
+    {
+     "year_month": "2022-04",
+     "records": 0
+    },
+    {
+     "year_month": "2022-05",
+     "records": 1
+    },
+    {
+     "year_month": "2022-06",
+     "records": 0
+    },
+    {
+     "year_month": "2022-07",
+     "records": 0
+    },
+    {
+     "year_month": "2022-08",
+     "records": 0
+    },
+    {
+     "year_month": "2022-09",
+     "records": 0
+    },
+    {
+     "year_month": "2022-10",
+     "records": 0
+    },
+    {
+     "year_month": "2022-11",
+     "records": 1
+    },
+    {
+     "year_month": "2022-12",
+     "records": 0
+    },
+    {
+     "year_month": "2023-01",
+     "records": 0
+    },
+    {
+     "year_month": "2023-02",
+     "records": 0
+    },
+    {
+     "year_month": "2023-03",
+     "records": 0
+    },
+    {
+     "year_month": "2023-04",
+     "records": 0
+    },
+    {
+     "year_month": "2023-05",
+     "records": 0
+    },
+    {
+     "year_month": "2023-06",
+     "records": 0
+    },
+    {
+     "year_month": "2023-07",
+     "records": 0
+    },
+    {
+     "year_month": "2023-08",
+     "records": 0
+    },
+    {
+     "year_month": "2023-09",
+     "records": 0
+    },
+    {
+     "year_month": "2023-10",
+     "records": 0
+    },
+    {
+     "year_month": "2023-11",
+     "records": 0
+    },
+    {
+     "year_month": "2023-12",
+     "records": 0
+    },
+    {
+     "year_month": "2024-01",
+     "records": 0
+    }
+   ],
+   "counts_by_time_block": {
+    "00-06": 1,
+    "06-12": 0,
+    "12-18": 2,
+    "18-24": 2
+   },
+   "categories": {
+    "accident_type": {
+     "denominator_records": 5,
+     "known_records": 5,
+     "unknown_records": 0,
+     "known_share": 1.0,
+     "distinct_known_values": 4,
+     "top_values": [
+      {
+       "value": "ชนในทิศทางตรงกันข้าม (ไม่ใช่การแซง)",
+       "records": 2
+      },
+      {
+       "value": "ชนสิ่งกีดขวาง (บนผิวจราจร)",
+       "records": 1
+      },
+      {
+       "value": "พลิกคว่ำ/ตกถนนในทางตรง",
+       "records": 1
+      },
+      {
+       "value": "พลิกคว่ำ/ตกถนนในทางโค้ง",
+       "records": 1
+      }
+     ],
+     "other_known_records": 0
+    },
+    "presumed_cause": {
+     "denominator_records": 5,
+     "known_records": 5,
+     "unknown_records": 0,
+     "known_share": 1.0,
+     "distinct_known_values": 1,
+     "top_values": [
+      {
+       "value": "ขับรถเร็วเกินอัตรากำหนด",
+       "records": 5
+      }
+     ],
+     "other_known_records": 0
+    },
+    "weather": {
+     "denominator_records": 5,
+     "known_records": 5,
+     "unknown_records": 0,
+     "known_share": 1.0,
+     "distinct_known_values": 1,
+     "top_values": [
+      {
+       "value": "แจ่มใส",
+       "records": 5
+      }
+     ],
+     "other_known_records": 0
+    },
+    "time_block": {
+     "denominator_records": 5,
+     "known_records": 5,
+     "unknown_records": 0,
+     "known_share": 1.0,
+     "distinct_known_values": 3,
+     "top_values": [
+      {
+       "value": "12-18",
+       "records": 2
+      },
+      {
+       "value": "18-24",
+       "records": 2
+      },
+      {
+       "value": "00-06",
+       "records": 1
+      }
+     ],
+     "other_known_records": 0
+    }
+   },
+   "notes": [
+    "AS-OF historical count of notebook-19 SELECTED records (primary 50 m linked and assigned to this 2000 m segment); conditional on that selection, never a complete all-road count. Only records whose target end <= issue time - 30 days are used. An empty history (N = 0) means no selected records, NOT evidence of safety.",
+    "Categories are historical recorded attributes only: presumed_cause is a recorded attribute, not proof of cause; weather is the historical recorded weather, not current weather. Not causal explanations, not model inputs, not personalised advice."
+   ],
+   "research_status": {
+    "research_only": true,
+    "production_ready": false,
+    "operational_status": "BLOCKED",
+    "live_data": false,
+    "forecast": false
+   }
+  },
+  "catalog_period": {
+   "first_month": "2021-01",
+   "last_month": "2025-12"
+  },
+  "period_status": {
+   "status": "partially_unsupported_period",
+   "unsupported_after": null,
+   "unsupported_before": {
+    "from_local_exclusive": "2019-01-29T18:00:00+07:00",
+    "to_local": "2021-01-01T00:00:00+07:00"
+   },
+   "note": "records after 2025-12 (e.g. 2026) are NOT in the accepted catalog 14 and records before 2021-01 are outside it: those periods are unsupported/unknown, never an empty zero; counts cover the supported part only"
+  }
+ },
+ "error_example": {
+  "ok": false,
+  "api_version": "roadaware-api-v3.0",
+  "production_ready": false,
+  "error": {
+   "code": "date_before_artifact_asof",
+   "family": "invalid",
+   "message": "the benchmark artifact was fitted as of 2023-12-31 18:00:00 (labels to 2023-12-01 18:00:00); earlier targets would be a false prospective forecast. Supported 2024-01-01..2027-12-31",
+   "rows": [
+    0
+   ]
+  }
+ },
+ "_openapi_paths": [
+  "/api/v1/evaluation",
+  "/api/v1/history",
+  "/api/v1/metadata",
+  "/api/v1/predictions",
+  "/api/v1/provinces",
+  "/api/v1/segments",
+  "/api/v1/segments/{segment_id}",
+  "/api/v1/spatial/baseline-predictions",
+  "/api/v1/spatial/history",
+  "/api/v1/spatial/predictions",
+  "/health",
+  "/ready"
+ ],
+ "province_history": {
+  "ok": true,
+  "api_version": "roadaware-api-v3.0",
+  "production_ready": false,
+  "history": {
+   "schema": "roadaware-province-history/1",
+   "catalog_id": "df65865c4182c314",
+   "kind": "province_retrospective_history",
+   "province": {
+    "province_key": "กรุงเทพมหานคร",
+    "province_code": "10",
+    "name_th": "กรุงเทพมหานคร",
+    "name_en": "Bangkok"
+   },
+   "start_month": "2024-01",
+   "end_month": "2024-12",
+   "n_months": 12,
+   "timezone": "Asia/Bangkok",
+   "as_of_cutoff": null,
+   "months": [
+    {
+     "year_month": "2024-01",
+     "records": 200
+    },
+    {
+     "year_month": "2024-02",
+     "records": 254
+    },
+    {
+     "year_month": "2024-03",
+     "records": 275
+    },
+    {
+     "year_month": "2024-04",
+     "records": 277
+    },
+    {
+     "year_month": "2024-05",
+     "records": 215
+    },
+    {
+     "year_month": "2024-06",
+     "records": 212
+    },
+    {
+     "year_month": "2024-07",
+     "records": 214
+    },
+    {
+     "year_month": "2024-08",
+     "records": 222
+    },
+    {
+     "year_month": "2024-09",
+     "records": 232
+    },
+    {
+     "year_month": "2024-10",
+     "records": 196
+    },
+    {
+     "year_month": "2024-11",
+     "records": 217
+    },
+    {
+     "year_month": "2024-12",
+     "records": 168
+    }
+   ],
+   "total_records": 2682,
+   "zero_months": 0,
+   "categories": {
+    "accident_type": {
+     "denominator_records": 2682,
+     "known_records": 2642,
+     "unknown_records": 40,
+     "known_share": 0.9850857568978374,
+     "distinct_known_values": 10,
+     "top_values": [
+      {
+       "value": "ชนท้าย",
+       "records": 1909
+      },
+      {
+       "value": "พลิกคว่ำ/ตกถนนในทางตรง",
+       "records": 464
+      },
+      {
+       "value": "ชนสิ่งกีดขวาง (บนผิวจราจร)",
+       "records": 123
+      },
+      {
+       "value": "อื่นๆ",
+       "records": 89
+      },
+      {
+       "value": "ชนด้านข้าง",
+       "records": 26
+      }
+     ],
+     "other_known_records": 31
+    },
+    "presumed_cause": {
+     "denominator_records": 2682,
+     "known_records": 2479,
+     "unknown_records": 203,
+     "known_share": 0.924310216256525,
+     "distinct_known_values": 28,
+     "top_values": [
+      {
+       "value": "ขับรถเร็วเกินอัตรากำหนด",
+       "records": 2112
+      },
+      {
+       "value": "คน/รถ/สัตว์ตัดหน้ากระชั้นชิด",
+       "records": 126
+      },
+      {
+       "value": "ยางเสื่อมสภาพ/ยางแตก",
+       "records": 51
+      },
+      {
+       "value": "หลับใน",
+       "records": 47
+      },
+      {
+       "value": "ฝ่าฝืนสัญญาณไฟ/เครื่องหมายจราจร",
+       "records": 22
+      }
+     ],
+     "other_known_records": 121
+    },
+    "weather": {
+     "denominator_records": 2682,
+     "known_records": 2682,
+     "unknown_records": 0,
+     "known_share": 1.0,
+     "distinct_known_values": 3,
+     "top_values": [
+      {
+       "value": "แจ่มใส",
+       "records": 2518
+      },
+      {
+       "value": "ฝนตก",
+       "records": 163
+      },
+      {
+       "value": "อื่นๆ",
+       "records": 1
+      }
+     ],
+     "other_known_records": 0
+    },
+    "time_block": {
+     "denominator_records": 2682,
+     "known_records": 2682,
+     "unknown_records": 0,
+     "known_share": 1.0,
+     "distinct_known_values": 4,
+     "top_values": [
+      {
+       "value": "12-18",
+       "records": 799
+      },
+      {
+       "value": "06-12",
+       "records": 793
+      },
+      {
+       "value": "18-24",
+       "records": 697
+      },
+      {
+       "value": "00-06",
+       "records": 393
+      }
+     ],
+     "other_known_records": 0
+    }
+   },
+   "notes": [
+    "RETROSPECTIVE historical count of accepted recorded MOT-source accident records (V2 repaired dates) in this province and month range, using every record in the range; NOT an as-of forecast input. A zero month means zero recorded records in this source, not complete all-road coverage. Province names/points are representative labels, never event locations.",
+    "Categories are historical recorded attributes only: presumed_cause is a recorded attribute, not proof of cause; weather is the historical recorded weather, not current weather. Not causal explanations, not model inputs, not personalised advice."
+   ],
+   "research_status": {
+    "research_only": true,
+    "production_ready": false,
+    "operational_status": "BLOCKED",
+    "live_data": false,
+    "forecast": false
+   }
+  }
+ },
+ "fixture_ready_503": {
+  "ok": false,
+  "api_version": "roadaware-api-v3.0",
+  "research_backend_ready": false,
+  "production_ready": false,
+  "components": {
+   "notebook24": {
+    "status": "unavailable",
+    "code": "artifact_hash_mismatch"
+   },
+   "spatial_runtime": {
+    "status": "unavailable",
+    "code": "not_loaded"
+   },
+   "province_runtime": {
+    "status": "unavailable",
+    "code": "not_loaded"
+   },
+   "catalog": {
+    "status": "unavailable",
+    "code": "not_loaded"
+   },
+   "geometry": {
+    "status": "unavailable",
+    "code": "not_loaded"
+   },
+   "evaluation": {
+    "status": "unavailable",
+    "code": "not_loaded"
+   },
+   "diagnostics_2026": {
+    "status": "unavailable",
+    "code": "not_loaded"
+   }
+  }
+ },
+ "fixture_prediction_503": {
+  "ok": false,
+  "api_version": "roadaware-api-v3.0",
+  "production_ready": false,
+  "error": {
+   "code": "backend_not_ready",
+   "family": "unavailable",
+   "message": "a required accepted artifact is unavailable or failed verification; details are in the local server log only"
+  }
+ }
+}

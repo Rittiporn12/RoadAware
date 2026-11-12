@@ -1,0 +1,5 @@
+# Local research API (task 019). Already installed in the project .venv; always install with -c backend/constraints-runtime.txt.
+# ML/data packages for the accepted runtimes are in requirements-data.txt / requirements-spatial.txt (scikit-learn==1.6.1, joblib, threadpoolctl).
+fastapi
+uvicorn
+httpx

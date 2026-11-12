@@ -1,0 +1,2190 @@
+{
+ "openapi": "3.1.0",
+ "info": {
+  "title": "RoadAware local research API",
+  "description": "Local research backend (127.0.0.1). production_ready is always false. Quantities are expected recorded-count rates, not probabilities; no routing, no auth, no deployment.",
+  "version": "roadaware-api-v3.0"
+ },
+ "paths": {
+  "/health": {
+   "get": {
+    "summary": "Liveness (process up); not readiness",
+    "operationId": "health_health_get",
+    "responses": {
+     "200": {
+      "description": "success (production_ready is always false)",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "string"
+        },
+        "examples": {
+         "health_ok": {
+          "summary": "transport liveness",
+          "value": {
+           "status": "alive",
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/ready": {
+   "get": {
+    "summary": "Readiness: 200 research_backend_ready or 503",
+    "operationId": "ready_ready_get",
+    "responses": {
+     "200": {
+      "description": "success (production_ready is always false)",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "string"
+        },
+        "examples": {
+         "ready_ok": {
+          "summary": "live 001 sample_responses.json",
+          "value": {
+           "ok": true,
+           "api_version": "roadaware-api-v3.0",
+           "research_backend_ready": true,
+           "production_ready": false,
+           "components": {
+            "notebook24": {
+             "status": "available"
+            },
+            "spatial_runtime": {
+             "status": "available"
+            },
+            "province_runtime": {
+             "status": "available"
+            },
+            "catalog": {
+             "status": "available"
+            },
+            "geometry": {
+             "status": "available"
+            },
+            "evaluation": {
+             "status": "available"
+            },
+            "diagnostics_2026": {
+             "status": "available"
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "component unavailable or backend not ready (fail closed; details only in the local server log)",
+      "content": {
+       "application/json": {
+        "examples": {
+         "ready_unavailable": {
+          "summary": "labelled smoke FIXTURE lock with a deliberately wrong pinned hash (not a production config)",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "research_backend_ready": false,
+           "production_ready": false,
+           "components": {
+            "notebook24": {
+             "status": "unavailable",
+             "code": "artifact_hash_mismatch"
+            }
+           }
+          }
+         },
+         "unavailable_not_ready": {
+          "summary": "labelled smoke FIXTURE lock (any data route while the runtime is not ready)",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "backend_not_ready",
+            "family": "unavailable",
+            "message": "a required accepted artifact is unavailable or failed verification; details are in the local server log only"
+           }
+          }
+         },
+         "unavailable_component": {
+          "summary": "runtime component unavailable (e.g. optional V2 province service)",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "component_unavailable",
+            "family": "unavailable",
+            "message": "a required accepted artifact is unavailable or failed verification; details are in the local server log only"
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/metadata": {
+   "get": {
+    "summary": "Versions, limits, components, colour cutoffs and coverage rules",
+    "operationId": "metadata_api_v1_metadata_get",
+    "responses": {
+     "200": {
+      "description": "success (production_ready is always false)",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "string"
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "component unavailable or backend not ready (fail closed; details only in the local server log)",
+      "content": {
+       "application/json": {
+        "examples": {
+         "unavailable_not_ready": {
+          "summary": "labelled smoke FIXTURE lock (any data route while the runtime is not ready)",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "backend_not_ready",
+            "family": "unavailable",
+            "message": "a required accepted artifact is unavailable or failed verification; details are in the local server log only"
+           }
+          }
+         },
+         "unavailable_component": {
+          "summary": "runtime component unavailable (e.g. optional V2 province service)",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "component_unavailable",
+            "family": "unavailable",
+            "message": "a required accepted artifact is unavailable or failed verification; details are in the local server log only"
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/evaluation": {
+   "get": {
+    "summary": "Accepted 21 summary with numeric selected/baseline OOF 2022-23 + seen 2024-25 metrics; separate 2026 diagnostic aggregates",
+    "operationId": "evaluation_api_v1_evaluation_get",
+    "responses": {
+     "200": {
+      "description": "success (production_ready is always false)",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "string"
+        },
+        "examples": {
+         "evaluation_ok": {
+          "summary": "accepted 21 metrics_by_group.csv rows (trimmed: 3 of the pooled/period rows) + accepted 23 counts",
+          "value": {
+           "ok": true,
+           "production_ready": false,
+           "spatial_evaluation_21": {
+            "status": "accepted_spatial_evaluation_research_only",
+            "selected": {
+             "daily": {
+              "selected": "hgb_poisson_fixed::routed_context",
+              "baseline": "segment_mean_k365"
+             },
+             "6h": {
+              "selected": "hgb_poisson_fixed::routed_context",
+              "baseline": "segment_mean_k365"
+             }
+            },
+            "metrics": [
+             {
+              "unit": "daily",
+              "scope": "oof",
+              "role": "selected",
+              "method": "hgb_poisson_fixed::routed_context",
+              "dimension": "pooled",
+              "group": "all",
+              "n": 2266650,
+              "mean_poisson_deviance": 0.039898070402242164,
+              "mae": 0.008661958157075265,
+              "rmse": 0.07149566939885867,
+              "bias": -0.0004971662011703773,
+              "wape": 1.8347469822198532,
+              "wape_status": "ok",
+              "total_pred": 9574.098230117164,
+              "total_actual": 10701.0,
+              "pred_over_actual": 0.8946919194577296,
+              "zero_cells": 2256534,
+              "nonzero_cells": 10116,
+              "exposure_segment_km_periods": 4307170.314688374,
+              "observed_records_per_km_period": 0.002484461773779248,
+              "predicted_records_per_km_period": 0.002222827873201911,
+              "metric_floor_cells": 0,
+              "metric_floor_actual_positive_cells": 0,
+              "metric_floor_actual_records": 0.0,
+              "metric_floor_deviance_sum": 0.0
+             },
+             {
+              "unit": "daily",
+              "scope": "oof",
+              "role": "baseline",
+              "method": "segment_mean_k365",
+              "dimension": "pooled",
+              "group": "all",
+              "n": 2266650,
+              "mean_poisson_deviance": 0.040956040048540386,
+              "mae": 0.008600932535442429,
+              "rmse": 0.07151650598946219,
+              "bias": -0.0005948456649504975,
+              "wape": 1.821820739319744,
+              "wape_status": "ok",
+              "total_pred": 9352.693073539955,
+              "total_actual": 10701.0,
+              "pred_over_actual": 0.8740017824072475,
+              "zero_cells": 2256534,
+              "nonzero_cells": 10116,
+              "exposure_segment_km_periods": 4307170.314688374,
+              "observed_records_per_km_period": 0.002484461773779248,
+              "predicted_records_per_km_period": 0.002171424018605734,
+              "metric_floor_cells": 168780,
+              "metric_floor_actual_positive_cells": 48,
+              "metric_floor_actual_records": 48.0,
+              "metric_floor_deviance_sum": 2556.5780274710555
+             },
+             {
+              "unit": "daily",
+              "scope": "diag",
+              "role": "selected",
+              "method": "hgb_poisson_fixed::routed_context",
+              "dimension": "pooled",
+              "group": "all",
+              "n": 2269755,
+              "mean_poisson_deviance": 0.044860353989922774,
+              "mae": 0.009614605902971432,
+              "rmse": 0.07588268571623318,
+              "bias": -0.0007915171431695133,
+              "wape": 1.7820349355952083,
+              "wape_status": "ok",
+              "total_pred": 10449.450006705281,
+              "total_actual": 12246.0,
+              "pred_over_actual": 0.8532949540017378,
+              "zero_cells": 2258139,
+              "nonzero_cells": 11616,
+              "exposure_segment_km_periods": 4313070.547996165,
+              "observed_records_per_km_period": 0.0028392765348318823,
+              "predicted_records_per_km_period": 0.0024227403401875847,
+              "metric_floor_cells": 0,
+              "metric_floor_actual_positive_cells": 0,
+              "metric_floor_actual_records": 0.0,
+              "metric_floor_deviance_sum": 0.0
+             }
+            ]
+           },
+           "diagnostics_2026": {
+            "status": "available_diagnostic_aggregates_only",
+            "counts": {
+             "eligible_raw_records": 4336,
+             "positive_cells": {
+              "daily": 4116,
+              "6h": 4232
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "component unavailable or backend not ready (fail closed; details only in the local server log)",
+      "content": {
+       "application/json": {
+        "examples": {
+         "unavailable_not_ready": {
+          "summary": "labelled smoke FIXTURE lock (any data route while the runtime is not ready)",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "backend_not_ready",
+            "family": "unavailable",
+            "message": "a required accepted artifact is unavailable or failed verification; details are in the local server log only"
+           }
+          }
+         },
+         "unavailable_component": {
+          "summary": "runtime component unavailable (e.g. optional V2 province service)",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "component_unavailable",
+            "family": "unavailable",
+            "message": "a required accepted artifact is unavailable or failed verification; details are in the local server log only"
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/provinces": {
+   "get": {
+    "summary": "77 catalog provinces (representative label points only)",
+    "operationId": "provinces_api_v1_provinces_get",
+    "responses": {
+     "200": {
+      "description": "success (production_ready is always false)",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "string"
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "component unavailable or backend not ready (fail closed; details only in the local server log)",
+      "content": {
+       "application/json": {
+        "examples": {
+         "unavailable_not_ready": {
+          "summary": "labelled smoke FIXTURE lock (any data route while the runtime is not ready)",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "backend_not_ready",
+            "family": "unavailable",
+            "message": "a required accepted artifact is unavailable or failed verification; details are in the local server log only"
+           }
+          }
+         },
+         "unavailable_component": {
+          "summary": "runtime component unavailable (e.g. optional V2 province service)",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "component_unavailable",
+            "family": "unavailable",
+            "message": "a required accepted artifact is unavailable or failed verification; details are in the local server log only"
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/history": {
+   "get": {
+    "summary": "Province retrospective monthly history 2021-01..2025-12 (V2 compatibility)",
+    "operationId": "history_api_v1_history_get",
+    "responses": {
+     "200": {
+      "description": "success (production_ready is always false)",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "string"
+        },
+        "examples": {
+         "province_history_ok": {
+          "summary": "hash-verified accepted 14 province_monthly.csv (2024 rows of this province)",
+          "value": {
+           "ok": true,
+           "production_ready": false,
+           "history": {
+            "total_records": 2682,
+            "zero_months": 0
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "invalid request (stable code, offending rows; no input echo)",
+      "content": {
+       "application/json": {
+        "examples": {
+         "province_history_2026": {
+          "summary": "notebook-24 catalog_query_error (2026 not in the accepted catalog)",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "invalid_request",
+            "family": "invalid",
+            "message": "history request rejected by the accepted catalog contract"
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "unknown/unsupported identifier: coverage, never a zero"
+     },
+     "503": {
+      "description": "component unavailable or backend not ready (fail closed; details only in the local server log)",
+      "content": {
+       "application/json": {
+        "examples": {
+         "unavailable_not_ready": {
+          "summary": "labelled smoke FIXTURE lock (any data route while the runtime is not ready)",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "backend_not_ready",
+            "family": "unavailable",
+            "message": "a required accepted artifact is unavailable or failed verification; details are in the local server log only"
+           }
+          }
+         },
+         "unavailable_component": {
+          "summary": "runtime component unavailable (e.g. optional V2 province service)",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "component_unavailable",
+            "family": "unavailable",
+            "message": "a required accepted artifact is unavailable or failed verification; details are in the local server log only"
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    },
+    "parameters": [
+     {
+      "name": "province_key",
+      "in": "query",
+      "required": true,
+      "schema": {
+       "type": "string"
+      },
+      "example": "กรุงเทพมหานคร"
+     },
+     {
+      "name": "start_month",
+      "in": "query",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "pattern": "^[0-9]{4}-[0-9]{2}$"
+      },
+      "example": "2024-01"
+     },
+     {
+      "name": "end_month",
+      "in": "query",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "pattern": "^[0-9]{4}-[0-9]{2}$"
+      },
+      "example": "2024-12",
+      "description": "within 2021-01..2025-12 (accepted catalog); 2026 is refused, never an empty zero"
+     },
+     {
+      "name": "categories",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "string"
+      },
+      "description": "comma-separated recorded category names"
+     },
+     {
+      "name": "top_k",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "minimum": 1,
+       "maximum": 10
+      }
+     }
+    ]
+   }
+  },
+  "/api/v1/segments": {
+   "get": {
+    "summary": "Qualified DOH segment GeoJSON by bbox with limit/cursor",
+    "operationId": "segments_api_v1_segments_get",
+    "responses": {
+     "200": {
+      "description": "success (production_ready is always false)",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "string"
+        },
+        "examples": {
+         "segments_page": {
+          "summary": "live 001 sample_responses.json (coordinates TRIMMED to 2 points)",
+          "value": {
+           "ok": true,
+           "production_ready": false,
+           "type": "FeatureCollection",
+           "bbox": [
+            97.0,
+            5.0,
+            106.0,
+            21.0
+           ],
+           "features": [
+            {
+             "type": "Feature",
+             "id": "rsv1-rc31f3d87fc7:doh:1036:p0:c0:r2000:00000",
+             "geometry": {
+              "type": "LineString",
+              "coordinates": [
+               [
+                100.59975975300006,
+                13.985689456000047
+               ],
+               [
+                100.59975959600007,
+                13.985689429000045
+               ]
+              ]
+             },
+             "properties": {
+              "segment_id": "rsv1-rc31f3d87fc7:doh:1036:p0:c0:r2000:00000",
+              "route_code": "0346",
+              "segment_km": 1.9999999999994045,
+              "province_code": 13,
+              "coverage": "supported_qualified_doh_segment"
+             }
+            }
+           ],
+           "page": {
+            "limit": 2,
+            "cursor": "0",
+            "next_cursor": "2",
+            "returned": 2,
+            "total_matched": 3105,
+            "order": "segment_id ascending (stable for this geometry snapshot)"
+           },
+           "coordinate_reference": "EPSG:4326 longitude, latitude (RFC 7946)",
+           "geometry_snapshot": "accepted notebook-19 universe (3105 qualified DOH 2000 m segments), manifest sha256 8a53b10cd88283e2b8a5c8c7d4f15f9657bf68f6fb9e58076fed2938176e1d73",
+           "notes": [
+            "current qualified DOH 2000 m segment snapshot (EPSG:4326 lon/lat, RFC 7946 order) applied retrospectively; NOT a routing graph and NOT the true historical road network of earlier years",
+            "roads outside the 3105 qualified DOH segments are unsupported: render them grey / \"no data\"; the API never returns a prediction, a zero or a lambda of 0 for them and never snaps a location to a segment"
+           ]
+          }
+         }
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "invalid request (stable code, offending rows; no input echo)"
+     },
+     "503": {
+      "description": "component unavailable or backend not ready (fail closed; details only in the local server log)",
+      "content": {
+       "application/json": {
+        "examples": {
+         "unavailable_not_ready": {
+          "summary": "labelled smoke FIXTURE lock (any data route while the runtime is not ready)",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "backend_not_ready",
+            "family": "unavailable",
+            "message": "a required accepted artifact is unavailable or failed verification; details are in the local server log only"
+           }
+          }
+         },
+         "unavailable_component": {
+          "summary": "runtime component unavailable (e.g. optional V2 province service)",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "component_unavailable",
+            "family": "unavailable",
+            "message": "a required accepted artifact is unavailable or failed verification; details are in the local server log only"
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    },
+    "parameters": [
+     {
+      "name": "bbox",
+      "in": "query",
+      "required": true,
+      "schema": {
+       "type": "string"
+      },
+      "example": "97,5,106,21",
+      "description": "west,south,east,north (lon/lat)"
+     },
+     {
+      "name": "limit",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "minimum": 1,
+       "maximum": 500
+      },
+      "example": 2
+     },
+     {
+      "name": "cursor",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "string"
+      },
+      "description": "next_cursor of the previous page"
+     }
+    ]
+   }
+  },
+  "/api/v1/segments/{segment_id}": {
+   "get": {
+    "summary": "One qualified segment (unknown/unsupported -> 404 coverage)",
+    "operationId": "segment_api_v1_segments__segment_id__get",
+    "parameters": [
+     {
+      "name": "segment_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Segment Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "success (production_ready is always false)",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "string"
+        },
+        "examples": {
+         "segment_ok": {
+          "summary": "live 001 sample_responses.json (coordinates TRIMMED to 2 points)",
+          "value": {
+           "ok": true,
+           "production_ready": false,
+           "feature": {
+            "type": "Feature",
+            "id": "rsv1-rc31f3d87fc7:doh:1036:p0:c0:r2000:00000",
+            "geometry": {
+             "type": "LineString",
+             "coordinates": [
+              [
+               100.59975975300006,
+               13.985689456000047
+              ],
+              [
+               100.59975959600007,
+               13.985689429000045
+              ]
+             ]
+            },
+            "properties": {
+             "segment_id": "rsv1-rc31f3d87fc7:doh:1036:p0:c0:r2000:00000",
+             "route_code": "0346",
+             "segment_km": 1.9999999999994045,
+             "province_code": 13,
+             "coverage": "supported_qualified_doh_segment"
+            }
+           },
+           "geometry_snapshot": "accepted notebook-19 universe (3105 qualified DOH 2000 m segments), manifest sha256 8a53b10cd88283e2b8a5c8c7d4f15f9657bf68f6fb9e58076fed2938176e1d73"
+          }
+         }
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "invalid request (stable code, offending rows; no input echo)"
+     },
+     "404": {
+      "description": "unknown/unsupported identifier: coverage, never a zero",
+      "content": {
+       "application/json": {
+        "examples": {
+         "segment_unknown": {
+          "summary": "notebook-24 get_segment",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "unknown_segment",
+            "family": "coverage",
+            "message": "segment outside the qualified DOH universe: unsupported (grey), never zero"
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "component unavailable or backend not ready (fail closed; details only in the local server log)",
+      "content": {
+       "application/json": {
+        "examples": {
+         "unavailable_not_ready": {
+          "summary": "labelled smoke FIXTURE lock (any data route while the runtime is not ready)",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "backend_not_ready",
+            "family": "unavailable",
+            "message": "a required accepted artifact is unavailable or failed verification; details are in the local server log only"
+           }
+          }
+         },
+         "unavailable_component": {
+          "summary": "runtime component unavailable (e.g. optional V2 province service)",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "component_unavailable",
+            "family": "unavailable",
+            "message": "a required accepted artifact is unavailable or failed verification; details are in the local server log only"
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/spatial/history": {
+   "post": {
+    "summary": "Segment history before the SAME target issue/label cutoff (notebook 14) + period status",
+    "operationId": "spatial_history_api_v1_spatial_history_post",
+    "requestBody": {
+     "description": "Documentation of the accepted contract; the server validates only through the pinned notebook FUNCTIONS (24 strict JSON/exact fields, 22/14/13 row rules). Unknown fields, duplicate keys, NaN/Infinity and bodies > 65536 bytes are refused.",
+     "content": {
+      "application/json": {
+       "schema": {
+        "properties": {
+         "segment_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 1,
+          "description": "stable qualified DOH segment id (see GET /api/v1/segments)"
+         },
+         "target_date": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+          "description": "2021-01-01..2027-12-31; history ends at the same issue/label cutoff as the prediction"
+         },
+         "unit": {
+          "type": "string",
+          "enum": [
+           "daily",
+           "6h"
+          ]
+         },
+         "time_block": {
+          "type": "string",
+          "enum": [
+           "00-06",
+           "06-12",
+           "12-18",
+           "18-24"
+          ],
+          "description": "required for unit 6h; omit for daily"
+         },
+         "lookback_days": {
+          "type": "integer",
+          "maximum": 1827.0,
+          "minimum": 1.0
+         },
+         "categories": {
+          "items": {
+           "type": "string"
+          },
+          "type": "array"
+         },
+         "top_k": {
+          "type": "integer",
+          "maximum": 10.0,
+          "minimum": 1.0
+         }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+         "segment_id",
+         "target_date",
+         "unit"
+        ],
+        "description": "Documentation of the accepted contract; the server validates only through the pinned notebook FUNCTIONS (24 strict JSON/exact fields, 22/14/13 row rules). Unknown fields, duplicate keys, NaN/Infinity and bodies > 65536 bytes are refused."
+       },
+       "examples": {
+        "spatial_history_ok": {
+         "summary": "live 001 sample_responses.json",
+         "value": {
+          "segment_id": "rsv1-rc31f3d87fc7:doh:64:p0:c0:r2000:00003",
+          "target_date": "2024-03-01",
+          "unit": "daily"
+         }
+        }
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "success (production_ready is always false)",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "string"
+        },
+        "examples": {
+         "spatial_history_ok": {
+          "summary": "live 001 sample_responses.json",
+          "value": {
+           "ok": true,
+           "production_ready": false,
+           "history": {
+            "schema": "roadaware-spatial-history/1",
+            "catalog_id": "df65865c4182c314",
+            "kind": "spatial_selected_history_as_of",
+            "segment_id": "rsv1-rc31f3d87fc7:doh:64:p0:c0:r2000:00003",
+            "target_date": "2024-03-01",
+            "unit": "daily",
+            "timezone": "Asia/Bangkok",
+            "issue_time_local": "2024-02-29T18:00:00+07:00",
+            "history_cutoff_local": "2024-01-30T18:00:00+07:00",
+            "latency_days": 30,
+            "eligibility": "target day end <= cutoff",
+            "history_window": {
+             "lookback_days": 1827,
+             "window_start_local_exclusive": "2019-01-29T18:00:00+07:00",
+             "window_end_local_inclusive": "2024-01-30T18:00:00+07:00",
+             "catalog_data_start_local": "2021-01-01T00:00:00+07:00",
+             "catalog_data_end_local_exclusive": "2026-01-01T00:00:00+07:00",
+             "covered_days": 1124.75,
+             "window_fully_inside_catalog_data": false
+            },
+            "n_selected_records": 5,
+            "empty_history_is_not_safety": true,
+            "counts_by_year": {
+             "2021": 2,
+             "2022": 3
+            },
+            "counts_by_month": [
+             {
+              "year_month": "2021-01",
+              "records": 0
+             },
+             {
+              "year_month": "2021-02",
+              "records": 0
+             },
+             {
+              "year_month": "2021-03",
+              "records": 0
+             },
+             {
+              "year_month": "2021-04",
+              "records": 0
+             },
+             {
+              "year_month": "2021-05",
+              "records": 1
+             },
+             {
+              "year_month": "2021-06",
+              "records": 0
+             },
+             {
+              "year_month": "2021-07",
+              "records": 0
+             },
+             {
+              "year_month": "2021-08",
+              "records": 0
+             },
+             {
+              "year_month": "2021-09",
+              "records": 0
+             },
+             {
+              "year_month": "2021-10",
+              "records": 1
+             },
+             {
+              "year_month": "2021-11",
+              "records": 0
+             },
+             {
+              "year_month": "2021-12",
+              "records": 0
+             },
+             {
+              "year_month": "2022-01",
+              "records": 0
+             },
+             {
+              "year_month": "2022-02",
+              "records": 1
+             },
+             {
+              "year_month": "2022-03",
+              "records": 0
+             },
+             {
+              "year_month": "2022-04",
+              "records": 0
+             },
+             {
+              "year_month": "2022-05",
+              "records": 1
+             },
+             {
+              "year_month": "2022-06",
+              "records": 0
+             },
+             {
+              "year_month": "2022-07",
+              "records": 0
+             },
+             {
+              "year_month": "2022-08",
+              "records": 0
+             },
+             {
+              "year_month": "2022-09",
+              "records": 0
+             },
+             {
+              "year_month": "2022-10",
+              "records": 0
+             },
+             {
+              "year_month": "2022-11",
+              "records": 1
+             },
+             {
+              "year_month": "2022-12",
+              "records": 0
+             },
+             {
+              "year_month": "2023-01",
+              "records": 0
+             },
+             {
+              "year_month": "2023-02",
+              "records": 0
+             },
+             {
+              "year_month": "2023-03",
+              "records": 0
+             },
+             {
+              "year_month": "2023-04",
+              "records": 0
+             },
+             {
+              "year_month": "2023-05",
+              "records": 0
+             },
+             {
+              "year_month": "2023-06",
+              "records": 0
+             },
+             {
+              "year_month": "2023-07",
+              "records": 0
+             },
+             {
+              "year_month": "2023-08",
+              "records": 0
+             },
+             {
+              "year_month": "2023-09",
+              "records": 0
+             },
+             {
+              "year_month": "2023-10",
+              "records": 0
+             },
+             {
+              "year_month": "2023-11",
+              "records": 0
+             },
+             {
+              "year_month": "2023-12",
+              "records": 0
+             },
+             {
+              "year_month": "2024-01",
+              "records": 0
+             }
+            ],
+            "counts_by_time_block": {
+             "00-06": 1,
+             "06-12": 0,
+             "12-18": 2,
+             "18-24": 2
+            },
+            "categories": {
+             "accident_type": {
+              "denominator_records": 5,
+              "known_records": 5,
+              "unknown_records": 0,
+              "known_share": 1.0,
+              "distinct_known_values": 4,
+              "top_values": [
+               {
+                "value": "ชนในทิศทางตรงกันข้าม (ไม่ใช่การแซง)",
+                "records": 2
+               },
+               {
+                "value": "ชนสิ่งกีดขวาง (บนผิวจราจร)",
+                "records": 1
+               },
+               {
+                "value": "พลิกคว่ำ/ตกถนนในทางตรง",
+                "records": 1
+               },
+               {
+                "value": "พลิกคว่ำ/ตกถนนในทางโค้ง",
+                "records": 1
+               }
+              ],
+              "other_known_records": 0
+             },
+             "presumed_cause": {
+              "denominator_records": 5,
+              "known_records": 5,
+              "unknown_records": 0,
+              "known_share": 1.0,
+              "distinct_known_values": 1,
+              "top_values": [
+               {
+                "value": "ขับรถเร็วเกินอัตรากำหนด",
+                "records": 5
+               }
+              ],
+              "other_known_records": 0
+             },
+             "weather": {
+              "denominator_records": 5,
+              "known_records": 5,
+              "unknown_records": 0,
+              "known_share": 1.0,
+              "distinct_known_values": 1,
+              "top_values": [
+               {
+                "value": "แจ่มใส",
+                "records": 5
+               }
+              ],
+              "other_known_records": 0
+             },
+             "time_block": {
+              "denominator_records": 5,
+              "known_records": 5,
+              "unknown_records": 0,
+              "known_share": 1.0,
+              "distinct_known_values": 3,
+              "top_values": [
+               {
+                "value": "12-18",
+                "records": 2
+               },
+               {
+                "value": "18-24",
+                "records": 2
+               },
+               {
+                "value": "00-06",
+                "records": 1
+               }
+              ],
+              "other_known_records": 0
+             }
+            },
+            "research_status": {
+             "research_only": true,
+             "production_ready": false,
+             "operational_status": "BLOCKED",
+             "live_data": false,
+             "forecast": false
+            }
+           },
+           "catalog_period": {
+            "first_month": "2021-01",
+            "last_month": "2025-12"
+           },
+           "period_status": {
+            "status": "partially_unsupported_period",
+            "unsupported_before": {
+             "from_local_exclusive": "2019-01-29T18:00:00+07:00",
+             "to_local": "2021-01-01T00:00:00+07:00"
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "invalid request (stable code, offending rows; no input echo)"
+     },
+     "404": {
+      "description": "unknown/unsupported identifier: coverage, never a zero"
+     },
+     "413": {
+      "description": "body larger than 65536 bytes",
+      "content": {
+       "application/json": {
+        "examples": {
+         "body_too_large": {
+          "summary": "transport",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "body_too_large",
+            "family": "too_large",
+            "message": "request body exceeds 65536 bytes"
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "415": {
+      "description": "Content-Type must be application/json",
+      "content": {
+       "application/json": {
+        "examples": {
+         "media_type": {
+          "summary": "transport",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "unsupported_media_type",
+            "family": "media_type",
+            "message": "Content-Type must be application/json"
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "component unavailable or backend not ready (fail closed; details only in the local server log)",
+      "content": {
+       "application/json": {
+        "examples": {
+         "unavailable_not_ready": {
+          "summary": "labelled smoke FIXTURE lock (any data route while the runtime is not ready)",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "backend_not_ready",
+            "family": "unavailable",
+            "message": "a required accepted artifact is unavailable or failed verification; details are in the local server log only"
+           }
+          }
+         },
+         "unavailable_component": {
+          "summary": "runtime component unavailable (e.g. optional V2 province service)",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "component_unavailable",
+            "family": "unavailable",
+            "message": "a required accepted artifact is unavailable or failed verification; details are in the local server log only"
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/spatial/predictions": {
+   "post": {
+    "summary": "Notebook-22 selected policy: {unit, requests[1..128]}",
+    "operationId": "spatial_predictions_api_v1_spatial_predictions_post",
+    "requestBody": {
+     "description": "Documentation of the accepted contract; the server validates only through the pinned notebook FUNCTIONS (24 strict JSON/exact fields, 22/14/13 row rules). Unknown fields, duplicate keys, NaN/Infinity and bodies > 65536 bytes are refused.",
+     "content": {
+      "application/json": {
+       "schema": {
+        "properties": {
+         "unit": {
+          "type": "string",
+          "enum": [
+           "daily",
+           "6h"
+          ]
+         },
+         "requests": {
+          "items": {
+           "properties": {
+            "segment_id": {
+             "type": "string",
+             "maxLength": 200,
+             "minLength": 1,
+             "description": "stable qualified DOH segment id (see GET /api/v1/segments)"
+            },
+            "target_date": {
+             "type": "string",
+             "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+             "description": "2024-01-01..2027-12-31; 2024-25 previously seen, later dates are research scenarios"
+            },
+            "time_block": {
+             "type": "string",
+             "enum": [
+              "00-06",
+              "06-12",
+              "12-18",
+              "18-24"
+             ],
+             "description": "required for unit 6h; omit for daily"
+            }
+           },
+           "additionalProperties": false,
+           "type": "object",
+           "required": [
+            "segment_id",
+            "target_date"
+           ]
+          },
+          "type": "array",
+          "maxItems": 128,
+          "minItems": 1
+         }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+         "unit",
+         "requests"
+        ],
+        "description": "Documentation of the accepted contract; the server validates only through the pinned notebook FUNCTIONS (24 strict JSON/exact fields, 22/14/13 row rules). Unknown fields, duplicate keys, NaN/Infinity and bodies > 65536 bytes are refused."
+       },
+       "examples": {
+        "spatial_daily": {
+         "summary": "accepted 22 prediction_fixtures.json daily selected row 0",
+         "value": {
+          "unit": "daily",
+          "requests": [
+           {
+            "segment_id": "rsv1-rc31f3d87fc7:doh:64:p0:c0:r2000:00003",
+            "target_date": "2025-12-16"
+           }
+          ]
+         }
+        },
+        "spatial_6h": {
+         "summary": "accepted 22 prediction_fixtures.json 6h selected row 0",
+         "value": {
+          "unit": "6h",
+          "requests": [
+           {
+            "segment_id": "rsv1-rc31f3d87fc7:doh:1381:p0:c0:r2000:00011",
+            "target_date": "2025-10-04",
+            "time_block": "00-06"
+           }
+          ]
+         }
+        },
+        "spatial_date_before_asof": {
+         "summary": "live 001 sample_responses.json error_example",
+         "value": {
+          "unit": "daily",
+          "requests": [
+           {
+            "segment_id": "rsv1-rc31f3d87fc7:doh:64:p0:c0:r2000:00003",
+            "target_date": "2023-06-01"
+           }
+          ]
+         }
+        }
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "success (production_ready is always false)",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "string"
+        },
+        "examples": {
+         "spatial_daily": {
+          "summary": "accepted 22 prediction_fixtures.json daily selected row 0",
+          "value": {
+           "ok": true,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "unit": "daily",
+           "rows": 1,
+           "model_version": "roadaware-spatial-v3-benchmark-issue-2023-12-31T18",
+           "method": "hgb_poisson_fixed::routed_context",
+           "quantity": "expected SELECTED+LINKED recorded count per segment and horizon (lambda); not a probability",
+           "results": [
+            {
+             "segment_id": "rsv1-rc31f3d87fc7:doh:64:p0:c0:r2000:00003",
+             "target_date": "2025-12-16",
+             "unit": "daily",
+             "horizon": "local day 2025-12-16 (Asia/Bangkok)",
+             "issue_time_local": "2025-12-15T18:00:00+07:00",
+             "issue_time_utc": "2025-12-15T11:00:00+00:00",
+             "model_version": "roadaware-spatial-v3-benchmark-issue-2023-12-31T18",
+             "method": "hgb_poisson_fixed::routed_context",
+             "role": "selected_policy",
+             "component_used": "core",
+             "routing_reason": "core_fallback_missing_context:wx_rain_sum_mm_d2,wx_temp_mean_c_d2",
+             "expected_recorded_count": 0.0013229405634793071,
+             "segment_km": 1.9999999999995528,
+             "density_per_km": 0.0006614702817398015,
+             "colour": "base",
+             "colour_hex": "#2c7fb8",
+             "colour_text": "Lower relative predicted recorded density (below the median reference cell). NOT safe and NOT an accident probability.",
+             "colour_status": "relative_contract_relative_density_colour_v3.0",
+             "research_scenario": false,
+             "data_period": "previously_seen_diagnostic_2024_2025",
+             "coverage": "supported_qualified_doh_segment",
+             "source_availability": {
+              "weather_daily_rain": "not_in_weather_archive",
+              "weather_daily_temp": "not_in_weather_archive",
+              "aadt": "ok",
+              "bank_calendar": "known",
+              "bank_calendar_coverage": "reviewed_annual_base_known_later_amendments_unknown"
+             }
+            }
+           ],
+           "caveats": [
+            "Expected SELECTED+LINKED recorded-count rate per segment and horizon; not an individual accident probability, not per-vehicle risk; never sum into a route probability.",
+            "2024/25 are PREVIOUSLY SEEN diagnostics; target dates after 2025-12-31 are research scenarios with no observed ground truth.",
+            "Colour is relative to the 2022-23 OOF reference density of the selected policy; 'base' (lowest band) is NOT safe.",
+            "Only the 3105 qualified DOH segments are supported; other roads are outside coverage (no snapping, no fake zero).",
+            "Research readiness only: production_ready is false; nothing is deployed."
+           ]
+          }
+         },
+         "spatial_6h": {
+          "summary": "accepted 22 prediction_fixtures.json 6h selected row 0",
+          "value": {
+           "ok": true,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "unit": "6h",
+           "rows": 1,
+           "model_version": "roadaware-spatial-v3-benchmark-issue-2023-12-31T18",
+           "method": "hgb_poisson_fixed::routed_context",
+           "quantity": "expected SELECTED+LINKED recorded count per segment and horizon (lambda); not a probability",
+           "results": [
+            {
+             "segment_id": "rsv1-rc31f3d87fc7:doh:1381:p0:c0:r2000:00011",
+             "target_date": "2025-10-04",
+             "time_block": "00-06",
+             "unit": "6h",
+             "horizon": "6 h block 00-06 of 2025-10-04 (Asia/Bangkok)",
+             "issue_time_local": "2025-10-03T18:00:00+07:00",
+             "issue_time_utc": "2025-10-03T11:00:00+00:00",
+             "model_version": "roadaware-spatial-v3-benchmark-issue-2023-12-31T18",
+             "method": "hgb_poisson_fixed::routed_context",
+             "role": "selected_policy",
+             "component_used": "core",
+             "routing_reason": "core_fallback_missing_context:wx_rain_sum_mm_d2,wx_temp_mean_c_d2,wx_block_rain_sum_mm_d2,wx_block_temp_mean_c_d2",
+             "expected_recorded_count": 0.0007776128214300119,
+             "segment_km": 2.0000000000001776,
+             "density_per_km": 0.0003888064107149714,
+             "colour": "yellow",
+             "colour_hex": "#f2c418",
+             "colour_text": "Above-median relative predicted recorded density (50th-80th percentile of reference cells).",
+             "colour_status": "relative_contract_relative_density_colour_v3.0",
+             "research_scenario": false,
+             "data_period": "previously_seen_diagnostic_2024_2025",
+             "coverage": "supported_qualified_doh_segment",
+             "source_availability": {
+              "weather_daily_rain": "not_in_weather_archive",
+              "weather_daily_temp": "not_in_weather_archive",
+              "aadt": "ok",
+              "bank_calendar": "known",
+              "bank_calendar_coverage": "reviewed_annual_base_known_later_amendments_unknown",
+              "weather_block_rain": "not_in_weather_archive",
+              "weather_block_temp": "not_in_weather_archive"
+             }
+            }
+           ],
+           "caveats": [
+            "Expected SELECTED+LINKED recorded-count rate per segment and horizon; not an individual accident probability, not per-vehicle risk; never sum into a route probability.",
+            "2024/25 are PREVIOUSLY SEEN diagnostics; target dates after 2025-12-31 are research scenarios with no observed ground truth.",
+            "Colour is relative to the 2022-23 OOF reference density of the selected policy; 'base' (lowest band) is NOT safe.",
+            "Only the 3105 qualified DOH segments are supported; other roads are outside coverage (no snapping, no fake zero).",
+            "Research readiness only: production_ready is false; nothing is deployed."
+           ]
+          }
+         }
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "invalid request (stable code, offending rows; no input echo)",
+      "content": {
+       "application/json": {
+        "examples": {
+         "spatial_date_before_asof": {
+          "summary": "live 001 sample_responses.json error_example",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "date_before_artifact_asof",
+            "family": "invalid",
+            "message": "the benchmark artifact was fitted as of 2023-12-31 18:00:00 (labels to 2023-12-01 18:00:00); earlier targets would be a false prospective forecast. Supported 2024-01-01..2027-12-31",
+            "rows": [
+             0
+            ]
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "unknown/unsupported identifier: coverage, never a zero",
+      "content": {
+       "application/json": {
+        "examples": {
+         "spatial_unknown_segment": {
+          "summary": "notebook-22 coverage error (offending rows only)",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "unknown_segment",
+            "family": "coverage",
+            "rows": [
+             0
+            ]
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "413": {
+      "description": "body larger than 65536 bytes",
+      "content": {
+       "application/json": {
+        "examples": {
+         "body_too_large": {
+          "summary": "transport",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "body_too_large",
+            "family": "too_large",
+            "message": "request body exceeds 65536 bytes"
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "415": {
+      "description": "Content-Type must be application/json",
+      "content": {
+       "application/json": {
+        "examples": {
+         "media_type": {
+          "summary": "transport",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "unsupported_media_type",
+            "family": "media_type",
+            "message": "Content-Type must be application/json"
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "component unavailable or backend not ready (fail closed; details only in the local server log)",
+      "content": {
+       "application/json": {
+        "examples": {
+         "unavailable_not_ready": {
+          "summary": "labelled smoke FIXTURE lock (any data route while the runtime is not ready)",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "backend_not_ready",
+            "family": "unavailable",
+            "message": "a required accepted artifact is unavailable or failed verification; details are in the local server log only"
+           }
+          }
+         },
+         "unavailable_component": {
+          "summary": "runtime component unavailable (e.g. optional V2 province service)",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "component_unavailable",
+            "family": "unavailable",
+            "message": "a required accepted artifact is unavailable or failed verification; details are in the local server log only"
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/spatial/baseline-predictions": {
+   "post": {
+    "summary": "Notebook-22 locked strong baseline (comparison only)",
+    "operationId": "spatial_baseline_api_v1_spatial_baseline_predictions_post",
+    "requestBody": {
+     "description": "Documentation of the accepted contract; the server validates only through the pinned notebook FUNCTIONS (24 strict JSON/exact fields, 22/14/13 row rules). Unknown fields, duplicate keys, NaN/Infinity and bodies > 65536 bytes are refused.",
+     "content": {
+      "application/json": {
+       "schema": {
+        "properties": {
+         "unit": {
+          "type": "string",
+          "enum": [
+           "daily",
+           "6h"
+          ]
+         },
+         "requests": {
+          "items": {
+           "properties": {
+            "segment_id": {
+             "type": "string",
+             "maxLength": 200,
+             "minLength": 1,
+             "description": "stable qualified DOH segment id (see GET /api/v1/segments)"
+            },
+            "target_date": {
+             "type": "string",
+             "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+             "description": "2024-01-01..2027-12-31; 2024-25 previously seen, later dates are research scenarios"
+            },
+            "time_block": {
+             "type": "string",
+             "enum": [
+              "00-06",
+              "06-12",
+              "12-18",
+              "18-24"
+             ],
+             "description": "required for unit 6h; omit for daily"
+            }
+           },
+           "additionalProperties": false,
+           "type": "object",
+           "required": [
+            "segment_id",
+            "target_date"
+           ]
+          },
+          "type": "array",
+          "maxItems": 128,
+          "minItems": 1
+         }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+         "unit",
+         "requests"
+        ],
+        "description": "Documentation of the accepted contract; the server validates only through the pinned notebook FUNCTIONS (24 strict JSON/exact fields, 22/14/13 row rules). Unknown fields, duplicate keys, NaN/Infinity and bodies > 65536 bytes are refused."
+       },
+       "examples": {
+        "spatial_baseline_daily": {
+         "summary": "accepted 22 prediction_fixtures.json daily baseline row 0",
+         "value": {
+          "unit": "daily",
+          "requests": [
+           {
+            "segment_id": "rsv1-rc31f3d87fc7:doh:64:p0:c0:r2000:00003",
+            "target_date": "2025-12-16"
+           }
+          ]
+         }
+        }
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "success (production_ready is always false)",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "string"
+        },
+        "examples": {
+         "spatial_baseline_daily": {
+          "summary": "accepted 22 prediction_fixtures.json daily baseline row 0",
+          "value": {
+           "ok": true,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "unit": "daily",
+           "rows": 1,
+           "model_version": "roadaware-spatial-v3-benchmark-issue-2023-12-31T18",
+           "method": "segment_mean_k365",
+           "quantity": "expected SELECTED+LINKED recorded count per segment and horizon (lambda); not a probability",
+           "results": [
+            {
+             "segment_id": "rsv1-rc31f3d87fc7:doh:64:p0:c0:r2000:00003",
+             "target_date": "2025-12-16",
+             "unit": "daily",
+             "horizon": "local day 2025-12-16 (Asia/Bangkok)",
+             "issue_time_local": "2025-12-15T18:00:00+07:00",
+             "issue_time_utc": "2025-12-15T11:00:00+00:00",
+             "model_version": "roadaware-spatial-v3-benchmark-issue-2023-12-31T18",
+             "method": "segment_mean_k365",
+             "role": "strong_baseline_comparison",
+             "component_used": "baseline",
+             "routing_reason": "baseline_has_no_routing",
+             "expected_recorded_count": 0.0039009961655522797,
+             "segment_km": 1.9999999999995528,
+             "density_per_km": 0.001950498082776576,
+             "colour_status": "not_applicable_for_baseline",
+             "research_scenario": false,
+             "data_period": "previously_seen_diagnostic_2024_2025",
+             "coverage": "supported_qualified_doh_segment",
+             "source_availability": {
+              "weather_daily_rain": "not_in_weather_archive",
+              "weather_daily_temp": "not_in_weather_archive",
+              "aadt": "ok",
+              "bank_calendar": "known",
+              "bank_calendar_coverage": "reviewed_annual_base_known_later_amendments_unknown"
+             }
+            }
+           ],
+           "caveats": [
+            "Expected SELECTED+LINKED recorded-count rate per segment and horizon; not an individual accident probability, not per-vehicle risk; never sum into a route probability.",
+            "2024/25 are PREVIOUSLY SEEN diagnostics; target dates after 2025-12-31 are research scenarios with no observed ground truth.",
+            "Colour is relative to the 2022-23 OOF reference density of the selected policy; 'base' (lowest band) is NOT safe.",
+            "Only the 3105 qualified DOH segments are supported; other roads are outside coverage (no snapping, no fake zero).",
+            "Research readiness only: production_ready is false; nothing is deployed."
+           ]
+          }
+         }
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "invalid request (stable code, offending rows; no input echo)"
+     },
+     "404": {
+      "description": "unknown/unsupported identifier: coverage, never a zero"
+     },
+     "413": {
+      "description": "body larger than 65536 bytes",
+      "content": {
+       "application/json": {
+        "examples": {
+         "body_too_large": {
+          "summary": "transport",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "body_too_large",
+            "family": "too_large",
+            "message": "request body exceeds 65536 bytes"
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "415": {
+      "description": "Content-Type must be application/json",
+      "content": {
+       "application/json": {
+        "examples": {
+         "media_type": {
+          "summary": "transport",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "unsupported_media_type",
+            "family": "media_type",
+            "message": "Content-Type must be application/json"
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "component unavailable or backend not ready (fail closed; details only in the local server log)",
+      "content": {
+       "application/json": {
+        "examples": {
+         "unavailable_not_ready": {
+          "summary": "labelled smoke FIXTURE lock (any data route while the runtime is not ready)",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "backend_not_ready",
+            "family": "unavailable",
+            "message": "a required accepted artifact is unavailable or failed verification; details are in the local server log only"
+           }
+          }
+         },
+         "unavailable_component": {
+          "summary": "runtime component unavailable (e.g. optional V2 province service)",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "component_unavailable",
+            "family": "unavailable",
+            "message": "a required accepted artifact is unavailable or failed verification; details are in the local server log only"
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/predictions": {
+   "post": {
+    "summary": "Preserved V2 province predictions via notebook 13 (province scope; never rescaled to roads)",
+    "operationId": "province_predictions_api_v1_predictions_post",
+    "requestBody": {
+     "description": "Documentation of the accepted contract; the server validates only through the pinned notebook FUNCTIONS (24 strict JSON/exact fields, 22/14/13 row rules). Unknown fields, duplicate keys, NaN/Infinity and bodies > 65536 bytes are refused.",
+     "content": {
+      "application/json": {
+       "schema": {
+        "properties": {
+         "requests": {
+          "items": {
+           "properties": {
+            "province_key": {
+             "type": "string",
+             "description": "Thai province name as in GET /api/v1/provinces"
+            },
+            "target_date": {
+             "type": "string",
+             "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+             "description": "local calendar date YYYY-MM-DD (Asia/Bangkok)"
+            },
+            "unit": {
+             "type": "string",
+             "enum": [
+              "daily",
+              "6h"
+             ]
+            },
+            "time_block": {
+             "type": "string",
+             "enum": [
+              "00-06",
+              "06-12",
+              "12-18",
+              "18-24"
+             ],
+             "description": "required for unit 6h; omit for daily"
+            }
+           },
+           "additionalProperties": false,
+           "type": "object",
+           "required": [
+            "province_key",
+            "target_date",
+            "unit"
+           ]
+          },
+          "type": "array",
+          "maxItems": 128,
+          "minItems": 1
+         }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+         "requests"
+        ],
+        "description": "Documentation of the accepted contract; the server validates only through the pinned notebook FUNCTIONS (24 strict JSON/exact fields, 22/14/13 row rules). Unknown fields, duplicate keys, NaN/Infinity and bodies > 65536 bytes are refused. Preserved V2 province scope."
+       },
+       "examples": {
+        "province_v2_ok": {
+         "summary": "saved notebook-13 serving_examples.json result 0 (seconds omitted)",
+         "value": {
+          "requests": [
+           {
+            "province_key": "กรุงเทพมหานคร",
+            "target_date": "2024-05-01",
+            "unit": "daily"
+           }
+          ]
+         }
+        }
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "success (production_ready is always false)",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "string"
+        },
+        "examples": {
+         "province_v2_ok": {
+          "summary": "saved notebook-13 serving_examples.json result 0 (seconds omitted)",
+          "value": {
+           "ok": true,
+           "production_ready": false,
+           "province_prediction_v2": {
+            "schema": "roadaware-v2-research-prediction/1",
+            "registry_id": "2f8a1e2e910fcd01",
+            "research_only": true,
+            "production_ready": false,
+            "operational_status": "BLOCKED",
+            "n_results": 1,
+            "results": [
+             {
+              "index": 0,
+              "request": {
+               "province_key": "กรุงเทพมหานคร",
+               "target_date": "2024-05-01",
+               "unit": "daily"
+              },
+              "province_key": "กรุงเทพมหานคร",
+              "alias_applied": false,
+              "target_date": "2024-05-01",
+              "unit": "daily",
+              "cell": {
+               "issue_time_local": "2024-04-30T18:00:00+07:00",
+               "target_start_local": "2024-05-01T00:00:00+07:00",
+               "target_end_local": "2024-05-02T00:00:00+07:00",
+               "timezone": "Asia/Bangkok",
+               "utc_offset": "+07:00"
+              },
+              "prediction": {
+               "expected_recorded_count": 5.069141036330536,
+               "method_id": "hgb_poisson__full",
+               "family": "hgb",
+               "variant": "full",
+               "bundle_sha256": "1b7e794d6278cd6ca298cde93defae889723d1bc58e3b4f45fe51859ff46dc8c",
+               "registry_id": "2f8a1e2e910fcd01"
+              },
+              "baseline_comparator": {
+               "expected_recorded_count": 3.704637497022155,
+               "method_id": "baseline_province_month_k30",
+               "sha256": "73b233d4a1fa0eb66a5523ab2404074fb938b7053689c53b48e296a4959c7291"
+              },
+              "model_age": {
+               "training_cutoff_local": "2023-12-31T18:00:00+07:00",
+               "days_from_training_cutoff_to_target": 122
+              },
+              "limitations": [
+               "research_only_not_operational",
+               "no_untouched_test",
+               "within_evaluated_period_previously_seen_diagnostic",
+               "weather_covariates_missing",
+               "traffic_vintage_stale"
+              ]
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "invalid request (stable code, offending rows; no input echo)",
+      "content": {
+       "application/json": {
+        "examples": {
+         "province_v2_fields": {
+          "summary": "notebook-24 exact_object",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "invalid_fields",
+            "family": "invalid",
+            "message": "province prediction body fields must be exactly ['requests']"
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "413": {
+      "description": "body larger than 65536 bytes",
+      "content": {
+       "application/json": {
+        "examples": {
+         "body_too_large": {
+          "summary": "transport",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "body_too_large",
+            "family": "too_large",
+            "message": "request body exceeds 65536 bytes"
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "415": {
+      "description": "Content-Type must be application/json",
+      "content": {
+       "application/json": {
+        "examples": {
+         "media_type": {
+          "summary": "transport",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "unsupported_media_type",
+            "family": "media_type",
+            "message": "Content-Type must be application/json"
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "component unavailable or backend not ready (fail closed; details only in the local server log)",
+      "content": {
+       "application/json": {
+        "examples": {
+         "unavailable_not_ready": {
+          "summary": "labelled smoke FIXTURE lock (any data route while the runtime is not ready)",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "backend_not_ready",
+            "family": "unavailable",
+            "message": "a required accepted artifact is unavailable or failed verification; details are in the local server log only"
+           }
+          }
+         },
+         "unavailable_component": {
+          "summary": "runtime component unavailable (e.g. optional V2 province service)",
+          "value": {
+           "ok": false,
+           "api_version": "roadaware-api-v3.0",
+           "production_ready": false,
+           "error": {
+            "code": "component_unavailable",
+            "family": "unavailable",
+            "message": "a required accepted artifact is unavailable or failed verification; details are in the local server log only"
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "components": {
+  "schemas": {
+   "HTTPValidationError": {
+    "properties": {
+     "detail": {
+      "items": {
+       "$ref": "#/components/schemas/ValidationError"
+      },
+      "type": "array",
+      "title": "Detail"
+     }
+    },
+    "type": "object",
+    "title": "HTTPValidationError"
+   },
+   "ValidationError": {
+    "properties": {
+     "loc": {
+      "items": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "integer"
+        }
+       ]
+      },
+      "type": "array",
+      "title": "Location"
+     },
+     "msg": {
+      "type": "string",
+      "title": "Message"
+     },
+     "type": {
+      "type": "string",
+      "title": "Error Type"
+     }
+    },
+    "type": "object",
+    "required": [
+     "loc",
+     "msg",
+     "type"
+    ],
+    "title": "ValidationError"
+   }
+  }
+ }
+}

@@ -1,0 +1,57 @@
+{
+  "version": "backend_api_v3.0",
+  "status": "thin local research API over ACCEPTED components 13 (V2 province compatibility), 14 (catalog), 19 (geometry), 21/23 (evaluation) and 22 (spatial runtime); no fit, no refit, no network; production_ready is always false",
+  "manager_lock": "workflow/api/input-pins-v3.json",
+  "manager_lock_kind": "manager_accepted_backend_api_inputs_v3",
+  "notebook24": {"path": "backend/notebooks/24_backend_api_contract.ipynb", "functions_cells": 3, "functions_join": "\n\n"},
+  "components": {
+    "spatial_runtime": {"notebook": "backend/notebooks/22_spatial_inference_contract.ipynb", "config": "backend/config/spatial_inference_v3.json",
+                        "pins": "workflow/serving/input-pins-v3.json", "serving_record": "serving_record.json", "selftest": true},
+    "province_runtime": {"notebook": "backend/notebooks/13_inference_robustness_contract.ipynb", "config": "backend/config/inference_v2.json", "optional": true},
+    "catalog": {"functions_cells": 5, "functions_join": "\n\n"},
+    "evaluation": {"manifest": "reports/v3/spatial_evaluation/spatial_evaluation_manifest.json", "metrics": "reports/v3/spatial_evaluation/metrics_by_group.csv"},
+    "diagnostics_2026": {"manifest": "evaluation_2026_manifest.json", "metrics": "metrics.csv"}
+  },
+  "required_components": ["notebook24", "spatial_runtime", "catalog", "geometry", "evaluation", "diagnostics_2026"],
+  "geometry": {
+    "manifest": "backend/reports/v3/spatial_preparation/spatial_preparation_manifest.json",
+    "geojson": "backend/data/v3/spatial_preparation/universe_geometry.geojson",
+    "segments_csv": "backend/data/v3/spatial_preparation/universe_segments.csv",
+    "snapshot": "accepted notebook-19 universe (3105 qualified DOH 2000 m segments), manifest sha256 8a53b10cd88283e2b8a5c8c7d4f15f9657bf68f6fb9e58076fed2938176e1d73"
+  },
+  "limits": {
+    "max_body_bytes": 65536,
+    "max_batch": 128,
+    "inference_threads": 2,
+    "geometry": {"lon_envelope": [97.0, 106.0], "lat_envelope": [5.0, 21.0], "max_bbox_span_deg": 20.0, "default_page_size": 100,
+                 "max_page_size": 500, "smoke_full_bbox": [97.0, 5.0, 106.0, 21.0]},
+    "history": {"province_max_months": 60, "max_top_k": 10, "spatial_max_lookback_days": 1827, "spatial_target_dates": ["2021-01-01", "2027-12-31"]},
+    "spatial_prediction_target_dates": ["2024-01-01", "2027-12-31"]
+  },
+  "transport": {
+    "host": "127.0.0.1", "port": 8000,
+    "cors_allow_origins": ["http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:3000", "http://127.0.0.1:3000"],
+    "cors_note": "explicit localhost allowlist, no wildcard, no credentials; transport constants are mirrored in backend/api/app.py because they are needed before this file is verified"
+  },
+  "routes_doc": {
+    "GET /health": "liveness only (200 while the process runs)",
+    "GET /ready": "200 research_backend_ready (production_ready false) or 503 with sanitised component codes",
+    "GET /api/v1/metadata": "versions, limits, components, colour cutoffs, coverage rules",
+    "GET /api/v1/evaluation": "accepted 21 summary with numeric selected + strong-baseline pooled/period OOF 2022-23 and seen 2024-25 metrics per unit + accepted 23 2026 diagnostic aggregates (separate, limits explicit)",
+    "GET /api/v1/provinces": "77 catalog provinces (representative label points, never event locations)",
+    "GET /api/v1/history": "province retrospective monthly history 2021-01..2025-12 (query: province_key, start_month, end_month[, categories][, top_k])",
+    "GET /api/v1/segments": "qualified segment GeoJSON by bbox=west,south,east,north with limit/cursor",
+    "GET /api/v1/segments/{segment_id}": "one qualified segment feature (unknown/unsupported -> 404 coverage)",
+    "POST /api/v1/spatial/history": "notebook-14 segment history before the SAME target issue/label cutoff + period status",
+    "POST /api/v1/spatial/predictions": "notebook-22 selected policy {unit, requests[1..128]}",
+    "POST /api/v1/spatial/baseline-predictions": "notebook-22 locked strong baseline (comparison only)",
+    "POST /api/v1/predictions": "preserved V2 province endpoint via notebook-13 predict_batch {requests[1..128]} (province scope, never rescaled to roads)"
+  },
+  "scope_statements": [
+    "Quantities are expected SELECTED+LINKED recorded-count rates per segment (or province) and horizon; not an individual accident probability, not per-vehicle risk, never summed into a route probability; no safest-route claim.",
+    "Spatial predictions use the accepted notebook-22 benchmark artifact for target dates 2024-01-01..2027-12-31 only; 2024-25 are previously seen diagnostics and dates after 2025-12-31 are research scenarios without observed ground truth. 2021-23 prospective requests are refused (no fold artifact retained).",
+    "Future weather/AADT context is not available live: missing context routes to the core component (reported per row); nothing is imputed as zero.",
+    "Historical categories are recorded attributes, not causes and not model explanations; empty history is not safety.",
+    "Local research backend only: no authentication, no deployment, no routing engine, no frontend; production_ready is false."
+  ]
+}

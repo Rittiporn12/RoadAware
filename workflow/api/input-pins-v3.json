@@ -1,6 +1,6 @@
 {
   "kind": "manager_accepted_backend_api_inputs_v3",
-  "status_note": "Component inputs accepted; API implementation and notebook24 verification still pending. Missing24/config pins MUST fail closed until Codex supplies them after source/fixture review. Never autotrust current bytes.",
+  "status_note": "Manager-verified component inputs and notebook24/config/FUNCTIONS pins. This file authorizes the checked input chain, not product acceptance. Final API acceptance is recorded separately in workflow/api/accepted-runtime-v3.json after independent source review and actual HTTP verification. Never autotrust current bytes or silently refresh pins. Earlier incomplete runs remain preserved as evidence.",
   "files": {
     "workflow/catalog/accepted-runtime-v3.json": "04d867638f87617349153b2b6825802b44d97ba29786ef95d0257a46a767199a",
     "workflow/evaluation/accepted-runtime-v3.json": "3feff0f8a5b3682d66f41a088737f02da97759b026d8009d73b17f9af3551787",
@@ -9,7 +9,9 @@
     "workflow/evaluation-2026/accepted-diagnostics-v3.json": "01bd9d23236366214056ae5e54b2caebd6cd2c7daf19d03cfaa85dc562c50726",
     "backend/reports/v3/spatial_preparation/spatial_preparation_manifest.json": "8a53b10cd88283e2b8a5c8c7d4f15f9657bf68f6fb9e58076fed2938176e1d73",
     "backend/data/v3/spatial_preparation/universe_geometry.geojson": "c3fda35c8751fc33f7c9663ad7686726f6199ae36d1f0a678c59a37df706be84",
-    "backend/data/v3/spatial_preparation/universe_segments.csv": "91b396599f25aaa8aad1d211da99908e4b71c0f4f4922811fb53b28cf29867c9"
+    "backend/data/v3/spatial_preparation/universe_segments.csv": "91b396599f25aaa8aad1d211da99908e4b71c0f4f4922811fb53b28cf29867c9",
+    "backend/notebooks/24_backend_api_contract.ipynb": "22e7b4cc418d3fcccb6eda791a4abf09892a9ac146c6604db8c4b065ae96fd49",
+    "backend/config/backend_api_v3.json": "6c1e76c75e45f1696bc1af76407206b9e7bcb00a985519e184c515d8b2b33f64"
   },
   "components": {
     "catalog": "workflow/catalog/accepted-runtime-v3.json",
@@ -19,6 +21,6 @@
     "diagnostics_2026": "workflow/evaluation-2026/accepted-diagnostics-v3.json"
   },
   "required_api_files_pending_manager_review": ["backend/notebooks/24_backend_api_contract.ipynb", "backend/config/backend_api_v3.json"],
-  "notebook24_functions": null,
+  "notebook24_functions": {"cells":3,"join":"\n\n","sha256":"50c9cb0434349795d2e6de9ec8417cc2e323804305a6830c049a9b3e8df7ec5a"},
   "policy": "Verify each component record and all consumed source/config/manifest/data/bundle hashes through its accepted chain BEFORE exec/deserialization. Client paths forbidden. New24functions must be manager-pinned separately after inspection/tests, joined2NL. API must expose research-only/unsupported/unavailable clearly. 2026history/fullpopulationaccuracy/unique-eventidentity/completeness/providerchecksum remain unverified; diagnostic aggregates only. No raw event ids/coordinates/rowledger exposed."
 }

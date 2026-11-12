@@ -1,4 +1,10 @@
-# RoadAware backend — V2 research
+# RoadAware backend — local research API V3
+
+**สถานะล่าสุด12พ.ย.2026: ตรวจรับข้อมูล/ML/APIแล้ว พร้อมต่อFrontend/Dashboard** HTTPจริง73/73checks;finalbackend831passed/1conditional-skip โหลดโมเดล016-002เดิม ไม่ฝึกซ้ำ ไม่มีfrontend/deploy และproduction_ready=false
+
+เปิดจากroot: `.venv/bin/python backend/scripts/run_api_server.py` → http://127.0.0.1:8000 หยุดCtrl+C. [คู่มือและcurl](../workflow/api/backend-api-runbook-v3-th.md) · [API contract](../workflow/api/frontend-integration-contract-v3.md) · [Model Gateและ12สไลด์](../workflow/model-gate-presentation-th.md) · [acceptedrecord/hash](../workflow/api/accepted-runtime-v3.json). เครื่องใหม่ต้องกู้ignoredartifactsตามrunbookก่อน
+
+ข้อความV1/V2/CatalogWIP/APIWIPด้านล่างเป็นประวัติเดิม ให้ใช้สถานะล่าสุดและลิงก์ข้างบนเป็นหลัก
 
 สถานะปัจจุบัน: Notebook09เก็บแหล่งข้อมูล/หลักฐานวันที่,10ทำpreparation/features/leakage,11ทดลอง3familiesและbaselines,12ทำevaluation/error analysis ผลอยู่ใน `reports/v2/` ข้อมูลรายแถวและbundleใน `data/`ไม่ขึ้นGit
 
@@ -148,3 +154,10 @@ runner หยุดที่ notebook แรกที่ล้มเหลว �
 - ตรวจอิสระแบบอ่านอย่างเดียว (ไม่ exec โค้ด notebook): `.venv/bin/python backend/scripts/verify_historical_catalog.py --catalog-root backend/rerun-historical-catalog-<id> [--output <ไฟล์ .json ใหม่>]` · กู้คำอธิบายจาก raw ซ้ำเอง เทียบ legacy, ตาราง 77×60/หมวดหมู่, selected daily/6h, ตัวอย่าง as-of และสแกนว่าไม่มี event UID ในไฟล์ที่เสิร์ฟ
 - ความเป็นส่วนตัวของผล query: key ต้องตรง `PUBLIC_RESULT_SCHEMA` (บังคับใน query ทุกครั้ง) และตรวจ event UID ด้วยการเทียบกับชุด UID จริงแบบ exact — segment id สาธารณะเช่น `...:doh:2577:p0:...` ไม่ถือว่ารั่ว (round 020a)
 - สถานะ: ยังไม่มีผลรันจริงที่ Codex ตรวจรับ (run 020-002 ล้มที่ control regex UID-like ซึ่งเป็น false positive จาก segment id ของถนน DOH 25xx)
+
+## V3 — backend API แบบ local (task 019, WIP ยังไม่ตรวจรับ)
+
+- FastAPI บาง ๆ ใน `backend/api/` (127.0.0.1 เท่านั้น) เรียก FUNCTIONS ที่ pin แล้วของ 13/14/22 และ notebook ใหม่ `notebooks/24_backend_api_contract.ipynb` (geometry/evaluation query) · config `config/backend_api_v3.json` · manager lock `workflow/api/input-pins-v3.json` · production_ready = false
+- server ไม่พร้อม (503 `api_pins_pending`) จนกว่า manager เติม pin ของ notebook 24/config หลังตรวจ · เริ่ม: `.venv/bin/python backend/scripts/run_api_server.py` (หยุดด้วย Ctrl+C)
+- ทดสอบ: `.venv/bin/python -m pytest backend/tests/test_backend_api.py -q` · live smoke (run root ใหม่ทุกครั้ง): `.venv/bin/python backend/scripts/smoke_api_live.py --run-root backend/rerun-api-019-004`
+- คู่มือ/ตัวอย่าง curl/การกู้ artifact: `workflow/api/backend-api-runbook-v3-th.md` · สัญญาสำหรับ frontend: `workflow/api/frontend-integration-contract-v3.md` · เวอร์ชัน: `constraints-runtime.txt`
