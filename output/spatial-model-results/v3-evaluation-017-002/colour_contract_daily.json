@@ -1,0 +1,86 @@
+{
+  "kind": "roadaware_relative_density_colour_contract",
+  "version": "relative_density_colour_v3.0",
+  "unit": "daily",
+  "density_definition": "expected SELECTED+LINKED retained MOT recorded count for the same target horizon (one local day, or one 6 h block) divided by the qualified DOH segment geom_length_m / 1000 (km); records per km per horizon period",
+  "density_unit": "records per km per local day",
+  "reference": {
+    "method": "hgb_poisson_fixed::routed_context",
+    "scope": "OOF 2022-01-01..2023-12-31 full population",
+    "weighting": "unweighted cells (preregistered)",
+    "experiment_lock_sha256": "e5678e26d5715b28ac8c4331f02d28ae64abc8a32f8fba9787232f0269578e7c",
+    "selection_frozen_sha256": "9e08ac0a5ea1597b14acd0167b91b3060c7a38776edf8f98fbb387dacb037e30",
+    "source_arrays": [
+      {
+        "file": "arrays/oof_daily_hgb_poisson_fixed__context.npy",
+        "sha256": "b9d57a3cdda9adf22263f38a0c08976b47dedeaddb43ebf775cb163a5a9d97d6"
+      },
+      {
+        "file": "arrays/oof_daily_hgb_poisson_fixed__core.npy",
+        "sha256": "389a1a52530ba0813abdfba9206cb6480c3aaba21da66f5fe3d831b6fcb15ff9"
+      },
+      {
+        "file": "arrays/oof_daily_context_mask.npy",
+        "sha256": "283f74501e896db3329235cb2a585283ed2d3d69b3d5c2a1cf7f0871a0224ae4"
+      }
+    ],
+    "length_source": "universe_segments.csv geom_length_m (accepted 19)",
+    "n_cells": 2266650,
+    "density_float64_le_sha256": "8fea4f82411ebd339a3c5cf5ed41a764a53d5f0d82de3edd1e2b30b648b8bef1",
+    "min": 2.0808383551586113e-05,
+    "max": 0.38699507972424435
+  },
+  "quantiles": [
+    0.5,
+    0.8,
+    0.95
+  ],
+  "quantile_method": "numpy.quantile method='linear' (Hyndman-Fan type 7) on float64 densities",
+  "raw_cutoffs": [
+    0.0006725354451004399,
+    0.0024847083769593244,
+    0.008116725169221255
+  ],
+  "unique_cutoffs": [
+    0.0006725354451004399,
+    0.0024847083769593244,
+    0.008116725169221255
+  ],
+  "assignment": "band index = number of raw cutoffs strictly below the density (density equal to a cutoff stays in the lower band); duplicate cutoffs therefore collapse deterministically and the skipped labels are simply unused (never forced)",
+  "labels": [
+    "base",
+    "yellow",
+    "orange",
+    "red"
+  ],
+  "labels_in_use": [
+    "base",
+    "yellow",
+    "orange",
+    "red"
+  ],
+  "reference_cell_counts": {
+    "base": 1133328,
+    "yellow": 679992,
+    "orange": 339997,
+    "red": 113333
+  },
+  "unavailable_label": "grey",
+  "accessible_text": {
+    "base": "Lower relative predicted recorded density (below the median reference cell). NOT safe and NOT an accident probability.",
+    "yellow": "Above-median relative predicted recorded density (50th-80th percentile of reference cells).",
+    "orange": "High relative predicted recorded density (80th-95th percentile of reference cells).",
+    "red": "Highest relative predicted recorded density (top 5% of reference cells). Relative ranking only, not an absolute risk.",
+    "grey": "Unavailable: unsupported segment, missing/invalid prediction or length, or a horizon without a contract."
+  },
+  "hex": {
+    "base": "#2c7fb8",
+    "yellow": "#f2c418",
+    "orange": "#f07c1b",
+    "red": "#c62828",
+    "grey": "#9e9e9e"
+  },
+  "limitations": "Relative to the 2022-23 OOF reference of recorded+linked records on the current DOH road snapshot; reflects recording, selection and linkage, not physical crash frequency or per-vehicle exposure. Cutoffs are fixed across routes and viewports and are never converted between horizons.",
+  "fixed_across_routes_and_viewports": true,
+  "convertible_between_horizons": false
+}

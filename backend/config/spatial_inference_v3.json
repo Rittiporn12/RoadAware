@@ -1,0 +1,80 @@
+{
+  "version": "spatial_inference_v3.0",
+  "status": "research inference + robustness contract for the ACCEPTED notebook-20 benchmark bundles and notebook-21 colour contracts; no fit of candidates, no refit, no reselection, no network; research_ready may pass while production_ready stays false",
+  "notebook": "notebooks/22_spatial_inference_contract.ipynb",
+  "registered_by": "task 018 (2026-11-11) after the manager accepted notebook 20 (rerun-spatial-model-016-002) and notebook 21 (rerun-spatial-eval-017-002)",
+  "label_meaning": "lambda = expected count of SELECTED+LINKED retained MOT database records per qualified DOH segment x local day (daily) or x 6 h block. NOT all physical accidents, NOT an individual accident probability, NOT per-vehicle risk; never summed into a route probability.",
+  "pins": {"path": "../workflow/serving/input-pins-v3.json", "kind": "manager_accepted_spatial_inference_inputs", "repo_prefix": "backend/",
+           "note": "manager pins (repo-relative keys); every consumed file is verified against them or against the hash recorded by a pinned producer manifest BEFORE any source is executed or any bundle deserialized"},
+  "inputs": {
+    "notebook19": {"path": "notebooks/19_spatial_count_preparation.ipynb", "functions_cells": 6, "functions_join": "\n\n", "pins_function_key": "notebook19"},
+    "notebook20": {"path": "notebooks/20_spatial_count_experiments.ipynb", "functions_cells": 6, "functions_join": "\n\n"},
+    "notebook21": {"path": "notebooks/21_spatial_evaluation_colours.ipynb", "functions_cells": 4, "functions_join": "", "pins_function_key": "notebook21", "exec_cells": [0, 2],
+                   "note": "hash covers all four FUNCTIONS cells; only cell 1 (helpers) and cell 3 (pure colour contract) are executed (no plotting imports in serving)"},
+    "config19": "config/spatial_preparation_v3.json",
+    "config20": "config/spatial_experiment_v3.json",
+    "config21": "config/spatial_evaluation_v3.json",
+    "manifest19": "reports/v3/spatial_preparation/spatial_preparation_manifest.json",
+    "prepared_data_dir": "data/v3/spatial_preparation",
+    "experiment_root": "rerun-spatial-model-016-002",
+    "experiment_report_dir": "reports/v3/spatial_experiments",
+    "experiment_data_dir": "data/v3/spatial_experiments",
+    "evaluation_root": "rerun-spatial-eval-017-002",
+    "evaluation_report_dir": "reports/v3/spatial_evaluation"
+  },
+  "selection_expect": {"daily": "hgb_poisson_fixed::routed_context", "6h": "hgb_poisson_fixed::routed_context", "baseline": "segment_mean_k365"},
+  "artifact": {
+    "model_version": "roadaware-spatial-v3-benchmark-issue-2023-12-31T18",
+    "kind": "benchmark",
+    "default_for_api": true,
+    "fit_issue_target_date": "2024-01-01",
+    "fit_issue_local": "2023-12-31 18:00:00",
+    "training_label_cutoff_local": "2023-12-01 18:00:00",
+    "supported_target_start": "2024-01-01",
+    "supported_target_end": "2027-12-31",
+    "observed_diagnostic_end": "2025-12-31",
+    "extended_refit": "not built: the user requested closure with the existing benchmark bundles only (no new models, no refit); a future extended artifact would need its own version, as-of issue and supported date range",
+    "oof_fold_models": "not retained by notebook 20: no OOF replay is claimed; OOF routing arithmetic is verified as arrays only"
+  },
+  "serving": {
+    "max_batch": 128,
+    "parity_batch_rows": 100000,
+    "threads": 2,
+    "parity_abs_tolerance": 1e-12,
+    "reference_requests": {"seed": 2218, "rows_per_unit": 384, "future_share": 0.25},
+    "latency": {"batch_sizes": [1, 128], "warmup": 3, "repetitions": 25, "note": "actual measured wall time in this environment; no SLA is implied"}
+  },
+  "provenance": {
+    "weather": "coarse province-point daily (and 6 h block) archive aggregated to target day - 2; not station-level, not observed at the event; missing for future dates -> routed to the core component",
+    "aadt": "annual DOH survey-point proxy from the latest vintage available before the target year; not live traffic",
+    "geometry": "current qualified DOH 2000 m segment snapshot applied retrospectively; event datum/linkage assumptions of notebooks 18/19",
+    "bank_calendar": "bank-holiday flag is known only where the as-of calendar covers the date; unknown stays missing (native HGB NaN handling, never imputed as 0)",
+    "labels": "30-day label availability is a research assumption, not a verified publication delay"
+  },
+  "caveats": [
+    "Expected SELECTED+LINKED recorded-count rate per segment and horizon; not an individual accident probability, not per-vehicle risk; never sum into a route probability.",
+    "2024/25 are PREVIOUSLY SEEN diagnostics; target dates after 2025-12-31 are research scenarios with no observed ground truth.",
+    "Colour is relative to the 2022-23 OOF reference density of the selected policy; 'base' (lowest band) is NOT safe.",
+    "Only the 3105 qualified DOH segments are supported; other roads are outside coverage (no snapping, no fake zero).",
+    "Research readiness only: production_ready is false; nothing is deployed."
+  ],
+  "dependency_pins": {"pandas": "pandas>=2.0,<3", "numpy": "numpy>=1.24,<3", "sklearn": "scikit-learn==1.6.1", "joblib": "joblib", "threadpoolctl": "threadpoolctl"},
+  "protected_paths": [
+    "data/v2", "reports/v2", "data/raw/accidents", "data/external_v2", "models",
+    "reports/v3/spatial_readiness", "reports/v3/road_collection", "reports/v3/road_collection_v3_1", "reports/v3/linkage_audit",
+    "reports/v3/spatial_preparation", "data/v3/spatial_preparation", "reports/v3/spatial_preparation_independent_review.json",
+    "reports/v3/spatial_experiments", "data/v3/spatial_experiments", "reports/v3/spatial_evaluation", "reports/v3/catalog_v3", "data/v3/catalog_v3",
+    "rerun-spatial-model-016-002/reports", "rerun-spatial-model-016-002/data/v3/spatial_experiments/models",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays_index.json", "rerun-spatial-model-016-002/data/v3/spatial_experiments/model_bundles.json",
+    "rerun-spatial-eval-017-002/reports",
+    "config/data_pipeline.json", "config/inference_v2.json", "config/catalog_v2.json", "config/spatial_preparation_v3.json",
+    "config/spatial_experiment_v3.json", "config/spatial_evaluation_v3.json", "config/archive",
+    "notebooks/13_inference_robustness_contract.ipynb", "notebooks/14_backend_catalog.ipynb", "notebooks/19_spatial_count_preparation.ipynb",
+    "notebooks/20_spatial_count_experiments.ipynb", "notebooks/21_spatial_evaluation_colours.ipynb",
+    "scripts/run_spatial_preparation.py", "scripts/run_spatial_experiments.py", "scripts/run_spatial_evaluation.py",
+    "../workflow/serving", "../workflow/catalog", "../workflow/spatial", "../workflow/spatial-model-protocol-v3-draft.md", "../workflow/spatial-model-protocol-v3-addendum.md"
+  ],
+  "guarded_roots": ["rerun-spatial-model-016-002", "rerun-spatial-eval-017-002"],
+  "outputs": {"report_dir": "reports/v3/spatial_serving", "data_dir": "data/v3/spatial_serving"},
+  "report_allowed_suffixes": [".csv", ".md", ".json"]
+}

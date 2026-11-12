@@ -1,0 +1,14 @@
+{
+  "kind":"manager_2026_source_snapshot_pins_before_scores",
+  "registered_before_any_2026_model_scores":true,
+  "requested_start":"2026-01-01",
+  "requested_end":"2026-09-30",
+  "files":{
+    "backend/data/v3/evaluation_2026_source/20261111/accident2026.csv":"42cdd12055c5a1f26b965ec5dda3bf0d43684ecd1a21c3e976836d9a1a89d232",
+    "backend/data/v3/evaluation_2026_source/20261111/ckan_package.json":"1b02b03a8715e50c35c9c6afed0deac85a959f288074d2cbc2f5dee72278a83e",
+    "backend/data/raw/accidents/accidents_2569_original.csv":"e9e0388614ce46cf815c1796d599d48e029be20b8d8849919fc0f730fc10ff1b"
+  },
+  "new_snapshot":{"resource_id":"4625b7aa-99a4-4dfb-9a0f-6402814d0f2c","last_modified":"2026-11-02T03:23:45.994271","bytes":10098288,"rows":18448,"event_last_date":"2026-10-31","report_last_date":"2026-11-02"},
+  "preregistered_rules":"workflow/backend-delivery-20261111-th.md",
+  "notes":"Original raw preserved; old/new comparison is descriptive only. No ACC_CODE; completeness and unique-event identity unverified. No zero-filling unobserved cells. Runtime/linkage pins must be supplied only after acceptance. This file pins source snapshots, not accepted 2026 labels or predictions."
+}

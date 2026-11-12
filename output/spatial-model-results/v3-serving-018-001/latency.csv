@@ -1,0 +1,9 @@
+unit,which,batch_size,warmup,repetitions,ms_min,ms_median,ms_p95,ms_max,note
+daily,selected,1,3,25,13.711666000006062,14.145249999998555,14.477716399994733,14.597249999994233,actual measured wall time in this environment; no SLA is implied
+daily,baseline,1,3,25,7.570624999999609,7.834166999998615,9.633608599995112,16.15229200000101,actual measured wall time in this environment; no SLA is implied
+daily,selected,128,3,25,20.753208999991557,21.248374999998987,28.25915039999529,67.88849999999513,actual measured wall time in this environment; no SLA is implied
+daily,baseline,128,3,25,13.125291999998012,13.774249999997323,14.63673320000396,14.773209000011889,actual measured wall time in this environment; no SLA is implied
+6h,selected,1,3,25,15.04545800000301,15.538374999991333,15.913466599999992,17.3526250000009,actual measured wall time in this environment; no SLA is implied
+6h,baseline,1,3,25,8.274207999988903,8.66370800000027,8.840300600002138,8.91862499999263,actual measured wall time in this environment; no SLA is implied
+6h,selected,128,3,25,22.9640839999945,23.482667000010338,23.828007800003093,24.891416000002664,actual measured wall time in this environment; no SLA is implied
+6h,baseline,128,3,25,14.939541999993367,15.406124999998383,15.941408599994134,16.751791000004346,actual measured wall time in this environment; no SLA is implied

@@ -1,0 +1,12 @@
+{
+  "status":"accepted_spatial_evaluation_research_only",
+  "root":"backend/rerun-spatial-eval-017-002",
+  "worker_review_run":"20261111-231207-74520",
+  "manifest_sha256":"66102cee63d1a6364fd6cbacce2a501155c6c9c83cb68716ee44738c4cf5ac7c",
+  "functions_sha256":"4fbf4a82b70b70de0f0a6774e45d8e5dfadb0637a6d3a444225c4d2ba7e8743f",
+  "checks":{"targeted":40,"backend":666,"notebook":36,"independent":135,"PNG_and_SVG_pairs_inspected":10},
+  "unchanged_byte_for_byte_from001":["metrics_by_group.csv","colour_contract_daily.json","colour_contract_6h.json","capture_equal_road_km.csv","floor_audit.csv"],
+  "minor_visual_note":"The method-comparison legend partly covers the normalized baseline zero annotation; all candidate values and the CSV/leaderboard are readable. Tall group charts are detailed appendix assets with SVG, not a single slide-sized chart.",
+  "production_ready":false,
+  "evidence":".ai-team/references/017-002-independent-verification.json"
+}

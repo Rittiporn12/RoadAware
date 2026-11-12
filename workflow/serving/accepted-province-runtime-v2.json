@@ -1,0 +1,21 @@
+{
+  "kind": "manager_accepted_province_runtime_v2_for_api",
+  "files": {
+    "backend/notebooks/13_inference_robustness_contract.ipynb": "99fd41aa5624c32cc39d00b13ae06b5e46375c58788bae60f5c32bcead5a86ea",
+    "backend/config/inference_v2.json": "f100f47211f8d4778877a7f26acb192cf7d7701aca9a008c362ccb1269ddcde3",
+    "backend/reports/v2/serving/serving_manifest.json": "e683ef9774558a39a4cfb180cd87ca0609f1a662de0389ebb58aea10d560df62",
+    "backend/reports/v2/reviews/serving_independent_review.json": "bac3c4afb694b5a604bb3789e04366d4b355a2faba2b52bab15141d8a107c0de"
+  },
+  "functions": {
+    "cells": 2,
+    "join": "\n\n",
+    "sha256": "66b0a4f71265b10f038dcee2a45195de6ca6e986cf236928c8b4f0102b9acf56",
+    "evidence": "Manager checked current FUNCTIONS and all code-cell hashes against the previously accepted serving manifest. All match; did not rerun13 or its old model experiments."
+  },
+  "interface": {
+    "load": "load_registry(backend=None, cfg=None, roots=None, load_models=True, loader=None)",
+    "predict": "predict_batch(reg, requests, include_baseline=True)",
+    "metadata": "registry_summary(reg)"
+  },
+  "policy": "Compatibility for POST /api/v1/predictions at province scope only. Verify pins then use13's existing loader and numeric representation, including downstream pinned source/config/bundle chain. No refit or feature duplication. Do not rescale province predictions to spatial roads. Spatial endpoints independently use accepted22. API live smoke should sample saved13 outputs; no old full pipeline rerun is needed."
+}

@@ -1,0 +1,18 @@
+{
+  "kind": "manager_accepted_2026_linkage_inputs",
+  "files": {
+    "backend/notebooks/18_spatial_linkage_audit.ipynb": "6308684bb1ab0ad55f1eba30d3361c7d7dc227377abeeeee19236489489e460c",
+    "backend/config/spatial_linkage_v3.json": "e39975e11436552b7a55dd459ade11febe1b854c7f26d5225a9ab9f9ef1a89dc",
+    "backend/reports/v3/linkage_audit/linkage_audit_manifest.json": "92cb1377ec4d677dea9cdc56536cf8e91c0f33bf8849bb9cd4c37d200083e576",
+    "backend/reports/v3/linkage_audit_independent_review.json": "811b2304a8e0ce48123ef00fd5a41b982096cdaeddd45a5d8fd311a3977719b5",
+    "backend/reports/v3/road_collection_v3_1/road_collection_manifest.json": "6783d259ae91db2e2b684d0c3cd9ae376b70dfeb1af74fbe436e86f15e6fb465",
+    "backend/reports/v2/sources/province_points.csv": "c21045179fb235743b5a7adc69014c494d012afd2d5899b28dfb9a9842708ae3"
+  },
+  "notebook18_functions": {
+    "cells": 4,
+    "join": "\n\n",
+    "sha256": "c15037ec6d9c1f62b8302bead5d6e21863674bf0502503bcb58554432bedc320",
+    "evidence": "Manager compared all four FUNCTIONS sources byte-for-byte with accepted rerun-linkage-014-002 executed notebook; identical. Canonical notebook contains promoted outputs, so its full-file hash differs from the pre-execution source hash in the old manifest. No linkage pipeline was rerun."
+  },
+  "policy": "Verify all files before executing notebook18 FUNCTIONS. Geometry/derived inputs must additionally match the pinned config18 and accepted producer manifests. Reuse exact 50m primary tolerance, 5m ambiguity margin, agency/route identity and selected notebook19 universe. No new normalization or score-driven selection. This pins linkage rules, not accepted2026labels."
+}

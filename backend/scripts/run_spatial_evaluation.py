@@ -78,6 +78,7 @@ def guarded(backend, cfg):
     backend, I = Path(backend), cfg['inputs']
     out = [(backend / p, 'protected') for p in cfg['protected_paths']]
     out += [(backend / I[k], 'pinned input') for k in ('notebook20', 'config20', 'notebook19', 'config19', 'manifest19')]
+    out += [(backend / I['province_names'], 'display-name input')] if 'province_names' in I else []
     out += [(backend / I['accepted_root'], 'accepted notebook-20 root'), (backend / I['prepared_data_dir'], 'prepared data'),
             (backend / cfg['pins']['path'], 'manager pins'), (backend / 'notebooks' / f'{NOTEBOOK}.ipynb', 'source notebook'), (backend / CONFIG, 'config')]
     return out

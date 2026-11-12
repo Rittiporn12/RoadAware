@@ -8,6 +8,7 @@ Re-derives, with its own arithmetic (no notebook FUNCTIONS, no producer metric/t
   * every consumed accepted-20 array hash (arrays_index + accepted manifest), routed policy derived from mask/components when not stored;
   * colour cutoffs = type-7 quantiles of the selected OOF density computed by explicit sort/interpolation, and the reference band counts;
   * pooled / per-period / per-colour totals (cells, records, predictions, deviance sums, segment-km exposure) and calibration-bin sums;
+  * province group cells counted directly from universe_segments.csv province_code (unknown group exactly when a code is missing);
   * equal-road-km capture shares by an explicit per-period loop;
   * that no report CSV carries row-level (segment x date) outcomes.
 Writes nothing unless --save names a NEW file (aggregate evidence only). Exit 0 = all checks pass, 1 = a check failed.
@@ -96,6 +97,8 @@ def verify(run_root):
     segs = pd.read_csv(BACKEND / I['prepared_data_dir'] / 'universe_segments.csv', dtype={'segment_id': str})
     L = segs.set_index('segment_id').loc[ax['segments'], 'geom_length_m'].to_numpy(float)
     S = L.size
+    prov_lab = ['unknown' if pd.isna(c) else str(int(c)) for c in segs.set_index('segment_id').loc[ax['segments'], 'province_code']]
+    prov_seg = {k: prov_lab.count(k) for k in set(prov_lab)}
     floor = float(cfg['metrics']['deviance_floor'])
     met = pd.read_csv(rep / 'metrics_by_group.csv', float_precision='round_trip', dtype={'group': str})
     cap = pd.read_csv(rep / 'capture_equal_road_km.csv', float_precision='round_trip')
@@ -149,6 +152,10 @@ def verify(run_root):
                 tot = {'n': n, 'total_actual': y.sum(), 'total_pred': p.sum(), 'deviance_sum': dv.sum(), 'exposure_segment_km_periods': km.sum()}
                 pooled = sub[sub.dimension == 'pooled'].iloc[0]
                 v(f'{u} {scope} {r}: pooled totals', all(close(tot[k], pooled[k]) for k in tot), {k: (tot[k], pooled[k]) for k in tot})
+                got = {str(g): int(c) for g, c in zip(sub[sub.dimension == 'province'].group, sub[sub.dimension == 'province'].n)}
+                want = {k: c * (n // S) for k, c in prov_seg.items()}
+                v(f'{u} {scope} {r}: province cells = input segment province codes x cells per segment (unknown group iff a code is missing)',
+                  got == want, {'unknown_segments': prov_seg.get('unknown', 0), 'mismatch': sorted(k for k in set(got) | set(want) if got.get(k) != want.get(k))[:10]})
                 for dim in ('calibration', 'colour', 'route_code', 'province'):
                     s = sub[sub.dimension == dim][list(tot)].sum()
                     v(f'{u} {scope} {r}: {dim} groups sum to the pooled totals', all(close(tot[k], s[k], 1e-8) for k in tot), s.to_dict())

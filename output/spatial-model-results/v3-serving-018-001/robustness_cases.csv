@@ -1,0 +1,88 @@
+case,expected_code,got_code,family,expected_rows,got_rows,passed,message,unit
+valid_row,,,,,,True,,daily
+wrong_unit_text,invalid_unit,invalid_unit,invalid,,[],True,"unit must be exactly ""daily"" or ""6h""",daily
+unit_bool,invalid_unit,invalid_unit,invalid,,[],True,"unit must be exactly ""daily"" or ""6h""",daily
+not_a_list,invalid_request,invalid_request,invalid,,[],True,requests must be a JSON array of objects,daily
+empty_batch,batch_size,batch_size,invalid,,[],True,rows must be 1..128,daily
+oversize_batch_129,batch_size,batch_size,invalid,,[],True,rows must be 1..128,daily
+extra_field,invalid_fields,invalid_fields,invalid,,[0],True,"fields must be exactly ['segment_id', 'target_date'] (time_block only for 6h)",daily
+bool_value,invalid_value,invalid_value,invalid,,[0],True,segment_id/target_date must be non-empty trimmed strings (no bool/number coercion),daily
+numeric_date,invalid_value,invalid_value,invalid,,[0],True,segment_id/target_date must be non-empty trimmed strings (no bool/number coercion),daily
+padded_value,invalid_value,invalid_value,invalid,,[0],True,segment_id/target_date must be non-empty trimmed strings (no bool/number coercion),daily
+non_iso_date,invalid_date,invalid_date,invalid,,[0],True,target_date must be an ISO local date,daily
+impossible_date,invalid_date,invalid_date,invalid,,[0],True,target_date must be an ISO local date,daily
+duplicate_keys,duplicate_keys,duplicate_keys,invalid,,[1],True,request keys must be unique,daily
+date_before_asof_2023,date_before_artifact_asof,date_before_artifact_asof,invalid,,[0],True,the benchmark artifact was fitted as of 2023-12-31 18:00:00 (labels to 2023-12-01 18:00:00); earlier targets would be a false prospective forecast. Supported 2024-01-01..2027-12-31,daily
+date_2021_internal_reference_not_public,date_before_artifact_asof,date_before_artifact_asof,invalid,,[0],True,the benchmark artifact was fitted as of 2023-12-31 18:00:00 (labels to 2023-12-01 18:00:00); earlier targets would be a false prospective forecast. Supported 2024-01-01..2027-12-31,daily
+date_after_2027,date_out_of_range,date_out_of_range,invalid,,[0],True,supported research dates 2021-01-01..2027-12-31,daily
+unknown_segment,unknown_segment,unknown_segment,coverage,,[0],True,"segments outside the qualified DOH 2000 m universe have no prediction (grey/unsupported, never zero)",daily
+baseline_unknown_segment,unknown_segment,unknown_segment,coverage,,[0],True,"segments outside the qualified DOH 2000 m universe have no prediction (grey/unsupported, never zero)",daily
+baseline_before_asof,date_before_artifact_asof,date_before_artifact_asof,invalid,,[0],True,the benchmark artifact was fitted as of 2023-12-31 18:00:00 (labels to 2023-12-01 18:00:00); earlier targets would be a false prospective forecast. Supported 2024-01-01..2027-12-31,daily
+feature_order_tampered,artifact_inconsistent,artifact_inconsistent,unavailable,,[],True,feature columns/order differ from the pinned bundle columns,daily
+negative_prediction,prediction_invalid,prediction_invalid,unavailable,,[],True,"ExperimentError: component prediction is non-finite, negative or misshaped",daily
+nonfinite_prediction,prediction_invalid,prediction_invalid,unavailable,,[],True,"ExperimentError: component prediction is non-finite, negative or misshaped",daily
+unavailable_service,artifact_unavailable,artifact_unavailable,unavailable,,[],True,service unavailable (artifact_hash_mismatch: fixture),daily
+block_extra_for_daily,invalid_fields,invalid_fields,invalid,,[0],True,"fields must be exactly ['segment_id', 'target_date'] (time_block only for 6h)",daily
+unsupported_geometry,unsupported_segment,unsupported_segment,coverage,,[0],True,"segments outside the qualified DOH 2000 m universe have no prediction (grey/unsupported, never zero)",daily
+multi_selected_before_asof_rows_0_2,date_before_artifact_asof,date_before_artifact_asof,invalid,"[0, 2]","[0, 2]",True,the benchmark artifact was fitted as of 2023-12-31 18:00:00 (labels to 2023-12-01 18:00:00); earlier targets would be a false prospective forecast. Supported 2024-01-01..2027-12-31,daily
+multi_selected_before_asof_row_0_only,date_before_artifact_asof,date_before_artifact_asof,invalid,[0],[0],True,the benchmark artifact was fitted as of 2023-12-31 18:00:00 (labels to 2023-12-01 18:00:00); earlier targets would be a false prospective forecast. Supported 2024-01-01..2027-12-31,daily
+multi_selected_after_2027_rows_1_3,date_out_of_range,date_out_of_range,invalid,"[1, 3]","[1, 3]",True,supported research dates 2021-01-01..2027-12-31,daily
+multi_selected_unknown_segment_rows_0_1,unknown_segment,unknown_segment,coverage,"[0, 1]","[0, 1]",True,"segments outside the qualified DOH 2000 m universe have no prediction (grey/unsupported, never zero)",daily
+multi_selected_invalid_date_rows_0_2,invalid_date,invalid_date,invalid,"[0, 2]","[0, 2]",True,target_date must be an ISO local date,daily
+multi_selected_invalid_value_rows_0_1,invalid_value,invalid_value,invalid,"[0, 1]","[0, 1]",True,segment_id/target_date must be non-empty trimmed strings (no bool/number coercion),daily
+multi_selected_duplicate_rows_2_3,duplicate_keys,duplicate_keys,invalid,"[2, 3]","[2, 3]",True,request keys must be unique,daily
+multi_selected_invalid_date_precedes_coverage,invalid_date,invalid_date,invalid,[1],[1],True,target_date must be an ISO local date,daily
+multi_baseline_before_asof_rows_0_2,date_before_artifact_asof,date_before_artifact_asof,invalid,"[0, 2]","[0, 2]",True,the benchmark artifact was fitted as of 2023-12-31 18:00:00 (labels to 2023-12-01 18:00:00); earlier targets would be a false prospective forecast. Supported 2024-01-01..2027-12-31,daily
+multi_baseline_before_asof_row_0_only,date_before_artifact_asof,date_before_artifact_asof,invalid,[0],[0],True,the benchmark artifact was fitted as of 2023-12-31 18:00:00 (labels to 2023-12-01 18:00:00); earlier targets would be a false prospective forecast. Supported 2024-01-01..2027-12-31,daily
+multi_baseline_after_2027_rows_1_3,date_out_of_range,date_out_of_range,invalid,"[1, 3]","[1, 3]",True,supported research dates 2021-01-01..2027-12-31,daily
+multi_baseline_unknown_segment_rows_0_1,unknown_segment,unknown_segment,coverage,"[0, 1]","[0, 1]",True,"segments outside the qualified DOH 2000 m universe have no prediction (grey/unsupported, never zero)",daily
+multi_baseline_invalid_date_rows_0_2,invalid_date,invalid_date,invalid,"[0, 2]","[0, 2]",True,target_date must be an ISO local date,daily
+multi_baseline_invalid_value_rows_0_1,invalid_value,invalid_value,invalid,"[0, 1]","[0, 1]",True,segment_id/target_date must be non-empty trimmed strings (no bool/number coercion),daily
+multi_baseline_duplicate_rows_2_3,duplicate_keys,duplicate_keys,invalid,"[2, 3]","[2, 3]",True,request keys must be unique,daily
+multi_baseline_invalid_date_precedes_coverage,invalid_date,invalid_date,invalid,[1],[1],True,target_date must be an ISO local date,daily
+valid_row,,,,,,True,,6h
+wrong_unit_text,invalid_unit,invalid_unit,invalid,,[],True,"unit must be exactly ""daily"" or ""6h""",6h
+unit_bool,invalid_unit,invalid_unit,invalid,,[],True,"unit must be exactly ""daily"" or ""6h""",6h
+not_a_list,invalid_request,invalid_request,invalid,,[],True,requests must be a JSON array of objects,6h
+empty_batch,batch_size,batch_size,invalid,,[],True,rows must be 1..128,6h
+oversize_batch_129,batch_size,batch_size,invalid,,[],True,rows must be 1..128,6h
+extra_field,invalid_fields,invalid_fields,invalid,,[0],True,"fields must be exactly ['segment_id', 'target_date', 'time_block']",6h
+bool_value,invalid_value,invalid_value,invalid,,[0],True,segment_id/target_date/time_block must be non-empty trimmed strings (no bool/number coercion),6h
+numeric_date,invalid_value,invalid_value,invalid,,[0],True,segment_id/target_date/time_block must be non-empty trimmed strings (no bool/number coercion),6h
+padded_value,invalid_value,invalid_value,invalid,,[0],True,segment_id/target_date/time_block must be non-empty trimmed strings (no bool/number coercion),6h
+non_iso_date,invalid_date,invalid_date,invalid,,[0],True,target_date must be an ISO local date,6h
+impossible_date,invalid_date,invalid_date,invalid,,[0],True,target_date must be an ISO local date,6h
+duplicate_keys,duplicate_keys,duplicate_keys,invalid,,[1],True,request keys must be unique,6h
+date_before_asof_2023,date_before_artifact_asof,date_before_artifact_asof,invalid,,[0],True,the benchmark artifact was fitted as of 2023-12-31 18:00:00 (labels to 2023-12-01 18:00:00); earlier targets would be a false prospective forecast. Supported 2024-01-01..2027-12-31,6h
+date_2021_internal_reference_not_public,date_before_artifact_asof,date_before_artifact_asof,invalid,,[0],True,the benchmark artifact was fitted as of 2023-12-31 18:00:00 (labels to 2023-12-01 18:00:00); earlier targets would be a false prospective forecast. Supported 2024-01-01..2027-12-31,6h
+date_after_2027,date_out_of_range,date_out_of_range,invalid,,[0],True,supported research dates 2021-01-01..2027-12-31,6h
+unknown_segment,unknown_segment,unknown_segment,coverage,,[0],True,"segments outside the qualified DOH 2000 m universe have no prediction (grey/unsupported, never zero)",6h
+baseline_unknown_segment,unknown_segment,unknown_segment,coverage,,[0],True,"segments outside the qualified DOH 2000 m universe have no prediction (grey/unsupported, never zero)",6h
+baseline_before_asof,date_before_artifact_asof,date_before_artifact_asof,invalid,,[0],True,the benchmark artifact was fitted as of 2023-12-31 18:00:00 (labels to 2023-12-01 18:00:00); earlier targets would be a false prospective forecast. Supported 2024-01-01..2027-12-31,6h
+feature_order_tampered,artifact_inconsistent,artifact_inconsistent,unavailable,,[],True,feature columns/order differ from the pinned bundle columns,6h
+negative_prediction,prediction_invalid,prediction_invalid,unavailable,,[],True,"ExperimentError: component prediction is non-finite, negative or misshaped",6h
+nonfinite_prediction,prediction_invalid,prediction_invalid,unavailable,,[],True,"ExperimentError: component prediction is non-finite, negative or misshaped",6h
+unavailable_service,artifact_unavailable,artifact_unavailable,unavailable,,[],True,service unavailable (artifact_hash_mismatch: fixture),6h
+block_missing,invalid_fields,invalid_fields,invalid,,[0],True,"fields must be exactly ['segment_id', 'target_date', 'time_block']",6h
+block_invalid,invalid_time_block,invalid_time_block,invalid,,[0],True,"time_block must be one of ['00-06', '06-12', '12-18', '18-24']",6h
+unsupported_geometry,unsupported_segment,unsupported_segment,coverage,,[0],True,"segments outside the qualified DOH 2000 m universe have no prediction (grey/unsupported, never zero)",6h
+multi_selected_before_asof_rows_0_2,date_before_artifact_asof,date_before_artifact_asof,invalid,"[0, 2]","[0, 2]",True,the benchmark artifact was fitted as of 2023-12-31 18:00:00 (labels to 2023-12-01 18:00:00); earlier targets would be a false prospective forecast. Supported 2024-01-01..2027-12-31,6h
+multi_selected_before_asof_row_0_only,date_before_artifact_asof,date_before_artifact_asof,invalid,[0],[0],True,the benchmark artifact was fitted as of 2023-12-31 18:00:00 (labels to 2023-12-01 18:00:00); earlier targets would be a false prospective forecast. Supported 2024-01-01..2027-12-31,6h
+multi_selected_after_2027_rows_1_3,date_out_of_range,date_out_of_range,invalid,"[1, 3]","[1, 3]",True,supported research dates 2021-01-01..2027-12-31,6h
+multi_selected_unknown_segment_rows_0_1,unknown_segment,unknown_segment,coverage,"[0, 1]","[0, 1]",True,"segments outside the qualified DOH 2000 m universe have no prediction (grey/unsupported, never zero)",6h
+multi_selected_invalid_date_rows_0_2,invalid_date,invalid_date,invalid,"[0, 2]","[0, 2]",True,target_date must be an ISO local date,6h
+multi_selected_invalid_value_rows_0_1,invalid_value,invalid_value,invalid,"[0, 1]","[0, 1]",True,segment_id/target_date/time_block must be non-empty trimmed strings (no bool/number coercion),6h
+multi_selected_duplicate_rows_2_3,duplicate_keys,duplicate_keys,invalid,"[2, 3]","[2, 3]",True,request keys must be unique,6h
+multi_selected_invalid_date_precedes_coverage,invalid_date,invalid_date,invalid,[1],[1],True,target_date must be an ISO local date,6h
+multi_selected_empty_block_value_precedes_bad_block,invalid_value,invalid_value,invalid,[2],[2],True,segment_id/target_date/time_block must be non-empty trimmed strings (no bool/number coercion),6h
+multi_selected_bad_block_rows_0_1,invalid_time_block,invalid_time_block,invalid,"[0, 1]","[0, 1]",True,"time_block must be one of ['00-06', '06-12', '12-18', '18-24']",6h
+multi_baseline_before_asof_rows_0_2,date_before_artifact_asof,date_before_artifact_asof,invalid,"[0, 2]","[0, 2]",True,the benchmark artifact was fitted as of 2023-12-31 18:00:00 (labels to 2023-12-01 18:00:00); earlier targets would be a false prospective forecast. Supported 2024-01-01..2027-12-31,6h
+multi_baseline_before_asof_row_0_only,date_before_artifact_asof,date_before_artifact_asof,invalid,[0],[0],True,the benchmark artifact was fitted as of 2023-12-31 18:00:00 (labels to 2023-12-01 18:00:00); earlier targets would be a false prospective forecast. Supported 2024-01-01..2027-12-31,6h
+multi_baseline_after_2027_rows_1_3,date_out_of_range,date_out_of_range,invalid,"[1, 3]","[1, 3]",True,supported research dates 2021-01-01..2027-12-31,6h
+multi_baseline_unknown_segment_rows_0_1,unknown_segment,unknown_segment,coverage,"[0, 1]","[0, 1]",True,"segments outside the qualified DOH 2000 m universe have no prediction (grey/unsupported, never zero)",6h
+multi_baseline_invalid_date_rows_0_2,invalid_date,invalid_date,invalid,"[0, 2]","[0, 2]",True,target_date must be an ISO local date,6h
+multi_baseline_invalid_value_rows_0_1,invalid_value,invalid_value,invalid,"[0, 1]","[0, 1]",True,segment_id/target_date/time_block must be non-empty trimmed strings (no bool/number coercion),6h
+multi_baseline_duplicate_rows_2_3,duplicate_keys,duplicate_keys,invalid,"[2, 3]","[2, 3]",True,request keys must be unique,6h
+multi_baseline_invalid_date_precedes_coverage,invalid_date,invalid_date,invalid,[1],[1],True,target_date must be an ISO local date,6h
+multi_baseline_empty_block_value_precedes_bad_block,invalid_value,invalid_value,invalid,[2],[2],True,segment_id/target_date/time_block must be non-empty trimmed strings (no bool/number coercion),6h
+multi_baseline_bad_block_rows_0_1,invalid_time_block,invalid_time_block,invalid,"[0, 1]","[0, 1]",True,"time_block must be one of ['00-06', '06-12', '12-18', '18-24']",6h

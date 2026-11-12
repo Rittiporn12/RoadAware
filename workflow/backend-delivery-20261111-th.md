@@ -6,9 +6,12 @@
 
 1. 016-002 รับผลวิจัยแล้ว: .ai-team/references/016-002-independent-review.json, correction run20261111-174328-25998 review pass. ใช้ arrays/bundles เดิม;ไม่ฝึกซ้ำ ไม่มี serving/production acceptance
 2. Catalog020/020a/020bตรวจรับแล้ว:actual0037.98s/18checks/61querycontrols,independent67checks,50targetedtests/642fullbackendtests. ภาพจริง2รูปตรวจแล้ว;manifest18report6datahashesตรง,669protectedsnapshotไม่เปลี่ยน. Pins workflow/catalog/accepted-runtime-v3.json;ไม่ทับcanonicalreports/data
-3. Notebook21 evaluation/errors/colours actual017-001complete61.36s/34checks;independent127checksผ่าน,กราฟPNG+SVG9ชุด. ยังไม่รับ:1fixtureอ่านhashผิดpath(37targetedpass/663fullpass1fail),บางcharttitleซ้อนกัน/labelsแน่น,reportbuilderยังไม่ครบห้าหัวข้อ,unknownprovincecheckconstantTrue.017aแก้syntaxแล้วติดquota;เตรียม017bfinalcorrectionให้Claudeหลังreset22:40Asia/Bangkok ไม่มีtraining/reselection
-4. Notebook22 runtime ใช้ benchmark HGB bundles ที่เก็บไว้ ตรวจ hash/feature parity/prediction parity กับ saved2024/25. Baseline statsสร้างจาก pinned19เมื่อ startup ไม่fitในrequest. ใช้ benchmarkเดิมก่อน ไม่จำเป็นต้อง extendedrefit
+3. Notebook21 evaluation/errors/coloursตรวจรับ017bแล้ว:actual017-00259.37s/36checks,independent135checks,40targeted/666backendtests. Metrics/thresholds/capture/floor byte-identical001;10PNG+SVGตรวจแล้ว;รายงานตรงห้าหัวข้อและมี10สไลด์พร้อมประเด็นพูด. Pins workflow/evaluation/accepted-runtime-v3.json;assets output/spatial-model-results/v3-evaluation-017-002. ข้อสังเกตเล็กน้อย:legendทับannotationbaseline0บางส่วนแต่ไม่ทับคะแนนcandidate;กราฟgroupsเป็นภาพรายละเอียดแนวตั้งสำหรับappendix/SVG
+4. ส่งClaude018แล้ว23:30วันที่11พ.ย.:Notebook22 runtimeใช้benchmarkHGBbundlesเดิม ตรวจ hash/feature parity/prediction parity กับ saved2024/25. Baseline statsสร้างจาก pinned19เมื่อstartupไม่fitในrequest. ไม่ทำextendedrefit. Managerpins workflow/serving/input-pins-v3.json
+   - 018รอบแรกตรวจจริง50passed/2failed:fixtureสมมติว่าปี2024/25มีcontextทั้งที่core-only;sourceพบการใช้ndarraytruthในerror.rows. ส่งแก้รวม018aโดยไม่แก้accepted19/20/21หรือเกณฑ์เลือก. 018a82targetedtestsผ่าน3.61s;actualkernel018-001เริ่ม12พ.ย.00:37และfullbackendregressionกำลังรัน ยังไม่รับruntimeจนfullparity/independentverifierผ่าน
+   - ตรวจรับ018aแล้ว12พ.ย.:actual018-00184.35s/23checks/592protectedunchanged;independent34/34;731backendtests46.03s. Fullsaved2024/25daily2269755/6h9079020 selected+baselineตรงทุกค่า(maxerror0),core-onlyตามsavedmask;syntheticcontextfixtureแยกชัด. Pins workflow/serving/accepted-runtime-v3.json;aggregateexport output/spatial-model-results/v3-serving-018-001. ไม่ได้fit/refitหรือรัน016ซ้ำ
 5. 2026 audit/evaluation:ใช้ snapshotใหม่ที่แยกเก็บ ไม่แก้ rawเดิม กำหนดกติกาก่อนดูคะแนนตามด้านล่าง
+   - ส่งClaude023แล้ว12พ.ย.07:15ผ่านbridgeเดิม หลังaccepted22;source/linkage/runtimepinsพร้อม. ยังไม่มี2026scores/acceptanceจนactualrun+independentverificationผ่าน
 6. Integrated local API019 ใช้ accepted14/21/22 พร้อม strict inputs/unsupported/unavailable/readiness, pytest และ live HTTP smoke
 7. รายงาน Model Gateห้าหัวข้อพร้อม actualCSV/PNG/SVG และลำดับสไลด์/ประเด็นพูด แยก OOF2022–23/seen2024–25/2026 diagnostic ชัดเจน ปิดด้วยrunbookและข้อจำกัด
 
@@ -40,5 +43,5 @@
 
 - Claude run20261111-195459-56913หยุด19:55:12ด้วยsessionlimit,reset22:40วันที่11พ.ย.2026Asia/Bangkok. แก้เฉพาะsyntaxmetadataก่อนหยุด;Codexไม่ได้แก้โค้ดแทน
 - Codexประกอบ21จากexactpayloadหลังหยุด รันทดสอบ/actual001/verifierและตรวจ9PNGครบแล้ว. ไม่retryClaudeก่อนreset ไม่เปลี่ยนmodel/criteria
-- งานหลังresetคือ workflow/tasks/017b-evaluation-final-correction-2.md ครั้งละworker →ตรวจรับ21→เติมpinsและส่ง018→ตรวจรับ22→023dataaudit/observed-recorddiagnostic→019API→ปิดModelGate/presentation/runbook. APIยังไม่มี จึงยังไม่มีคำสั่งเปิดAPIที่ทดสอบผ่าน
+- กลับมาทำต่อ23:12วันที่11พ.ย.หลังresetแล้ว:ส่ง workflow/tasks/017b-evaluation-final-correction-2.md ผ่านbridgeเดิมและClaudeตอบ/แก้ไฟล์ได้จริง. ครั้งละworker →ตรวจรับ21→เติมpinsและส่ง018→ตรวจรับ22→023dataaudit/observed-recorddiagnostic→019API→ปิดModelGate/presentation/runbook. APIยังไม่มี จึงยังไม่มีคำสั่งเปิดAPIที่ทดสอบผ่าน
 - โค้ด/ผลที่รันจริงยังคงอยู่ ไม่มีการทับ016-002/rawเดิม/Catalog003. 2026snapshotใหม่เก็บignoredแยก;ไม่มี2026scoresจนกว่าระบบruntimeและlabelsผ่านตรวจ

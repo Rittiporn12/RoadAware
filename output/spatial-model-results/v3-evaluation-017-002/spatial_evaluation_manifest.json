@@ -1,0 +1,962 @@
+{
+  "status": "complete",
+  "version": "spatial_evaluation_v3.0",
+  "purpose": "evaluation, error analysis and the fixed relative colour contract of the ACCEPTED notebook-20 selection; no training, no reselection, no serving, no 2026 data",
+  "label_meaning": "y = count of SELECTED+LINKED retained MOT database records (status_50m == matched AND segment_status == assigned) per qualified DOH segment x local day (daily) or x 6 h block. Zero means zero such recorded+linked records, NOT zero physical accidents. Predictions are expected recorded counts, not per-vehicle or per-person probabilities.",
+  "started_utc": "2026-11-11T16:27:34.588754+00:00",
+  "finished_utc": "2026-11-11T16:28:32.334293+00:00",
+  "seconds": 57.75,
+  "durations": {
+    "inputs": {
+      "seconds": 0.34,
+      "peak_rss_bytes_so_far": 137789440
+    },
+    "colour_contracts": {
+      "seconds": 0.7,
+      "peak_rss_bytes_so_far": 1114292224
+    },
+    "evaluation": {
+      "seconds": 47.48,
+      "peak_rss_bytes_so_far": 1361215488
+    },
+    "capture_stability_transfer": {
+      "seconds": 3.17,
+      "peak_rss_bytes_so_far": 2382790656
+    },
+    "figures_reports": {
+      "seconds": 4.76,
+      "peak_rss_bytes_so_far": 2423488512
+    }
+  },
+  "config_sha256": "7f9a05990a492034dcba67dd5f2001bfc0899dd2df45875b62f4fc83b5752bf3",
+  "pins_sha256": "24865e2923ef9c5a887369160b3bfa6b9fb3ea7a6ed7f41477f5e07a72b3cda3",
+  "notebook": "notebooks/21_spatial_evaluation_colours.ipynb",
+  "notebook_sha256": "2bdda60572f568a5c7d7d3c09831f1b7edfef6073805f399c2e7276ec0f9615d",
+  "functions_sha256": "4fbf4a82b70b70de0f0a6774e45d8e5dfadb0637a6d3a444225c4d2ba7e8743f",
+  "functions_cells": 4,
+  "accepted_root": "rerun-spatial-model-016-002",
+  "experiment_lock_sha256": "e5678e26d5715b28ac8c4331f02d28ae64abc8a32f8fba9787232f0269578e7c",
+  "selected": {
+    "daily": {
+      "selected": "hgb_poisson_fixed::routed_context",
+      "baseline": "segment_mean_k365"
+    },
+    "6h": {
+      "selected": "hgb_poisson_fixed::routed_context",
+      "baseline": "segment_mean_k365"
+    }
+  },
+  "colour_contract_sha256": {
+    "daily": "4e8f86dac8bc522bb0fa67ece76da7ac33c359e2cd5964f847e016a3b97f2273",
+    "6h": "7ee7b1f34ed87e2ae5aee485fab4d60161073c597690fb8fbc345608f76d3658"
+  },
+  "environment": {
+    "python": "3.9.6",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "dependencies": {
+      "numpy": "2.0.2",
+      "pandas": "2.3.3",
+      "matplotlib": "3.9.4"
+    }
+  },
+  "inputs": [
+    {
+      "input": "backend/config/spatial_experiment_v3.json",
+      "source": "manager_pin",
+      "sha256": "fbd053cca837fa184f28f6b6839c6f538ce5c458bb9fc7368cfbc552afbf90b0",
+      "expected": "fbd053cca837fa184f28f6b6839c6f538ce5c458bb9fc7368cfbc552afbf90b0",
+      "ok": true
+    },
+    {
+      "input": "backend/config/spatial_preparation_v3.json",
+      "source": "manager_pin",
+      "sha256": "10720c6f1ea457277666d29837598c2b4d83950907173560ad3f87f93778f386",
+      "expected": "10720c6f1ea457277666d29837598c2b4d83950907173560ad3f87f93778f386",
+      "ok": true
+    },
+    {
+      "input": "backend/notebooks/19_spatial_count_preparation.ipynb",
+      "source": "manager_pin",
+      "sha256": "2f6fea94dc3787beb9bcf7723aa0bfa2ea9d959dca06e4846d02ff5ab96a6879",
+      "expected": "2f6fea94dc3787beb9bcf7723aa0bfa2ea9d959dca06e4846d02ff5ab96a6879",
+      "ok": true
+    },
+    {
+      "input": "backend/notebooks/20_spatial_count_experiments.ipynb",
+      "source": "manager_pin",
+      "sha256": "e1f0f6ff02c26f1751b0bd40ce1a3944e477cc5c10e1fb271f73492cc384b89a",
+      "expected": "e1f0f6ff02c26f1751b0bd40ce1a3944e477cc5c10e1fb271f73492cc384b89a",
+      "ok": true
+    },
+    {
+      "input": "backend/reports/v3/spatial_preparation/spatial_preparation_manifest.json",
+      "source": "manager_pin",
+      "sha256": "8a53b10cd88283e2b8a5c8c7d4f15f9657bf68f6fb9e58076fed2938176e1d73",
+      "expected": "8a53b10cd88283e2b8a5c8c7d4f15f9657bf68f6fb9e58076fed2938176e1d73",
+      "ok": true
+    },
+    {
+      "input": "backend/rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays_index.json",
+      "source": "manager_pin",
+      "sha256": "6f72e3b74cda0ae3eae6142366fa9791b6ba780fa54155df7b34acea7be8e46e",
+      "expected": "6f72e3b74cda0ae3eae6142366fa9791b6ba780fa54155df7b34acea7be8e46e",
+      "ok": true
+    },
+    {
+      "input": "backend/rerun-spatial-model-016-002/reports/v3/spatial_experiments/experiment_lock.json",
+      "source": "manager_pin",
+      "sha256": "e5678e26d5715b28ac8c4331f02d28ae64abc8a32f8fba9787232f0269578e7c",
+      "expected": "e5678e26d5715b28ac8c4331f02d28ae64abc8a32f8fba9787232f0269578e7c",
+      "ok": true
+    },
+    {
+      "input": "backend/rerun-spatial-model-016-002/reports/v3/spatial_experiments/selection_frozen.json",
+      "source": "manager_pin",
+      "sha256": "9e08ac0a5ea1597b14acd0167b91b3060c7a38776edf8f98fbb387dacb037e30",
+      "expected": "9e08ac0a5ea1597b14acd0167b91b3060c7a38776edf8f98fbb387dacb037e30",
+      "ok": true
+    },
+    {
+      "input": "backend/rerun-spatial-model-016-002/reports/v3/spatial_experiments/spatial_experiments_manifest.json",
+      "source": "manager_pin",
+      "sha256": "4d0f23496fafd65cfba664b0d1f79a4d21ed38e6320dd1c00722387513ecc42d",
+      "expected": "4d0f23496fafd65cfba664b0d1f79a4d21ed38e6320dd1c00722387513ecc42d",
+      "ok": true
+    },
+    {
+      "input": "manifest20.status",
+      "source": "accepted20",
+      "sha256": "complete",
+      "expected": "complete",
+      "ok": true
+    },
+    {
+      "input": "manifest19.status",
+      "source": "accepted19",
+      "sha256": "complete",
+      "expected": "complete",
+      "ok": true
+    },
+    {
+      "input": "manifest20.config_sha256",
+      "source": "accepted20",
+      "sha256": "fbd053cca837fa184f28f6b6839c6f538ce5c458bb9fc7368cfbc552afbf90b0",
+      "expected": "fbd053cca837fa184f28f6b6839c6f538ce5c458bb9fc7368cfbc552afbf90b0",
+      "ok": true
+    },
+    {
+      "input": "rerun-spatial-model-016-002/reports/v3/spatial_experiments/experiment_lock.json",
+      "source": "manifest20.report_files",
+      "sha256": "e5678e26d5715b28ac8c4331f02d28ae64abc8a32f8fba9787232f0269578e7c",
+      "expected": "e5678e26d5715b28ac8c4331f02d28ae64abc8a32f8fba9787232f0269578e7c",
+      "ok": true
+    },
+    {
+      "input": "rerun-spatial-model-016-002/reports/v3/spatial_experiments/selection_frozen.json",
+      "source": "manifest20.report_files",
+      "sha256": "9e08ac0a5ea1597b14acd0167b91b3060c7a38776edf8f98fbb387dacb037e30",
+      "expected": "9e08ac0a5ea1597b14acd0167b91b3060c7a38776edf8f98fbb387dacb037e30",
+      "ok": true
+    },
+    {
+      "input": "rerun-spatial-model-016-002/reports/v3/spatial_experiments/leaderboard_oof.csv",
+      "source": "manifest20.report_files",
+      "sha256": "c5e77647155350d4e08c96427bfd400330be4af68aa578525c29f22e5ac7ced8",
+      "expected": "c5e77647155350d4e08c96427bfd400330be4af68aa578525c29f22e5ac7ced8",
+      "ok": true
+    },
+    {
+      "input": "rerun-spatial-model-016-002/reports/v3/spatial_experiments/fold_metrics.csv",
+      "source": "manifest20.report_files",
+      "sha256": "31653d0f2870e6f3250007869a6ed2624084907f9d417579b01fa2ca97cfd357",
+      "expected": "31653d0f2870e6f3250007869a6ed2624084907f9d417579b01fa2ca97cfd357",
+      "ok": true
+    },
+    {
+      "input": "rerun-spatial-model-016-002/reports/v3/spatial_experiments/diagnostics_seen_2024_2025.csv",
+      "source": "manifest20.report_files",
+      "sha256": "1ccdac67cdd9472f999ae3e3a2f3ad13be5992ce70a46a5b6252ca8644f7dfe1",
+      "expected": "1ccdac67cdd9472f999ae3e3a2f3ad13be5992ce70a46a5b6252ca8644f7dfe1",
+      "ok": true
+    },
+    {
+      "input": "rerun-spatial-model-016-002/reports/v3/spatial_experiments/transfer_metrics.csv",
+      "source": "manifest20.report_files",
+      "sha256": "90efcbf3e9c33bed1554609538c4cca5ff90bc658343536bde3f3d7437d54661",
+      "expected": "90efcbf3e9c33bed1554609538c4cca5ff90bc658343536bde3f3d7437d54661",
+      "ok": true
+    },
+    {
+      "input": "rerun-spatial-model-016-002/reports/v3/spatial_experiments/bootstrap.csv",
+      "source": "manifest20.report_files",
+      "sha256": "af67effe49d959516037a85a7f61594d0a6352531812350d5b470aba73d9f74f",
+      "expected": "af67effe49d959516037a85a7f61594d0a6352531812350d5b470aba73d9f74f",
+      "ok": true
+    },
+    {
+      "input": "arrays_index.json",
+      "source": "manifest20.data_files_gitignored",
+      "sha256": "6f72e3b74cda0ae3eae6142366fa9791b6ba780fa54155df7b34acea7be8e46e",
+      "expected": "6f72e3b74cda0ae3eae6142366fa9791b6ba780fa54155df7b34acea7be8e46e",
+      "ok": true
+    },
+    {
+      "input": "data/v3/spatial_preparation/population_axes.json",
+      "source": "manifest19.data_files_gitignored",
+      "sha256": "2ce826f7a3d87f1989a8006fa9ed00b2da29514d0f5455747e5aabc81eacfeba",
+      "expected": "2ce826f7a3d87f1989a8006fa9ed00b2da29514d0f5455747e5aabc81eacfeba",
+      "ok": true
+    },
+    {
+      "input": "data/v3/spatial_preparation/universe_segments.csv",
+      "source": "manifest19.data_files_gitignored",
+      "sha256": "91b396599f25aaa8aad1d211da99908e4b71c0f4f4922811fb53b28cf29867c9",
+      "expected": "91b396599f25aaa8aad1d211da99908e4b71c0f4f4922811fb53b28cf29867c9",
+      "ok": true
+    },
+    {
+      "input": "data/v3/spatial_preparation/date_features.csv",
+      "source": "manifest19.data_files_gitignored",
+      "sha256": "e7f8a42354dff05fa9e0cc1c10a9454221a00fbe4640f8b153b4aff28a6d12c6",
+      "expected": "e7f8a42354dff05fa9e0cc1c10a9454221a00fbe4640f8b153b4aff28a6d12c6",
+      "ok": true
+    },
+    {
+      "input": "notebooks/20_spatial_count_experiments.ipynb",
+      "source": "source notebook unexecuted",
+      "sha256": null,
+      "expected": null,
+      "ok": true
+    },
+    {
+      "input": "rerun-spatial-model-016-002/notebooks/20_spatial_count_experiments.ipynb",
+      "source": "executed code cells == canonical source cells",
+      "sha256": "9ac333f51ce856898bb6f93bd5e6d7df189ad88ecdd231cdb24eafcee805b03b",
+      "expected": null,
+      "ok": true
+    },
+    {
+      "input": "manifest20.experiment_lock_sha256",
+      "source": "lock consistency",
+      "sha256": "e5678e26d5715b28ac8c4331f02d28ae64abc8a32f8fba9787232f0269578e7c",
+      "expected": "e5678e26d5715b28ac8c4331f02d28ae64abc8a32f8fba9787232f0269578e7c",
+      "ok": true
+    },
+    {
+      "input": "selection_frozen.experiment_lock_sha256",
+      "source": "lock consistency",
+      "sha256": "e5678e26d5715b28ac8c4331f02d28ae64abc8a32f8fba9787232f0269578e7c",
+      "expected": "e5678e26d5715b28ac8c4331f02d28ae64abc8a32f8fba9787232f0269578e7c",
+      "ok": true
+    },
+    {
+      "input": "arrays_index.experiment_lock_sha256",
+      "source": "lock consistency",
+      "sha256": "e5678e26d5715b28ac8c4331f02d28ae64abc8a32f8fba9787232f0269578e7c",
+      "expected": "e5678e26d5715b28ac8c4331f02d28ae64abc8a32f8fba9787232f0269578e7c",
+      "ok": true
+    },
+    {
+      "input": "reports/v2/sources/province_points.csv",
+      "source": "display names only (not a manager pin; labels, never metrics)",
+      "sha256": "c21045179fb235743b5a7adc69014c494d012afd2d5899b28dfb9a9842708ae3",
+      "expected": null,
+      "ok": true
+    }
+  ],
+  "arrays": [
+    {
+      "unit": "daily",
+      "scope": "oof",
+      "name": "hgb_poisson_fixed::context",
+      "file": "arrays/oof_daily_hgb_poisson_fixed__context.npy",
+      "sha256": "b9d57a3cdda9adf22263f38a0c08976b47dedeaddb43ebf775cb163a5a9d97d6",
+      "dtype": "float64",
+      "shape": [
+        2266650
+      ],
+      "role": "selected",
+      "method": "hgb_poisson_fixed::routed_context"
+    },
+    {
+      "unit": "daily",
+      "scope": "oof",
+      "name": "hgb_poisson_fixed::core",
+      "file": "arrays/oof_daily_hgb_poisson_fixed__core.npy",
+      "sha256": "389a1a52530ba0813abdfba9206cb6480c3aaba21da66f5fe3d831b6fcb15ff9",
+      "dtype": "float64",
+      "shape": [
+        2266650
+      ],
+      "role": "selected",
+      "method": "hgb_poisson_fixed::routed_context"
+    },
+    {
+      "unit": "daily",
+      "scope": "oof",
+      "name": "context_mask",
+      "file": "arrays/oof_daily_context_mask.npy",
+      "sha256": "283f74501e896db3329235cb2a585283ed2d3d69b3d5c2a1cf7f0871a0224ae4",
+      "dtype": "uint8",
+      "shape": [
+        2266650
+      ],
+      "role": "selected",
+      "method": "hgb_poisson_fixed::routed_context"
+    },
+    {
+      "unit": "daily",
+      "scope": "oof",
+      "name": "segment_mean_k365",
+      "file": "arrays/oof_daily_segment_mean_k365.npy",
+      "sha256": "84479d248f9b24358b6f466671fb136cef2dce80bfb28b54b172625db6f37fa4",
+      "dtype": "float64",
+      "shape": [
+        2266650
+      ],
+      "role": "baseline",
+      "method": "segment_mean_k365"
+    },
+    {
+      "unit": "daily",
+      "scope": "oof",
+      "name": "y",
+      "file": "arrays/oof_daily_y.npy",
+      "sha256": "ef04a33b974b83711838d16958021d5800111bb59b69b7a150a072e12b7aa931",
+      "dtype": "float64",
+      "shape": [
+        2266650
+      ],
+      "role": "label",
+      "method": ""
+    },
+    {
+      "unit": "daily",
+      "scope": "diag",
+      "name": "hgb_poisson_fixed::routed_context",
+      "file": "arrays/diag_daily_hgb_poisson_fixed__routed_context.npy",
+      "sha256": "914159e6302d6b29c3cdc78932faf3284af8e5a6d7b68b6ade68febb925010a7",
+      "dtype": "float64",
+      "shape": [
+        2269755
+      ],
+      "role": "selected",
+      "method": "hgb_poisson_fixed::routed_context"
+    },
+    {
+      "unit": "daily",
+      "scope": "diag",
+      "name": "segment_mean_k365",
+      "file": "arrays/diag_daily_segment_mean_k365.npy",
+      "sha256": "4166d3e6c90663cc1006ddfd24c9c6e6dbddf959d086d28116b10e6c478bd4cc",
+      "dtype": "float64",
+      "shape": [
+        2269755
+      ],
+      "role": "baseline",
+      "method": "segment_mean_k365"
+    },
+    {
+      "unit": "daily",
+      "scope": "diag",
+      "name": "y",
+      "file": "arrays/diag_daily_y.npy",
+      "sha256": "c6cd07b6036375bd26d73c550839556786128e61fa8d91452c2ebb8bc5eeb902",
+      "dtype": "float64",
+      "shape": [
+        2269755
+      ],
+      "role": "label",
+      "method": ""
+    },
+    {
+      "unit": "daily",
+      "scope": "diag",
+      "name": "context_mask",
+      "file": "arrays/diag_daily_context_mask.npy",
+      "sha256": "2ab83364a672036a4934d894cd2ed1505893037f7d27146998c4570b3c8e01ec",
+      "dtype": "uint8",
+      "shape": [
+        2269755
+      ],
+      "role": "context_mask",
+      "method": ""
+    },
+    {
+      "unit": "6h",
+      "scope": "oof",
+      "name": "hgb_poisson_fixed::context",
+      "file": "arrays/oof_6h_hgb_poisson_fixed__context.npy",
+      "sha256": "f7f56a0c1d4b5ee0d78a8d08b0fb069e4d0edc3c668a639a0e7ff64c235c8245",
+      "dtype": "float64",
+      "shape": [
+        9066600
+      ],
+      "role": "selected",
+      "method": "hgb_poisson_fixed::routed_context"
+    },
+    {
+      "unit": "6h",
+      "scope": "oof",
+      "name": "hgb_poisson_fixed::core",
+      "file": "arrays/oof_6h_hgb_poisson_fixed__core.npy",
+      "sha256": "22b664b6f93ea2bc3393c7537b148499be8531488c49719bbb3d25e2aa611f11",
+      "dtype": "float64",
+      "shape": [
+        9066600
+      ],
+      "role": "selected",
+      "method": "hgb_poisson_fixed::routed_context"
+    },
+    {
+      "unit": "6h",
+      "scope": "oof",
+      "name": "context_mask",
+      "file": "arrays/oof_6h_context_mask.npy",
+      "sha256": "6cb5d12639537c5f9452726119a7b56c64691b5aeaad0b440e689b06486a393c",
+      "dtype": "uint8",
+      "shape": [
+        9066600
+      ],
+      "role": "selected",
+      "method": "hgb_poisson_fixed::routed_context"
+    },
+    {
+      "unit": "6h",
+      "scope": "oof",
+      "name": "segment_mean_k365",
+      "file": "arrays/oof_6h_segment_mean_k365.npy",
+      "sha256": "bcc99790a975f7f40c0bf5d320c0cd934f415ed83dff8840028340f50c44ee1a",
+      "dtype": "float64",
+      "shape": [
+        9066600
+      ],
+      "role": "baseline",
+      "method": "segment_mean_k365"
+    },
+    {
+      "unit": "6h",
+      "scope": "oof",
+      "name": "y",
+      "file": "arrays/oof_6h_y.npy",
+      "sha256": "0d3cad315e47691b4ad2bdbf7589bbcc55b5149c29d22a00a0082fdda7c3c143",
+      "dtype": "float64",
+      "shape": [
+        9066600
+      ],
+      "role": "label",
+      "method": ""
+    },
+    {
+      "unit": "6h",
+      "scope": "diag",
+      "name": "hgb_poisson_fixed::routed_context",
+      "file": "arrays/diag_6h_hgb_poisson_fixed__routed_context.npy",
+      "sha256": "f28ecb415acc2446377b5aa4b0449a629a0e5a7586fd81597bf34eb33c1b671b",
+      "dtype": "float64",
+      "shape": [
+        9079020
+      ],
+      "role": "selected",
+      "method": "hgb_poisson_fixed::routed_context"
+    },
+    {
+      "unit": "6h",
+      "scope": "diag",
+      "name": "segment_mean_k365",
+      "file": "arrays/diag_6h_segment_mean_k365.npy",
+      "sha256": "babb359c91b6af7e0b4f086dcf113bf9215a8aba272b623d2d5cb11149977f27",
+      "dtype": "float64",
+      "shape": [
+        9079020
+      ],
+      "role": "baseline",
+      "method": "segment_mean_k365"
+    },
+    {
+      "unit": "6h",
+      "scope": "diag",
+      "name": "y",
+      "file": "arrays/diag_6h_y.npy",
+      "sha256": "fce7c305d3010c3656be08997ad8a2f682f970c8521c38d379619ebe905a7bb2",
+      "dtype": "float64",
+      "shape": [
+        9079020
+      ],
+      "role": "label",
+      "method": ""
+    },
+    {
+      "unit": "6h",
+      "scope": "diag",
+      "name": "context_mask",
+      "file": "arrays/diag_6h_context_mask.npy",
+      "sha256": "f3412e53dcb912780dccabb26dfb000c427d56917c6240d989d1e11d6b03b93a",
+      "dtype": "uint8",
+      "shape": [
+        9079020
+      ],
+      "role": "context_mask",
+      "method": ""
+    }
+  ],
+  "checks": [
+    {
+      "check": "every manager pin, accepted-20 report/data membership, accepted-19 data membership, lock consistency and executed-vs-source 20 cells verified",
+      "status": "pass",
+      "evidence": "{\"inputs\": 28, \"failed\": []}"
+    },
+    {
+      "check": "every known segment province code has a display name (names are labels only; a missing name shows the code)",
+      "status": "pass",
+      "evidence": "{\"codes\": [\"10\", \"11\", \"12\", \"13\", \"14\", \"15\", \"16\", \"17\", \"18\", \"19\", \"20\", \"24\", \"25\", \"26\", \"30\", \"36\", \"60\", \"72\", \"73\", \"74\"], \"missing\": []}"
+    },
+    {
+      "check": "population axes: sorted segments, 6 h blocks as configured, no axis date after 2025-12-31",
+      "status": "pass",
+      "evidence": "{\"segments\": 3105, \"dates\": [\"2021-01-01\", \"2025-12-31\"], \"blocks\": [\"00-06\", \"06-12\", \"12-18\", \"18-24\"], \"network_km\": 5900.23330779117}"
+    },
+    {
+      "check": "frozen selection fields are self-consistent (selected = best candidate only when recommended, else the baseline)",
+      "status": "pass",
+      "evidence": "{\"daily\": {\"recommended\": \"candidate\", \"selected_method\": \"hgb_poisson_fixed::routed_context\", \"strongest_baseline\": \"segment_mean_k365\", \"reason\": \"all gates passed\"}, \"6h\": {\"recommended\": \"candidate\", \"selected_method\": \"hgb_poisson_fixed::routed_context\", \"strongest_baseline\": \"segment_mean_k365\", \"reason\": \"all gates passed\"}}"
+    },
+    {
+      "check": "daily oof: period offsets/rows reproduce date x segment x block axis order",
+      "status": "pass",
+      "evidence": "[{\"id\": \"2022H1\", \"start\": \"2022-01-01\", \"end\": \"2022-06-30\", \"row_offset\": 0, \"rows\": 562005}, {\"id\": \"2022H2\", \"start\": \"2022-07-01\", \"end\": \"2022-12-31\", \"row_offset\": 562005, \"rows\": 571320}, {\"id\": \"2023H1\", \"start\": \"2023-01-01\", \"end\": \"2023-06-30\", \"row_offset\": 1133325, \"rows\": 562005}, {\"id\": \"2023H2\", \"start\": \"2023-07-01\", \"end\": \"2023-12-31\", \"row_offset\": 1695330, \"rows\": 571320}]"
+    },
+    {
+      "check": "daily diag: period offsets/rows reproduce date x segment x block axis order",
+      "status": "pass",
+      "evidence": "[{\"id\": \"seen_2024\", \"start\": \"2024-01-01\", \"end\": \"2024-12-31\", \"row_offset\": 0, \"rows\": 1136430}, {\"id\": \"seen_2025\", \"start\": \"2025-01-01\", \"end\": \"2025-12-31\", \"row_offset\": 1136430, \"rows\": 1133325}]"
+    },
+    {
+      "check": "daily: OOF population equals the locked 2022-23 size",
+      "status": "pass",
+      "evidence": "2266650"
+    },
+    {
+      "check": "6h oof: period offsets/rows reproduce date x segment x block axis order",
+      "status": "pass",
+      "evidence": "[{\"id\": \"2022H1\", \"start\": \"2022-01-01\", \"end\": \"2022-06-30\", \"row_offset\": 0, \"rows\": 2248020}, {\"id\": \"2022H2\", \"start\": \"2022-07-01\", \"end\": \"2022-12-31\", \"row_offset\": 2248020, \"rows\": 2285280}, {\"id\": \"2023H1\", \"start\": \"2023-01-01\", \"end\": \"2023-06-30\", \"row_offset\": 4533300, \"rows\": 2248020}, {\"id\": \"2023H2\", \"start\": \"2023-07-01\", \"end\": \"2023-12-31\", \"row_offset\": 6781320, \"rows\": 2285280}]"
+    },
+    {
+      "check": "6h diag: period offsets/rows reproduce date x segment x block axis order",
+      "status": "pass",
+      "evidence": "[{\"id\": \"seen_2024\", \"start\": \"2024-01-01\", \"end\": \"2024-12-31\", \"row_offset\": 0, \"rows\": 4545720}, {\"id\": \"seen_2025\", \"start\": \"2025-01-01\", \"end\": \"2025-12-31\", \"row_offset\": 4545720, \"rows\": 4533300}]"
+    },
+    {
+      "check": "6h: OOF population equals the locked 2022-23 size",
+      "status": "pass",
+      "evidence": "9066600"
+    },
+    {
+      "check": "every consumed array hash == arrays_index == accepted manifest membership; dtype/shape as indexed",
+      "status": "pass",
+      "evidence": "{\"arrays\": 18}"
+    },
+    {
+      "check": "daily OOF selected predictions finite and non-negative",
+      "status": "pass",
+      "evidence": "{\"n\": 2266650}"
+    },
+    {
+      "check": "daily: every reference cell has a valid density",
+      "status": "pass",
+      "evidence": "0"
+    },
+    {
+      "check": "daily: saved strict-JSON cutoffs reproduce the reference band counts (no grey in the reference)",
+      "status": "pass",
+      "evidence": "{\"raw_cutoffs\": [0.0006725354451004399, 0.0024847083769593244, 0.008116725169221255], \"counts\": [1133328, 679992, 339997, 113333, 0], \"labels_in_use\": [\"base\", \"yellow\", \"orange\", \"red\"]}"
+    },
+    {
+      "check": "daily OOF baseline predictions finite and non-negative",
+      "status": "pass",
+      "evidence": "{\"n\": 2266650}"
+    },
+    {
+      "check": "6h OOF selected predictions finite and non-negative",
+      "status": "pass",
+      "evidence": "{\"n\": 9066600}"
+    },
+    {
+      "check": "6h: every reference cell has a valid density",
+      "status": "pass",
+      "evidence": "0"
+    },
+    {
+      "check": "6h: saved strict-JSON cutoffs reproduce the reference band counts (no grey in the reference)",
+      "status": "pass",
+      "evidence": "{\"raw_cutoffs\": [0.00016821819247103556, 0.0006134508738015898, 0.002003535309983658], \"counts\": [4533300, 2719981, 1360003, 453316, 0], \"labels_in_use\": [\"base\", \"yellow\", \"orange\", \"red\"]}"
+    },
+    {
+      "check": "6h OOF baseline predictions finite and non-negative",
+      "status": "pass",
+      "evidence": "{\"n\": 9066600}"
+    },
+    {
+      "check": "a contract is refused for the other horizon (daily cutoffs never applied to 6 h and vice versa)",
+      "status": "pass",
+      "evidence": "[\"daily\", \"6h\"]"
+    },
+    {
+      "check": "daily: recomputed gate values equal the frozen selection and the manager-accepted figures (confirmation only, no reselection)",
+      "status": "pass",
+      "evidence": "{\"relative_deviance_reduction\": 0.02583183445089743, \"mae_ratio\": 1.0070952331484249, \"fold_wins\": {\"2022H1\": true, \"2022H2\": true, \"2023H1\": true, \"2023H2\": true}, \"n_fold_wins\": 4, \"gates\": {\"deviance_reduction\": true, \"mae_ratio\": true, \"fold_wins\": true}, \"all_pass\": true, \"frozen_recommended\": \"candidate\", \"frozen_selected\": \"hgb_poisson_fixed::routed_context\", \"baseline_retained\": false, \"consistent_with_frozen\": true}"
+    },
+    {
+      "check": "daily: floor-group gain share reproduces the manager audit (reported limitation, not a gate)",
+      "status": "pass",
+      "evidence": "{\"recomputed\": 0.749982937501038, \"manager\": 0.749983}"
+    },
+    {
+      "check": "daily: 2024/25 routing masks (context available cells) reported; zero means the selected policy used its core component there",
+      "status": "pass",
+      "evidence": "{\"context_available_cells_2024_2025\": 0, \"cells\": 2269755}"
+    },
+    {
+      "check": "6h: recomputed gate values equal the frozen selection and the manager-accepted figures (confirmation only, no reselection)",
+      "status": "pass",
+      "evidence": "{\"relative_deviance_reduction\": 0.0815228463544807, \"mae_ratio\": 1.0040625003058203, \"fold_wins\": {\"2022H1\": true, \"2022H2\": true, \"2023H1\": true, \"2023H2\": true}, \"n_fold_wins\": 4, \"gates\": {\"deviance_reduction\": true, \"mae_ratio\": true, \"fold_wins\": true}, \"all_pass\": true, \"frozen_recommended\": \"candidate\", \"frozen_selected\": \"hgb_poisson_fixed::routed_context\", \"baseline_retained\": false, \"consistent_with_frozen\": true}"
+    },
+    {
+      "check": "6h: floor-group gain share reproduces the manager audit (reported limitation, not a gate)",
+      "status": "pass",
+      "evidence": "{\"recomputed\": 0.7345975718438729, \"manager\": 0.734598}"
+    },
+    {
+      "check": "6h: 2024/25 routing masks (context available cells) reported; zero means the selected policy used its core component there",
+      "status": "pass",
+      "evidence": "{\"context_available_cells_2024_2025\": 0, \"cells\": 9079020}"
+    },
+    {
+      "check": "recomputed pooled / fold / seen-year metrics reconcile with the accepted 20 tables and the frozen selection",
+      "status": "pass",
+      "evidence": "[]"
+    },
+    {
+      "check": "groups with zero actual records carry WAPE = undefined (never 0 or inf)",
+      "status": "pass",
+      "evidence": "424"
+    },
+    {
+      "check": "province groups reconcile with the input segment province codes: unknown kept exactly when a code is missing (zero expected unknown verified explicitly), every known province population present, records sum to pooled (checks accumulation; same label mapping)",
+      "status": "pass",
+      "evidence": "[{\"unit\": \"daily\", \"scope\": \"oof\", \"segments\": 3105, \"cells_per_segment\": 730, \"known_province_groups\": 20, \"expected_unknown_segments\": 0, \"expected_unknown_cells\": 0, \"unknown_group_present\": false, \"roles\": [\"baseline\", \"selected\"], \"problems\": []}, {\"unit\": \"daily\", \"scope\": \"diag\", \"segments\": 3105, \"cells_per_segment\": 731, \"known_province_groups\": 20, \"expected_unknown_segments\": 0, \"expected_unknown_cells\": 0, \"unknown_group_present\": false, \"roles\": [\"baseline\", \"selected\"], \"problems\": []}, {\"unit\": \"6h\", \"scope\": \"oof\", \"segments\": 3105, \"cells_per_segment\": 2920, \"known_province_groups\": 20, \"expected_unknown_segments\": 0, \"expected_unknown_cells\": 0, \"unknown_group_present\": false, \"roles\": [\"baseline\", \"selected\"], \"problems\": []}, {\"unit\": \"6h\", \"scope\": \"diag\", \"segments\": 3105, \"cells_per_segment\": 2924, \"known_province_groups\": 20, \"expected_unknown_segments\": 0, \"expected_unknown_cells\": 0, \"unknown_group_present\": false, \"roles\": [\"baseline\", \"selected\"], \"problems\": []}]"
+    },
+    {
+      "check": "capture totals equal the label totals of every scope (no record lost at period boundaries)",
+      "status": "pass",
+      "evidence": "{\"('6h', '2022H1', 'baseline')\": 2392.0, \"('6h', '2022H1', 'selected')\": 2392.0, \"('6h', '2022H2', 'baseline')\": 2516.0, \"('6h', '2022H2', 'selected')\": 2516.0, \"('6h', '2023H1', 'baseline')\": 3016.0, \"('6h', '2023H1', 'selected')\": 3016.0, \"('6h', '2023H2', 'baseline')\": 2777.0, \"('6h', '2023H2', 'selected')\": 2777.0, \"('6h', 'oof_2022_2023', 'baseline')\": 10701.0, \"('6h', 'oof_2022_2023', 'selected')\": 10701.0, \"('6h', 'seen_2024', 'baseline')\": 6015.0, \"('6h', 'seen_2024', 'selected')\": 6015.0, \"('6h', 'seen_2024_2025', 'baseline')\": 12246.0, \"('6h', 'seen_2024_2025', 'selected')\": 12246.0, \"('6h', 'seen_2025', 'baseline')\": 6231.0, \"('6h', 'seen_2025', 'selected')\": 6231.0, \"('daily', '2022H1', 'baseline')\": 2392.0, \"('daily', '2022H1', 'selected')\": 2392.0, \"('daily', '2022H2', 'baseline')\": 2516.0, \"('daily', '2022H2', 'selected')\": 2516.0, \"('daily', '2023H1', 'baseline')\": 3016.0, \"('daily', '2023H1', 'selected')\": 3016.0, \"('daily', '2023H2', 'baseline')\": 2777.0, \"('daily', '2023H2', 'selected')\": 2777.0, \"('daily', 'oof_2022_2023', 'baseline')\": 10701.0, \"('daily', 'oof_2022_2023', 'selected')\": 10701.0, \"('daily', 'seen_2024', 'baseline')\": 6015.0, \"('daily', 'seen_2024', 'selected')\": 6015.0, \"('daily', 'seen_2024_2025', 'baseline')\": 12246.0, \"('daily', 'seen_2024_2025', 'selected')\": 12246.0, \"('daily', 'seen_2025', 'baseline')\": 6231.0, \"('daily', 'seen_2025', 'selected')\": 6231.0}"
+    },
+    {
+      "check": "observed density is non-decreasing across in-use colour bands (reported per scope; a reversal is disclosed, never re-fitted)",
+      "status": "pass",
+      "evidence": "{\"6h|2022H1\": true, \"6h|2022H2\": true, \"6h|2023H1\": true, \"6h|2023H2\": true, \"6h|oof_2022_2023\": true, \"6h|seen_2024\": true, \"6h|seen_2024_2025\": true, \"6h|seen_2025\": true, \"daily|2022H1\": true, \"daily|2022H2\": true, \"daily|2023H1\": true, \"daily|2023H2\": true, \"daily|oof_2022_2023\": true, \"daily|seen_2024\": true, \"daily|seen_2024_2025\": true, \"daily|seen_2025\": true}"
+    },
+    {
+      "check": "spatial-transfer metrics recomputed from the transfer arrays equal transfer_metrics.csv",
+      "status": "pass",
+      "evidence": "[]"
+    },
+    {
+      "check": "Model Gate presentation has exactly the five required headings in order",
+      "status": "pass",
+      "evidence": "[\"Baseline และ Candidate Models\", \"Evaluation Metrics\", \"Experiment Results\", \"Error Analysis\", \"เหตุผลเลือกโมเดล\"]"
+    },
+    {
+      "check": "protected accepted-20/19, catalog, evaluation pins, configs, notebooks and scripts unchanged",
+      "status": "pass",
+      "evidence": "{\"files\": 237, \"changed\": []}"
+    },
+    {
+      "check": "source config unchanged during the run",
+      "status": "pass",
+      "evidence": "null"
+    },
+    {
+      "check": "at least eight actual-result figures written as PNG + SVG",
+      "status": "pass",
+      "evidence": "[\"figures/method_comparison.png\", \"figures/method_comparison.svg\", \"figures/fold_performance.png\", \"figures/fold_performance.svg\", \"figures/seen_2024_2025.png\", \"figures/seen_2024_2025.svg\", \"figures/calibration.png\", \"figures/calibration.svg\", \"figures/errors_by_group.png\", \"figures/errors_by_group.svg\", \"figures/errors_by_area_month.png\", \"figures/errors_by_area_month.svg\", \"figures/colour_exposure_capture.png\", \"figures/colour_exposure_capture.svg\", \"figures/capture_curve.png\", \"figures/capture_curve.svg\", \"figures/floor_audit.png\", \"figures/floor_audit.svg\", \"figures/spatial_transfer.png\", \"figures/spatial_transfer.svg\"]"
+    }
+  ],
+  "failed_checks": [],
+  "differs_checks": [],
+  "report_files": {
+    "inputs.csv": "7288c5e65a0901d86ab920698cddf21edc8217f78fc4bf39f5ff095a9879bce2",
+    "arrays_used.csv": "f3e4e663b9fa0746b00470a27f977a7ae01253fcb62230dee9d3114519d1e6c2",
+    "colour_contract_daily.json": "4e8f86dac8bc522bb0fa67ece76da7ac33c359e2cd5964f847e016a3b97f2273",
+    "colour_contract_6h.json": "7ee7b1f34ed87e2ae5aee485fab4d60161073c597690fb8fbc345608f76d3658",
+    "metrics_by_group.csv": "58a089e9a12b7ffe5b7e98a1fc98e10f4600b4d441623aba50b597ddf1cd0108",
+    "reconciliation.csv": "a4e318a3a64c45803caedfcd2a943e3e414bd9750629c042ec8ab8fe849b4da3",
+    "selection_reason.csv": "17af3bcbd80ac515511deb65c03b455ee44212bb5c3b58550ac1007dd4419b1c",
+    "floor_audit.csv": "332463d0524119bfaf1a15c92a5c364031830cd1d5c2cb06d3f2e3fb83d68a2b",
+    "floor_audit_summary.csv": "cd93cdc254e4a7b3190fb83f00fbcdef15d2bd027b46ec5a1b5d65229f8ecda7",
+    "province_reconciliation.csv": "560820cb89d7ebb4a6d386c35a537d50db3bb07ad1b43f85590500728de93786",
+    "capture_equal_road_km.csv": "f71afd36b4169c33750422fe184811ec22f45b5015855cf5f0537e39708a32b0",
+    "colour_exposure_capture.csv": "8d4b9e87d87c4bf4e631b90441a9af37c34cd82e484cc0372100a520acf0ddda",
+    "spatial_transfer.csv": "74e9c4e7a47fc245f9ebf169d1d50cc559b25b9ff98e7918a9cb413714628a1c",
+    "bootstrap_exploratory.json": "45a2a69ee4a1ba51ddb00437d65876fe2197c1913775f8eb8485df3b12b3af92",
+    "figure_method_comparison.csv": "dde3c81e1578641c85226c42ca1d979701c92f33b1916a4532bdafeeef37716b",
+    "figure_period_performance.csv": "8f90fa7acacc97ddcaccbbc91dbd010ca6560cca0eb78df1e08a01f295f53c6e",
+    "figure_calibration.csv": "527f99fe0543fd030c03d2d316cb01f008ce44f9e63204004f7d38c40a75f77a",
+    "figure_errors_by_group.csv": "d1973bece12af8d41ab0093caeb9e4a6f88dec292db86d045fe81326686620a6",
+    "figure_colour_exposure_capture.csv": "41c52f000214cea8330124880173e9fa1c3aa32e1a91d783142ba5425010cb50",
+    "figure_floor_audit.csv": "132894179ecb2260c40d14314c4fc8e556c82282cbf588f6f2a145a3dfd6d5e4",
+    "figure_spatial_transfer.csv": "74e9c4e7a47fc245f9ebf169d1d50cc559b25b9ff98e7918a9cb413714628a1c",
+    "results_th.md": "fb93399ed4842d68738cc6f8e6b8062380b224f04e35566c22d0a30c4f51cbfc",
+    "model_gate_presentation_th.md": "98454b45655e1735996dbb5d285a4221cf127c52a9c140469f13c3c196a11012",
+    "README_th.md": "1015c94ecb578e44cef54feef90d76290cc00d93c0ad8ba1f946500f0612d29c"
+  },
+  "data_files": {},
+  "protected_files_hashed": 237,
+  "protected_unchanged": true,
+  "protected_sha256_before": {
+    "config/archive/spatial_road_sources_v3_0.json": "9437221acc08ed2e8857712a99ae644e9b4f45a33a70c4227eade0786a05a757",
+    "config/catalog_v2.json": "0418d7387ffd0fc021e9817ada5e24f53c34918014c2d741e6d8349c4b32821f",
+    "config/catalog_v3.json": "ce0911b3f4ca3b6e6f7933f8549bc00ea24e27b06a69c55a1f5ea5df2e668a2d",
+    "config/data_pipeline.json": "c779fdde27c73ac9466c9a86c71ef86f1b75747914cc985b37df8214749a3098",
+    "config/external_sources_v2.json": "742c25b21e7a7c36f9e80a3609a54d09142ccec8a641384d76a844faef28b93a",
+    "config/feature_pipeline_v2.json": "dd217247db12c8c9c5d30d2770ce368b8f30a6984a9fb1c2f31e8ebe89ab60d7",
+    "config/inference_v2.json": "f100f47211f8d4778877a7f26acb192cf7d7701aca9a008c362ccb1269ddcde3",
+    "config/model_experiment_v1.json": "95d6bfb627f5521d16a930a032edfa615c98e13605b13b0594fefbc5b78553da",
+    "config/model_experiment_v2.json": "89272f99de3104bb1b3e63e26a9a772a88a69738209badfd036e2a5672892b11",
+    "config/spatial_evaluation_v3.json": "7f9a05990a492034dcba67dd5f2001bfc0899dd2df45875b62f4fc83b5752bf3",
+    "config/spatial_experiment_v3.json": "fbd053cca837fa184f28f6b6839c6f538ce5c458bb9fc7368cfbc552afbf90b0",
+    "config/spatial_linkage_v3.json": "e39975e11436552b7a55dd459ade11febe1b854c7f26d5225a9ab9f9ef1a89dc",
+    "config/spatial_preparation_v3.json": "10720c6f1ea457277666d29837598c2b4d83950907173560ad3f87f93778f386",
+    "config/spatial_readiness_v3.json": "f2c37a9b6ddfe49a2f7bcb9c4d0ff3a26949e6b2bf23f0f1a852088bd229df0e",
+    "config/spatial_road_sources_v3.json": "083d7b6a2ba4f1193e991b9294af91d7458f60fde5f164021563e0dd3e771b9c",
+    "notebooks/01_data_collection.ipynb": "5269e57e0b9787a573bbc634f4db36ea880aef18ec9c8a47c4996a1e60686bcf",
+    "notebooks/02_eda.ipynb": "f6f0bfa4a117f5321ca89b412135b5f786958490aa582c85748c832b0461c0f2",
+    "notebooks/03_cleaning_preparation.ipynb": "8799d8d5ae30a32e5fdb49cdfad828d40ead737f02df56168b8ac83aac5c641a",
+    "notebooks/04_split_strategy.ipynb": "46274cb98d1fadfe3331fe18738f11038386e294cb35a96a0337cc0bfb691813",
+    "notebooks/05_data_leakage.ipynb": "ee182ac6a11641b1e49d3da5fdb5f04e2bff7e033a824cb75d595396e088df93",
+    "notebooks/06_baseline_candidate_models.ipynb": "fb6a7ea2db0eef9769fe0c4316d315896e6f0b55c6537027f30b781d79c9a42d",
+    "notebooks/07_evaluation_experiment_results.ipynb": "82f41042682db57ecdb0c021fa6486190a796dd7ea28fc8f159f528ad2dd7070",
+    "notebooks/08_error_analysis_model_selection.ipynb": "774a45f7eac92874b42d5b24a6de0cccfc30d0a1e5c9cd482b0a04d76edc6580",
+    "notebooks/09_external_collection_date_evidence.ipynb": "88d767fd89348e3200c6308b32c729289b09e76fe5e5276bc524afa2a2de3dbd",
+    "notebooks/10_v2_preparation_features_leakage.ipynb": "1e2a6efc6df66583114b271565f250e43140773582c338af5a5f65fe4ab1b285",
+    "notebooks/11_v2_model_experiments.ipynb": "69ab187fd80688338670655b92d0f3d707db45d731a61923ec60ba8a475f7bad",
+    "notebooks/12_v2_evaluation_error_analysis.ipynb": "03623bd4ecf73808549bb579ea70ce6cb3b2f68a9bf74b65215f69de72c2892e",
+    "notebooks/13_inference_robustness_contract.ipynb": "99fd41aa5624c32cc39d00b13ae06b5e46375c58788bae60f5c32bcead5a86ea",
+    "notebooks/14_backend_catalog.ipynb": "54cd544d42c968e93365ac65f882b839cb7a344e5869b502f85abb3a27680375",
+    "notebooks/16_spatial_data_readiness.ipynb": "b3ca7695e92dc3f7f5e5ed21d950d0b08630283e6609012fed24f5fb58a958c7",
+    "notebooks/17_spatial_road_collection.ipynb": "99dfd8fbe6aabaede4e2c9bba641e0daa6d55844421c6222d675d4d993e54399",
+    "notebooks/18_spatial_linkage_audit.ipynb": "6308684bb1ab0ad55f1eba30d3361c7d7dc227377abeeeee19236489489e460c",
+    "notebooks/19_spatial_count_preparation.ipynb": "2f6fea94dc3787beb9bcf7723aa0bfa2ea9d959dca06e4846d02ff5ab96a6879",
+    "notebooks/20_spatial_count_experiments.ipynb": "e1f0f6ff02c26f1751b0bd40ce1a3944e477cc5c10e1fb271f73492cc384b89a",
+    "notebooks/21_spatial_evaluation_colours.ipynb": "2bdda60572f568a5c7d7d3c09831f1b7edfef6073805f399c2e7276ec0f9615d",
+    "notebooks/README.md": "21ffde6d328faca4d0589f9cdf8b5b0d64a48f20e989757c1183d2c1363cf054",
+    "scripts/run_data_notebooks.py": "25c3cb3b7be360d16a8184fb4c023dbc7ef84f394c0478341d31dabbb2025c91",
+    "scripts/run_historical_catalog.py": "fc62b6f2fa92633828836ffd7dac9f718818ed05e3457d2beac105ad7be4b6a0",
+    "scripts/run_model_notebooks.py": "e1d303a9e9d1c38e5689495dc0dd2d3f618768f1baf71bb1f082dddd8c3813ff",
+    "scripts/run_spatial_evaluation.py": "22592381dd6b212e9189d345338bca5c3d1cad21f556c2c8cc915d11f3241bbb",
+    "scripts/run_spatial_experiments.py": "5611dfea212bcf90a04267ed2e271432d74454fa78c91667b51f711149ae2ad0",
+    "scripts/run_spatial_linkage_audit.py": "39a8b126b5771876639439a8eebd92869a54b6d7c4676f8663ee8fa7c86a35bb",
+    "scripts/run_spatial_preparation.py": "893e5799153a43fea7954db616bf02c77015f3607a3c0ccdf389ff7eec213547",
+    "scripts/run_spatial_readiness.py": "e3ee0662f1c4a42570ecdc955285ad9ca27cd3c80a5ac00cf90ddcef553b4d0f",
+    "scripts/run_spatial_road_collection.py": "c34617dc196d75e797716eac0df68e08573006838ca20e063059c5bccfd3ee0b",
+    "scripts/run_v2_notebooks.py": "ef5b27c1a445e05e1d25b298d3a922118ca1927b412067c75962a318c38b7fec",
+    "scripts/verify_historical_catalog.py": "da4d955342393ab78a89eeccc21577f8600e1036f66cf36e9d33094c69a93b39",
+    "scripts/verify_spatial_evaluation.py": "04d74261e6aa4bc0c5e654d3647000c33af06f60ca64c142ae4b6cba28d0150a",
+    "scripts/verify_spatial_label_oracles.py": "c7ea58954069f43506c4d1508b7df5bee054c267f07617983782f18c333a570d",
+    "rerun-spatial-model-016-002/reports/v3/run_manifest_spatial_experiments.json": "f8554690c2400bd9f877cf499ecf9a7ea918fa55820b6d7d4a641a85964c878e",
+    "rerun-spatial-model-016-002/reports/v3/spatial_experiments/baseline_fallbacks.csv": "193d56f48d9a5314a6b20bb2743fb1e3781014e8052d9bef03d445a20e33e9a4",
+    "rerun-spatial-model-016-002/reports/v3/spatial_experiments/bootstrap.csv": "af67effe49d959516037a85a7f61594d0a6352531812350d5b470aba73d9f74f",
+    "rerun-spatial-model-016-002/reports/v3/spatial_experiments/context_availability.csv": "577e0fe92249172a53e7f30c828fa0840bee321addb3b76418a12e7834a093ef",
+    "rerun-spatial-model-016-002/reports/v3/spatial_experiments/diagnostics_seen_2024_2025.csv": "1ccdac67cdd9472f999ae3e3a2f3ad13be5992ce70a46a5b6252ca8644f7dfe1",
+    "rerun-spatial-model-016-002/reports/v3/spatial_experiments/experiment_lock.json": "e5678e26d5715b28ac8c4331f02d28ae64abc8a32f8fba9787232f0269578e7c",
+    "rerun-spatial-model-016-002/reports/v3/spatial_experiments/feature_ablation.csv": "e7cabc4f708c0dc7beaef30a4dd8789565207dd75be6e69f34bf8da7eadb655f",
+    "rerun-spatial-model-016-002/reports/v3/spatial_experiments/feature_parity.csv": "69100fe7b2b2c970fc1668c8bf784f657473c9204b15d681cdcd3a962d00f4d3",
+    "rerun-spatial-model-016-002/reports/v3/spatial_experiments/figures/fold_deviance_candidate_vs_baseline.png": "2469f6eb8567a2230af77e9696eb785b66ec7158516b1f0f50f316a008c0a4af",
+    "rerun-spatial-model-016-002/reports/v3/spatial_experiments/figures/oof_calibration.png": "98d1661c7e1ec2eb473a2abb40f4514b5515ab1d0108af1f8f138198d8986ed4",
+    "rerun-spatial-model-016-002/reports/v3/spatial_experiments/figures/oof_deviance_by_method.png": "bbc26b81f03e1de4728ca45b76ac439dd930d0fddd448e59dd8b9c958f7deecc",
+    "rerun-spatial-model-016-002/reports/v3/spatial_experiments/figures/spatial_transfer_deviance.png": "ee302c2cb4b505ac3f5e398fc8d2a398b7a7e9fff80ad06d610d98a79bc4bd7f",
+    "rerun-spatial-model-016-002/reports/v3/spatial_experiments/fold_metrics.csv": "31653d0f2870e6f3250007869a6ed2624084907f9d417579b01fa2ca97cfd357",
+    "rerun-spatial-model-016-002/reports/v3/spatial_experiments/folds.csv": "d9bff80d9c7d12aeb71485027f731bb3a20e6a60b78524030613feee85fcb373",
+    "rerun-spatial-model-016-002/reports/v3/spatial_experiments/inputs.csv": "49814361f7ff86bd8a040d25e8ccf808d99880043a4d3f35c033c3ec06d80069",
+    "rerun-spatial-model-016-002/reports/v3/spatial_experiments/leaderboard_oof.csv": "c5e77647155350d4e08c96427bfd400330be4af68aa578525c29f22e5ac7ced8",
+    "rerun-spatial-model-016-002/reports/v3/spatial_experiments/model_fits.csv": "c79a5984ba548c76fb2a2b614ffda8a29e28a90e0f30e05f8e5782d0c6622add",
+    "rerun-spatial-model-016-002/reports/v3/spatial_experiments/negative_controls.csv": "26851210fa1797b4b50f35124d7b6f8cabc6ec7da54a1385f507920983e3e889",
+    "rerun-spatial-model-016-002/reports/v3/spatial_experiments/results_th.md": "62b53b4fa33fa3f7b0f01210e92f6d79dc9fbe4b19d9f1e0145b7921bd2cbba1",
+    "rerun-spatial-model-016-002/reports/v3/spatial_experiments/sampling.csv": "49c0203cca2ae441b2cdf91847e6efb13de19ec9a4495cbc3dc4483bc7e874d9",
+    "rerun-spatial-model-016-002/reports/v3/spatial_experiments/selection.csv": "623bcf337ddb8e1f7e0ba5717f3b452fe496cdc010d7d92063d8b74b5305a16b",
+    "rerun-spatial-model-016-002/reports/v3/spatial_experiments/selection_frozen.json": "9e08ac0a5ea1597b14acd0167b91b3060c7a38776edf8f98fbb387dacb037e30",
+    "rerun-spatial-model-016-002/reports/v3/spatial_experiments/spatial_experiments_manifest.json": "4d0f23496fafd65cfba664b0d1f79a4d21ed38e6320dd1c00722387513ecc42d",
+    "rerun-spatial-model-016-002/reports/v3/spatial_experiments/strata_metrics.csv": "d40187a964a3530dfc9c5566a11be2a9f2eaa8b58900b8aff9cb5b67a46dd3c3",
+    "rerun-spatial-model-016-002/reports/v3/spatial_experiments/transfer_metrics.csv": "90efcbf3e9c33bed1554609538c4cca5ff90bc658343536bde3f3d7437d54661",
+    "rerun-spatial-model-016-002/reports/v3/spatial_experiments/transfer_split.csv": "fa854358cc029f3c862ffefaadb82e5704f2cca496e3042891ecf6c759699ca3",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/diag_6h_context_mask.npy": "f3412e53dcb912780dccabb26dfb000c427d56917c6240d989d1e11d6b03b93a",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/diag_6h_hgb_poisson_fixed__routed_context.npy": "f28ecb415acc2446377b5aa4b0449a629a0e5a7586fd81597bf34eb33c1b671b",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/diag_6h_segment_mean_k365.npy": "babb359c91b6af7e0b4f086dcf113bf9215a8aba272b623d2d5cb11149977f27",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/diag_6h_y.npy": "fce7c305d3010c3656be08997ad8a2f682f970c8521c38d379619ebe905a7bb2",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/diag_daily_context_mask.npy": "2ab83364a672036a4934d894cd2ed1505893037f7d27146998c4570b3c8e01ec",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/diag_daily_hgb_poisson_fixed__routed_context.npy": "914159e6302d6b29c3cdc78932faf3284af8e5a6d7b68b6ade68febb925010a7",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/diag_daily_segment_mean_k365.npy": "4166d3e6c90663cc1006ddfd24c9c6e6dbddf959d086d28116b10e6c478bd4cc",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/diag_daily_y.npy": "c6cd07b6036375bd26d73c550839556786128e61fa8d91452c2ebb8bc5eeb902",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_6h_context_mask.npy": "6cb5d12639537c5f9452726119a7b56c64691b5aeaad0b440e689b06486a393c",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_6h_global_length_rate.npy": "102e9ab41d38acbb7698f63dd8adab9fd9a15f89d36c1cc894df08cfc3cbb1be",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_6h_global_mean.npy": "751e0bde937692154e9f36541aca6ec8a26986da4dc3b62d793490cc8f7471dd",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_6h_hgb_poisson_fixed__context.npy": "f7f56a0c1d4b5ee0d78a8d08b0fb069e4d0edc3c668a639a0e7ff64c235c8245",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_6h_hgb_poisson_fixed__core.npy": "22b664b6f93ea2bc3393c7537b148499be8531488c49719bbb3d25e2aa611f11",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_6h_poisson_a1e-04__context.npy": "dde2357f26baaf8d2c6a66fa22e7af9ee22018ff5abb0d9a5ae459601fb25b8c",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_6h_poisson_a1e-04__core.npy": "9e279a6dc284c5147adc673f318befe43a21cfb68b386d1b87c8a99f08a7a5f6",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_6h_poisson_a1e-05__context.npy": "65b02e9d1ebf5be66814e138b3eebc058db8f5e7ba71c11d91ef23a633b6f044",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_6h_poisson_a1e-05__core.npy": "904b0cebb6b29a3200ce822c55b91c23f576262fd89f46d816f7028575d6b436",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_6h_recent90_segment.npy": "89cad2942b9acfd354d4649959115d5a2780d20afc28ebf2000bc88471b9a2cb",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_6h_rf_poisson_fixed__context.npy": "67f54379fe60f53d673095908e212ab26379040960a86f28f47eb93aa3bca169",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_6h_rf_poisson_fixed__core.npy": "4b83469bcc43928fc5644fae171493419052ce0cfeb324ac146abf371429cf38",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_6h_route_length_rate.npy": "268b8394bb2b9c66f92a82210d9f5591ca56d61b997a60cad55d526a8659015f",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_6h_segment_mean_k180.npy": "2285d67f9cdb92036903582e5671d815aa5e6e09b57fcb21e70149523246a499",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_6h_segment_mean_k30.npy": "3f527b2fc3418f808ba1a817b0fe285c5c76592a673ddfc33b05e0a58d536a17",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_6h_segment_mean_k365.npy": "bcc99790a975f7f40c0bf5d320c0cd934f415ed83dff8840028340f50c44ee1a",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_6h_segment_month_k30.npy": "c9cf2274e775cc9eaed44093ae963de396152481792cbf3f395ceb86a2c0d5bc",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_6h_segment_weekday_k10.npy": "c87aa7d57223fc3da110e74ad61c5cc424b1458f27381dfd02c79553a04fbab1",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_6h_y.npy": "0d3cad315e47691b4ad2bdbf7589bbcc55b5149c29d22a00a0082fdda7c3c143",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_daily_context_mask.npy": "283f74501e896db3329235cb2a585283ed2d3d69b3d5c2a1cf7f0871a0224ae4",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_daily_global_length_rate.npy": "b0b57651ad34b2a68b08b064f3add9865093a4a4fc4dcd2adffedaaa240681f3",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_daily_global_mean.npy": "94d1d9e7665a5ef6a9597ccdfdd1d721a063d324163973d73577f9285e98ec25",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_daily_hgb_poisson_fixed__context.npy": "b9d57a3cdda9adf22263f38a0c08976b47dedeaddb43ebf775cb163a5a9d97d6",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_daily_hgb_poisson_fixed__core.npy": "389a1a52530ba0813abdfba9206cb6480c3aaba21da66f5fe3d831b6fcb15ff9",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_daily_poisson_a1e-04__context.npy": "11284791a8a05c7ad789d9f34b9e07faa9ba0e12402b39752734fd73c861d173",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_daily_poisson_a1e-04__core.npy": "03dbd7d0263ebd97416d1aac71b1e778cd8b43ec8be87f1237e3095a91fb20cd",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_daily_poisson_a1e-05__context.npy": "3da9ae811385d9e0e79b4937e8e68b2080753ea3bd7b1c37fd92d9ce8d5d0e93",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_daily_poisson_a1e-05__core.npy": "275158ee2caa62c84a724568c69c3e8276398e46f344043ee7b19b978b2fd6ad",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_daily_recent90_segment.npy": "20d968fc5e706fee5c9998ba6910c908e017a840a0342a0b628d4ce88a82ff15",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_daily_rf_poisson_fixed__context.npy": "c83959bfe154bd7023a646b2ca974234335d58bd06b6ed0fecbd167e544c3bc8",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_daily_rf_poisson_fixed__core.npy": "55696c80aa3443ffa083c2e72dc6fa8247ee7f9c7b1374020d45a2ad9e3fa0ef",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_daily_route_length_rate.npy": "7d54b2fa06e82e1736d5bfacd6476d00fd46b80b9722f1834f570ad6116813a8",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_daily_segment_mean_k180.npy": "3021e3ce0c5f94fe7b5925182a7e6ebbde6da3bfd0481583043c03247ccfd9f4",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_daily_segment_mean_k30.npy": "1d070b7fe029dfbf32de42564c9d0c522f29cb0a58f63f01478aa91258ad52f8",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_daily_segment_mean_k365.npy": "84479d248f9b24358b6f466671fb136cef2dce80bfb28b54b172625db6f37fa4",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_daily_segment_month_k30.npy": "ce21e2b587aceaf3eeddbd0d94580a004214b51213146d5752a7434289a424e8",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_daily_segment_weekday_k10.npy": "0828da85e9dfc39b2da65d74643f0c42321ee431075a654857e71f33def15069",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/oof_daily_y.npy": "ef04a33b974b83711838d16958021d5800111bb59b69b7a150a072e12b7aa931",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/transfer/transfer_6h_global_length_rate.npy": "6e7297834347f8fb02c979e007e7515f47be5cc782df8c2f8a342760c134e46c",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/transfer/transfer_6h_global_mean.npy": "5d9d6b3ace34ce1c8a6dacc64592a87a8d6e2c100c695591d6296c21e5858062",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/transfer/transfer_6h_hgb_poisson_fixed__core.npy": "8f4e2fb928c808c68e7349637915595d02df8e72821e15fdfbe1cb215a3527ee",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/transfer/transfer_6h_poisson_a1e-05__core.npy": "ef318bcb492752225ac1638dfadbe187e8414f0bb792267be75133bb63bab3b6",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/transfer/transfer_6h_recent90_segment.npy": "f7725065ec8c6d3d097b3df2325c53493bee657bba3dbaa79f58558bf249b5ee",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/transfer/transfer_6h_rf_poisson_fixed__core.npy": "90c730bbdb1f3d2892dec4935ce65a7211a60535d17b8d7dcdfb31c3c56b986c",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/transfer/transfer_6h_route_length_rate.npy": "7b3d5fbddb1cc400664b75c6ea1b8f76d0728ddf8b5c39e66d859c00691d8265",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/transfer/transfer_6h_segment_mean_k180.npy": "6684ebf1cdf9f5ad10a75363a0cc3a0d3786d18c2a7a3903e22d5b80624a81d0",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/transfer/transfer_6h_segment_mean_k30.npy": "f7725065ec8c6d3d097b3df2325c53493bee657bba3dbaa79f58558bf249b5ee",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/transfer/transfer_6h_segment_mean_k365.npy": "785cf28deeef22bc0f28fcbbd03438bc72d2a66805ba78502b03ff192d8fa23d",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/transfer/transfer_6h_segment_month_k30.npy": "f7725065ec8c6d3d097b3df2325c53493bee657bba3dbaa79f58558bf249b5ee",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/transfer/transfer_6h_segment_weekday_k10.npy": "a04e721836586a124125083c1980a1273974f041d88ad041a69ad391479e8306",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/transfer/transfer_6h_y.npy": "538f2d0eb1cf6afd341c70b8a73ad99bf0e2df4049bfd333aaf3ac786e33503b",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/transfer/transfer_daily_global_length_rate.npy": "31ea774b762b70d25d19be73a001be116b25cfaf73f3fd32d22436cf37012777",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/transfer/transfer_daily_global_mean.npy": "ed0c2f5888acfea541a15f0336d70b6dce7ca4ff333a76c0e6269444d06b7f8f",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/transfer/transfer_daily_hgb_poisson_fixed__core.npy": "6c22dd4e49958ffc5a09c98ed2e3af6043199034162954526a236f5279fecab3",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/transfer/transfer_daily_poisson_a1e-05__core.npy": "a8e2cfd85a127a04a73cadbe3561fb00cbbe01acaacf94b885a0bcb36826a1aa",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/transfer/transfer_daily_recent90_segment.npy": "1d6e1a1081392f7ca8e8b48d38ff7716cf16df638f31dc13a200a6073211a7f6",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/transfer/transfer_daily_rf_poisson_fixed__core.npy": "caa5aa2acc9fd29e0e83478b178d1a1a35847457d71e044709445a69562dadd4",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/transfer/transfer_daily_route_length_rate.npy": "ce8fa3e1e59bd78672cb4e3cee7797e3954d8f2acd9d6649c2eee5b6a1b673d8",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/transfer/transfer_daily_segment_mean_k180.npy": "aa2e76cc566bf0dc7ece86618352c858d1144f967e30078e81e97baf2ca5edf5",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/transfer/transfer_daily_segment_mean_k30.npy": "1d6e1a1081392f7ca8e8b48d38ff7716cf16df638f31dc13a200a6073211a7f6",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/transfer/transfer_daily_segment_mean_k365.npy": "e8602bdcaa75191e2b3b0e63e460dea03ff898652cc1178d1fd8ee4696888a65",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/transfer/transfer_daily_segment_month_k30.npy": "1d6e1a1081392f7ca8e8b48d38ff7716cf16df638f31dc13a200a6073211a7f6",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/transfer/transfer_daily_segment_weekday_k10.npy": "2e19fcaec4eeeab8f83a59ae85c8c4ecf7584c49a9d92b9ed1fa3b06cd8a257b",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays/transfer/transfer_daily_y.npy": "70c468c20a79afae9d08c86f473942d618da79677f9c0f6f132d1b75c9b06e33",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays_index.json": "6f72e3b74cda0ae3eae6142366fa9791b6ba780fa54155df7b34acea7be8e46e",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/experiment_lock.json": "e5678e26d5715b28ac8c4331f02d28ae64abc8a32f8fba9787232f0269578e7c",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/model_bundles.json": "8ff4d4b1273e1cfeff163700ece36b8e4dda26149a87e329984f3ad7f94574e8",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/models/6h/hgb_poisson_fixed__context.joblib": "819b821e917752dbe933c7ee1aeb13205b37a36f95f898cc0ee9e10501155be1",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/models/6h/hgb_poisson_fixed__context.meta.json": "90b7769a051fd834e17d28588c1bb6f9edfe590f69a8d50145a4e4395a0ddb2e",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/models/6h/hgb_poisson_fixed__context.reference.csv": "702b475e9a4cc89b463870b39f7d44320698646351ef84478b2351664cdd2908",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/models/6h/hgb_poisson_fixed__core.joblib": "46b207d3cb39e4fc232ee28a34fb8c7609c161c517d93a730b038429668f10ef",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/models/6h/hgb_poisson_fixed__core.meta.json": "d5d418098307a6fd8e983ad53eeeb4b03ac6f34b5998e8e1de5dc41c35251acf",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/models/6h/hgb_poisson_fixed__core.reference.csv": "309c56718b5a464d3b7890481811bc52245acffdd9e7b26274830b4a4cde57c9",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/models/daily/hgb_poisson_fixed__context.joblib": "4d8ac4f650b003d6ecc6b65c58562fbed057041ec3006df32b1eec74c0b48081",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/models/daily/hgb_poisson_fixed__context.meta.json": "46f25fa820ba077ae9c122b62af7773b9e8a591a562a57bc4f8b2a1938774bf1",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/models/daily/hgb_poisson_fixed__context.reference.csv": "01fd46faea864dbe2721f6b320987f8594f47f3acee0600b93ee3dd0de5c755b",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/models/daily/hgb_poisson_fixed__core.joblib": "5d0a8de9840d68198f9d82d5e173048fddb0f5b2bb4149c94eb6339fb8c2efd9",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/models/daily/hgb_poisson_fixed__core.meta.json": "9e5542c472f47712ffaa525e28c53024e08e44ee321a6e55f5c2bd63e7c89f2c",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/models/daily/hgb_poisson_fixed__core.reference.csv": "951ddf41ea976ca0b67ffee40d3ff0c1f719e6bc25fd2ec12b9cd870dac26646",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/oof_daily_deviance_6h.csv": "c7caf3e433e9b01cbacd8e16bc0a7fae35558655015c71ba0988b4044d49c575",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/oof_daily_deviance_daily.csv": "06dd2dc6de12ba0895721a17e07fcbce69e03f67b75ff8336254016cd1928604",
+    "rerun-spatial-model-016-002/data/v3/spatial_experiments/selection_frozen.json": "9e08ac0a5ea1597b14acd0167b91b3060c7a38776edf8f98fbb387dacb037e30",
+    "rerun-spatial-model-016-002/notebooks/20_spatial_count_experiments.ipynb": "9ac333f51ce856898bb6f93bd5e6d7df189ad88ecdd231cdb24eafcee805b03b",
+    "reports/v3/spatial_preparation/asof_audit.csv": "f9ba13cce0b67f64c83618e078e4273acc79ed40c89d799b666ebca9b285c4cc",
+    "reports/v3/spatial_preparation/checks.csv": "0591d41933a17752d12251e6df68534d8998bbfe7a370d429cee6eb0312defc1",
+    "reports/v3/spatial_preparation/count_support.csv": "55413f9759a592115e2fdab82a59e0b71ac57867b1d2a90546c5f986e76f1f1b",
+    "reports/v3/spatial_preparation/data_dictionary.csv": "c65535f41d609408682161ee07cca1a4958a56ab0e8b0138fd98a7dcabcd4765",
+    "reports/v3/spatial_preparation/feature_coverage.csv": "cbcd6f9b1b9f745ace45add3bee650468b639d2841c1273af80daf208f3ab56d",
+    "reports/v3/spatial_preparation/figures/feature_coverage_by_year.png": "26f9eeeb6d8d192b4ff873aec48bf4868f97134ce1c26db0e14b4f4c9590ea2e",
+    "reports/v3/spatial_preparation/figures/prospective_source_gaps.png": "8d7f7aea12c35de55c135121f51735082752c8f0dd2a68c6519756a853f95f2e",
+    "reports/v3/spatial_preparation/figures/selected_counts_by_month.png": "80261f787c80b06cf1f13db62343445e3656eaa4683d3f6cb4773c6faa0b3914",
+    "reports/v3/spatial_preparation/input_verification.csv": "2aaedb27d3f4c50aaa37897009d013522f34e7bac35dc1765a05f6dd7f352631",
+    "reports/v3/spatial_preparation/leakage_negative_controls.csv": "bbd42951608ce3ea9848ec875a7c09d7ad37ab69da2fd23e095b4a615a1c8fc5",
+    "reports/v3/spatial_preparation/population_audit.csv": "93eb3cc4f9b162d4ac4d99633061d8357b1091099ded0c906424e0873e8c031c",
+    "reports/v3/spatial_preparation/preparation_readiness.json": "5cc24db54e29278c2a5fdc72d6609e5b125972da391ba17fe709b8dd7b2d8c35",
+    "reports/v3/spatial_preparation/province_agreement.csv": "519834e3ff3c35b5ef38b386a44e35b1dfa58370d2e32f883c35f67d9e264d1f",
+    "reports/v3/spatial_preparation/province_join_summary.csv": "f73b870ef605dfe092f706050479b1248c638ca125dec6a6651c4b42ab0f783e",
+    "reports/v3/spatial_preparation/reference_parity.csv": "8e007866c5dbaa0d57b949e35056d001843c16d30d8061d42a1052b673a1ce1c",
+    "reports/v3/spatial_preparation/selection_reconciliation.csv": "488f6a9c80db9b005f32c60e04491e8a89105fca43a7db7db62bda8220eed8a1",
+    "reports/v3/spatial_preparation/source_gap_reasons.csv": "fb79546ca85e93e2675e9614495963c746bf4fcf5640b40685de25def3d6951f",
+    "reports/v3/spatial_preparation/spatial_preparation_manifest.json": "8a53b10cd88283e2b8a5c8c7d4f15f9657bf68f6fb9e58076fed2938176e1d73",
+    "reports/v3/spatial_preparation/spatial_preparation_report_th.md": "966ad024c0c0cb7f76f8649303647e1f32982b5668bb217f6cdeaa6f3f64c526",
+    "reports/v3/spatial_preparation/static_feature_quality.csv": "07ca99b1029b9dd944287240d42596604730a4f6c397ce61dee6d072cddf2664",
+    "reports/v3/spatial_preparation/universe_summary.csv": "7109b6da4935ff9660cbe85019c8059055480981884bfafb46f7214bb937f3aa",
+    "reports/v3/spatial_preparation/unsupported_summary.csv": "f78456bd7996f1fe9835a8379e6c761ebb5844d2d8f60b168378c087ae39fa02",
+    "data/v3/spatial_preparation/aadt_groups.csv": "80ce1bc37b134abcf5c4718892be17e975aa95354ff4d87d25f774739fbe392f",
+    "data/v3/spatial_preparation/aadt_vintage_availability.csv": "b266dd45eb6e25e206138a9591370f2910a7b8be6e820b6e49e988e4c5a095a7",
+    "data/v3/spatial_preparation/context_settings.json": "3a0b5d58c4734f4a7cde076b6dfaa3aff6b15fe63f912af63fa62aab3e706484",
+    "data/v3/spatial_preparation/counts_6h.csv.gz": "b64f0db63487b14a4791759a01fd8760f1fd58917fad49b820f6a1c3ab304aba",
+    "data/v3/spatial_preparation/counts_daily.csv.gz": "7887720a46554fb5e5f4b8d45d29d3dd8bc2006a91dbdd7cff248c040c2703f1",
+    "data/v3/spatial_preparation/date_features.csv": "e7f8a42354dff05fa9e0cc1c10a9454221a00fbe4640f8b153b4aff28a6d12c6",
+    "data/v3/spatial_preparation/population_axes.json": "2ce826f7a3d87f1989a8006fa9ed00b2da29514d0f5455747e5aabc81eacfeba",
+    "data/v3/spatial_preparation/reference_features_6h.csv": "89d78bbb6eea746dfc1c89ff49b1a39abf2661b84ed1ed460d448f5e02987f8d",
+    "data/v3/spatial_preparation/reference_features_daily.csv": "0edf7dd30a2171e17875d495fa4177832f9c93bc4ec9741a247515061d578326",
+    "data/v3/spatial_preparation/reference_requests_6h.csv": "cdb490491c85eda29292abe87226de51f27adb3ce1ccf4cc5f61a2d04a5a8cbb",
+    "data/v3/spatial_preparation/reference_requests_daily.csv": "3eb5b863b2da4dfbe308e666ee44fabbfd710d749cc7290d6d2f60b0a891c866",
+    "data/v3/spatial_preparation/selected_events.csv.gz": "164222122c595816e38c8dfeece92923d36775acbf07eff3445ebbd88247fe23",
+    "data/v3/spatial_preparation/universe_geometry.geojson": "c3fda35c8751fc33f7c9663ad7686726f6199ae36d1f0a678c59a37df706be84",
+    "data/v3/spatial_preparation/universe_segments.csv": "91b396599f25aaa8aad1d211da99908e4b71c0f4f4922811fb53b28cf29867c9",
+    "data/v3/spatial_preparation/unknown_scope_events.csv.gz": "e4ffda82fbdfa6089cbcb6704b4db51279b1f7c5453cbba13fbd7aa75613ca51",
+    "data/v3/spatial_preparation/unsupported_segments.csv": "968c27c51161dcf11ecbc119b3dbf3b5273aed615fb83d37192194ef4935aaa5",
+    "data/v3/spatial_preparation/weather_context_6h.csv.gz": "b2aa743a61692cf48ec3e5e6c6447be36ecee27de68c0cee69b3283baf4e5daa",
+    "data/v3/spatial_preparation/weather_context_daily.csv.gz": "c05e2ce78f2c6e985c800fa404e863bfaefe1ac1ffefbc7d4c4a53f224a88593",
+    "../workflow/evaluation/input-pins-v3.json": "24865e2923ef9c5a887369160b3bfa6b9fb3ea7a6ed7f41477f5e07a72b3cda3",
+    "../workflow/catalog/accepted-runtime-v3.json": "04d867638f87617349153b2b6825802b44d97ba29786ef95d0257a46a767199a",
+    "../workflow/catalog/input-pins-v3.json": "cde201f3fb6dc0d92485516355d2b706b3904710aa96c801581e2e228fbedb04",
+    "../workflow/catalog/resume-after-session-limit-th.md": "eecea65a62f28bba32cb3a706cb7dc448ef51150ffc7a9b2241cb4cea7da4a26",
+    "../workflow/catalog/runtime-environment-observed-v3.json": "2c301a4e66f9e715787270ce3acb5f474d47fc5ca5ac82302323d0f9f9d77fc6",
+    "../workflow/spatial/README_th.md": "836a1939c3932d472d8c7e892899f65b91bcc74aa9a72d302ac49750f2d27bed",
+    "../workflow/spatial/candidate_corridor_preflight.csv": "406dd2d019e8eb21b5b201006eea398e0018ee9fec4b78dbf27ed74980d969da",
+    "../workflow/spatial/coordinate_preflight.json": "5d78e340edb9f0bf9be4604605a07da4ace7a829b5cad99c8f2c28ab0e01b1fd",
+    "../workflow/spatial/coordinate_preflight_by_year.csv": "1601f98b18f1e8c888e8271383bd968e92066bf3ebd96c53381b13fb6da94615",
+    "../workflow/spatial/experiment-input-pins-v3.json": "e18b38d5babc99f3a8e78445357a71d5f15ac253301a6ac9d0bc3177f930bfee",
+    "../workflow/spatial/feature-source-preflight-v3.json": "f7355be76fb68d63919336f53522c1eef9f2347cac1d494d4e82afd1a6391578",
+    "../workflow/spatial/linkage-to-model-gates-th.md": "fd4287ab9a4ec28a0da598eecbd7001892d3b3a5ef28356754a6ebe04d2066d9",
+    "../workflow/spatial/planning_verification.json": "77c011b3ef67e60b2a7063c15ef55da8d5b16a0ac19ee8995f487d224597358f",
+    "../workflow/spatial/preparation-input-pins-v3.json": "7e3d60d50497a36142c8d40753c1b6251549f1d8134a9879e8d5e787950f24c9",
+    "../workflow/spatial/source_discovery/README_th.md": "4f67d627ea0a42d70b6d4c8686f6113cd32dc14bd4aea8c0ddf5546bbd649d46",
+    "../workflow/spatial/source_discovery/discovery_manifest.json": "d6efda030e54348edf7ec15847e7dd9cce53531899f8e35ef78af79e838db749",
+    "../workflow/spatial/source_discovery/discovery_manifest_v3_1.json": "ebe7f4e3401507b03847bf3867826650cd03e2c13041272f29ed4bdf5dd88706",
+    "../workflow/spatial/source_discovery/doh-count.json": "f1322590d763b98d8c29d76a35ef4e7b6299c80cfc23bdb8ef3e516ca4100ea6",
+    "../workflow/spatial/source_discovery/doh-feature-service.json": "aafffb81fb794aaafe9f71169b56bf7cfc7d615c0e939257fe25d270ffd7b5f3",
+    "../workflow/spatial/source_discovery/doh-layer.json": "1d3afdf2428cf0524bcac9b97c548f4b923bb42977b17b7827baefb9dc8b96fb",
+    "../workflow/spatial/source_discovery/doh-pilot-count.json": "9a60a2cedbae5f1bfa40a87cf3218debb64f094e425b53f31944a73745bb11c2",
+    "../workflow/spatial/source_discovery/drr-count.json": "21df228b1956db82d42e0fd1060e450b785d19987f0736e18266260a309cc131",
+    "../workflow/spatial/source_discovery/drr-feature-service.json": "b09a0d74be9d0d199af8f62ce04395cbc7e37edef5a84df75f33df7ecdc0ce42",
+    "../workflow/spatial/source_discovery/drr-layer.json": "09c5548f21678522455bd505d6bbd7932c4df7016222d28decb1e6537d7c1912",
+    "../workflow/spatial/source_discovery/drr-pilot-count.json": "4f8fe98f7cb0430bfe643811216ee41a5351dcb2236d5a97b72fd4941648b1c7",
+    "../workflow/spatial/source_discovery/exat-count.json": "286ef99473842386e093b70e2cb43524734dcd35c826f5b736d6444f65ad4686",
+    "../workflow/spatial/source_discovery/exat-layer.json": "f31b4cbb1c65e708f7f3bf66f9272b99abee0822b844c4e508f613b87f9814c1",
+    "../workflow/spatial/source_discovery/exat-service.json": "55bd5204c37f3168e145046c3a1d599e9971efdbd8347269374d9b026868f93f",
+    "../workflow/spatial/source_discovery/pilot_query_manifest.json": "5bc8c6025b1babbc207f6e4b60f3b521904d4a14de1ebed86629de9a247e568c",
+    "../workflow/spatial/source_discovery/pilot_query_manifest_v3_1.json": "a7d563af1e8da2839a3436574db01a40aa935879c6c288fa98a8bb7583e82e51",
+    "../workflow/spatial/spatial-transfer-preregistration-v3.json": "1e6055329b7799bcb7b7143326c6443a0e8df3288681ab7fdec768592a117570"
+  },
+  "readiness": {
+    "evaluation_complete_for_2022_2025_seen_data": true,
+    "colour_contract_ready_for_notebook22": true,
+    "serving_recommendation": "benchmark-only serving of the existing notebook-20 bundles until a separate user need arises; no refit here",
+    "2026": "pending separate data audit and evaluation; no 2026 data read",
+    "backend_complete": false
+  }
+}

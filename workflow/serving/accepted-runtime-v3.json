@@ -1,0 +1,19 @@
+{
+  "kind": "manager_accepted_spatial_runtime_v3",
+  "run_root": "backend/rerun-spatial-serving-018-001",
+  "report_dir": "backend/rerun-spatial-serving-018-001/reports/v3/spatial_serving",
+  "data_dir": "backend/rerun-spatial-serving-018-001/data/v3/spatial_serving",
+  "files": {
+    "backend/notebooks/22_spatial_inference_contract.ipynb": "28110333a78fc3dd50f2349c7f8c4b41deb0cf17a8516ffd825137cb8801747c",
+    "backend/config/spatial_inference_v3.json": "1837f26d38d2df8fce20c08f7b52f17737faa06b1c6b104cf7f589003b3fcb1f",
+    "backend/rerun-spatial-serving-018-001/reports/v3/spatial_serving/spatial_serving_manifest.json": "c9a2739532b1616e60c3bd345a8a5fc1bd999122bb7787baad16770e55ae3d22",
+    "backend/rerun-spatial-serving-018-001/reports/v3/spatial_serving/serving_record.json": "ab86a4e9e06e9a809a58add536d69cffe5f3bf9f74e27cd209138a1e63d7d910",
+    "workflow/serving/input-pins-v3.json": "cc1947eded75c1183f725862fafc979d2622dcb21b7bdf73e25b0dd6a19847e3",
+    "backend/rerun-spatial-serving-018-001/data/v3/spatial_serving/baseline_stats_daily.npz": "15d9a6307fbe69b86e5c1f5192a810cb60ce3cab84b4202d4251abdfb8a253b5",
+    "backend/rerun-spatial-serving-018-001/data/v3/spatial_serving/baseline_stats_6h.npz": "128c2199c72e1d0937e15fe259baaf435addfde07bbc33e200170da3ad132faf"
+  },
+  "functions": {"cells": 5, "join": "\n\n", "sha256": "80f93d297582cc17cda8e6c7a13a2f2f2c65c56855f39b7fb34fc8073ff7d3fe"},
+  "acceptance": {"worker_run": "20261111-234749-84512", "actual_seconds": 84.35, "manifest_checks": 23, "independent_checks": 34, "targeted_tests": 82, "backend_tests": 731, "max_abs_prediction_error": 0, "daily_parity_rows": 2269755, "six_hour_parity_rows": 9079020, "observed_routing_scope": "core_only_no_observed_context", "research_ready": true, "production_ready": false},
+  "interfaces": ["load_service(backend, cfg, pins, baseline_files, selftest=True)", "predict_batch(service, unit, requests)", "predict_baseline_batch(service, unit, requests)", "metadata(service)", "coverage(service, segment_ids)", "health(service)"],
+  "policy": "Verify every manager file and FUNCTIONS hash before exec. Obtain baseline_files from pinned serving_record and data_dir; input pins from workflow/serving/input-pins-v3.json. Reuse existing benchmark only; public dates2024..2027, max128, ordered strict finite JSON. Context routing synthetic test is not observed2024/25evidence. No OOF runtime replay, no refit or production claim."
+}

@@ -1,6 +1,6 @@
 # RoadAware — Model Gate สำหรับนำเสนอ
 
-สถานะเอกสาร: ผลทดลอง016-002และCatalogตรวจรับแล้ว;21รันจริง61.36sและindependent127checksผ่าน แต่ยังไม่รับทั้งstageเพราะtest1ข้อและpresentation/controlข้อค้าง. Runtime/API/2026scoresยังไม่ได้ทำ ตัวเลขด้านล่างมาจากผลจริงที่ตรวจแล้ว ห้ามถือช่องที่ยังไม่เสร็จว่าเป็นผลผ่าน
+สถานะเอกสาร: ผลทดลอง016-002,Catalogและ21ตรวจรับแล้ว;21รอบ017-002รัน59.37s/36checks/independent135checks,40targeted/666backendtests. รายงานห้าหัวข้อฉบับสร้างจากผลจริงพร้อม10สไลด์/ภาพPNG+SVGอยู่ [Model Gate ที่ตรวจรับ](../output/spatial-model-results/v3-evaluation-017-002/model_gate_presentation_th.md). Runtimeอยู่ระหว่างClaude018;API/2026scoresยังไม่ได้ทำ ห้ามถือส่วนที่ยังไม่เสร็จว่าเป็นผลผ่าน
 
 ## 1. Baseline และ Candidate Models
 
@@ -38,7 +38,7 @@ OOF2022–2023ทุกcell:daily2,266,650cellsและ6h9,066,600cells โด�
 
 HGBลดdeviance2.583%daily/8.152%6h,แต่MAEเพิ่ม0.710%/0.406%,ชนะ4/4folds. Paired7daybootstrap500resamplesให้ช่วง95%ของgain1.477–3.712%dailyและ6.755–9.552%6h;เป็นexploratorypostselectionไม่ใช่confirmatorysignificance
 
-กราฟจริง016ที่ตรวจแล้วอยู่backend/rerun-spatial-model-016-002/reports/v3/spatial_experiments/figures/:oof_deviance_by_method.png,fold_deviance_candidate_vs_baseline.png,oof_calibration.png,spatial_transfer_deviance.png. PresentationPNG/SVGและgroupanalysisรอบ21อยู่backend/rerun-spatial-eval-017-001/reports/v3/spatial_evaluation/;ตัวเลขผ่าน127independentchecksแล้วแต่ภาพบางรูปยังต้องแก้titlelayoutจึงยังไม่รับpackage
+กราฟจริง016ที่ตรวจแล้วอยู่backend/rerun-spatial-model-016-002/reports/v3/spatial_experiments/figures/:oof_deviance_by_method.png,fold_deviance_candidate_vs_baseline.png,oof_calibration.png,spatial_transfer_deviance.png. PresentationPNG/SVGและgroupanalysisที่ตรวจรับอยู่output/spatial-model-results/v3-evaluation-017-002/;independent135checksผ่าน,metrics/thresholds/capture/floorเหมือน001ทุกbyte. กราฟgroupsแนวตั้งเป็นภาพรายละเอียดสำหรับappendix/SVG ส่วนfold/calibration/captureใช้เป็นภาพสไลด์ได้
 
 2024/25เป็นpreviouslyseendiagnostics ไม่ใช่untouchedtest และcontextmaskเป็น0ทั้งหมด จึงประเมินselectedpolicyที่fallbackcoreทั้งช่วง. Spatialtransferเป็นheldoutnortheast410segmentsปี2023รวม483records;HGBcoredeviance0.034559daily/0.0106436h เทียบroute_length_rate0.035332/0.011240. เป็นunseen-sectionsdiagnosticหนึ่งพื้นที่ ไม่ใช่หลักฐานรองรับถนนใหม่ทุกประเภท
 

@@ -15,7 +15,9 @@
     "data_dir20": "data/v3/spatial_experiments",
     "executed_notebook20": "notebooks/20_spatial_count_experiments.ipynb",
     "reports20_used": ["experiment_lock.json", "selection_frozen.json", "leaderboard_oof.csv", "fold_metrics.csv", "diagnostics_seen_2024_2025.csv", "transfer_metrics.csv", "bootstrap.csv"],
-    "data19_used": ["population_axes.json", "universe_segments.csv", "date_features.csv"]
+    "data19_used": ["population_axes.json", "universe_segments.csv", "date_features.csv"],
+    "province_names": "reports/v2/sources/province_points.csv",
+    "province_names_note": "display names only (province_code -> name_en / name_th) for report labels; never a predictor, group key or metric input; sha256 recorded in inputs.csv"
   },
   "units": ["daily", "6h"],
   "time": {"oof_start": "2022-01-01", "oof_end": "2023-12-31", "diag_years": ["seen_2024", "seen_2025"], "max_date_read": "2025-12-31",

@@ -1,0 +1,28 @@
+{
+  "kind": "manager_accepted_spatial_inference_inputs",
+  "experiment_root": "backend/rerun-spatial-model-016-002",
+  "evaluation_root": "backend/rerun-spatial-eval-017-002",
+  "files": {
+    "backend/notebooks/20_spatial_count_experiments.ipynb": "e1f0f6ff02c26f1751b0bd40ce1a3944e477cc5c10e1fb271f73492cc384b89a",
+    "backend/config/spatial_experiment_v3.json": "fbd053cca837fa184f28f6b6839c6f538ce5c458bb9fc7368cfbc552afbf90b0",
+    "backend/rerun-spatial-model-016-002/reports/v3/spatial_experiments/spatial_experiments_manifest.json": "4d0f23496fafd65cfba664b0d1f79a4d21ed38e6320dd1c00722387513ecc42d",
+    "backend/rerun-spatial-model-016-002/reports/v3/spatial_experiments/experiment_lock.json": "e5678e26d5715b28ac8c4331f02d28ae64abc8a32f8fba9787232f0269578e7c",
+    "backend/rerun-spatial-model-016-002/reports/v3/spatial_experiments/selection_frozen.json": "9e08ac0a5ea1597b14acd0167b91b3060c7a38776edf8f98fbb387dacb037e30",
+    "backend/rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays_index.json": "6f72e3b74cda0ae3eae6142366fa9791b6ba780fa54155df7b34acea7be8e46e",
+    "backend/rerun-spatial-model-016-002/data/v3/spatial_experiments/model_bundles.json": "8ff4d4b1273e1cfeff163700ece36b8e4dda26149a87e329984f3ad7f94574e8",
+    "backend/reports/v3/spatial_preparation/spatial_preparation_manifest.json": "8a53b10cd88283e2b8a5c8c7d4f15f9657bf68f6fb9e58076fed2938176e1d73",
+    "backend/notebooks/19_spatial_count_preparation.ipynb": "2f6fea94dc3787beb9bcf7723aa0bfa2ea9d959dca06e4846d02ff5ab96a6879",
+    "backend/config/spatial_preparation_v3.json": "10720c6f1ea457277666d29837598c2b4d83950907173560ad3f87f93778f386",
+    "backend/notebooks/21_spatial_evaluation_colours.ipynb": "2bdda60572f568a5c7d7d3c09831f1b7edfef6073805f399c2e7276ec0f9615d",
+    "backend/config/spatial_evaluation_v3.json": "7f9a05990a492034dcba67dd5f2001bfc0899dd2df45875b62f4fc83b5752bf3",
+    "backend/rerun-spatial-eval-017-002/reports/v3/spatial_evaluation/spatial_evaluation_manifest.json": "66102cee63d1a6364fd6cbacce2a501155c6c9c83cb68716ee44738c4cf5ac7c",
+    "backend/rerun-spatial-eval-017-002/reports/v3/spatial_evaluation/colour_contract_daily.json": "4e8f86dac8bc522bb0fa67ece76da7ac33c359e2cd5964f847e016a3b97f2273",
+    "backend/rerun-spatial-eval-017-002/reports/v3/spatial_evaluation/colour_contract_6h.json": "7ee7b1f34ed87e2ae5aee485fab4d60161073c597690fb8fbc345608f76d3658"
+  },
+  "functions_sha256": {
+    "notebook19": "c13b74dc12e3bd6994fa285888d0c32f629b91e505bc8cc2c1a6b3a1b6bd9e1f",
+    "notebook21": "4fbf4a82b70b70de0f0a6774e45d8e5dfadb0637a6d3a444225c4d2ba7e8743f"
+  },
+  "selection": {"daily":"hgb_poisson_fixed::routed_context","6h":"hgb_poisson_fixed::routed_context","baseline":"segment_mean_k365"},
+  "notes": "Manager pins following accepted20 and21 actual independent reviews. Verify each consumed prepared-data/model/meta/reference/diagnostic-array hash against the trusted producer manifest before use. No runtime dependency on .ai-team evidence. No refit. No models loaded before hash validation."
+}

@@ -10,6 +10,11 @@ Implement notebook22 verified spatial inference and robustness contract; prepare
 - Provide a bounded live API smoke helper only in later019 scope;22just preparesinterfaces/predictiontestfixtures andservingrunbook. AlllogicFUNCTIONS,payloadchunks,strictmanifest/protectedguards. ModelGatefive-topiccontentalreadydrafted workflow/model-gate-presentation-th.md;do notmodifyoldresults orclaimproductionready.
 
 # Scope
+
+## Manager activation (accepted21 now supplied)
+Notebook21acceptedactual017-00259.37s/36checks/135independentchecks;40targeted/666backendtests. Pins NOW workflow/serving/input-pins-v3.json (repo-relativefiles,kindmanager_accepted_spatial_inference_inputs,functions_sha256). Colourcontractsunderbackend/rerun-spatial-eval-017-002/reports/v3/spatial_evaluation/. Do not editmanagerpins. Source21FUNCTIONS3purecolourinterfacesunchanged;allfourFUNCTIONScellshashprovided. Manageralreadyverified20outputs;verifyneededconsumedhashesfornewruntime,don'trerun20or21pipelines.
+Implemententireboundedruntime018now. No new candidatefits/refits. Addminimal NEW independentverificationCLI requestedabove;assemblerexplicit22allowlist/testextensiononly. Workerfiletoolsonly;Codexassembles/runs. Providefreshrootexamplebackend/rerun-spatial-serving-018-001. Do not writememoryfiles. Reportconciselyallactualinterfacesandcommandsnotrun.
+
 New backend/notebooks/22_spatial_inference_contract.ipynb via source payloads .ai-team/handoffs/018/ordered cells, config spatial_inference_v3.json, thin runner run_spatial_inference.py, tests test_spatial_inference_notebook.py; new ignored data/v3/spatial_serving and aggregate reports/v3/spatial_serving, runbook. Protect all old V2/V3 artifacts. Python3.9.6 projectkernel, current accepted dependencies; worker files only, Codex tests. NEW rerun-root and prewrite guards including symlinks/ancestors.
 
 # Acceptance

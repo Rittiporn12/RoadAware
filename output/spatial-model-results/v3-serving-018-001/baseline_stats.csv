@@ -1,0 +1,3 @@
+eval_segments,unseen_segments,unseen_routes_segments,zero_route_rate_segments,recent_fallback_cells,unit,training_records,denominator_cells,train_dates_per_block,baseline,sha256,cutoff_local
+3105,0,0,119,0,daily,14703,3303720,[1064],segment_mean_k365,15d9a6307fbe69b86e5c1f5192a810cb60ce3cab84b4202d4251abdfb8a253b5,2023-12-01 18:00:00
+3105,0,0,119,0,6h,14714,13224195,"[1065, 1065, 1065, 1064]",segment_mean_k365,128c2199c72e1d0937e15fe259baaf435addfde07bbc33e200170da3ad132faf,2023-12-01 18:00:00

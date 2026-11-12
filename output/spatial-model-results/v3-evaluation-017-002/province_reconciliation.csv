@@ -1,0 +1,5 @@
+unit,scope,segments,cells_per_segment,known_province_groups,expected_unknown_segments,expected_unknown_cells,unknown_group_present,roles,problems
+daily,oof,3105,730,20,0,0,False,"baseline,selected",
+daily,diag,3105,731,20,0,0,False,"baseline,selected",
+6h,oof,3105,2920,20,0,0,False,"baseline,selected",
+6h,diag,3105,2924,20,0,0,False,"baseline,selected",

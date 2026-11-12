@@ -27,7 +27,7 @@ from pathlib import Path, PurePosixPath
 
 REPO = Path(__file__).resolve().parents[1]
 APPROVED_TARGETS = ('backend/notebooks/20_spatial_count_experiments.ipynb', 'backend/notebooks/14_backend_catalog.ipynb',
-                    'backend/notebooks/21_spatial_evaluation_colours.ipynb')
+                    'backend/notebooks/21_spatial_evaluation_colours.ipynb', 'backend/notebooks/22_spatial_inference_contract.ipynb')
 TARGET_DIR = 'backend/notebooks'
 CELL_TYPES = ('code', 'markdown')
 CELL_KEYS = {'cell_type', 'id', 'source_path'}
