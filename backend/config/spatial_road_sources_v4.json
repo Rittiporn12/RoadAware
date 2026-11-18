@@ -1,0 +1,217 @@
+{
+  "version": "spatial_road_sources_v4.0",
+  "status": "collection_only: read-only official road geometry snapshot for the NATIONAL Thailand envelope; no labels, snapping, model, thresholds or colours",
+  "version_note": "v4.0 (2026-11-18, national-coverage branch): same sources (DOH/DRR/EXAT), hosts, predicate and code as v3.1; only the envelope is widened from the pilot frame to the whole-country broad bbox and the budget is raised to fit it. v3.1 config and all pilot outputs are protected (see protected_paths) and stay the accepted pilot evidence (git tag pilot-v3-20261118).",
+  "notebook": "notebooks/17_spatial_road_collection.ipynb",
+  "preregistration": {
+    "envelope_epsg4326": [
+      97.3,
+      5.5,
+      105.7,
+      20.5
+    ],
+    "spatial_rel": "esriSpatialRelIntersects",
+    "registered_by": "national-coverage plan (2026-11-18), before any national spatial model is fitted or evaluated",
+    "note": "national geometry-collection envelope = thailand_broad_bbox; a rectangle, so a few cross-border sections may be returned and are flagged, not dropped silently."
+  },
+  "allowed_hosts": [
+    "giportal.mot.go.th",
+    "gis.drr.go.th"
+  ],
+  "budget": {
+    "batch_size": 20,
+    "max_features": 60000,
+    "max_total_geometry_bytes": 1073741824,
+    "max_response_bytes": 33554432,
+    "max_metadata_bytes": 4194304,
+    "max_requests": 6000,
+    "max_wall_seconds": 14400,
+    "timeout_seconds": 60,
+    "max_retries": 2,
+    "retry_backoff_seconds": 3
+  },
+  "sources": [
+    {
+      "id": "doh_highway",
+      "authority": "Department of Highways (DOH, กรมทางหลวง)",
+      "catalog_url": "https://datagov.mot.go.th/th/dataset/transportgis",
+      "service_url": "https://giportal.mot.go.th/arcgis/rest/services/Hosted/เส้นทางหลวงแผ่นดิน_ทล/FeatureServer",
+      "layer_id": 0,
+      "expected_geometry_type": "esriGeometryPolyline",
+      "query_format": "json",
+      "query_format_note": "Esri JSON for both services (DRR layer2 advertises only JSON/AMF): keeps official field types and spatialReference; GeoJSON is a separate derivative",
+      "license": "pending: licence text of the MOT catalog resource was not captured; confirm on the catalog resource page before redistribution",
+      "attribute_roles": {
+        "route": [
+          "road_code"
+        ],
+        "section": [
+          "section_co"
+        ],
+        "km_start": "km_start",
+        "km_end": "km_end",
+        "length": [
+          "length"
+        ],
+        "degree_length": [
+          "SHAPE__Length",
+          "Shape__Length"
+        ],
+        "year": []
+      }
+    },
+    {
+      "id": "drr_rural",
+      "authority": "Department of Rural Roads (DRR, กรมทางหลวงชนบท)",
+      "catalog_url": "https://datagov.mot.go.th/th/dataset/transportgis",
+      "service_url": "https://gis.drr.go.th/arcgis/rest/services/DRR_Feature/FeatureServer",
+      "layer_id": 2,
+      "expected_geometry_type": "esriGeometryPolyline",
+      "query_format": "json",
+      "query_format_note": "layer advertises supportedQueryFormats JSON, AMF (no GeoJSON)",
+      "license": "pending: licence text of the MOT catalog resource was not captured; confirm on the catalog resource page before redistribution",
+      "attribute_roles": {
+        "route": [
+          "road_code",
+          "route_name"
+        ],
+        "section": [
+          "link_id",
+          "sublink_id"
+        ],
+        "km_start": "km_start",
+        "km_end": "km_end",
+        "length": [
+          "length_gps",
+          "length_drr"
+        ],
+        "degree_length": [
+          "SHAPE__Length",
+          "Shape__Length",
+          "SHAPE.LEN",
+          "Shape_Length"
+        ],
+        "year": [
+          "budget_year"
+        ]
+      }
+    },
+    {
+      "id": "exat_expressway",
+      "authority": "Expressway Authority of Thailand (EXAT, การทางพิเศษแห่งประเทศไทย)",
+      "catalog_url": "https://datagov.mot.go.th/th/dataset/transportgis",
+      "service_url": "https://giportal.mot.go.th/arcgis/rest/services/Hosted/เส้นทางด่วน_กทพ/FeatureServer",
+      "layer_id": 0,
+      "expected_geometry_type": "esriGeometryPolyline",
+      "query_format": "json",
+      "query_format_note": "Esri JSON like the other sources; layer EXAT_Road_OpenData objectIdField is objectid_1 (objectid is an ordinary integer field, not the identity)",
+      "license": "pending: licence text of the MOT catalog resource was not captured; confirm on the catalog resource page before redistribution",
+      "attribute_roles": {
+        "route": [
+          "route"
+        ],
+        "section": [
+          "centerline"
+        ],
+        "km_start": null,
+        "km_end": null,
+        "length": [],
+        "degree_length": [
+          "SHAPE__Length"
+        ],
+        "year": []
+      }
+    }
+  ],
+  "discovery_context": {
+    "manifest": "../workflow/spatial/source_discovery/discovery_manifest_v3_1.json",
+    "pilot_manifest": "../workflow/spatial/source_discovery/pilot_query_manifest_v3_1.json",
+    "key_map": {
+      "doh": "doh_highway",
+      "drr": "drr_rural",
+      "exat": "exat_expressway"
+    },
+    "note": "manager observations (national and pilot counts) are context only, never expected counts; the national EXAT count was not queried (null)"
+  },
+  "thailand_broad_bbox": {
+    "lat_min": 5.5,
+    "lat_max": 20.5,
+    "lon_min": 97.3,
+    "lon_max": 105.7,
+    "note": "coarse national box used only for lon/lat-order and out-of-country flags"
+  },
+  "unit_audit": {
+    "band": [
+      0.8,
+      1.25
+    ],
+    "min_share": 0.8,
+    "scales_to_metres": {
+      "m": 1.0,
+      "km": 1000.0
+    },
+    "note": "ratio of attribute value (scaled to metres) to the WGS84 geodesic length of the same full section; a single unit reaching min_share is only a hypothesis pending official documentation"
+  },
+  "segment_length_candidates_km": [
+    0.5,
+    1,
+    2
+  ],
+  "dependency_pins": {
+    "pandas": "pandas>=2.0,<3",
+    "numpy": "numpy>=1.24,<3",
+    "shapely": "shapely>=2.0,<3",
+    "matplotlib": "matplotlib>=3.7,<4",
+    "pyproj": "pyproj>=3.6.1,<3.7"
+  },
+  "figure_fonts": [
+    "Thonburi",
+    "Tahoma",
+    "Noto Sans Thai",
+    "Sukhumvit Set",
+    "Ayuthaya"
+  ],
+  "protected_paths": [
+    "data/v2",
+    "reports/v2",
+    "data/raw/accidents",
+    "data/external_v2",
+    "data/v3/spatial_readiness",
+    "reports/v3/spatial_readiness",
+    "config/data_pipeline.json",
+    "config/external_sources_v2.json",
+    "config/feature_pipeline_v2.json",
+    "config/model_experiment_v2.json",
+    "config/inference_v2.json",
+    "config/catalog_v2.json",
+    "config/spatial_readiness_v3.json",
+    "config/spatial_road_sources_v3.json",
+    "notebooks/09_external_collection_date_evidence.ipynb",
+    "notebooks/10_v2_preparation_features_leakage.ipynb",
+    "notebooks/11_v2_model_experiments.ipynb",
+    "notebooks/12_v2_evaluation_error_analysis.ipynb",
+    "notebooks/13_inference_robustness_contract.ipynb",
+    "notebooks/16_spatial_data_readiness.ipynb",
+    "../workflow/model-protocol-v2-lock.json",
+    "../workflow/spatial",
+    "reports/v3/road_collection",
+    "data/v3/road_collection",
+    "config/archive/spatial_road_sources_v3_0.json",
+    "rerun-road-013-online-001",
+    "rerun-road-013-offline-001",
+    "reports/v3/road_collection_v3_1",
+    "data/v3/road_collection_v3_1",
+    "rerun-road-013a-online-001",
+    "rerun-road-013a-offline-001",
+    "rerun-road-013a-offline-002",
+    "data/v3/linkage_audit",
+    "reports/v3/linkage_audit",
+    "data/v3/spatial_preparation",
+    "reports/v3/spatial_preparation"
+  ],
+  "outputs": {
+    "report_dir": "reports/v4/road_collection",
+    "data_dir": "data/v4/road_collection"
+  },
+  "scope_label": "V4 national envelope"
+}

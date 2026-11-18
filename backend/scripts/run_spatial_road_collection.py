@@ -33,7 +33,8 @@ NB_DIR = BACKEND / 'notebooks'
 NOTEBOOK = '17_spatial_road_collection'
 KERNEL_NAME = 'roadaware-venv'
 ENV_KEYS = ('ROADAWARE_BACKEND_ROOT', 'ROADAWARE_V3_OUTPUT_ROOT', 'ROADAWARE_ROAD_ONLINE', 'ROADAWARE_ROAD_CACHE_DIR',
-            'ROADAWARE_ROAD_EXPECTED_MANIFEST', 'ROADAWARE_V3_OFFLINE')
+            'ROADAWARE_ROAD_EXPECTED_MANIFEST', 'ROADAWARE_V3_OFFLINE', 'ROADAWARE_ROAD_CONFIG')
+CONFIG_NAME = 'spatial_road_sources_v3.json'  # set from --config in main(); v4 = national envelope
 
 
 def venv_python():
@@ -62,7 +63,7 @@ def sha256(path):
 
 
 def config():
-    return json.loads((BACKEND / 'config' / 'spatial_road_sources_v3.json').read_text('utf-8'))
+    return json.loads((BACKEND / 'config' / CONFIG_NAME).read_text('utf-8'))
 
 
 def run_log_path(out):
@@ -136,7 +137,7 @@ def build_env(out, online, cache=None, expected=None, base=None):
     env = {k: v for k, v in (os.environ if base is None else base).items() if k not in ENV_KEYS}
     env.update(ROADAWARE_BACKEND_ROOT=str(BACKEND), ROADAWARE_V3_OUTPUT_ROOT=str(Path(out).resolve()),
                ROADAWARE_ROAD_ONLINE='1' if online else '0', ROADAWARE_ROAD_CACHE_DIR='' if online else str(Path(cache).resolve()),
-               ROADAWARE_ROAD_EXPECTED_MANIFEST=str(Path(expected).resolve()) if expected else '')
+               ROADAWARE_ROAD_EXPECTED_MANIFEST=str(Path(expected).resolve()) if expected else '', ROADAWARE_ROAD_CONFIG=CONFIG_NAME)
     return env
 
 
@@ -157,6 +158,7 @@ def parse_args(argv=None):
     ap.add_argument('--online', action='store_true', help='explicitly allow read-only network collection (default: offline, verified cache only)')
     ap.add_argument('--cache-from', help='offline: data dir of an earlier complete online run (default backend/data/v3/road_collection)')
     ap.add_argument('--expect-manifest', help='offline: accepted road_collection_manifest.json whose raw hashes the cache must match')
+    ap.add_argument('--config', default='spatial_road_sources_v3.json', help='file name in backend/config (spatial_road_sources_v4.json = national envelope)')
     ap.add_argument('--timeout', type=int, default=7200, help='per-cell timeout in seconds (default 7200; the config wall-clock budget is separate)')
     a = ap.parse_args(argv)
     if a.online and (a.cache_from or a.expect_manifest):
@@ -165,7 +167,11 @@ def parse_args(argv=None):
 
 
 def main(argv=None):
+    global CONFIG_NAME
     a = parse_args(argv)
+    if Path(a.config).name != a.config or not a.config.startswith('spatial_road_sources_v') or not (BACKEND / 'config' / a.config).is_file():
+        sys.exit('--config must name an existing backend/config/spatial_road_sources_v*.json file')
+    CONFIG_NAME = a.config
     py = ensure_venv()
     out = Path(a.output_dir).resolve() if a.output_dir else BACKEND
     cache = None if a.online else Path(a.cache_from or default_cache()).resolve()
@@ -186,7 +192,7 @@ def main(argv=None):
     os.environ.clear()
     os.environ.update(env)
     spec = write_kernelspec(py, out)
-    log = {'started_utc': dt.datetime.now(dt.timezone.utc).isoformat(), 'notebook': NOTEBOOK, 'runner_sha256': sha256(Path(__file__).resolve()),
+    log = {'started_utc': dt.datetime.now(dt.timezone.utc).isoformat(), 'notebook': NOTEBOOK, 'config': CONFIG_NAME, 'runner_sha256': sha256(Path(__file__).resolve()),
            'runner_python': sys.executable, 'kernel_argv': spec['argv'], 'output_root': str(out), 'online': a.online,
            'cache_from': str(cache) if cache else None, 'expect_manifest': a.expect_manifest, 'cell_timeout_seconds': a.timeout,
            'source_sha256_before': sha256(src), 'status': 'running', 'cell_log': []}
