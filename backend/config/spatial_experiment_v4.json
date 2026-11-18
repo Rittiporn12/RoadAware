@@ -246,7 +246,8 @@
       "core",
       "routed_context"
     ],
-    "tie_break": "lower pooled OOF mean Poisson deviance; exact ties prefer core over routed_context, then config order above"
+    "tie_break": "lower pooled OOF mean Poisson deviance; exact ties prefer core over routed_context, then config order above",
+    "infrequent_category_policy": "national V4: max_category_cardinality is the encoder max_categories; the most frequent levels in the fold training sample keep their own level, the rest share one infrequent level (OneHotEncoder infrequent_if_exist / OrdinalEncoder max_categories). v3 refused fits above the cap; the pilot never exceeded it (218 routes)."
   },
   "metrics": {
     "deviance_floor": 1e-12,

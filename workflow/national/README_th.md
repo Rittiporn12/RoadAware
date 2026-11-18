@@ -49,3 +49,5 @@
 - Notebook 19 ระดับประเทศผ่าน 41 checks: ช่วงถนน DOH 26,740 ช่วง (51,858 กม., 1,440 สายทาง), บันทึกอุบัติเหตุที่ใช้ได้ 98,207 จาก 106,308
 - transfer split (geometry อย่างเดียว): eval 3,070 / train 23,458
 - รอบแรกของ Notebook 20 รันผิดตัว (config v4 ชี้ไป notebook ต้นฉบับ ซึ่งอ่าน config v3) จึงได้ผลซ้ำของพื้นที่นำร่อง — เก็บไว้ที่ `backend/rerun-spatial-model-pilot-repro-001` (ไม่ใช้ต่อ) แก้ config แล้ว รันใหม่ด้วย National Step 4.command → `rerun-spatial-model-national-002`
+- รอบ `rerun-spatial-model-national-002`: ข้อมูลถูกต้อง (OOF 19.5M/78.1M แถว) แต่โมเดลทุกตัวถูกปฏิเสธเพราะ route_code มี 1,440 สายทาง เกินเพดาน 255 ของกติกา v3 → ผลเลือกเป็น baseline เท่านั้น (ไม่ใช้ต่อ)
+- แก้ในสำเนา national: encoder รวมสายทางที่พบน้อยเป็นระดับ "infrequent" เดียว (เรียนจาก training sample ของแต่ละ fold เท่านั้น) แล้วรันใหม่ → `rerun-spatial-model-national-003` (National Step 4b.command)
