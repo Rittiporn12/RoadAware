@@ -1,0 +1,409 @@
+{
+  "version": "spatial_preparation_v4.0",
+  "status": "preparation_only: geometry-only universe, sparse SELECTED+LINKED recorded-count targets, prospective geometry/calendar/context features and leakage evidence; NO model training, no negative-control sampling, no scores, thresholds or colours",
+  "notebook": "notebooks/19_spatial_count_preparation_national.ipynb",
+  "registered_by": "national-coverage (2026-11-18): v3 rules unchanged, inputs repointed to the accepted national V4 road collection + linkage audit",
+  "protocol": {
+    "path": "../workflow/spatial-model-protocol-v3-draft.md",
+    "sha256": "b286fd5ed7b914bad32b88aec666388b87db2880b51ab00d1f598148dad8dacd"
+  },
+  "inputs": {
+    "pin_policy": "sha256 pins of the accepted national V4 outputs (independent reviews in reports/v4). Every file is hash-verified offline before analysis; producer manifests must record the same hash.",
+    "linkage_manifest": {
+      "path": "reports/v4/linkage_audit/linkage_audit_manifest.json",
+      "sha256": "b21f744945c4c6a5fbc5fdc611d60a54477d009fb84e3e2b3b80cb040ef11675",
+      "expect_status": "complete",
+      "expect_version": "spatial_linkage_v4.0"
+    },
+    "linkage_review": {
+      "path": "reports/v4/linkage_audit_independent_review.json",
+      "sha256": "081f6b7949b71c3572bfcec9c573beaf1f4e8d5b3a555c1d60e6fe6512f82053",
+      "expect_status": "accepted_linkage_audit_v4"
+    },
+    "road_manifest": {
+      "path": "reports/v4/road_collection/road_collection_manifest.json",
+      "sha256": "5efe53140f81c7747d31153c4f74a433efe13bc353d7417cf74177bf4c917956"
+    },
+    "sources_manifest": {
+      "path": "reports/v2/sources/sources_manifest.json",
+      "sha256": "9e3b996c6d695f8795fad7f76a6e9de81a492d97242d19f795bf5ca7c9be510a"
+    },
+    "preparation_v2_manifest": {
+      "path": "reports/v2/preparation/preparation_manifest.json",
+      "sha256": "d385a9b3e3d4ded037ca34f4f8626ea1020a738d2aeac0bae3dd4cceb10f3138"
+    },
+    "feature_config_v2": {
+      "path": "config/feature_pipeline_v2.json",
+      "sha256": "dd217247db12c8c9c5d30d2770ce368b8f30a6984a9fb1c2f31e8ebe89ab60d7"
+    },
+    "sources_config_v2": {
+      "path": "config/external_sources_v2.json",
+      "sha256": "742c25b21e7a7c36f9e80a3609a54d09142ccec8a641384d76a844faef28b93a"
+    },
+    "event_linkage": {
+      "path": "data/v4/linkage_audit/event_linkage_audit.csv.gz",
+      "producer": "linkage_manifest",
+      "manifest_key": "event_linkage_audit.csv.gz",
+      "sha256": "74b29fde694269db927b719f2074851da71ddae8eab7c74f9899e1d2e1bb0f9a"
+    },
+    "segment_inventory": {
+      "path": "data/v4/linkage_audit/segment_inventory.csv.gz",
+      "producer": "linkage_manifest",
+      "manifest_key": "segment_inventory.csv.gz",
+      "sha256": "085ee65b69cedd66a7070638d852c7bfeb4e6511f26948d9d18e332a5833077c"
+    },
+    "segments_geojson": {
+      "path": "data/v4/linkage_audit/segments_2000m.geojson",
+      "producer": "linkage_manifest",
+      "manifest_key": "segments_2000m.geojson",
+      "sha256": "71c0afd66b4bbc325e33c6baaba7c8120dd1e85438d43819f6da4f2a11e6b0d7"
+    },
+    "doh_full": {
+      "path": "data/v4/road_collection/derived/doh_highway_full.geojson",
+      "producer": "road_manifest",
+      "manifest_key": "doh_highway_full.geojson",
+      "sha256": "ad7876c27e112b13c31047b617226267a653eca937ec3956f2980cb9f4b1b0f7"
+    },
+    "adm1_metadata": {
+      "path": "data/external_v2/evidence/geoboundaries-tha-adm1.json",
+      "producer": "sources_manifest",
+      "sha256": "10119cda1b995f724304f99132ecca4a80dbeb96aaf750b8eabf24747ee5a38d",
+      "bytes": 1750
+    },
+    "adm1_geometry": {
+      "path": "data/external_v2/evidence/tha-adm1.geojson",
+      "producer": "sources_manifest",
+      "sha256": "145beb11e52785a42e16997c92a65426b3df8d009941db6b012ec8e411f3e33c",
+      "bytes": 4032763
+    },
+    "province_mapping": {
+      "path": "reports/v2/sources/province_points.csv",
+      "producer": "sources_manifest",
+      "sha256": "c21045179fb235743b5a7adc69014c494d012afd2d5899b28dfb9a9842708ae3",
+      "bytes": 43038
+    },
+    "traffic_stations": {
+      "path": "data/external_v2/derived/traffic_aadt_normalized.csv",
+      "producer": "sources_manifest",
+      "sha256": "cc256d8f48de58b42e58af4e84994c82fc4bc5b8b8156099388f73fe859338e8",
+      "bytes": 7332182
+    },
+    "calendar_records": {
+      "path": "reports/v2/sources/calendar_records.csv",
+      "producer": "sources_manifest",
+      "sha256": "74902e2c733f5f494e46178d10f1255de9b0850a7530a39be450f99dabd70c11",
+      "bytes": 47037
+    },
+    "weather_daily": {
+      "path": "data/external_v2/derived/weather_daily_jma_gsm.csv.gz",
+      "producer": "sources_manifest",
+      "sha256": "bfcd9d044c532b064507ce20cbb83f2ce865a6cd3bff6c2ae6e27704fc905bb3",
+      "bytes": 1509968
+    },
+    "weather_6h": {
+      "path": "data/external_v2/derived/weather_6h_jma_gsm.csv.gz",
+      "producer": "sources_manifest",
+      "sha256": "9c625b6a6c79a07d15db09bdb7e65b63e6b08bdf30ce70f27e7227f5956b207f",
+      "bytes": 5091055
+    },
+    "notebook10": {
+      "path": "notebooks/10_v2_preparation_features_leakage.ipynb",
+      "functions_sha256": "75d2f29f3adbd4c89acff8e7c05a695503c08ef72562e64d4cf3d6c94c70f12b",
+      "functions_cells": 2,
+      "note": "only the two '# FUNCTIONS' cells are executed (deterministic calendar/festival/season/bank/weather helpers); no pipeline cell, model or registry is loaded"
+    }
+  },
+  "snapshot_tag": "rc315c7c508f",
+  "crs": {
+    "geographic_epsg": 4326,
+    "metric_epsg": 32647,
+    "always_xy": true,
+    "event_datum_assumption": "event coordinates assumed WGS84 without verification; events are never used for spatial features"
+  },
+  "universe": {
+    "source_id": "doh_highway",
+    "route_status": "standard",
+    "resolution_m": 2000,
+    "min_length_m": 500.0,
+    "length_tol_m": 0.001,
+    "preflight_context": {
+      "segments": 27663,
+      "routes": null,
+      "projected_km": null,
+      "note": "national: DOH 2000 m segments in the accepted V4 linkage inventory (all statuses/lengths); context only, never a guard"
+    },
+    "rule": "geometry-only predicate fixed before any model score: source DOH AND geometry route_status standard AND 2000 m resolution AND projected length >= 500 m AND present in the accepted (safe-geometry) 18 inventory. Every qualifying segment is included whether or not it has records. Stable 18 segment IDs, never re-segmented. DRR/EXAT/nonstandard routes/short tails are unsupported (no prediction, never a fake zero)."
+  },
+  "labels": {
+    "uid": "event_uid",
+    "primary_status_column": "status_50m",
+    "primary_status_value": "matched",
+    "segment_status_column": "segment_status",
+    "segment_status_value": "assigned",
+    "segment_column": "segment_id_2000m",
+    "date_column": "event_date",
+    "block_column": "time_block",
+    "years": [
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "meaning": "y = number of retained 2021-25 MOT records with status_50m == matched AND segment_status == assigned to a universe segment, per segment x local day (or 6 h block). Zero means zero such SELECTED+LINKED records in the defined conditional population, NOT zero real accidents or complete reporting. Unknown / unmatched / unassigned / outside records are audited separately and never allocated as zero events."
+  },
+  "time": {
+    "timezone": "Asia/Bangkok",
+    "utc_offset_seconds": 25200,
+    "population_start": "2021-01-01",
+    "population_end": "2025-12-31",
+    "research_start": "2021-01-01",
+    "research_end": "2027-12-31",
+    "evaluated_end": "2025-12-31",
+    "issue_hour_local": 18,
+    "issue_days_before_target": 1,
+    "time_blocks": [
+      "00-06",
+      "06-12",
+      "12-18",
+      "18-24"
+    ],
+    "splits": [
+      {
+        "name": "train",
+        "start": "2021-01-01",
+        "end": "2023-12-31"
+      },
+      {
+        "name": "seen_2024",
+        "start": "2024-01-01",
+        "end": "2024-12-31"
+      },
+      {
+        "name": "seen_2025",
+        "start": "2025-01-01",
+        "end": "2025-12-31"
+      }
+    ]
+  },
+  "admin": {
+    "expected_polygons": 77,
+    "iso_property": "shapeISO",
+    "id_property": "shapeID",
+    "name_property": "shapeName",
+    "expect_metadata": {
+      "boundaryYearRepresented": "2017",
+      "boundaryType": "ADM1",
+      "boundaryISO": "THA",
+      "boundaryLicense": "Open Data Commons Open Database License 1.0",
+      "admUnitCount": "77"
+    },
+    "caveat": "geoBoundaries gbOpen THA ADM1 (OpenStreetMap/Wambacher derived, year represented 2017, ODbL): NOT a current official administrative boundary. Polygons are never repaired; a midpoint covered by 0 polygons is unmapped and by >1 is ambiguous_border; both leave province context missing (never nearest centroid)."
+  },
+  "weather": {
+    "buffer_hours": 6,
+    "daily_block_label": "day",
+    "note": "coarse province REPRESENTATIVE-POINT archived JMA GSM previous_day2 forecast (notebook 09 aggregates), joined through the segment midpoint polygon province. Not road/segment weather. Feature only when the variable is complete and latest nominal issue bound + 6 h <= target day - 1 at 18:00 local (notebook 10 policy); otherwise NaN with a reason. A nominal archive bound does not prove historical delivery."
+  },
+  "traffic": {
+    "route_regex": "^[0-9]{1,4}$",
+    "pad": 4,
+    "note": "DOH annual survey-POINT AADT proxy grouped by DOH route + control section (current snapshot identity of the segment's source OID): mean/median of valid station totals and mean valid heavy share from the newest PRIOR survey year (< target year) whose catalog proxy available_from <= issue time. Station count is metadata only. Not live congestion, not per-segment exposure; survey-point KM is never forced onto segments; control sections may have changed historically."
+  },
+  "features": {
+    "festival_clip_days": 14,
+    "festival_windows": {
+      "pre_1_3": [
+        -3,
+        -1
+      ],
+      "pre_4_7": [
+        -7,
+        -4
+      ],
+      "post_1_3": [
+        1,
+        3
+      ],
+      "post_4_7": [
+        4,
+        7
+      ]
+    },
+    "season_months": {
+      "hot": [
+        3,
+        4,
+        5
+      ],
+      "wet": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "cool": [
+        11,
+        12,
+        1,
+        2
+      ]
+    },
+    "chord_zero_eps_m": 1e-06,
+    "variants": [
+      "calendar_geometry",
+      "calendar_geometry_context"
+    ],
+    "forbidden_names": [
+      "segment_id",
+      "oid",
+      "part",
+      "piece",
+      "piece_uid",
+      "seg_index",
+      "source_oid",
+      "event_uid",
+      "y_count",
+      "y_recorded_count",
+      "label",
+      "split",
+      "target_date",
+      "event_date",
+      "date",
+      "year",
+      "issue_time_local",
+      "issue_time_utc",
+      "province_code",
+      "province_key",
+      "province_join_status",
+      "aadt_n_station_rows",
+      "aadt_vintage_survey_year_ce",
+      "bank_calendar_known_asof",
+      "bank_calendar_coverage",
+      "beyond_evaluated_period",
+      "training_eligible",
+      "possibly_undercounted",
+      "status_50m",
+      "segment_status",
+      "lat",
+      "lon",
+      "event_lat",
+      "event_lon",
+      "deaths",
+      "accident_type"
+    ],
+    "forbidden_substrings": [
+      "uid",
+      "eligib",
+      "undercount",
+      "y_count",
+      "y_recorded",
+      "label",
+      "status",
+      "reason",
+      "split",
+      "issue_",
+      "event_",
+      "vintage",
+      "_known",
+      "coverage",
+      "n_station",
+      "death",
+      "injur",
+      "vehicle",
+      "_missing"
+    ]
+  },
+  "batch": {
+    "max_rows": 100000,
+    "population_batch_rows": 100000,
+    "full_population_feature_audit": true
+  },
+  "reference": {
+    "seed": 20261111,
+    "rows_per_unit": 2000,
+    "beyond_period_share": 0.1
+  },
+  "dependency_pins": {
+    "pandas": "pandas>=2.0,<3",
+    "numpy": "numpy>=1.24,<3",
+    "shapely": "shapely>=2.0,<3",
+    "pyproj": "pyproj>=3.6.1,<3.7",
+    "matplotlib": "matplotlib>=3.7,<4"
+  },
+  "figure_fonts": [
+    "Thonburi",
+    "Tahoma",
+    "Noto Sans Thai",
+    "Sukhumvit Set",
+    "Ayuthaya"
+  ],
+  "protected_paths": [
+    "data/v2",
+    "reports/v2",
+    "data/raw/accidents",
+    "data/external_v2",
+    "data/v3/spatial_readiness",
+    "reports/v3/spatial_readiness",
+    "reports/v3/spatial_readiness_independent_review.json",
+    "reports/v3/road_collection",
+    "data/v3/road_collection",
+    "reports/v3/road_collection_independent_review.json",
+    "reports/v3/road_collection_v3_1",
+    "data/v3/road_collection_v3_1",
+    "reports/v3/road_collection_v3_1_independent_review.json",
+    "reports/v3/linkage_audit",
+    "data/v3/linkage_audit",
+    "reports/v3/linkage_audit_independent_review.json",
+    "config/data_pipeline.json",
+    "config/external_sources_v2.json",
+    "config/feature_pipeline_v2.json",
+    "config/model_experiment_v2.json",
+    "config/model_experiment_v1.json",
+    "config/inference_v2.json",
+    "config/catalog_v2.json",
+    "config/spatial_readiness_v3.json",
+    "config/spatial_road_sources_v3.json",
+    "config/spatial_linkage_v3.json",
+    "config/archive",
+    "notebooks/09_external_collection_date_evidence.ipynb",
+    "notebooks/10_v2_preparation_features_leakage.ipynb",
+    "notebooks/11_v2_model_experiments.ipynb",
+    "notebooks/12_v2_evaluation_error_analysis.ipynb",
+    "notebooks/13_inference_robustness_contract.ipynb",
+    "notebooks/16_spatial_data_readiness.ipynb",
+    "notebooks/17_spatial_road_collection.ipynb",
+    "notebooks/18_spatial_linkage_audit.ipynb",
+    "scripts/run_spatial_readiness.py",
+    "scripts/run_spatial_road_collection.py",
+    "scripts/run_spatial_linkage_audit.py",
+    "../workflow/model-protocol-v2-lock.json",
+    "../workflow/spatial",
+    "../workflow/spatial-model-protocol-v3-draft.md",
+    "reports/v3/spatial_preparation",
+    "data/v3/spatial_preparation",
+    "reports/v4/road_collection",
+    "data/v4/road_collection",
+    "reports/v4/road_collection_independent_review.json",
+    "reports/v4/linkage_audit",
+    "data/v4/linkage_audit",
+    "reports/v4/linkage_audit_independent_review.json",
+    "config/spatial_preparation_v3.json",
+    "config/spatial_road_sources_v4.json",
+    "config/spatial_linkage_v4.json",
+    "notebooks/19_spatial_count_preparation.ipynb",
+    "notebooks/20_spatial_count_experiments.ipynb"
+  ],
+  "outputs": {
+    "report_dir": "reports/v4/spatial_preparation",
+    "data_dir": "data/v4/spatial_preparation"
+  },
+  "report_allowed_suffixes": [
+    ".csv",
+    ".png",
+    ".md",
+    ".json"
+  ],
+  "scope_label": "V4 national"
+}

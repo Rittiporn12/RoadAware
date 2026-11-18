@@ -1,0 +1,4 @@
+resolution_m,split,candidate_segments,linked_train_events,segments_with_any_linked_event,share_segments_with_any,mean_linked_events_per_segment,median_events_where_nonzero,max_events_one_segment,segment_days_with_any,share_segment_days_with_any,max_events_one_segment_day,note
+500,train,210665,58769,27883,0.1323570597868654,0.2789689791849619,1.0,106,58010,0.00025147589276705524,4,"recorded+linked counts conditional on the pipeline; cells without a linked record are unknown, not verified absence"
+1000,train,107255,58769,21201,0.197669106335369,0.5479371591068015,1.0,154,57702,0.0004913140684439784,4,"recorded+linked counts conditional on the pipeline; cells without a linked record are unknown, not verified absence"
+2000,train,55657,58769,15099,0.2712866306125016,1.055913901216379,2.0,234,57231,0.0009390688219749094,7,"recorded+linked counts conditional on the pipeline; cells without a linked record are unknown, not verified absence"

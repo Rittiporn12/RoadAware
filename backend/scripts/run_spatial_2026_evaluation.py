@@ -128,6 +128,7 @@ def build_env(out, backend=BACKEND, base=None):
     env = {k: v for k, v in (os.environ if base is None else base).items() if not k.startswith(ENV_PREFIX)}
     env.update(ROADAWARE_BACKEND_ROOT=str(Path(backend).resolve()), ROADAWARE_V3_OUTPUT_ROOT=str(Path(out).resolve()), MPLBACKEND='Agg',
                OMP_NUM_THREADS='2', OPENBLAS_NUM_THREADS='2', MKL_NUM_THREADS='2')
+    env['ROADAWARE_STAGE_CONFIG'] = Path(CONFIG).name
     return env
 
 
@@ -154,12 +155,21 @@ def parse_args(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--output-dir', required=True, help=f'NEW root directly inside backend/, named {ROOT_PREFIX}*')
     ap.add_argument('--timeout', type=int, default=7200, help='per-cell timeout in seconds (default 7200)')
+    ap.add_argument('--config', default='spatial_2026_evaluation_v3.json', help='file name in backend/config (spatial_2026_evaluation_v4.json = national)')
     return ap.parse_args(argv)
 
 
 def main(argv=None):
+    global CONFIG, NOTEBOOK
     a = parse_args(argv)
+    if Path(a.config).name != a.config or not a.config.startswith('spatial_2026_evaluation_v') or not (BACKEND / 'config' / a.config).is_file():
+        sys.exit('--config must name an existing backend/config/spatial_2026_evaluation_v*.json file')
+    CONFIG = 'config/' + a.config
     cfg = config()
+    nb_rel = Path(cfg.get('notebook', ''))
+    if nb_rel.parent != Path('notebooks') or nb_rel.suffix != '.ipynb' or not (BACKEND / nb_rel).is_file():
+        sys.exit(f'config notebook {nb_rel} must be an existing backend/notebooks/*.ipynb file')
+    NOTEBOOK = nb_rel.stem  # v3 configs: the accepted pilot notebook; v4 configs: the *_national copy
     why = refusal(a.output_dir, BACKEND, cfg)
     if why:
         sys.exit(why)

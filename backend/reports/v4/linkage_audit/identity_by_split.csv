@@ -1,0 +1,14 @@
+scope,split,source_label,identity_status,n
+pilot,seen_diagnostic,doh_highway,route_missing,9
+pilot,seen_diagnostic,doh_highway,route_not_in_snapshot,4
+pilot,seen_diagnostic,doh_highway,verified,42972
+pilot,seen_diagnostic,drr_rural,route_not_in_snapshot,8
+pilot,seen_diagnostic,drr_rural,route_special_unverified,261
+pilot,seen_diagnostic,drr_rural,verified,1303
+pilot,seen_diagnostic,exat_expressway,identity_unresolved,773
+pilot,train,doh_highway,route_not_in_snapshot,11
+pilot,train,doh_highway,verified,58377
+pilot,train,drr_rural,route_not_in_snapshot,38
+pilot,train,drr_rural,route_special_unverified,287
+pilot,train,drr_rural,verified,1955
+pilot,train,exat_expressway,identity_unresolved,310

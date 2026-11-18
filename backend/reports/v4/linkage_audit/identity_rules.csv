@@ -1,0 +1,4 @@
+source_id,agency_exact,normalizer,rule,alias_entries
+doh_highway,กรมทางหลวง,doh_numeric_zfill4,"NFKC + strip; must match ^[0-9]{1,4}$ (ASCII digits only), then zfill(4); anything else is route_nonstandard",0
+drr_rural,กรมทางหลวงชนบท,drr_prefix_digits,"NFKC, remove all whitespace, collapse repeated dots, strip leading/trailing dots; standard = exactly two Thai consonants + '.' + exactly four ASCII digits (e.g. นบ.3021), leading zeros and prefix kept verbatim. Codes 'ส.' + digits are special_unverified; anything else nonstandard. No padding, no inserted dot, no alias",0
+exat_expressway,การทางพิเศษแห่งประเทศไทย,exat_unresolved,"no verified crosswalk between accident route codes (e.g. E007S013|I) and geometry routes (RAE, FES, ...): every EXAT event is identity_unresolved; exact name equalities are listed as unadopted proposals only",0

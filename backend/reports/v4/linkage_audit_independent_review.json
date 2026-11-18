@@ -1,0 +1,33 @@
+{
+  "status": "accepted_linkage_audit_v4",
+  "all_checks_pass": true,
+  "reviewed_utc": "2026-11-18T15:44:29.436204+00:00",
+  "reviewer": "Claude (independent re-check, national-coverage branch)",
+  "run_root": "backend/rerun-linkage-national-001",
+  "manifest_sha256": "b21f744945c4c6a5fbc5fdc611d60a54477d009fb84e3e2b3b80cb040ef11675",
+  "snapshot_tag": "rc315c7c508f",
+  "hash_checks": {
+    "reports": 28,
+    "reports_bad": 0,
+    "data": 8,
+    "data_bad": 0
+  },
+  "notebook_checks": "all pass (checks.csv)",
+  "protected_unchanged": true,
+  "primary_50m": {
+    "retained": 106308,
+    "matched": 101739,
+    "share": 0.957
+  },
+  "segments_2000m": {
+    "all": 55657,
+    "doh_highway": 27663,
+    "drr_rural": 27368,
+    "exat_expressway": 626
+  },
+  "projection_max_scale_error": 0.00567,
+  "tests": {
+    "linkage_specific": 61
+  },
+  "run_seconds": 172.82
+}

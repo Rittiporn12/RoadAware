@@ -1,0 +1,7 @@
+split,scope,coord_status,precision_class,low_precision,lat_equals_lon,repeated_coord,n
+seen_diagnostic,pilot,inside_broad_bbox_unverified,adequate_unverified,False,False,False,44763
+seen_diagnostic,pilot,inside_broad_bbox_unverified,adequate_unverified,False,False,True,545
+seen_diagnostic,pilot,inside_broad_bbox_unverified,low_precision_unsuitable,True,False,False,22
+train,pilot,inside_broad_bbox_unverified,adequate_unverified,False,False,False,60231
+train,pilot,inside_broad_bbox_unverified,adequate_unverified,False,False,True,733
+train,pilot,inside_broad_bbox_unverified,low_precision_unsuitable,True,False,False,14

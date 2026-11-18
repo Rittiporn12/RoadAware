@@ -37,3 +37,10 @@
 - ผล: `backend/rerun-road-national-001/reports/v4/road_collection/` (รายงานไทย, manifest, status) และ `.../data/v4/road_collection/` (raw + GeoJSON, git ไม่เก็บ)
 - งบ request/ขนาด/เวลาใน config v4 ตั้งเผื่อทั้งประเทศ (หลังรันนำร่อง ทางการบอกจำนวนทั้งประเทศราว DOH 3,044 / DRR 3,700 สาย)
 - ตรวจรับเมื่อ: `road_collection_status.json` = complete, ไม่มี `exceededTransferLimit`, count/IDs ก่อนและหลังตรงกัน, ไฟล์ที่ protect ไม่เปลี่ยน
+
+## ขั้น 3–4 (National Step 3.command — รันข้ามคืน)
+- Notebook ต้นฉบับของพื้นที่นำร่อง (19–24, 14) **ไม่ถูกแก้** เพราะ API ปัจจุบันตรวจ hash ของ notebook 13/14/22/24 ตอนเปิด — งานทั่วประเทศใช้สำเนา `notebooks/*_national.ipynb` ที่เลือก config ผ่าน `ROADAWARE_STAGE_CONFIG`
+- runner ทุกตัวรับ `--config <ชื่อไฟล์>` และรัน notebook ตามฟิลด์ `notebook` ใน config (v3 = ต้นฉบับ, v4 = สำเนา national)
+- `config/spatial_preparation_v4.json`: กติกา v3 เดิมทั้งหมด เปลี่ยนเฉพาะ input → ผลขั้น 1–2 ระดับประเทศ (snapshot `rc315c7c508f`), output → `reports|data/v4/spatial_preparation`
+- `scripts/national_prep_gate.py` (รันระหว่าง 19 กับ 20): ตรวจผล 19 ครบทุก hash/check → คัดลอกขึ้น v4 (ไม่เขียนทับ) → review อัตโนมัติ → แบ่ง transfer split จาก geometry อย่างเดียว (อีสานตอนบน lon ≥ 103.0, lat ≥ 15.5) → เขียน pins และ `config/spatial_experiment_v4.json` (ขนาด OOF ตามจำนวนช่วงถนนจริง, artifact budget 64 GiB, threads 6)
+- โมเดล/ตัวชี้วัด/เกณฑ์เลือก เหมือน v3 ทุกอย่าง
