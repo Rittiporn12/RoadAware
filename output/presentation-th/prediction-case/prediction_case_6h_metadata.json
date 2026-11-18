@@ -1,0 +1,92 @@
+{
+  "date": "2022-01-01",
+  "segment_id": "rsv1-rc31f3d87fc7:doh:1155:p0:c0:r2000:00003",
+  "route_code": "0306",
+  "row_offset": 708,
+  "blocks": [
+    "00-06",
+    "06-12",
+    "12-18",
+    "18-24"
+  ],
+  "actual": [
+    1,
+    0,
+    0,
+    0
+  ],
+  "predicted": [
+    0.0036752726663547034,
+    0.004523123643686874,
+    0.005532420897163518,
+    0.005958490735626927
+  ],
+  "context_mask": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "selection_rule": "Earliest OOF date and first sorted segment with exactly one recorded crash across four slots",
+  "source_hashes": {
+    "backend/rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays_index.json": "6f72e3b74cda0ae3eae6142366fa9791b6ba780fa54155df7b34acea7be8e46e",
+    "backend/rerun-spatial-model-016-002/reports/v3/spatial_experiments/spatial_experiments_manifest.json": "4d0f23496fafd65cfba664b0d1f79a4d21ed38e6320dd1c00722387513ecc42d",
+    "backend/rerun-spatial-model-016-002/reports/v3/spatial_experiments/experiment_lock.json": "e5678e26d5715b28ac8c4331f02d28ae64abc8a32f8fba9787232f0269578e7c",
+    "backend/rerun-spatial-model-016-002/reports/v3/spatial_experiments/selection_frozen.json": "9e08ac0a5ea1597b14acd0167b91b3060c7a38776edf8f98fbb387dacb037e30",
+    "backend/data/v3/spatial_preparation/population_axes.json": "2ce826f7a3d87f1989a8006fa9ed00b2da29514d0f5455747e5aabc81eacfeba",
+    "backend/config/spatial_evaluation_v3.json": "7f9a05990a492034dcba67dd5f2001bfc0899dd2df45875b62f4fc83b5752bf3",
+    "output/spatial-model-results/v3-evaluation-017-002/figure_method_comparison.csv": "dde3c81e1578641c85226c42ca1d979701c92f33b1916a4532bdafeeef37716b"
+  },
+  "arrays": {
+    "y": {
+      "file": "oof_6h_y.npy",
+      "kind": "y",
+      "dtype": "float64",
+      "shape": [
+        9066600
+      ],
+      "bytes": 72532928,
+      "sha256": "0d3cad315e47691b4ad2bdbf7589bbcc55b5149c29d22a00a0082fdda7c3c143",
+      "index_sha256": "0d3cad315e47691b4ad2bdbf7589bbcc55b5149c29d22a00a0082fdda7c3c143",
+      "manifest_sha256": "0d3cad315e47691b4ad2bdbf7589bbcc55b5149c29d22a00a0082fdda7c3c143"
+    },
+    "context_mask": {
+      "file": "oof_6h_context_mask.npy",
+      "kind": "mask",
+      "dtype": "uint8",
+      "shape": [
+        9066600
+      ],
+      "bytes": 9066728,
+      "sha256": "6cb5d12639537c5f9452726119a7b56c64691b5aeaad0b440e689b06486a393c",
+      "index_sha256": "6cb5d12639537c5f9452726119a7b56c64691b5aeaad0b440e689b06486a393c",
+      "manifest_sha256": "6cb5d12639537c5f9452726119a7b56c64691b5aeaad0b440e689b06486a393c"
+    },
+    "hgb_poisson_fixed::core": {
+      "file": "oof_6h_hgb_poisson_fixed__core.npy",
+      "kind": "pred",
+      "dtype": "float64",
+      "shape": [
+        9066600
+      ],
+      "bytes": 72532928,
+      "sha256": "22b664b6f93ea2bc3393c7537b148499be8531488c49719bbb3d25e2aa611f11",
+      "index_sha256": "22b664b6f93ea2bc3393c7537b148499be8531488c49719bbb3d25e2aa611f11",
+      "manifest_sha256": "22b664b6f93ea2bc3393c7537b148499be8531488c49719bbb3d25e2aa611f11"
+    },
+    "hgb_poisson_fixed::context": {
+      "file": "oof_6h_hgb_poisson_fixed__context.npy",
+      "kind": "pred",
+      "dtype": "float64",
+      "shape": [
+        9066600
+      ],
+      "bytes": 72532928,
+      "sha256": "f7f56a0c1d4b5ee0d78a8d08b0fb069e4d0edc3c668a639a0e7ff64c235c8245",
+      "index_sha256": "f7f56a0c1d4b5ee0d78a8d08b0fb069e4d0edc3c668a639a0e7ff64c235c8245",
+      "manifest_sha256": "f7f56a0c1d4b5ee0d78a8d08b0fb069e4d0edc3c668a639a0e7ff64c235c8245"
+    }
+  },
+  "road_inventory_sha256": "91b396599f25aaa8aad1d211da99908e4b71c0f4f4922811fb53b28cf29867c9",
+  "png_sha256": "608bc34a437692d0985c59486d6584bde6ed6bf1577480fddac848d090965e49"
+}

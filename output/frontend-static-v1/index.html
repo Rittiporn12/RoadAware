@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>RoadAware — วางแผนเส้นทางพร้อมผลประเมินอุบัติเหตุรายช่วงถนน (ต้นแบบงานวิจัย)</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip-link" href="#tripForm">ข้ามไปยังการค้นหาเส้นทาง</a>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span class="brand-name">RoadAware</span>
+    <span class="badge badge-research" title="ผลประเมินมาจากระบบวิจัย ยังไม่ใช่บริการใช้งานจริง">ต้นแบบงานวิจัย</span>
+  </div>
+  <div class="status" role="status" aria-live="polite">
+    <span id="statusDot" class="status-dot is-checking" aria-hidden="true"></span>
+    <span id="statusText">กำลังเชื่อมต่อผลประเมิน…</span>
+    <button id="btnRetry" type="button" class="btn btn-ghost btn-small" hidden>ลองอีกครั้ง</button>
+  </div>
+</header>
+
+<main class="workspace">
+  <section class="map-pane" aria-label="แผนที่ประเทศไทย">
+    <div id="map" class="map" tabindex="0" aria-label="แผนที่ประเทศไทย แสดงเส้นทางและจุดผลประเมิน"></div>
+
+    <div class="map-toolbar">
+      <button id="btnResetView" type="button" class="btn btn-chip">ดูทั้งประเทศ</button>
+    </div>
+
+    <div id="pickBanner" class="pick-banner" hidden>
+      <span id="pickText" role="status" aria-live="polite"></span>
+      <button id="btnCancelPick" type="button" class="btn btn-ghost btn-touch">ยกเลิก</button>
+    </div>
+
+    <p id="mapNotice" class="map-notice" role="status" hidden></p>
+
+    <div id="mapFallback" class="map-fallback" hidden>
+      <div class="map-fallback-card">
+        <h2>แผนที่ยังแสดงไม่ได้</h2>
+        <p id="mapFallbackText">โหลดแผนที่ไม่สำเร็จ (แผนที่ต้องใช้อินเทอร์เน็ต) ยังค้นหาสถานที่และดูสรุปเส้นทางได้ตามปกติ</p>
+      </div>
+    </div>
+  </section>
+
+  <aside id="sheet" class="sheet" aria-label="วางแผนการเดินทาง">
+    <div class="sheet-head">
+      <button id="sheetToggle" type="button" class="sheet-toggle" aria-expanded="true" aria-controls="sheetBody">
+        <span class="sheet-grip" aria-hidden="true"></span>
+        <span class="sheet-title">วางแผนการเดินทาง</span>
+        <span id="sheetSummary" class="sheet-summary"></span>
+      </button>
+      <h1 class="sheet-heading">วางแผนการเดินทาง</h1>
+    </div>
+
+    <div id="sheetBody" class="sheet-body">
+      <section id="tripForm" class="trip" tabindex="-1" aria-label="ต้นทาง ปลายทาง และเวลาออกเดินทาง">
+        <p class="intro">ค้นหาต้นทางและปลายทางใดก็ได้ในประเทศไทย ระบบจะแสดงเส้นทางขับรถ และจุดสีบนช่วงถนนที่มีผลประเมินจากงานวิจัย</p>
+
+        <div class="endpoint" id="originBlock">
+          <form id="originForm" class="endpoint-search" role="search" autocomplete="off" novalidate>
+            <label for="originInput" class="field-label"><span class="pin pin-a" aria-hidden="true">A</span> ต้นทาง</label>
+            <div class="input-row">
+              <input id="originInput" type="text" enterkeyhint="search" autocomplete="off" spellcheck="false"
+                     placeholder="ค้นหาสถานที่ต้นทาง" aria-describedby="originStatus">
+              <button type="submit" class="btn btn-primary btn-touch">ค้นหา</button>
+            </div>
+          </form>
+          <button id="originPick" type="button" class="btn btn-ghost btn-touch btn-pick">เลือกต้นทางบนแผนที่</button>
+          <p id="originStatus" class="field-status" role="status" aria-live="polite"></p>
+          <div id="originSelected" class="selected-place" hidden></div>
+          <ul id="originResults" class="results-list" aria-label="ผลการค้นหาต้นทาง" hidden></ul>
+        </div>
+
+        <div class="swap-row">
+          <button id="btnSwap" type="button" class="btn btn-ghost btn-touch" aria-label="สลับต้นทางและปลายทาง">⇅ สลับต้นทาง–ปลายทาง</button>
+        </div>
+
+        <div class="endpoint" id="destinationBlock">
+          <form id="destinationForm" class="endpoint-search" role="search" autocomplete="off" novalidate>
+            <label for="destinationInput" class="field-label"><span class="pin pin-b" aria-hidden="true">B</span> ปลายทาง</label>
+            <div class="input-row">
+              <input id="destinationInput" type="text" enterkeyhint="search" autocomplete="off" spellcheck="false"
+                     placeholder="ค้นหาสถานที่ปลายทาง" aria-describedby="destinationStatus">
+              <button type="submit" class="btn btn-primary btn-touch">ค้นหา</button>
+            </div>
+          </form>
+          <button id="destinationPick" type="button" class="btn btn-ghost btn-touch btn-pick">เลือกปลายทางบนแผนที่</button>
+          <p id="destinationStatus" class="field-status" role="status" aria-live="polite"></p>
+          <div id="destinationSelected" class="selected-place" hidden></div>
+          <ul id="destinationResults" class="results-list" aria-label="ผลการค้นหาปลายทาง" hidden></ul>
+        </div>
+
+        <div class="field-row">
+          <label class="field">
+            <span class="field-label">วันที่เดินทาง</span>
+            <input id="tripDate" type="date" min="2024-01-01" max="2027-12-31" required>
+          </label>
+          <label class="field field-time">
+            <span class="field-label">เวลาออกเดินทาง</span>
+            <input id="tripTime" type="time" required>
+          </label>
+        </div>
+        <p id="timeNote" class="help"></p>
+
+        <details class="more-options">
+          <summary>ตัวเลือกช่วงเวลาของผลประเมิน</summary>
+          <fieldset class="segmented" id="unitGroup">
+            <legend class="field-label">ผลประเมินที่ใช้</legend>
+            <label><input type="radio" name="unit" value="6h" checked><span>ช่วง 6 ชม. ตามเวลาออกเดินทาง</span></label>
+            <label><input type="radio" name="unit" value="daily"><span>ภาพรวมทั้งวัน</span></label>
+          </fieldset>
+        </details>
+
+        <button id="btnRoute" type="button" class="btn btn-primary btn-block" disabled>ดูเส้นทาง</button>
+        <p id="routeHint" class="help help-center"></p>
+        <button id="btnExample" type="button" class="btn btn-link">ลองตัวอย่าง: มหาวิทยาลัยศรีปทุม → อุทยานแห่งชาติเขาใหญ่</button>
+      </section>
+
+      <section id="routeSection" class="card" aria-labelledby="routeTitle" hidden>
+        <h2 id="routeTitle">เส้นทาง</h2>
+        <div id="routeBody" aria-live="polite"></div>
+      </section>
+
+      <section id="forecastSection" class="card" aria-labelledby="forecastTitle" hidden>
+        <h2 id="forecastTitle">ผลประเมินตามเส้นทาง</h2>
+        <div id="forecastBody" aria-live="polite"></div>
+      </section>
+
+      <section id="detailSection" class="card" aria-labelledby="detailTitle" hidden>
+        <div class="detail-head">
+          <h2 id="detailTitle">ช่วงถนนที่เลือก</h2>
+          <button id="btnCloseDetail" type="button" class="btn btn-ghost btn-touch">ปิด</button>
+        </div>
+        <div id="detailMeta" class="segment-card"></div>
+        <div class="tabs" role="tablist" aria-label="รายละเอียดช่วงถนน">
+          <button id="tabPrediction" type="button" role="tab" aria-selected="true" aria-controls="panelPrediction" class="tab">ผลประเมิน</button>
+          <button id="tabHistory" type="button" role="tab" aria-selected="false" aria-controls="panelHistory" class="tab" tabindex="-1">ประวัติที่บันทึก</button>
+        </div>
+        <div id="panelPrediction" role="tabpanel" aria-labelledby="tabPrediction" class="panel" aria-live="polite"></div>
+        <div id="panelHistory" role="tabpanel" aria-labelledby="tabHistory" class="panel" aria-live="polite" hidden></div>
+      </section>
+
+      <section class="limits">
+        <h2>ข้อควรรู้</h2>
+        <ul>
+          <li>จุดสีคือ <strong>จำนวนรายการอุบัติเหตุที่คาดว่าจะถูกบันทึก</strong> ของช่วงถนนยาวประมาณ 2 กม. ไม่ใช่โอกาสที่คุณจะเกิดอุบัติเหตุ และไม่ใช่ตำแหน่งเกิดเหตุที่แน่นอน</li>
+          <li>มีผลประเมินเฉพาะช่วงถนนทางหลวงบางช่วงที่ผ่านเกณฑ์ ส่วนของเส้นทางที่ไม่มีจุดสี = ไม่มีข้อมูล ไม่ได้แปลว่าปลอดภัย</li>
+          <li>สีระดับต่ำสุดไม่ได้หมายความว่าปลอดภัย และระบบไม่แนะนำว่าเส้นทางใดปลอดภัยกว่า</li>
+          <li>วันที่หลัง 31 ธ.ค. 2568 (2025) เป็นฉากทัศน์วิจัย ยังไม่มีข้อมูลจริงให้เทียบ</li>
+          <li>ไม่มีข้อมูลสภาพอากาศ การจราจร หรือเทศกาลแบบปัจจุบันในผลประเมินนี้</li>
+        </ul>
+        <details>
+          <summary>วิธีการและข้อจำกัดเพิ่มเติม</summary>
+          <p>เส้นทางคำนวณจากระบบเส้นทางสาธารณะ (OSRM) บนข้อมูลถนน OpenStreetMap ระยะทางและเวลาเป็นค่าประมาณ ไม่รวมสภาพจราจรจริง และไม่ใช่การนำทางแบบเลี้ยวต่อเลี้ยว</p>
+          <p>ระบบจับคู่ช่วงถนนที่มีผลประเมินกับเส้นทางโดยประมาณ: แบ่งช่วงถนนเป็นจุดตัวอย่างทุก ~100 ม. และนับว่าอยู่บนเส้นทางเมื่อจุดตัวอย่างอย่างน้อยครึ่งหนึ่งอยู่ห่างจากเส้นทางไม่เกิน 50 ม. วิธีนี้ช่วยกันไม่ให้ถนนที่ตัดผ่านเส้นทางถูกนับรวม แต่ยังเป็นการจับคู่โดยประมาณ ไม่ใช่การยืนยันระดับการนำทาง</p>
+          <p>ค่าประเมินมาจากแบบจำลองวิจัยที่เรียนรู้จากรายการอุบัติเหตุที่ถูกบันทึกและเชื่อมกับช่วงถนน จึงสะท้อนทั้งการเกิดเหตุ การบันทึก และการเชื่อมโยงข้อมูล สีเป็นการจัดอันดับเชิงเปรียบเทียบ ไม่ใช่ระดับความเสี่ยงแบบสัมบูรณ์ และไม่นำค่าหลายช่วงถนนมารวมเป็นความเสี่ยงของเส้นทาง</p>
+          <p>ทุกจุดบนเส้นทางใช้ช่วงเวลาเดียวกันตามเวลาออกเดินทาง ระบบไม่ได้คำนวณเวลาที่จะไปถึงแต่ละจุด ประวัติแสดงเฉพาะช่วงที่มีในฐานข้อมูล (ม.ค. 2021 – ธ.ค. 2025) ช่วงอื่นถือว่าไม่ทราบ ไม่ใช่ศูนย์</p>
+        </details>
+      </section>
+
+      <footer class="sheet-foot">
+        แผนที่ © ผู้ร่วมพัฒนา OpenStreetMap · ค้นหาสถานที่: Photon (komoot) · เส้นทาง: OSRM — ทั้งสองเป็นบริการสาธารณะสำหรับทดลอง ไม่รับประกันการให้บริการ · ขอบเขตประเทศ: Natural Earth (โดยประมาณ) · ผลประเมิน: บริการวิจัย RoadAware ในเครื่อง
+      </footer>
+    </div>
+  </aside>
+</main>
+
+<script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script defer src="app.js"></script>
+</body>
+</html>

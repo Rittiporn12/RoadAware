@@ -1,0 +1,1023 @@
+{
+  "purpose": "Monthly totals of 2022-2023 OOF daily / 6 h predictions summed over every segment (and block); an aggregation for presentation, NOT a monthly forecast model and NOT a per-segment score.",
+  "caveat": "Total-line closeness shows aggregate agreement only; model ranking uses the pooled per-cell metrics below.",
+  "sources": {
+    "backend/rerun-spatial-model-016-002/data/v3/spatial_experiments/arrays_index.json": "6f72e3b74cda0ae3eae6142366fa9791b6ba780fa54155df7b34acea7be8e46e",
+    "backend/rerun-spatial-model-016-002/reports/v3/spatial_experiments/spatial_experiments_manifest.json": "4d0f23496fafd65cfba664b0d1f79a4d21ed38e6320dd1c00722387513ecc42d",
+    "backend/rerun-spatial-model-016-002/reports/v3/spatial_experiments/experiment_lock.json": "e5678e26d5715b28ac8c4331f02d28ae64abc8a32f8fba9787232f0269578e7c",
+    "backend/rerun-spatial-model-016-002/reports/v3/spatial_experiments/selection_frozen.json": "9e08ac0a5ea1597b14acd0167b91b3060c7a38776edf8f98fbb387dacb037e30",
+    "backend/data/v3/spatial_preparation/population_axes.json": "2ce826f7a3d87f1989a8006fa9ed00b2da29514d0f5455747e5aabc81eacfeba",
+    "backend/config/spatial_evaluation_v3.json": "7f9a05990a492034dcba67dd5f2001bfc0899dd2df45875b62f4fc83b5752bf3",
+    "output/spatial-model-results/v3-evaluation-017-002/figure_method_comparison.csv": "dde3c81e1578641c85226c42ca1d979701c92f33b1916a4532bdafeeef37716b"
+  },
+  "population_axes": {
+    "order": "date, then segment_id (sorted), then time_block (6h)",
+    "segments": 3105,
+    "blocks": [
+      "00-06",
+      "06-12",
+      "12-18",
+      "18-24"
+    ],
+    "oof_first_date": "2022-01-01",
+    "oof_last_date": "2023-12-31",
+    "oof_days": 730
+  },
+  "array_order": "date, then segment_id (sorted), then time_block; implicit axes = 19 population_axes.json",
+  "methods": {
+    "routed_context": "np.where(context_mask == 1, <config>__context, <config>__core) per config (arrays_index rule)",
+    "configs": [
+      "poisson_a1e-05",
+      "rf_poisson_fixed",
+      "hgb_poisson_fixed"
+    ],
+    "selected": "hgb_poisson_fixed::routed_context",
+    "baseline": "segment_mean_k365",
+    "actual": "oof_<unit>_y.npy",
+    "aggregation": "sum over all segments (x 4 blocks for 6h) per date, then calendar-month sums; no smoothing, interpolation, fitted curves or date windows",
+    "deviance": "2*(y*log(y/m) - (y - m)), m = max(mu, 1e-12), y*log := 0 for y == 0",
+    "loading": "np.load(mmap_mode='r', allow_pickle=False); no model files loaded, no training"
+  },
+  "units": {
+    "daily": {
+      "rows": 2266650,
+      "rows_per_day": 3105,
+      "blocks_per_day": 1,
+      "oof_periods": [
+        {
+          "id": "2022H1",
+          "start": "2022-01-01",
+          "end": "2022-06-30",
+          "row_offset": 0,
+          "rows": 562005
+        },
+        {
+          "id": "2022H2",
+          "start": "2022-07-01",
+          "end": "2022-12-31",
+          "row_offset": 562005,
+          "rows": 571320
+        },
+        {
+          "id": "2023H1",
+          "start": "2023-01-01",
+          "end": "2023-06-30",
+          "row_offset": 1133325,
+          "rows": 562005
+        },
+        {
+          "id": "2023H2",
+          "start": "2023-07-01",
+          "end": "2023-12-31",
+          "row_offset": 1695330,
+          "rows": 571320
+        }
+      ],
+      "arrays": {
+        "poisson_a1e-05::core": {
+          "file": "oof_daily_poisson_a1e-05__core.npy",
+          "kind": "pred",
+          "dtype": "float64",
+          "shape": [
+            2266650
+          ],
+          "bytes": 18133328,
+          "sha256": "275158ee2caa62c84a724568c69c3e8276398e46f344043ee7b19b978b2fd6ad",
+          "index_sha256": "275158ee2caa62c84a724568c69c3e8276398e46f344043ee7b19b978b2fd6ad",
+          "manifest_sha256": "275158ee2caa62c84a724568c69c3e8276398e46f344043ee7b19b978b2fd6ad"
+        },
+        "poisson_a1e-05::context": {
+          "file": "oof_daily_poisson_a1e-05__context.npy",
+          "kind": "pred",
+          "dtype": "float64",
+          "shape": [
+            2266650
+          ],
+          "bytes": 18133328,
+          "sha256": "3da9ae811385d9e0e79b4937e8e68b2080753ea3bd7b1c37fd92d9ce8d5d0e93",
+          "index_sha256": "3da9ae811385d9e0e79b4937e8e68b2080753ea3bd7b1c37fd92d9ce8d5d0e93",
+          "manifest_sha256": "3da9ae811385d9e0e79b4937e8e68b2080753ea3bd7b1c37fd92d9ce8d5d0e93"
+        },
+        "rf_poisson_fixed::core": {
+          "file": "oof_daily_rf_poisson_fixed__core.npy",
+          "kind": "pred",
+          "dtype": "float64",
+          "shape": [
+            2266650
+          ],
+          "bytes": 18133328,
+          "sha256": "55696c80aa3443ffa083c2e72dc6fa8247ee7f9c7b1374020d45a2ad9e3fa0ef",
+          "index_sha256": "55696c80aa3443ffa083c2e72dc6fa8247ee7f9c7b1374020d45a2ad9e3fa0ef",
+          "manifest_sha256": "55696c80aa3443ffa083c2e72dc6fa8247ee7f9c7b1374020d45a2ad9e3fa0ef"
+        },
+        "rf_poisson_fixed::context": {
+          "file": "oof_daily_rf_poisson_fixed__context.npy",
+          "kind": "pred",
+          "dtype": "float64",
+          "shape": [
+            2266650
+          ],
+          "bytes": 18133328,
+          "sha256": "c83959bfe154bd7023a646b2ca974234335d58bd06b6ed0fecbd167e544c3bc8",
+          "index_sha256": "c83959bfe154bd7023a646b2ca974234335d58bd06b6ed0fecbd167e544c3bc8",
+          "manifest_sha256": "c83959bfe154bd7023a646b2ca974234335d58bd06b6ed0fecbd167e544c3bc8"
+        },
+        "hgb_poisson_fixed::core": {
+          "file": "oof_daily_hgb_poisson_fixed__core.npy",
+          "kind": "pred",
+          "dtype": "float64",
+          "shape": [
+            2266650
+          ],
+          "bytes": 18133328,
+          "sha256": "389a1a52530ba0813abdfba9206cb6480c3aaba21da66f5fe3d831b6fcb15ff9",
+          "index_sha256": "389a1a52530ba0813abdfba9206cb6480c3aaba21da66f5fe3d831b6fcb15ff9",
+          "manifest_sha256": "389a1a52530ba0813abdfba9206cb6480c3aaba21da66f5fe3d831b6fcb15ff9"
+        },
+        "hgb_poisson_fixed::context": {
+          "file": "oof_daily_hgb_poisson_fixed__context.npy",
+          "kind": "pred",
+          "dtype": "float64",
+          "shape": [
+            2266650
+          ],
+          "bytes": 18133328,
+          "sha256": "b9d57a3cdda9adf22263f38a0c08976b47dedeaddb43ebf775cb163a5a9d97d6",
+          "index_sha256": "b9d57a3cdda9adf22263f38a0c08976b47dedeaddb43ebf775cb163a5a9d97d6",
+          "manifest_sha256": "b9d57a3cdda9adf22263f38a0c08976b47dedeaddb43ebf775cb163a5a9d97d6"
+        },
+        "segment_mean_k365": {
+          "file": "oof_daily_segment_mean_k365.npy",
+          "kind": "pred",
+          "dtype": "float64",
+          "shape": [
+            2266650
+          ],
+          "bytes": 18133328,
+          "sha256": "84479d248f9b24358b6f466671fb136cef2dce80bfb28b54b172625db6f37fa4",
+          "index_sha256": "84479d248f9b24358b6f466671fb136cef2dce80bfb28b54b172625db6f37fa4",
+          "manifest_sha256": "84479d248f9b24358b6f466671fb136cef2dce80bfb28b54b172625db6f37fa4"
+        },
+        "y": {
+          "file": "oof_daily_y.npy",
+          "kind": "y",
+          "dtype": "float64",
+          "shape": [
+            2266650
+          ],
+          "bytes": 18133328,
+          "sha256": "ef04a33b974b83711838d16958021d5800111bb59b69b7a150a072e12b7aa931",
+          "index_sha256": "ef04a33b974b83711838d16958021d5800111bb59b69b7a150a072e12b7aa931",
+          "manifest_sha256": "ef04a33b974b83711838d16958021d5800111bb59b69b7a150a072e12b7aa931"
+        },
+        "context_mask": {
+          "file": "oof_daily_context_mask.npy",
+          "kind": "mask",
+          "dtype": "uint8",
+          "shape": [
+            2266650
+          ],
+          "bytes": 2266778,
+          "sha256": "283f74501e896db3329235cb2a585283ed2d3d69b3d5c2a1cf7f0871a0224ae4",
+          "index_sha256": "283f74501e896db3329235cb2a585283ed2d3d69b3d5c2a1cf7f0871a0224ae4",
+          "manifest_sha256": "283f74501e896db3329235cb2a585283ed2d3d69b3d5c2a1cf7f0871a0224ae4"
+        }
+      },
+      "checks": {
+        "context_nonfinite_where_mask0": {
+          "poisson_a1e-05": 0,
+          "rf_poisson_fixed": 0,
+          "hgb_poisson_fixed": 0
+        },
+        "mask_ones": 1529161,
+        "y_nonzero_cells": 10116
+      },
+      "totals": {
+        "actual": 10701.0,
+        "poisson_a1e-05::routed_context": 9686.440036971933,
+        "rf_poisson_fixed::routed_context": 9770.525324963459,
+        "hgb_poisson_fixed::routed_context": 9574.098230116917,
+        "segment_mean_k365": 9352.693073539504
+      },
+      "conservation": {
+        "actual": {
+          "full_array_total": 10701.0,
+          "sum_of_daily": 10701.0,
+          "sum_of_monthly": 10701.0,
+          "max_abs_diff": 0.0
+        },
+        "poisson_a1e-05::routed_context": {
+          "full_array_total": 9686.440036971933,
+          "sum_of_daily": 9686.440036971937,
+          "sum_of_monthly": 9686.440036971937,
+          "max_abs_diff": 3.637978807091713e-12
+        },
+        "rf_poisson_fixed::routed_context": {
+          "full_array_total": 9770.525324963459,
+          "sum_of_daily": 9770.525324963455,
+          "sum_of_monthly": 9770.525324963455,
+          "max_abs_diff": 3.637978807091713e-12
+        },
+        "hgb_poisson_fixed::routed_context": {
+          "full_array_total": 9574.098230116917,
+          "sum_of_daily": 9574.098230116913,
+          "sum_of_monthly": 9574.098230116913,
+          "max_abs_diff": 3.637978807091713e-12
+        },
+        "segment_mean_k365": {
+          "full_array_total": 9352.693073539504,
+          "sum_of_daily": 9352.693073539498,
+          "sum_of_monthly": 9352.693073539502,
+          "max_abs_diff": 5.4569682106375694e-12
+        }
+      },
+      "expected_actual_total": 10701,
+      "expected_selected_total": 9574.098230117164,
+      "selected_total_abs_diff": 2.473825588822365e-10,
+      "metric_reconciliation": [
+        {
+          "unit": "daily",
+          "method": "poisson_a1e-05::routed_context",
+          "n": 2266650,
+          "mean_poisson_deviance": {
+            "recomputed": 0.04192074462100697,
+            "source": 0.041920744621007,
+            "abs_diff": 2.7755575615628914e-17
+          },
+          "mae": {
+            "recomputed": 0.008792989469990027,
+            "source": 0.008792989469990022,
+            "abs_diff": 5.204170427930421e-18
+          },
+          "rmse": {
+            "recomputed": 0.0718867601813983,
+            "source": 0.07188676018139847,
+            "abs_diff": 1.8041124150158794e-16
+          }
+        },
+        {
+          "unit": "daily",
+          "method": "rf_poisson_fixed::routed_context",
+          "n": 2266650,
+          "mean_poisson_deviance": {
+            "recomputed": 0.04006431506975653,
+            "source": 0.04006431506975655,
+            "abs_diff": 2.0816681711721685e-17
+          },
+          "mae": {
+            "recomputed": 0.008757287408733515,
+            "source": 0.008757287408733513,
+            "abs_diff": 1.734723475976807e-18
+          },
+          "rmse": {
+            "recomputed": 0.07149619957471556,
+            "source": 0.0714961995747154,
+            "abs_diff": 1.6653345369377348e-16
+          }
+        },
+        {
+          "unit": "daily",
+          "method": "hgb_poisson_fixed::routed_context",
+          "n": 2266650,
+          "mean_poisson_deviance": {
+            "recomputed": 0.03989807040224244,
+            "source": 0.03989807040224253,
+            "abs_diff": 9.020562075079397e-17
+          },
+          "mae": {
+            "recomputed": 0.008661958157075274,
+            "source": 0.008661958157075262,
+            "abs_diff": 1.214306433183765e-17
+          },
+          "rmse": {
+            "recomputed": 0.07149566939885618,
+            "source": 0.07149566939885615,
+            "abs_diff": 2.7755575615628914e-17
+          }
+        },
+        {
+          "unit": "daily",
+          "method": "segment_mean_k365",
+          "n": 2266650,
+          "mean_poisson_deviance": {
+            "recomputed": 0.04095604004855056,
+            "source": 0.040956040048543814,
+            "abs_diff": 6.744604874597826e-15
+          },
+          "mae": {
+            "recomputed": 0.00860093253544334,
+            "source": 0.008600932535443398,
+            "abs_diff": 5.898059818321144e-17
+          },
+          "rmse": {
+            "recomputed": 0.0715165059894689,
+            "source": 0.0715165059894695,
+            "abs_diff": 5.967448757360216e-16
+          }
+        }
+      ],
+      "months": [
+        "2022-01",
+        "2022-02",
+        "2022-03",
+        "2022-04",
+        "2022-05",
+        "2022-06",
+        "2022-07",
+        "2022-08",
+        "2022-09",
+        "2022-10",
+        "2022-11",
+        "2022-12",
+        "2023-01",
+        "2023-02",
+        "2023-03",
+        "2023-04",
+        "2023-05",
+        "2023-06",
+        "2023-07",
+        "2023-08",
+        "2023-09",
+        "2023-10",
+        "2023-11",
+        "2023-12"
+      ],
+      "month_days": [
+        31,
+        28,
+        31,
+        30,
+        31,
+        30,
+        31,
+        31,
+        30,
+        31,
+        30,
+        31,
+        31,
+        28,
+        31,
+        30,
+        31,
+        30,
+        31,
+        31,
+        30,
+        31,
+        30,
+        31
+      ],
+      "monthly_totals": {
+        "actual": [
+          489.0,
+          346.0,
+          353.0,
+          497.0,
+          358.0,
+          349.0,
+          427.0,
+          429.0,
+          355.0,
+          433.0,
+          396.0,
+          476.0,
+          585.0,
+          461.0,
+          509.0,
+          538.0,
+          436.0,
+          487.0,
+          464.0,
+          437.0,
+          479.0,
+          454.0,
+          433.0,
+          510.0
+        ],
+        "poisson_a1e-05::routed_context": [
+          454.64532786635004,
+          330.8815497334551,
+          439.18432600793665,
+          488.4796700814601,
+          325.5370185794844,
+          289.11977641026607,
+          281.01845148978333,
+          302.56137031538674,
+          347.018546424711,
+          383.6767968746743,
+          367.42086454792553,
+          452.1708333576904,
+          534.3553935756455,
+          385.69882988293557,
+          455.64215683208255,
+          576.5065975938152,
+          371.6858567793329,
+          360.0613149448258,
+          385.2938458001964,
+          375.8867752361157,
+          384.3683593621407,
+          450.9613985091339,
+          408.4288183695966,
+          535.836158396992
+        ],
+        "rf_poisson_fixed::routed_context": [
+          446.75009715828406,
+          358.8795409837115,
+          439.80742761715095,
+          449.3781811242048,
+          352.2944595230248,
+          307.831167415686,
+          348.45287094917563,
+          355.59231617822354,
+          370.98106053348323,
+          386.0381407156334,
+          373.3539070675715,
+          461.3439025680541,
+          477.728219015751,
+          367.33161919720897,
+          427.0917276770774,
+          449.2014433001781,
+          395.64266145302855,
+          368.0724718911887,
+          405.56228480775485,
+          405.26797280376206,
+          401.74212864465665,
+          452.4755239976548,
+          442.02111626577056,
+          527.6850840752195
+        ],
+        "hgb_poisson_fixed::routed_context": [
+          440.25667770265704,
+          373.28134959914934,
+          436.9206055366766,
+          487.549528640544,
+          336.8393892264214,
+          279.84840241887986,
+          302.5232545848087,
+          317.7334973706147,
+          355.4726737526876,
+          379.3521672224509,
+          436.10677992486296,
+          459.7672647735142,
+          459.0235645103953,
+          353.4574256758557,
+          397.18994416755413,
+          529.2668496798843,
+          361.0519723245734,
+          348.14330045204645,
+          370.2536006437872,
+          375.95461568157174,
+          381.85248448023714,
+          435.0847508352567,
+          415.2524412781168,
+          541.915689634368
+        ],
+        "segment_mean_k365": [
+          377.4760479041918,
+          340.94610778443126,
+          377.4760479041918,
+          365.29940119760494,
+          377.4760479041918,
+          365.29940119760494,
+          393.6699029126213,
+          393.6699029126213,
+          380.9708737864077,
+          393.6699029126213,
+          380.9708737864077,
+          393.6699029126213,
+          396.65808297567986,
+          358.2718168812592,
+          396.65808297567986,
+          383.8626609442063,
+          396.65808297567986,
+          383.8626609442063,
+          420.5431818181818,
+          420.5431818181818,
+          406.9772727272727,
+          420.5431818181818,
+          406.9772727272727,
+          420.5431818181818
+        ]
+      },
+      "plotted_points_per_series": {
+        "actual": 24,
+        "poisson_a1e-05::routed_context": 24,
+        "rf_poisson_fixed::routed_context": 24,
+        "hgb_poisson_fixed::routed_context": 24,
+        "segment_mean_k365": 24
+      }
+    },
+    "6h": {
+      "rows": 9066600,
+      "rows_per_day": 12420,
+      "blocks_per_day": 4,
+      "oof_periods": [
+        {
+          "id": "2022H1",
+          "start": "2022-01-01",
+          "end": "2022-06-30",
+          "row_offset": 0,
+          "rows": 2248020
+        },
+        {
+          "id": "2022H2",
+          "start": "2022-07-01",
+          "end": "2022-12-31",
+          "row_offset": 2248020,
+          "rows": 2285280
+        },
+        {
+          "id": "2023H1",
+          "start": "2023-01-01",
+          "end": "2023-06-30",
+          "row_offset": 4533300,
+          "rows": 2248020
+        },
+        {
+          "id": "2023H2",
+          "start": "2023-07-01",
+          "end": "2023-12-31",
+          "row_offset": 6781320,
+          "rows": 2285280
+        }
+      ],
+      "arrays": {
+        "poisson_a1e-05::core": {
+          "file": "oof_6h_poisson_a1e-05__core.npy",
+          "kind": "pred",
+          "dtype": "float64",
+          "shape": [
+            9066600
+          ],
+          "bytes": 72532928,
+          "sha256": "904b0cebb6b29a3200ce822c55b91c23f576262fd89f46d816f7028575d6b436",
+          "index_sha256": "904b0cebb6b29a3200ce822c55b91c23f576262fd89f46d816f7028575d6b436",
+          "manifest_sha256": "904b0cebb6b29a3200ce822c55b91c23f576262fd89f46d816f7028575d6b436"
+        },
+        "poisson_a1e-05::context": {
+          "file": "oof_6h_poisson_a1e-05__context.npy",
+          "kind": "pred",
+          "dtype": "float64",
+          "shape": [
+            9066600
+          ],
+          "bytes": 72532928,
+          "sha256": "65b02e9d1ebf5be66814e138b3eebc058db8f5e7ba71c11d91ef23a633b6f044",
+          "index_sha256": "65b02e9d1ebf5be66814e138b3eebc058db8f5e7ba71c11d91ef23a633b6f044",
+          "manifest_sha256": "65b02e9d1ebf5be66814e138b3eebc058db8f5e7ba71c11d91ef23a633b6f044"
+        },
+        "rf_poisson_fixed::core": {
+          "file": "oof_6h_rf_poisson_fixed__core.npy",
+          "kind": "pred",
+          "dtype": "float64",
+          "shape": [
+            9066600
+          ],
+          "bytes": 72532928,
+          "sha256": "4b83469bcc43928fc5644fae171493419052ce0cfeb324ac146abf371429cf38",
+          "index_sha256": "4b83469bcc43928fc5644fae171493419052ce0cfeb324ac146abf371429cf38",
+          "manifest_sha256": "4b83469bcc43928fc5644fae171493419052ce0cfeb324ac146abf371429cf38"
+        },
+        "rf_poisson_fixed::context": {
+          "file": "oof_6h_rf_poisson_fixed__context.npy",
+          "kind": "pred",
+          "dtype": "float64",
+          "shape": [
+            9066600
+          ],
+          "bytes": 72532928,
+          "sha256": "67f54379fe60f53d673095908e212ab26379040960a86f28f47eb93aa3bca169",
+          "index_sha256": "67f54379fe60f53d673095908e212ab26379040960a86f28f47eb93aa3bca169",
+          "manifest_sha256": "67f54379fe60f53d673095908e212ab26379040960a86f28f47eb93aa3bca169"
+        },
+        "hgb_poisson_fixed::core": {
+          "file": "oof_6h_hgb_poisson_fixed__core.npy",
+          "kind": "pred",
+          "dtype": "float64",
+          "shape": [
+            9066600
+          ],
+          "bytes": 72532928,
+          "sha256": "22b664b6f93ea2bc3393c7537b148499be8531488c49719bbb3d25e2aa611f11",
+          "index_sha256": "22b664b6f93ea2bc3393c7537b148499be8531488c49719bbb3d25e2aa611f11",
+          "manifest_sha256": "22b664b6f93ea2bc3393c7537b148499be8531488c49719bbb3d25e2aa611f11"
+        },
+        "hgb_poisson_fixed::context": {
+          "file": "oof_6h_hgb_poisson_fixed__context.npy",
+          "kind": "pred",
+          "dtype": "float64",
+          "shape": [
+            9066600
+          ],
+          "bytes": 72532928,
+          "sha256": "f7f56a0c1d4b5ee0d78a8d08b0fb069e4d0edc3c668a639a0e7ff64c235c8245",
+          "index_sha256": "f7f56a0c1d4b5ee0d78a8d08b0fb069e4d0edc3c668a639a0e7ff64c235c8245",
+          "manifest_sha256": "f7f56a0c1d4b5ee0d78a8d08b0fb069e4d0edc3c668a639a0e7ff64c235c8245"
+        },
+        "segment_mean_k365": {
+          "file": "oof_6h_segment_mean_k365.npy",
+          "kind": "pred",
+          "dtype": "float64",
+          "shape": [
+            9066600
+          ],
+          "bytes": 72532928,
+          "sha256": "bcc99790a975f7f40c0bf5d320c0cd934f415ed83dff8840028340f50c44ee1a",
+          "index_sha256": "bcc99790a975f7f40c0bf5d320c0cd934f415ed83dff8840028340f50c44ee1a",
+          "manifest_sha256": "bcc99790a975f7f40c0bf5d320c0cd934f415ed83dff8840028340f50c44ee1a"
+        },
+        "y": {
+          "file": "oof_6h_y.npy",
+          "kind": "y",
+          "dtype": "float64",
+          "shape": [
+            9066600
+          ],
+          "bytes": 72532928,
+          "sha256": "0d3cad315e47691b4ad2bdbf7589bbcc55b5149c29d22a00a0082fdda7c3c143",
+          "index_sha256": "0d3cad315e47691b4ad2bdbf7589bbcc55b5149c29d22a00a0082fdda7c3c143",
+          "manifest_sha256": "0d3cad315e47691b4ad2bdbf7589bbcc55b5149c29d22a00a0082fdda7c3c143"
+        },
+        "context_mask": {
+          "file": "oof_6h_context_mask.npy",
+          "kind": "mask",
+          "dtype": "uint8",
+          "shape": [
+            9066600
+          ],
+          "bytes": 9066728,
+          "sha256": "6cb5d12639537c5f9452726119a7b56c64691b5aeaad0b440e689b06486a393c",
+          "index_sha256": "6cb5d12639537c5f9452726119a7b56c64691b5aeaad0b440e689b06486a393c",
+          "manifest_sha256": "6cb5d12639537c5f9452726119a7b56c64691b5aeaad0b440e689b06486a393c"
+        }
+      },
+      "checks": {
+        "context_nonfinite_where_mask0": {
+          "poisson_a1e-05": 0,
+          "rf_poisson_fixed": 0,
+          "hgb_poisson_fixed": 0
+        },
+        "mask_ones": 6116644,
+        "y_nonzero_cells": 10397
+      },
+      "totals": {
+        "actual": 10701.0,
+        "poisson_a1e-05::routed_context": 10088.062544169527,
+        "rf_poisson_fixed::routed_context": 9633.171583897545,
+        "hgb_poisson_fixed::routed_context": 9446.016245708695,
+        "segment_mean_k365": 9352.169816513833
+      },
+      "conservation": {
+        "actual": {
+          "full_array_total": 10701.0,
+          "sum_of_daily": 10701.0,
+          "sum_of_monthly": 10701.0,
+          "max_abs_diff": 0.0
+        },
+        "poisson_a1e-05::routed_context": {
+          "full_array_total": 10088.062544169527,
+          "sum_of_daily": 10088.062544169523,
+          "sum_of_monthly": 10088.062544169523,
+          "max_abs_diff": 3.637978807091713e-12
+        },
+        "rf_poisson_fixed::routed_context": {
+          "full_array_total": 9633.171583897545,
+          "sum_of_daily": 9633.17158389755,
+          "sum_of_monthly": 9633.171583897549,
+          "max_abs_diff": 5.4569682106375694e-12
+        },
+        "hgb_poisson_fixed::routed_context": {
+          "full_array_total": 9446.016245708695,
+          "sum_of_daily": 9446.016245708699,
+          "sum_of_monthly": 9446.016245708699,
+          "max_abs_diff": 3.637978807091713e-12
+        },
+        "segment_mean_k365": {
+          "full_array_total": 9352.169816513833,
+          "sum_of_daily": 9352.169816513833,
+          "sum_of_monthly": 9352.169816513831,
+          "max_abs_diff": 1.8189894035458565e-12
+        }
+      },
+      "expected_actual_total": 10701,
+      "expected_selected_total": 9446.016245708677,
+      "selected_total_abs_diff": 1.8189894035458565e-11,
+      "metric_reconciliation": [
+        {
+          "unit": "6h",
+          "method": "poisson_a1e-05::routed_context",
+          "n": 9066600,
+          "mean_poisson_deviance": {
+            "recomputed": 0.01378709519980261,
+            "source": 0.0137870951998026,
+            "abs_diff": 8.673617379884035e-18
+          },
+          "mae": {
+            "recomputed": 0.00227969756714796,
+            "source": 0.002279697567147961,
+            "abs_diff": 1.3010426069826053e-18
+          },
+          "rmse": {
+            "recomputed": 0.035280728630617465,
+            "source": 0.03528072863061746,
+            "abs_diff": 6.938893903907228e-18
+          }
+        },
+        {
+          "unit": "6h",
+          "method": "rf_poisson_fixed::routed_context",
+          "n": 9066600,
+          "mean_poisson_deviance": {
+            "recomputed": 0.013167034378456254,
+            "source": 0.01316703437845631,
+            "abs_diff": 5.724587470723463e-17
+          },
+          "mae": {
+            "recomputed": 0.0022237402627270195,
+            "source": 0.0022237402627270234,
+            "abs_diff": 3.903127820947816e-18
+          },
+          "rmse": {
+            "recomputed": 0.035218647895033456,
+            "source": 0.035218647895033484,
+            "abs_diff": 2.7755575615628914e-17
+          }
+        },
+        {
+          "unit": "6h",
+          "method": "hgb_poisson_fixed::routed_context",
+          "n": 9066600,
+          "mean_poisson_deviance": {
+            "recomputed": 0.013133061222371158,
+            "source": 0.013133061222371142,
+            "abs_diff": 1.5612511283791264e-17
+          },
+          "mae": {
+            "recomputed": 0.0022029080556383944,
+            "source": 0.002202908055638397,
+            "abs_diff": 2.6020852139652106e-18
+          },
+          "rmse": {
+            "recomputed": 0.03522219569172788,
+            "source": 0.03522219569172787,
+            "abs_diff": 1.3877787807814457e-17
+          }
+        },
+        {
+          "unit": "6h",
+          "method": "segment_mean_k365",
+          "n": 9066600,
+          "mean_poisson_deviance": {
+            "recomputed": 0.014298734781011747,
+            "source": 0.01429873478101614,
+            "abs_diff": 4.3923198411732756e-15
+          },
+          "mae": {
+            "recomputed": 0.002193994950480353,
+            "source": 0.002193994950480352,
+            "abs_diff": 1.3010426069826053e-18
+          },
+          "rmse": {
+            "recomputed": 0.0352259197729722,
+            "source": 0.03522591977297206,
+            "abs_diff": 1.3877787807814457e-16
+          }
+        }
+      ],
+      "months": [
+        "2022-01",
+        "2022-02",
+        "2022-03",
+        "2022-04",
+        "2022-05",
+        "2022-06",
+        "2022-07",
+        "2022-08",
+        "2022-09",
+        "2022-10",
+        "2022-11",
+        "2022-12",
+        "2023-01",
+        "2023-02",
+        "2023-03",
+        "2023-04",
+        "2023-05",
+        "2023-06",
+        "2023-07",
+        "2023-08",
+        "2023-09",
+        "2023-10",
+        "2023-11",
+        "2023-12"
+      ],
+      "month_days": [
+        31,
+        28,
+        31,
+        30,
+        31,
+        30,
+        31,
+        31,
+        30,
+        31,
+        30,
+        31,
+        31,
+        28,
+        31,
+        30,
+        31,
+        30,
+        31,
+        31,
+        30,
+        31,
+        30,
+        31
+      ],
+      "monthly_totals": {
+        "actual": [
+          489.0,
+          346.0,
+          353.0,
+          497.0,
+          358.0,
+          349.0,
+          427.0,
+          429.0,
+          355.0,
+          433.0,
+          396.0,
+          476.0,
+          585.0,
+          461.0,
+          509.0,
+          538.0,
+          436.0,
+          487.0,
+          464.0,
+          437.0,
+          479.0,
+          454.0,
+          433.0,
+          510.0
+        ],
+        "poisson_a1e-05::routed_context": [
+          454.00949884235075,
+          331.6023169550826,
+          437.9954078772029,
+          509.3757944337702,
+          332.79409256646886,
+          290.9544225700227,
+          312.97265074119326,
+          330.26714831158574,
+          369.77679474039815,
+          417.24162330518277,
+          408.4131965719737,
+          503.52235835299626,
+          572.8601618249729,
+          421.82018148741076,
+          457.64851593640634,
+          597.270295421652,
+          373.7593485221906,
+          370.9556493568807,
+          376.54480803568873,
+          382.8736498110327,
+          402.40277038134127,
+          471.9066865584651,
+          411.5765834877122,
+          549.5185880775413
+        ],
+        "rf_poisson_fixed::routed_context": [
+          451.896569864841,
+          351.4475496056037,
+          427.3756975199748,
+          464.2761090129708,
+          350.1915720492616,
+          313.35752016868855,
+          354.2262268401224,
+          355.72869272139684,
+          371.41564107118216,
+          380.95686075101025,
+          367.0425440603864,
+          443.7723477392601,
+          454.0404894274866,
+          347.69446366345505,
+          409.5546555024807,
+          449.9935806584247,
+          403.03740409324143,
+          368.233152506579,
+          395.9444799185694,
+          401.87062487813904,
+          394.6859197863046,
+          438.4378672685086,
+          424.7081086292128,
+          513.2835061604485
+        ],
+        "hgb_poisson_fixed::routed_context": [
+          437.1013590717028,
+          363.4210243617083,
+          425.3778104801324,
+          474.9427889468651,
+          327.26958528646895,
+          287.16174699234705,
+          313.1114947365392,
+          317.48876177155466,
+          349.2692543887293,
+          376.5140198921531,
+          468.89356800938793,
+          454.9919735786548,
+          456.35959680391676,
+          350.3034231439211,
+          390.83158230533985,
+          497.52841828854275,
+          349.25398551074625,
+          345.8817093574141,
+          362.10058536752996,
+          370.8586156712446,
+          388.72796977317256,
+          427.91349864429867,
+          404.159839103213,
+          506.5536342231149
+        ],
+        "segment_mean_k365": [
+          377.3785235499149,
+          340.85802127089096,
+          377.3785235499149,
+          365.20502279024026,
+          377.3785235499149,
+          365.20502279024026,
+          393.8788326936102,
+          393.8788326936102,
+          381.17306389704214,
+          393.8788326936102,
+          381.17306389704214,
+          393.8788326936102,
+          396.49855303494803,
+          358.12772532188853,
+          396.49855303494803,
+          383.70827713059487,
+          396.49855303494803,
+          383.70827713059487,
+          420.4989577958929,
+          420.4989577958929,
+          406.934475286348,
+          420.4989577958929,
+          406.934475286348,
+          420.4989577958929
+        ]
+      },
+      "plotted_points_per_series": {
+        "actual": 24,
+        "poisson_a1e-05::routed_context": 24,
+        "rf_poisson_fixed::routed_context": 24,
+        "hgb_poisson_fixed::routed_context": 24,
+        "segment_mean_k365": 24
+      }
+    }
+  },
+  "tolerances": {
+    "metric_abs": 1e-09,
+    "total_abs": 1e-07
+  },
+  "font": {
+    "family": "Sarabun",
+    "regular_path": "/System/Library/AssetsV2/PreinstalledAssetsV2/InstallWithOs/com_apple_MobileAsset_Font7/faf0d7f0e0a759c127f61c13d6ca3e8498b129f5.asset/AssetData/Sarabun.ttc",
+    "bold_path": null
+  },
+  "outputs": {
+    "prediction_lines_daily_th.png": {
+      "width_px": 3000,
+      "height_px": 1688,
+      "sha256": "4f85c687f9b277d4804bb90cc32e271a90e28b94c93dc884f4d118af50c680fd"
+    },
+    "prediction_lines_daily_th.svg": {
+      "text_editable": true,
+      "sha256": "b34a14b97018ffba3c4fa90a9b5eb49c4d36ee9b680b9d418d3675e8b6862dc3"
+    },
+    "prediction_lines_6h_th.png": {
+      "width_px": 3000,
+      "height_px": 1688,
+      "sha256": "89be3205cb927cb64bd6ebe4c33489c89685cf8d764f2c225f21a5309594dd4e"
+    },
+    "prediction_lines_6h_th.svg": {
+      "text_editable": true,
+      "sha256": "27ab83d6796efaa60293ea78dc468de8082f11298bf6bd94142795b137d4791c"
+    },
+    "daily_totals.csv": {
+      "rows": 1460,
+      "sha256": "94ce8605f1c5d50e0b0929aff7b1907764ccf6892d78d85071c637253f9bee1e"
+    },
+    "monthly_totals.csv": {
+      "rows": 48,
+      "sha256": "7e30059abab3423cb8304fe07afc0a6be71226191036b737335b352fb9f8715f"
+    }
+  },
+  "versions": {
+    "numpy": "2.0.2",
+    "matplotlib": "3.9.4",
+    "python": "3.9.6"
+  }
+}

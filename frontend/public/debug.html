@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RoadAware — diagnostics (developer only)</title>
+<style>
+  body { font-family: system-ui, sans-serif; margin: 20px; max-width: 980px; color: #14293b; }
+  input, select, textarea, button { font: inherit; }
+  textarea { width: 100%; font-family: ui-monospace, Menlo, monospace; font-size: 13px; }
+  pre { background: #f4f1ea; padding: 10px; overflow: auto; max-height: 60vh; font-size: 12.5px; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
+  #path { flex: 1; min-width: 260px; }
+</style>
+</head>
+<body>
+<h1>RoadAware diagnostics</h1>
+<p>หน้าสำหรับนักพัฒนาเท่านั้น (ไม่อยู่ในเมนูของแอปหลัก) แสดง HTTP status และ JSON ดิบจาก API วิจัยในเครื่อง</p>
+
+<div class="row">
+  <label>API base URL <input id="baseUrl" type="text" size="32" value="http://127.0.0.1:8000"></label>
+</div>
+<div class="row">
+  <button type="button" data-preset="ready">GET /ready</button>
+  <button type="button" data-preset="metadata">metadata</button>
+  <button type="button" data-preset="provinces">provinces</button>
+  <button type="button" data-preset="evaluation">evaluation</button>
+  <button type="button" data-preset="segments">segments (Bangkok, limit 10)</button>
+  <button type="button" data-preset="predict">spatial prediction</button>
+  <button type="button" data-preset="baseline">baseline (comparison)</button>
+  <button type="button" data-preset="history">spatial history</button>
+  <button type="button" data-preset="bad">bad request (expect 400)</button>
+</div>
+<div class="row">
+  <select id="method"><option>GET</option><option>POST</option></select>
+  <input id="path" type="text" value="/ready">
+  <button id="btnSend" type="button">ส่ง request</button>
+</div>
+<label>Body (POST, JSON)<textarea id="body" rows="6"></textarea></label>
+
+<p>สถานะ: <strong id="outState">ยังไม่มี request</strong></p>
+<p>Request: <code id="outRequest">-</code> · HTTP: <span id="outHttp">-</span></p>
+<pre id="outJson">-</pre>
+
+<script src="debug.js"></script>
+</body>
+</html>

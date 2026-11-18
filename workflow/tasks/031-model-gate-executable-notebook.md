@@ -1,0 +1,10 @@
+# Goal
+Update only backend/notebooks/25_model_gate_summary_th.ipynb. User wants Python code in the same Thai notebook for the whole actual process, explicitly comparison of Baseline, Random Forest, HGB Poisson and Poisson Regression with MAE etc.
+# Context
+Current 25 is Markdown plus attachments. Preserve summary and diagrams, add visible executable cells. Actual accepted V3 experiment is notebook 20; data preparation is 19; read-only OOF loader and numerical conventions are in tools/render_thai_model_predictions.py (may be untracked). Pin and verify inputs like the original. Full experiment takes ~55 minutes. Do not run it in worker or overwrite accepted outputs.
+# Acceptance
+1. Default notebook execution recomputes pooled and per-fold MAE, RMSE, mean Poisson deviance, Bias and totals from accepted y and OOF predictions, using core/context routing and correct floor. Build a display DataFrame comparing the 3 candidates and Baseline by both units; assert agreement against accepted leaderboard/fold_metrics. Avoid materializing the full dataset as a DataFrame. Show live outlier table/code (and chart if feasible), and Model Gate verification from recomputed scores. Use repo discovery and actionable missing-data message. Keep attachments.
+2. Include original visible training code (exact source from 20, organized as stages with optional guarded execution or exact annotated excerpts plus opt-in verified 20 runner cell), covering prepared data, expanding temporal split/embargo, Baseline, model fitting, prediction/evaluation and selection. Use project interpreter and new independent output dir for full retraining. Document exact dependencies and identify 19 preparation source. No simplified or fabricated alternate experiment.
+3. Notebook works with .venv and NBClient default read-only report execution. No changes to 19–24, data, or other product code. No network or installations.
+# Verification and report
+Worker reports changes, commands actually run/not run, limitations. Codex independently executes default notebook with project kernel and verifies tables and visuals. Full fit is optional and distinguished from score replay.

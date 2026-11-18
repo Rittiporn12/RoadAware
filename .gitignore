@@ -12,3 +12,8 @@ __pycache__/
 /reports/data/*.png
 .ipynb_checkpoints/
 .pytest_cache/
+
+# local archives of ignored data/model artifacts (see backups/README in each folder)
+/backups/
+# derived test fixture with road geometry (regenerable)
+/output/frontend-test-fixtures/

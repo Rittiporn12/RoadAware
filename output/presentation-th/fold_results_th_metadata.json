@@ -1,0 +1,227 @@
+{
+  "source_csv": "output/spatial-model-results/v3-evaluation-017-002/figure_period_performance.csv",
+  "source_csv_sha256": "8f90fa7acacc97ddcaccbbc91dbd010ca6560cca0eb78df1e08a01f295f53c6e",
+  "source_row_count": 12,
+  "plotted_group_count": 8,
+  "scope_plotted": "oof",
+  "periods_plotted": [
+    "2022H1",
+    "2022H2",
+    "2023H1",
+    "2023H2"
+  ],
+  "methods": {
+    "selected": "HGB (selected)",
+    "baseline": "segment_mean_k365"
+  },
+  "metric": "percent reduction in mean Poisson deviance vs baseline = 100 * (baseline - selected) / baseline",
+  "data_transformations": "none beyond the percent formula above (no refit, no pooling)",
+  "reconciliation": {
+    "stored_column": "relative_deviance_reduction",
+    "tolerance_abs": 1e-12,
+    "all_within_tolerance": true,
+    "max_abs_diff": 5.551115123125783e-17
+  },
+  "plotted_points": [
+    {
+      "csv_row_number": 10,
+      "unit": "daily",
+      "scope": "oof",
+      "period": "2022H1",
+      "period_label_th": "ต้นปี 2022",
+      "baseline_mean_deviance": 0.040697770654291955,
+      "selected_mean_deviance": 0.03899016886376834,
+      "baseline_mean_deviance_csv_text": "0.040697770654291955",
+      "selected_mean_deviance_csv_text": "0.03899016886376834",
+      "stored_relative_deviance_reduction": 0.041958116208105634,
+      "recomputed_relative_deviance_reduction": 0.041958116208105675,
+      "reconciliation_abs_diff": 4.163336342344337e-17,
+      "plotted_percent": 4.195811620810567,
+      "annotation": "+4.20%",
+      "drawn_bar_height": 4.195811620810567
+    },
+    {
+      "csv_row_number": 11,
+      "unit": "daily",
+      "scope": "oof",
+      "period": "2022H2",
+      "period_label_th": "ปลายปี 2022",
+      "baseline_mean_deviance": 0.03811855132124999,
+      "selected_mean_deviance": 0.037134349552009685,
+      "baseline_mean_deviance_csv_text": "0.03811855132124999",
+      "selected_mean_deviance_csv_text": "0.037134349552009685",
+      "stored_relative_deviance_reduction": 0.025819495629458622,
+      "recomputed_relative_deviance_reduction": 0.025819495629458598,
+      "reconciliation_abs_diff": 2.42861286636753e-17,
+      "plotted_percent": 2.58194956294586,
+      "annotation": "+2.58%",
+      "drawn_bar_height": 2.58194956294586
+    },
+    {
+      "csv_row_number": 12,
+      "unit": "daily",
+      "scope": "oof",
+      "period": "2023H1",
+      "period_label_th": "ต้นปี 2023",
+      "baseline_mean_deviance": 0.045977436264494936,
+      "selected_mean_deviance": 0.04480334334124017,
+      "baseline_mean_deviance_csv_text": "0.045977436264494936",
+      "selected_mean_deviance_csv_text": "0.04480334334124017",
+      "stored_relative_deviance_reduction": 0.025536285157366057,
+      "recomputed_relative_deviance_reduction": 0.025536285157366057,
+      "reconciliation_abs_diff": 0.0,
+      "plotted_percent": 2.5536285157366057,
+      "annotation": "+2.55%",
+      "drawn_bar_height": 2.5536285157366057
+    },
+    {
+      "csv_row_number": 13,
+      "unit": "daily",
+      "scope": "oof",
+      "period": "2023H2",
+      "period_label_th": "ปลายปี 2023",
+      "baseline_mean_deviance": 0.0391080616306786,
+      "selected_mean_deviance": 0.03872959438566066,
+      "baseline_mean_deviance_csv_text": "0.0391080616306786",
+      "selected_mean_deviance_csv_text": "0.03872959438566066",
+      "stored_relative_deviance_reduction": 0.009677473882291454,
+      "recomputed_relative_deviance_reduction": 0.00967747388229146,
+      "reconciliation_abs_diff": 5.204170427930421e-18,
+      "plotted_percent": 0.967747388229146,
+      "annotation": "+0.97%",
+      "drawn_bar_height": 0.967747388229146
+    },
+    {
+      "csv_row_number": 4,
+      "unit": "6h",
+      "scope": "oof",
+      "period": "2022H1",
+      "period_label_th": "ต้นปี 2022",
+      "baseline_mean_deviance": 0.014471724782042616,
+      "selected_mean_deviance": 0.01263283612754769,
+      "baseline_mean_deviance_csv_text": "0.014471724782042616",
+      "selected_mean_deviance_csv_text": "0.01263283612754769",
+      "stored_relative_deviance_reduction": 0.127067691114243,
+      "recomputed_relative_deviance_reduction": 0.12706769111424304,
+      "reconciliation_abs_diff": 5.551115123125783e-17,
+      "plotted_percent": 12.706769111424304,
+      "annotation": "+12.71%",
+      "drawn_bar_height": 12.706769111424304
+    },
+    {
+      "csv_row_number": 5,
+      "unit": "6h",
+      "scope": "oof",
+      "period": "2022H2",
+      "period_label_th": "ปลายปี 2022",
+      "baseline_mean_deviance": 0.01332204094043963,
+      "selected_mean_deviance": 0.012216683126377413,
+      "baseline_mean_deviance_csv_text": "0.01332204094043963",
+      "selected_mean_deviance_csv_text": "0.012216683126377413",
+      "stored_relative_deviance_reduction": 0.08297210757751505,
+      "recomputed_relative_deviance_reduction": 0.08297210757751504,
+      "reconciliation_abs_diff": 1.3877787807814457e-17,
+      "plotted_percent": 8.297210757751504,
+      "annotation": "+8.30%",
+      "drawn_bar_height": 8.297210757751504
+    },
+    {
+      "csv_row_number": 6,
+      "unit": "6h",
+      "scope": "oof",
+      "period": "2023H1",
+      "period_label_th": "ต้นปี 2023",
+      "baseline_mean_deviance": 0.016035990944382177,
+      "selected_mean_deviance": 0.01479423758832391,
+      "baseline_mean_deviance_csv_text": "0.016035990944382177",
+      "selected_mean_deviance_csv_text": "0.01479423758832391",
+      "stored_relative_deviance_reduction": 0.0774353989326294,
+      "recomputed_relative_deviance_reduction": 0.07743539893262939,
+      "reconciliation_abs_diff": 1.3877787807814457e-17,
+      "plotted_percent": 7.743539893262939,
+      "annotation": "+7.74%",
+      "drawn_bar_height": 7.743539893262939
+    },
+    {
+      "csv_row_number": 7,
+      "unit": "6h",
+      "scope": "oof",
+      "period": "2023H2",
+      "period_label_th": "ปลายปี 2023",
+      "baseline_mean_deviance": 0.013396327774966752,
+      "selected_mean_deviance": 0.012907416600569058,
+      "baseline_mean_deviance_csv_text": "0.013396327774966752",
+      "selected_mean_deviance_csv_text": "0.012907416600569058",
+      "stored_relative_deviance_reduction": 0.036495910118839126,
+      "recomputed_relative_deviance_reduction": 0.03649591011883908,
+      "reconciliation_abs_diff": 4.85722573273506e-17,
+      "plotted_percent": 3.6495910118839077,
+      "annotation": "+3.65%",
+      "drawn_bar_height": 3.6495910118839077
+    }
+  ],
+  "excluded_rows": [
+    {
+      "csv_row_number": 2,
+      "unit": "6h",
+      "scope": "diag",
+      "group": "seen_2024",
+      "reason": "not OOF (diagnostic / 2024+ rows are not plotted)"
+    },
+    {
+      "csv_row_number": 3,
+      "unit": "6h",
+      "scope": "diag",
+      "group": "seen_2025",
+      "reason": "not OOF (diagnostic / 2024+ rows are not plotted)"
+    },
+    {
+      "csv_row_number": 8,
+      "unit": "daily",
+      "scope": "diag",
+      "group": "seen_2024",
+      "reason": "not OOF (diagnostic / 2024+ rows are not plotted)"
+    },
+    {
+      "csv_row_number": 9,
+      "unit": "daily",
+      "scope": "diag",
+      "group": "seen_2025",
+      "reason": "not OOF (diagnostic / 2024+ rows are not plotted)"
+    }
+  ],
+  "axes": {
+    "y_starts_at_zero": true,
+    "y_limits_percent": {
+      "daily": [
+        0.0,
+        5.118890177388892
+      ],
+      "6h": [
+        0.0,
+        15.50225831593765
+      ]
+    },
+    "y_headroom_factor": 1.22,
+    "shared_y": false
+  },
+  "font": {
+    "family": "Sarabun",
+    "regular_path": "/System/Library/AssetsV2/PreinstalledAssetsV2/InstallWithOs/com_apple_MobileAsset_Font7/faf0d7f0e0a759c127f61c13d6ca3e8498b129f5.asset/AssetData/Sarabun.ttc",
+    "bold_path": null
+  },
+  "outputs": {
+    "png": {
+      "path": "fold_results_th.png",
+      "width_px": 3000,
+      "height_px": 1688,
+      "sha256": "0ac4bdc10b990fd6b210a5d637044cfa729ebd2896cb471e061eddac9150f2cf"
+    },
+    "svg": {
+      "path": "fold_results_th.svg",
+      "text_editable": true,
+      "sha256": "a487618e4c44336b30dbd58026437e81968b6a86f5f01b64616e8119960d843a"
+    }
+  },
+  "matplotlib_version": "3.9.4"
+}
