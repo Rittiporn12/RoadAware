@@ -1,0 +1,7 @@
+split,agreement,selected_records
+train,same_province,55923
+seen_diagnostic,same_province,40950
+train,different_province,730
+seen_diagnostic,different_province,597
+seen_diagnostic,segment_midpoint_unmapped,4
+train,segment_midpoint_unmapped,3

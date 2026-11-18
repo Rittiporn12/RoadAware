@@ -1,0 +1,20 @@
+{
+  "status": "geometry_only_preregistered_split_no_labels_or_scores_read",
+  "universe_segments": 26740,
+  "eval_midpoint_predicate": {
+    "lon_gte": 103.0,
+    "lat_gte": 15.5
+  },
+  "buffer_m_epsg32647": 1000,
+  "exclude_training_features_sharing_eval_source_oid": true,
+  "eval_segments": 3070,
+  "eval_source_oids": 275,
+  "train_segments": 23458,
+  "train_source_oids": 2543,
+  "removed_same_source_oid": 209,
+  "removed_buffer_additional": 3,
+  "train_source_oids_disjoint": true,
+  "eval_segment_ids_sha256": "c41e227ee59271b87ce6ce25fd23db1f9ef2e4a2b138b1f9bc512a98a1f769d2",
+  "train_segment_ids_sha256": "51badd28891db04615ab5daf061061d19b1f40b430d9ad8c04665aa60b1919c0",
+  "interpretation": "National V4: contiguous upper-northeast unseen-sections transfer diagnostic (midpoint lon>=103.0, lat>=15.5), registered from geometry only after notebook 19 and before notebook 20. Not all-new-route or untouched-future evaluation; never reranks the temporal winner."
+}

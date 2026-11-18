@@ -1,0 +1,4 @@
+source_id,unsupported_reason,segments,km
+doh_highway,short_lt_min_length,923,221.356
+drr_rural,unsupported_source_drr_rural,27368,51079.335
+exat_expressway,unsupported_source_exat_expressway,626,321.663

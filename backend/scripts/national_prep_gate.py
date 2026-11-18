@@ -193,6 +193,10 @@ def main():
     I['preparation_config'].update(path=PREP_CFG, pins_key='backend/' + PREP_CFG)
     I['transfer_preregistration'].update(path='../' + PRE_V4, pins_key=PRE_V4)
     I['prepared_data_dir'] = ddir
+    I['notebook19']['path'] = pcfg['notebook']  # the national copy that produced the pinned manifest
+    c['notebook'] = 'notebooks/20_spatial_count_experiments_national.ipynb'
+    if not (BACKEND / c['notebook']).is_file() or not (BACKEND / pcfg['notebook']).is_file():
+        fail('national notebook copies missing')
     c['pins'] = {'path': '../' + PINS_V4, 'note': c3['pins']['note'],
                  'expect': {'preparation_manifest_sha256': files['backend/' + rdir + '/spatial_preparation_manifest.json'],
                             'notebook19_functions_sha256': m['functions_cells_sha256'],
@@ -208,7 +212,8 @@ def main():
     for cc in c['candidates']['configs']:
         if 'n_jobs' in cc['params']:
             cc['params']['n_jobs'] = THREADS  # compute only: fixed random_state, results do not depend on n_jobs
-    extra = ['config/spatial_experiment_v3.json', 'config/spatial_preparation_v4.json',
+    extra = ['config/spatial_experiment_v3.json', 'config/spatial_preparation_v4.json', pcfg['notebook'],
+             'notebooks/20_spatial_count_experiments.ipynb', 'notebooks/21_spatial_evaluation_colours.ipynb', 'notebooks/22_spatial_inference_contract.ipynb',
              'reports/v4/road_collection', 'data/v4/road_collection', 'reports/v4/linkage_audit', 'data/v4/linkage_audit',
              'reports/v4/spatial_preparation', 'data/v4/spatial_preparation', REVIEW,
              'reports/v3/spatial_preparation', 'data/v3/spatial_preparation', 'rerun-spatial-model-016-002']

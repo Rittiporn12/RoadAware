@@ -1,0 +1,101 @@
+{
+  "status": "accepted_spatial_count_preparation_v4_automated_gate",
+  "all_checks_pass": true,
+  "reviewer": "automated gate (scripts/national_prep_gate.py); Claude re-checks before any model is accepted",
+  "run_root": "backend/rerun-spatial-prep-national-001",
+  "manifest_sha256": "720c13fb4bc24d3599951da5ed03a06a4ce0999de84d6b8f98243f7d77d5714b",
+  "checks": 41,
+  "report_hashes": 21,
+  "data_hashes": 18,
+  "snapshot_tag": "rc315c7c508f",
+  "summary": {
+    "universe_segments": 26740,
+    "routes": 1440,
+    "projected_km": 51857.778,
+    "unsupported_2000m_segments": 28917,
+    "retained_records": 106308,
+    "selected_records": 98207,
+    "selection": {
+      "selected": 98207,
+      "unsupported_segment_unsupported_source_drr_rural": 3100,
+      "unknown_status_50m_too_far": 1673,
+      "unknown_status_50m_identity_unresolved": 1080,
+      "unknown_status_50m_ambiguous_unsafe_geometry": 777,
+      "unknown_status_50m_route_special_unverified": 548,
+      "unsupported_segment_short_lt_min_length": 432,
+      "unknown_status_50m_ambiguous_multiple": 385,
+      "unknown_status_50m_route_not_in_snapshot": 61,
+      "unknown_status_50m_low_precision_unsuitable": 36,
+      "unknown_status_50m_route_missing": 9
+    },
+    "positive_cells": {
+      "daily": 95539,
+      "6h": 96765
+    },
+    "population": {
+      "daily": {
+        "rows": 48827240,
+        "batches": 489,
+        "count_sum": 98207,
+        "first_key": {
+          "segment_id": "rsv1-rc315c7c508f:doh:1000:p0:c0:r2000:00000",
+          "target_date": "2021-01-01"
+        },
+        "last_key": {
+          "segment_id": "rsv1-rc315c7c508f:doh:9:p0:c0:r2000:00002",
+          "target_date": "2025-12-31"
+        },
+        "by_split": {
+          "train": {
+            "cells": 29280300,
+            "events": 56656,
+            "positive_cells": 55133
+          },
+          "seen_2024": {
+            "cells": 9786840,
+            "events": 19904,
+            "positive_cells": 19349
+          },
+          "seen_2025": {
+            "cells": 9760100,
+            "events": 21647,
+            "positive_cells": 21057
+          }
+        }
+      },
+      "6h": {
+        "rows": 195308960,
+        "batches": 1954,
+        "count_sum": 98207,
+        "first_key": {
+          "segment_id": "rsv1-rc315c7c508f:doh:1000:p0:c0:r2000:00000",
+          "target_date": "2021-01-01",
+          "time_block": "00-06"
+        },
+        "last_key": {
+          "segment_id": "rsv1-rc315c7c508f:doh:9:p0:c0:r2000:00002",
+          "target_date": "2025-12-31",
+          "time_block": "18-24"
+        },
+        "by_split": {
+          "train": {
+            "cells": 117121200,
+            "events": 56656,
+            "positive_cells": 55803
+          },
+          "seen_2024": {
+            "cells": 39147360,
+            "events": 19904,
+            "positive_cells": 19611
+          },
+          "seen_2025": {
+            "cells": 39040400,
+            "events": 21647,
+            "positive_cells": 21351
+          }
+        }
+      }
+    }
+  },
+  "protected_unchanged": true
+}

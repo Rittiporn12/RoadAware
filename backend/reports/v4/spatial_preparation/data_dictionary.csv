@@ -1,0 +1,52 @@
+column,role,group,dtype,unit,source,units,variants
+route_code,model_input,static_route_category,str (categorical),,"inventory route_key (DOH zfill4); categorical, not ordinal",daily+6h,both
+geom_mid_x_m,model_input,static_geometry,float64,m (EPSG:32647),"pinned 18 2000 m GeoJSON, EPSG:32647 always_xy",daily+6h,both
+geom_mid_y_m,model_input,static_geometry,float64,m (EPSG:32647),"pinned 18 2000 m GeoJSON, EPSG:32647 always_xy",daily+6h,both
+geom_mid_lon,model_input,static_geometry,float64,deg,"pinned 18 2000 m GeoJSON, EPSG:32647 always_xy",daily+6h,both
+geom_mid_lat,model_input,static_geometry,float64,deg,"pinned 18 2000 m GeoJSON, EPSG:32647 always_xy",daily+6h,both
+geom_length_m,model_input,static_geometry,float64,m (projected),"pinned 18 2000 m GeoJSON, EPSG:32647 always_xy",daily+6h,both
+geom_log_length_m,model_input,static_geometry,float64,ln(m),"pinned 18 2000 m GeoJSON, EPSG:32647 always_xy",daily+6h,both
+geom_bearing_sin,model_input,static_geometry,float64,sin(grid azimuth start->end); 0 when chord <= eps,"pinned 18 2000 m GeoJSON, EPSG:32647 always_xy",daily+6h,both
+geom_bearing_cos,model_input,static_geometry,float64,cos(...); 0 when chord <= eps,"pinned 18 2000 m GeoJSON, EPSG:32647 always_xy",daily+6h,both
+geom_straightness,model_input,static_geometry,float64,"chord / length, 0..1","pinned 18 2000 m GeoJSON, EPSG:32647 always_xy",daily+6h,both
+geom_turning_rad_per_km,model_input,static_geometry,float64,sum |turn| rad per km (zero-length edges skipped),"pinned 18 2000 m GeoJSON, EPSG:32647 always_xy",daily+6h,both
+day_of_week,model_input,target_calendar,float64,,notebook-10 helpers on the target local date,daily+6h,both
+month,model_input,target_calendar,float64,,notebook-10 helpers on the target local date,daily+6h,both
+day_of_month,model_input,target_calendar,float64,,notebook-10 helpers on the target local date,daily+6h,both
+is_weekend,model_input,target_calendar,float64,,notebook-10 helpers on the target local date,daily+6h,both
+doy_sin,model_input,target_calendar,float64,,notebook-10 helpers on the target local date,daily+6h,both
+doy_cos,model_input,target_calendar,float64,,notebook-10 helpers on the target local date,daily+6h,both
+fest_songkran_dist,model_input,target_calendar,float64,,notebook-10 helpers on the target local date,daily+6h,both
+fest_songkran_in,model_input,target_calendar,float64,,notebook-10 helpers on the target local date,daily+6h,both
+fest_songkran_pre_1_3,model_input,target_calendar,float64,,notebook-10 helpers on the target local date,daily+6h,both
+fest_songkran_pre_4_7,model_input,target_calendar,float64,,notebook-10 helpers on the target local date,daily+6h,both
+fest_songkran_post_1_3,model_input,target_calendar,float64,,notebook-10 helpers on the target local date,daily+6h,both
+fest_songkran_post_4_7,model_input,target_calendar,float64,,notebook-10 helpers on the target local date,daily+6h,both
+fest_new_year_dist,model_input,target_calendar,float64,,notebook-10 helpers on the target local date,daily+6h,both
+fest_new_year_in,model_input,target_calendar,float64,,notebook-10 helpers on the target local date,daily+6h,both
+fest_new_year_pre_1_3,model_input,target_calendar,float64,,notebook-10 helpers on the target local date,daily+6h,both
+fest_new_year_pre_4_7,model_input,target_calendar,float64,,notebook-10 helpers on the target local date,daily+6h,both
+fest_new_year_post_1_3,model_input,target_calendar,float64,,notebook-10 helpers on the target local date,daily+6h,both
+fest_new_year_post_4_7,model_input,target_calendar,float64,,notebook-10 helpers on the target local date,daily+6h,both
+season_hot,model_input,target_calendar,float64,,notebook-10 helpers on the target local date,daily+6h,both
+season_wet,model_input,target_calendar,float64,,notebook-10 helpers on the target local date,daily+6h,both
+season_cool,model_input,target_calendar,float64,,notebook-10 helpers on the target local date,daily+6h,both
+bank_holiday_asof,model_input,bank_calendar_asof,float64,,reviewed BOT records known by target day - 1 18:00; NaN when coverage unknown,daily+6h,both
+time_block,model_input,target_block,str (categorical),,target 6 h block (Asia/Bangkok); categorical,6h,both
+wx_rain_sum_mm_d2,model_input,weather_context,float64,mm/day,province representative-point JMA GSM previous_day2; NaN when incomplete/late/unmapped,daily+6h,calendar_geometry_context
+wx_temp_mean_c_d2,model_input,weather_context,float64,deg C,province representative-point JMA GSM previous_day2; NaN when incomplete/late/unmapped,daily+6h,calendar_geometry_context
+wx_block_rain_sum_mm_d2,model_input,weather_context,float64,mm/6 h,province representative-point JMA GSM previous_day2; NaN when incomplete/late/unmapped,6h,calendar_geometry_context
+wx_block_temp_mean_c_d2,model_input,weather_context,float64,deg C,province representative-point JMA GSM previous_day2; NaN when incomplete/late/unmapped,6h,calendar_geometry_context
+aadt_mean_total,model_input,aadt_context,float64,vehicles/day (mean of survey points),"DOH survey-point AADT by route+control section, newest prior available vintage; NaN with reason",daily+6h,calendar_geometry_context
+aadt_median_total,model_input,aadt_context,float64,vehicles/day (median),"DOH survey-point AADT by route+control section, newest prior available vintage; NaN with reason",daily+6h,calendar_geometry_context
+aadt_mean_heavy_share_pct,model_input,aadt_context,float64,%,"DOH survey-point AADT by route+control section, newest prior available vintage; NaN with reason",daily+6h,calendar_geometry_context
+segment_id,metadata_or_label_not_feature,,,,key only (never a predictor),,
+target_date,metadata_or_label_not_feature,,,,"key, Asia/Bangkok local date",,
+time_block,metadata_or_label_not_feature,,,,key for 6 h,,
+issue_time_local,metadata_or_label_not_feature,,,,target day - 1 at 18:00 +07:00,,
+beyond_evaluated_period,metadata_or_label_not_feature,,,,True after 2025-12-31,,
+province_code / province_join_status,metadata_or_label_not_feature,,,,midpoint polygon join metadata,,
+*_reason,metadata_or_label_not_feature,,,,source gap reason,,
+aadt_n_station_rows / aadt_vintage_survey_year_ce,metadata_or_label_not_feature,,,,AADT metadata,,
+bank_calendar_known_asof / bank_calendar_coverage,metadata_or_label_not_feature,,,,source availability metadata,,
+y_count,metadata_or_label_not_feature,,,,label from sparse counts (0 only inside the defined conditional population),,

@@ -44,3 +44,8 @@
 - `config/spatial_preparation_v4.json`: กติกา v3 เดิมทั้งหมด เปลี่ยนเฉพาะ input → ผลขั้น 1–2 ระดับประเทศ (snapshot `rc315c7c508f`), output → `reports|data/v4/spatial_preparation`
 - `scripts/national_prep_gate.py` (รันระหว่าง 19 กับ 20): ตรวจผล 19 ครบทุก hash/check → คัดลอกขึ้น v4 (ไม่เขียนทับ) → review อัตโนมัติ → แบ่ง transfer split จาก geometry อย่างเดียว (อีสานตอนบน lon ≥ 103.0, lat ≥ 15.5) → เขียน pins และ `config/spatial_experiment_v4.json` (ขนาด OOF ตามจำนวนช่วงถนนจริง, artifact budget 64 GiB, threads 6)
 - โมเดล/ตัวชี้วัด/เกณฑ์เลือก เหมือน v3 ทุกอย่าง
+
+### ผลขั้น 3 (2026-11-18)
+- Notebook 19 ระดับประเทศผ่าน 41 checks: ช่วงถนน DOH 26,740 ช่วง (51,858 กม., 1,440 สายทาง), บันทึกอุบัติเหตุที่ใช้ได้ 98,207 จาก 106,308
+- transfer split (geometry อย่างเดียว): eval 3,070 / train 23,458
+- รอบแรกของ Notebook 20 รันผิดตัว (config v4 ชี้ไป notebook ต้นฉบับ ซึ่งอ่าน config v3) จึงได้ผลซ้ำของพื้นที่นำร่อง — เก็บไว้ที่ `backend/rerun-spatial-model-pilot-repro-001` (ไม่ใช้ต่อ) แก้ config แล้ว รันใหม่ด้วย National Step 4.command → `rerun-spatial-model-national-002`
