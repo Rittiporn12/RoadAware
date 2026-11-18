@@ -1,0 +1,16 @@
+source_id,item,field,n_present,min,max,note
+doh_highway,snapshot capture (UTC),,,2026-11-18T15:27:16.218046+00:00,2026-11-18T15:27:52.592494+00:00,current service state; not a 2021-2025 historical topology
+doh_highway,layer lastEditDate,editingInfo,,,,None = not published by the service
+doh_highway,service/layer version,currentVersion,,11.5,,"ArcGIS server version, not a data vintage"
+doh_highway,licence,,,,,pending: licence text of the MOT catalog resource was not captured; confirm on the catalog resource page before redistribution | copyrightText: ''
+drr_rural,snapshot capture (UTC),,,2026-11-18T15:27:54.639668+00:00,2026-11-18T15:30:06.096236+00:00,current service state; not a 2021-2025 historical topology
+drr_rural,layer lastEditDate,editingInfo,,,,None = not published by the service
+drr_rural,service/layer version,currentVersion,,10.11,,"ArcGIS server version, not a data vintage"
+drr_rural,licence,,,,,pending: licence text of the MOT catalog resource was not captured; confirm on the catalog resource page before redistribution | copyrightText: ''
+drr_rural,date attribute,updated_date,3700.0,2025-01-22,2025-04-18,meaning of the date (survey/update) per official documentation: pending
+drr_rural,date attribute,survey_date,0.0,,,meaning of the date (survey/update) per official documentation: pending
+drr_rural,year attribute,budget_year,3700.0,2569,2569,calendar (BE/CE) and meaning pending confirmation
+exat_expressway,snapshot capture (UTC),,,2026-11-18T15:30:06.914045+00:00,2026-11-18T15:30:08.497131+00:00,current service state; not a 2021-2025 historical topology
+exat_expressway,layer lastEditDate,editingInfo,,,,None = not published by the service
+exat_expressway,service/layer version,currentVersion,,11.5,,"ArcGIS server version, not a data vintage"
+exat_expressway,licence,,,,,pending: licence text of the MOT catalog resource was not captured; confirm on the catalog resource page before redistribution | copyrightText: ''

@@ -1,0 +1,2700 @@
+{
+  "status": "complete",
+  "version": "spatial_road_sources_v4.0",
+  "created_utc": "2026-11-18T15:31:12.583094+00:00",
+  "mode": "online",
+  "notebook": "notebooks/17_spatial_road_collection.ipynb",
+  "config_sha256": "d0d71ea5f02589171dcf400a1fbed717f714c36f259998078600399f8e8aa2d6",
+  "preregistration": {
+    "envelope_epsg4326": [
+      97.3,
+      5.5,
+      105.7,
+      20.5
+    ],
+    "spatial_rel": "esriSpatialRelIntersects",
+    "registered_by": "national-coverage plan (2026-11-18), before any national spatial model is fitted or evaluated",
+    "note": "national geometry-collection envelope = thailand_broad_bbox; a rectangle, so a few cross-border sections may be returned and are flagged, not dropped silently."
+  },
+  "budget": {
+    "batch_size": 20,
+    "max_features": 60000,
+    "max_total_geometry_bytes": 1073741824,
+    "max_response_bytes": 33554432,
+    "max_metadata_bytes": 4194304,
+    "max_requests": 6000,
+    "max_wall_seconds": 14400,
+    "timeout_seconds": 60,
+    "max_retries": 2,
+    "retry_backoff_seconds": 3
+  },
+  "cache_source": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/rerun-road-national-001/data/v4/road_collection/raw",
+  "cache_manifest_sha256": "5c7c508fa9cb1c074588aedd718db7c1ebd3c58d8e341c44c54be67387fd83a9",
+  "raw_files": {
+    "doh_highway": [
+      {
+        "kind": "service",
+        "file": "doh_highway/service.json",
+        "sha256": "ce401a56dfe69c7cc7e6da1752bd67c4de6f436fe112f3e9a785ff7c2d7f81da",
+        "bytes": 1802,
+        "page": null
+      },
+      {
+        "kind": "layer",
+        "file": "doh_highway/layer.json",
+        "sha256": "acaebaaf432359ab0bae1b839581baebe4e4329299c016c726eac2c294ba9079",
+        "bytes": 8022,
+        "page": null
+      },
+      {
+        "kind": "count_pre",
+        "file": "doh_highway/count_pre.json",
+        "sha256": "f1322590d763b98d8c29d76a35ef4e7b6299c80cfc23bdb8ef3e516ca4100ea6",
+        "bytes": 14,
+        "page": null
+      },
+      {
+        "kind": "ids_pre",
+        "file": "doh_highway/ids_pre.json",
+        "sha256": "d2911b7742014f3458ae5030e3913b2ed16c4ce79ead9a13d49145c47a97895c",
+        "bytes": 14189,
+        "page": null
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00001.json",
+        "sha256": "e84a1e66671ea2875af966873f1d50e94d5b6be911184f9e943fee3cf89cc7fa",
+        "bytes": 933770,
+        "page": 1
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00002.json",
+        "sha256": "4756dbb80ea499bc0555880134a2840db6f713b67da57e3f5da0da43d0872c60",
+        "bytes": 670804,
+        "page": 2
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00003.json",
+        "sha256": "a991fec6b0d8286962d8aa5e756e6bceabc912192285beae64b4f5b9431d5444",
+        "bytes": 1034402,
+        "page": 3
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00004.json",
+        "sha256": "cf74e4b8bba9bea1c9ae1ca9fd96d81d8c604110844768ccf9b6b8e7fb18adeb",
+        "bytes": 1124023,
+        "page": 4
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00005.json",
+        "sha256": "833da2d3b38c16187719e312f2ee0ea19672865464e7c5bba08be4b1a5a5bf19",
+        "bytes": 722050,
+        "page": 5
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00006.json",
+        "sha256": "13035c436492942bea1b4ce9288a34624e655a0e409f96ab620bf3809af19798",
+        "bytes": 1298856,
+        "page": 6
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00007.json",
+        "sha256": "f679e3e8ee231c1790753e8d171ca0b288cde3f43dff0d5dcc364589e594e2f1",
+        "bytes": 582286,
+        "page": 7
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00008.json",
+        "sha256": "d1bbafde39527c364522236198cb2bb8cb125cd976169182ab3c97c700897d2c",
+        "bytes": 853216,
+        "page": 8
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00009.json",
+        "sha256": "26cddb8c7567ac8cacec7fdadd6df4625a75421e19e8af4cf30673dac12185ce",
+        "bytes": 520240,
+        "page": 9
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00010.json",
+        "sha256": "0b0881222d46d48eba5147bcc1548f57a65d2809b59a957d6b0ce3ccb1e0f483",
+        "bytes": 1310382,
+        "page": 10
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00011.json",
+        "sha256": "ca0e373086297ecdf00989d55c825ba249c751d05a684c402fde16823c0a8606",
+        "bytes": 1223879,
+        "page": 11
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00012.json",
+        "sha256": "979293446c33c5812ecdfe1025170d2c5b3dff5a45286874327f7d36d5797308",
+        "bytes": 1093700,
+        "page": 12
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00013.json",
+        "sha256": "5b8676d633fe4960d7cdfc47d16f24825afe9e185f367b72bbafa472e41cb453",
+        "bytes": 986730,
+        "page": 13
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00014.json",
+        "sha256": "01824bccfb0ee6761aef132a1774b059e7f8c381d438ea6ccad22ffc93f00b1b",
+        "bytes": 259690,
+        "page": 14
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00015.json",
+        "sha256": "24ff216c226d7711f4cece438aebb3579a354777097f5f16d985af9e63955772",
+        "bytes": 643672,
+        "page": 15
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00016.json",
+        "sha256": "cfa07107f22cf8e998ec5533b60a42784694be7e447647c8aa1c5e2f8bf0c3f2",
+        "bytes": 947044,
+        "page": 16
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00017.json",
+        "sha256": "b4be9bc9a893b6f7fb941d8df6fcb24a24089c9aeb081a16460ff17d1dda71e4",
+        "bytes": 659795,
+        "page": 17
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00018.json",
+        "sha256": "2ecaf84cc58e0c01a30b04b9a278c09845aee9c73cb3c9e20dba42df18cd8769",
+        "bytes": 900098,
+        "page": 18
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00019.json",
+        "sha256": "25fd68d314a45da4424731fc361749bf7a7d4f9770e3f2d1119ee24802a1c7a4",
+        "bytes": 2490771,
+        "page": 19
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00020.json",
+        "sha256": "32992a03e3774e381a47aaf6774ce2f0cc71b6685993457cce4ca3991610d60e",
+        "bytes": 899423,
+        "page": 20
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00021.json",
+        "sha256": "0ed483cdb015990922e5891f6a5610b40a91e46c8b827dbe74232c24d9a4c67d",
+        "bytes": 1967243,
+        "page": 21
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00022.json",
+        "sha256": "4cd2b860f9bfa63d2a1666b9c5e0cb81a2fb9be1389d0c31e29fb8579d9573a9",
+        "bytes": 835317,
+        "page": 22
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00023.json",
+        "sha256": "dc9549e12bfc17795392ef8f2c7f5f5bf87268de2e4ccfe37ed96ebacb5bb200",
+        "bytes": 690566,
+        "page": 23
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00024.json",
+        "sha256": "61143e97e1309717890ba619399ab63ec141b0c696b773c579da711c79ab6fb9",
+        "bytes": 911399,
+        "page": 24
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00025.json",
+        "sha256": "0b37079c1c304031d0704e499d77e8538ed2ee0528daf3aa00b1da81bad20e80",
+        "bytes": 830977,
+        "page": 25
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00026.json",
+        "sha256": "800291fd14397c151a2d3517572ce5503e105d5c25619a850af490e1c95aeafb",
+        "bytes": 1079497,
+        "page": 26
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00027.json",
+        "sha256": "70044e7821f1c8da1cb56f80f3dbb04e55a5eac7ca12f8eb37b8bd7d7b2ca701",
+        "bytes": 568736,
+        "page": 27
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00028.json",
+        "sha256": "b5359ad916b9c8ed49c0321a1078de76e3494d03039af73dc7fa539915ad868d",
+        "bytes": 2119670,
+        "page": 28
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00029.json",
+        "sha256": "95c7f426c7dee939d161757aae4351932694095cd07d72e5d5f352ec62e41e6a",
+        "bytes": 1219887,
+        "page": 29
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00030.json",
+        "sha256": "d68cb3d642acd0c3a583cdcc9f03f7537e9e78c6bb18a7a122c58b9fcd39c4fa",
+        "bytes": 1645070,
+        "page": 30
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00031.json",
+        "sha256": "d9de3e3907a2713dafd863b2dd324a12234d4eac8cacc4fa1578cddf4382edee",
+        "bytes": 1686139,
+        "page": 31
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00032.json",
+        "sha256": "35e4262840ba9249d85304f7fe901e176972b89b8956bed2120a557e21d9185d",
+        "bytes": 1659965,
+        "page": 32
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00033.json",
+        "sha256": "e6d0b7a21deeba9e55464b1cc065eae54cda601a4fdf75b8fbc0d84c6031aae2",
+        "bytes": 1397235,
+        "page": 33
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00034.json",
+        "sha256": "a5b46d855b166bee7d6acec7442c8f6486bce1f9f27c66645ea75e5cdd08cd7e",
+        "bytes": 844147,
+        "page": 34
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00035.json",
+        "sha256": "959554eabc1d957d92eb52eaf10fc4a36e72378acf952790d5edcc20682f86c2",
+        "bytes": 1035429,
+        "page": 35
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00036.json",
+        "sha256": "05ce8803f1551056b774155f8327f148b7a5f06a679590ad3ede221b9b38fdaa",
+        "bytes": 1544355,
+        "page": 36
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00037.json",
+        "sha256": "f889095d42039eda18228a1736a6c1196f6636722b478f5a7cda1494dd585d08",
+        "bytes": 1817990,
+        "page": 37
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00038.json",
+        "sha256": "6eddee41aabf4d741a6e2f322895960c67fc69d1a3efd1bf259e364287a7a69e",
+        "bytes": 932702,
+        "page": 38
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00039.json",
+        "sha256": "13797e620d67dc08dbdac6c0a617a7c8ed4b01b94cedcdc55f7dc41523c7b30b",
+        "bytes": 787678,
+        "page": 39
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00040.json",
+        "sha256": "064aa2f598220da2af73497e142d50b63614209ae676126ea6e916cfa2f847f4",
+        "bytes": 1651271,
+        "page": 40
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00041.json",
+        "sha256": "ee5364797853da6876d2331254c141f1968a288d143ad84942b70d3260661cef",
+        "bytes": 1364390,
+        "page": 41
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00042.json",
+        "sha256": "818dab9131eee1ca4c2fceb164721084760f6b24130ad1e1dffc6f46e4657587",
+        "bytes": 1241956,
+        "page": 42
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00043.json",
+        "sha256": "78f55e6aa8c541fd4021e4ff128c054e07896cf5b2d1508f34db69cacb53830c",
+        "bytes": 968799,
+        "page": 43
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00044.json",
+        "sha256": "25ccc2ae53d3774ce95affcdf86837b7a4d4e86fef0f51a7c8da284af308c83e",
+        "bytes": 1374134,
+        "page": 44
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00045.json",
+        "sha256": "15b511512f8711bebd4d28ae4e2f78331cfc1a7a296fad8f4067f19cc3c99b3c",
+        "bytes": 1106864,
+        "page": 45
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00046.json",
+        "sha256": "7fd3d4dd8a64551410df29ba2ff1aca256cc42de7533507ae0f1c4d5e8a16b27",
+        "bytes": 1527880,
+        "page": 46
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00047.json",
+        "sha256": "6eb438b7c8ed3b051b253cf40985e7f1ec6374f0e2018448816e15c1643043c1",
+        "bytes": 1393613,
+        "page": 47
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00048.json",
+        "sha256": "12abf21f6d3e5f2a0e78cce7a7aeb4faabee1fcbc4c2b447e7e5d17081155926",
+        "bytes": 1143462,
+        "page": 48
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00049.json",
+        "sha256": "4beb86c46447876ffe230d25861a955db4d568dfa8bdb5760f1ba6a6a4b5bf5e",
+        "bytes": 1663155,
+        "page": 49
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00050.json",
+        "sha256": "4f1844d739bc6598e615a706157714e180598687e8aaf6d119dbc0ce1d3719d3",
+        "bytes": 1155165,
+        "page": 50
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00051.json",
+        "sha256": "5dae88b432cb3bd575e598d322e9ad29abd64cb123594bd4e5238efc38e95ba1",
+        "bytes": 1075827,
+        "page": 51
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00052.json",
+        "sha256": "18c7f08b129563e6cca52b11b831ea7fe07643a0da3dc2da751b1bbeefa2b477",
+        "bytes": 1879440,
+        "page": 52
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00053.json",
+        "sha256": "368d802678db60a5d3c5ee115f68320b4de76ccf41e0864b1f9f0afdd05ae8fa",
+        "bytes": 1016559,
+        "page": 53
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00054.json",
+        "sha256": "765466bb2a029e7fc222f5c80939196957d891c21555dcf36ce10574322f7a7a",
+        "bytes": 1460896,
+        "page": 54
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00055.json",
+        "sha256": "71fc88b4953430e3343735b0f090aacdde0de282ca70bfd2de9bb0c034e18e6f",
+        "bytes": 1147543,
+        "page": 55
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00056.json",
+        "sha256": "d90b44f16afbe2b70046c759ac47a27a4b2f5b3454419f61de696be60eb85bde",
+        "bytes": 2058035,
+        "page": 56
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00057.json",
+        "sha256": "bede7bff3365567f604d51ed4cb3d1eb313dce28feb4b26f848f0994ace26118",
+        "bytes": 2947908,
+        "page": 57
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00058.json",
+        "sha256": "14328c4eab74d34ce6a9690bd979e3b4eec792d7ad476e99db09777f0a109fe1",
+        "bytes": 1234145,
+        "page": 58
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00059.json",
+        "sha256": "c2d0602de045043f182aa936d69b8ed5d78268791e284f3f9cd7f280489e87c1",
+        "bytes": 1039388,
+        "page": 59
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00060.json",
+        "sha256": "077d47a4f6769f083a1c73c42952001b769912a4c26ad09818d1e876ff21d1fe",
+        "bytes": 1767423,
+        "page": 60
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00061.json",
+        "sha256": "7bbfa372b58fcffdfe806a1135fe937e2782264a0d95664677ab59c39c017cb8",
+        "bytes": 1089841,
+        "page": 61
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00062.json",
+        "sha256": "230e10ad8679fa5caa43ac6316bd75f1fa03971b55ac4a72bbdb188d4b72bb0e",
+        "bytes": 1722821,
+        "page": 62
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00063.json",
+        "sha256": "c4bc9167ba1bcf7a8b6eaa43c647ed6f02b106c3b4aa19d37794908fa320b870",
+        "bytes": 1053274,
+        "page": 63
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00064.json",
+        "sha256": "eb3a65a2acee9bacb438db8a1b7253a9ada46f2ddbbfafd9ebdc6306cbe465fe",
+        "bytes": 1110291,
+        "page": 64
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00065.json",
+        "sha256": "017f3701fb6cf639bf79df610245b037f954e329c63eec59812e383b92ea3f21",
+        "bytes": 766069,
+        "page": 65
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00066.json",
+        "sha256": "91abc13777fb4d66f662b95d4009cdd142837f02a99392e4a26b3a214b052b03",
+        "bytes": 1264156,
+        "page": 66
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00067.json",
+        "sha256": "b480d6d0ae50afdb2ff6122866e94065bb35117a018d9e9c9f3b9b587fef1517",
+        "bytes": 1354467,
+        "page": 67
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00068.json",
+        "sha256": "10804a78df4933b18070518247b59e5831754f7f2b9eed922ea3bc2b99c7a5fc",
+        "bytes": 1081571,
+        "page": 68
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00069.json",
+        "sha256": "180915b69690891647af3a287296d685ad0c45b23d50630c03f7f94dc28eb58d",
+        "bytes": 1221045,
+        "page": 69
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00070.json",
+        "sha256": "08abf0d87f1a665a8c6984e4f7e2d4f886761e812a99987e83a7551b34d46568",
+        "bytes": 1352833,
+        "page": 70
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00071.json",
+        "sha256": "265b56f171ec3cd7265a9699c8360384672ecda41f9f5290bc1c9086f5a0b538",
+        "bytes": 1003712,
+        "page": 71
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00072.json",
+        "sha256": "6c04b848b946aeea42d433ba9113b51163f0a51d3e512a96f3097ab28e9cd0cf",
+        "bytes": 1619797,
+        "page": 72
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00073.json",
+        "sha256": "cfccc779329010f699b00ed9481f461c051e9dd9029c6c79321057181c0ce0a6",
+        "bytes": 1170624,
+        "page": 73
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00074.json",
+        "sha256": "203d78c49789adef5d819ce9d616730b333222f7000f1472b43fd0f7f1a25139",
+        "bytes": 860974,
+        "page": 74
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00075.json",
+        "sha256": "32af42c184a43882dbadbade2fab5ce959bbba7c55ed423f51241a53154bc1a1",
+        "bytes": 796826,
+        "page": 75
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00076.json",
+        "sha256": "d900985a35407c6315463c4bcbfb595a412d9a52cb2802376a64497175e01599",
+        "bytes": 688223,
+        "page": 76
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00077.json",
+        "sha256": "8b4c31a77ae3ec199ef30f78f7325ff01200e901a8ba1975b98b48a8c3ec17cc",
+        "bytes": 1414633,
+        "page": 77
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00078.json",
+        "sha256": "52698c5edce11f16916a8d3fd9f72ef4a4ce2a4d4a549e6cfaa7ffc878fa3dc5",
+        "bytes": 1025812,
+        "page": 78
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00079.json",
+        "sha256": "4775d6ed0f0a99da5b9c9980c1413df2479b30392fbb0d3d664f904e543c514a",
+        "bytes": 780301,
+        "page": 79
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00080.json",
+        "sha256": "f3ebab0ef8fca090771ceb4c8fedc0eca207b7b73af88a1f2d45f9caf078fdf4",
+        "bytes": 783803,
+        "page": 80
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00081.json",
+        "sha256": "7695216c17780eb3ba6d39ad52bf015aba86c289fd8a2d2cd5ba8bbb1253ecbb",
+        "bytes": 611240,
+        "page": 81
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00082.json",
+        "sha256": "69cb30c27dc7a545e8e7ed702a306dc8b04294d56cd3cf2e1bc2056912a67502",
+        "bytes": 1687325,
+        "page": 82
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00083.json",
+        "sha256": "18b45b1bd2cfcbe3f848d9f35839a2c42b76fcfd84dae91cfd8ac445fe57071f",
+        "bytes": 967858,
+        "page": 83
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00084.json",
+        "sha256": "74dbb8fc46b0df8d42b5f56c554177ce1883906de19f226c3e1f80a1f9a1db51",
+        "bytes": 742834,
+        "page": 84
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00085.json",
+        "sha256": "65f7690c865d2199491dc7c55ba65387c1046eeb3b746a06df2e79d0d015e463",
+        "bytes": 491386,
+        "page": 85
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00086.json",
+        "sha256": "0003adce03bf9874fe0b1db97ec6583b6ef9410ae80e12ba16b9d8851474c71e",
+        "bytes": 540202,
+        "page": 86
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00087.json",
+        "sha256": "3482fd52c0df92f7b9e25a8c7dbbb0f7a76d62a2516338b57028eb86529c02e3",
+        "bytes": 572966,
+        "page": 87
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00088.json",
+        "sha256": "7767393ccce9cd0ac751739777ef199172185af95ab60072800bd7bba380b293",
+        "bytes": 467120,
+        "page": 88
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00089.json",
+        "sha256": "61ee2b72e8066e9a3676d81997da28c2b9dcbf0623e9887b9e28f2871d65f900",
+        "bytes": 1459757,
+        "page": 89
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00090.json",
+        "sha256": "b1df94e3718990c177efdf1e3b193e81d9ba93d4f38849387139fc55db84d599",
+        "bytes": 1506156,
+        "page": 90
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00091.json",
+        "sha256": "b021aa538d3b77afbcb6bee1be447844a943b64cb9536b8ee62d3d9d4ce633c7",
+        "bytes": 1402939,
+        "page": 91
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00092.json",
+        "sha256": "1cde06e168b8eb2859191babac3400d9fa65ba3baea29603ee6f81e8cca265d0",
+        "bytes": 772060,
+        "page": 92
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00093.json",
+        "sha256": "f0507d8b04b1fd4cf1b0949aefff5af64b1b764b6cede26512094fddec0c971e",
+        "bytes": 634919,
+        "page": 93
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00094.json",
+        "sha256": "03519c46508c4f1959dd67ebcc1d3bb73d4d62143200872b073ce26d59f23641",
+        "bytes": 1045051,
+        "page": 94
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00095.json",
+        "sha256": "06d79180c077afba394409c660142c71b6f6fc9b0dff5e9ed1bfa8e632135be2",
+        "bytes": 803276,
+        "page": 95
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00096.json",
+        "sha256": "60369f561414351f339354a0fa3a2317a74665543a278a12a61dc7311254775f",
+        "bytes": 665751,
+        "page": 96
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00097.json",
+        "sha256": "14ac0cab3589ef196fb7da5a6d8fd7ccc2675ef5eefb016edb2a237d4f0dab87",
+        "bytes": 512925,
+        "page": 97
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00098.json",
+        "sha256": "c5cdcdecc88838521a288f1cc7070c2d266902ac035e259ef21a9ddd8b68fb86",
+        "bytes": 892291,
+        "page": 98
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00099.json",
+        "sha256": "4121661f75f0deb2328a2bd6c14978d6b0e58dc7ada5ad58a98733e7320d7168",
+        "bytes": 1438314,
+        "page": 99
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00100.json",
+        "sha256": "fb239b8a168e87f884d09fdc56dde788b1454e4179869c284e5dbb4772d10741",
+        "bytes": 463164,
+        "page": 100
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00101.json",
+        "sha256": "4cec7627bc9a65b3319fa0f554dcfa9af71eca91edd48e4c883e174b1238d743",
+        "bytes": 1041224,
+        "page": 101
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00102.json",
+        "sha256": "a3d4ec4e400a9126a71d63a01eae20331c939ddffdd458719769e001833fd7cd",
+        "bytes": 1194902,
+        "page": 102
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00103.json",
+        "sha256": "e6c762703600d9689e603bbf0434d86db5b31b0f1578a26c1bdd10f1a96bf86d",
+        "bytes": 871395,
+        "page": 103
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00104.json",
+        "sha256": "1098348e0ec3f0e524226ee45cc8c80bb5934e7cf21d452c5f51e2b1eb3ebcd1",
+        "bytes": 883024,
+        "page": 104
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00105.json",
+        "sha256": "9c9461e3e073dcbbdedd5231820265214dac83eb255c5a10f3b5993bf21115df",
+        "bytes": 524944,
+        "page": 105
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00106.json",
+        "sha256": "2d559a8303ca4592216c575edeef8f44d1296cb29e3cc27d33ce89d5587d349a",
+        "bytes": 1135670,
+        "page": 106
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00107.json",
+        "sha256": "9854f7bf3684044ccf5d4f2b1b14c129b25d0969e0a8e89d3122387957ab7268",
+        "bytes": 662483,
+        "page": 107
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00108.json",
+        "sha256": "9d8ea4a02627545958eda9629a6c9d41de78f87d004e8f5b6c34c701c110a0cb",
+        "bytes": 255243,
+        "page": 108
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00109.json",
+        "sha256": "1ab152431d23c36171f29dfe8e04c07f8365f19971c706388d9077447ea07522",
+        "bytes": 318684,
+        "page": 109
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00110.json",
+        "sha256": "f8a94f537e73fb9a1a669bf702bbfe5e09055f308bce4c951f4156f68f13d614",
+        "bytes": 459337,
+        "page": 110
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00111.json",
+        "sha256": "54aea094096cfdc9503fadd1d4cafbeebcfc384deee40371110fc90a2828de43",
+        "bytes": 1038181,
+        "page": 111
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00112.json",
+        "sha256": "d1cc7ff00e9d1c897afb49cf6e8026950c262b693cf01835232180423235fd04",
+        "bytes": 147071,
+        "page": 112
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00113.json",
+        "sha256": "bb3037ff549b5a4dbc78244efc083912954a46ff4f5931d243762cb4890e73bc",
+        "bytes": 410143,
+        "page": 113
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00114.json",
+        "sha256": "362be8dbaf612f01b35843787bfe1c31f965cc2b41344c218d3acd51780859c9",
+        "bytes": 206689,
+        "page": 114
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00115.json",
+        "sha256": "5dc609fff552dd8ff9017a98e2bb86346bbf85dc8ad9f1919e335a1bf9bfe914",
+        "bytes": 842984,
+        "page": 115
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00116.json",
+        "sha256": "da009140c58bdcb45dd4b1f956def2ea14fb05413f15c5ff3a6a74aa330caabe",
+        "bytes": 287390,
+        "page": 116
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00117.json",
+        "sha256": "ebff36e68010d198ccc4cbf24422e3d6ed10a342baba6ca38304853b533231d3",
+        "bytes": 462703,
+        "page": 117
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00118.json",
+        "sha256": "9f65632bb3c29e6c2eac64622875adc37e7ed1eb37eabcff3c226a2bd007511d",
+        "bytes": 635632,
+        "page": 118
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00119.json",
+        "sha256": "ec06f3ea4f31ef686e76460a42d868d23e490735cdc3559ede0d395d3367f6c7",
+        "bytes": 923689,
+        "page": 119
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00120.json",
+        "sha256": "bdd6e086da395011ef87184926b0c38f3f5eaac1f39b02f87fd2ca26beb73f33",
+        "bytes": 391894,
+        "page": 120
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00121.json",
+        "sha256": "df4a4667d96d750561a14311893db714814e188ca85a292d6c82b92f54213f29",
+        "bytes": 409207,
+        "page": 121
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00122.json",
+        "sha256": "449ed80d740165ce12288cbe29d439b48c9b8b7eb5e0bdb046655754fbab97d5",
+        "bytes": 842493,
+        "page": 122
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00123.json",
+        "sha256": "2c37169dfefc66c8e60555618de6161dcecfda9120c7bbc1dd9a36dbdacc8551",
+        "bytes": 281322,
+        "page": 123
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00124.json",
+        "sha256": "712cc74a79737eac70daf0075023f4a0979a7e4255d8957df8014c2bc6566bd0",
+        "bytes": 972248,
+        "page": 124
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00125.json",
+        "sha256": "64a977955d7a79f04f34a1b185caaf43fdf8da953b6e4b63bd181970408ca7e1",
+        "bytes": 298881,
+        "page": 125
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00126.json",
+        "sha256": "7513249f6da69f17c12417945b322e58677ff339e51568e88edbc3202f2770ae",
+        "bytes": 578568,
+        "page": 126
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00127.json",
+        "sha256": "cd825e705e8bba0b7a2fd935e3896677806dbe8848af0326ff3ae607887a8457",
+        "bytes": 623653,
+        "page": 127
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00128.json",
+        "sha256": "d4dda55286f80f216c20c9dd8702b6d2c9cd44953834fa8ae24d90c7da2f585d",
+        "bytes": 898679,
+        "page": 128
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00129.json",
+        "sha256": "304b63cf3cf8095fc1e92ab2f374a19373be1a4ff6b098074636164751fc5547",
+        "bytes": 248461,
+        "page": 129
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00130.json",
+        "sha256": "b5df28c12d462540d12bf044c9a1d5b73761d615ebe555a60a7a62501c8f10d5",
+        "bytes": 707914,
+        "page": 130
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00131.json",
+        "sha256": "cc18c07982ace023e024b808210f4938ceb0b4fde80973b5c6eef4457afdee0c",
+        "bytes": 708021,
+        "page": 131
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00132.json",
+        "sha256": "6b0c94f155b60a880c9a79cd3bf1c3330c73ffb02efb2c826229f324d7ac6a1f",
+        "bytes": 433197,
+        "page": 132
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00133.json",
+        "sha256": "5b11a2cbf5bf53a229ce4a207a6dde9c099e36df6020a351ef4f48fbedff17a6",
+        "bytes": 749379,
+        "page": 133
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00134.json",
+        "sha256": "bacaf41ab9c6e9cda6c1129bf3bf55e7910de4331cf7c8ea99361c8b7ba50506",
+        "bytes": 1030604,
+        "page": 134
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00135.json",
+        "sha256": "d1f60f1eabf40337ca680c35347fd699b675a04fcb9c00ce3e8a6019b8c9744a",
+        "bytes": 96409,
+        "page": 135
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00136.json",
+        "sha256": "b180d111a7e11f5bfe579fb7c88563e81ebc221376955653ba63193fc5d996d5",
+        "bytes": 82279,
+        "page": 136
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00137.json",
+        "sha256": "5a79efac73d361c3b87e2267dc9e1baec1246f3accc9209a7ae587fc101d578a",
+        "bytes": 462920,
+        "page": 137
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00138.json",
+        "sha256": "4647c9c6d5fc77a19294a7662240fdb02fededc1546e10eb5ec0e798cb20a6e8",
+        "bytes": 338282,
+        "page": 138
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00139.json",
+        "sha256": "dcb81074c164d5654b8d796261a874c67ef4f5ee4d235a1408ab55cf6815217a",
+        "bytes": 919397,
+        "page": 139
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00140.json",
+        "sha256": "bbe2b7a7c0b22cfb377558656451867cb8a4a9aa74f243fa6117e6828396ceea",
+        "bytes": 167637,
+        "page": 140
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00141.json",
+        "sha256": "d15393d060901de27a6f95fd0be76a7ab1f98512e3bcac8ec830a6773c391611",
+        "bytes": 270996,
+        "page": 141
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00142.json",
+        "sha256": "61de18b97339c8990ce443b7fb95544cd42874b2906bfc75f792f29bd204608b",
+        "bytes": 610726,
+        "page": 142
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00143.json",
+        "sha256": "200d9948baae4e954689781cfd566b2eed131521ddcae28b1b112f1d1eb2e7b5",
+        "bytes": 392454,
+        "page": 143
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00144.json",
+        "sha256": "785bdedb65e5e2b553344eaafdfee3680e13e86f720e9af4db368e1e634ccba4",
+        "bytes": 315844,
+        "page": 144
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00145.json",
+        "sha256": "70db75dfca60d504ffdff2ff801f18d1c13dc1c1208d8cfebeb148e23f0f3671",
+        "bytes": 860213,
+        "page": 145
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00146.json",
+        "sha256": "a054fe673b8a3e0d29548dceb5aac81146080a46290c61dcea59c64236177b3e",
+        "bytes": 1019906,
+        "page": 146
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00147.json",
+        "sha256": "d7da5736c4a95afbdcada0507074b2c6014dbe1511dd1992f016d7294689fa7c",
+        "bytes": 385231,
+        "page": 147
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00148.json",
+        "sha256": "5e01e6185ee11a55cae53c34d84465060158d1f520a12ae32e61d64c45f0e790",
+        "bytes": 80382,
+        "page": 148
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00149.json",
+        "sha256": "494aab497aeec56952ee48bb2861406e2dab9029419aa70e933b949f2022322b",
+        "bytes": 985878,
+        "page": 149
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00150.json",
+        "sha256": "c1e4862908b7e14815f2f03f20cf98879dc93cabb6c368e3b5f66b7f2cd7da8e",
+        "bytes": 528502,
+        "page": 150
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00151.json",
+        "sha256": "6b09f57e2ed7b66170a287e58c1b44c686fac3e0f4828aa1082bb07f60f1183b",
+        "bytes": 43940,
+        "page": 151
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00152.json",
+        "sha256": "ab20afc6dc59a85081477675f5a906d8ac9860d6385f0234a456ff6c3c4a916f",
+        "bytes": 662528,
+        "page": 152
+      },
+      {
+        "kind": "geometry_page",
+        "file": "doh_highway/pages/page_00153.json",
+        "sha256": "f465d5ee65f4ab3574784592b8c7445d0da4b3524180eaa3ee3c8ac5026080ba",
+        "bytes": 30389,
+        "page": 153
+      },
+      {
+        "kind": "count_post",
+        "file": "doh_highway/count_post.json",
+        "sha256": "f1322590d763b98d8c29d76a35ef4e7b6299c80cfc23bdb8ef3e516ca4100ea6",
+        "bytes": 14,
+        "page": null
+      },
+      {
+        "kind": "ids_post",
+        "file": "doh_highway/ids_post.json",
+        "sha256": "d2911b7742014f3458ae5030e3913b2ed16c4ce79ead9a13d49145c47a97895c",
+        "bytes": 14189,
+        "page": null
+      }
+    ],
+    "drr_rural": [
+      {
+        "kind": "service",
+        "file": "drr_rural/service.json",
+        "sha256": "986ba076c47b57eac1b2f6e12e1c795587665c70b82514608f8b3640b62ff4ff",
+        "bytes": 956,
+        "page": null
+      },
+      {
+        "kind": "layer",
+        "file": "drr_rural/layer.json",
+        "sha256": "2ebaa184a6fe0f9a4f1c6083e795edadb3e1968c2a2da7e1b4b91165b4999525",
+        "bytes": 5329,
+        "page": null
+      },
+      {
+        "kind": "count_pre",
+        "file": "drr_rural/count_pre.json",
+        "sha256": "21df228b1956db82d42e0fd1060e450b785d19987f0736e18266260a309cc131",
+        "bytes": 14,
+        "page": null
+      },
+      {
+        "kind": "ids_pre",
+        "file": "drr_rural/ids_pre.json",
+        "sha256": "f582c05e369cea5dd98a0f7a86800d3b3c5821788aa8236fd6b5afc6650539a1",
+        "bytes": 25946,
+        "page": null
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00001.json",
+        "sha256": "2255979777b7d32ff8eaa06acea955852c913ad1956bba3b767071bf8080745f",
+        "bytes": 220335,
+        "page": 1
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00002.json",
+        "sha256": "3b6c12729da18f0290354d1edd1972c53fa5e53d459c5390f12b06e8baadb9e8",
+        "bytes": 269137,
+        "page": 2
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00003.json",
+        "sha256": "0a7b435fa6d689916da8c46dd549eccad716394c25d16ffa7d4f061581fca0fe",
+        "bytes": 277422,
+        "page": 3
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00004.json",
+        "sha256": "bedc263c65ac1f15658d450ca16d2d8917374ae09b5fb36324649808249cc83a",
+        "bytes": 239000,
+        "page": 4
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00005.json",
+        "sha256": "70ab05b38bfb9c5af15b6a199ff5c6df54fba41368847f24cc49f1587894995a",
+        "bytes": 340647,
+        "page": 5
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00006.json",
+        "sha256": "a73d1665e40f0c10fa9eb559833e81f70c3e880e457fbf20db719d83d8c3c4a9",
+        "bytes": 148284,
+        "page": 6
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00007.json",
+        "sha256": "d653504a459509daf61d4c0c0ccdf67de8e2dab9607689c8642a26e6581d297a",
+        "bytes": 183414,
+        "page": 7
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00008.json",
+        "sha256": "0f5f4c1ec8b6bd5e947b53e4127d58e5aa57b9b71249c9b3a5fbdbe236130c37",
+        "bytes": 147529,
+        "page": 8
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00009.json",
+        "sha256": "c96bc0d08329fe0726f770e23613504156d8a419807228afdbfcc99213f3ae02",
+        "bytes": 323318,
+        "page": 9
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00010.json",
+        "sha256": "1f8c7d19b50fa34b24e56450c5e89f02b9dfa89fe9b08810b88081e900f084f7",
+        "bytes": 597503,
+        "page": 10
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00011.json",
+        "sha256": "21d0dac0c36fd967209f4a75fa118ef4a5063d87f9500c768356ef48072302db",
+        "bytes": 736727,
+        "page": 11
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00012.json",
+        "sha256": "731f5b98beb2358876f143e97b83509ff23f4c44ae33b0885da4df41735ebb49",
+        "bytes": 706755,
+        "page": 12
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00013.json",
+        "sha256": "794701e470e39513cbbff04d74117d85c7c61052f3fa0c2b4a57d20aac1f53d2",
+        "bytes": 460259,
+        "page": 13
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00014.json",
+        "sha256": "cf42a2fd04a4b4ee9b796a943f50eeeee2eb94ad559bc96cc0d7dc63327a0d48",
+        "bytes": 456458,
+        "page": 14
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00015.json",
+        "sha256": "0fb901b551c93912489f844a3d8e215cc7d13a9186074b1116492899dcd35c13",
+        "bytes": 555913,
+        "page": 15
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00016.json",
+        "sha256": "b6a6dd9a24591e5a281f6e98eea1524b9d4f4dca344ec6a75c75d2fd45e059c7",
+        "bytes": 181541,
+        "page": 16
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00017.json",
+        "sha256": "52d48b81e29c7f64dab6613d7cb42f0758fb4be8fa5f91bbc1653a7ac6bf9f47",
+        "bytes": 213212,
+        "page": 17
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00018.json",
+        "sha256": "d3d3398898a02b15c97b2eaf57b758e3a5007dfd24cfa875a8460bb5533ccfed",
+        "bytes": 273822,
+        "page": 18
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00019.json",
+        "sha256": "17a2da0cdfa401623a09715d60f3875277655f90a483a1f47e8033fa57aa6087",
+        "bytes": 305189,
+        "page": 19
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00020.json",
+        "sha256": "0e8f513828ad5ab303763a695a8621526481d587845e49ee0401ba90bd7e7202",
+        "bytes": 215682,
+        "page": 20
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00021.json",
+        "sha256": "ba0a2fb8b8582b4378277e1167acc2546276a07af6a9169b9a042515718bdec7",
+        "bytes": 259736,
+        "page": 21
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00022.json",
+        "sha256": "7ad500f135fbf184521d76179a8113d9f2c00a59c9e2a432dac8c81e1e004706",
+        "bytes": 222133,
+        "page": 22
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00023.json",
+        "sha256": "702e1928659ada54b73f7bd8bffd7ed9c2b92e90d80a2f7861ee796a0c670543",
+        "bytes": 235258,
+        "page": 23
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00024.json",
+        "sha256": "03a0ce8b74401879d51cd5b717414bf71dbb924803676828150e1ddf67bbe846",
+        "bytes": 325627,
+        "page": 24
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00025.json",
+        "sha256": "721514d19ea9917aca02cbb8d509328c86cbb860a91ecac99e694aedcf3272fc",
+        "bytes": 412786,
+        "page": 25
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00026.json",
+        "sha256": "d89d775ea4318130d576f914ef41bafac29d2f44cbebfef207e2144e2524af3e",
+        "bytes": 335308,
+        "page": 26
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00027.json",
+        "sha256": "c313aa6c895adfa7f18c133ac9cc5c0e48a37454646a4f126f560647fe0cfbc8",
+        "bytes": 208698,
+        "page": 27
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00028.json",
+        "sha256": "825f4503f57652f1330b90fe43b8069477048ec1c621b8fa33d07db2d516df72",
+        "bytes": 201582,
+        "page": 28
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00029.json",
+        "sha256": "165a1218a3d8422ea0381cb446458161253e80bfe4ee50104471038959f964de",
+        "bytes": 229065,
+        "page": 29
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00030.json",
+        "sha256": "6e13b172a63751072c6cb6657dd1bea382825c9f47fa815be3717e282d9f0e38",
+        "bytes": 259423,
+        "page": 30
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00031.json",
+        "sha256": "d1220146c3fee26c66870014a804f8d76ff7d431816b74d407c9ad58ab0b1f06",
+        "bytes": 249446,
+        "page": 31
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00032.json",
+        "sha256": "0ba00573020a1343c5c85a3baed5c1fcf6f7533d63ffe0f2e1458adbf8235f8d",
+        "bytes": 252592,
+        "page": 32
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00033.json",
+        "sha256": "f478ee7825de91b23e04b865e1a3e713797ccd4feff0714fd1ccde4b55392f21",
+        "bytes": 151605,
+        "page": 33
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00034.json",
+        "sha256": "b047d864a506446130eade37fbcecffea6eba0e5a03919c467d0bd8a63762c68",
+        "bytes": 201614,
+        "page": 34
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00035.json",
+        "sha256": "8a450619ce95c5044f089bc2b64ad3f3acf0cf522ac887df36799cf57ec5efbc",
+        "bytes": 154006,
+        "page": 35
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00036.json",
+        "sha256": "33cf02e4883acf72cd7e56166832dd7feb1223285c31509dccc05090906c45c5",
+        "bytes": 360236,
+        "page": 36
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00037.json",
+        "sha256": "41b887cf2b5e7ffd4ff759ad111df02864d29f005e7c5de503adbd0080632433",
+        "bytes": 162242,
+        "page": 37
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00038.json",
+        "sha256": "aa2fc6e8190f43ec4d1826576bf61305b9e18f149beec8d191a654d894770fc0",
+        "bytes": 127072,
+        "page": 38
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00039.json",
+        "sha256": "d72d7d429a4339c564d07b6c6950cbe090e2ccbf024b97a0abb5e7ba48ab683d",
+        "bytes": 238081,
+        "page": 39
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00040.json",
+        "sha256": "f3e7cde56f864bb6e4115577151c246c86ee5f773394f5cb991a8be00349f729",
+        "bytes": 173146,
+        "page": 40
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00041.json",
+        "sha256": "359ebdcde71a2ba2b6d69c890ef631dfe25fefe932900b078d44a3cf8c502630",
+        "bytes": 194035,
+        "page": 41
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00042.json",
+        "sha256": "93e6bf81f5d7f08468ee8c4c51abebdcf899221bdaaf29012ac61bbf7d9918ed",
+        "bytes": 259037,
+        "page": 42
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00043.json",
+        "sha256": "bbc5f5cad890ec8c9a32d258887604e0b69bded6deda2d3b41ccacfe318ec969",
+        "bytes": 270942,
+        "page": 43
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00044.json",
+        "sha256": "46602d98eb1b381bab9962de9921af3b8f6fde10402398201fa45a79714329e3",
+        "bytes": 207171,
+        "page": 44
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00045.json",
+        "sha256": "93fdab9edeeb8ad9e195034a19b1153102269ef4b6385a1a176ebecc3ff557b5",
+        "bytes": 230951,
+        "page": 45
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00046.json",
+        "sha256": "93d050ea1d66cae672171b137f1eb3d43eb1e4c8d526bd41c85c2906da85ce2e",
+        "bytes": 339842,
+        "page": 46
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00047.json",
+        "sha256": "f3e26bcf8a8f48f323da7df50647070d767f64cac6a3acb57f456799bf530349",
+        "bytes": 248761,
+        "page": 47
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00048.json",
+        "sha256": "f41587c8c1cbac0059e9f5624d6fbb4b4e0cadf315365b68e3953268c286ad2c",
+        "bytes": 267194,
+        "page": 48
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00049.json",
+        "sha256": "a590c29b5235c2891db869ad262b8509e631601ae2796ddb0218884bb9d0d94b",
+        "bytes": 282074,
+        "page": 49
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00050.json",
+        "sha256": "1c7feb6fbce60087b1a9a7a8ba162e65f8e009877aca447aac8c6f9faf0924ba",
+        "bytes": 258289,
+        "page": 50
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00051.json",
+        "sha256": "0e4ccd81c2a65297edd7e1a1c4e897d8f6223ea845888f14010f95aedb32728f",
+        "bytes": 309057,
+        "page": 51
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00052.json",
+        "sha256": "523c2be922490c2298bb4f4be8660f9bc4bab86236400c14092212752bb47dc5",
+        "bytes": 239835,
+        "page": 52
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00053.json",
+        "sha256": "740f983d4c2079c6a940da1e9cede760ec3f616f4a8ebcab174bd9fd16ee0985",
+        "bytes": 249542,
+        "page": 53
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00054.json",
+        "sha256": "5ab924e21432ec972d2a31b90efde3514538763530057244020f854b3c22cbfd",
+        "bytes": 145898,
+        "page": 54
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00055.json",
+        "sha256": "f0ef6ad19b65681d376b34cab536c855f785d0fd34fc8ad835cfaad26427b726",
+        "bytes": 208008,
+        "page": 55
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00056.json",
+        "sha256": "d0814fb18bbb2d014e0d0811f959dec4a973af8e0288cd0dbeda1096a5ee76e8",
+        "bytes": 161038,
+        "page": 56
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00057.json",
+        "sha256": "5d330c6f3de6cdbe88e70ddfce464d37b09daf192a09ee356b40e3493b51e150",
+        "bytes": 159522,
+        "page": 57
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00058.json",
+        "sha256": "90d0c37bcaba625afd180042b3ec7a4db52d93eaaa4f01ed4add6327033ecb1d",
+        "bytes": 212445,
+        "page": 58
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00059.json",
+        "sha256": "9e9fea9da4d71cf407690f2d9b965b18b5c67a0ca5d5682f94314834a85a6cc9",
+        "bytes": 178193,
+        "page": 59
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00060.json",
+        "sha256": "e1c422a2db635d5dda79f052e7c74928a96c7341247cdd29d01977cef3720a81",
+        "bytes": 195256,
+        "page": 60
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00061.json",
+        "sha256": "b00062363650446b38465dd1649a00c82311097f4c16202a14c887c846612151",
+        "bytes": 197082,
+        "page": 61
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00062.json",
+        "sha256": "2702dfe2b54ac69ff3551bbbf58533e0dd28e4354418e76695c5934378a6737c",
+        "bytes": 191042,
+        "page": 62
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00063.json",
+        "sha256": "3d13ce470fc5834928f0106fdfc2477d9a25b814ea62b72ce568e7982f8cc5a1",
+        "bytes": 258837,
+        "page": 63
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00064.json",
+        "sha256": "317bfdfb40d32f244ab9f649849bbd2cc9173e22e45983276253966adc14ee9c",
+        "bytes": 169134,
+        "page": 64
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00065.json",
+        "sha256": "59c0307b8c4c2472b63f7145b18152f7291dba7654f03bdc217feb2f4f069ca2",
+        "bytes": 196252,
+        "page": 65
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00066.json",
+        "sha256": "fdc532f0a71f5e3df018559c2ee99c1545a8ce5f833f6fcfeb6d7e7966f9c4d0",
+        "bytes": 249174,
+        "page": 66
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00067.json",
+        "sha256": "0a2749347cdf4da53e31ef7a8a3f2a676bb067e8e3680f6ca930b2bc8793d047",
+        "bytes": 240310,
+        "page": 67
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00068.json",
+        "sha256": "54a92f5849b2d996b1116c60d47fc489db3cf4036632c701ffb66d92116c28e2",
+        "bytes": 199288,
+        "page": 68
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00069.json",
+        "sha256": "d8fc74e5af896faa041222327a53389f3d693e3eaa5733c568cd6d4b937e2a56",
+        "bytes": 293442,
+        "page": 69
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00070.json",
+        "sha256": "29a2047512e63a09f946846fe8be97a195145523b94929879c5e7baf463496cb",
+        "bytes": 131219,
+        "page": 70
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00071.json",
+        "sha256": "4ea09226d6fb957658b5f753a62273c23ab2b2da1ed3f4c9ddbc01fa364e51fc",
+        "bytes": 213744,
+        "page": 71
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00072.json",
+        "sha256": "a367f8f476490128aa7f2c78d2726269cea60afe3fbd6ee67af21420992abd39",
+        "bytes": 169101,
+        "page": 72
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00073.json",
+        "sha256": "2ff9a3b5517ed0d81f51734eef62dbe78fd42122160038dee2600cdacc0148a4",
+        "bytes": 178083,
+        "page": 73
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00074.json",
+        "sha256": "ec8ebaac3ed36038ac74b0a59b18210954e97050d2aba52096db7fc5fc9bc341",
+        "bytes": 161888,
+        "page": 74
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00075.json",
+        "sha256": "66b5366358551595aaefb9287fe0b1e4e6537ed4e19d06c0aea72665b9f6c945",
+        "bytes": 158984,
+        "page": 75
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00076.json",
+        "sha256": "ad96fc0518188f46b57640f18e4f9561a5b16c97b34425d4ae2083b16d635355",
+        "bytes": 138566,
+        "page": 76
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00077.json",
+        "sha256": "2a637a90e599a16915c5da5b25f5dd0c92fcbde205c0f2490b24da6b6ee611be",
+        "bytes": 234068,
+        "page": 77
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00078.json",
+        "sha256": "ef87caa3992bb0b3482afedd7130f4d1b0f1b697cd2aa14efd884b692eed9071",
+        "bytes": 358803,
+        "page": 78
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00079.json",
+        "sha256": "b6f1cf4310e6d47c69d9ec8ff5b120b8b6a5e24df5a039adccf3b238fe636b9f",
+        "bytes": 193908,
+        "page": 79
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00080.json",
+        "sha256": "7c9a11f68b80c9eb64cf37203e1ead69dfa3ec78a4600c8431ccfc1f6837e576",
+        "bytes": 302102,
+        "page": 80
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00081.json",
+        "sha256": "a192deed73a48a615cffc93d5d60e08d5e9c54b3c9e0ca3fc8aad1bc09fa8032",
+        "bytes": 221800,
+        "page": 81
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00082.json",
+        "sha256": "5e439df6f01ba4ff1d199959b94d2a2ebb9c571b15461f2e75738dd706a6b9a8",
+        "bytes": 291525,
+        "page": 82
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00083.json",
+        "sha256": "40888f0a9f75d565b0911247cbcb25d3073431ee67775f7ac07808826aac5c28",
+        "bytes": 198996,
+        "page": 83
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00084.json",
+        "sha256": "0b9fca6d2983b8918ff38454b5ab63e34e78bdc4bc2df90af37721490ad230c4",
+        "bytes": 220117,
+        "page": 84
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00085.json",
+        "sha256": "c13baa73ca90714f114d9651a3c9d690b278b99a739efd1e8f1cf15e5e727ce9",
+        "bytes": 226951,
+        "page": 85
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00086.json",
+        "sha256": "619d32c6667f0b212b72379865e8940e6f65a4f2b9e211b06eaa103d9ce6321b",
+        "bytes": 250012,
+        "page": 86
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00087.json",
+        "sha256": "6b948d3ab0427f241eb3d9224a83d8acfe1731cf99439f61e05870eed7c75fbf",
+        "bytes": 153556,
+        "page": 87
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00088.json",
+        "sha256": "171aa7331ab42d2117ec1830dd7a6d8700a0f9f76710da65ce5dff5a56be9e44",
+        "bytes": 432869,
+        "page": 88
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00089.json",
+        "sha256": "54b3a0dc02542fe4b091c0205e7e8c27bd9afa0f7be4b230007c52c9430cf815",
+        "bytes": 333458,
+        "page": 89
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00090.json",
+        "sha256": "252d84d2f8026f18b9e096bb5f08f052c1c6eb8fad6271105b3c89a3be10fdde",
+        "bytes": 232988,
+        "page": 90
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00091.json",
+        "sha256": "72ad82a24e22a71751aae44324edf362dbd425860dd4f36aa9abb71869170527",
+        "bytes": 179603,
+        "page": 91
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00092.json",
+        "sha256": "26bf8e70a05963c66d74b7e5a8dc8549840fa1be68b118127c51c51993dfa377",
+        "bytes": 301390,
+        "page": 92
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00093.json",
+        "sha256": "37a6d1e1a9064ec8546493d8b740462d83876aa6c4db99577d34a3b7ed535200",
+        "bytes": 272933,
+        "page": 93
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00094.json",
+        "sha256": "93a51d7e430f3c975dfbdc304ab1d2263fdb222d86e3c84289b6138b6b0cd010",
+        "bytes": 205925,
+        "page": 94
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00095.json",
+        "sha256": "212ad67a3db2aaf30d96289325cfffcd3aecdaab94510b0e1b7fadd567a996c8",
+        "bytes": 245023,
+        "page": 95
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00096.json",
+        "sha256": "d5915ed52c185578291dea2f91bed038b0935d823f07b2344aa6afe350415f4f",
+        "bytes": 326996,
+        "page": 96
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00097.json",
+        "sha256": "f20188c188da8f1df43ee1fc3369f9e11a0ad9dafec2529d785ac7440de59b73",
+        "bytes": 216611,
+        "page": 97
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00098.json",
+        "sha256": "ebb69f5d900e0e2dae960607328f4d926cc520c2ba3a63aefb21c80152816623",
+        "bytes": 268796,
+        "page": 98
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00099.json",
+        "sha256": "37b13b1da63144392db12e2184e37babe0ec94b1e61782ac3af50609b3c1e78c",
+        "bytes": 144415,
+        "page": 99
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00100.json",
+        "sha256": "e2d39cae0809ce3f09a031ade2649d2776006efe84dea0828469d131f02022e6",
+        "bytes": 203192,
+        "page": 100
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00101.json",
+        "sha256": "4a83e90687787435fb5d802122ded9e9510af52e0e7fe3c90d866d6cb4545b52",
+        "bytes": 257046,
+        "page": 101
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00102.json",
+        "sha256": "2edec04d3049524c9c0eaca3f8d9ac7f791206457363ec304d5227ca88021e6f",
+        "bytes": 275121,
+        "page": 102
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00103.json",
+        "sha256": "6b26b0ebb8859c278cd80e8527c4474d269e2b89c73c6b1db905241080576598",
+        "bytes": 267641,
+        "page": 103
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00104.json",
+        "sha256": "4f5c695725acd43d3a205782b2234a3b640926ae3d8c25a8409a4431aa67d79a",
+        "bytes": 212453,
+        "page": 104
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00105.json",
+        "sha256": "4e7ffec20ae0524eea35b59ba9018ae5f9495769d0df77f08e8f8afc0a834f49",
+        "bytes": 300523,
+        "page": 105
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00106.json",
+        "sha256": "f338dde88a05143775f7c38dcf65800b8930f210b0fbaa82f8a86641fb832f4c",
+        "bytes": 222115,
+        "page": 106
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00107.json",
+        "sha256": "4893dc7e49fcfbdbdd29232b6a4490011e5c55d4150d0315343e077a1823d134",
+        "bytes": 190355,
+        "page": 107
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00108.json",
+        "sha256": "d7b4976bfb9d14556b2f1a981a13d70da05eb2089cbc288a7d133aa4995aa9e0",
+        "bytes": 184069,
+        "page": 108
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00109.json",
+        "sha256": "6db336969415e6cbcec321fc6a3c7c08bfe45f119abd86e476da50e58e45b05c",
+        "bytes": 187750,
+        "page": 109
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00110.json",
+        "sha256": "99669f0f540aa20a141c2c82f63d198556b46eca7a8d2f245e3f5dd81266c24a",
+        "bytes": 173454,
+        "page": 110
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00111.json",
+        "sha256": "03543b1267342f91d4bd883f009e30b4fbbac5581d2b849798c773cef43da0a4",
+        "bytes": 283659,
+        "page": 111
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00112.json",
+        "sha256": "f7ce76524b99c2dc390c2761c72d2a3fbee8d603793e5b8034a4d3124cf099fe",
+        "bytes": 250343,
+        "page": 112
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00113.json",
+        "sha256": "de934c7bfd66e0f1d45bdb9993e933ef7565e174c1e078ac8f9ce51ab4b172a1",
+        "bytes": 301489,
+        "page": 113
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00114.json",
+        "sha256": "cf32d26fdb08d07e69d3b5312e23cc7de8b4e27a8d1b0556c49bbfc874eced40",
+        "bytes": 215570,
+        "page": 114
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00115.json",
+        "sha256": "cb05b29673ff9ee4b6a17ab1fe7c358f5aeb0159d25d36cfabe02ee6e28de6ad",
+        "bytes": 290123,
+        "page": 115
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00116.json",
+        "sha256": "ed72d3241cb14dea5e80a12d641a0a2896fe1fc81b0f4480526193d7da762af4",
+        "bytes": 221607,
+        "page": 116
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00117.json",
+        "sha256": "d259c5c31b1b8801790ee51d709ac83df2c0b8f8e32be48cb6ed3a9c4fcd2ca5",
+        "bytes": 216823,
+        "page": 117
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00118.json",
+        "sha256": "601fa1884c72f84ef77f27946e0e8d61084de6fe7ed44a378f9ed2a081e029c9",
+        "bytes": 209613,
+        "page": 118
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00119.json",
+        "sha256": "fd170d4b78ed10d3d9f45301fcb53a3ca1c551449d4b46fd26ffe5f04d9077ef",
+        "bytes": 263792,
+        "page": 119
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00120.json",
+        "sha256": "a3c4fc8979d477ecd34918a968d3d266e944199227ab9168f7bcf16843deb350",
+        "bytes": 230549,
+        "page": 120
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00121.json",
+        "sha256": "b93fc180f87962e22633d1fe9910d707e65c582d108fbb9046f6381c6cbf0d0b",
+        "bytes": 219243,
+        "page": 121
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00122.json",
+        "sha256": "bccd85de71b6786dbcab0b3c48fdb7fa8d2aff52f8d65c0afb98adabcf77f26e",
+        "bytes": 221098,
+        "page": 122
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00123.json",
+        "sha256": "cc4c502b2625ba8eceec51935e336720c9464c196d2996192172c1a9842233aa",
+        "bytes": 210463,
+        "page": 123
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00124.json",
+        "sha256": "df4248807661179ba25aaf3223a88839315c7557467cecfedbad04040927a437",
+        "bytes": 206166,
+        "page": 124
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00125.json",
+        "sha256": "672cc39a98aa172b039c8f6058401ae20d0330344a587102fce307d0d74e2458",
+        "bytes": 250733,
+        "page": 125
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00126.json",
+        "sha256": "8e2f471bba607f36caf08f5638da3096abe8e10da2ace5d42074dfb9a43b9d73",
+        "bytes": 231514,
+        "page": 126
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00127.json",
+        "sha256": "e7beee41b7733080b034ef3166177ccd8e9b994c6afa656f1bdb658d10d98ce4",
+        "bytes": 235462,
+        "page": 127
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00128.json",
+        "sha256": "c83d8aca90aea41e5006a10ae48f9190badb42ab1ddb7b41f5939db1cf67d18f",
+        "bytes": 256814,
+        "page": 128
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00129.json",
+        "sha256": "7e58af006a4707dfb91539bbd092a408775edadaef5f29a2e4c4bcdbe8b9b3b3",
+        "bytes": 221294,
+        "page": 129
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00130.json",
+        "sha256": "490b92cfe52013bbc9126832c2ac79cd68f3971a0c7c3986f3b440e1cfad3dc5",
+        "bytes": 254566,
+        "page": 130
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00131.json",
+        "sha256": "a8380a9811ad3d4a28f4e800f33acd134ce4624c99c95549cf56bd49d81c17ae",
+        "bytes": 306452,
+        "page": 131
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00132.json",
+        "sha256": "0d765f0f826671424e348a532fa9cd29f7859511563a3a411a19887a5052be71",
+        "bytes": 225475,
+        "page": 132
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00133.json",
+        "sha256": "78f4c0a6d6322a36c127e021b41e1d7a80033340fc65b2ff31f45fa1afed3ac3",
+        "bytes": 321251,
+        "page": 133
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00134.json",
+        "sha256": "04b07c6686e839623ebaee540ce0dfb0546e446a7a3df85763476a7152a91e42",
+        "bytes": 257733,
+        "page": 134
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00135.json",
+        "sha256": "47271be2da6da06ff16aaf509b790f9fe116e367d3e88ceabd4d8245e36b7bfe",
+        "bytes": 211688,
+        "page": 135
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00136.json",
+        "sha256": "1884ee0851a0f4f1658774e68d04069d054aa0c27e3fb4df7583c77840ae306c",
+        "bytes": 230449,
+        "page": 136
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00137.json",
+        "sha256": "7cfa7b4d39c956b140599b9389be84ce39f0c39ad51451c20c2e2c6ad1c8a83b",
+        "bytes": 231201,
+        "page": 137
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00138.json",
+        "sha256": "178a9be711fa3c177c0a37aa3c7414dd64ae2acbc6908d4af2c3aa4d2a70e273",
+        "bytes": 249154,
+        "page": 138
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00139.json",
+        "sha256": "fa29ad235ba82bae85a1d38322e539f25bc9fe112b34da447b539d5c17e59e22",
+        "bytes": 231262,
+        "page": 139
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00140.json",
+        "sha256": "b36b1cff0b83adcbbe5d4e87f2ec0de1047ec7740ada477d16771dfe06c2cf81",
+        "bytes": 225935,
+        "page": 140
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00141.json",
+        "sha256": "d9a9e48b46c345521a7f6cb4ae4ce96d63848900f1bf92af9b1f4842a3af75fd",
+        "bytes": 296258,
+        "page": 141
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00142.json",
+        "sha256": "7c877c6b4eeadba684da8fdd885332d52ba52fee46220c91b675dd07351c8d17",
+        "bytes": 242771,
+        "page": 142
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00143.json",
+        "sha256": "917c1a457bedd0833875691941b37de08653511c7e39b18259d18b75a319f912",
+        "bytes": 191215,
+        "page": 143
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00144.json",
+        "sha256": "fdec0bfc7227b8ca92b7f587bbc4868bd5c8c7c465780eb66e1984d1a4caa9c4",
+        "bytes": 266990,
+        "page": 144
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00145.json",
+        "sha256": "5e8dba0ef5a88a3ee20089774ca56c1ffad08e40d20a596ae31afc89a7609a56",
+        "bytes": 357690,
+        "page": 145
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00146.json",
+        "sha256": "030e8658c3889869c20954a9fd5542be019fddcd328938c078a3ea0c0956029f",
+        "bytes": 207243,
+        "page": 146
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00147.json",
+        "sha256": "d7bcb9a7850b12ae9e3aa8c28cfb2613e0b8e15e474021909016f5157c96a5a9",
+        "bytes": 263308,
+        "page": 147
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00148.json",
+        "sha256": "c66469277cd0b6f9c632d9dd7b86ebd27d78bc06ae1d0e38fe0140a8720ef5b0",
+        "bytes": 316277,
+        "page": 148
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00149.json",
+        "sha256": "50f512d483f781e317ee8fec062667f2608ccb9b6712f04e99484bd2d9f06d7e",
+        "bytes": 251642,
+        "page": 149
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00150.json",
+        "sha256": "c844f35faa1b55dbeec59e82633d8d594af30cc76bb7813d69a1b130ec424d47",
+        "bytes": 440621,
+        "page": 150
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00151.json",
+        "sha256": "ff108f4a38e195c29c16b9844f8b6c3aa14774d59052dc87bbd65e5fb152a9ef",
+        "bytes": 328773,
+        "page": 151
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00152.json",
+        "sha256": "f8758fec016b437a4e00593d04c90543542942e8f924c772d42922f7435aa284",
+        "bytes": 369734,
+        "page": 152
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00153.json",
+        "sha256": "215b4f3186556a275d9c6c149abf34a402121d86631ee98f04e2af41f2d2cb72",
+        "bytes": 245474,
+        "page": 153
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00154.json",
+        "sha256": "b25f8583f137b330fb5dfd99bfb99d514258a80fc09a2d1ecb1f5e2f59483a74",
+        "bytes": 271094,
+        "page": 154
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00155.json",
+        "sha256": "b2dd2e3908138c1de7f997707d3cf0058ecf72b478847d58a13cbd7a9ca1de85",
+        "bytes": 278137,
+        "page": 155
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00156.json",
+        "sha256": "824820c25b307e053b588e138010f3d3afd337790aa83c6021614fffde454d7a",
+        "bytes": 303195,
+        "page": 156
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00157.json",
+        "sha256": "d5e24715693c102112d6f124fb8930ef3a5c3ead89298ac24d05bc1a32fffc72",
+        "bytes": 420750,
+        "page": 157
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00158.json",
+        "sha256": "2fe5232b089e822dc3603167656f768cdefcbaba66468858c3d8d8bb713520b4",
+        "bytes": 264810,
+        "page": 158
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00159.json",
+        "sha256": "54adaee6ec66b7c5f57c33c7af7641fdfd94426dce5a8dca988261800df40dd8",
+        "bytes": 220306,
+        "page": 159
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00160.json",
+        "sha256": "5aa3225d1fe3229bda141fe069b15cb6173d2a94c678e36007f4143034f1f833",
+        "bytes": 235859,
+        "page": 160
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00161.json",
+        "sha256": "a0d46c72d6a2c8607a9ac9013fd12a29698fb56adc65a14d2d3cf77fa416a887",
+        "bytes": 318607,
+        "page": 161
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00162.json",
+        "sha256": "cc95a60effe6aff3275522e206498028f0828e3a278e15c6fdb0d8937f5c48f9",
+        "bytes": 223820,
+        "page": 162
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00163.json",
+        "sha256": "9e96c5ec41b3bcba4fa4dca7df62882a7e0b406eb4b2d6ba39dc3967be637c3a",
+        "bytes": 420424,
+        "page": 163
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00164.json",
+        "sha256": "c8851fda0fd0074884807be7af6d17429a197cf1398a5be09a1fff2325e425ee",
+        "bytes": 230813,
+        "page": 164
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00165.json",
+        "sha256": "fbcfead6d0cf839bd305946a03bb599d8c01ebda7f033ddb3bad5886e0a48939",
+        "bytes": 187864,
+        "page": 165
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00166.json",
+        "sha256": "e06f19b4312c859f0f2d2e64c9c7fef6e14c5ba04346ba94c73eb6cea313718d",
+        "bytes": 205466,
+        "page": 166
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00167.json",
+        "sha256": "c2012be5d70981817e05e7c83f25558dc61ba8c82e104cd2473025d00e09489f",
+        "bytes": 245941,
+        "page": 167
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00168.json",
+        "sha256": "e49b53a06809aa4f19dc6b1b4ec0b8f65a328d54dd024c029c86769656b85072",
+        "bytes": 183529,
+        "page": 168
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00169.json",
+        "sha256": "f0c1448a29e09b937d5dae1b8884b22be25a68ef1a7e23bd7580dcbd2164f155",
+        "bytes": 276605,
+        "page": 169
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00170.json",
+        "sha256": "9ecedc09736846cf77052d7a566b5a534452d3a549c5232feb9fcbdf59ca71f2",
+        "bytes": 168364,
+        "page": 170
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00171.json",
+        "sha256": "ed69e2e665311b62e44743b4461c792af4557e2a9c6356e0bf3aa53351273f95",
+        "bytes": 155279,
+        "page": 171
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00172.json",
+        "sha256": "07294e47e7cbcec53abd46abc442b4c1bdaeaf6572461b415029416d0da2d76d",
+        "bytes": 220618,
+        "page": 172
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00173.json",
+        "sha256": "b47e53334d9d2d5208475f659b617dc6a8943923864cf2a7ae2cae4300e8e5c0",
+        "bytes": 251447,
+        "page": 173
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00174.json",
+        "sha256": "8b780285f4dcbc214ac7ba506a59fb49e5271d00023ee7ca9b6b0392e2bb5b67",
+        "bytes": 231896,
+        "page": 174
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00175.json",
+        "sha256": "514465760fedba916181bd548e0c835fbd87d4b00dd0172725d94d6aedc57942",
+        "bytes": 107695,
+        "page": 175
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00176.json",
+        "sha256": "61aa20fee7d7105e59c852492ad28405e0bdb27f11da0291c3a9282763f29055",
+        "bytes": 166020,
+        "page": 176
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00177.json",
+        "sha256": "a300c7f838f34d9cd904ac10437bbe6e60a80b3726be1d5ab1c22bcaa20fd8fe",
+        "bytes": 81537,
+        "page": 177
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00178.json",
+        "sha256": "356893e522788c4a43b27a5c85813115d139896097bd7cd47b927bec04ed4dc9",
+        "bytes": 201293,
+        "page": 178
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00179.json",
+        "sha256": "be6e0a64943cf70adaf819ddebfdb292d12015792b5b5f0a9d545737a5898e6a",
+        "bytes": 292238,
+        "page": 179
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00180.json",
+        "sha256": "7147f9a00097b1b7a81a1dfaddb175cfe0e2ee3412e1ad0d7d7eb2fa12c054ae",
+        "bytes": 148694,
+        "page": 180
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00181.json",
+        "sha256": "927a8a50a41c54d6c3719db2f4bc5b277e51362a9570a4e5836ae02ca81f5df7",
+        "bytes": 134697,
+        "page": 181
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00182.json",
+        "sha256": "f3f1a2d66573fcb3c41d0b17ec487f6264692dd62e917f1fc4d9e07b1acbcea1",
+        "bytes": 254428,
+        "page": 182
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00183.json",
+        "sha256": "d0f55353f9c5a1fc8f1feb7d8f3184b2bb8d1f4151bed2191522f1d0eb313b92",
+        "bytes": 168899,
+        "page": 183
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00184.json",
+        "sha256": "aa22d5986e57c7f13714a437fb0738b71c6e64e498fc19fcbbc4e4d712bef64b",
+        "bytes": 254190,
+        "page": 184
+      },
+      {
+        "kind": "geometry_page",
+        "file": "drr_rural/pages/page_00185.json",
+        "sha256": "c6b505d6f1ee9d76b566f97876e08fab47ee87642982747ea78334d6fed04eae",
+        "bytes": 288877,
+        "page": 185
+      },
+      {
+        "kind": "count_post",
+        "file": "drr_rural/count_post.json",
+        "sha256": "21df228b1956db82d42e0fd1060e450b785d19987f0736e18266260a309cc131",
+        "bytes": 14,
+        "page": null
+      },
+      {
+        "kind": "ids_post",
+        "file": "drr_rural/ids_post.json",
+        "sha256": "f582c05e369cea5dd98a0f7a86800d3b3c5821788aa8236fd6b5afc6650539a1",
+        "bytes": 25946,
+        "page": null
+      }
+    ],
+    "exat_expressway": [
+      {
+        "kind": "service",
+        "file": "exat_expressway/service.json",
+        "sha256": "37cbc9fb7d77bca528a68039e26cd724674d612655fd08c76f4cfce7be6dd492",
+        "bytes": 1810,
+        "page": null
+      },
+      {
+        "kind": "layer",
+        "file": "exat_expressway/layer.json",
+        "sha256": "f7a970c140b4bc9f7f943b4962d2d449ebf3367beb5b6e11b3d3c36acc8a58b6",
+        "bytes": 7336,
+        "page": null
+      },
+      {
+        "kind": "count_pre",
+        "file": "exat_expressway/count_pre.json",
+        "sha256": "286ef99473842386e093b70e2cb43524734dcd35c826f5b736d6444f65ad4686",
+        "bytes": 11,
+        "page": null
+      },
+      {
+        "kind": "ids_pre",
+        "file": "exat_expressway/ids_pre.json",
+        "sha256": "16fbe32d052c103deab8d75eabd002f44093ed7cdb039d64f4047f06707c0ef1",
+        "bytes": 94,
+        "page": null
+      },
+      {
+        "kind": "geometry_page",
+        "file": "exat_expressway/pages/page_00001.json",
+        "sha256": "4fd31b79ccb81533a50dab2b156fa2c328daa90a65f3d4215afc3aefa2972302",
+        "bytes": 3434022,
+        "page": 1
+      },
+      {
+        "kind": "count_post",
+        "file": "exat_expressway/count_post.json",
+        "sha256": "286ef99473842386e093b70e2cb43524734dcd35c826f5b736d6444f65ad4686",
+        "bytes": 11,
+        "page": null
+      },
+      {
+        "kind": "ids_post",
+        "file": "exat_expressway/ids_post.json",
+        "sha256": "16fbe32d052c103deab8d75eabd002f44093ed7cdb039d64f4047f06707c0ef1",
+        "bytes": 94,
+        "page": null
+      }
+    ]
+  },
+  "sources": {
+    "doh_highway": {
+      "count": 3044,
+      "features": 3044,
+      "pages": 153,
+      "geometry_bytes": 142515115,
+      "layer_facts": {
+        "layer_name": "DOH_Road_OpenData",
+        "layer_id": 0,
+        "capabilities": "Query",
+        "object_id_field": "objectid",
+        "max_record_count": 2000,
+        "current_version": 11.5,
+        "supported_query_formats": "JSON, geoJSON, PBF",
+        "layer_wkid": 4326,
+        "source_wkid": 4326,
+        "shape_length_units": "esriDecimalDegrees",
+        "has_z": false,
+        "has_m": false,
+        "copyright_text": "",
+        "description": "",
+        "service_item_id": "7dd9dca0bd7948de9351b29302cd4c2c",
+        "last_edit_date_ms": null,
+        "layer_extent": [
+          97.747635935,
+          5.6707700000000045,
+          105.54479984199997,
+          20.44771395800001
+        ]
+      },
+      "captured_first_utc": "2026-11-18T15:27:16.218046+00:00",
+      "captured_last_utc": "2026-11-18T15:27:52.592494+00:00"
+    },
+    "drr_rural": {
+      "count": 3700,
+      "features": 3700,
+      "pages": 185,
+      "geometry_bytes": 46134512,
+      "layer_facts": {
+        "layer_name": "ทางหลวงชนบท",
+        "layer_id": 2,
+        "capabilities": "Query",
+        "object_id_field": "OBJECTID",
+        "max_record_count": 1000,
+        "current_version": 10.11,
+        "supported_query_formats": "JSON, AMF",
+        "layer_wkid": 4326,
+        "source_wkid": null,
+        "shape_length_units": null,
+        "has_z": false,
+        "has_m": false,
+        "copyright_text": "",
+        "description": "ข้อมูลเส้นทางคมนาคมจัดเก็บข้อมูลเส้นกึ่งกลางถนนถนนหลายประเภท เช่น ถนน ทางด่วน ทางยกระดับ ซอย ซอยในหมู่บ้าน ที่ปรากฎในแผนที่ภาพถ่ายทางอากาศของกรมแผนที่ทหาร ครอบคลุมพื้นที่ประเทศไทย ข้อมูลชุดนี้มีความละเอียด 1:4000 ในเขตเมืองจำนวน 110 เมือง และ นอกเขตเมืองมีความละเอียด 1:20000",
+        "service_item_id": null,
+        "last_edit_date_ms": null,
+        "layer_extent": [
+          96.98000000000008,
+          5.7216319950000525,
+          105.84300005000006,
+          20.442913112000042
+        ]
+      },
+      "captured_first_utc": "2026-11-18T15:27:54.639668+00:00",
+      "captured_last_utc": "2026-11-18T15:30:06.096236+00:00"
+    },
+    "exat_expressway": {
+      "count": 8,
+      "features": 8,
+      "pages": 1,
+      "geometry_bytes": 3434022,
+      "layer_facts": {
+        "layer_name": "EXAT_Road_OpenData",
+        "layer_id": 0,
+        "capabilities": "Query",
+        "object_id_field": "objectid_1",
+        "max_record_count": 2000,
+        "current_version": 11.5,
+        "supported_query_formats": "JSON, geoJSON, PBF",
+        "layer_wkid": 4326,
+        "source_wkid": 4326,
+        "shape_length_units": "esriDecimalDegrees",
+        "has_z": true,
+        "has_m": true,
+        "copyright_text": "",
+        "description": "",
+        "service_item_id": "2db387c9d4f143698e1d31e523db08d7",
+        "last_edit_date_ms": null,
+        "layer_extent": [
+          100.40739807300002,
+          13.448943804999999,
+          101.00614928700003,
+          14.151423271999988
+        ]
+      },
+      "captured_first_utc": "2026-11-18T15:30:06.914045+00:00",
+      "captured_last_utc": "2026-11-18T15:30:08.497131+00:00"
+    }
+  },
+  "report_files": {
+    "field_schema.csv": "850b95531dd7178026f1e0a9805622a2c5731c3e654ba96044483d487d60dc5e",
+    "figures/road_sections_overview.png": "88bc79cd706a57db780f2f3fff600ad9daa2deb375c8a619214339a5a85f4ba9",
+    "figures/section_length_distribution.png": "bec5316dacd212808d9e2aafe454e226bbf08eebf76b1c0fd43207a94c729ae0",
+    "geometry_quality.csv": "ce9552ef8d7bcfdbf47632f5c16c9595fd04139c1535633942891d56b14bdf6c",
+    "page_reconciliation.csv": "fc7c3609ba0fc254277d724dae7103141f2029c801705c6b9fecd3b0d6d5180c",
+    "problems.csv": "d5df08c84d259c3aa5ecd65bd8ecfd59e0d6a4a1c19d5340a75f5bba143e8960",
+    "property_missingness.csv": "eaa3801d6670d7f19613412b8fc8ab38d6a128b3599f2a7e1d95d5dff14d220f",
+    "readiness.csv": "e92ad2d46e3404a323325c74a5dca4824c14f0fa701aace7eeabe4e61b06361e",
+    "road_collection_report_th.md": "5cfb941be9e5fdb61f9e627623f14f62b505d5d57102011ee64d0e3865da01b6",
+    "road_collection_status.json": "9358d642f9164cff98e1413d7bbd677efeddfda48386b6b89ceaf7c15087702b",
+    "section_vs_segment.csv": "ca036ab4210b44490f67bfc4c51faad7280604627ba9b226197ef7e034df56d0",
+    "source_summary.csv": "3fdb776915593e48d0948d03e9a7c20db33263462ec311f3639be3b072c93731",
+    "unit_audit.csv": "4f09277b45a58af737073865361b5fa2c67c1c1dce982b6cbfbc7e5ceae27dff",
+    "vintage_metadata.csv": "6275964ea0e27c813836c85d4479f166714793b9238625155c17f068a0292b20"
+  },
+  "derived_files": {
+    "doh_highway_clipped.geojson": "69365ad13217e6452e47e0bc6f219e6a92cda90c5f6438f636296035f5119c38",
+    "doh_highway_full.geojson": "ad7876c27e112b13c31047b617226267a653eca937ec3956f2980cb9f4b1b0f7",
+    "drr_rural_clipped.geojson": "079f6340d24cd04fd40cf9deee2e6676e3eb78d16a0c4c39d0a8011576aca109",
+    "drr_rural_full.geojson": "7b90c4f1ee53065156a760bebaf9319995716ee040dc244c8df8be273a9a9da8",
+    "exat_expressway_clipped.geojson": "f82a03980c28b73b01ec1288c9f36152a5cc9e1fd917104e7ef662e900a95650",
+    "exat_expressway_full.geojson": "8e54d2e567356979727fc33ac4f101bfac188cbf53d07ef697ce2ccb7e3cb3e8",
+    "feature_diagnostics.csv": "6725e02f36a60b2b1d9f3489eef72a2fa0fc407826a2fc1796004f032e91f58f"
+  },
+  "dependencies": {
+    "shapely": "2.0.7",
+    "pyproj": "3.6.1",
+    "pandas": "2.3.3",
+    "geodesic_method": "Vincenty inverse on WGS84 (stdlib math); planar degree distances are never used as metres",
+    "pyproj_crosscheck": "pyproj 3.6.1 Geod.line_length on 6752 sections: max relative difference 1.61e-07"
+  },
+  "caveats": [
+    "ArcGIS REST queries are not transactional: count and IDs are re-queried after the download and must match, but an edit to the attributes or geometry of an existing OID between requests cannot be excluded",
+    "snapshot = current service state at capture time; it does not prove the 2021-2025 road topology",
+    "full official sections intersecting the envelope are kept as returned; the envelope-clipped geometry is a separate derivative",
+    "national/pilot counts observed by the manager are context only, never expected values",
+    "source coverage (one official road layer per configured agency, e.g. DOH/DRR/EXAT) is not accident-report completeness, road exposure or event probability",
+    "official records are coarse road sections, not the proposed 0.5/1/2 km model segments (not built here)",
+    "no road snapping, zero labels, accident-report completeness, model, risk score or route-level skill is evaluated; no SPU-Khao Yai route is computed"
+  ],
+  "protected_unchanged": true,
+  "protected_files_hashed": 933,
+  "python": "3.9.6",
+  "discovery_context": {
+    "national_counts": {
+      "doh_highway": 3044,
+      "drr_rural": 3700,
+      "exat_expressway": null
+    },
+    "pilot_counts": {
+      "doh_highway": 599,
+      "drr_rural": 547,
+      "exat_expressway": 8
+    },
+    "pilot_envelope_matches": false,
+    "checked_utc": {
+      "national": "2026-11-11T02:16:34.810094+00:00",
+      "pilot": "2026-11-11T02:16:34.810094+00:00"
+    },
+    "note": "manager observations (national and pilot counts) are context only, never expected counts; the national EXAT count was not queried (null)"
+  }
+}

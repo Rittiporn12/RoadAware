@@ -1,0 +1,4 @@
+source_id,features,geojson_derivative_ok,geom_missing,curve_geometry,empty_or_short_part,nonfinite_coord,extra_dims,lon_out_of_range,lat_out_of_range,latlon_swap_suspect,outside_thailand_bbox,bbox_disjoint_envelope,clip_empty,features_with_dup_consecutive_vertices,multipart,shapely_invalid,not_simple,sections_with_length,total_full_km,total_clipped_km,median_full_m,p10_full_m,p90_full_m,max_full_m
+doh_highway,3044,3044,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,3044,52384.347,52384.347,13799.2,855.2,37177.2,127029.1
+drr_rural,3700,3700,0,0,0,0,0,0,0,0,0,0,0,0,0,0,35,3700,51410.912,51410.912,11621.4,4244.8,26043.0,86685.1
+exat_expressway,8,8,0,0,0,0,0,0,0,0,0,0,0,0,8,0,4,8,701.371,701.371,87442.8,40854.8,131394.0,148633.5

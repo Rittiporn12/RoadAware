@@ -1,0 +1,10 @@
+source_id,proposed_segment_km,sections_with_length,share_sections_shorter,share_sections_longer,note
+doh_highway,0.5,3044,0.0696,0.9304,official sections are coarse records; segments of this length are NOT built in this task
+doh_highway,1.0,3044,0.1127,0.8873,official sections are coarse records; segments of this length are NOT built in this task
+doh_highway,2.0,3044,0.1623,0.8377,official sections are coarse records; segments of this length are NOT built in this task
+drr_rural,0.5,3700,0.0038,0.9962,official sections are coarse records; segments of this length are NOT built in this task
+drr_rural,1.0,3700,0.0122,0.9878,official sections are coarse records; segments of this length are NOT built in this task
+drr_rural,2.0,3700,0.0319,0.9681,official sections are coarse records; segments of this length are NOT built in this task
+exat_expressway,0.5,8,0.0,1.0,official sections are coarse records; segments of this length are NOT built in this task
+exat_expressway,1.0,8,0.0,1.0,official sections are coarse records; segments of this length are NOT built in this task
+exat_expressway,2.0,8,0.0,1.0,official sections are coarse records; segments of this length are NOT built in this task

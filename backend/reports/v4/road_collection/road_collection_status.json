@@ -1,0 +1,51 @@
+{
+  "status": "complete",
+  "mode": "online",
+  "created_utc": "2026-11-18T15:31:12.567282+00:00",
+  "config_version": "spatial_road_sources_v4.0",
+  "config_sha256": "d0d71ea5f02589171dcf400a1fbed717f714c36f259998078600399f8e8aa2d6",
+  "preregistration": {
+    "envelope_epsg4326": [
+      97.3,
+      5.5,
+      105.7,
+      20.5
+    ],
+    "spatial_rel": "esriSpatialRelIntersects",
+    "registered_by": "national-coverage plan (2026-11-18), before any national spatial model is fitted or evaluated",
+    "note": "national geometry-collection envelope = thailand_broad_bbox; a rectangle, so a few cross-border sections may be returned and are flagged, not dropped silently."
+  },
+  "cache_source": "/Users/earthnaja/Documents/GitHub/Work - Earth/Project Work/Source Code/RoadAware/backend/rerun-road-national-001/data/v4/road_collection/raw",
+  "sources": {
+    "doh_highway": {
+      "status": "complete",
+      "count_before": 3044,
+      "features": 3044,
+      "problems": [],
+      "next_step": "none: complete for the preregistered envelope"
+    },
+    "drr_rural": {
+      "status": "complete",
+      "count_before": 3700,
+      "features": 3700,
+      "problems": [],
+      "next_step": "none: complete for the preregistered envelope"
+    },
+    "exat_expressway": {
+      "status": "complete",
+      "count_before": 8,
+      "features": 8,
+      "problems": [],
+      "next_step": "none: complete for the preregistered envelope"
+    }
+  },
+  "caveats": [
+    "ArcGIS REST queries are not transactional: count and IDs are re-queried after the download and must match, but an edit to the attributes or geometry of an existing OID between requests cannot be excluded",
+    "snapshot = current service state at capture time; it does not prove the 2021-2025 road topology",
+    "full official sections intersecting the envelope are kept as returned; the envelope-clipped geometry is a separate derivative",
+    "national/pilot counts observed by the manager are context only, never expected values",
+    "source coverage (one official road layer per configured agency, e.g. DOH/DRR/EXAT) is not accident-report completeness, road exposure or event probability",
+    "official records are coarse road sections, not the proposed 0.5/1/2 km model segments (not built here)",
+    "no road snapping, zero labels, accident-report completeness, model, risk score or route-level skill is evaluated; no SPU-Khao Yai route is computed"
+  ]
+}

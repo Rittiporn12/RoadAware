@@ -1,0 +1,217 @@
+{
+  "version": "spatial_linkage_v4.0",
+  "status": "linkage_audit_only: conservative accident-to-road linkage audit and candidate segment inventories; no training, labels, zero-filled panels, probabilities, thresholds or risk colours",
+  "notebook": "notebooks/18_spatial_linkage_audit.ipynb",
+  "registered_by": "national-coverage plan (2026-11-18), before any national spatial model, count target or resolution choice is evaluated; matching/segmentation rules copied unchanged from v3.0",
+  "inputs": {
+    "pin_policy": "every input is read offline and hash-verified before any analysis. A null sha256 is a fail-closed placeholder: the notebook refuses to run until the accepted file hash is pinned here (shasum -a 256 <file>). Derived file hashes must equal BOTH this config and the accepted road manifest.",
+    "road_manifest": {
+      "path": "reports/v4/road_collection/road_collection_manifest.json",
+      "sha256": "5efe53140f81c7747d31153c4f74a433efe13bc353d7417cf74177bf4c917956",
+      "expect_status": "complete",
+      "expect_version": "spatial_road_sources_v4.0",
+      "expect_cache_manifest_sha256": "5c7c508fa9cb1c074588aedd718db7c1ebd3c58d8e341c44c54be67387fd83a9"
+    },
+    "road_review": {
+      "path": "reports/v4/road_collection_independent_review.json",
+      "sha256": "dd784728d724b255b28cc66395307714fd814e4d6c44dbb810cd5318f26c3487",
+      "expect_status": "accepted_collection_doh_drr_exat_only"
+    },
+    "readiness_manifest": {
+      "path": "reports/v3/spatial_readiness/spatial_readiness_manifest.json",
+      "sha256": "0004b14460fef8af8a5de69f0b0d1711faf27c9acfeb897087ebaba03ad6e243",
+      "expect_status": "complete"
+    },
+    "lineage": {
+      "path": "data/v3/spatial_readiness/retained_spatial_linkage_v3.csv.gz",
+      "manifest_key": "retained_spatial_linkage_v3.csv.gz",
+      "sha256": "78ded7939a327e5cbd45132e297b5a1bfbe76bef117ac3ac5da9b4a90352da2c"
+    },
+    "road_derived_dir": "data/v4/road_collection/derived",
+    "road_derived_sha256": {
+      "doh_highway_clipped.geojson": "69365ad13217e6452e47e0bc6f219e6a92cda90c5f6438f636296035f5119c38",
+      "doh_highway_full.geojson": "ad7876c27e112b13c31047b617226267a653eca937ec3956f2980cb9f4b1b0f7",
+      "drr_rural_clipped.geojson": "079f6340d24cd04fd40cf9deee2e6676e3eb78d16a0c4c39d0a8011576aca109",
+      "drr_rural_full.geojson": "7b90c4f1ee53065156a760bebaf9319995716ee040dc244c8df8be273a9a9da8",
+      "exat_expressway_clipped.geojson": "f82a03980c28b73b01ec1288c9f36152a5cc9e1fd917104e7ef662e900a95650",
+      "exat_expressway_full.geojson": "8e54d2e567356979727fc33ac4f101bfac188cbf53d07ef697ce2ccb7e3cb3e8",
+      "feature_diagnostics.csv": "6725e02f36a60b2b1d9f3489eef72a2fa0fc407826a2fc1796004f032e91f58f"
+    }
+  },
+  "snapshot": {
+    "tag": "rc315c7c508f",
+    "rule": "'rc31' + first 8 hex of the accepted road cache_manifest_sha256; segment IDs are valid only within this pinned snapshot, never across historical road versions"
+  },
+  "envelope_epsg4326": [
+    97.3,
+    5.5,
+    105.7,
+    20.5
+  ],
+  "envelope_note": "national geometry-collection envelope (= road manifest v4.0 preregistration, thailand_broad_bbox). UTM 47N (EPSG:32647) is kept as the metric CRS for comparability; east of ~102E its scale error grows (<1%) and is reported in projection_distortion.csv",
+  "crs": {
+    "geographic_epsg": 4326,
+    "metric_epsg": 32647,
+    "always_xy": true,
+    "event_datum_assumption": "event LATITUDE/LONGITUDE assumed WGS84 (EPSG:4326) without verification; no positional-accuracy or point-in-province claim is made"
+  },
+  "event_fields": {
+    "uid": "event_uid",
+    "agency": "raw_agency",
+    "route": "raw_route_code",
+    "route_name": "raw_route_name",
+    "usable_coord_status": "inside_broad_bbox_unverified"
+  },
+  "years": {
+    "train": [
+      2021,
+      2022,
+      2023
+    ],
+    "seen_diagnostic": [
+      2024,
+      2025
+    ]
+  },
+  "sources": {
+    "doh_highway": {
+      "short": "doh",
+      "agency_exact": "กรมทางหลวง",
+      "oid_field": "objectid",
+      "route_field": "road_code",
+      "normalizer": "doh_numeric_zfill4",
+      "rule": "NFKC + strip; must match ^[0-9]{1,4}$ (ASCII digits only), then zfill(4); anything else is route_nonstandard"
+    },
+    "drr_rural": {
+      "short": "drr",
+      "agency_exact": "กรมทางหลวงชนบท",
+      "oid_field": "OBJECTID",
+      "route_field": "road_code",
+      "normalizer": "drr_prefix_digits",
+      "rule": "NFKC, remove all whitespace, collapse repeated dots, strip leading/trailing dots; standard = exactly two Thai consonants + '.' + exactly four ASCII digits (e.g. นบ.3021), leading zeros and prefix kept verbatim. Codes 'ส.' + digits are special_unverified; anything else nonstandard. No padding, no inserted dot, no alias"
+    },
+    "exat_expressway": {
+      "short": "exat",
+      "agency_exact": "การทางพิเศษแห่งประเทศไทย",
+      "oid_field": "objectid_1",
+      "route_field": "route",
+      "name_field": "centerline",
+      "normalizer": "exat_unresolved",
+      "rule": "no verified crosswalk between accident route codes (e.g. E007S013|I) and geometry routes (RAE, FES, ...): every EXAT event is identity_unresolved; exact name equalities are listed as unadopted proposals only"
+    }
+  },
+  "alias_map": {},
+  "alias_map_note": "empty by default. An entry would be {source_id: {raw_normalized_code: {target: geometry_code, evidence: citation}}}; entries without evidence are refused. None is verified.",
+  "matching": {
+    "primary_tolerance_m": 50,
+    "sensitivity_tolerances_m": [
+      25,
+      100
+    ],
+    "ambiguity_margin_m": 5,
+    "diagnostic_nearest_max_m": 2000,
+    "high_distance_review_m": 25,
+    "piece_match_tol_m": 0.001,
+    "note": "preregistered before any model score exists; never tuned. Eligibility = same agency source AND verified normalized route identity AND projected distance <= tolerance. Ambiguity uses every same-identity candidate within best+margin (also beyond the tolerance), so matched sets are monotone in the tolerance"
+  },
+  "segmentation": {
+    "resolutions_m": [
+      500,
+      1000,
+      2000
+    ],
+    "id_version": "rsv1",
+    "length_conservation_tol_m": 0.01,
+    "zero_remainder_eps_m": 0.001,
+    "geodesic_crosscheck_tol_m": 0.05,
+    "overlap_min_length_m": 1.0,
+    "endpoint_convention": "segments run along the digitised direction of each clipped piece; interval [start, end) is half-open except the last segment of a piece, which is closed [start, piece_end]; a point exactly at a boundary belongs to the downstream segment",
+    "short_final_rule": "the last segment of a piece keeps the remainder length (never merged, never padded) and is flagged short_final when shorter than the target"
+  },
+  "review_sample": {
+    "seed": 20261111,
+    "per_stratum": 20
+  },
+  "panel_estimate": {
+    "blocks_per_day_6h": 4,
+    "week_rule": "W-MON weekly periods overlapping the split date range"
+  },
+  "km_diagnostic": {
+    "note": "raw KM is diagnostic only (units unverified); it is never a match criterion",
+    "unit_hypotheses": {
+      "km": 1000.0,
+      "m": 1.0
+    }
+  },
+  "dependency_pins": {
+    "pandas": "pandas>=2.0,<3",
+    "numpy": "numpy>=1.24,<3",
+    "shapely": "shapely>=2.0,<3",
+    "pyproj": "pyproj>=3.6.1,<3.7",
+    "matplotlib": "matplotlib>=3.7,<4"
+  },
+  "figure_fonts": [
+    "Thonburi",
+    "Tahoma",
+    "Noto Sans Thai",
+    "Sukhumvit Set",
+    "Ayuthaya"
+  ],
+  "protected_paths": [
+    "data/v2",
+    "reports/v2",
+    "data/raw/accidents",
+    "data/external_v2",
+    "data/v3/spatial_readiness",
+    "reports/v3/spatial_readiness",
+    "reports/v3/spatial_readiness_independent_review.json",
+    "reports/v3/road_collection",
+    "data/v3/road_collection",
+    "reports/v3/road_collection_independent_review.json",
+    "reports/v3/road_collection_v3_1",
+    "data/v3/road_collection_v3_1",
+    "reports/v3/road_collection_v3_1_independent_review.json",
+    "config/data_pipeline.json",
+    "config/external_sources_v2.json",
+    "config/feature_pipeline_v2.json",
+    "config/model_experiment_v2.json",
+    "config/model_experiment_v1.json",
+    "config/inference_v2.json",
+    "config/catalog_v2.json",
+    "config/spatial_readiness_v3.json",
+    "config/spatial_road_sources_v3.json",
+    "config/archive",
+    "notebooks/09_external_collection_date_evidence.ipynb",
+    "notebooks/10_v2_preparation_features_leakage.ipynb",
+    "notebooks/11_v2_model_experiments.ipynb",
+    "notebooks/12_v2_evaluation_error_analysis.ipynb",
+    "notebooks/13_inference_robustness_contract.ipynb",
+    "notebooks/16_spatial_data_readiness.ipynb",
+    "notebooks/17_spatial_road_collection.ipynb",
+    "scripts/run_spatial_readiness.py",
+    "scripts/run_spatial_road_collection.py",
+    "../workflow/model-protocol-v2-lock.json",
+    "../workflow/spatial",
+    "reports/v3/linkage_audit",
+    "data/v3/linkage_audit",
+    "config/spatial_linkage_v3.json",
+    "reports/v4/road_collection",
+    "data/v4/road_collection",
+    "reports/v4/road_collection_independent_review.json",
+    "config/spatial_road_sources_v4.json",
+    "rerun-road-national-001",
+    "data/v3/spatial_preparation",
+    "reports/v3/spatial_preparation"
+  ],
+  "outputs": {
+    "report_dir": "reports/v4/linkage_audit",
+    "data_dir": "data/v4/linkage_audit"
+  },
+  "report_allowed_suffixes": [
+    ".csv",
+    ".png",
+    ".md",
+    ".json"
+  ],
+  "version_note": "v4.0: identical matching, segmentation, identity and review rules as v3.0; only the inputs (national road collection v4.0) and the envelope (thailand_broad_bbox) change. v3.0 outputs are protected."
+}

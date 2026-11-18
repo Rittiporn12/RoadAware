@@ -1,0 +1,63 @@
+{
+  "status": "accepted_collection_doh_drr_exat_only",
+  "scope": "V4 national envelope [97.3, 5.5, 105.7, 20.5]",
+  "reviewed_utc": "2026-11-18T15:32:57.525448+00:00",
+  "reviewer": "Claude (independent re-check, national-coverage branch)",
+  "run_root": "backend/rerun-road-national-001",
+  "promoted_to": [
+    "backend/reports/v4/road_collection",
+    "backend/data/v4/road_collection"
+  ],
+  "manifest_sha256": "5efe53140f81c7747d31153c4f74a433efe13bc353d7417cf74177bf4c917956",
+  "cache_manifest_sha256": "5c7c508fa9cb1c074588aedd718db7c1ebd3c58d8e341c44c54be67387fd83a9",
+  "counts": {
+    "doh_highway": {
+      "exact_ids": 3044,
+      "pages": 153,
+      "count_before": 3044,
+      "count_after": 3044,
+      "not_simple": 14,
+      "length_full_km": 52384.3
+    },
+    "drr_rural": {
+      "exact_ids": 3700,
+      "pages": 185,
+      "count_before": 3700,
+      "count_after": 3700,
+      "not_simple": 35,
+      "length_full_km": 51410.9
+    },
+    "exat_expressway": {
+      "exact_ids": 8,
+      "pages": 1,
+      "count_before": 8,
+      "count_after": 8,
+      "not_simple": 4,
+      "length_full_km": 701.4
+    }
+  },
+  "hash_checks": {
+    "raw": 357,
+    "raw_expected": 357,
+    "derived": 7,
+    "derived_expected": 7,
+    "reports": 14,
+    "reports_expected": 14
+  },
+  "offline_raw_and_derived_hashes_match": true,
+  "doh_full_geodesic_independent_km": 52384.3,
+  "doh_full_geodesic_notebook_km": 52384.3,
+  "protected_unchanged": true,
+  "protected_files_hashed": 933,
+  "tests": {
+    "road_specific": 66,
+    "note": "backend/tests/test_spatial_road_collection_notebook.py on the Mac .venv before the run"
+  },
+  "online_seconds": 241.03,
+  "remaining": [
+    "No national accident-to-road linkage yet (notebook 18 v4 next)",
+    "53 non-simple features flagged (kept, as in v3.1)",
+    "Envelope is a rectangle: cross-border sections are flagged by geometry diagnostics, not removed",
+    "Event datum and historical road vintage remain unverified (same caveat as v3.1)"
+  ]
+}

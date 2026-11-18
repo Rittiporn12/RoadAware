@@ -1,0 +1,8 @@
+source_id,quantity,field,n_compared,share_in_band_m,median_ratio_m,share_in_band_km,median_ratio_km,hypothesis,status
+doh_highway,length attribute,length,3023,0.0,0.001,0.9742,1.0005,consistent_with_km,hypothesis_pending_official_confirmation
+doh_highway,abs(km_end - km_start),km_end - km_start,3044,0.9744,1.0005,0.0,1000.5357,consistent_with_m,hypothesis_pending_official_confirmation
+doh_highway,geometry length field,SHAPE__Length,0,,,,,units per layer geometryProperties: esriDecimalDegrees,not_metres_never_used_as_length
+drr_rural,length attribute,length_gps,3540,0.0003,0.001,0.9184,1.0001,consistent_with_km,hypothesis_pending_official_confirmation
+drr_rural,length attribute,length_drr,3700,0.0,0.001,0.9654,0.9978,consistent_with_km,hypothesis_pending_official_confirmation
+drr_rural,abs(km_end - km_start),km_end - km_start,3700,0.9654,0.9978,0.0,997.7842,consistent_with_m,hypothesis_pending_official_confirmation
+exat_expressway,geometry length field,SHAPE__Length,0,,,,,units per layer geometryProperties: esriDecimalDegrees,not_metres_never_used_as_length
