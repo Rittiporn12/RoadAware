@@ -51,3 +51,4 @@
 - รอบแรกของ Notebook 20 รันผิดตัว (config v4 ชี้ไป notebook ต้นฉบับ ซึ่งอ่าน config v3) จึงได้ผลซ้ำของพื้นที่นำร่อง — เก็บไว้ที่ `backend/rerun-spatial-model-pilot-repro-001` (ไม่ใช้ต่อ) แก้ config แล้ว รันใหม่ด้วย National Step 4.command → `rerun-spatial-model-national-002`
 - รอบ `rerun-spatial-model-national-002`: ข้อมูลถูกต้อง (OOF 19.5M/78.1M แถว) แต่โมเดลทุกตัวถูกปฏิเสธเพราะ route_code มี 1,440 สายทาง เกินเพดาน 255 ของกติกา v3 → ผลเลือกเป็น baseline เท่านั้น (ไม่ใช้ต่อ)
 - แก้ในสำเนา national: encoder รวมสายทางที่พบน้อยเป็นระดับ "infrequent" เดียว (เรียนจาก training sample ของแต่ละ fold เท่านั้น) แล้วรันใหม่ → `rerun-spatial-model-national-003` (National Step 4b.command)
+- `rerun-spatial-model-national-003` หยุดกลางทาง (ผู้ใช้ปิดเครื่องเพราะร้อน หลังรัน ~6 ชม.) ไม่ใช้ต่อ · ลด threads เป็น 4 (ไม่เปลี่ยนผล) แล้วรันใหม่ → `rerun-spatial-model-national-004` (National Step 4c.command)
