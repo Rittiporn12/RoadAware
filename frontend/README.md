@@ -4,7 +4,7 @@
 
 ## เริ่มใช้งาน (สอง terminal ที่ root ของ repo)
 ```
-.venv/bin/python backend/scripts/run_api_server.py      # terminal 1 — backend API
+.venv/bin/python backend/scripts/run_api_server.py --national   # terminal 1 — backend API ทั่วประเทศ (ไม่ใส่ --national = พื้นที่นำร่องเดิม)
 cd frontend && npm install && npm run dev               # terminal 2 — เปิด http://127.0.0.1:5173/
 ```
 ต้องเป็น origin `127.0.0.1:5173` (CORS ของ backend) · เปลี่ยน API: `?api=http://127.0.0.1:8001` หรือ `VITE_API_BASE` · build: `npm run build` · หน้าตรวจ API: `/debug.html`
@@ -34,6 +34,6 @@ scripts/prepare-boundary.mjs              แปลงไฟล์ geoBoundaries
 - **แผนที่**: basemap OpenStreetMap (ไม่ต้องใช้ API key) ชั้นล่างทั้งภูมิภาคถูกเบลอ+ลดสี+ทับสีจาง ส่วนชั้นบนคมชัดถูก clip ตามขอบเขตประเทศไทย (geoBoundaries — แนวชายฝั่งสมุทรปราการถูกต้อง) (tile URL เดียวกัน จึงใช้ cache ไม่โหลดซ้ำ) เลื่อนได้แค่กรอบรอบประเทศไทย ซูมออกได้สุดแค่เห็นทั้งประเทศ (ปิด zoom animation เพื่อให้ขอบ clip ตรงตลอด)
 
 ## ข้อจำกัด
-- แบบจำลองครอบคลุมทางหลวง 3,105 ช่วงในพื้นที่นำร่อง เส้นทางนอกพื้นที่แสดงได้แต่ไม่มีโซน
+- แบบจำลองครอบคลุมทางหลวงกรมทางหลวงทั่วประเทศ 26,740 ช่วง (ช่วงละ ~2 กม.) ถนนชนบท/ทางพิเศษ/ถนนเมืองยังไม่มีข้อมูล (เส้นประ) · โหมดพื้นที่นำร่องเดิมยังใช้ได้ (3,105 ช่วง)
 - ระดับเป็นการจัดอันดับเชิงเปรียบเทียบของจำนวนเหตุที่คาดว่าจะถูกบันทึก ไม่ใช่ความน่าจะเป็นส่วนบุคคล; วันที่หลัง 2025-12-31 เป็นฉากทัศน์วิจัย
 - Photon / OSRM / OSM tiles เป็นบริการสาธารณะแบบไม่รับประกัน ใช้กับต้นแบบในเครื่องเท่านั้น · `production_ready = false`

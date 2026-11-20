@@ -353,11 +353,15 @@ def load_runtime(repo=REPO, lock_rel=LOCK_REL, config_rel=CONFIG_REL):
         return Runtime(comps)
     comps['notebook24'] = {'status': 'available', 'code': None}
     parts = {}
+    optional_absent = {n for n in ('diagnostics_2026',) if n not in lock['components'] and n not in (cfg.get('required_components') or [])}
     steps = (('spatial_runtime', lambda: _load_spatial(repo, lock, cfg, parts)), ('province_runtime', lambda: _load_province(repo, lock, cfg, parts)),
              ('catalog', lambda: _load_catalog(repo, lock, cfg, parts)), ('geometry', lambda: _load_geometry(repo, lock, cfg, h24, parts)),
              ('evaluation', lambda: _load_evaluation(repo, lock, cfg, h24, parts)), ('diagnostics_2026', lambda: _load_diagnostics(repo, lock, cfg, h24, parts)))
     api_error = h24.get('ApiError', StartupError)
     for name, fn in steps:
+        if name in optional_absent:
+            comps[name] = {'status': 'unavailable', 'code': 'not_configured', 'note': 'optional component not part of this API variant'}
+            continue
         try:
             fn()
             comps[name] = {'status': 'available', 'code': None}

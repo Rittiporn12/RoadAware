@@ -22,7 +22,7 @@ function Verdict({ forecast, zones, hidden, coverage }) {
       <div className="verdict">
         <p className="verdict-kicker">สรุปทริป</p>
         <h2 className="verdict-title">ยังไม่มีข้อมูลประเมินบนเส้นทางนี้</h2>
-        <p className="verdict-sub">ตอนนี้ครอบคลุมทางหลวงในพื้นที่นำร่องภาคกลางตอนบน–โคราช ส่วนที่ไม่มีข้อมูลไม่ได้แปลว่าปลอดภัย</p>
+        <p className="verdict-sub">ตอนนี้ครอบคลุมทางหลวงกรมทางหลวงทั่วประเทศ ยังไม่รวมถนนชนบท ทางพิเศษ และถนนในเมือง ส่วนที่ไม่มีข้อมูลไม่ได้แปลว่าปลอดภัย</p>
       </div>
     );
   }
