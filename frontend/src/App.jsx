@@ -544,6 +544,27 @@ export default function App() {
               </div>
             )}
             {toast && <p className="toast" role="status">{toast.text}</p>}
+            {showRibbon && route.alternatives && route.alternatives.length > 0 && (() => {
+              const i = route.alternatives.findIndex((x) => x.id === altFocus);
+              const st = i >= 0 ? alts.list.find((x) => x.id === altFocus) : null;
+              if (i < 0) {
+                return (
+                  <button type="button" className="alt-chip" onClick={() => setAltFocus(route.alternatives[0].id)}>
+                    <i className="alt-swatch" />มีเส้นทางอื่นที่เวลาใกล้กัน {route.alternatives.length} เส้น (เส้นประสีเทา) · แตะเพื่อเทียบ
+                  </button>
+                );
+              }
+              const dt = Math.round((route.alternatives[i].duration - route.duration) / 60);
+              return (
+                <div className="alt-chip alt-chip-on" role="status">
+                  <span><i className="alt-swatch alt-swatch-on" /><b>ทางเลือก {i + 1}</b> (เส้นประสีม่วง) · {dt === 0 ? "เวลาเท่ากัน" : (dt > 0 ? "ช้ากว่า " : "เร็วกว่า ") + Math.abs(dt) + " นาที"}
+                    {st && st.status === "ok" ? " · ช่วงระดับสูงมาก " + Math.round(st.redKm) + " กม. (เส้นที่เลือก " + Math.round(zoneRes.counts.red || 0) + " กม.)" : st && st.status === "loading" ? " · กำลังประเมิน…" : ""}
+                    {st && st.status === "ok" && st.coverage < CONFIG.altMinCoverage ? " · ส่วนใหญ่ยังไม่ประเมิน" : ""}</span>
+                  {st && st.status === "ok" && <button type="button" className="btn btn-sm alt-chip-use" onClick={() => pickAlternative(altFocus)}>ใช้เส้นนี้</button>}
+                  <button type="button" className="btn btn-ghost btn-sm" onClick={() => setAltFocus(null)}>ปิด</button>
+                </div>
+              );
+            })()}
             {showRibbon && (
               <div className="map-legend">
                 <div className="seg-toggle" role="group" aria-label="มุมมองสีบนแผนที่">

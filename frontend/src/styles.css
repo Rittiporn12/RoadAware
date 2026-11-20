@@ -374,3 +374,12 @@ dialog.about::backdrop { background: rgba(15, 27, 45, 0.45); backdrop-filter: bl
 .alt-verdict { margin: 0; font-size: 13px; font-weight: 700; }
 .alt-v-better { color: #2F7D5B; } .alt-v-worse { color: #A3312A; } .alt-v-same { color: var(--muted); } .alt-v-na { color: #8A6A00; }
 .alt-use { align-self: flex-start; }
+.alt-chip { position: absolute; z-index: 800; left: 50%; bottom: 16px; transform: translateX(-50%); display: flex; align-items: center; gap: 10px;
+  background: rgba(255,255,255,.97); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); padding: 8px 12px; font: inherit; font-size: 13.5px;
+  color: var(--ink); max-width: calc(100% - 32px); cursor: pointer; }
+.alt-chip-on { cursor: default; border-color: #6B3FA0; }
+.alt-chip > span { display: inline; line-height: 1.5; }
+.alt-swatch { display: inline-block; width: 22px; height: 0; border-top: 3px dashed #7C8798; vertical-align: middle; margin-right: 6px; }
+.alt-swatch-on { border-top-color: #6B3FA0; }
+.alt-chip-use { background: #6B3FA0; color: #fff; border: 0; white-space: nowrap; }
+@media (max-width: 900px) { .alt-chip { top: 118px; bottom: auto; font-size: 12.5px; } }

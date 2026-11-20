@@ -299,6 +299,10 @@ export default function Briefing({ route, when, forecast, zones, hidden, counts,
 
       <Verdict forecast={forecast} zones={zones} hidden={hidden} coverage={ribbon.coverage} />
       {forecast.status === "done" && forecast.items.length > 0 && <HowToRead />}
+      {forecast.status === "done" && (alts || []).length > 0 && (
+        <Alternatives alts={alts} altFocus={altFocus} onFocusAlt={onFocusAlt} onUseAlt={onUseAlt}
+          main={{ duration: route.duration, distance: route.distance, redKm: counts.red || 0, points: zones.length + hidden, coverage: ribbon.coverage }} />
+      )}
       {forecast.status === "notReady" && (
         <ErrorBox title="ระบบประเมินยังไม่พร้อม" text="เส้นทางยังใช้ได้ตามปกติ เปิด backend แล้วลองอีกครั้ง" onRetry={onRetry} />
       )}
@@ -329,10 +333,6 @@ export default function Briefing({ route, when, forecast, zones, hidden, counts,
         </section>
       )}
 
-      {forecast.status === "done" && (alts || []).length > 0 && (
-        <Alternatives alts={alts} altFocus={altFocus} onFocusAlt={onFocusAlt} onUseAlt={onUseAlt}
-          main={{ duration: route.duration, distance: route.distance, redKm: counts.red || 0, points: zones.length + hidden, coverage: ribbon.coverage }} />
-      )}
       {forecast.status === "done" && forecast.items.length > 0 && <Overview counts={counts} />}
       {forecast.status === "done" && forecast.items.length > 0 && <Compare compare={compare} when={when} onPickTime={onPickTime} />}
 
