@@ -149,43 +149,9 @@
   },
   "candidates": {
     "families": [
-      "poisson",
-      "random_forest",
       "hist_gradient_boosting"
     ],
     "configs": [
-      {
-        "config_id": "poisson_a1e-05",
-        "family": "poisson",
-        "params": {
-          "alpha": 1e-05,
-          "max_iter": 1000,
-          "tol": 1e-06
-        }
-      },
-      {
-        "config_id": "poisson_a1e-04",
-        "family": "poisson",
-        "params": {
-          "alpha": 0.0001,
-          "max_iter": 1000,
-          "tol": 1e-06
-        }
-      },
-      {
-        "config_id": "rf_poisson_fixed",
-        "family": "random_forest",
-        "params": {
-          "criterion": "poisson",
-          "n_estimators": 80,
-          "max_depth": 16,
-          "max_leaf_nodes": 128,
-          "min_samples_leaf": 100,
-          "max_features": 0.8,
-          "n_jobs": 4,
-          "random_state": 42
-        }
-      },
       {
         "config_id": "hgb_poisson_fixed",
         "family": "hist_gradient_boosting",
@@ -248,7 +214,8 @@
     ],
     "tie_break": "lower pooled OOF mean Poisson deviance; exact ties prefer core over routed_context, then config order above",
     "infrequent_category_policy": "national V4: max_category_cardinality is the encoder max_categories; the most frequent levels in the fold training sample keep their own level, the rest share one infrequent level (OneHotEncoder infrequent_if_exist / OrdinalEncoder max_categories). v3 refused fits above the cap; the pilot never exceeded it (218 routes).",
-    "sparse_one_hot_note": "national V4: Poisson/RF one-hot output is sparse (CSR) instead of dense; same features and estimators. Measured on the daily 2023H2 sample: identical RF prediction mean, Poisson |diff| ~1e-11, RF memory 4.85 -> 1.71 GB. The dense 6 h sample (3.47M rows x ~300 columns) did not fit in 16 GB RAM."
+    "sparse_one_hot_note": "national V4: Poisson/RF one-hot output is sparse (CSR) instead of dense; same features and estimators. Measured on the daily 2023H2 sample: identical RF prediction mean, Poisson |diff| ~1e-11, RF memory 4.85 -> 1.71 GB. The dense 6 h sample (3.47M rows x ~300 columns) did not fit in 16 GB RAM.",
+    "national_scope_note": "national V4 (2026-11-20, user decision for compute time): only hgb_poisson_fixed is fitted. It was the selected candidate in the accepted pilot (daily and 6 h). Poisson and RandomForest are not re-compared nationally; the HGB policy must still beat the strongest nonzero baseline under the unchanged selection gates, otherwise the baseline is used."
   },
   "metrics": {
     "deviance_floor": 1e-12,
@@ -281,8 +248,6 @@
   },
   "transfer": {
     "configs": [
-      "poisson_a1e-05",
-      "rf_poisson_fixed",
       "hgb_poisson_fixed"
     ],
     "variant": "calendar_geometry",
