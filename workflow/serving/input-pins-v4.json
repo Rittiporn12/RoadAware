@@ -1,0 +1,32 @@
+{
+  "kind": "manager_accepted_spatial_inference_inputs",
+  "experiment_root": "backend/rerun-spatial-model-national-20261120-150631",
+  "evaluation_root": "backend/rerun-spatial-eval-national-20261120-160533",
+  "files": {
+    "backend/notebooks/20_spatial_count_experiments_national.ipynb": "bc7fc9a2c9ddc87c2b9edbca1d64ce3dc2441aa83fba80adbab04c73fdc8e4cc",
+    "backend/config/spatial_experiment_v4.json": "385c8b343ab6d0da92a5014dba358d2c42a35753d22c122d795b303b109b5601",
+    "backend/rerun-spatial-model-national-20261120-150631/reports/v4/spatial_experiments/spatial_experiments_manifest.json": "a3c145e570dc095cc4698ed0bbe2610108fb7adf3f5e490be21485562543f322",
+    "backend/rerun-spatial-model-national-20261120-150631/reports/v4/spatial_experiments/experiment_lock.json": "c80ff02ef89e2c16cfcac08ed38cf7a6ffba3c9f7230413031a0650c7327d019",
+    "backend/rerun-spatial-model-national-20261120-150631/reports/v4/spatial_experiments/selection_frozen.json": "04c739e9cacfc6353c1e2802c51b3fc4f9f4f3963c56bb99acf392fd480179e1",
+    "backend/rerun-spatial-model-national-20261120-150631/data/v4/spatial_experiments/arrays_index.json": "376b1dcb6a11be2ae5e608d5a4da46f909dbb335592521023d491bcf7bf84365",
+    "backend/rerun-spatial-model-national-20261120-150631/data/v4/spatial_experiments/model_bundles.json": "77f6b35146372c2bf2b086ef3d479d6ea2813815a65df4cf5338ba0b45241462",
+    "backend/reports/v4/spatial_preparation/spatial_preparation_manifest.json": "720c13fb4bc24d3599951da5ed03a06a4ce0999de84d6b8f98243f7d77d5714b",
+    "backend/notebooks/19_spatial_count_preparation_national.ipynb": "19480c27665614b9721c88cb7205dab2757941b01e58b088dae7691430a24f44",
+    "backend/config/spatial_preparation_v4.json": "492856005ae28948044376d219df1124af70d355ddc3f0854f96331f7804ab8c",
+    "backend/notebooks/21_spatial_evaluation_colours_national.ipynb": "050a1f2ee5edc33fefa21b71c6c3205cafb879e8d8593890a82a700ca461563a",
+    "backend/config/spatial_evaluation_v4.json": "76260917857832c845c7ace8a7fb9fa64407ffaabf57bd6d1ea75e86d7d11963",
+    "backend/rerun-spatial-eval-national-20261120-160533/reports/v4/spatial_evaluation/spatial_evaluation_manifest.json": "3b196b1e3595d1a1fb83be113293bce9e0b197dcf675f55dff2b0efbf1146116",
+    "backend/rerun-spatial-eval-national-20261120-160533/reports/v4/spatial_evaluation/colour_contract_daily.json": "23078769112e8bd0e3c7be0f64640d65b7bec3ec8d462107b25a10b7b654c030",
+    "backend/rerun-spatial-eval-national-20261120-160533/reports/v4/spatial_evaluation/colour_contract_6h.json": "1466af98e1d70439c9ab6804eb1b4de7c47fee345126cbfb8e52b0ced88f78ec"
+  },
+  "functions_sha256": {
+    "notebook19": "821d7a4624f743694e2ef0d0b9d8a8ad3c5cd98a07d148b5c7785780e9854116",
+    "notebook21": "7c01d7a291a09e28769684e765104983a42863c9c5cca2275516cbc886500827"
+  },
+  "selection": {
+    "daily": "hgb_poisson_fixed::routed_context",
+    "6h": "hgb_poisson_fixed::routed_context",
+    "baseline": "segment_mean_k365"
+  },
+  "notes": "national V4 serving pins (Claude) from verified notebook-20/21 runs; Manager pins following accepted20 and21 actual independent reviews. Verify each consumed prepared-data/model/meta/reference/diagnostic-array hash against the trusted producer manifest before use. No runtime dependency on .ai-team evidence. No refit. No models loaded before hash validation."
+}
