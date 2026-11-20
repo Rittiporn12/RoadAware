@@ -247,7 +247,8 @@
       "routed_context"
     ],
     "tie_break": "lower pooled OOF mean Poisson deviance; exact ties prefer core over routed_context, then config order above",
-    "infrequent_category_policy": "national V4: max_category_cardinality is the encoder max_categories; the most frequent levels in the fold training sample keep their own level, the rest share one infrequent level (OneHotEncoder infrequent_if_exist / OrdinalEncoder max_categories). v3 refused fits above the cap; the pilot never exceeded it (218 routes)."
+    "infrequent_category_policy": "national V4: max_category_cardinality is the encoder max_categories; the most frequent levels in the fold training sample keep their own level, the rest share one infrequent level (OneHotEncoder infrequent_if_exist / OrdinalEncoder max_categories). v3 refused fits above the cap; the pilot never exceeded it (218 routes).",
+    "sparse_one_hot_note": "national V4: Poisson/RF one-hot output is sparse (CSR) instead of dense; same features and estimators. Measured on the daily 2023H2 sample: identical RF prediction mean, Poisson |diff| ~1e-11, RF memory 4.85 -> 1.71 GB. The dense 6 h sample (3.47M rows x ~300 columns) did not fit in 16 GB RAM."
   },
   "metrics": {
     "deviance_floor": 1e-12,
@@ -299,7 +300,9 @@
     "artifact_budget_bytes": 68719476736,
     "batch_rows": 100000,
     "threads": 4,
-    "bytes_per_value": 8
+    "bytes_per_value": 8,
+    "fit_cache": true,
+    "fit_cache_note": "content-addressed cache of successful fits (backend/rerun-fitcache-<version>, gitignored) so an interrupted run resumes; hits are reported in the manifest"
   },
   "dependency_pins": {
     "pandas": "pandas>=2.0,<3",

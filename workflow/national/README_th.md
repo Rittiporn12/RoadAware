@@ -52,3 +52,5 @@
 - รอบ `rerun-spatial-model-national-002`: ข้อมูลถูกต้อง (OOF 19.5M/78.1M แถว) แต่โมเดลทุกตัวถูกปฏิเสธเพราะ route_code มี 1,440 สายทาง เกินเพดาน 255 ของกติกา v3 → ผลเลือกเป็น baseline เท่านั้น (ไม่ใช้ต่อ)
 - แก้ในสำเนา national: encoder รวมสายทางที่พบน้อยเป็นระดับ "infrequent" เดียว (เรียนจาก training sample ของแต่ละ fold เท่านั้น) แล้วรันใหม่ → `rerun-spatial-model-national-003` (National Step 4b.command)
 - `rerun-spatial-model-national-003` หยุดกลางทาง (ผู้ใช้ปิดเครื่องเพราะร้อน หลังรัน ~6 ชม.) ไม่ใช้ต่อ · ลด threads เป็น 4 (ไม่เปลี่ยนผล) แล้วรันใหม่ → `rerun-spatial-model-national-004` (National Step 4c.command)
+- `rerun-spatial-model-national-004` หยุดหลัง ~11 ชม. (ยังไม่จบ cell 10): สาเหตุคือ one-hot แบบ dense ของ 6 h sample (3.47M แถว × ~300 คอลัมน์) ใช้ RAM เกิน 16 GB → swap
+- แก้ในสำเนา national: one-hot แบบ sparse (Poisson/RF), progress.log, fit cache (`backend/rerun-fitcache-spatial_experiment_v4.0`) ให้หยุด/รันต่อได้ → `National Step 4d.command` (root ใหม่ทุกครั้งตามเวลา)
