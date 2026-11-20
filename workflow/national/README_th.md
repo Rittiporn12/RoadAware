@@ -55,3 +55,4 @@
 - `rerun-spatial-model-national-004` หยุดหลัง ~11 ชม. (ยังไม่จบ cell 10): สาเหตุคือ one-hot แบบ dense ของ 6 h sample (3.47M แถว × ~300 คอลัมน์) ใช้ RAM เกิน 16 GB → swap
 - แก้ในสำเนา national: one-hot แบบ sparse (Poisson/RF), progress.log, fit cache (`backend/rerun-fitcache-spatial_experiment_v4.0`) ให้หยุด/รันต่อได้ → `National Step 4d.command` (root ใหม่ทุกครั้งตามเวลา)
 - 2026-11-20: ผู้ใช้เลือกใช้โมเดลเดียวเพื่อลดเวลา → ฝึกเฉพาะ hgb_poisson_fixed (ตัวที่ถูกเลือกในพื้นที่นำร่อง) ยังต้องผ่านเกณฑ์เทียบ baseline เดิม
+- 2026-11-20 11:40: ผู้ใช้เปลี่ยนใจ → กลับไปเทียบครบ 4 โมเดลตามกติกาเดิม
