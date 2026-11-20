@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "dev:phone": "vite --mode phone"
+    "dev:phone": "VITE_API_BASE=/rapi VITE_TTS_URL=/rtts vite --mode phone"
   },
   "dependencies": {
     "leaflet": "1.9.4",
