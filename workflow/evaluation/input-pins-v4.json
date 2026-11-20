@@ -1,0 +1,18 @@
+{
+  "kind": "manager_accepted_spatial20_evaluation_inputs",
+  "accepted_run": "backend/rerun-spatial-model-national-20261120-150631",
+  "accepted_review": "backend/reports/v4/spatial_experiments_independent_review.json",
+  "files": {
+    "backend/notebooks/20_spatial_count_experiments_national.ipynb": "bc7fc9a2c9ddc87c2b9edbca1d64ce3dc2441aa83fba80adbab04c73fdc8e4cc",
+    "backend/config/spatial_experiment_v4.json": "385c8b343ab6d0da92a5014dba358d2c42a35753d22c122d795b303b109b5601",
+    "backend/rerun-spatial-model-national-20261120-150631/reports/v4/spatial_experiments/spatial_experiments_manifest.json": "a3c145e570dc095cc4698ed0bbe2610108fb7adf3f5e490be21485562543f322",
+    "backend/rerun-spatial-model-national-20261120-150631/reports/v4/spatial_experiments/experiment_lock.json": "c80ff02ef89e2c16cfcac08ed38cf7a6ffba3c9f7230413031a0650c7327d019",
+    "backend/rerun-spatial-model-national-20261120-150631/reports/v4/spatial_experiments/selection_frozen.json": "04c739e9cacfc6353c1e2802c51b3fc4f9f4f3963c56bb99acf392fd480179e1",
+    "backend/rerun-spatial-model-national-20261120-150631/data/v4/spatial_experiments/arrays_index.json": "376b1dcb6a11be2ae5e608d5a4da46f909dbb335592521023d491bcf7bf84365",
+    "backend/reports/v4/spatial_preparation/spatial_preparation_manifest.json": "720c13fb4bc24d3599951da5ed03a06a4ce0999de84d6b8f98243f7d77d5714b",
+    "backend/notebooks/19_spatial_count_preparation_national.ipynb": "19480c27665614b9721c88cb7205dab2757941b01e58b088dae7691430a24f44",
+    "backend/config/spatial_preparation_v4.json": "492856005ae28948044376d219df1124af70d355ddc3f0854f96331f7804ab8c"
+  },
+  "prepared_functions_sha256": "821d7a4624f743694e2ef0d0b9d8a8ad3c5cd98a07d148b5c7785780e9854116",
+  "notes": "national V4 pins written by Claude from the verified notebook-20 run rerun-spatial-model-national-20261120-150631"
+}

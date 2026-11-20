@@ -1,0 +1,40 @@
+{
+  "status": "accepted_spatial_experiments_v4",
+  "reviewer": "Claude (re-check of the national notebook-20 run)",
+  "run_root": "backend/rerun-spatial-model-national-20261120-150631",
+  "manifest_sha256": "a3c145e570dc095cc4698ed0bbe2610108fb7adf3f5e490be21485562543f322",
+  "checks": 52,
+  "failed_checks": [],
+  "failed_models": 0,
+  "protected_unchanged": true,
+  "oof_rows": {
+    "daily": 19520200,
+    "6h": 78080800
+  },
+  "fit_cache": {
+    "code_sha": "40b9a9ca633612c4025bb9d1a80706d009cf02d75f189e2590bc0eaafbbebad3",
+    "hits": 13,
+    "misses": 9
+  },
+  "selection": {
+    "daily": {
+      "selected_method": "hgb_poisson_fixed::routed_context",
+      "recommended": "candidate",
+      "strongest_baseline": "segment_mean_k365",
+      "relative_deviance_reduction": 0.0265103921710639,
+      "mae_ratio": 0.9963674670804579,
+      "n_fold_wins": 3,
+      "reason": "all gates passed"
+    },
+    "6h": {
+      "selected_method": "hgb_poisson_fixed::routed_context",
+      "recommended": "candidate",
+      "strongest_baseline": "segment_mean_k365",
+      "relative_deviance_reduction": 0.10617263338681968,
+      "mae_ratio": 0.9975262665648837,
+      "n_fold_wins": 4,
+      "reason": "all gates passed"
+    }
+  },
+  "scope_note": "HistGradientBoosting only (user decision 2026-11-20); Poisson/RF not compared nationally"
+}

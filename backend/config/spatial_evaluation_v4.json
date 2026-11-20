@@ -1,0 +1,190 @@
+{
+  "version": "spatial_evaluation_v4.0",
+  "notebook": "notebooks/21_spatial_evaluation_colours_national.ipynb",
+  "purpose": "National V4: evaluation, error analysis and the fixed relative colour contract of the ACCEPTED notebook-20 selection; no training, no reselection, no serving, no 2026 data",
+  "pins": {
+    "path": "../workflow/evaluation/input-pins-v4.json",
+    "kind": "manager_accepted_spatial20_evaluation_inputs",
+    "repo_prefix": "backend/"
+  },
+  "inputs": {
+    "accepted_root": "rerun-spatial-model-national-20261120-150631",
+    "notebook20": "notebooks/20_spatial_count_experiments_national.ipynb",
+    "config20": "config/spatial_experiment_v4.json",
+    "notebook19": "notebooks/19_spatial_count_preparation_national.ipynb",
+    "config19": "config/spatial_preparation_v4.json",
+    "manifest19": "reports/v4/spatial_preparation/spatial_preparation_manifest.json",
+    "prepared_data_dir": "data/v4/spatial_preparation",
+    "report_dir20": "reports/v4/spatial_experiments",
+    "data_dir20": "data/v4/spatial_experiments",
+    "executed_notebook20": "notebooks/20_spatial_count_experiments_national.ipynb",
+    "reports20_used": [
+      "experiment_lock.json",
+      "selection_frozen.json",
+      "leaderboard_oof.csv",
+      "fold_metrics.csv",
+      "diagnostics_seen_2024_2025.csv",
+      "transfer_metrics.csv",
+      "bootstrap.csv"
+    ],
+    "data19_used": [
+      "population_axes.json",
+      "universe_segments.csv",
+      "date_features.csv"
+    ],
+    "province_names": "reports/v2/sources/province_points.csv",
+    "province_names_note": "display names only (province_code -> name_en / name_th) for report labels; never a predictor, group key or metric input; sha256 recorded in inputs.csv"
+  },
+  "units": [
+    "daily",
+    "6h"
+  ],
+  "time": {
+    "oof_start": "2022-01-01",
+    "oof_end": "2023-12-31",
+    "diag_years": [
+      "seen_2024",
+      "seen_2025"
+    ],
+    "max_date_read": "2025-12-31",
+    "blocks_6h": [
+      "00-06",
+      "06-12",
+      "12-18",
+      "18-24"
+    ],
+    "expected_oof_rows": {
+      "daily": 19520200,
+      "6h": 78080800
+    }
+  },
+  "metrics": {
+    "deviance_floor": 1e-12,
+    "batch_rows": 1048576,
+    "reconcile_rtol": 1e-09,
+    "reconcile_atol": 1e-12,
+    "keys": [
+      "n",
+      "mean_poisson_deviance",
+      "mae",
+      "rmse",
+      "bias",
+      "wape",
+      "total_pred",
+      "total_actual",
+      "zero_cells",
+      "nonzero_cells"
+    ]
+  },
+  "colour": {
+    "version": "relative_density_colour_v3.0",
+    "density_definition": "expected SELECTED+LINKED retained MOT recorded count for the same target horizon (one local day, or one 6 h block) divided by the qualified DOH segment geom_length_m / 1000 (km); records per km per horizon period",
+    "reference": "selected policy full-population 2022-23 OOF cells, unweighted (each segment x period cell counts once), separately per unit",
+    "quantiles": [
+      0.5,
+      0.8,
+      0.95
+    ],
+    "quantile_method": "numpy.quantile method='linear' (Hyndman-Fan type 7) on float64 densities",
+    "labels": [
+      "base",
+      "yellow",
+      "orange",
+      "red"
+    ],
+    "unavailable_label": "grey",
+    "assignment": "band index = number of raw cutoffs strictly below the density (density equal to a cutoff stays in the lower band); duplicate cutoffs therefore collapse deterministically and the skipped labels are simply unused (never forced)",
+    "accessible_text": {
+      "base": "Lower relative predicted recorded density (below the median reference cell). NOT safe and NOT an accident probability.",
+      "yellow": "Above-median relative predicted recorded density (50th-80th percentile of reference cells).",
+      "orange": "High relative predicted recorded density (80th-95th percentile of reference cells).",
+      "red": "Highest relative predicted recorded density (top 5% of reference cells). Relative ranking only, not an absolute risk.",
+      "grey": "Unavailable: unsupported segment, missing/invalid prediction or length, or a horizon without a contract."
+    },
+    "hex": {
+      "base": "#2c7fb8",
+      "yellow": "#f2c418",
+      "orange": "#f07c1b",
+      "red": "#c62828",
+      "grey": "#9e9e9e"
+    },
+    "limitations": "Relative to the 2022-23 OOF reference of recorded+linked records on the current DOH road snapshot; reflects recording, selection and linkage, not physical crash frequency or per-vehicle exposure. Cutoffs are fixed across routes and viewports and are never converted between horizons."
+  },
+  "calibration": {
+    "predicted_count_quantile_edges": [
+      0.0,
+      0.5,
+      0.8,
+      0.9,
+      0.95,
+      0.99,
+      0.999,
+      1.0
+    ]
+  },
+  "capture": {
+    "road_km_fractions": [
+      0.01,
+      0.02,
+      0.05,
+      0.1,
+      0.2
+    ],
+    "tie_break": "stable sort by descending density, ties by ascending segment index",
+    "boundary": "the boundary segment contributes the fraction of its length inside the budget; its actual records are allocated proportionally to that length fraction (disclosed assumption)"
+  },
+  "groups": [
+    "weekday",
+    "month",
+    "season",
+    "festival",
+    "time_block",
+    "province",
+    "route_code",
+    "context",
+    "actual_zero"
+  ],
+  "manager_reference": {
+    "relative_deviance_reduction": {
+      "daily": 0.0265103921710639,
+      "6h": 0.10617263338681968
+    },
+    "mae_ratio": {
+      "daily": 0.9963674670804579,
+      "6h": 0.9975262665648837
+    },
+    "floor_group_gain_share": {
+      "daily": -1.0,
+      "6h": -1.0
+    },
+    "reference_tolerance": 5e-06,
+    "note": "national V4: gate figures copied from the verified notebook-20 run (Claude review). floor_group_gain_share was not pre-computed nationally; the soft check reports \"differs\" with the recomputed value."
+  },
+  "outputs": {
+    "report_dir": "reports/v4/spatial_evaluation",
+    "data_dir": "data/v4/spatial_evaluation",
+    "figure_subdir": "figures",
+    "root_prefix": "rerun-spatial-eval-"
+  },
+  "protected_paths": [
+    "config",
+    "notebooks",
+    "scripts",
+    "rerun-spatial-model-national-20261120-150631/reports",
+    "rerun-spatial-model-national-20261120-150631/data",
+    "rerun-spatial-model-national-20261120-150631/notebooks",
+    "reports/v4/spatial_preparation",
+    "data/v4/spatial_preparation",
+    "reports/v3",
+    "data/v3",
+    "rerun-spatial-model-016-002",
+    "../workflow/evaluation",
+    "../workflow/catalog",
+    "../workflow/spatial"
+  ],
+  "dependency_pins": {
+    "numpy": "2.0.2",
+    "pandas": "2.3.3",
+    "matplotlib": "3.9.4"
+  }
+}

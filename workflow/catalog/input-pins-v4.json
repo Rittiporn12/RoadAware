@@ -1,0 +1,21 @@
+{
+  "schema": "roadaware-catalog-input-pins/1",
+  "registered_before_catalog_implementation": true,
+  "files": {
+    "reports/v2/preparation/preparation_manifest.json": "d385a9b3e3d4ded037ca34f4f8626ea1020a738d2aeac0bae3dd4cceb10f3138",
+    "reports/v2/sources/sources_manifest.json": "9e3b996c6d695f8795fad7f76a6e9de81a492d97242d19f795bf5ca7c9be510a",
+    "config/data_pipeline.json": "c779fdde27c73ac9466c9a86c71ef86f1b75747914cc985b37df8214749a3098",
+    "data/raw/accidents/source_manifest.json": "708a3607231e4ee2f801f800defcd78ba05fdc60b886ce8b255fc041a98cf9d6",
+    "data/interim/events_descriptive_outcomes.csv": "6eb4ff134a9d4778aa4c37454159f8806bc765640faa3c6f61dcdcee695570ff",
+    "data/v2/events_v2.csv.gz": "f80c217fd0065fa90683d15ea36789146c3fd0307a6c70d6b22b44906bd2b0d0",
+    "data/v2/row_lineage_v2.csv.gz": "9333f7bccb2b862f572ae7a75636c12d9f0ca33d9102cf8689702ed2e379aec4",
+    "reports/v2/sources/province_points.csv": "c21045179fb235743b5a7adc69014c494d012afd2d5899b28dfb9a9842708ae3",
+    "reports/v4/spatial_preparation/spatial_preparation_manifest.json": "720c13fb4bc24d3599951da5ed03a06a4ce0999de84d6b8f98243f7d77d5714b",
+    "reports/v4/spatial_preparation_claude_review.json": "ed4a5fa2f13e017d573e925de19493fb3bdcfbb84ff4face661a1c4fe0f8f20b",
+    "data/v4/spatial_preparation/selected_events.csv.gz": "e404c03d4e6dc67df5823638578c0410a8baff7844b1d0efc7f68fe1737c02c1",
+    "data/v4/spatial_preparation/universe_segments.csv": "927992e01f83f0afe244abbb33ae4686f13bd5deafc528c3b6b705c8b948cdbf",
+    "data/v4/spatial_preparation/counts_daily.csv.gz": "2e44470d0a5288558f2e9e07b5c7615462cb8fc374e5e494ff95d76a6dbd4b85",
+    "data/v4/spatial_preparation/counts_6h.csv.gz": "eacfcdc8af5a8f018392570ead59b9ef140bc9e27974e65c612d0525b3adac38"
+  },
+  "note": "national V4 catalog pins (Claude); Accepted producer manifests must corroborate each referenced data hash. Catalog cannot mutate ongoing20 protected files. No catalog model scores or serving artifacts required."
+}

@@ -1,0 +1,12 @@
+{
+  "status": "accepted_spatial_count_preparation_v4",
+  "reviewer": "Claude (independent re-check of the national notebook-19 outputs)",
+  "manifest_sha256": "720c13fb4bc24d3599951da5ed03a06a4ce0999de84d6b8f98243f7d77d5714b",
+  "selected_events": 98207,
+  "universe_segments": 26740,
+  "counts_daily_total": 98207,
+  "counts_6h_total": 98207,
+  "all_data_hashes_match_manifest": true,
+  "checks": 41,
+  "note": "companion to the automated gate review (reports/v4/spatial_preparation_independent_review.json, pinned by notebook 20); recounted rows/totals directly from the files"
+}
