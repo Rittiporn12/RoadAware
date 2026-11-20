@@ -91,7 +91,24 @@ function fetchAudio(text) {
   }
   return audioCache.get(text);
 }
-export function prefetchSpeech(texts) { for (const t of texts) if (t) fetchAudio(t); }
+// One request at a time, in route order (nearest points first): the free Gemini tier allows only a few clips per
+// minute, so the proxy paces them; firing them all at once would only tie up the browser's connections.
+const prefetchQueue = [];
+let prefetching = false;
+async function drainPrefetch() {
+  if (prefetching) return;
+  prefetching = true;
+  while (prefetchQueue.length && proxyState !== "off") {
+    const t = prefetchQueue.shift();
+    await fetchAudio(t);
+  }
+  prefetching = false;
+}
+export function prefetchSpeech(texts) {
+  prefetchQueue.length = 0;
+  for (const t of texts) if (t && !prefetchQueue.includes(t)) prefetchQueue.push(t);
+  drainPrefetch();
+}
 
 let audioCtx = null;
 function chime() {

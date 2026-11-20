@@ -10,12 +10,15 @@
 * Only 127.0.0.1, only the website origins below, at most 400 characters per request.
 """
 import base64
+import collections
 import hashlib
 import json
 import os
+import re
 import struct
 import sys
 import threading
+import time
 import urllib.error
 import urllib.request
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -30,6 +33,36 @@ STYLE = 'lively, alert and friendly, like an upbeat Thai radio traffic announcer
 ORIGINS = {'http://127.0.0.1:5173', 'http://localhost:5173', 'http://127.0.0.1:3000', 'http://localhost:3000'}
 MAX_CHARS = 400
 LOCK = threading.Lock()
+# Free tier allows only a few requests per minute (3 RPM for the TTS model at the time of writing). Requests are
+# paced to stay under it; raise ROADAWARE_TTS_RPM after enabling billing.
+RPM = max(1, int(os.environ.get('ROADAWARE_TTS_RPM', '3')))
+SENT = collections.deque()
+
+
+def pace():
+    while True:
+        now = time.time()
+        while SENT and now - SENT[0] >= 61:
+            SENT.popleft()
+        if len(SENT) < RPM:
+            SENT.append(now)
+            return
+        time.sleep(61 - (now - SENT[0]) + 0.2)
+
+
+def synthesize_paced(text):
+    for attempt in range(3):
+        pace()
+        try:
+            return synthesize(text)
+        except urllib.error.HTTPError as e:
+            if e.code != 429 or attempt == 2:
+                raise
+            detail = e.read()[:300].decode('utf-8', 'replace')
+            m = re.search(r'retry in ([0-9.]+)s', detail)
+            wait = min(65.0, float(m.group(1)) + 1) if m else 30.0
+            print(f'quota busy — waiting {wait:.0f}s and retrying (free tier {RPM}/min)', flush=True)
+            time.sleep(wait)
 
 
 def api_key():
@@ -112,8 +145,9 @@ class Handler(BaseHTTPRequestHandler):
             if not path.is_file():
                 with LOCK:  # one synthesis at a time keeps the free-tier rate limit happy
                     if not path.is_file():
-                        audio = synthesize(text)
+                        audio = synthesize_paced(text)
                         CACHE.mkdir(exist_ok=True)
+                        print(f'new voice clip saved ({len(list(CACHE.glob("*.wav"))) + 1} in cache)', flush=True)
                         tmp = path.with_suffix('.tmp')
                         tmp.write_bytes(audio)
                         os.replace(tmp, path)
