@@ -4,7 +4,7 @@ import { api, fetchJson, bkkToEpoch, epochToBkk, pad2, isNum, fmtKm, techText, i
 import { geocode } from "./lib/geocode.js";
 import { buildRouteIndex } from "./lib/routeMatch.js";
 import { loadRouteMatches, predictMatches, fetchSegmentHistory } from "./lib/forecast.js";
-import { buildZones, buildRibbon, aggregateHistory } from "./lib/zones.js";
+import { buildZones, buildRibbon, aggregateHistory, levelKm } from "./lib/zones.js";
 import MapView from "./components/MapView.jsx";
 import TripForm from "./components/TripForm.jsx";
 import Briefing from "./components/Briefing.jsx";
@@ -150,7 +150,7 @@ export default function App() {
     let json;
     try {
       const url = CONFIG.osrmUrl + o.lon.toFixed(6) + "," + o.lat.toFixed(6) + ";" + d.lon.toFixed(6) + "," + d.lat.toFixed(6) +
-        "?overview=full&geometries=geojson&steps=false&alternatives=false";
+        "?overview=full&geometries=geojson&steps=false&alternatives=true";
       json = await fetchJson(url, { signal: ctrl.signal, timeoutMs: 25000 });
     } catch (f) {
       if (gen !== tripGen.current || f.kind === "aborted") return;
@@ -174,9 +174,18 @@ export default function App() {
     try { index = buildRouteIndex(coords); } catch (_) { index = null; }
     const snaps = Array.isArray(json.waypoints) ? json.waypoints.map((w) => (isNum(w.distance) ? w.distance : 0)) : [0, 0];
     const far = snaps.map((dist, i) => (dist > CONFIG.snapWarnM ? (i === 0 ? "ต้นทาง" : "ปลายทาง") + "อยู่ห่างถนนราว " + fmtKm(dist) : null)).filter(Boolean);
+    // Alternatives with a similar driving time (OSRM gives 0–2). Each keeps its own id so matches are cached per line.
+    const alternatives = [];
+    for (const a of (json.routes || []).slice(1)) {
+      const ac = a && a.geometry && Array.isArray(a.geometry.coordinates) ? a.geometry.coordinates : null;
+      if (!ac || ac.length < 2 || !isNum(a.distance) || !isNum(a.duration) || a.duration > r.duration * CONFIG.altMaxTimeRatio) continue;
+      let aidx = null;
+      try { aidx = buildRouteIndex(ac); } catch (_) { aidx = null; }
+      alternatives.push({ id: ++routeSeq, coords: ac, distance: a.distance, duration: a.duration, index: aidx });
+    }
     setTrip({ status: "idle" });
     setRoute({
-      id: ++routeSeq, coords, distance: r.distance, duration: r.duration, index, origin: o, dest: d,
+      id: ++routeSeq, coords, distance: r.distance, duration: r.duration, index, origin: o, dest: d, alternatives,
       snapNote: far.length ? far.join(" · ") + " — เส้นทางเริ่ม/สิ้นสุดที่ถนนนั้น" : null,
     });
     setView("brief");
@@ -248,6 +257,55 @@ export default function App() {
     return () => { alive = false; ctrl.abort(); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [compareKey]);
+
+  // ---- alternative routes: evaluated after the main forecast, same date and departure time (lengths/counts only)
+  const [alts, setAlts] = useState({ key: null, list: [] });
+  const [altFocus, setAltFocus] = useState(null);
+  const altKey = route && forecast.status === "done" && whenValid(when) && (route.alternatives || []).length ? route.id + "|" + when.date + "|" + when.time : null;
+  useEffect(() => {
+    setAltFocus(null);
+    if (!altKey || !route) { setAlts({ key: null, list: [] }); return undefined; }
+    let alive = true;
+    const ctrl = new AbortController();
+    const list = route.alternatives.map((a) => ({ id: a.id, duration: a.duration, distance: a.distance, status: "loading" }));
+    setAlts({ key: altKey, list });
+    (async () => {
+      for (let i = 0; i < route.alternatives.length; i++) {
+        const a = route.alternatives[i];
+        let entry;
+        try {
+          if (!a.index) throw new Error("no index");
+          let matches = matchCache.current.get(a.id);
+          if (!matches) {
+            matches = await loadRouteMatches(a, { signal: ctrl.signal, onProgress: () => {} });
+            matchCache.current.set(a.id, matches);
+          }
+          const { items: ai } = matches.length ? await predictMatches(matches, a, { date: when.date, time: when.time, signal: ctrl.signal }) : { items: [] };
+          const zr = buildZones(ai, () => null);
+          entry = { status: "ok", redKm: levelKm(ai).red, points: zr.zones.length + zr.hidden, coverage: buildRibbon(ai, a.distance).coverage };
+        } catch (f) {
+          if (!alive || (f && f.kind === "aborted")) return;
+          entry = { status: "error" };
+        }
+        if (!alive) return;
+        setAlts((cur) => (cur.key !== altKey ? cur : { ...cur, list: cur.list.map((x, j) => (j === i ? { ...x, ...entry } : x)) }));
+      }
+    })();
+    return () => { alive = false; ctrl.abort(); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [altKey]);
+
+  const pickAlternative = useCallback((altId) => {
+    setRoute((cur) => {
+      if (!cur) return cur;
+      const a = (cur.alternatives || []).find((x) => x.id === altId);
+      if (!a) return cur;
+      const asAlt = { id: cur.id, coords: cur.coords, distance: cur.distance, duration: cur.duration, index: cur.index };
+      return { ...cur, ...a, alternatives: [asAlt, ...cur.alternatives.filter((x) => x.id !== altId)], snapNote: cur.snapNote };
+    });
+    setAltFocus(null);
+    setSelectedKey(null);
+  }, []);
 
   const items = forecast.status === "done" ? forecast.items : NO_ITEMS;
   const zoneRes = useMemo(() => buildZones(items, provinceName), [items, provinceName]);
@@ -458,7 +516,7 @@ export default function App() {
           <div className="map-card">
             {!mapFailed && (
               <MapView
-                route={route} origin={places.origin} dest={places.dest} items={items} zones={zones} hotIds={zoneRes.hotIds} rankById={zoneRes.rankById} mode={mode}
+                route={route} origin={places.origin} dest={places.dest} items={items} zones={zones} hotIds={zoneRes.hotIds} rankById={zoneRes.rankById} mode={mode} altFocus={altFocus} onSelectAlt={setAltFocus}
                 selectedKey={selectedKey} focus={focus} pick={pick} getPadding={getPadding}
                 onPick={onPickPoint} onOutside={() => showToast("เลือกได้เฉพาะพื้นที่ในประเทศไทย")}
                 onSelectZone={(k) => selectZone(k, true)} onFailed={() => setMapFailed(true)}
@@ -514,6 +572,7 @@ export default function App() {
               <Briefing
                 route={route} when={when} forecast={forecast} zones={zones} hidden={zoneRes.hidden} counts={zoneRes.counts} mode={mode} ribbon={ribbon}
                 compare={compare} selectedKey={selectedKey} history={history} mobile={mobile}
+                alts={alts.list} altFocus={altFocus} onFocusAlt={setAltFocus} onUseAlt={pickAlternative}
                 onEdit={goPlan} onSelectZone={(k) => selectZone(k, false)}
                 onPickTime={(t) => setWhen((w) => ({ ...w, time: t }))}
                 onRetry={() => setRetryNonce((n) => n + 1)} onRetryHistory={(z) => loadZoneHistory(z, true)}

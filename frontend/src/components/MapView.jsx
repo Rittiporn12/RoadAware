@@ -27,13 +27,13 @@ function zoneIcon(n, level, selected, mode, clock) {
   });
 }
 
-export default function MapView({ route, origin, dest, items, zones, hotIds, rankById, mode, selectedKey, focus, pick, getPadding, onPick, onOutside, onSelectZone, onFailed }) {
+export default function MapView({ route, origin, dest, items, zones, hotIds, rankById, mode, altFocus, onSelectAlt, selectedKey, focus, pick, getPadding, onPick, onOutside, onSelectZone, onFailed }) {
   const divRef = useRef(null);
   const mapRef = useRef(null);
   const layers = useRef({});
   const boundaryRef = useRef(null);
   const handlers = useRef({});
-  handlers.current = { onPick, onOutside, onSelectZone, pick };
+  handlers.current = { onPick, onOutside, onSelectZone, onSelectAlt, pick };
   const [tileWarn, setTileWarn] = useState(false);
   const [zoomTick, setZoomTick] = useState(0);
 
@@ -56,6 +56,7 @@ export default function MapView({ route, origin, dest, items, zones, hotIds, ran
     const thaiPane = pane("tilesThai", 210);
     pane("outside", 220);
     pane("border", 230).style.pointerEvents = "none";
+    pane("altPane", 405);
     pane("routePane", 410).style.pointerEvents = "none";
     pane("segPane", 420).style.pointerEvents = "none";
 
@@ -69,6 +70,7 @@ export default function MapView({ route, origin, dest, items, zones, hotIds, ran
     L.tileLayer(CONFIG.tileUrl, { ...tileOpts, pane: "tilesThai" }).addTo(m);
 
     layers.current = {
+      alts: L.layerGroup().addTo(m),
       route: L.layerGroup().addTo(m),
       seg: L.layerGroup().addTo(m),
       zones: L.layerGroup().addTo(m),
@@ -207,6 +209,24 @@ export default function MapView({ route, origin, dest, items, zones, hotIds, ran
     m.fitBounds(L.latLngBounds(latlngs), getPadding());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [route]);
+
+  // ---- alternative routes (similar time): quiet dashed lines under the main route; tap to compare in the panel
+  useEffect(() => {
+    const m = mapRef.current;
+    if (!m) return;
+    const g = layers.current.alts;
+    g.clearLayers();
+    const list = (route && route.alternatives) || [];
+    list.forEach((a, i) => {
+      const ll = a.coords.map(([lon, lat]) => [lat, lon]);
+      const on = altFocus === a.id;
+      L.polyline(ll, { pane: "altPane", color: "#FFFFFF", weight: on ? 11 : 9, opacity: 0.9, lineCap: "round", interactive: false }).addTo(g);
+      const line = L.polyline(ll, { pane: "altPane", color: on ? "#6B3FA0" : "#7C8798", weight: on ? 6 : 4, opacity: on ? 0.95 : 0.8, dashArray: on ? "12 6" : "8 8", lineCap: "round" });
+      line.bindTooltip("ทางเลือก " + (i + 1) + " · แตะเพื่อเทียบ", { sticky: true });
+      line.on("click", () => handlers.current.onSelectAlt && handlers.current.onSelectAlt(a.id));
+      line.addTo(g);
+    });
+  }, [route, altFocus]);
 
   // ---- forecast colours on the route
   useEffect(() => {

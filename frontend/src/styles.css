@@ -361,3 +361,16 @@ dialog.about::backdrop { background: rgba(15, 27, 45, 0.45); backdrop-filter: bl
   color: var(--ink); background: rgba(255,255,255,.95); padding: 1px 6px; border-radius: 6px; white-space: nowrap; box-shadow: 0 1px 3px rgba(15,27,45,.2); pointer-events: none; }
 .key-tiers { gap: 3px !important; }
 .key-tiers i { width: 12px !important; border-radius: 2px !important; }
+.alt-list { display: flex; flex-direction: column; gap: 8px; }
+.alt-card { border: 1.5px solid var(--line); border-radius: 14px; background: var(--surface); padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; }
+.alt-card.is-main { background: #F4F6FA; border-color: #D9DFEA; }
+.alt-card.is-on { border-color: var(--ink); box-shadow: var(--shadow); }
+.alt-card.alt-better { border-color: #2F7D5B; }
+.alt-pick { all: unset; cursor: pointer; display: flex; flex-direction: column; gap: 6px; }
+.alt-top { display: flex; justify-content: space-between; gap: 8px; font-size: 14px; flex-wrap: wrap; }
+.alt-top span { color: var(--muted); font-size: 13px; }
+.alt-stats { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 13px; color: var(--ink-2); align-items: center; }
+.alt-stats > span { display: inline-flex; align-items: center; gap: 5px; }
+.alt-verdict { margin: 0; font-size: 13px; font-weight: 700; }
+.alt-v-better { color: #2F7D5B; } .alt-v-worse { color: #A3312A; } .alt-v-same { color: var(--muted); } .alt-v-na { color: #8A6A00; }
+.alt-use { align-self: flex-start; }

@@ -1,7 +1,7 @@
 // Trip briefing — answer first (verdict + how to read it), the numbered hotspots of this trip, the whole route
 // against the national scale, then the departure-time comparison.
 // Desktop: a zone expands in place. Phone: a zone opens as its own screen inside the sheet.
-import { LEVELS, LEVEL_ORDER, BLOCK_LABEL, DEPART_OPTIONS, HOT_HEX } from "../config.js";
+import { CONFIG, LEVELS, LEVEL_ORDER, BLOCK_LABEL, DEPART_OPTIONS, HOT_HEX } from "../config.js";
 import { fmtKm, fmtDuration, fmtThaiDate, fmtPct, fmtSmall, epochToBkk, bkkToEpoch, techText } from "../lib/util.js";
 import { topValues, rainShare, peakBlock, tipsFor } from "../lib/zones.js";
 const pctTop = (rank) => Math.max(1, Math.round((1 - rank) * 100));
@@ -122,6 +122,60 @@ function Compare({ compare, when, onPickTime }) {
   );
 }
 
+// Other routes with a similar driving time. Compared only on lengths/counts (never a route probability) and
+// only when most of the alternative is evaluated — an unevaluated road must never look "better".
+function Alternatives({ alts, main, altFocus, onFocusAlt, onUseAlt }) {
+  if (!alts || alts.length === 0) return null;
+  const mins = (s) => Math.round(s / 60);
+  const verdict = (a) => {
+    if (a.status !== "ok") return null;
+    if (a.coverage < CONFIG.altMinCoverage) return { kind: "na", text: "ส่วนใหญ่เป็นถนนที่ยังไม่ประเมิน — เทียบไม่ได้" };
+    const diff = main.redKm - a.redKm;
+    if (diff >= Math.max(5, main.redKm * 0.2)) return { kind: "better", text: "ผ่านช่วงระดับ “สูงมาก” น้อยกว่า " + Math.round(diff) + " กม." };
+    if (-diff >= Math.max(5, main.redKm * 0.2)) return { kind: "worse", text: "ผ่านช่วงระดับ “สูงมาก” มากกว่า " + Math.round(-diff) + " กม." };
+    return { kind: "same", text: "ใกล้เคียงกับเส้นที่เลือก" };
+  };
+  return (
+    <section className="block" aria-labelledby="altTitle">
+      <div className="block-head"><h3 id="altTitle">เส้นทางอื่นที่เวลาใกล้กัน</h3><span className="block-hint">ออกเวลาเดียวกัน · เส้นประบนแผนที่</span></div>
+      <div className="alt-list">
+        <div className="alt-card is-main">
+          <div className="alt-top"><b>เส้นที่เลือกอยู่</b><span>{fmtDuration(main.duration)} · {fmtKm(main.distance)}</span></div>
+          <div className="alt-stats">
+            <span><i className="dot" style={{ background: LEVELS.red.hex }} />สูงมาก {Math.round(main.redKm)} กม.</span>
+            <span><b className="key-num">{main.points}</b> จุดควรระวัง</span>
+            <span>ประเมินได้ {Math.round(main.coverage * 100)}%</span>
+          </div>
+        </div>
+        {alts.map((a, i) => {
+          const v = verdict(a);
+          const dt = mins(a.duration - main.duration);
+          const on = altFocus === a.id;
+          return (
+            <div key={a.id} className={"alt-card" + (on ? " is-on" : "") + (v ? " alt-" + v.kind : "")}>
+              <button type="button" className="alt-pick" aria-pressed={on} onClick={() => onFocusAlt(on ? null : a.id)}>
+                <div className="alt-top"><b>ทางเลือก {i + 1}</b><span>{fmtDuration(a.duration)} ({dt === 0 ? "เวลาเท่ากัน" : (dt > 0 ? "+" : "−") + Math.abs(dt) + " นาที"}) · {fmtKm(a.distance)}</span></div>
+                {a.status === "loading" && <div className="alt-stats"><span className="spinner spinner-sm" /> กำลังประเมิน…</div>}
+                {a.status === "error" && <div className="alt-stats">ประเมินเส้นนี้ไม่สำเร็จ</div>}
+                {a.status === "ok" && (
+                  <div className="alt-stats">
+                    <span><i className="dot" style={{ background: LEVELS.red.hex }} />สูงมาก {Math.round(a.redKm)} กม.</span>
+                    <span><b className="key-num">{a.points}</b> จุดควรระวัง</span>
+                    <span>ประเมินได้ {Math.round(a.coverage * 100)}%</span>
+                  </div>
+                )}
+                {v && <p className={"alt-verdict alt-v-" + v.kind}>{v.text}</p>}
+              </button>
+              {a.status === "ok" && <button type="button" className="btn btn-ghost btn-sm alt-use" onClick={() => onUseAlt(a.id)}>ใช้เส้นนี้</button>}
+            </div>
+          );
+        })}
+      </div>
+      <p className="fine">เทียบเฉพาะระยะทางระดับ “สูงมาก” และจำนวนจุดควรระวัง ไม่ได้บอกว่าเส้นไหนปลอดภัยกว่า · เส้นที่ประเมินได้ไม่ถึง {Math.round(CONFIG.altMinCoverage * 100)}% จะไม่ถูกนับว่าดีกว่า</p>
+    </section>
+  );
+}
+
 function ZoneDetail({ zone, entry, onRetry }) {
   const hasData = entry && entry.status === "ok";
   const agg = hasData ? entry.agg : null;
@@ -207,7 +261,7 @@ function ZoneHead({ z, on, onClick }) {
   );
 }
 
-export default function Briefing({ route, when, forecast, zones, hidden, counts, mode, ribbon, compare, selectedKey, history, mobile, onEdit, onSelectZone, onPickTime, onRetry, onRetryHistory, onAbout }) {
+export default function Briefing({ route, when, forecast, zones, hidden, counts, mode, ribbon, compare, alts, altFocus, onFocusAlt, onUseAlt, selectedKey, history, mobile, onEdit, onSelectZone, onPickTime, onRetry, onRetryHistory, onAbout }) {
   const depart = bkkToEpoch(when.date, when.time);
   const arrive = epochToBkk(depart + route.duration * 1000);
   const selected = zones.find((z) => z.key === selectedKey) || null;
@@ -275,6 +329,10 @@ export default function Briefing({ route, when, forecast, zones, hidden, counts,
         </section>
       )}
 
+      {forecast.status === "done" && (alts || []).length > 0 && (
+        <Alternatives alts={alts} altFocus={altFocus} onFocusAlt={onFocusAlt} onUseAlt={onUseAlt}
+          main={{ duration: route.duration, distance: route.distance, redKm: counts.red || 0, points: zones.length + hidden, coverage: ribbon.coverage }} />
+      )}
       {forecast.status === "done" && forecast.items.length > 0 && <Overview counts={counts} />}
       {forecast.status === "done" && forecast.items.length > 0 && <Compare compare={compare} when={when} onPickTime={onPickTime} />}
 

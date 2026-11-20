@@ -33,6 +33,8 @@ export const CONFIG = {
   hotspotQuantile: 0.8, // trip hotspot = national level สูง/สูงมาก AND in the top 20% of this route's evaluated segments
   maxZones: 5,          // per ~500 km of route, capped by maxZonesCap
   maxZonesCap: 10,
+  altMaxTimeRatio: 1.35,   // alternative routes kept when their driving time is ≤ 35% longer
+  altMinCoverage: 0.7,     // below this an alternative is mostly unevaluated → never called better
   ribbonBins: 240,
 };
 
@@ -55,7 +57,7 @@ export const LEVELS = {
 export const UNKNOWN_HEX = "#B9C1CC"; // local / city roads the model does not cover yet (solid, quiet — not a risk colour)
 export const ROUTE_HEX = "#3E5C86";   // evaluated route (trip view) — neutral, not a risk colour
 // Trip view shading: lower half / middle / upper fifth of THIS trip (one blue hue, light → dark). Red is kept for numbered points.
-export const TRIP_TIERS = [{ upTo: 0.5, hex: "#A9BEDA", label: "ต่ำ" }, { upTo: 0.8, hex: "#5F7FAD", label: "กลาง" }, { upTo: 1.01, hex: "#22385E", label: "สูง" }];
+export const TRIP_TIERS = [{ upTo: 0.5, hex: "#8DB0E3", label: "ต่ำ" }, { upTo: 0.8, hex: "#4C76B8", label: "กลาง" }, { upTo: 1.01, hex: "#1E3460", label: "สูง" }];
 export const tripTierHex = (rank) => (TRIP_TIERS.find((t) => rank < t.upTo) || TRIP_TIERS[TRIP_TIERS.length - 1]).hex;
 export const HOT_HEX = "#C8372D";     // numbered trip hotspots
 export const LEVEL_ORDER = ["red", "orange", "yellow", "base"];
