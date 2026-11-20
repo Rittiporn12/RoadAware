@@ -252,7 +252,7 @@ export default function App() {
   const items = forecast.status === "done" ? forecast.items : NO_ITEMS;
   const zoneRes = useMemo(() => buildZones(items, provinceName), [items, provinceName]);
   const zones = zoneRes.zones;
-  const ribbon = useMemo(() => (route ? buildRibbon(items, route.distance, zoneRes.hotIds) : { pieces: [], coverage: 0 }), [items, route, zoneRes]);
+  const ribbon = useMemo(() => (route ? buildRibbon(items, route.distance, zoneRes.hotIds, zoneRes.rankById) : { pieces: [], coverage: 0 }), [items, route, zoneRes]);
   const history = useMemo(() => {
     const out = {};
     for (const z of zones) out[z.key] = historyAll[histKey(z)];
@@ -458,7 +458,7 @@ export default function App() {
           <div className="map-card">
             {!mapFailed && (
               <MapView
-                route={route} origin={places.origin} dest={places.dest} items={items} zones={zones} hotIds={zoneRes.hotIds} mode={mode}
+                route={route} origin={places.origin} dest={places.dest} items={items} zones={zones} hotIds={zoneRes.hotIds} rankById={zoneRes.rankById} mode={mode}
                 selectedKey={selectedKey} focus={focus} pick={pick} getPadding={getPadding}
                 onPick={onPickPoint} onOutside={() => showToast("เลือกได้เฉพาะพื้นที่ในประเทศไทย")}
                 onSelectZone={(k) => selectZone(k, true)} onFailed={() => setMapFailed(true)}

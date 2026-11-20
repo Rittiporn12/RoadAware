@@ -1,7 +1,7 @@
 // The whole route A→B on one strip.
 //  trip view (default): red = the numbered hotspots of THIS trip, blue = evaluated, hatched grey = no data
 //  national view:       each piece coloured by its national level (where it sits among all roads in Thailand)
-import { LEVELS, LEVEL_ORDER, ROUTE_HEX, HOT_HEX } from "../config.js";
+import { LEVELS, LEVEL_ORDER, HOT_HEX, TRIP_TIERS, tripTierHex } from "../config.js";
 import { bkkToEpoch, epochToBkk } from "../lib/util.js";
 
 export function RouteKey({ mode }) {
@@ -16,7 +16,7 @@ export function RouteKey({ mode }) {
   return (
     <span className="ribbon-key" aria-label="คำอธิบายแถบเส้นทาง">
       <span><b className="key-num">1</b>จุดที่ควรระวังที่สุดของทริปนี้</span>
-      <span><i style={{ background: ROUTE_HEX }} />ประเมินแล้ว</span>
+      <span className="key-tiers" title="ความเข้มของสีน้ำเงิน = ค่าคาดเทียบกับช่วงอื่นในทริปนี้">เทียบในทริป: ต่ำ{TRIP_TIERS.map((t) => <i key={t.hex} style={{ background: t.hex }} />)}สูง</span>
       <span><i className="key-unknown" />ถนนท้องถิ่น (ยังไม่ประเมิน)</span>
     </span>
   );
@@ -26,7 +26,7 @@ export default function RouteRibbon({ ribbon, zones, route, when, selectedKey, o
   const depart = bkkToEpoch(when.date, when.time);
   const arrive = epochToBkk(depart + route.duration * 1000).clock;
   const covered = Math.round(ribbon.coverage * 100);
-  const colourOf = (p) => (!p.level ? undefined : mode === "national" ? LEVELS[p.level].hex : p.hot ? HOT_HEX : ROUTE_HEX);
+  const colourOf = (p) => (!p.level ? undefined : mode === "national" ? LEVELS[p.level].hex : p.hot ? HOT_HEX : tripTierHex(p.rank));
   const badgeColour = (z) => (mode === "national" ? LEVELS[z.level] : { hex: HOT_HEX, ink: "#FFFFFF" });
   // Badges closer than ~5% of the strip go on a second row so numbers never overlap.
   const rows = {};

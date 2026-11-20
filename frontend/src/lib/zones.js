@@ -24,7 +24,7 @@ function quantile(sorted, q) {
 const lengthKm = (it) => Math.max(0, it.endM - it.startM) / 1000;
 
 export function buildZones(items, provinceName) {
-  const empty = { zones: [], hidden: 0, counts: levelKm(items), hotIds: new Set(), threshold: null };
+  const empty = { zones: [], hidden: 0, counts: levelKm(items), hotIds: new Set(), rankById: new Map(), threshold: null };
   if (!items.length) return empty;
   const ds = items.map(density).sort((a, b) => a - b);
   const threshold = quantile(ds, CONFIG.hotspotQuantile);
@@ -72,10 +72,13 @@ export function buildZones(items, provinceName) {
   });
   // Keep the strongest hotspots (highest predicted density), then number them in the order they are passed.
   const ranked = [...zones].sort((a, b) => b.maxDensity - a.maxDensity || LEVELS[b.level].rank - LEVELS[a.level].rank || b.lengthM - a.lengthM);
-  const shown = ranked.slice(0, CONFIG.maxZones).sort((a, b) => a.startM - b.startM);
+  const routeKm = items.length ? (Math.max(...items.map((i) => i.endM)) - Math.min(...items.map((i) => i.startM))) / 1000 : 0;
+  const limit = Math.min(CONFIG.maxZonesCap, Math.max(CONFIG.maxZones, Math.ceil(routeKm / 500) * CONFIG.maxZones));
+  const shown = ranked.slice(0, limit).sort((a, b) => a.startM - b.startM);
   shown.forEach((z, i) => { z.n = i + 1; });
   const hotIds = new Set(shown.flatMap((z) => z.members.map((m) => m.id)));
-  return { zones: shown, hidden: Math.max(0, zones.length - shown.length), counts: levelKm(items), hotIds, threshold };
+  const rankById = new Map(items.map((it) => [it.id, rankOf(density(it))]));
+  return { zones: shown, hidden: Math.max(0, zones.length - shown.length), counts: levelKm(items), hotIds, rankById, threshold };
 }
 
 // Evaluated route length per national level (km). Used for the overview bar and the departure comparison.
@@ -85,17 +88,18 @@ export function levelKm(items) {
   return km;
 }
 
-export function buildRibbon(items, distance, hotIds) {
+export function buildRibbon(items, distance, hotIds, rankById) {
   const n = CONFIG.ribbonBins;
   const w = distance / n;
   const bins = new Array(n).fill(null);
   for (const it of items) {
     const b0 = Math.max(0, Math.floor(it.startM / w)), b1 = Math.min(n - 1, Math.floor(it.endM / w));
     const hot = !!(hotIds && hotIds.has(it.id));
+    const rank = rankById && rankById.has(it.id) ? rankById.get(it.id) : 0;
     for (let b = b0; b <= b1; b++) {
       const cur = bins[b];
-      if (!cur) bins[b] = { level: it.level, hot };
-      else bins[b] = { level: LEVELS[it.level].rank > LEVELS[cur.level].rank ? it.level : cur.level, hot: cur.hot || hot };
+      if (!cur) bins[b] = { level: it.level, hot, rank };
+      else bins[b] = { level: LEVELS[it.level].rank > LEVELS[cur.level].rank ? it.level : cur.level, hot: cur.hot || hot, rank: Math.max(cur.rank, rank) };
     }
   }
   const pieces = [];
@@ -103,8 +107,9 @@ export function buildRibbon(items, distance, hotIds) {
   for (const bin of bins) {
     if (bin) covered += 1;
     const last = pieces[pieces.length - 1];
-    const level = bin ? bin.level : null, hot = bin ? bin.hot : false;
-    if (last && last.level === level && last.hot === hot) last.n += 1; else pieces.push({ level, hot, n: 1 });
+    const level = bin ? bin.level : null, hot = bin ? bin.hot : false, rank = bin ? bin.rank : 0;
+    const tier = rank < 0.5 ? 0 : rank < 0.8 ? 1 : 2;
+    if (last && last.level === level && last.hot === hot && last.tier === tier) last.n += 1; else pieces.push({ level, hot, rank, tier, n: 1 });
   }
   return { pieces, coverage: covered / n };
 }

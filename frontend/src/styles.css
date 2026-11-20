@@ -359,3 +359,5 @@ dialog.about::backdrop { background: rgba(15, 27, 45, 0.45); backdrop-filter: bl
 .zone-icon { overflow: visible; }
 .zone-icon em { position: absolute; left: 50%; top: calc(100% + 3px); transform: translateX(-50%); font-style: normal; font-size: 11.5px; font-weight: 700;
   color: var(--ink); background: rgba(255,255,255,.95); padding: 1px 6px; border-radius: 6px; white-space: nowrap; box-shadow: 0 1px 3px rgba(15,27,45,.2); pointer-events: none; }
+.key-tiers { gap: 3px !important; }
+.key-tiers i { width: 12px !important; border-radius: 2px !important; }

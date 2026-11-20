@@ -7,7 +7,7 @@
 import { useEffect, useRef, useState } from "react";
 import * as L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { CONFIG, THAI_BOUNDS, MAX_BOUNDS, ENVELOPE, LEVELS, UNKNOWN_HEX, ROUTE_HEX, HOT_HEX } from "../config.js";
+import { CONFIG, THAI_BOUNDS, MAX_BOUNDS, ENVELOPE, LEVELS, UNKNOWN_HEX, ROUTE_HEX, HOT_HEX, tripTierHex } from "../config.js";
 import { pointInGeometry } from "../lib/routeMatch.js";
 
 const isMobile = () => window.matchMedia("(max-width: 900px)").matches;
@@ -27,7 +27,7 @@ function zoneIcon(n, level, selected, mode, clock) {
   });
 }
 
-export default function MapView({ route, origin, dest, items, zones, hotIds, mode, selectedKey, focus, pick, getPadding, onPick, onOutside, onSelectZone, onFailed }) {
+export default function MapView({ route, origin, dest, items, zones, hotIds, rankById, mode, selectedKey, focus, pick, getPadding, onPick, onOutside, onSelectZone, onFailed }) {
   const divRef = useRef(null);
   const mapRef = useRef(null);
   const layers = useRef({});
@@ -221,10 +221,10 @@ export default function MapView({ route, origin, dest, items, zones, hotIds, mod
       const hot = !!(hotIds && hotIds.has(it.id));
       const style = national
         ? { color: LEVELS[it.level].hex, weight: it.level === "red" || it.level === "orange" ? 8 : 6 }
-        : { color: hot ? HOT_HEX : ROUTE_HEX, weight: hot ? 9 : 6 };
+        : { color: hot ? HOT_HEX : tripTierHex(rankById && rankById.has(it.id) ? rankById.get(it.id) : 0), weight: hot ? 9 : 6 };
       L.geoJSON(it.feature, { pane: "segPane", interactive: false, style: () => ({ ...style, opacity: 1, lineCap: "round" }) }).addTo(g);
     }
-  }, [items, hotIds, mode]);
+  }, [items, hotIds, rankById, mode]);
 
   // ---- numbered zones
   useEffect(() => {
