@@ -689,7 +689,7 @@ export default function App() {
               <DriveMode drive={drive} zones={zones} route={route} history={history} onStop={stopDrive}
                 onMute={() => setDrive((d) => { if (!d.muted) stopSpeech(); return { ...d, muted: !d.muted }; })}
                 onSpeed={(x) => setDrive((d) => ({ ...d, speedX: x }))}
-                onTestVoice={() => { if (!speak("ทดสอบเสียงเตือนของ RoadAware", false)) showToast("เบราว์เซอร์นี้ไม่มีเสียงภาษาไทย"); }} />
+                onTestVoice={() => { stopSpeech(); if (!speak("ระวัง! อีก 500 เมตร ถึงจุดที่ควรระวัง นี่คือเสียงเตือนของ RoadAware", false, "test")) showToast("เบราว์เซอร์นี้ไม่มีเสียงภาษาไทย"); }} />
             ) : showBrief ? (
               <Briefing
                 route={route} when={when} forecast={forecast} zones={zones} hidden={zoneRes.hidden} counts={zoneRes.counts} mode={mode} ribbon={ribbon}
