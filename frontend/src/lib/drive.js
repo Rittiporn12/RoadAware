@@ -2,6 +2,7 @@
 // Positions are in route metres (route.distance scale, the same scale as zone.startM / zone.endM).
 import { nearestOnRoute } from "./routeMatch.js";
 import { topValues, tipsFor } from "./zones.js";
+import { CONFIG } from "../config.js";
 
 // Lat/lon at a distance along the route (simulation).
 export function pointAt(route, alongM) {
@@ -60,29 +61,37 @@ export function fmtDist(m) {
   return Math.max(0, Math.round(m / 50) * 50) + " ม.";
 }
 
-// Speech: Thai voice when the browser has one; silently does nothing otherwise.
-// Messages are QUEUED, never cut off mid-sentence. If several are waiting (fast simulation), only the newest
-// message per group (e.g. one numbered point) is kept, so the voice does not fall behind the car.
-// Style presets only change rate/pitch of the device's own Thai voice (no cloud TTS); a short two-tone chime
-// precedes each warning so it is noticed before the words start.
-export const VOICE_STYLES = {
-  lively: { label: "กระฉับกระเฉง", rate: 1.12, pitch: 1.25 },
-  normal: { label: "ปกติ", rate: 1.0, pitch: 1.0 },
-  calm: { label: "ช้า ชัด", rate: 0.88, pitch: 0.95 },
-};
-const settings = { style: "lively", voiceURI: null, chime: true };
-try {
-  const saved = JSON.parse(localStorage.getItem("roadaware.voice") || "null");
-  if (saved && typeof saved === "object") Object.assign(settings, saved);
-} catch (_) { /* per-viewer convenience only */ }
-export const voiceSettings = () => ({ ...settings });
-export function setVoiceSettings(patch) {
-  Object.assign(settings, patch);
-  try { localStorage.setItem("roadaware.voice", JSON.stringify(settings)); } catch (_) { /* ignore */ }
+// Speech. First choice: Gemini TTS through the local voice proxy (backend/scripts/tts_proxy.py — the API key
+// stays on the computer, never in the browser). Fallback: the device's own Thai voice. One fixed, lively style.
+// Messages are QUEUED, never cut off mid-sentence; if several wait (fast simulation) only the newest per group
+// (one numbered point) is kept so the voice never falls behind the car. A short chime precedes each warning.
+const RATE = 1.12, PITCH = 1.2;
+const audioCache = new Map(); // text -> Promise<object URL | null>
+let proxyState = "unknown";   // unknown | ok | off
+
+export async function checkVoiceProxy() {
+  try {
+    const r = await fetch(CONFIG.ttsUrl + "/health", { signal: AbortSignal.timeout ? AbortSignal.timeout(2500) : undefined });
+    const j = await r.json();
+    proxyState = r.ok && j.ok ? "ok" : "off";
+  } catch (_) { proxyState = "off"; }
+  return proxyState;
 }
-export function thaiVoices() {
-  try { return window.speechSynthesis.getVoices().filter((v) => /^th/i.test(v.lang)); } catch (_) { return []; }
+export const voiceSource = () => proxyState;
+
+function fetchAudio(text) {
+  if (proxyState === "off") return Promise.resolve(null);
+  if (!audioCache.has(text)) {
+    const p = fetch(CONFIG.ttsUrl + "/tts", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text }) })
+      .then((r) => (r.ok ? r.blob() : null))
+      .then((b) => (b && b.size > 100 ? URL.createObjectURL(b) : null))
+      .catch(() => null);
+    audioCache.set(text, p);
+    p.then((u) => { if (!u) audioCache.delete(text); });
+  }
+  return audioCache.get(text);
 }
+export function prefetchSpeech(texts) { for (const t of texts) if (t) fetchAudio(t); }
 
 let audioCtx = null;
 function chime() {
@@ -102,30 +111,45 @@ function chime() {
 }
 
 const queue = [];
-let speaking = false;
+let speaking = false, gen = 0, current = null;
 
-function playNext() {
-  if (speaking || !queue.length) return;
-  const { text, group } = queue.shift();
-  const st = VOICE_STYLES[settings.style] || VOICE_STYLES.lively;
+function deviceVoice(text, done) {
+  if (!window.speechSynthesis) { done(); return; }
   const u = new SpeechSynthesisUtterance(text);
   u.lang = "th-TH";
-  const vs = thaiVoices();
-  const v = vs.find((x) => x.voiceURI === settings.voiceURI) || vs[0];
+  const v = window.speechSynthesis.getVoices().find((x) => /^th/i.test(x.lang));
   if (v) u.voice = v;
-  u.rate = st.rate;
-  u.pitch = st.pitch;
+  u.rate = RATE; u.pitch = PITCH;
+  u.onend = done; u.onerror = done;
+  window.speechSynthesis.speak(u);
+}
+
+async function playNext() {
+  if (speaking || !queue.length) return;
+  const { text, group } = queue.shift();
   speaking = true;
-  const done = () => { speaking = false; playNext(); };
-  u.onend = done;
-  u.onerror = done;
-  const wait = group && settings.chime ? chime() : 0;
-  setTimeout(() => window.speechSynthesis.speak(u), wait);
+  const my = gen;
+  const done = () => { if (my !== gen) return; speaking = false; current = null; playNext(); };
+  const wait = group ? chime() : 0;
+  // Gemini audio if it arrives quickly (prefetched ones are instant); otherwise the device voice.
+  const url = await Promise.race([fetchAudio(text), new Promise((r) => setTimeout(() => r(null), 3500))]);
+  if (my !== gen) return;
+  await new Promise((r) => setTimeout(r, wait));
+  if (my !== gen) return;
+  if (url) {
+    const a = new Audio(url);
+    current = a;
+    a.onended = done; a.onerror = () => deviceVoice(text, done);
+    a.play().catch(() => deviceVoice(text, done));
+  } else {
+    deviceVoice(text, done);
+  }
 }
 
 export function speak(text, muted, group) {
   try {
-    if (muted || typeof window === "undefined" || !window.speechSynthesis) return false;
+    if (muted || typeof window === "undefined") return false;
+    if (!window.speechSynthesis && proxyState === "off") return false;
     if (group) for (let i = queue.length - 1; i >= 0; i--) if (queue[i].group === group) queue.splice(i, 1);
     queue.push({ text, group: group || null });
     playNext();
@@ -137,6 +161,9 @@ export function speak(text, muted, group) {
 
 export function stopSpeech() {
   queue.length = 0;
+  gen += 1;
   speaking = false;
+  try { if (current) current.pause(); } catch (_) { /* ignore */ }
+  current = null;
   try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch (_) { /* ignore */ }
 }

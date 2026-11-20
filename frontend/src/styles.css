@@ -419,7 +419,3 @@ dialog.about::backdrop { background: rgba(15, 27, 45, 0.45); backdrop-filter: bl
 .lock-btn.is-on { background: #0B6E69; color: #fff; border-color: #0B6E69; }
 @media (max-width: 900px) { .lock-btn { top: 136px; bottom: auto; left: 12px; right: auto; } }
 .car-icon span { transition: none; }
-.voice-ctrls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; background: #FBFAF7; }
-.voice-l { font-size: 13px; font-weight: 700; }
-.voice-sel { font: inherit; font-size: 13px; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--line); background: #fff; }
-.voice-chime { font-size: 13px; display: inline-flex; align-items: center; gap: 6px; }

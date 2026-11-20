@@ -1,8 +1,7 @@
 // Drive mode — the panel while travelling. Voice-first: big type, few controls, nothing to read while driving.
 // Turn-by-turn directions are NOT provided here (use your usual navigation app); this only warns about the
 // numbered points of this trip as you approach them.
-import { useEffect, useState } from "react";
-import { fmtDist, nextZone, VOICE_STYLES, voiceSettings, setVoiceSettings, thaiVoices } from "../lib/drive.js";
+import { fmtDist, nextZone } from "../lib/drive.js";
 import { topValues, tipsFor } from "../lib/zones.js";
 import { fmtKm } from "../lib/util.js";
 import { HOT_HEX, LEVELS } from "../config.js";
@@ -40,34 +39,6 @@ export function DriveBanner({ drive, zones, route }) {
   );
 }
 
-function VoiceControls({ onTestVoice }) {
-  const [vs, setVs] = useState(voiceSettings());
-  const [voices, setVoices] = useState(thaiVoices());
-  useEffect(() => {
-    const load = () => setVoices(thaiVoices());
-    try { window.speechSynthesis.addEventListener("voiceschanged", load); } catch (_) { /* ignore */ }
-    load();
-    return () => { try { window.speechSynthesis.removeEventListener("voiceschanged", load); } catch (_) { /* ignore */ } };
-  }, []);
-  const set = (patch) => { setVoiceSettings(patch); setVs(voiceSettings()); };
-  return (
-    <div className="voice-ctrls">
-      <span className="voice-l">สไตล์เสียง</span>
-      <div className="seg-toggle" role="group" aria-label="สไตล์เสียง">
-        {Object.entries(VOICE_STYLES).map(([k, v]) => (
-          <button key={k} type="button" className={vs.style === k ? "is-on" : ""} aria-pressed={vs.style === k} onClick={() => { set({ style: k }); onTestVoice(); }}>{v.label}</button>
-        ))}
-      </div>
-      {voices.length > 1 && (
-        <select className="voice-sel" value={vs.voiceURI || voices[0].voiceURI} onChange={(e) => { set({ voiceURI: e.target.value }); onTestVoice(); }} aria-label="เลือกเสียง">
-          {voices.map((v) => <option key={v.voiceURI} value={v.voiceURI}>{v.name}</option>)}
-        </select>
-      )}
-      <label className="voice-chime"><input type="checkbox" checked={vs.chime} onChange={(e) => set({ chime: e.target.checked })} /> เสียงติ๊งก่อนเตือน</label>
-    </div>
-  );
-}
-
 export default function DriveMode({ drive, zones, route, history, onStop, onMute, onSpeed, onTestVoice }) {
   const along = drive.alongM || 0;
   const nz = nextZone(zones, along);
@@ -82,7 +53,7 @@ export default function DriveMode({ drive, zones, route, history, onStop, onMute
   return (
     <div className="drive">
       <div className="drive-head">
-        <span className="drive-mode">{drive.source === "sim" ? "จำลองการขับ ×" + drive.speedX : "ติดตามตำแหน่งจริง"}</span>
+        <span className="drive-mode">{drive.source === "sim" ? "จำลองการขับ ×" + drive.speedX : "ติดตามตำแหน่งจริง"} · {drive.voice === "ok" ? "เสียง Gemini" : "เสียงเครื่อง"}</span>
         <button type="button" className="btn btn-ghost btn-sm" onClick={onStop}>หยุด</button>
       </div>
 
@@ -116,7 +87,6 @@ export default function DriveMode({ drive, zones, route, history, onStop, onMute
           <button key={x} type="button" className={"btn btn-sm" + (drive.speedX === x ? " btn-primary" : " btn-ghost")} onClick={() => onSpeed(x)}>×{x}</button>
         ))}
       </div>
-      <VoiceControls onTestVoice={onTestVoice} />
       {drive.lastSaid && <p className="drive-said">🔊 “{drive.lastSaid}”</p>}
       <p className="fine">ให้ผู้โดยสารเป็นคนใช้งาน · ไม่ใช่ระบบนำทาง ไม่บอกทางเลี้ยว · ระดับเป็นการเทียบ ไม่ใช่โอกาสเกิดเหตุของคุณ</p>
     </div>

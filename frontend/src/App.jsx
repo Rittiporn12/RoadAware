@@ -11,7 +11,7 @@ import Briefing from "./components/Briefing.jsx";
 import RouteRibbon, { RouteKey } from "./components/RouteRibbon.jsx";
 import AboutDialog from "./components/AboutDialog.jsx";
 import DriveMode, { DriveStart, DriveBanner } from "./components/DriveMode.jsx";
-import { pointAt, locate, nextZone, warningText, speak, stopSpeech } from "./lib/drive.js";
+import { pointAt, locate, nextZone, warningText, speak, stopSpeech, checkVoiceProxy, prefetchSpeech } from "./lib/drive.js";
 
 const IDLE = { status: "idle", places: [] };
 const NO_ITEMS = [];
@@ -332,6 +332,7 @@ export default function App() {
     setSelectedKey(null);
     setAltFocus(null);
     if (isMobile()) setSheet("half");
+    checkVoiceProxy().then((v) => setDrive((d) => (d && d.phase === "on" ? { ...d, voice: v } : d)));
     speak(source === "sim" ? "เริ่มจำลองการเดินทาง ระบบจะเตือนก่อนถึงจุดที่ควรระวัง" : "เริ่มเดินทาง ระบบจะเตือนก่อนถึงจุดที่ควรระวัง", false);
   }, [route]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -428,6 +429,20 @@ export default function App() {
 
   // drive mode: load "mostly caused by" for every numbered point up front (used in the spoken warnings)
   useEffect(() => { if (driveOn) for (const z of zones) loadZoneHistory(z); }, [driveOn, zones, loadZoneHistory]);
+  // …and prepare every warning sentence in advance, so the Gemini voice plays instantly when it is due
+  const driveVoice = driveOn ? drive.voice : null;
+  useEffect(() => {
+    if (driveVoice !== "ok") return;
+    const texts = [];
+    for (const z of zones) {
+      const e = historyAll[histKey(z)];
+      if (e && e.status === "loading") continue;
+      const agg = e && e.status === "ok" ? e.agg : null;
+      texts.push(warningText(z, 2000, agg), warningText(z, 500, agg), warningText(z, "inside", agg));
+    }
+    texts.push("ถึงปลายทางแล้ว ขอบคุณที่เดินทางอย่างระมัดระวัง");
+    prefetchSpeech(texts);
+  }, [driveVoice, zones, historyAll]);
 
   const selectZone = useCallback((key, fromMap) => {
     setSelectedKey(key);

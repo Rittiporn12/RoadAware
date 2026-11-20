@@ -14,6 +14,7 @@ function resolveApiBase() {
 export const CONFIG = {
   apiBase: resolveApiBase(),
   photonUrl: "https://photon.komoot.io/api/",
+  ttsUrl: "http://127.0.0.1:8010", // local Gemini voice proxy (backend/scripts/tts_proxy.py); optional
   osrmUrl: "https://router.project-osrm.org/route/v1/driving/",
   // Real basemap: OpenStreetMap standard tiles (Thai place and road names, no API key).
   // Follow https://operations.osmfoundation.org/policies/tiles/ — fine for this local prototype; use your own
