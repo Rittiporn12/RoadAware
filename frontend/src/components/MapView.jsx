@@ -45,10 +45,25 @@ export default function MapView({ route, origin, dest, items, zones, hotIds, ran
       m = L.map(divRef.current, {
         zoomControl: false, maxBoundsViscosity: 1.0, worldCopyJump: false,
         maxZoom: 18, zoomAnimation: false, attributionControl: true,
+        // quarter-step zoom: a small trackpad pinch / wheel nudge still zooms instead of rounding back to the same level
+        zoomSnap: 0.25, wheelPxPerZoomLevel: 80,
       });
     } catch (_) {
       if (onFailed) onFailed();
       return undefined;
+    }
+    // Safari on a Mac sends trackpad pinches as gesture events (not wheel events), which Leaflet ignores.
+    if (typeof window !== "undefined" && window.GestureEvent && !("ontouchstart" in window)) {
+      let z0 = null;
+      const el = divRef.current;
+      el.addEventListener("gesturestart", (e) => { e.preventDefault(); z0 = m.getZoom(); });
+      el.addEventListener("gesturechange", (e) => {
+        e.preventDefault();
+        if (z0 == null) return;
+        const z = z0 + Math.log2(e.scale || 1);
+        if (Math.abs(z - m.getZoom()) >= 0.25) m.setZoom(z, { animate: false });
+      });
+      el.addEventListener("gestureend", (e) => { e.preventDefault(); z0 = null; });
     }
     L.control.zoom({ position: "topright", zoomInTitle: "ซูมเข้า", zoomOutTitle: "ซูมออก" }).addTo(m);
 
@@ -282,7 +297,23 @@ export default function MapView({ route, origin, dest, items, zones, hotIds, ran
     if (!m) return undefined;
     const onDrag = () => { animRef.current.follow = false; setFollowing(false); };
     m.on("dragstart", onDrag);
-    return () => { m.off("dragstart", onDrag); };
+    // While two fingers are on the map (pinch zoom) the follow camera stands still, otherwise re-centering the map
+    // every frame would cancel the pinch. Zooming keeps following; only dragging unlocks.
+    const el = m.getContainer();
+    const onTouch = (e) => { animRef.current.pinch = e.touches && e.touches.length >= 2 ? true : animRef.current.pinch && e.touches.length > 0; };
+    const onZoomStart = () => { animRef.current.zooming = true; };
+    const onZoomEnd = () => { animRef.current.zooming = false; };
+    el.addEventListener("touchstart", onTouch, { passive: true });
+    el.addEventListener("touchmove", onTouch, { passive: true });
+    el.addEventListener("touchend", onTouch, { passive: true });
+    el.addEventListener("touchcancel", onTouch, { passive: true });
+    m.on("zoomstart", onZoomStart);
+    m.on("zoomend", onZoomEnd);
+    return () => {
+      m.off("dragstart", onDrag); m.off("zoomstart", onZoomStart); m.off("zoomend", onZoomEnd);
+      el.removeEventListener("touchstart", onTouch); el.removeEventListener("touchmove", onTouch);
+      el.removeEventListener("touchend", onTouch); el.removeEventListener("touchcancel", onTouch);
+    };
   }, []);
   useEffect(() => {
     const m = mapRef.current;
@@ -318,7 +349,7 @@ export default function MapView({ route, origin, dest, items, zones, hotIds, ran
         // smooth the arrow's turn (road vertices would otherwise snap it)
         B.h = B.h == null ? f.heading : B.h + ((((f.heading - B.h) % 360) + 540) % 360 - 180) * 0.15;
         if (span) span.style.transform = "rotate(" + B.h.toFixed(1) + "deg)";
-        if (B.follow) {
+        if (B.follow && !B.pinch && !B.zooming) {
           // phones: keep the car in the upper part of the map, above the bottom sheet
           const offY = isMobile() ? Math.round(m.getSize().y * 0.18) : 0;
           const z = m.getZoom();
@@ -332,6 +363,14 @@ export default function MapView({ route, origin, dest, items, zones, hotIds, ran
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [drivePos]);
   useEffect(() => () => cancelAnimationFrame(animRef.current.raf), []);
+  // While following the car, wheel / pinch zoom around the map centre (the car) instead of the cursor or fingers.
+  useEffect(() => {
+    const m = mapRef.current;
+    if (!m) return;
+    const c = driving && following ? "center" : true;
+    m.options.scrollWheelZoom = c;
+    m.options.touchZoom = c;
+  }, [driving, following]);
 
   function frameAt(A, now) {
     const k = Math.max(0, Math.min(1, (now - A.t0) / A.dur));
