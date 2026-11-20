@@ -2,11 +2,12 @@
 //  • Thailand is drawn sharp: a second copy of the basemap is clipped to the country outline (public/assets).
 //  • Neighbouring countries stay visible underneath, blurred, desaturated and lightly tinted.
 //  • Panning is locked to a frame just around Thailand; the minimum zoom keeps the whole country in view.
-//  • Route: grey dashed = no forecast coverage, coloured = forecast level; numbered markers = zones.
+//  • Route: grey dashed = no forecast coverage. Trip view: blue = evaluated, red + number = this trip's hotspots.
+//    National view: each segment in its national level colour.
 import { useEffect, useRef, useState } from "react";
 import * as L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { CONFIG, THAI_BOUNDS, MAX_BOUNDS, ENVELOPE, LEVELS, UNKNOWN_HEX } from "../config.js";
+import { CONFIG, THAI_BOUNDS, MAX_BOUNDS, ENVELOPE, LEVELS, UNKNOWN_HEX, ROUTE_HEX, HOT_HEX } from "../config.js";
 import { pointInGeometry } from "../lib/routeMatch.js";
 
 const isMobile = () => window.matchMedia("(max-width: 900px)").matches;
@@ -14,17 +15,19 @@ const isMobile = () => window.matchMedia("(max-width: 900px)").matches;
 function pinIcon(letter) {
   return L.divIcon({ className: "pin-icon pin-icon-" + letter.toLowerCase(), html: "<span><b>" + letter + "</b></span>", iconSize: [32, 32], iconAnchor: [16, 36] });
 }
-function zoneIcon(n, level, selected) {
+function zoneIcon(n, level, selected, mode, clock) {
   const size = selected ? 42 : 34;
+  const m = /(\d{1,2}:\d{2})/.exec(String(clock || ""));
+  const t = m ? "<em>" + m[1] + " น.</em>" : "";
   return L.divIcon({
-    className: "zone-icon zone-" + level + (selected ? " is-selected" : ""),
-    html: "<span>" + Number(n) + "</span>", // number only
+    className: "zone-icon zone-" + (mode === "national" ? level : "hot") + (selected ? " is-selected" : ""),
+    html: "<span>" + Number(n) + "</span>" + t, // number + the time you pass it
     iconSize: [size, size],
     iconAnchor: [size / 2, size / 2],
   });
 }
 
-export default function MapView({ route, origin, dest, items, zones, selectedKey, focus, pick, getPadding, onPick, onOutside, onSelectZone, onFailed }) {
+export default function MapView({ route, origin, dest, items, zones, hotIds, mode, selectedKey, focus, pick, getPadding, onPick, onOutside, onSelectZone, onFailed }) {
   const divRef = useRef(null);
   const mapRef = useRef(null);
   const layers = useRef({});
@@ -200,7 +203,7 @@ export default function MapView({ route, origin, dest, items, zones, selectedKey
     if (!route) return;
     const latlngs = route.coords.map(([lon, lat]) => [lat, lon]);
     L.polyline(latlngs, { pane: "routePane", color: "#FFFFFF", weight: 12, opacity: 0.95, interactive: false, lineCap: "round", lineJoin: "round" }).addTo(g);
-    L.polyline(latlngs, { pane: "routePane", color: UNKNOWN_HEX, weight: 5, opacity: 1, dashArray: "1 10", interactive: false, lineCap: "round" }).addTo(g);
+    L.polyline(latlngs, { pane: "routePane", color: UNKNOWN_HEX, weight: 5, opacity: 1, interactive: false, lineCap: "round", lineJoin: "round" }).addTo(g);
     m.fitBounds(L.latLngBounds(latlngs), getPadding());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [route]);
@@ -211,10 +214,17 @@ export default function MapView({ route, origin, dest, items, zones, selectedKey
     if (!m) return;
     const g = layers.current.seg;
     g.clearLayers();
-    for (const it of items) {
-      L.geoJSON(it.feature, { pane: "segPane", interactive: false, style: () => ({ color: LEVELS[it.level].hex, weight: it.level === "red" || it.level === "orange" ? 8 : 6, opacity: 1, lineCap: "round" }) }).addTo(g);
+    const national = mode === "national";
+    // Hotspots last so they sit on top of the evaluated (blue) route.
+    const ordered = national ? items : [...items].sort((a, b) => (hotIds && hotIds.has(a.id) ? 1 : 0) - (hotIds && hotIds.has(b.id) ? 1 : 0));
+    for (const it of ordered) {
+      const hot = !!(hotIds && hotIds.has(it.id));
+      const style = national
+        ? { color: LEVELS[it.level].hex, weight: it.level === "red" || it.level === "orange" ? 8 : 6 }
+        : { color: hot ? HOT_HEX : ROUTE_HEX, weight: hot ? 9 : 6 };
+      L.geoJSON(it.feature, { pane: "segPane", interactive: false, style: () => ({ ...style, opacity: 1, lineCap: "round" }) }).addTo(g);
     }
-  }, [items]);
+  }, [items, hotIds, mode]);
 
   // ---- numbered zones
   useEffect(() => {
@@ -232,11 +242,11 @@ export default function MapView({ route, origin, dest, items, zones, selectedKey
       if (placed.some((q) => q.distanceTo(pt) < 34)) continue;
       placed.push(pt);
       const selected = z.key === selectedKey;
-      const mk = L.marker(z.anchor, { icon: zoneIcon(z.n, z.level, selected), zIndexOffset: selected ? 900 : 600, title: "โซน " + z.n + " " + LEVELS[z.level].label, alt: "โซน " + z.n });
+      const mk = L.marker(z.anchor, { icon: zoneIcon(z.n, z.level, selected, mode, z.eta.clock), zIndexOffset: selected ? 900 : 600, title: "จุดที่ " + z.n + " · ผ่านราว " + z.eta.clock, alt: "จุดที่ " + z.n });
       mk.on("click", () => handlers.current.onSelectZone(z.key));
       mk.addTo(g);
     }
-  }, [zones, selectedKey, zoomTick]);
+  }, [zones, selectedKey, zoomTick, mode]);
 
   // ---- fly to a zone chosen in the list
   useEffect(() => {

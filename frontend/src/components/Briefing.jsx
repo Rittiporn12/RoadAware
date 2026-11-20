@@ -1,8 +1,10 @@
-// Trip briefing — answer first (verdict), then departure-time comparison, then numbered zones.
+// Trip briefing — answer first (verdict + how to read it), the numbered hotspots of this trip, the whole route
+// against the national scale, then the departure-time comparison.
 // Desktop: a zone expands in place. Phone: a zone opens as its own screen inside the sheet.
-import { LEVELS, BLOCK_LABEL, DEPART_OPTIONS } from "../config.js";
+import { LEVELS, LEVEL_ORDER, BLOCK_LABEL, DEPART_OPTIONS, HOT_HEX } from "../config.js";
 import { fmtKm, fmtDuration, fmtThaiDate, fmtPct, fmtSmall, epochToBkk, bkkToEpoch, techText } from "../lib/util.js";
 import { topValues, rainShare, peakBlock, tipsFor } from "../lib/zones.js";
+const pctTop = (rank) => Math.max(1, Math.round((1 - rank) * 100));
 import { BUFFER_M } from "../lib/routeMatch.js";
 import { ErrorBox, Loading, Progress } from "./common.jsx";
 import RouteRibbon from "./RouteRibbon.jsx";
@@ -30,52 +32,92 @@ function Verdict({ forecast, zones, hidden, coverage }) {
     return (
       <div className="verdict">
         <p className="verdict-kicker">สรุปทริป</p>
-        <h2 className="verdict-title">ไม่พบโซนที่ต้องระวังเป็นพิเศษ</h2>
-        <p className="verdict-sub">ในส่วนที่ประเมินได้ ({covered}% ของระยะทาง) ขับขี่ด้วยความระมัดระวังตามปกติ</p>
+        <h2 className="verdict-title">ไม่มีช่วงที่สูงกว่าค่ากลางของประเทศเด่นเป็นพิเศษ</h2>
+        <p className="verdict-sub">ในส่วนที่ประเมินได้ ({covered}% ของระยะทาง) ไม่มีช่วงระดับ “สูง” ขึ้นไป ขับขี่ด้วยความระมัดระวังตามปกติ — ไม่ได้แปลว่าปลอดภัย</p>
       </div>
     );
   }
-  const reds = zones.filter((z) => z.level === "red");
-  const worst = (reds.length ? reds : zones).reduce((a, b) => (b.maxDensity > a.maxDensity ? b : a));
+  const worst = zones.reduce((a, b) => (b.maxDensity > a.maxDensity ? b : a));
   return (
     <div className="verdict">
       <p className="verdict-kicker">สรุปทริป · ประเมินได้ {covered}% ของระยะทาง</p>
-      <h2 className="verdict-title">มี {zones.length + hidden} โซนที่ควรระวัง</h2>
-      <p className="verdict-sub">หนักที่สุด: <strong>โซน {worst.n}</strong> {zoneTitle(worst)} · ผ่านราว {worst.eta.clock}</p>
+      <h2 className="verdict-title">จุดที่ควรระวังที่สุด {zones.length} จุด</h2>
+      <p className="verdict-sub">
+        หมายเลข <span className="num-inline">1</span>–<span className="num-inline">{zones.length}</span> บนแผนที่ คือช่วงที่คาดว่าจะเกิดเหตุมากที่สุดของเส้นทางนี้ ในเวลาที่คุณจะผ่าน
+        เรียงตามลำดับที่จะผ่าน{hidden > 0 ? " (ยังมีอีก " + hidden + " ช่วงที่ค่าใกล้เคียงกัน)" : ""} · หนักสุดคือ <strong>จุดที่ {worst.n}</strong> ผ่านราว {worst.eta.clock}
+      </p>
+      {covered < 98 && <p className="fine">อีก {100 - covered}% ของระยะทางเป็นถนนในเมือง/ถนนท้องถิ่น (เส้นสีเทาอ่อน) ที่ระบบยังไม่ประเมิน</p>}
     </div>
+  );
+}
+
+function HowToRead() {
+  return (
+    <details className="howto">
+      <summary>อ่านผลนี้ยังไง</summary>
+      <ol>
+        <li><b>ระบบแบ่งทางหลวงเป็นช่วงละราว 2 กม.</b> แล้วคาดว่าแต่ละช่วงจะมีอุบัติเหตุที่ถูกบันทึกมากแค่ไหน <b>ในช่วง 6 ชั่วโมงที่คุณจะผ่าน</b> จากสถิติปี 2564–2568 วันในสัปดาห์ เทศกาล และปริมาณรถ</li>
+        <li><b>หมายเลขสีแดง</b> = ช่วงที่ค่าคาดสูงที่สุดของทริปนี้ (อยู่ใน 20% บนสุดของเส้นทาง และสูงกว่าค่ากลางของประเทศ) · เส้นสีน้ำเงิน = ทางหลวงที่ประเมินแล้ว · เส้นสีเทาอ่อน = ถนนในเมือง/ถนนท้องถิ่นที่ยังไม่ประเมิน</li>
+        <li><b>ระดับประเทศ</b> (สูงมาก / สูง / ปานกลาง / ต่ำกว่าครึ่งประเทศ) บอกว่าช่วงนั้นอยู่ตรงไหนเมื่อเทียบกับช่วงถนนทั้งประเทศ ทางหลวงสายหลักมักอยู่ระดับ “สูง” เกือบทั้งเส้นเพราะรถเยอะ จึงใช้หมายเลขเพื่อชี้จุดที่เด่นที่สุดในทริป</li>
+        <li>เป็นการจัดอันดับเปรียบเทียบ ไม่ใช่โอกาสที่คุณจะเกิดอุบัติเหตุ และช่วงที่ไม่ถูกเลือกไม่ได้แปลว่าปลอดภัย</li>
+      </ol>
+    </details>
+  );
+}
+
+// Whole evaluated route against the national scale (shares of LENGTH only — never a route probability).
+function Overview({ counts }) {
+  const total = LEVEL_ORDER.reduce((a, k) => a + (counts[k] || 0), 0);
+  if (total <= 0) return null;
+  const high = ((counts.red || 0) + (counts.orange || 0)) / total;
+  return (
+    <section className="block" aria-labelledby="ovTitle">
+      <div className="block-head"><h3 id="ovTitle">ทั้งเส้นทาง เทียบทั้งประเทศ</h3><span className="block-hint">สัดส่วนระยะทางที่ประเมินได้</span></div>
+      <div className="ov-bar" role="img" aria-label={LEVEL_ORDER.map((k) => LEVELS[k].label + " " + Math.round(((counts[k] || 0) / total) * 100) + "%").join(", ")}>
+        {LEVEL_ORDER.map((k) => (counts[k] > 0 ? <span key={k} style={{ flexGrow: counts[k], background: LEVELS[k].hex }} /> : null))}
+      </div>
+      <ul className="ov-legend">
+        {LEVEL_ORDER.map((k) => (
+          <li key={k} title={LEVELS[k].nat}><i style={{ background: LEVELS[k].hex }} /><span className="ov-l">{LEVELS[k].label}</span><b>{Math.round(((counts[k] || 0) / total) * 100)}%</b></li>
+        ))}
+      </ul>
+      {high >= 0.6 && <p className="fine">เส้นทางนี้ส่วนใหญ่เป็นทางหลวงสายหลักที่สูงกว่าค่ากลางของประเทศ ไม่ได้แปลว่าทุกช่วงหนักเท่ากัน ให้ดูหมายเลขเป็นหลัก</p>}
+    </section>
   );
 }
 
 function Compare({ compare, when, onPickTime }) {
   if (compare.status === "idle") return null;
+  const vals = DEPART_OPTIONS.map((o) => compare.results[o.time]).filter((r) => r && r.status === "ok").map((r) => r.red);
+  const best = vals.length === DEPART_OPTIONS.length ? Math.min(...vals) : null;
   return (
     <section className="block" aria-labelledby="cmpTitle">
       <div className="block-head">
         <h3 id="cmpTitle">ถ้าออกเวลาอื่นล่ะ?</h3>
-        <span className="block-hint"><i className="dot" style={{ background: LEVELS.red.hex }} />ระวังมาก <i className="dot" style={{ background: LEVELS.orange.hex }} />ระวัง</span>
+        <span className="block-hint"><i className="dot" style={{ background: LEVELS.red.hex }} />ระยะทางที่ระดับประเทศ “สูงมาก”</span>
       </div>
       <div className="cmp-grid">
         {DEPART_OPTIONS.map((o) => {
           const r = compare.results[o.time];
           const on = when.time === o.time;
+          const isBest = best !== null && r && r.status === "ok" && Math.round(r.red) === Math.round(best);
           return (
-            <button key={o.time} type="button" className={"cmp-btn" + (on ? " is-on" : "")} aria-pressed={on}
-              aria-label={"ออก " + o.time + (r && r.status === "ok" ? " ระวังมาก " + r.red + " ระวัง " + r.orange + " โซน" : "")}
+            <button key={o.time} type="button" className={"cmp-btn" + (on ? " is-on" : "") + (isBest ? " is-best" : "")} aria-pressed={on}
+              aria-label={"ออก " + o.time + (r && r.status === "ok" ? " ระดับสูงมาก " + Math.round(r.red) + " กิโลเมตร" : "")}
               onClick={() => onPickTime(o.time)}>
               <span className="cmp-time">{o.time}</span>
               <span className="cmp-part">{o.part}</span>
               <span className="cmp-counts" aria-hidden="true">
                 {!r || r.status === "loading" ? <span className="spinner spinner-sm" /> : r.status === "error" ? "—" : (
-                  <>
-                    <span><i className="dot" style={{ background: LEVELS.red.hex }} />{r.red}</span>
-                    <span><i className="dot" style={{ background: LEVELS.orange.hex }} />{r.orange}</span>
-                  </>
+                  <span><i className="dot" style={{ background: LEVELS.red.hex }} />{Math.round(r.red)} กม.</span>
                 )}
               </span>
+              {isBest && <span className="cmp-best">น้อยสุด</span>}
             </button>
           );
         })}
       </div>
+      <p className="fine">นับเฉพาะระยะทางที่ประเมินได้ ไม่ได้รวมเป็นความเสี่ยงของทั้งเส้นทาง</p>
     </section>
   );
 }
@@ -94,7 +136,11 @@ function ZoneDetail({ zone, entry, onRetry }) {
     <div className="zone-detail">
       <div className="zd-time">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>
-        <span><strong>คุณจะผ่านราว {zone.eta.clock}</strong> <span className="muted">· ระดับนี้สำหรับช่วง {BLOCK_LABEL[zone.eta.block]}</span></span>
+        <span><strong>คุณจะผ่านราว {zone.eta.clock}</strong> <span className="muted">· ประเมินสำหรับช่วง {BLOCK_LABEL[zone.eta.block]}</span></span>
+      </div>
+      <div className="zd-why">
+        <span>ค่าคาดสูงกว่า <b>{100 - pctTop(zone.routeRank)}%</b> ของช่วงอื่นในทริปนี้</span>
+        <span>ระดับประเทศ: <b className={"lvl-" + zone.level}>{LEVELS[zone.level].label}</b> <span className="muted">({LEVELS[zone.level].nat})</span></span>
       </div>
 
       {(!entry || entry.status === "loading") && <Loading text="กำลังดูว่าที่ผ่านมาเกิดเหตุแบบไหน…" />}
@@ -150,17 +196,18 @@ function ZoneHead({ z, on, onClick }) {
   const lv = LEVELS[z.level];
   return (
     <button type="button" className="zone-head" aria-expanded={on} onClick={onClick}>
-      <span className="zone-badge" style={{ background: lv.hex, color: lv.ink }}>{z.n}</span>
+      <span className="zone-badge" style={{ background: HOT_HEX, color: "#fff" }}>{z.n}</span>
       <span className="zone-main">
         <span className="zone-name">{zoneTitle(z)}</span>
-        <span className="zone-sub">กม. {kmRange(z)} · ผ่านราว {z.eta.clock}</span>
+        <span className="zone-sub">กม. {kmRange(z)} ของเส้นทาง · ผ่านราว {z.eta.clock}</span>
+        <span className="zone-sub">ระดับประเทศ <b className={"lvl-" + z.level}>{lv.label}</b></span>
       </span>
-      <span className={"zone-pill zone-pill-" + z.level}>{lv.label}</span>
+      <svg className="zone-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={on ? "M6 15l6-6 6 6" : "M6 9l6 6 6-6"} /></svg>
     </button>
   );
 }
 
-export default function Briefing({ route, when, forecast, zones, hidden, ribbon, compare, selectedKey, history, mobile, onEdit, onSelectZone, onPickTime, onRetry, onRetryHistory, onAbout }) {
+export default function Briefing({ route, when, forecast, zones, hidden, counts, mode, ribbon, compare, selectedKey, history, mobile, onEdit, onSelectZone, onPickTime, onRetry, onRetryHistory, onAbout }) {
   const depart = bkkToEpoch(when.date, when.time);
   const arrive = epochToBkk(depart + route.duration * 1000);
   const selected = zones.find((z) => z.key === selectedKey) || null;
@@ -174,7 +221,7 @@ export default function Briefing({ route, when, forecast, zones, hidden, ribbon,
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6" /></svg>
           กลับไปสรุปทริป
         </button>
-        <span className={"zone-tag zone-tag-" + selected.level}><span>{selected.n}</span>{lv.label}</span>
+        <span className="zone-tag zone-tag-hot"><span>{selected.n}</span>จุดที่ควรระวัง · ประเทศ: {lv.label}</span>
         <h2 className="zs-title">{zoneTitle(selected)}</h2>
         <p className="zs-sub">กม. {kmRange(selected)} ของเส้นทาง · ยาวราว {fmtKm(selected.lengthM)}</p>
         <ZoneDetail zone={selected} entry={history[selected.key]} onRetry={() => onRetryHistory(selected)} />
@@ -197,6 +244,7 @@ export default function Briefing({ route, when, forecast, zones, hidden, ribbon,
       </section>
 
       <Verdict forecast={forecast} zones={zones} hidden={hidden} coverage={ribbon.coverage} />
+      {forecast.status === "done" && forecast.items.length > 0 && <HowToRead />}
       {forecast.status === "notReady" && (
         <ErrorBox title="ระบบประเมินยังไม่พร้อม" text="เส้นทางยังใช้ได้ตามปกติ เปิด backend แล้วลองอีกครั้ง" onRetry={onRetry} />
       )}
@@ -207,12 +255,12 @@ export default function Briefing({ route, when, forecast, zones, hidden, ribbon,
       {forecast.status === "done" && forecast.outOfRange > 0 && <p className="notice">{forecast.outOfRange} ช่วงถนนจะผ่านในวันที่แบบจำลองยังไม่รองรับ</p>}
 
       {mobile && forecast.status === "done" && forecast.items.length > 0 && (
-        <RouteRibbon ribbon={ribbon} zones={zones} route={route} when={when} selectedKey={selectedKey} onSelectZone={onSelectZone} compact />
+        <RouteRibbon ribbon={ribbon} zones={zones} route={route} when={when} selectedKey={selectedKey} onSelectZone={onSelectZone} compact mode={mode} />
       )}
 
       {zones.length > 0 && (
         <section className="block" aria-labelledby="zoneTitle">
-          <div className="block-head"><h3 id="zoneTitle">โซนที่ควรระวัง</h3><span className="block-hint">ตามลำดับที่จะผ่าน</span></div>
+          <div className="block-head"><h3 id="zoneTitle">จุดที่ควรระวัง</h3><span className="block-hint">ตามลำดับที่จะผ่าน · แตะเพื่อดูว่าที่ผ่านมาเกิดเหตุแบบไหน</span></div>
           <ol className="zone-list">
             {zones.map((z) => {
               const on = !mobile && z.key === selectedKey;
@@ -227,6 +275,7 @@ export default function Briefing({ route, when, forecast, zones, hidden, ribbon,
         </section>
       )}
 
+      {forecast.status === "done" && forecast.items.length > 0 && <Overview counts={counts} />}
       {forecast.status === "done" && forecast.items.length > 0 && <Compare compare={compare} when={when} onPickTime={onPickTime} />}
 
       <p className="fine panel-fine">

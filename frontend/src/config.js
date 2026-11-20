@@ -29,7 +29,8 @@ export const CONFIG = {
   predictionBatch: 128,
   historyLookbackDays: 1827,
   snapWarnM: 300,
-  zoneGapM: 1500,       // high-level segments closer than this along the route form one zone
+  zoneGapM: 1500,       // hotspot segments closer than this along the route form one zone
+  hotspotQuantile: 0.8, // trip hotspot = national level สูง/สูงมาก AND in the top 20% of this route's evaluated segments
   maxZones: 5,
   ribbonBins: 240,
 };
@@ -42,14 +43,17 @@ export const DATE_MIN = "2024-01-01";
 export const DATE_MAX = "2027-12-31";
 export const LAST_OBSERVED_DATE = "2025-12-31";
 
-// API colour key → what travellers see. Order matters (rank).
+// API colour key = the NATIONAL level: where this segment's predicted recorded density sits among all
+// segment x time cells in Thailand (2022-23 reference). Order matters (rank).
 export const LEVELS = {
-  red:    { rank: 4, label: "ระวังมาก", hex: "#C8372D", ink: "#FFFFFF", soft: "#F8E1DE" },
-  orange: { rank: 3, label: "ระวัง", hex: "#E8821E", ink: "#3D1F00", soft: "#FBE6CF" },
-  yellow: { rank: 2, label: "ปานกลาง", hex: "#E9B92F", ink: "#3A2C00", soft: "#FBF0CF" },
-  base:   { rank: 1, label: "ปกติ", hex: "#7FA3C4", ink: "#0F1B2D", soft: "#E5EDF4" },
+  red:    { rank: 4, label: "สูงมาก", nat: "5% บนสุดของประเทศ", hex: "#C8372D", ink: "#FFFFFF", soft: "#F8E1DE" },
+  orange: { rank: 3, label: "สูง", nat: "5–20% บนสุด", hex: "#E8821E", ink: "#3D1F00", soft: "#FBE6CF" },
+  yellow: { rank: 2, label: "ปานกลาง", nat: "20–50% บนสุด", hex: "#E9B92F", ink: "#3A2C00", soft: "#FBF0CF" },
+  base:   { rank: 1, label: "ต่ำกว่าครึ่งประเทศ", nat: "ครึ่งล่างของประเทศ", hex: "#7FA3C4", ink: "#0F1B2D", soft: "#E5EDF4" },
 };
-export const UNKNOWN_HEX = "#9AA3AF";
+export const UNKNOWN_HEX = "#B9C1CC"; // local / city roads the model does not cover yet (solid, quiet — not a risk colour)
+export const ROUTE_HEX = "#3E5C86";   // evaluated route (trip view) — neutral, not a risk colour
+export const HOT_HEX = "#C8372D";     // numbered trip hotspots
 export const LEVEL_ORDER = ["red", "orange", "yellow", "base"];
 export const ZONE_LEVELS = ["red", "orange"];
 

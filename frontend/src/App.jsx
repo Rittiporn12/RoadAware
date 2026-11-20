@@ -8,7 +8,7 @@ import { buildZones, buildRibbon, aggregateHistory } from "./lib/zones.js";
 import MapView from "./components/MapView.jsx";
 import TripForm from "./components/TripForm.jsx";
 import Briefing from "./components/Briefing.jsx";
-import RouteRibbon from "./components/RouteRibbon.jsx";
+import RouteRibbon, { RouteKey } from "./components/RouteRibbon.jsx";
 import AboutDialog from "./components/AboutDialog.jsx";
 
 const IDLE = { status: "idle", places: [] };
@@ -79,6 +79,7 @@ export default function App() {
   const [toast, setToast] = useState(null);
   const [mapFailed, setMapFailed] = useState(false);
   const [about, setAbout] = useState(false);
+  const [mode, setMode] = useState("trip"); // trip = this trip's hotspots · national = colours vs. all of Thailand
   const panelRef = useRef(null);
 
   // ================================================================ readiness
@@ -251,7 +252,7 @@ export default function App() {
   const items = forecast.status === "done" ? forecast.items : NO_ITEMS;
   const zoneRes = useMemo(() => buildZones(items, provinceName), [items, provinceName]);
   const zones = zoneRes.zones;
-  const ribbon = useMemo(() => (route ? buildRibbon(items, route.distance) : { pieces: [], coverage: 0 }), [items, route]);
+  const ribbon = useMemo(() => (route ? buildRibbon(items, route.distance, zoneRes.hotIds) : { pieces: [], coverage: 0 }), [items, route, zoneRes]);
   const history = useMemo(() => {
     const out = {};
     for (const z of zones) out[z.key] = historyAll[histKey(z)];
@@ -457,7 +458,7 @@ export default function App() {
           <div className="map-card">
             {!mapFailed && (
               <MapView
-                route={route} origin={places.origin} dest={places.dest} items={items} zones={zones}
+                route={route} origin={places.origin} dest={places.dest} items={items} zones={zones} hotIds={zoneRes.hotIds} mode={mode}
                 selectedKey={selectedKey} focus={focus} pick={pick} getPadding={getPadding}
                 onPick={onPickPoint} onOutside={() => showToast("เลือกได้เฉพาะพื้นที่ในประเทศไทย")}
                 onSelectZone={(k) => selectZone(k, true)} onFailed={() => setMapFailed(true)}
@@ -485,11 +486,20 @@ export default function App() {
               </div>
             )}
             {toast && <p className="toast" role="status">{toast.text}</p>}
+            {showRibbon && (
+              <div className="map-legend">
+                <div className="seg-toggle" role="group" aria-label="มุมมองสีบนแผนที่">
+                  <button type="button" aria-pressed={mode === "trip"} className={mode === "trip" ? "is-on" : ""} onClick={() => setMode("trip")}>จุดเสี่ยงของทริป</button>
+                  <button type="button" aria-pressed={mode === "national"} className={mode === "national" ? "is-on" : ""} onClick={() => setMode("national")}>เทียบทั้งประเทศ</button>
+                </div>
+                {!mobile && <RouteKey mode={mode} />}
+              </div>
+            )}
           </div>
 
           {!mobile && showRibbon && (
             <div className="ribbon-card">
-              <RouteRibbon ribbon={ribbon} zones={zones} route={route} when={when} selectedKey={selectedKey} onSelectZone={(k) => selectZone(k, false)} />
+              <RouteRibbon ribbon={ribbon} zones={zones} route={route} when={when} selectedKey={selectedKey} onSelectZone={(k) => selectZone(k, false)} mode={mode} />
             </div>
           )}
         </section>
@@ -502,7 +512,7 @@ export default function App() {
           <div className="panel-body">
             {showBrief ? (
               <Briefing
-                route={route} when={when} forecast={forecast} zones={zones} hidden={zoneRes.hidden} ribbon={ribbon}
+                route={route} when={when} forecast={forecast} zones={zones} hidden={zoneRes.hidden} counts={zoneRes.counts} mode={mode} ribbon={ribbon}
                 compare={compare} selectedKey={selectedKey} history={history} mobile={mobile}
                 onEdit={goPlan} onSelectZone={(k) => selectZone(k, false)}
                 onPickTime={(t) => setWhen((w) => ({ ...w, time: t }))}

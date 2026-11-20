@@ -1,15 +1,36 @@
 // Turning per-segment forecasts into things a traveller can read:
-//   zones   — consecutive "ระวัง/ระวังมาก" segments along the route merged into numbered zones (max 5 shown)
-//   ribbon  — the whole route A→B as a strip of coloured pieces (grey = no forecast coverage)
+//   zones   — the trip's HOTSPOTS: segments whose national level is สูง/สูงมาก AND that are in the top 20% of this
+//             route's evaluated segments (by predicted recorded density), merged into numbered zones (max 5 shown)
+//   ribbon  — the whole route A→B as a strip (trip view: hotspot / evaluated / no data; national view: level colours)
+//   summary — share of the evaluated route length in each national level (lengths only — never a route probability)
 //   history — recorded categories summed over a zone's segments ("ส่วนใหญ่เกิดจาก…") and plain-language tips
-// Forecast values are never summed into a route probability; only historical record counts are added up.
+// Forecast values are never summed into a route probability; only lengths and historical record counts are added up.
 import { CONFIG, LEVELS, ZONE_LEVELS, BLOCKS } from "../config.js";
 import { isNum, routeLabel } from "./util.js";
 
+export function density(it) {
+  const p = it.pred || {};
+  if (isNum(p.density_per_km)) return p.density_per_km;
+  const km = Math.max((it.endM - it.startM) / 1000, 0.5);
+  return isNum(p.expected_recorded_count) ? p.expected_recorded_count / km : 0;
+}
+
+function quantile(sorted, q) {
+  if (!sorted.length) return Infinity;
+  const pos = (sorted.length - 1) * q, lo = Math.floor(pos), hi = Math.ceil(pos);
+  return sorted[lo] + (sorted[hi] - sorted[lo]) * (pos - lo);
+}
+
+const lengthKm = (it) => Math.max(0, it.endM - it.startM) / 1000;
+
 export function buildZones(items, provinceName) {
-  const high = items.filter((it) => ZONE_LEVELS.includes(it.level)).sort((a, b) => a.startM - b.startM);
+  const empty = { zones: [], hidden: 0, counts: levelKm(items), hotIds: new Set(), threshold: null };
+  if (!items.length) return empty;
+  const ds = items.map(density).sort((a, b) => a - b);
+  const threshold = quantile(ds, CONFIG.hotspotQuantile);
+  const hot = items.filter((it) => ZONE_LEVELS.includes(it.level) && density(it) >= threshold).sort((a, b) => a.startM - b.startM);
   const groups = [];
-  for (const it of high) {
+  for (const it of hot) {
     const g = groups[groups.length - 1];
     if (g && it.startM - g.endM <= CONFIG.zoneGapM) {
       g.members.push(it);
@@ -18,6 +39,7 @@ export function buildZones(items, provinceName) {
       groups.push({ members: [it], startM: it.startM, endM: it.endM });
     }
   }
+  const rankOf = (d) => { let lo = 0, hi = ds.length; while (lo < hi) { const mid = (lo + hi) >> 1; if (ds[mid] < d) lo = mid + 1; else hi = mid; } return lo / ds.length; };
   const zones = groups.map((g) => {
     const level = g.members.reduce((best, m) => (LEVELS[m.level].rank > LEVELS[best].rank ? m.level : best), "orange");
     const first = g.members.reduce((a, b) => (a.alongM <= b.alongM ? a : b));
@@ -32,7 +54,7 @@ export function buildZones(items, provinceName) {
       if (p && !provs.includes(p)) provs.push(p);
     }
     const code = Object.keys(codes).sort((a, b) => codes[b] - codes[a])[0];
-    const maxDensity = Math.max(...g.members.map((m) => (isNum(m.pred.density_per_km) ? m.pred.density_per_km : 0)));
+    const maxDensity = Math.max(...g.members.map(density));
     return {
       key: g.members.map((m) => m.id).sort().join("+"),
       level,
@@ -45,36 +67,44 @@ export function buildZones(items, provinceName) {
       road: code ? routeLabel(code) : "ทางหลวง",
       provinces: provs,
       maxDensity,
+      routeRank: rankOf(maxDensity), // share of this route's evaluated segments with a lower predicted density
     };
   });
-  const ranked = [...zones].sort((a, b) => LEVELS[b.level].rank - LEVELS[a.level].rank || b.lengthM - a.lengthM || b.maxDensity - a.maxDensity);
+  // Keep the strongest hotspots (highest predicted density), then number them in the order they are passed.
+  const ranked = [...zones].sort((a, b) => b.maxDensity - a.maxDensity || LEVELS[b.level].rank - LEVELS[a.level].rank || b.lengthM - a.lengthM);
   const shown = ranked.slice(0, CONFIG.maxZones).sort((a, b) => a.startM - b.startM);
   shown.forEach((z, i) => { z.n = i + 1; });
-  return { zones: shown, hidden: Math.max(0, zones.length - shown.length), counts: zoneCounts(zones) };
+  const hotIds = new Set(shown.flatMap((z) => z.members.map((m) => m.id)));
+  return { zones: shown, hidden: Math.max(0, zones.length - shown.length), counts: levelKm(items), hotIds, threshold };
 }
 
-export function zoneCounts(zones) {
-  let red = 0, orange = 0;
-  for (const z of zones) { if (z.level === "red") red += 1; else orange += 1; }
-  return { red, orange };
+// Evaluated route length per national level (km). Used for the overview bar and the departure comparison.
+export function levelKm(items) {
+  const km = { red: 0, orange: 0, yellow: 0, base: 0 };
+  for (const it of items) if (km[it.level] !== undefined) km[it.level] += lengthKm(it);
+  return km;
 }
 
-export function buildRibbon(items, distance) {
+export function buildRibbon(items, distance, hotIds) {
   const n = CONFIG.ribbonBins;
   const w = distance / n;
   const bins = new Array(n).fill(null);
   for (const it of items) {
     const b0 = Math.max(0, Math.floor(it.startM / w)), b1 = Math.min(n - 1, Math.floor(it.endM / w));
+    const hot = !!(hotIds && hotIds.has(it.id));
     for (let b = b0; b <= b1; b++) {
-      if (!bins[b] || LEVELS[it.level].rank > LEVELS[bins[b]].rank) bins[b] = it.level;
+      const cur = bins[b];
+      if (!cur) bins[b] = { level: it.level, hot };
+      else bins[b] = { level: LEVELS[it.level].rank > LEVELS[cur.level].rank ? it.level : cur.level, hot: cur.hot || hot };
     }
   }
   const pieces = [];
   let covered = 0;
-  for (const lv of bins) {
-    if (lv) covered += 1;
+  for (const bin of bins) {
+    if (bin) covered += 1;
     const last = pieces[pieces.length - 1];
-    if (last && last.level === lv) last.n += 1; else pieces.push({ level: lv, n: 1 });
+    const level = bin ? bin.level : null, hot = bin ? bin.hot : false;
+    if (last && last.level === level && last.hot === hot) last.n += 1; else pieces.push({ level, hot, n: 1 });
   }
   return { pieces, coverage: covered / n };
 }
