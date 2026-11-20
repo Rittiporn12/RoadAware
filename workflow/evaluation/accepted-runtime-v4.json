@@ -1,0 +1,12 @@
+{
+  "status": "accepted_spatial_evaluation_research_only",
+  "root": "backend/rerun-spatial-eval-national-20261120-160533",
+  "manifest_sha256": "3b196b1e3595d1a1fb83be113293bce9e0b197dcf675f55dff2b0efbf1146116",
+  "functions_sha256": "7c01d7a291a09e28769684e765104983a42863c9c5cca2275516cbc886500827",
+  "checks": {
+    "notebook_pass": 34,
+    "notebook_differs_soft": 2
+  },
+  "production_ready": false,
+  "note": "national V4 (Claude); 2 soft \"differs\" = floor-group gain share had no pre-computed national reference"
+}

@@ -10,6 +10,7 @@ import csv
 import hashlib
 import json
 import logging
+import os
 import threading
 from contextlib import nullcontext
 from pathlib import Path
@@ -17,8 +18,13 @@ from pathlib import Path
 import pandas as pd
 
 REPO = Path(__file__).resolve().parents[2]
-LOCK_REL = 'workflow/api/input-pins-v3.json'
-CONFIG_REL = 'backend/config/backend_api_v3.json'
+# Variant: pilot V3 (default) or national V4, chosen by the server launcher (run_api_server.py --national) before import.
+VARIANTS = {'v3': ('workflow/api/input-pins-v3.json', 'backend/config/backend_api_v3.json'),
+            'v4': ('workflow/api/input-pins-v4.json', 'backend/config/backend_api_v4.json')}
+API_VARIANT = os.environ.get('ROADAWARE_API_VARIANT', 'v3')
+if API_VARIANT not in VARIANTS:
+    raise ValueError('ROADAWARE_API_VARIANT must be one of ' + ', '.join(VARIANTS))
+LOCK_REL, CONFIG_REL = VARIANTS[API_VARIANT]
 LOCK_KIND = 'manager_accepted_backend_api_inputs_v3'
 COMPONENTS = ('notebook24', 'spatial_runtime', 'province_runtime', 'catalog', 'geometry', 'evaluation', 'diagnostics_2026')
 log = logging.getLogger('roadaware.api')
@@ -141,7 +147,8 @@ class Runtime:
 
     def evaluation(self):
         self._need('evaluation')
-        self._need('diagnostics_2026')
+        if 'diagnostics_2026' in ((self.cfg or {}).get('required_components') or COMPONENTS):
+            self._need('diagnostics_2026')
         return self.h24['ok_body']({'spatial_evaluation_21': self.eval21, 'diagnostics_2026': self.diag23})
 
     def provinces(self):

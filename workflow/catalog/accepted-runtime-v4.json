@@ -1,0 +1,17 @@
+{
+  "status": "accepted_historical_catalog_research_only",
+  "root": "backend/rerun-historical-catalog-national-20261120-155257",
+  "report_dir": "backend/rerun-historical-catalog-national-20261120-155257/reports/v4/historical_catalog",
+  "data_dir": "backend/rerun-historical-catalog-national-20261120-155257/data/v4/historical_catalog",
+  "config": "backend/config/catalog_v4.json",
+  "source_notebook": "backend/notebooks/14_backend_catalog_national.ipynb",
+  "manifest_sha256": "7d28ff3e28dfa713cc5c98a01fc69f95603a2eb2d05c4a386148e46821c492e5",
+  "config_sha256": "1ecc6fecc2d67c32e3a9ea4fe62ee196092a459707e429a4fba33c48e0fc75e1",
+  "source_notebook_sha256": "2fdfef50cd0272ab6ecdd8874026bf2615e215bccc9bc7a89adab588e0410160",
+  "functions_sha256": "6b14236c40935f325bd6cbf26456398501cd5798c43db45c429b0e30b569017b",
+  "checks": {
+    "notebook_checks": 18
+  },
+  "production_ready": false,
+  "note": "national V4 record written by Claude after checking the run log, manifest status, functions/config/source hashes"
+}

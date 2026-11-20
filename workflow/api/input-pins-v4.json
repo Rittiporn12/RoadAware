@@ -1,0 +1,31 @@
+{
+  "kind": "manager_accepted_backend_api_inputs_v3",
+  "status_note": "National V4 lock written by Claude after checking each component run.",
+  "files": {
+    "workflow/catalog/accepted-runtime-v4.json": "bfe72d9188bfeba4b8a4101afdf2e31ee35b76b611d58f4eff3c692c343b6c76",
+    "workflow/evaluation/accepted-runtime-v4.json": "005b1bbada3415d235b7d746b4fd936abdefdcc31fb990f0660112e981b702ed",
+    "workflow/serving/accepted-runtime-v4.json": "9de68170228c245a1715895288b4e996cc18ef45cce51d18e8ae4c7dd703569f",
+    "workflow/serving/accepted-province-runtime-v2.json": "2c13c3f1859a17f22b4b7b2ac298066540394a76fa6ff5066973df404c8ed4d7",
+    "backend/reports/v4/spatial_preparation/spatial_preparation_manifest.json": "720c13fb4bc24d3599951da5ed03a06a4ce0999de84d6b8f98243f7d77d5714b",
+    "backend/data/v4/spatial_preparation/universe_geometry.geojson": "11bee8d17ce8994ae174194545fa142fa9664e7dba490a3132a2b31cd1beaf14",
+    "backend/data/v4/spatial_preparation/universe_segments.csv": "927992e01f83f0afe244abbb33ae4686f13bd5deafc528c3b6b705c8b948cdbf",
+    "backend/notebooks/24_backend_api_contract.ipynb": "22e7b4cc418d3fcccb6eda791a4abf09892a9ac146c6604db8c4b065ae96fd49",
+    "backend/config/backend_api_v4.json": "d9a67a28d2ace90ed9ea59033af3f88081d54e4b7f5f40c7512d185215e36623"
+  },
+  "components": {
+    "catalog": "workflow/catalog/accepted-runtime-v4.json",
+    "evaluation": "workflow/evaluation/accepted-runtime-v4.json",
+    "spatial_runtime": "workflow/serving/accepted-runtime-v4.json",
+    "province_runtime": "workflow/serving/accepted-province-runtime-v2.json"
+  },
+  "required_api_files_pending_manager_review": [
+    "backend/notebooks/24_backend_api_contract.ipynb",
+    "backend/config/backend_api_v4.json"
+  ],
+  "notebook24_functions": {
+    "cells": 3,
+    "join": "\n\n",
+    "sha256": "50c9cb0434349795d2e6de9ec8417cc2e323804305a6830c049a9b3e8df7ec5a"
+  },
+  "policy": "Verify each component record and all consumed source/config/manifest/data/bundle hashes through its accepted chain BEFORE exec/deserialization. Client paths forbidden. New24functions must be manager-pinned separately after inspection/tests, joined2NL. API must expose research-only/unsupported/unavailable clearly. 2026history/fullpopulationaccuracy/unique-eventidentity/completeness/providerchecksum remain unverified; diagnostic aggregates only. No raw event ids/coordinates/rowledger exposed."
+}

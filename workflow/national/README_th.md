@@ -58,3 +58,4 @@
 - 2026-11-20 11:40: ผู้ใช้เปลี่ยนใจ → กลับไปเทียบครบ 4 โมเดลตามกติกาเดิม
 - 2026-11-20 15:05: ผู้ใช้ตัดสินใจสุดท้าย → ใช้ HGB (hgb_poisson_fixed) อย่างเดียวทั้งงาน (RF ราย 6 ชม. ใช้เวลานานเกินบนเครื่อง 16 GB)
 - 2026-11-20: Notebook 20 (HGB) ผ่าน 52 checks · Notebook 21 ผ่าน (34 pass, 2 differs = floor gain share ที่ไม่มีค่าอ้างอิงล่วงหน้า) · Notebook 14 catalog ผ่าน · ขั้นต่อไป Notebook 22 (National Step 6)
+- 2026-11-20: Notebook 22 ผ่าน 23/23 · เขียน accepted-runtime-v4 (catalog/evaluation/serving), backend_api_v4.json, workflow/api/input-pins-v4.json · API: run_api_server.py --national (ค่าเดิม = pilot) · diagnostics_2026 เป็น optional ใน V4

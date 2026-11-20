@@ -1,0 +1,34 @@
+{
+  "kind": "manager_accepted_spatial_runtime_v3",
+  "run_root": "backend/rerun-spatial-serving-national-20261120-181806",
+  "report_dir": "backend/rerun-spatial-serving-national-20261120-181806/reports/v4/spatial_serving",
+  "data_dir": "backend/rerun-spatial-serving-national-20261120-181806/data/v4/spatial_serving",
+  "files": {
+    "backend/notebooks/22_spatial_inference_contract_national.ipynb": "7d0be75bc6fe26f465d132039e54f8c91963c730702db5f55641b3e19349c686",
+    "backend/config/spatial_inference_v4.json": "5ac8504dbe9272637c4e405f98658a9c3b72bc22f3e75d896c3114ac62eb5e33",
+    "backend/rerun-spatial-serving-national-20261120-181806/reports/v4/spatial_serving/spatial_serving_manifest.json": "e2d007df5e6ab0c84a3ddecc29b62dc9f9e113ac265a5f37d555bba75ef8fed4",
+    "backend/rerun-spatial-serving-national-20261120-181806/reports/v4/spatial_serving/serving_record.json": "0da49eac9f8c90c8328879b30468f4eee3115e316550f2ea0d25b59fbf3b299c",
+    "workflow/serving/input-pins-v4.json": "bf6ace2e63d31e502751c6b669f980ca009ff0205195ccc7b50bfcf6d64dbe4a",
+    "backend/rerun-spatial-serving-national-20261120-181806/data/v4/spatial_serving/baseline_stats_daily.npz": "96e0c63c584b36caaca016ae3e00478cef7ba23fff93d267c743b2fd421db494",
+    "backend/rerun-spatial-serving-national-20261120-181806/data/v4/spatial_serving/baseline_stats_6h.npz": "ab11f4ec37a5bc75fe1ab852b2164fd42d1e7bdd1e3b770992cc988e839d42c7"
+  },
+  "functions": {
+    "cells": 5,
+    "join": "\n\n",
+    "sha256": "9e7daaa27ff8a90656c2bfe7645aab72f2bd60d22004066b6e1d902198c274bc"
+  },
+  "acceptance": {
+    "manifest_checks": 23,
+    "failed_checks": [],
+    "reviewer": "Claude (national V4)"
+  },
+  "interfaces": [
+    "load_service(backend, cfg, pins, baseline_files, selftest=True)",
+    "predict_batch(service, unit, requests)",
+    "predict_baseline_batch(service, unit, requests)",
+    "metadata(service)",
+    "coverage(service, segment_ids)",
+    "health(service)"
+  ],
+  "policy": "Verify every manager file and FUNCTIONS hash before exec. Obtain baseline_files from pinned serving_record and data_dir; input pins from workflow/serving/input-pins-v4.json. Reuse existing benchmark only; public dates2024..2027, max128, ordered strict finite JSON. Context routing synthetic test is not observed2024/25evidence. No OOF runtime replay, no refit or production claim."
+}
