@@ -9,6 +9,7 @@ import * as L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { CONFIG, THAI_BOUNDS, MAX_BOUNDS, ENVELOPE, LEVELS, UNKNOWN_HEX, ROUTE_HEX, HOT_HEX, tripTierHex } from "../config.js";
 import { pointInGeometry } from "../lib/routeMatch.js";
+import { pointAt } from "../lib/drive.js";
 
 const isMobile = () => window.matchMedia("(max-width: 900px)").matches;
 
@@ -269,26 +270,79 @@ export default function MapView({ route, origin, dest, items, zones, hotIds, ran
     }
   }, [zones, selectedKey, zoomTick, mode]);
 
-  // ---- drive mode: the car, and the map follows it (re-centres only when the car nears the edge of the view)
+  // ---- drive mode: the car glides every animation frame between position updates and the map follows it.
+  //      Simulation: interpolated ALONG the road (pointAt), so it never cuts corners. GPS: straight between fixes.
+  //      Dragging the map pauses following; the "กลับไปที่รถ" button resumes it.
   const carRef = useRef(null);
+  const animRef = useRef({ from: null, to: null, t0: 0, dur: 250, raf: 0, follow: true });
+  const [following, setFollowing] = useState(true);
   const driving = !!drivePos;
   useEffect(() => {
     const m = mapRef.current;
+    if (!m) return undefined;
+    const onDrag = () => { animRef.current.follow = false; setFollowing(false); };
+    m.on("dragstart", onDrag);
+    return () => { m.off("dragstart", onDrag); };
+  }, []);
+  useEffect(() => {
+    const m = mapRef.current;
+    const A = animRef.current;
     if (!m) return;
-    if (!drivePos) { layers.current.car.clearLayers(); carRef.current = null; return; }
-    const ll = [drivePos.lat, drivePos.lon];
-    const html = '<span style="transform: rotate(' + Math.round(drivePos.heading || 0) + 'deg)"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M12 2l7 19-7-4-7 4z" fill="#fff"/></svg></span>';
-    const icon = L.divIcon({ className: "car-icon", html, iconSize: [36, 36], iconAnchor: [18, 18] });
-    if (!carRef.current) {
-      carRef.current = L.marker(ll, { icon, interactive: false, keyboard: false, zIndexOffset: 1200 }).addTo(layers.current.car);
-      m.setView(ll, Math.max(m.getZoom(), 12), { animate: false });
-    } else {
-      carRef.current.setLatLng(ll);
-      carRef.current.setIcon(icon);
+    if (!drivePos) {
+      cancelAnimationFrame(A.raf); A.raf = 0; A.from = A.to = null;
+      layers.current.car.clearLayers(); carRef.current = null;
+      A.follow = true; setFollowing(true);
+      return;
     }
-    const pt = m.latLngToContainerPoint(ll), size = m.getSize();
-    if (pt.x < size.x * 0.2 || pt.x > size.x * 0.8 || pt.y < size.y * 0.25 || pt.y > size.y * 0.7) m.panTo(ll, { animate: true, duration: 0.6 });
+    const now = performance.now();
+    const cur = A.to && A.from ? frameAt(A, now) : null;
+    A.from = cur || { lat: drivePos.lat, lon: drivePos.lon, along: drivePos.alongM, heading: drivePos.heading || 0 };
+    A.to = { lat: drivePos.lat, lon: drivePos.lon, along: drivePos.alongM, heading: drivePos.heading || 0 };
+    A.dur = drivePos.source === "sim" ? 260 : Math.min(1500, Math.max(400, now - (A.t0 || now)));
+    A.t0 = now;
+    A.sim = drivePos.source === "sim";
+    if (!carRef.current) {
+      const html = '<span><svg width="22" height="22" viewBox="0 0 24 24"><path d="M12 2l7 19-7-4-7 4z" fill="#fff"/></svg></span>';
+      const icon = L.divIcon({ className: "car-icon", html, iconSize: [36, 36], iconAnchor: [18, 18] });
+      carRef.current = L.marker([A.to.lat, A.to.lon], { icon, interactive: false, keyboard: false, zIndexOffset: 1200 }).addTo(layers.current.car);
+      m.setView([A.to.lat, A.to.lon], Math.max(m.getZoom(), 13), { animate: false });
+    }
+    if (!A.raf) {
+      const step = () => {
+        const B = animRef.current;
+        if (!B.to || !carRef.current) { B.raf = 0; return; }
+        const f = frameAt(B, performance.now());
+        carRef.current.setLatLng([f.lat, f.lon]);
+        const el = carRef.current.getElement();
+        const span = el && el.firstChild;
+        // smooth the arrow's turn (road vertices would otherwise snap it)
+        B.h = B.h == null ? f.heading : B.h + ((((f.heading - B.h) % 360) + 540) % 360 - 180) * 0.15;
+        if (span) span.style.transform = "rotate(" + B.h.toFixed(1) + "deg)";
+        if (B.follow) {
+          // phones: keep the car in the upper part of the map, above the bottom sheet
+          const offY = isMobile() ? Math.round(m.getSize().y * 0.18) : 0;
+          const z = m.getZoom();
+          const c = m.unproject(m.project([f.lat, f.lon], z).add([0, offY]), z);
+          m.setView(c, z, { animate: false, noMoveStart: true });
+        }
+        B.raf = requestAnimationFrame(step);
+      };
+      A.raf = requestAnimationFrame(step);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [drivePos]);
+  useEffect(() => () => cancelAnimationFrame(animRef.current.raf), []);
+
+  function frameAt(A, now) {
+    const k = Math.max(0, Math.min(1, (now - A.t0) / A.dur));
+    if (A.sim && route && route.index && Number.isFinite(A.from.along) && Number.isFinite(A.to.along)) {
+      const p = pointAt(route, A.from.along + (A.to.along - A.from.along) * k);
+      return { lat: p.lat, lon: p.lon, along: A.from.along + (A.to.along - A.from.along) * k, heading: p.heading };
+    }
+    let dh = ((A.to.heading - A.from.heading + 540) % 360) - 180;
+    return { lat: A.from.lat + (A.to.lat - A.from.lat) * k, lon: A.from.lon + (A.to.lon - A.from.lon) * k,
+             along: A.to.along, heading: A.from.heading + dh * k };
+  }
   useEffect(() => {
     const m = mapRef.current;
     if (!m || driving || !route) return;
@@ -311,6 +365,16 @@ export default function MapView({ route, origin, dest, items, zones, hotIds, ran
   return (
     <>
       <div ref={divRef} className="map" tabIndex={0} aria-label="แผนที่ประเทศไทย" />
+      {driving && (
+        <button type="button" className={"btn btn-sm lock-btn" + (following ? " is-on" : "")} aria-pressed={following}
+          title={following ? "แผนที่เลื่อนตามรถอยู่ — แตะเพื่อปลดล็อก (หรือลากแผนที่)" : "แตะเพื่อให้แผนที่ตามรถอีกครั้ง"}
+          onClick={() => { const next = !animRef.current.follow; animRef.current.follow = next; setFollowing(next); }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <rect x="5" y="11" width="14" height="10" rx="2" />{following ? <path d="M8 11V7a4 4 0 0 1 8 0v4" /> : <path d="M8 11V7a4 4 0 0 1 7.5-2" />}
+          </svg>
+          {following ? "ล็อกตามรถ" : "ปลดล็อกอยู่ · แตะเพื่อตามรถ"}
+        </button>
+      )}
       {tileWarn && <p className="map-chip map-chip-warn" role="status">โหลดภาพแผนที่บางส่วนไม่สำเร็จ — ข้อมูลเส้นทางยังใช้งานได้</p>}
     </>
   );

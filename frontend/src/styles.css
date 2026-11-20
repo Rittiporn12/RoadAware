@@ -414,4 +414,8 @@ dialog.about::backdrop { background: rgba(15, 27, 45, 0.45); backdrop-filter: bl
 .drive-main > span { opacity: .9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .car-icon { background: none; border: 0; }
 .car-icon span { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: #0B6E69; border: 3px solid #fff; box-shadow: 0 0 0 6px rgba(11,110,105,.25), 0 3px 10px rgba(15,27,45,.35); }
-@media (max-width: 900px) { .drive-banner { top: 70px; max-width: calc(100% - 24px); } .drive-big { font-size: 28px; } }
+@media (max-width: 900px) { .drive-banner { top: 70px; left: 12px; transform: none; max-width: calc(100% - 84px); } .drive-banner b { font-size: 16px; white-space: nowrap; } .drive-big { font-size: 28px; } }
+.lock-btn { position: absolute; z-index: 850; right: 16px; bottom: 24px; background: #fff; color: var(--ink); border: 1px solid var(--line); box-shadow: var(--shadow); }
+.lock-btn.is-on { background: #0B6E69; color: #fff; border-color: #0B6E69; }
+@media (max-width: 900px) { .lock-btn { top: 136px; bottom: auto; left: 12px; right: auto; } }
+.car-icon span { transition: none; }

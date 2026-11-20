@@ -347,11 +347,11 @@ export default function App() {
     const t = setInterval(() => {
       setDrive((d) => {
         if (!d || d.phase !== "on" || d.arrived) return d;
-        const alongM = Math.min(route.distance, d.alongM + avg * 0.5 * d.speedX);
+        const alongM = Math.min(route.distance, d.alongM + avg * 0.25 * d.speedX);
         const p = pointAt(route, alongM);
-        return { ...d, alongM, lat: p.lat, lon: p.lon, heading: p.heading, arrived: alongM >= route.distance - 1 };
+        return { ...d, alongM, lat: p.lat, lon: p.lon, heading: p.heading, t: performance.now(), arrived: alongM >= route.distance - 1 };
       });
-    }, 500);
+    }, 250);
     return () => clearInterval(t);
   }, [driveSource, route]);
 
@@ -366,7 +366,7 @@ export default function App() {
         if (!d || d.phase !== "on") return d;
         if (!hit) { const misses = d.misses + 1; return { ...d, lat, lon, misses, off: misses >= 3 }; }
         const alongM = d.alongM == null ? hit.alongM : Math.max(d.alongM - 200, hit.alongM); // ignore small backwards jitter
-        return { ...d, lat, lon, heading: Number.isFinite(heading) ? heading : d.heading, alongM, misses: 0, off: false, arrived: alongM >= route.distance - 150 };
+        return { ...d, lat, lon, heading: Number.isFinite(heading) ? heading : d.heading, alongM, t: performance.now(), misses: 0, off: false, arrived: alongM >= route.distance - 150 };
       });
     }, (err) => {
       showToast(err && err.code === 1 ? "ไม่ได้รับอนุญาตให้ใช้ตำแหน่ง — ลองโหมดจำลองการขับ" : "หาตำแหน่งไม่สำเร็จ");
