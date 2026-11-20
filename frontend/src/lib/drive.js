@@ -130,11 +130,19 @@ function chime() {
 const queue = [];
 let speaking = false, gen = 0, current = null;
 
+// Best Thai voice on this device: downloaded Premium / Enhanced (or Google / Siri) voices sound far more natural
+// than the compact default, so they win when installed.
+function bestThaiVoice() {
+  const th = window.speechSynthesis.getVoices().filter((x) => /^th/i.test(x.lang));
+  const score = (x) => (/premium/i.test(x.name) ? 4 : /enhanced|ปรับปรุง/i.test(x.name) ? 3 : /google|siri/i.test(x.name) ? 2 : 0) + (x.localService ? 0.5 : 0);
+  return th.sort((a, b) => score(b) - score(a))[0] || null;
+}
+
 function deviceVoice(text, done) {
   if (!window.speechSynthesis) { done(); return; }
   const u = new SpeechSynthesisUtterance(text);
   u.lang = "th-TH";
-  const v = window.speechSynthesis.getVoices().find((x) => /^th/i.test(x.lang));
+  const v = bestThaiVoice();
   if (v) u.voice = v;
   u.rate = RATE; u.pitch = PITCH;
   u.onend = done; u.onerror = done;

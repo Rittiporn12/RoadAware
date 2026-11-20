@@ -50,17 +50,44 @@ def pace():
         time.sleep(61 - (now - SENT[0]) + 0.2)
 
 
+BLOCKED_UNTIL = [0.0]  # set when the DAILY quota is used up: stop calling Gemini until it resets
+
+
+class QuotaExhausted(Exception):
+    pass
+
+
+def retry_seconds(detail):
+    m = re.search(r'retry in ((?:[0-9.]+h)?(?:[0-9.]+m)?(?:[0-9.]+s)?)', detail)
+    if not m or not m.group(1):
+        return None
+    total = 0.0
+    for num, unit in re.findall(r'([0-9.]+)([hms])', m.group(1)):
+        total += float(num) * {'h': 3600, 'm': 60, 's': 1}[unit]
+    return total
+
+
 def synthesize_paced(text):
+    if time.time() < BLOCKED_UNTIL[0]:
+        raise QuotaExhausted()
     for attempt in range(3):
         pace()
         try:
             return synthesize(text)
         except urllib.error.HTTPError as e:
-            if e.code != 429 or attempt == 2:
+            if e.code != 429:
                 raise
-            detail = e.read()[:300].decode('utf-8', 'replace')
-            m = re.search(r'retry in ([0-9.]+)s', detail)
-            wait = min(65.0, float(m.group(1)) + 1) if m else 30.0
+            detail = e.read()[:400].decode('utf-8', 'replace')
+            wait = retry_seconds(detail)
+            if 'per day' in detail or (wait is not None and wait > 90):
+                BLOCKED_UNTIL[0] = time.time() + (wait if wait else 3600)
+                h = (wait or 3600) / 3600
+                print(f'DAILY Gemini quota used up — using the Mac voice for new sentences for ~{h:.1f} h. '
+                      f'Saved clips still play. (free tier: very few clips per day)', flush=True)
+                raise QuotaExhausted()
+            if attempt == 2:
+                raise QuotaExhausted()
+            wait = min(65.0, (wait or 30.0) + 1)
             print(f'quota busy — waiting {wait:.0f}s and retrying (free tier {RPM}/min)', flush=True)
             time.sleep(wait)
 
@@ -152,6 +179,8 @@ class Handler(BaseHTTPRequestHandler):
                         tmp.write_bytes(audio)
                         os.replace(tmp, path)
             audio = path.read_bytes()
+        except QuotaExhausted:
+            return self._json(503, {'error': 'quota_exhausted'})
         except urllib.error.HTTPError as e:
             detail = e.read()[:300].decode('utf-8', 'replace')
             print('Gemini HTTP', e.code, detail, flush=True)
