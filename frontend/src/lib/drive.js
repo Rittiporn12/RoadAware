@@ -61,23 +61,26 @@ export function fmtDist(m) {
   return Math.max(0, Math.round(m / 50) * 50) + " ม.";
 }
 
-// Speech. First choice: Gemini TTS through the local voice proxy (backend/scripts/tts_proxy.py — the API key
+// Speech. First choice: the local voice proxy (Mac Siri voice by default, or Gemini TTS) (backend/scripts/tts_proxy.py — the API key
 // stays on the computer, never in the browser). Fallback: the device's own Thai voice. One fixed, lively style.
 // Messages are QUEUED, never cut off mid-sentence; if several wait (fast simulation) only the newest per group
 // (one numbered point) is kept so the voice never falls behind the car. A short chime precedes each warning.
 const RATE = 1.12, PITCH = 1.2;
 const audioCache = new Map(); // text -> Promise<object URL | null>
 let proxyState = "unknown";   // unknown | ok | off
+let proxyEngine = "mac";      // mac (Siri / system voice rendered by the proxy) | gemini
 
 export async function checkVoiceProxy() {
   try {
     const r = await fetch(CONFIG.ttsUrl + "/health", { signal: AbortSignal.timeout ? AbortSignal.timeout(2500) : undefined });
     const j = await r.json();
     proxyState = r.ok && j.ok ? "ok" : "off";
+    proxyEngine = j.engine === "gemini" ? "gemini" : "mac";
   } catch (_) { proxyState = "off"; }
   return proxyState;
 }
 export const voiceSource = () => proxyState;
+export const voiceLabel = (state) => (state === "ok" ? (proxyEngine === "gemini" ? "เสียง Gemini" : "เสียง Siri (Mac)") : "เสียงเบราว์เซอร์");
 
 function fetchAudio(text) {
   if (proxyState === "off") return Promise.resolve(null);

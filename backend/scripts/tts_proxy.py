@@ -1,4 +1,10 @@
-"""RoadAware voice proxy — turns drive-mode warning sentences into speech with Gemini TTS.
+"""RoadAware voice proxy — turns drive-mode warning sentences into speech for the website.
+
+Two engines (ROADAWARE_TTS_ENGINE):
+* mac (default): the Mac's own `say` command, i.e. the voice chosen in System Settings → Accessibility → Read & Speak
+  (System speech language: Thai, System voice: e.g. Siri Voice 1). Free, offline, no limit. Browsers cannot use Siri
+  voices directly, so this proxy renders them to audio files for the website.
+* gemini: Gemini TTS (needs a key; the free tier allows only ~10 clips a day).
 
     .venv/bin/python backend/scripts/tts_proxy.py            # http://127.0.0.1:8010  (Ctrl+C to stop)
 
@@ -16,7 +22,9 @@ import json
 import os
 import re
 import struct
+import subprocess
 import sys
+import tempfile
 import threading
 import time
 import urllib.error
@@ -27,6 +35,8 @@ from pathlib import Path
 BACKEND = Path(__file__).resolve().parents[1]
 CACHE = BACKEND / 'rerun-tts-cache'
 PORT = int(os.environ.get('ROADAWARE_TTS_PORT', '8010'))
+ENGINE = os.environ.get('ROADAWARE_TTS_ENGINE', 'mac').strip().lower()
+SAY_RATE = os.environ.get('ROADAWARE_SAY_RATE', '200')  # words per minute for `say`; lively but clear
 MODEL = os.environ.get('ROADAWARE_TTS_MODEL', 'gemini-3.8-flash-tts')
 VOICE = os.environ.get('ROADAWARE_TTS_VOICE', 'Puck')
 STYLE = 'lively, alert and friendly, like an upbeat Thai radio traffic announcer; clear and quick, never sleepy'
@@ -67,7 +77,21 @@ def retry_seconds(detail):
     return total
 
 
+def synthesize_mac(text):
+    with tempfile.TemporaryDirectory() as d:
+        out = Path(d) / 'clip.wav'
+        cmd = ['say', '--file-format=WAVE', '--data-format=LEI16@24000', '-o', str(out)]
+        if SAY_RATE:
+            cmd += ['-r', SAY_RATE]
+        r = subprocess.run(cmd + [text], capture_output=True, timeout=60)
+        if r.returncode != 0 or not out.is_file() or out.stat().st_size < 1000:
+            raise RuntimeError('say failed: ' + r.stderr.decode('utf-8', 'replace')[:200])
+        return out.read_bytes()
+
+
 def synthesize_paced(text):
+    if ENGINE == 'mac':
+        return synthesize_mac(text)
     if time.time() < BLOCKED_UNTIL[0]:
         raise QuotaExhausted()
     for attempt in range(3):
@@ -151,7 +175,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         if self.path == '/health':
-            return self._json(200, {'ok': bool(api_key()), 'model': MODEL, 'voice': VOICE})
+            return self._json(200, {'ok': ENGINE == 'mac' or bool(api_key()), 'engine': ENGINE, 'model': MODEL, 'voice': VOICE})
         self._json(404, {'error': 'not_found'})
 
     def do_POST(self):
@@ -164,17 +188,18 @@ class Handler(BaseHTTPRequestHandler):
             return self._json(400, {'error': 'bad_request'})
         if not text or len(text) > MAX_CHARS:
             return self._json(400, {'error': 'text_required_max_' + str(MAX_CHARS)})
-        if not api_key():
+        if ENGINE != 'mac' and not api_key():
             return self._json(503, {'error': 'no_api_key'})
-        key = hashlib.sha256((MODEL + '|' + VOICE + '|' + STYLE + '|' + text).encode('utf-8')).hexdigest()
-        path = CACHE / (key + '.wav')
+        sig = ('mac|' + SAY_RATE) if ENGINE == 'mac' else (MODEL + '|' + VOICE + '|' + STYLE)
+        key = hashlib.sha256((sig + '|' + text).encode('utf-8')).hexdigest()
+        path = (CACHE / 'mac' if ENGINE == 'mac' else CACHE) / (key + '.wav')
         try:
             if not path.is_file():
                 with LOCK:  # one synthesis at a time keeps the free-tier rate limit happy
                     if not path.is_file():
                         audio = synthesize_paced(text)
-                        CACHE.mkdir(exist_ok=True)
-                        print(f'new voice clip saved ({len(list(CACHE.glob("*.wav"))) + 1} in cache)', flush=True)
+                        path.parent.mkdir(parents=True, exist_ok=True)
+                        print(f'new voice clip saved ({len(list(path.parent.glob("*.wav"))) + 1} in cache)', flush=True)
                         tmp = path.with_suffix('.tmp')
                         tmp.write_bytes(audio)
                         os.replace(tmp, path)
@@ -199,9 +224,13 @@ class Handler(BaseHTTPRequestHandler):
 
 
 def main():
-    if not api_key():
-        sys.exit('No Gemini API key: set GEMINI_API_KEY or put the key in ~/.roadaware-gemini-key')
-    print(f'RoadAware voice proxy on http://127.0.0.1:{PORT}  (model {MODEL}, voice {VOICE}) — Ctrl+C to stop', flush=True)
+    if ENGINE == 'mac':
+        CACHE.joinpath('mac').mkdir(parents=True, exist_ok=True)
+        print(f'RoadAware voice proxy on http://127.0.0.1:{PORT}  (Mac voice from Read & Speak, rate {SAY_RATE}) — Ctrl+C to stop', flush=True)
+    else:
+        if not api_key():
+            sys.exit('No Gemini API key: set GEMINI_API_KEY or put the key in ~/.roadaware-gemini-key')
+        print(f'RoadAware voice proxy on http://127.0.0.1:{PORT}  (Gemini {MODEL}, voice {VOICE}) — Ctrl+C to stop', flush=True)
     ThreadingHTTPServer(('127.0.0.1', PORT), Handler).serve_forever()
 
 

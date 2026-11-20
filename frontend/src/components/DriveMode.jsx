@@ -1,7 +1,7 @@
 // Drive mode — the panel while travelling. Voice-first: big type, few controls, nothing to read while driving.
 // Turn-by-turn directions are NOT provided here (use your usual navigation app); this only warns about the
 // numbered points of this trip as you approach them.
-import { fmtDist, nextZone } from "../lib/drive.js";
+import { fmtDist, nextZone, voiceLabel } from "../lib/drive.js";
 import { topValues, tipsFor } from "../lib/zones.js";
 import { fmtKm } from "../lib/util.js";
 import { HOT_HEX, LEVELS } from "../config.js";
@@ -53,7 +53,7 @@ export default function DriveMode({ drive, zones, route, history, onStop, onMute
   return (
     <div className="drive">
       <div className="drive-head">
-        <span className="drive-mode">{drive.source === "sim" ? "จำลองการขับ ×" + drive.speedX : "ติดตามตำแหน่งจริง"} · {drive.voice === "ok" ? "เสียง Gemini" : "เสียงเครื่อง"}</span>
+        <span className="drive-mode">{drive.source === "sim" ? "จำลองการขับ ×" + drive.speedX : "ติดตามตำแหน่งจริง"} · {voiceLabel(drive.voice)}</span>
         <button type="button" className="btn btn-ghost btn-sm" onClick={onStop}>หยุด</button>
       </div>
 
