@@ -261,7 +261,7 @@ function ZoneHead({ z, on, onClick }) {
   );
 }
 
-export default function Briefing({ route, when, forecast, zones, hidden, counts, mode, ribbon, compare, alts, altFocus, onFocusAlt, onUseAlt, selectedKey, history, mobile, onEdit, onSelectZone, onPickTime, onRetry, onRetryHistory, onAbout }) {
+export default function Briefing({ route, when, forecast, zones, hidden, counts, mode, ribbon, compare, alts, altFocus, onFocusAlt, onUseAlt, onDrive, selectedKey, history, mobile, onEdit, onSelectZone, onPickTime, onRetry, onRetryHistory, onAbout }) {
   const depart = bkkToEpoch(when.date, when.time);
   const arrive = epochToBkk(depart + route.duration * 1000);
   const selected = zones.find((z) => z.key === selectedKey) || null;
@@ -298,6 +298,12 @@ export default function Briefing({ route, when, forecast, zones, hidden, counts,
       </section>
 
       <Verdict forecast={forecast} zones={zones} hidden={hidden} coverage={ribbon.coverage} />
+      {forecast.status === "done" && onDrive && (
+        <button type="button" className="btn btn-primary drive-go" onClick={onDrive}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l7 19-7-4-7 4z" /></svg>
+          เริ่มเดินทาง · เตือนด้วยเสียง
+        </button>
+      )}
       {forecast.status === "done" && forecast.items.length > 0 && <HowToRead />}
       {forecast.status === "done" && (alts || []).length > 0 && (
         <Alternatives alts={alts} altFocus={altFocus} onFocusAlt={onFocusAlt} onUseAlt={onUseAlt}

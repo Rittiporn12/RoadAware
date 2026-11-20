@@ -27,7 +27,7 @@ function zoneIcon(n, level, selected, mode, clock) {
   });
 }
 
-export default function MapView({ route, origin, dest, items, zones, hotIds, rankById, mode, altFocus, onSelectAlt, selectedKey, focus, pick, getPadding, onPick, onOutside, onSelectZone, onFailed }) {
+export default function MapView({ route, origin, dest, items, zones, hotIds, rankById, mode, altFocus, onSelectAlt, drivePos, selectedKey, focus, pick, getPadding, onPick, onOutside, onSelectZone, onFailed }) {
   const divRef = useRef(null);
   const mapRef = useRef(null);
   const layers = useRef({});
@@ -75,6 +75,7 @@ export default function MapView({ route, origin, dest, items, zones, hotIds, ran
       seg: L.layerGroup().addTo(m),
       zones: L.layerGroup().addTo(m),
       ends: L.layerGroup().addTo(m),
+      car: L.layerGroup().addTo(m),
     };
 
     // Clip the sharp copy to Thailand. Layer-point coordinates only change on zoom / view reset.
@@ -216,7 +217,7 @@ export default function MapView({ route, origin, dest, items, zones, hotIds, ran
     if (!m) return;
     const g = layers.current.alts;
     g.clearLayers();
-    const list = (route && route.alternatives) || [];
+    const list = (route && !drivePos && route.alternatives) || [];
     list.forEach((a, i) => {
       const ll = a.coords.map(([lon, lat]) => [lat, lon]);
       const on = altFocus === a.id;
@@ -226,7 +227,7 @@ export default function MapView({ route, origin, dest, items, zones, hotIds, ran
       line.on("click", () => handlers.current.onSelectAlt && handlers.current.onSelectAlt(a.id));
       line.addTo(g);
     });
-  }, [route, altFocus]);
+  }, [route, altFocus, !!drivePos]);
 
   // ---- forecast colours on the route
   useEffect(() => {
@@ -267,6 +268,33 @@ export default function MapView({ route, origin, dest, items, zones, hotIds, ran
       mk.addTo(g);
     }
   }, [zones, selectedKey, zoomTick, mode]);
+
+  // ---- drive mode: the car, and the map follows it (re-centres only when the car nears the edge of the view)
+  const carRef = useRef(null);
+  const driving = !!drivePos;
+  useEffect(() => {
+    const m = mapRef.current;
+    if (!m) return;
+    if (!drivePos) { layers.current.car.clearLayers(); carRef.current = null; return; }
+    const ll = [drivePos.lat, drivePos.lon];
+    const html = '<span style="transform: rotate(' + Math.round(drivePos.heading || 0) + 'deg)"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M12 2l7 19-7-4-7 4z" fill="#fff"/></svg></span>';
+    const icon = L.divIcon({ className: "car-icon", html, iconSize: [36, 36], iconAnchor: [18, 18] });
+    if (!carRef.current) {
+      carRef.current = L.marker(ll, { icon, interactive: false, keyboard: false, zIndexOffset: 1200 }).addTo(layers.current.car);
+      m.setView(ll, Math.max(m.getZoom(), 12), { animate: false });
+    } else {
+      carRef.current.setLatLng(ll);
+      carRef.current.setIcon(icon);
+    }
+    const pt = m.latLngToContainerPoint(ll), size = m.getSize();
+    if (pt.x < size.x * 0.2 || pt.x > size.x * 0.8 || pt.y < size.y * 0.25 || pt.y > size.y * 0.7) m.panTo(ll, { animate: true, duration: 0.6 });
+  }, [drivePos]);
+  useEffect(() => {
+    const m = mapRef.current;
+    if (!m || driving || !route) return;
+    m.fitBounds(L.latLngBounds(route.coords.map(([lon, lat]) => [lat, lon])), getPadding());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [driving]);
 
   // ---- fly to a zone chosen in the list
   useEffect(() => {

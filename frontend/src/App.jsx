@@ -10,6 +10,8 @@ import TripForm from "./components/TripForm.jsx";
 import Briefing from "./components/Briefing.jsx";
 import RouteRibbon, { RouteKey } from "./components/RouteRibbon.jsx";
 import AboutDialog from "./components/AboutDialog.jsx";
+import DriveMode, { DriveStart, DriveBanner } from "./components/DriveMode.jsx";
+import { pointAt, locate, nextZone, warningText, speak, stopSpeech } from "./lib/drive.js";
 
 const IDLE = { status: "idle", places: [] };
 const NO_ITEMS = [];
@@ -307,6 +309,71 @@ export default function App() {
     setSelectedKey(null);
   }, []);
 
+  // ================================================================ drive mode (voice warnings while travelling)
+  const [drive, setDrive] = useState(null); // null | { phase: "start" } | { phase: "on", source, alongM, lat, lon, heading, ... }
+  const driveRef = useRef(null);
+  driveRef.current = drive;
+  const spokenRef = useRef(new Set());
+  const wakeRef = useRef(null);
+  const hasVoice = typeof window !== "undefined" && !!window.speechSynthesis;
+
+  const stopDrive = useCallback(() => {
+    stopSpeech();
+    if (wakeRef.current) { try { wakeRef.current.release(); } catch (_) { /* ignore */ } wakeRef.current = null; }
+    setDrive(null);
+  }, []);
+
+  const startDrive = useCallback(async (source) => {
+    if (!route || !route.index) return;
+    spokenRef.current = new Set();
+    try { if (navigator.wakeLock) wakeRef.current = await navigator.wakeLock.request("screen"); } catch (_) { wakeRef.current = null; }
+    const p = pointAt(route, 0);
+    setDrive({ phase: "on", source, alongM: source === "sim" ? 0 : null, lat: p.lat, lon: p.lon, heading: p.heading, speedX: 30, muted: false, off: false, misses: 0, arrived: false, lastSaid: null });
+    setSelectedKey(null);
+    setAltFocus(null);
+    if (isMobile()) setSheet("half");
+    speak(source === "sim" ? "เริ่มจำลองการเดินทาง ระบบจะเตือนก่อนถึงจุดที่ควรระวัง" : "เริ่มเดินทาง ระบบจะเตือนก่อนถึงจุดที่ควรระวัง", false);
+  }, [route]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // leaving the trip ends drive mode
+  useEffect(() => { if (!route) stopDrive(); }, [route, stopDrive]);
+
+  // simulation: advance along the route at speedX × the planned average speed
+  const driveOn = drive && drive.phase === "on";
+  const driveSource = driveOn ? drive.source : null;
+  useEffect(() => {
+    if (driveSource !== "sim" || !route) return undefined;
+    const avg = route.distance / Math.max(route.duration, 1);
+    const t = setInterval(() => {
+      setDrive((d) => {
+        if (!d || d.phase !== "on" || d.arrived) return d;
+        const alongM = Math.min(route.distance, d.alongM + avg * 0.5 * d.speedX);
+        const p = pointAt(route, alongM);
+        return { ...d, alongM, lat: p.lat, lon: p.lon, heading: p.heading, arrived: alongM >= route.distance - 1 };
+      });
+    }, 500);
+    return () => clearInterval(t);
+  }, [driveSource, route]);
+
+  // real GPS
+  useEffect(() => {
+    if (driveSource !== "gps" || !route) return undefined;
+    if (!navigator.geolocation) { showToast("อุปกรณ์นี้ไม่รองรับตำแหน่ง GPS"); return undefined; }
+    const id = navigator.geolocation.watchPosition((pos) => {
+      const { latitude: lat, longitude: lon, heading } = pos.coords;
+      const hit = locate(route, lat, lon);
+      setDrive((d) => {
+        if (!d || d.phase !== "on") return d;
+        if (!hit) { const misses = d.misses + 1; return { ...d, lat, lon, misses, off: misses >= 3 }; }
+        const alongM = d.alongM == null ? hit.alongM : Math.max(d.alongM - 200, hit.alongM); // ignore small backwards jitter
+        return { ...d, lat, lon, heading: Number.isFinite(heading) ? heading : d.heading, alongM, misses: 0, off: false, arrived: alongM >= route.distance - 150 };
+      });
+    }, (err) => {
+      showToast(err && err.code === 1 ? "ไม่ได้รับอนุญาตให้ใช้ตำแหน่ง — ลองโหมดจำลองการขับ" : "หาตำแหน่งไม่สำเร็จ");
+    }, { enableHighAccuracy: true, maximumAge: 2000, timeout: 20000 });
+    return () => navigator.geolocation.clearWatch(id);
+  }, [driveSource, route, showToast]);
+
   const items = forecast.status === "done" ? forecast.items : NO_ITEMS;
   const zoneRes = useMemo(() => buildZones(items, provinceName), [items, provinceName]);
   const zones = zoneRes.zones;
@@ -316,6 +383,29 @@ export default function App() {
     for (const z of zones) out[z.key] = historyAll[histKey(z)];
     return out;
   }, [zones, historyAll]);
+
+  // ---- drive warnings: 2 km, 500 m and on entering each numbered point (each spoken once)
+  const driveAlong = driveOn ? drive.alongM : null;
+  const driveArrived = driveOn && drive.arrived;
+  useEffect(() => {
+    if (driveAlong == null) return;
+    const d = driveRef.current;
+    const say = (key, text) => {
+      if (spokenRef.current.has(key)) return;
+      spokenRef.current.add(key);
+      speak(text, d && d.muted);
+      setDrive((x) => (x ? { ...x, lastSaid: text } : x));
+    };
+    if (driveArrived) { say("arrived", "ถึงปลายทางแล้ว ขอบคุณที่เดินทางอย่างระมัดระวัง"); return; }
+    const nz = nextZone(zones, driveAlong);
+    if (!nz) return;
+    const z = nz.zone;
+    const entry = historyAll[histKey(z)];
+    const agg = entry && entry.status === "ok" ? entry.agg : null;
+    if (nz.inside) { spokenRef.current.add(z.key + "|2000"); spokenRef.current.add(z.key + "|500"); say(z.key + "|in", warningText(z, "inside", agg)); }
+    else if (nz.distM <= 500) { spokenRef.current.add(z.key + "|2000"); say(z.key + "|500", warningText(z, 500, agg)); }
+    else if (nz.distM <= 2000) say(z.key + "|2000", warningText(z, 2000, agg));
+  }, [driveAlong, driveArrived, zones, historyAll]);
 
   // ================================================================ zone history
   const setHist = useCallback((key, entry) => {
@@ -335,6 +425,9 @@ export default function App() {
       setHist(key, { status: "error", failure: f });
     }
   }, [setHist]);
+
+  // drive mode: load "mostly caused by" for every numbered point up front (used in the spoken warnings)
+  useEffect(() => { if (driveOn) for (const z of zones) loadZoneHistory(z); }, [driveOn, zones, loadZoneHistory]);
 
   const selectZone = useCallback((key, fromMap) => {
     setSelectedKey(key);
@@ -516,7 +609,7 @@ export default function App() {
           <div className="map-card">
             {!mapFailed && (
               <MapView
-                route={route} origin={places.origin} dest={places.dest} items={items} zones={zones} hotIds={zoneRes.hotIds} rankById={zoneRes.rankById} mode={mode} altFocus={altFocus} onSelectAlt={setAltFocus}
+                route={route} origin={places.origin} dest={places.dest} items={items} zones={zones} hotIds={zoneRes.hotIds} rankById={zoneRes.rankById} mode={mode} altFocus={altFocus} onSelectAlt={setAltFocus} drivePos={driveOn && drive.alongM != null ? drive : null}
                 selectedKey={selectedKey} focus={focus} pick={pick} getPadding={getPadding}
                 onPick={onPickPoint} onOutside={() => showToast("เลือกได้เฉพาะพื้นที่ในประเทศไทย")}
                 onSelectZone={(k) => selectZone(k, true)} onFailed={() => setMapFailed(true)}
@@ -544,7 +637,8 @@ export default function App() {
               </div>
             )}
             {toast && <p className="toast" role="status">{toast.text}</p>}
-            {showRibbon && route.alternatives && route.alternatives.length > 0 && (() => {
+            {driveOn && route && <DriveBanner drive={drive} zones={zones} route={route} />}
+            {!driveOn && showRibbon && route.alternatives && route.alternatives.length > 0 && (() => {
               const i = route.alternatives.findIndex((x) => x.id === altFocus);
               const st = i >= 0 ? alts.list.find((x) => x.id === altFocus) : null;
               if (i < 0) {
@@ -565,7 +659,7 @@ export default function App() {
                 </div>
               );
             })()}
-            {showRibbon && (
+            {!driveOn && showRibbon && (
               <div className="map-legend">
                 <div className="seg-toggle" role="group" aria-label="มุมมองสีบนแผนที่">
                   <button type="button" aria-pressed={mode === "trip"} className={mode === "trip" ? "is-on" : ""} onClick={() => setMode("trip")}>จุดเสี่ยงของทริป</button>
@@ -589,11 +683,19 @@ export default function App() {
             <span className="sheet-grip" aria-hidden="true" />
           </button>
           <div className="panel-body">
-            {showBrief ? (
+            {showBrief && drive && drive.phase === "start" ? (
+              <DriveStart hasVoice={hasVoice} onStart={startDrive} onCancel={() => setDrive(null)} />
+            ) : showBrief && driveOn ? (
+              <DriveMode drive={drive} zones={zones} route={route} history={history} onStop={stopDrive}
+                onMute={() => setDrive((d) => { if (!d.muted) stopSpeech(); return { ...d, muted: !d.muted }; })}
+                onSpeed={(x) => setDrive((d) => ({ ...d, speedX: x }))}
+                onTestVoice={() => { if (!speak("ทดสอบเสียงเตือนของ RoadAware", false)) showToast("เบราว์เซอร์นี้ไม่มีเสียงภาษาไทย"); }} />
+            ) : showBrief ? (
               <Briefing
                 route={route} when={when} forecast={forecast} zones={zones} hidden={zoneRes.hidden} counts={zoneRes.counts} mode={mode} ribbon={ribbon}
                 compare={compare} selectedKey={selectedKey} history={history} mobile={mobile}
                 alts={alts.list} altFocus={altFocus} onFocusAlt={setAltFocus} onUseAlt={pickAlternative}
+                onDrive={zones.length && route.index ? () => setDrive({ phase: "start" }) : null}
                 onEdit={goPlan} onSelectZone={(k) => selectZone(k, false)}
                 onPickTime={(t) => setWhen((w) => ({ ...w, time: t }))}
                 onRetry={() => setRetryNonce((n) => n + 1)} onRetryHistory={(z) => loadZoneHistory(z, true)}

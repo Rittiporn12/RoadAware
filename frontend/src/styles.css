@@ -383,3 +383,35 @@ dialog.about::backdrop { background: rgba(15, 27, 45, 0.45); backdrop-filter: bl
 .alt-swatch-on { border-top-color: #6B3FA0; }
 .alt-chip-use { background: #6B3FA0; color: #fff; border: 0; white-space: nowrap; }
 @media (max-width: 900px) { .alt-chip { top: 118px; bottom: auto; font-size: 12.5px; } }
+/* ================= drive mode ================= */
+.drive-go { width: 100%; min-height: 52px; font-size: 16px; }
+.drive-start, .drive { display: flex; flex-direction: column; gap: 12px; }
+.drive-start-btns { display: flex; flex-direction: column; gap: 8px; }
+.drive-start-btns .btn { min-height: 50px; font-size: 15px; }
+.drive-head { display: flex; justify-content: space-between; align-items: center; }
+.drive-mode { font-size: 13px; font-weight: 700; color: var(--teal); background: #E3F1EF; padding: 4px 10px; border-radius: 999px; }
+.drive-card { border-radius: 16px; padding: 16px; background: #0F1B2D; color: #fff; display: flex; flex-direction: column; gap: 4px; }
+.drive-card .verdict-title, .drive-card .verdict-sub { color: #fff; }
+.drive-card-in { background: #C8372D; }
+.drive-card-off { background: #5E6C82; }
+.drive-k { margin: 0; font-size: 13px; opacity: .85; }
+.drive-big { margin: 0; font-size: 34px; font-weight: 700; line-height: 1.15; }
+.drive-road { margin: 0; font-size: 15px; }
+.drive-meta { margin: 0; font-size: 14px; opacity: .92; }
+.drive-card .lvl-red, .drive-card .lvl-orange, .drive-card .lvl-yellow, .drive-card .lvl-base { color: #FFD3CC; }
+.drive-tips { margin: 6px 0 0; padding-left: 18px; font-size: 14px; display: flex; flex-direction: column; gap: 3px; }
+.drive-bar { position: relative; height: 10px; border-radius: 5px; background: var(--line); overflow: visible; }
+.drive-bar > span { display: block; height: 100%; border-radius: 5px; background: var(--teal); }
+.drive-bar > i { position: absolute; top: -3px; width: 4px; height: 16px; border-radius: 2px; transform: translateX(-2px); }
+.drive-ctrls { display: flex; flex-wrap: wrap; gap: 8px; }
+.drive-said { margin: 0; font-size: 13px; color: var(--ink-2); background: #FBFAF7; border-radius: 10px; padding: 8px 10px; }
+.drive-banner { position: absolute; z-index: 850; left: 50%; top: 16px; transform: translateX(-50%); display: flex; align-items: center; gap: 12px;
+  background: #0F1B2D; color: #fff; border-radius: 16px; padding: 10px 16px; box-shadow: var(--shadow); max-width: calc(100% - 120px); font-size: 14px; }
+.drive-banner b { display: block; font-size: 18px; }
+.drive-near { background: #8E2A22; } .drive-inside { background: #C8372D; } .drive-off { background: #5E6C82; } .drive-done { background: var(--teal); }
+.drive-num { flex: none; width: 34px; height: 34px; border-radius: 50%; background: #fff; color: #C8372D; display: grid; place-items: center; font-weight: 700; font-size: 16px; }
+.drive-main { display: flex; flex-direction: column; min-width: 0; }
+.drive-main > span { opacity: .9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.car-icon { background: none; border: 0; }
+.car-icon span { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: #0B6E69; border: 3px solid #fff; box-shadow: 0 0 0 6px rgba(11,110,105,.25), 0 3px 10px rgba(15,27,45,.35); }
+@media (max-width: 900px) { .drive-banner { top: 70px; max-width: calc(100% - 24px); } .drive-big { font-size: 28px; } }
