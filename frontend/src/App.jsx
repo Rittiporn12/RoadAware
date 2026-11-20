@@ -328,7 +328,7 @@ export default function App() {
     spokenRef.current = new Set();
     try { if (navigator.wakeLock) wakeRef.current = await navigator.wakeLock.request("screen"); } catch (_) { wakeRef.current = null; }
     const p = pointAt(route, 0);
-    setDrive({ phase: "on", source, alongM: source === "sim" ? 0 : null, lat: p.lat, lon: p.lon, heading: p.heading, speedX: 30, muted: false, off: false, misses: 0, arrived: false, lastSaid: null });
+    setDrive({ phase: "on", source, alongM: source === "sim" ? 0 : null, lat: p.lat, lon: p.lon, heading: p.heading, speedX: 5, muted: false, off: false, misses: 0, arrived: false, lastSaid: null });
     setSelectedKey(null);
     setAltFocus(null);
     if (isMobile()) setSheet("half");
@@ -393,7 +393,7 @@ export default function App() {
     const say = (key, text) => {
       if (spokenRef.current.has(key)) return;
       spokenRef.current.add(key);
-      speak(text, d && d.muted);
+      speak(text, d && d.muted, key.split("|")[0]);
       setDrive((x) => (x ? { ...x, lastSaid: text } : x));
     };
     if (driveArrived) { say("arrived", "ถึงปลายทางแล้ว ขอบคุณที่เดินทางอย่างระมัดระวัง"); return; }

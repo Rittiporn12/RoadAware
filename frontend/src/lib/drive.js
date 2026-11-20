@@ -60,16 +60,32 @@ export function fmtDist(m) {
 }
 
 // Speech: Thai voice when the browser has one; silently does nothing otherwise.
-export function speak(text, muted) {
+// Messages are QUEUED, never cut off mid-sentence. If several are waiting (fast simulation), only the newest
+// message per group (e.g. one numbered point) is kept, so the voice does not fall behind the car.
+const queue = [];
+let speaking = false;
+
+function playNext() {
+  if (speaking || !queue.length) return;
+  const { text } = queue.shift();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "th-TH";
+  const v = window.speechSynthesis.getVoices().find((x) => /^th/i.test(x.lang));
+  if (v) u.voice = v;
+  u.rate = 1.0;
+  speaking = true;
+  const done = () => { speaking = false; playNext(); };
+  u.onend = done;
+  u.onerror = done;
+  window.speechSynthesis.speak(u);
+}
+
+export function speak(text, muted, group) {
   try {
     if (muted || typeof window === "undefined" || !window.speechSynthesis) return false;
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = "th-TH";
-    const v = window.speechSynthesis.getVoices().find((x) => /^th/i.test(x.lang));
-    if (v) u.voice = v;
-    u.rate = 1.0;
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(u);
+    if (group) for (let i = queue.length - 1; i >= 0; i--) if (queue[i].group === group) queue.splice(i, 1);
+    queue.push({ text, group: group || null });
+    playNext();
     return true;
   } catch (_) {
     return false;
@@ -77,5 +93,7 @@ export function speak(text, muted) {
 }
 
 export function stopSpeech() {
+  queue.length = 0;
+  speaking = false;
   try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch (_) { /* ignore */ }
 }

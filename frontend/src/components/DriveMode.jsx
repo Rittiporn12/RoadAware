@@ -83,7 +83,7 @@ export default function DriveMode({ drive, zones, route, history, onStop, onMute
       <div className="drive-ctrls">
         <button type="button" className={"btn btn-sm" + (drive.muted ? " btn-ghost" : " btn-primary")} aria-pressed={!drive.muted} onClick={onMute}>{drive.muted ? "เสียงเตือน: ปิด" : "เสียงเตือน: เปิด"}</button>
         <button type="button" className="btn btn-ghost btn-sm" onClick={onTestVoice}>ทดสอบเสียง</button>
-        {drive.source === "sim" && [10, 30, 60].map((x) => (
+        {drive.source === "sim" && [1, 5, 10, 30, 60].map((x) => (
           <button key={x} type="button" className={"btn btn-sm" + (drive.speedX === x ? " btn-primary" : " btn-ghost")} onClick={() => onSpeed(x)}>×{x}</button>
         ))}
       </div>
