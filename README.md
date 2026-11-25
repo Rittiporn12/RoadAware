@@ -1,71 +1,373 @@
-# RoadAware
+<div align="center">
 
-เว็บแอปช่วยวางแผนการเดินทาง: เลือกต้นทาง ปลายทาง วันและเวลาออกเดินทาง แล้วระบบจะบอก **จุดที่ควรระวังบนเส้นทาง** ในช่วงเวลาที่คุณจะผ่าน
-จากแบบจำลอง Machine Learning ที่เรียนรู้จากสถิติอุบัติเหตุบนทางหลวงทั่วประเทศไทย พร้อมโหมดขับที่พูดเตือนล่วงหน้าก่อนถึงแต่ละจุด
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:020617,45:0f172a,75:0b6e69,100:334155&height=180&section=header&text=RoadAware&fontSize=46&fontColor=f8fafc&fontAlignY=38&desc=Know%20where%20to%20take%20care%20before%20you%20drive&descSize=16&descAlignY=58" alt="RoadAware Header" />
 
-> โครงงานเพื่อการศึกษาในระดับมหาวิทยาลัย ใช้เพื่อเตรียมตัวก่อนเดินทาง ไม่ใช่ระบบเตือนภัยแบบเรียลไทม์
-> ผลลัพธ์เป็นการเปรียบเทียบระหว่างช่วงถนน ไม่ใช่โอกาสเกิดอุบัติเหตุของบุคคล
+<br />
 
-## ความสามารถ
+<img src="./docs/logo.svg" width="110" alt="RoadAware Logo" />
 
-- ตรวจเส้นทางได้ทั่วประเทศ บนทางหลวงกรมทางหลวง 26,740 ช่วง (ช่วงละราว 2 กม. รวม 51,858 กม.)
-- จุดที่ควรระวังเรียงตามลำดับที่จะผ่าน พร้อมเวลาโดยประมาณ และสถิติที่ผ่านมาของแต่ละจุด (ลักษณะเหตุ ฝน ช่วงเวลาที่เกิดบ่อย)
-- แนะนำเส้นทางอื่นที่เวลาใกล้กัน และเวลาออกเดินทางที่ผ่านช่วงเสี่ยงน้อยกว่า
-- เทียบระดับของถนนกับทั้งประเทศ (สูงมาก / สูง / ปานกลาง / ต่ำกว่าครึ่งประเทศ)
-- โหมดขับ: ติดตามตำแหน่ง GPS หรือจำลองการขับ และพูดเตือนเป็นภาษาไทยที่ 2 กม. / 500 ม. / เมื่อเข้าสู่จุด
-- ใช้ได้ทั้งคอมพิวเตอร์และมือถือ
+<br />
+<br />
 
-## ข้อมูลและแบบจำลอง
+<a href="https://github.com/Rittiporn12/RoadAware">
+  <img src="https://img.shields.io/badge/GITHUB-Repository-334155?style=for-the-badge&labelColor=020617&color=475569" alt="GitHub Repository" />
+</a>
 
-| | |
-|---|---|
-| ข้อมูลอุบัติเหตุ | กระทรวงคมนาคม (datagov.mot.go.th) ปี 2564–2568 — คัดเลือกและจับคู่กับถนนได้ 98,207 รายการ · ทดสอบเพิ่มด้วยปี 2569 |
-| การแบ่งข้อมูล | ฝึก 2564–2566 (ตัดที่ 1 ธ.ค. 2566) · เลือกแบบจำลองด้วย backtest 4 รอบในปี 2565–2566 · ตรวจ 2567–2568 · ทดสอบ 2569 ม.ค.–ก.ย. |
-| ถนน | ข้อมูลเส้นทางกรมทางหลวง (opendata.doh.go.th) |
-| ปัจจัยประกอบ | ปฏิทิน (วันในสัปดาห์ ฤดู สงกรานต์ ปีใหม่), ช่วงเวลา 6 ชม., ลักษณะถนน, สภาพอากาศ (Open-Meteo), ปริมาณจราจรเฉลี่ยรายปี (AADT) |
-| แบบจำลอง | HistGradientBoosting (Poisson) ทำนายจำนวนเหตุที่ถูกบันทึกต่อช่วงถนน — รายวันและราย 6 ชั่วโมง |
-| การเลือกแบบจำลอง | time-based backtest 4 fold ปี 2565–2566 เทียบ baseline ที่แข็งที่สุด ตามเกณฑ์ที่ล็อกไว้ก่อนทดลอง |
+<img src="https://img.shields.io/badge/MODEL-HistGradientBoosting-0b6e69?style=for-the-badge&labelColor=020617" alt="Model" />
 
-**ผลประเมิน**
+<img src="https://img.shields.io/badge/COVERAGE-Thailand%20highways-1e3a8a?style=for-the-badge&labelColor=020617" alt="Coverage" />
 
-| | รายวัน | ราย 6 ชั่วโมง |
-|---|---|---|
-| Backtest 2565–2566 (ลด Poisson deviance เทียบ baseline) | 2.7% · ชนะ 3/4 fold | 10.6% · ชนะ 4/4 fold |
-| ข้อมูลปี 2569 ที่ไม่เคยใช้เทรน (ม.ค.–ก.ย., 15,425 รายการ) | ดีกว่า 6.5% · ทุกเดือน | ดีกว่า 13.5% · ทุกเดือน |
-| ช่วงสงกรานต์ / ปีใหม่ 2569 | ดีกว่า 24% / 28% | ดีกว่า 29% / 32% |
+<br />
+<br />
 
-รายละเอียดและข้อจำกัด: [`backend/reports/v4/evaluation_2026_national_summary_th.md`](backend/reports/v4/evaluation_2026_national_summary_th.md)
+<p>
+  <b>RoadAware</b>
+</p>
 
-ข้อจำกัดหลัก: ยังไม่ครอบคลุมถนนชนบท ทางพิเศษ และถนนในเมือง · ทริปในอนาคตยังไม่ใช้พยากรณ์อากาศจริง · ข้อมูลไม่มีรหัสเหตุ จึงยืนยันไม่ได้ว่าแต่ละแถวเป็นเหตุคนละครั้ง
+<p>
+  A trip-planning web app that shows the points to take care on your route in Thailand.
+</p>
 
-## โครงสร้าง
+<p>
+  Pick an origin, a destination and a departure time — RoadAware marks the stretches of highway<br />
+  where recorded accidents are expected to be highest at the time you will pass them.
+</p>
 
+</div>
+
+<hr />
+
+<h2 align="center">About This Project</h2>
+
+<p align="center">
+  <b>RoadAware</b> is a university project that turns Thailand's open road-accident records into a simple route briefing.
+</p>
+
+<p align="center">
+  A machine-learning model (HistGradientBoosting, Poisson loss) predicts the expected number of recorded accidents<br />
+  for every ~2 km stretch of national highway, for the day and the 6-hour block you travel in.
+</p>
+
+<p align="center">
+  The website ranks the stretches of your route, numbers the ones that stand out, and can warn you by voice while you drive.
+</p>
+
+<p align="center">
+  <i>For education and trip preparation only — not a real-time warning system. Levels compare road stretches; they are not your personal chance of an accident.</i>
+</p>
+
+<hr />
+
+<h2 align="center">Features</h2>
+
+<table align="center">
+  <tr>
+    <th>Feature</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>Nationwide Coverage</td>
+    <td>26,740 Department of Highways road stretches (about 51,900 km) across Thailand.</td>
+  </tr>
+  <tr>
+    <td>Points to Take Care</td>
+    <td>Numbered points in the order you reach them, with the time you are expected to pass.</td>
+  </tr>
+  <tr>
+    <td>Time-aware Prediction</td>
+    <td>Day of week, 6-hour time block, season, Songkran and New Year festivals, weather and traffic volume.</td>
+  </tr>
+  <tr>
+    <td>Point Details</td>
+    <td>What usually happened there before: main accident type, share in rain, the most common time of day.</td>
+  </tr>
+  <tr>
+    <td>Smart Suggestions</td>
+    <td>A route of similar time with fewer high-risk stretches, or a better departure time — shown only when it helps.</td>
+  </tr>
+  <tr>
+    <td>National Comparison</td>
+    <td>How each stretch ranks against all highways in Thailand (very high / high / medium / lower half).</td>
+  </tr>
+  <tr>
+    <td>Drive Mode</td>
+    <td>GPS tracking or a driving simulation, with spoken Thai warnings at 2 km, 500 m and on entering a point.</td>
+  </tr>
+  <tr>
+    <td>Responsive Design</td>
+    <td>Works on desktop and mobile (bottom-sheet layout on phones).</td>
+  </tr>
+</table>
+
+<hr />
+
+<h2 align="center">Data and Model</h2>
+
+<table align="center">
+  <tr>
+    <th>Item</th>
+    <th>Details</th>
+  </tr>
+  <tr>
+    <td>Accident records</td>
+    <td>Ministry of Transport open data, 2021–2025 (B.E. 2564–2568) — 98,207 records matched to road stretches</td>
+  </tr>
+  <tr>
+    <td>Roads</td>
+    <td>Department of Highways open data</td>
+  </tr>
+  <tr>
+    <td>Other factors</td>
+    <td>Calendar and festivals, weather (Open-Meteo), annual average daily traffic (AADT)</td>
+  </tr>
+  <tr>
+    <td>Training</td>
+    <td>2021–2023 (cut-off 1 Dec 2023)</td>
+  </tr>
+  <tr>
+    <td>Model selection</td>
+    <td>4-fold time-based backtest over 2022–2023 against the strongest baseline, with rules locked before the experiment</td>
+  </tr>
+  <tr>
+    <td>Checking / Testing</td>
+    <td>Checked on 2024–2025 · tested on unseen 2026 records (Jan–Sep, 15,425 records)</td>
+  </tr>
+</table>
+
+<h3 align="center">Results</h3>
+
+<table align="center">
+  <tr>
+    <th>Evaluation</th>
+    <th>Daily</th>
+    <th>6-hour</th>
+  </tr>
+  <tr>
+    <td>Backtest 2022–2023 (Poisson deviance vs. baseline)</td>
+    <td>−2.7% · wins 3/4 folds</td>
+    <td>−10.6% · wins 4/4 folds</td>
+  </tr>
+  <tr>
+    <td>Unseen 2026 records</td>
+    <td>−6.5% · better every month</td>
+    <td>−13.5% · better every month</td>
+  </tr>
+  <tr>
+    <td>Songkran / New Year 2026</td>
+    <td>−24% / −28%</td>
+    <td>−29% / −32%</td>
+  </tr>
+</table>
+
+<p align="center">
+  Details and limitations: <a href="backend/reports/v4/evaluation_2026_national_summary_th.md">evaluation_2026_national_summary_th.md</a>
+</p>
+
+<hr />
+
+<h2 align="center">Built With</h2>
+
+<div align="center">
+
+<table>
+  <tr>
+    <td align="center">Python</td>
+    <td align="center">scikit-learn</td>
+    <td align="center">pandas</td>
+    <td align="center">Jupyter</td>
+    <td align="center">FastAPI</td>
+    <td align="center">React</td>
+    <td align="center">Vite</td>
+    <td align="center">Leaflet</td>
+  </tr>
+</table>
+
+</div>
+
+<hr />
+
+<h2 align="center">Installation</h2>
+
+<p align="center">
+  Raw data and trained model files are large and are not stored in this repository.<br />
+  The steps below assume they are present in <code>backend/data/</code> and <code>backend/rerun-*</code>.
+</p>
+
+<h3>1. Clone the repository</h3>
+
+```bash
+git clone https://github.com/Rittiporn12/RoadAware.git
+cd RoadAware
 ```
-backend/
-  notebooks/   ขั้นตอนข้อมูลและ ML ทั้งหมด (01–25; *_national = ชุดทั่วประเทศที่ใช้งานจริง)
-  config/      ค่าตั้งของแต่ละขั้น (v4 = ทั่วประเทศ)
-  api/         FastAPI สำหรับหน้าเว็บ (ทำนาย, ประวัติ, geometry ของถนน)
-  scripts/     ตัวรัน notebook, ตัวเปิด API, ตัวสร้างเสียงพูด (tts_proxy.py)
-  reports/     รายงานและผลประเมินแบบสรุป (ไม่มีข้อมูลรายแถว)
-  tests/       pytest
-frontend/      React 18 + Vite + Leaflet
-workflow/      ไฟล์ล็อก hash ของข้อมูลและแบบจำลองที่ API ตรวจก่อนโหลด
+
+<h3>2. Start the API</h3>
+
+```bash
+python3.9 -m venv .venv
+.venv/bin/pip install -r backend/requirements-api.txt -c backend/constraints-runtime.txt
+.venv/bin/python backend/scripts/run_api_server.py --national
 ```
 
-ข้อมูลดิบ ข้อมูลรายแถว และไฟล์แบบจำลอง (`backend/data/`, `backend/rerun-*`) มีขนาดใหญ่และไม่ได้เก็บใน Git
+<p>The API runs at <code>http://127.0.0.1:8000</code>.</p>
 
-## วิธีรัน (macOS)
+<h3>3. Start the website</h3>
 
-ต้องมี Python 3.9 ใน `.venv` (scikit-learn 1.6.1 ตาม `backend/constraints-runtime.txt`), Node.js และข้อมูลใน `backend/data/` กับ `backend/rerun-*`
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-1. **API** — ดับเบิลคลิก `Start API National.command` หรือ
-   `.venv/bin/python backend/scripts/run_api_server.py --national` → http://127.0.0.1:8000
-2. **เว็บ** — ดับเบิลคลิก `Start Website.command` หรือ
-   `cd frontend && npm install && npm run dev` → http://127.0.0.1:5173
-3. **เสียงเตือน (ไม่บังคับ)** — `Start Voice.command` ใช้เสียงไทยของ Mac (ดาวน์โหลดเสียง Enhanced ได้ที่ System Settings → Accessibility → Read & Speak)
-4. **ทดสอบบนมือถือ** — `Start Phone.command` เปิดเว็บแบบ HTTPS ใน Wi-Fi เดียวกัน (ต้องใช้ HTTPS เพื่อให้ GPS ทำงาน)
-5. **ทดสอบระบบ** — `Run Tests.command` หรือ `.venv/bin/python -m pytest backend/tests -q`
+<p>Open the local URL shown in the terminal.</p>
 
-## ข้อมูลและบริการที่นำมาใช้
+```bash
+http://127.0.0.1:5173/
+```
 
-แผนที่ © OpenStreetMap contributors (ODbL) · ค้นหาสถานที่ Photon (komoot) · คำนวณเส้นทาง OSRM · ขอบเขตประเทศ geoBoundaries (CC BY 4.0) และ Natural Earth · ข้อมูลอุบัติเหตุ กระทรวงคมนาคม · ข้อมูลถนน กรมทางหลวง · สภาพอากาศ Open-Meteo
+<p>
+  On macOS you can also double-click <code>Start API National.command</code> and <code>Start Website.command</code>.
+</p>
+
+<hr />
+
+<h2 align="center">Project Structure</h2>
+
+```txt
+RoadAware/
+├── backend/
+│   ├── notebooks/     # data and ML pipeline (01–25, *_national = nationwide)
+│   ├── config/        # settings for each pipeline stage
+│   ├── api/           # FastAPI service used by the website
+│   ├── scripts/       # notebook runners, API server, voice helper
+│   ├── reports/       # summary reports and evaluation results
+│   └── tests/         # pytest
+├── frontend/
+│   ├── public/
+│   └── src/           # React app (map, briefing, drive mode)
+├── workflow/          # hash locks the API checks before loading the model
+├── docs/
+└── README.md
+```
+
+<hr />
+
+<h2 align="center">Available Scripts</h2>
+
+<table align="center">
+  <tr>
+    <th>Command</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><code>run_api_server.py --national</code></td>
+    <td>Start the API with the nationwide model</td>
+  </tr>
+  <tr>
+    <td><code>npm run dev</code></td>
+    <td>Start the website (development server)</td>
+  </tr>
+  <tr>
+    <td><code>npm run dev:phone</code></td>
+    <td>HTTPS server on your Wi-Fi for testing GPS on a phone</td>
+  </tr>
+  <tr>
+    <td><code>npm run build</code></td>
+    <td>Build the website for production</td>
+  </tr>
+  <tr>
+    <td><code>pytest backend/tests</code></td>
+    <td>Run the backend tests</td>
+  </tr>
+  <tr>
+    <td><code>tts_proxy.py</code></td>
+    <td>Optional local voice for drive-mode warnings (macOS Thai voices)</td>
+  </tr>
+</table>
+
+<hr />
+
+<h2 align="center">How to Use</h2>
+
+<table align="center">
+  <tr>
+    <th>Step</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>Enter an origin and a destination, or pick them on the map.</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>Choose the departure day and time.</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>Click <b>ตรวจเส้นทางนี้</b> (Check this route).</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>Read the number of points to take care, and tap a point for its details.</td>
+  </tr>
+  <tr>
+    <td>5</td>
+    <td>Follow a suggestion if one appears (another route or departure time).</td>
+  </tr>
+  <tr>
+    <td>6</td>
+    <td>Click <b>เริ่มเดินทาง</b> (Start trip) to get voice warnings while you drive.</td>
+  </tr>
+</table>
+
+<hr />
+
+<h2 align="center">Data and Services Used</h2>
+
+<p align="center">
+  Map data © OpenStreetMap contributors (ODbL) · Place search: Photon (komoot) · Routing: OSRM<br />
+  Country boundary: geoBoundaries (CC BY 4.0) and Natural Earth · Weather: Open-Meteo<br />
+  Accident records: Ministry of Transport, Thailand · Highways: Department of Highways, Thailand
+</p>
+
+<hr />
+
+<h2 align="center">Author</h2>
+
+<div align="center">
+
+<p>
+  <b>Rittiporn Phungphai</b>
+</p>
+
+<p>
+  Computer Science Student<br />
+  Software Development | Full-Stack Development | AI & Automation | Software Quality
+</p>
+
+<p>
+  <a href="https://github.com/Rittiporn12">
+    GitHub Profile
+  </a>
+  &nbsp;|&nbsp;
+  <a href="https://rittiporn12.github.io/portfolio/">
+    Portfolio Website
+  </a>
+</p>
+
+</div>
+
+<hr />
+
+<div align="center">
+
+<p>
+  <b>Thank you for visiting RoadAware.</b>
+</p>
+
+<p>
+  Drive safely, and take care at the numbered points.
+</p>
+
+</div>
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:334155,45:0b6e69,75:0f172a,100:020617&height=100&section=footer" alt="Footer" />
