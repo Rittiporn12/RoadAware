@@ -181,7 +181,7 @@ function Pipeline() {
       <div className="mp-flow-model">
         <small>โมเดล</small>
         <b>HistGradientBoosting</b>
-        <span>Poisson regression · 2 โมเดล: รายวัน และราย 6 ชม.</span>
+        <span>ทายจำนวนอุบัติเหตุด้วย Poisson loss · 2 โมเดล: รายวัน และราย 6 ชม.</span>
       </div>
       <span className="mp-arrow" aria-hidden="true" />
       <div className="mp-flow-out">
@@ -382,7 +382,7 @@ export default function ModelPage() {
             </div>
           </div>
           <div className="mp-kpis">
-            <div className="mp-kpi mp-kpi-champ hero-in" style={{ "--d": "260ms" }}><span>โมเดลที่เลือกใช้</span><b>HistGradientBoosting</b><small>Poisson regression · ทั้งประเทศ</small></div>
+            <div className="mp-kpi mp-kpi-champ hero-in" style={{ "--d": "260ms" }}><span>โมเดลที่เลือกใช้</span><b>HistGradientBoosting</b><small>ทายจำนวนอุบัติเหตุ · Poisson loss · ทั้งประเทศ</small></div>
             <div className="mp-kpi hero-in" style={{ "--d": "330ms" }}><span>ทดสอบย้อนหลัง 2565–2566</span><b><CountUp value={U.selection.relative_deviance_reduction} format={(v) => pct(v)} /></b><small>คลาดเคลื่อนน้อยกว่าค่าเทียบ · ชนะ {U.selection.fold_wins}/{U.selection.n_folds} รอบ</small></div>
             <div className="mp-kpi hero-in" style={{ "--d": "400ms" }}><span>ปี 2569 ที่ไม่เคยเห็น</span><b><CountUp value={t.overall.improvement} format={(v) => pct(v)} /></b><small>ดีกว่าทุกเดือน ({monthsBetter}/{t.month.length}) · {t.overall.records.toLocaleString("en-US")} เหตุ</small></div>
             <div className="mp-kpi hero-in" style={{ "--d": "470ms" }}><span>สงกรานต์ · ปีใหม่ 2569</span><b><CountUp value={fest * 100} format={(v) => Math.round(v)} />–<CountUp value={festMax} format={(v) => pct(v, 0)} /></b><small>คลาดเคลื่อนน้อยกว่าค่าเทียบ</small></div>

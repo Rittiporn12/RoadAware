@@ -192,7 +192,7 @@ const TECH = [
   {
     title: "โมเดล",
     items: [
-      ["อัลกอริทึม", "HistGradientBoosting แบบ Poisson regression คาดจำนวนอุบัติเหตุที่จะถูกบันทึกต่อช่วงถนน", [["scikit-learn: HistGradientBoostingRegressor", "https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.HistGradientBoostingRegressor.html"]]],
+      ["อัลกอริทึม", "HistGradientBoosting (ตั้ง loss เป็น Poisson) คาดจำนวนอุบัติเหตุที่จะถูกบันทึกต่อช่วงถนน", [["scikit-learn: HistGradientBoostingRegressor", "https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.HistGradientBoostingRegressor.html"]]],
       ["ระดับเวลา", "2 โมเดล: รายวัน และราย 6 ชั่วโมง"],
       ["ตัวแปร", "รูปทรงและตำแหน่งถนน ปฏิทินและเทศกาล อากาศย้อนหลัง ปริมาณจราจร (33–41 ตัว)"],
       ["ส่วนหลัก / ส่วนเสริม", "ใช้ตัวแปรถนน + ปฏิทินเสมอ และเพิ่มอากาศ / จราจรเมื่อมีข้อมูลของช่วงนั้น"],
