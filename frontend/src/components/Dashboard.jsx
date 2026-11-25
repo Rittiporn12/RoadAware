@@ -19,15 +19,12 @@ const METRICS = [
   { key: "inj", label: "ผู้บาดเจ็บ", unit: "ราย" },
 ];
 const DAY_MS = 86400000;
-// The model's data split by year index (0 = 2564): train 2564–2566, check 2567–2568, unseen test 2569
-const SPLIT_OF_YEAR = [0, 0, 0, 1, 1, 2];
-const SPLIT_LABEL = ["ข้อมูลฝึก (2564–2566)", "ข้อมูลตรวจ (2567–2568)", "ข้อมูลทดสอบ (2569)"];
 const BASE_UTC = Date.UTC(2021, 0, 1);
 const fmt = (v) => Math.round(v).toLocaleString("en-US");
 const fmt1 = (v) => (Math.round(v * 10) / 10).toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 const ymLabel = (ym) => MONTHS[ym % 12] + " " + (2564 + Math.floor(ym / 12));
 
-const EMPTY = { years: [], split: -1, region: -1, prov: -1, month: -1, cell: -1, period: -1, type: -1, veh: -1, cause: -1, wx: -1 };
+const EMPTY = { years: [], region: -1, prov: -1, month: -1, cell: -1, period: -1, type: -1, veh: -1, cause: -1, wx: -1 };
 // Cross-filter dimensions: a chart is computed with every filter except its own.
 const XD = ["month", "prov", "cell", "period", "type", "veh", "cause", "wx"];
 
@@ -76,7 +73,6 @@ function aggregate(D, f, metric) {
   for (let i = 0; i < n; i++) {
     if (ys && !ys.has(yi[i])) continue;
     if (f.region >= 0 && reg[i] !== f.region) continue;
-    if (f.split >= 0 && cols.split[i] !== f.split) continue;
     let fails = 0, failK = null;
     for (let a = 0; a < active.length; a++) {
       const k = active[a];
@@ -102,7 +98,6 @@ function aggregate(D, f, metric) {
   const dowF = f.cell >= 0 ? Math.floor(f.cell / 24) : -1;
   for (let k = 0; k < nd; k++) {
     if (ys && !ys.has(dYear[k])) continue;
-    if (f.split >= 0 && SPLIT_OF_YEAR[dYear[k]] !== f.split) continue;
     if (f.month >= 0 && dYm[k] !== f.month) continue;
     if (dowF >= 0 && dDow[k] !== dowF) continue;
     days[dFest[k]]++;
@@ -332,7 +327,7 @@ export default function Dashboard() {
 
   const { dims, meta } = raw;
   const years = raw.years;
-  const sel = f.years.length ? f.years : f.split >= 0 ? years.filter((y, i) => SPLIT_OF_YEAR[i] === f.split) : years;
+  const sel = f.years.length ? f.years : years;
   const from = (Math.min(...sel) - 2564) * 12;
   const to = Math.min(raw.lastYm, (Math.max(...sel) - 2564) * 12 + 11);
   const lastDate = new Date(BASE_UTC + meta.last_day * DAY_MS);
@@ -343,7 +338,6 @@ export default function Dashboard() {
   // chips for active filters
   const chips = [];
   f.years.forEach((y) => chips.push({ label: "ปี " + y, clear: () => toggleYear(y) }));
-  if (f.split >= 0) chips.push({ label: SPLIT_LABEL[f.split], clear: () => set("split", -1) });
   if (f.region >= 0) chips.push({ label: "ภาค" + dims.region[f.region], clear: () => set("region", -1) });
   if (f.prov >= 0) chips.push({ label: dims.prov[f.prov], clear: () => set("prov", -1) });
   if (f.month >= 0) chips.push({ label: ymLabel(f.month), clear: () => set("month", -1) });
@@ -374,40 +368,39 @@ export default function Dashboard() {
       </div>
 
       <div className="db-filters">
-        <div className="db-years" role="group" aria-label="ปี">
-          <button type="button" className={!f.years.length ? "is-on" : ""} onClick={() => setF((c) => ({ ...c, years: [], month: -1 }))}>ทุกปี</button>
-          {years.map((y) => <button key={y} type="button" className={f.years.includes(y) ? "is-on" : ""} onClick={() => toggleYear(y)}>{y}</button>)}
+        <div className="db-f-row">
+          <span className="db-f-lab">ปี</span>
+          <div className="db-years" role="group" aria-label="ปี">
+            <button type="button" className={!f.years.length ? "is-on" : ""} onClick={() => setF((c) => ({ ...c, years: [], month: -1 }))}>ทุกปี</button>
+            {years.map((y) => <button key={y} type="button" className={f.years.includes(y) ? "is-on" : ""} onClick={() => toggleYear(y)}>{y}</button>)}
+          </div>
         </div>
-        <label className="db-sel"><span>ชุดข้อมูลของโมเดล</span>
-          <select value={f.split} onChange={(e) => setF((c) => ({ ...c, split: +e.target.value, years: [], month: -1 }))}>
-            <option value={-1}>ทุกชุด</option>
-            {SPLIT_LABEL.map((p, i) => <option key={p} value={i}>{p}</option>)}
-          </select>
-        </label>
-        <label className="db-sel"><span>ภาค</span>
-          <select value={f.region} onChange={(e) => set("region", +e.target.value)}>
-            <option value={-1}>ทุกภาค</option>
-            {dims.region.map((r, i) => (r === "ไม่ระบุ" ? null : <option key={r} value={i}>{r}</option>))}
-          </select>
-        </label>
-        <label className="db-sel"><span>จังหวัด</span>
-          <select value={f.prov} onChange={(e) => set("prov", +e.target.value)}>
-            <option value={-1}>ทุกจังหวัด</option>
-            {dims.prov.map((p, i) => ((f.region < 0 || dims.provRegion[i] === f.region) && p !== "ไม่ระบุ" ? <option key={p} value={i}>{p}</option> : null))}
-          </select>
-        </label>
-        <label className="db-sel"><span>ช่วงเทศกาล</span>
-          <select value={f.period} onChange={(e) => set("period", +e.target.value)}>
-            <option value={-1}>ทุกช่วง</option>
-            {PERIODS.map((p, i) => <option key={p} value={i}>{p}</option>)}
-          </select>
-        </label>
-        <label className="db-sel"><span>สภาพอากาศ</span>
-          <select value={f.wx} onChange={(e) => set("wx", +e.target.value)}>
-            <option value={-1}>ทุกสภาพ</option>
-            {dims.wx.map((p, i) => <option key={p} value={i}>{p}</option>)}
-          </select>
-        </label>
+        <div className="db-f-grid">
+          <label className="db-sel"><span>ภาค</span>
+            <select value={f.region} onChange={(e) => set("region", +e.target.value)}>
+              <option value={-1}>ทุกภาค</option>
+              {dims.region.map((r, i) => (r === "ไม่ระบุ" ? null : <option key={r} value={i}>{r}</option>))}
+            </select>
+          </label>
+          <label className="db-sel"><span>จังหวัด</span>
+            <select value={f.prov} onChange={(e) => set("prov", +e.target.value)}>
+              <option value={-1}>ทุกจังหวัด</option>
+              {dims.prov.map((p, i) => ((f.region < 0 || dims.provRegion[i] === f.region) && p !== "ไม่ระบุ" ? <option key={p} value={i}>{p}</option> : null))}
+            </select>
+          </label>
+          <label className="db-sel"><span>ช่วงเทศกาล</span>
+            <select value={f.period} onChange={(e) => set("period", +e.target.value)}>
+              <option value={-1}>ทุกช่วง</option>
+              {PERIODS.map((p, i) => <option key={p} value={i}>{p}</option>)}
+            </select>
+          </label>
+          <label className="db-sel"><span>สภาพอากาศ</span>
+            <select value={f.wx} onChange={(e) => set("wx", +e.target.value)}>
+              <option value={-1}>ทุกสภาพ</option>
+              {dims.wx.map((p, i) => <option key={p} value={i}>{p}</option>)}
+            </select>
+          </label>
+        </div>
       </div>
       <div className="db-chips" aria-live="polite">
         {chips.length ? (
