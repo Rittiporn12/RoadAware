@@ -231,7 +231,7 @@ const TECH = [
       ["เซิร์ฟเวอร์", null, [["FastAPI", "https://fastapi.tiangolo.com/"]]],
       ["หน้าเว็บ", null, [["React", "https://react.dev/"], ["Vite", "https://vite.dev/"], ["Leaflet", "https://leafletjs.com/"]]],
       ["แผนที่และเส้นทาง", null, [["OpenStreetMap", "https://www.openstreetmap.org/copyright"], ["Photon (ค้นหาสถานที่)", "https://photon.komoot.io/"], ["OSRM (คำนวณเส้นทาง)", "https://project-osrm.org/"], ["geoBoundaries", "https://www.geoboundaries.org/"], ["Natural Earth", "https://www.naturalearthdata.com/"]]],
-      ["เสียงเตือน", "เสียง Siri บน Mac · เสียงภาษาไทยของเบราว์เซอร์", [["Gemini TTS", "https://ai.google.dev/gemini-api/docs/speech-generation"]]],
+      ["เสียงเตือน", "เสียง Siri บน Mac"],
       ["เผยแพร่", null, [["GitHub Pages", "https://pages.github.com/"], ["Cloudflare Tunnel", "https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/do-more-with-tunnels/trycloudflare/"]]],
     ],
   },
