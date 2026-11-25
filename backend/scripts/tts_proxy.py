@@ -39,7 +39,7 @@ ENGINE = os.environ.get('ROADAWARE_TTS_ENGINE', 'mac').strip().lower()
 SAY_RATE = os.environ.get('ROADAWARE_SAY_RATE', '200')  # words per minute for `say`; lively but clear
 # Which Mac voice: 'auto' = best installed Thai voice (Premium > Enhanced > plain; Narisa before Kanya),
 # 'system' = whatever Read & Speak's System voice is, or an exact voice name such as "Narisa (Enhanced)".
-SAY_VOICE_SETTING = os.environ.get('ROADAWARE_SAY_VOICE', 'auto').strip()
+SAY_VOICE_SETTING = os.environ.get('ROADAWARE_SAY_VOICE', 'system').strip()  # default: the Mac's System voice (e.g. Siri Voice 1)
 
 
 def thai_say_voices():
@@ -68,6 +68,8 @@ def pick_say_voice():
 
 
 SAY_VOICE = None
+# The System voice can be changed in System Settings at any time, so its clips are kept only for this run.
+MAC_CACHE = CACHE / 'mac' / ('system-' + time.strftime('%Y%m%d-%H%M%S') if SAY_VOICE_SETTING.lower() == 'system' else 'named')
 MODEL = os.environ.get('ROADAWARE_TTS_MODEL', 'gemini-3.8-flash-tts')
 VOICE = os.environ.get('ROADAWARE_TTS_VOICE', 'Puck')
 STYLE = 'lively, alert and friendly, like an upbeat Thai radio traffic announcer; clear and quick, never sleepy'
@@ -226,7 +228,7 @@ class Handler(BaseHTTPRequestHandler):
             return self._json(503, {'error': 'no_api_key'})
         sig = ('mac|' + str(SAY_VOICE) + '|' + SAY_RATE) if ENGINE == 'mac' else (MODEL + '|' + VOICE + '|' + STYLE)
         key = hashlib.sha256((sig + '|' + text).encode('utf-8')).hexdigest()
-        path = (CACHE / 'mac' if ENGINE == 'mac' else CACHE) / (key + '.wav')
+        path = (MAC_CACHE if ENGINE == 'mac' else CACHE) / (key + '.wav')
         try:
             if not path.is_file():
                 with LOCK:  # one synthesis at a time keeps the free-tier rate limit happy
@@ -260,11 +262,11 @@ class Handler(BaseHTTPRequestHandler):
 def main():
     if ENGINE == 'mac':
         global SAY_VOICE
-        CACHE.joinpath('mac').mkdir(parents=True, exist_ok=True)
+        MAC_CACHE.mkdir(parents=True, exist_ok=True)
         thai = thai_say_voices()
         print('Thai voices usable by the voice proxy:', ', '.join(thai) if thai else 'NONE (download one in Read & Speak → Thai → Voice)', flush=True)
         SAY_VOICE = pick_say_voice()
-        print(f'RoadAware voice proxy on http://127.0.0.1:{PORT}  (Mac voice: {SAY_VOICE or "System voice"}, rate {SAY_RATE}) — Ctrl+C to stop', flush=True)
+        print(f'RoadAware voice proxy on http://127.0.0.1:{PORT}  (Mac voice: {SAY_VOICE or "System voice from Read & Speak — set System speech language: Thai, System voice: Siri Voice 1"}, rate {SAY_RATE}) — Ctrl+C to stop', flush=True)
     else:
         if not api_key():
             sys.exit('No Gemini API key: set GEMINI_API_KEY or put the key in ~/.roadaware-gemini-key')
