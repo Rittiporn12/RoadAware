@@ -1,7 +1,7 @@
 // โมเดล — what the model predicts, how it was chosen, and how it did on data it never saw.
 // Every number comes from the project's own reports (public/data/model-v1.json, built by
 // backend/scripts/build_model_page_data.py). Unit switch (รายวัน / ราย 6 ชม.) changes every chart.
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import SiteNav from "./SiteNav.jsx";
 
 const ENV = (import.meta.env) || {};
@@ -90,6 +90,76 @@ function useRevealIn(ready) {
     els.forEach((e) => io.observe(e));
     return () => io.disconnect();
   }, [ready]);
+}
+
+
+// HGB vs baseline, month by month: two lines, lower = better, gap shaded. Hover shows both values.
+function CompareLine({ items }) {
+  const [hi, setHi] = useState(null);
+  const box = useRef(null);
+  const [W, setW] = useState(640);
+  useEffect(() => {
+    const el = box.current;
+    if (!el || !("ResizeObserver" in window)) return undefined;
+    const ro = new ResizeObserver(([e]) => setW(Math.max(280, Math.round(e.contentRect.width))));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  const H = W < 500 ? 230 : 270, pad = { l: 40, r: 16, t: 16, b: 30 };
+  const vals = items.flatMap((d) => [d.selected, d.baseline]);
+  const lo = Math.floor(Math.min(...vals) - 0.5), up = Math.ceil(Math.max(...vals) + 0.5);
+  const X = (i) => pad.l + (i / (items.length - 1)) * (W - pad.l - pad.r);
+  const Y = (v) => pad.t + (1 - (v - lo) / (up - lo)) * (H - pad.t - pad.b);
+  const path = (k) => items.map((d, i) => (i ? "L" : "M") + X(i).toFixed(1) + " " + Y(d[k]).toFixed(1)).join(" ");
+  const gap = items.map((d, i) => (i ? "L" : "M") + X(i).toFixed(1) + " " + Y(d.baseline).toFixed(1)).join(" ")
+    + " " + items.slice().reverse().map((d, j) => "L" + X(items.length - 1 - j).toFixed(1) + " " + Y(d.selected).toFixed(1)).join(" ") + " Z";
+  const ticks = [lo, (lo + up) / 2, up];
+  const last = items.length - 1;
+  return (
+    <div className="mp-line" ref={box}>
+      <svg width={W} height={H} role="img" aria-label="ความคลาดเคลื่อนรายเดือน HGB เทียบค่าเทียบ" onMouseLeave={() => setHi(null)}>
+        {ticks.map((t) => <g key={t}><line x1={pad.l} x2={W - pad.r} y1={Y(t)} y2={Y(t)} className="db-grid" /><text x={pad.l - 8} y={Y(t) + 4} textAnchor="end" className="db-axis">{t.toFixed(1)}</text></g>)}
+        <path d={gap} className="mp-gap" />
+        <path d={path("baseline")} className="mp-ln mp-ln-base" />
+        <path d={path("selected")} className="mp-ln mp-ln-hgb" />
+        {items.map((d, i) => (
+          <g key={d.key}>
+            <circle cx={X(i)} cy={Y(d.baseline)} r={hi === i ? 5.5 : 4} className="mp-pt-base" />
+            <circle cx={X(i)} cy={Y(d.selected)} r={hi === i ? 5.5 : 4} className="mp-pt-hgb" />
+            <text x={X(i)} y={H - 8} textAnchor={i === 0 ? "start" : i === items.length - 1 ? "end" : "middle"} className="db-axis">{d.label.split(" ")[0]}</text>
+            <rect x={X(i) - (W - pad.l - pad.r) / (items.length - 1) / 2} y={pad.t} width={(W - pad.l - pad.r) / (items.length - 1)} height={H - pad.t - pad.b} fill="transparent" onMouseEnter={() => setHi(i)} />
+          </g>
+        ))}
+        <text x={X(last) + 2} y={Y(items[last].baseline) - 10} textAnchor="end" className="mp-lab mp-lab-base">ค่าเทียบ</text>
+        <text x={X(last) + 2} y={Y(items[last].selected) + 20} textAnchor="end" className="mp-lab mp-lab-hgb">HGB</text>
+        {hi != null && <line x1={X(hi)} x2={X(hi)} y1={pad.t} y2={H - pad.b} className="db-cross" />}
+      </svg>
+      {hi != null && (
+        <div className="mp-tip" style={{ left: `${(X(hi) / W) * 100}%` }}>
+          <b>{items[hi].label}</b>
+          <span><i className="is-hgb" />HGB {items[hi].selected.toFixed(2)}</span>
+          <span><i className="is-base" />ค่าเทียบ {items[hi].baseline.toFixed(2)}</span>
+          <em>คลาดเคลื่อนน้อยกว่า {pct(items[hi].improvement)}</em>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// HGB vs baseline for groups (festival, time of day…): paired bars from zero, lower = better.
+function CompareBars({ items }) {
+  const max = Math.max(...items.flatMap((d) => [d.selected, d.baseline]));
+  return (
+    <ul className="mp-pairs">
+      {items.map((d) => (
+        <li key={d.key}>
+          <div className="mp-pair-h"><b>{d.label}</b><span>คลาดเคลื่อนน้อยกว่า <em>{pct(d.improvement)}</em></span></div>
+          <div className="mp-pair-bar"><small>HGB</small><span><i className="is-hgb" style={{ width: (d.selected / max) * 100 + "%" }} /></span><b>{d.selected.toFixed(2)}</b></div>
+          <div className="mp-pair-bar"><small>ค่าเทียบ</small><span><i className="is-base" style={{ width: (d.baseline / max) * 100 + "%" }} /></span><b>{d.baseline.toFixed(2)}</b></div>
+        </li>
+      ))}
+    </ul>
+  );
 }
 
 // Monthly results as columns (one per month, height = improvement)
@@ -384,8 +454,9 @@ export default function ModelPage() {
                   <button key={k} type="button" role="tab" aria-selected={view === k} className={view === k ? "is-on" : ""} onClick={() => setView(k)}>{l}</button>
                 ))}
               </div>
-              {view === "month" ? <MonthColumns items={groups} /> : <ImproveBars items={groups} label="ผลแยกกลุ่ม" />}
-              <p className="mp-note">ตัวเลข = HGB คลาดเคลื่อนน้อยกว่าค่าเทียบ (ค่าเฉลี่ยในอดีตของช่วงถนน) กี่เปอร์เซ็นต์ · ชี้ที่แท่งเพื่อดูจำนวนเหตุ</p>
+              <div className="mp-legend mp-legend-top"><span><i className="is-hgb" />HGB (โมเดลที่เลือก)</span><span><i className="is-base" />ค่าเทียบ: ค่าเฉลี่ยในอดีตของช่วงถนน</span><span className="mp-legend-hint">ค่าความคลาดเคลื่อน (Poisson deviance) · <b>ยิ่งต่ำยิ่งดี</b></span></div>
+              {view === "month" ? <CompareLine items={groups} /> : <CompareBars items={groups} />}
+              <p className="mp-note">{view === "month" ? "เส้น HGB อยู่ต่ำกว่าเส้นค่าเทียบทุกเดือน = ทายใกล้ความจริงกว่าทุกเดือน · ช่องว่างระหว่างเส้นกว้างสุดในเดือนที่มีเทศกาล (ม.ค. ปีใหม่, เม.ย. สงกรานต์) · ชี้ที่กราฟเพื่อดูตัวเลข" : "แท่ง HGB สั้นกว่าแท่งค่าเทียบ = ทายใกล้ความจริงกว่า"}</p>
             </div>
             <div className="mp-test-side">
               {[[monthsBetter, t.month.length, "เดือนที่ดีกว่าค่าเทียบ"], [t.weeks_better, t.weeks, "สัปดาห์ที่ดีกว่า"], [t.province_wins, t.province_count, "จังหวัดที่ดีกว่า"]].map(([a, b, l]) => (
