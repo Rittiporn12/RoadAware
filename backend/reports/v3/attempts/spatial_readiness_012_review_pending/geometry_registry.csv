@@ -1,4 +1,0 @@
-source_id,role,path,pinned_sha256,found_sha256,status,source_url,license,version,format
-mot_transportgis_road_network,road_network,,,,not_collected,https://datagov.mot.go.th/th/dataset/transportgis,to verify at collection,unknown,WMS
-osm_thailand_snapshot,road_network,,,,not_collected,https://www.openstreetmap.org/copyright,ODbL 1.0 (attribution required),dated snapshot to be chosen,PBF
-geoboundaries_tha_adm1,province_polygons,,,,not_collected,https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/THA/ADM1/geoBoundaries-THA-ADM1.geojson,gbOpen (verify at collection),commit 9469f09,GEOJSON

@@ -1,8 +1,0 @@
-module,importable_in_kernel
-shapely,True
-scipy,True
-pyproj,False
-h3,False
-geopandas,False
-pyogrio,False
-fiona,False

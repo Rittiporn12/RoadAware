@@ -1,5 +1,0 @@
-search_root,path,bytes,sha256,note
-data/external_v2,data/external_v2/evidence/tha-adm1.geojson,4032763.0,145beb11e52785a42e16997c92a65426b3df8d009941db6b012ec8e411f3e33c,found but unregistered: not usable until pinned in config and content-audited
-data/external_v3,,,,search root absent
-data/v3,,,,search root absent
-data/raw,,,,no geometry-format file found

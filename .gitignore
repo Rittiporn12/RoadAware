@@ -17,3 +17,24 @@ __pycache__/
 /backups/
 # derived test fixture with road geometry (regenerable)
 /output/frontend-test-fixtures/
+
+# not part of the published project (kept locally only)
+/output/
+/AGENTS.md
+/CLAUDE.md
+/Login Claude.command
+/Monitor AI Team.command
+/Start Codex.command
+/National Push.command
+/tools/*
+!/tools/assemble_notebook_payloads.py
+/frontend/public/debug.html
+/frontend/public/debug.js
+/workflow/tasks/
+/workflow/wip/
+/workflow/national/
+/workflow/team.json
+/workflow/*.md
+/backend/reports/*/attempts/
+/backend/reports/models/
+/backend/reports/data/

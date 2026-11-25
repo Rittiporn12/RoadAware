@@ -1,3 +1,0 @@
-unit,positive_cells,multi_province_cells,raw_records_in_multi_province_cells,province_rule
-daily,4116,0,0,"mode of recorded event province per cell, ties lexical; not the segment-midpoint province used by OOF error groups"
-6h,4232,0,0,"mode of recorded event province per cell, ties lexical; not the segment-midpoint province used by OOF error groups"

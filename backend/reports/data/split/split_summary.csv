@@ -1,4 +1,0 @@
-split,target_days,provinces,panel_rows,selected_recorded_events,boundary_excluded_rows,possibly_undercounted_rows,training_eligible_rows,zero_count_rows,unique_counted_event_uid,eligible_zero_rows,status
-train,1095,77,84315,38966,77,20558,63757,62499,38966,42761,provisional_research
-validation,366,77,28182,21788,77,20297,7885,16684,21788,4457,provisional_research
-reused_test_2025,365,77,28105,23542,77,523,27506,15833,23542,15722,reused_previously_seen_not_independent

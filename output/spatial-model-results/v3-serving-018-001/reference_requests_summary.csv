@@ -1,9 +1,0 @@
-unit,which,component_used,research_scenario,rows,max_abs_error,mean_lambda
-6h,baseline,baseline,False,288,0.0,0.0011131272252701
-6h,baseline,baseline,True,96,,0.0011854920926281855
-6h,selected,core,False,288,0.0,0.001055665819486147
-6h,selected,core,True,96,,0.001165040098633422
-daily,baseline,baseline,False,288,0.0,0.0044594926221536695
-daily,baseline,baseline,True,96,,0.004983781864534962
-daily,selected,core,False,288,0.0,0.004377331719213516
-daily,selected,core,True,96,,0.004995895520301183

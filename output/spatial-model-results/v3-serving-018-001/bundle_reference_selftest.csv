@@ -1,5 +1,0 @@
-unit,component,scope,rows,max_abs_error,pass,first_date,last_date
-daily,core,bundle_reference_requests_internal_component_check (training-sample keys incl. 2021; NOT prospective),1000,0.0,True,2021-01-01,2021-01-09
-daily,context,bundle_reference_requests_internal_component_check (training-sample keys incl. 2021; NOT prospective),1000,0.0,True,2021-01-01,2021-01-09
-6h,core,bundle_reference_requests_internal_component_check (training-sample keys incl. 2021; NOT prospective),1000,0.0,True,2021-01-01,2021-01-03
-6h,context,bundle_reference_requests_internal_component_check (training-sample keys incl. 2021; NOT prospective),1000,0.0,True,2021-01-01,2021-01-03

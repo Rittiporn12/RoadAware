@@ -1,7 +1,0 @@
-be_year,rows,n_columns,acc_code_column,acc_code_nonempty,acc_code_unique,rows_in_repeated_acc_code,exact_duplicate_rows,coord_finite,coord_missing_or_nonnumeric,coord_outside_broad_bbox,time_exact_midnight_share,province_empty
-2564,20062,38,True,20062,20062,0,0,19997,65,0,0.0017,2
-2565,20566,38,True,20566,20566,0,0,20493,73,0,0.0012,1
-2566,23841,38,True,23841,22139,3343,122,23665,176,4,0.002,14
-2567,23952,38,True,23952,23952,0,0,23714,238,0,0.0017,1929
-2568,23715,38,True,23715,23715,0,0,23546,169,2,0.0017,6
-2569,15239,38,False,0,0,0,44,15088,151,0,0.0014,1

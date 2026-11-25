@@ -1,3 +1,0 @@
-split,n_events,n_inside_bbox_unverified,n_low_precision,n_lat_equals_lon,n_at_repeated_coordinate,n_far_from_province_event_median,far_rule
-seen_diagnostic,45330,45330,22,0,545,25,"great-circle distance > 150 km from the median recorded point of its own province (candidate inconsistency, not point-in-province)"
-train,60978,60978,14,0,733,23,"great-circle distance > 150 km from the median recorded point of its own province (candidate inconsistency, not point-in-province)"
