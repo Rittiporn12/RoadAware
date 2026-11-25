@@ -99,7 +99,7 @@ function Suggestions({ alts, main, compare, when, altFocus, onFocusAlt, onUseAlt
       kind: "route-info", key: "route-info",
       title: loading ? "กำลังเทียบเส้นทางอื่น…" : "เส้นทางอื่นที่เวลาใกล้กัน " + list.length + "\u00a0เส้น",
       text: loading ? "เส้นทางอื่นที่ใช้เวลาไม่ต่างกันมาก กำลังประเมินอยู่"
-        : !vs.length ? "ส่วนใหญ่เป็นถนนที่ยังไม่มีข้อมูล จึงเทียบไม่ได้"
+        : !vs.length ? <span className="nowrap">{dt === 0 ? "เวลาเท่ากัน" : dt > 0 ? "ช้ากว่า " + dt + "\u00a0นาที" : "เร็วกว่า " + -dt + "\u00a0นาที"}</span>
         : vs.some((v) => v.kind === "worse") && !vs.some((v) => v.kind === "same") ? "ผ่านช่วงเสี่ยงมากกว่าเส้นที่เลือก — เส้นที่เลือกดีกว่าแล้ว"
         : <>ผ่านช่วงเสี่ยงพอ ๆ กับเส้นที่เลือก · <span className="nowrap">{dt === 0 ? "เวลาเท่ากัน" : dt > 0 ? "ช้ากว่า " + dt + "\u00a0นาที" : "เร็วกว่า " + -dt + "\u00a0นาที"}</span></>,
       actions: loading ? null : <button type="button" className="btn btn-ghost btn-sm" aria-pressed={on} onClick={() => onFocusAlt(on ? null : first.id)}>{on ? "ซ่อนบนแผนที่" : "ดูบนแผนที่"}</button>,
