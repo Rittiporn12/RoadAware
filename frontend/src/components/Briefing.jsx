@@ -50,7 +50,7 @@ function Verdict({ forecast, zones, coverage }) {
       <div>
         <h2 className="answer-title">จุดที่ควรระวังบนเส้นทางนี้</h2>
         <p className="answer-sub">
-          หนักสุดคือ <b>จุดที่ {worst.n}</b> · {worst.road}{worst.provinces.length ? " " + shortPlace(worst.provinces[0]) : ""} · ผ่านราว <b>{worst.eta.clock}</b>
+          หนักสุดคือ <b>จุดที่ {worst.n}</b> · {worst.road}{worst.provinces.length ? " " + shortPlace(worst.provinces[0]) : ""} · ผ่านราว <b className="nowrap">{worst.eta.clock}</b>
         </p>
         {covered < 80 && <p className="answer-note">ประเมินได้ {covered}% ของเส้นทาง ส่วนที่เหลือเป็นถนนที่ยังไม่มีข้อมูล</p>}
       </div>
@@ -78,7 +78,7 @@ function Suggestions({ alts, main, compare, when, altFocus, onFocusAlt, onUseAlt
     tips.push({
       kind: "route", key: a.id,
       title: "มีเส้นทางที่ผ่านช่วงเสี่ยงน้อยกว่า",
-      text: (dt === 0 ? "ใช้เวลาเท่ากัน" : dt > 0 ? "ช้ากว่า " + dt + " นาที" : "เร็วกว่า " + -dt + " นาที") + " · ช่วงเสี่ยงสูงมากน้อยลง " + Math.round(v.diff) + " กม.",
+      text: <><span className="nowrap">{dt === 0 ? "ใช้เวลาเท่ากัน" : dt > 0 ? "ช้ากว่า " + dt + "\u00a0นาที" : "เร็วกว่า " + -dt + "\u00a0นาที"}</span> · <span className="nowrap">ช่วงเสี่ยงสูงมากน้อยลง {Math.round(v.diff)}{"\u00a0"}กม.</span></>,
       actions: (
         <>
           <button type="button" className="btn btn-ghost btn-sm" aria-pressed={on} onClick={() => onFocusAlt(on ? null : a.id)}>{on ? "ซ่อนบนแผนที่" : "ดูบนแผนที่"}</button>
@@ -87,6 +87,24 @@ function Suggestions({ alts, main, compare, when, altFocus, onFocusAlt, onUseAlt
       ),
     });
   });
+  // other routes exist but none is clearly calmer: still say so, so the person knows they were checked
+  const list = alts || [];
+  if (list.length && !tips.some((t) => t.kind === "route")) {
+    const loading = list.some((a) => a.status === "loading");
+    const vs = list.map((a) => altVerdict(a, main)).filter(Boolean);
+    const first = list.find((a) => a.status === "ok") || list[0];
+    const on = altFocus === first.id;
+    const dt = Math.round((first.duration - main.duration) / 60);
+    tips.push({
+      kind: "route-info", key: "route-info",
+      title: loading ? "กำลังเทียบเส้นทางอื่น…" : "เส้นทางอื่นที่เวลาใกล้กัน " + list.length + "\u00a0เส้น",
+      text: loading ? "เส้นทางอื่นที่ใช้เวลาไม่ต่างกันมาก กำลังประเมินอยู่"
+        : !vs.length ? "ส่วนใหญ่เป็นถนนที่ยังไม่มีข้อมูล จึงเทียบไม่ได้"
+        : vs.some((v) => v.kind === "worse") && !vs.some((v) => v.kind === "same") ? "ผ่านช่วงเสี่ยงมากกว่าเส้นที่เลือก — เส้นที่เลือกดีกว่าแล้ว"
+        : <>ผ่านช่วงเสี่ยงพอ ๆ กับเส้นที่เลือก · <span className="nowrap">{dt === 0 ? "เวลาเท่ากัน" : dt > 0 ? "ช้ากว่า " + dt + "\u00a0นาที" : "เร็วกว่า " + -dt + "\u00a0นาที"}</span></>,
+      actions: loading ? null : <button type="button" className="btn btn-ghost btn-sm" aria-pressed={on} onClick={() => onFocusAlt(on ? null : first.id)}>{on ? "ซ่อนบนแผนที่" : "ดูบนแผนที่"}</button>,
+    });
+  }
   // a better departure time (same route, same date)
   const ok = DEPART_OPTIONS.map((o) => ({ ...o, r: compare.results[o.time] })).filter((o) => o.r && o.r.status === "ok");
   if (ok.length === DEPART_OPTIONS.length) {
@@ -95,9 +113,9 @@ function Suggestions({ alts, main, compare, when, altFocus, onFocusAlt, onUseAlt
     if (best.time !== when.time && diff >= Math.max(5, main.redKm * 0.25)) {
       tips.push({
         kind: "time", key: "time",
-        title: "ออก " + best.time + " น. จะเสี่ยงน้อยกว่า",
-        text: "ช่วงเสี่ยงสูงมากน้อยลง " + Math.round(diff) + " กม. เทียบกับออก " + when.time + " น.",
-        actions: <button type="button" className="btn btn-sm btn-dark" onClick={() => onPickTime(best.time)}>เปลี่ยนเป็น {best.time} น.</button>,
+        title: "ออก " + best.time + "\u00a0น. จะเสี่ยงน้อยกว่า",
+        text: <><span className="nowrap">ช่วงเสี่ยงสูงมากน้อยลง {Math.round(diff)}{"\u00a0"}กม.</span> <span className="nowrap">(เทียบกับออก {when.time}{"\u00a0"}น.)</span></>,
+        actions: <button type="button" className="btn btn-sm btn-dark" onClick={() => onPickTime(best.time)}>เปลี่ยนเป็น {best.time}{"\u00a0"}น.</button>,
       });
     }
   }
@@ -107,14 +125,14 @@ function Suggestions({ alts, main, compare, when, altFocus, onFocusAlt, onUseAlt
       {tips.map((t) => (
         <div key={t.key} className={"tip-card tip-" + t.kind}>
           <span className="tip-icon" aria-hidden="true">
-            {t.kind === "route"
+            {t.kind !== "time"
               ? <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><circle cx="6" cy="19" r="2" /><circle cx="18" cy="5" r="2" /><path d="M8 19h7a3.5 3.5 0 0 0 0-7H9a3.5 3.5 0 0 1 0-7h7" /></svg>
               : <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>}
           </span>
           <div className="tip-body">
             <p className="tip-title">{t.title}</p>
             <p className="tip-text">{t.text}</p>
-            <div className="tip-actions">{t.actions}</div>
+            {t.actions && <div className="tip-actions">{t.actions}</div>}
           </div>
         </div>
       ))}

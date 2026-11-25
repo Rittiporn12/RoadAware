@@ -66,15 +66,15 @@ export function epochToBkk(ms) {
   const date = t.getUTCFullYear() + "-" + pad2(t.getUTCMonth() + 1) + "-" + pad2(t.getUTCDate());
   const hour = t.getUTCHours();
   const block = hour < 6 ? "00-06" : hour < 12 ? "06-12" : hour < 18 ? "12-18" : "18-24";
-  return { date, hour, minute: t.getUTCMinutes(), block, clock: pad2(hour) + ":" + pad2(t.getUTCMinutes()) + " น." };
+  return { date, hour, minute: t.getUTCMinutes(), block, clock: pad2(hour) + ":" + pad2(t.getUTCMinutes()) + "\u00a0น." }; // no-break: "น." never wraps alone
 }
 
 // ---------- formatting ----------
-export const fmtKm = (m) => (m / 1000).toLocaleString("th-TH", { maximumFractionDigits: m < 10000 ? 1 : 0 }) + " กม.";
+export const fmtKm = (m) => (m / 1000).toLocaleString("th-TH", { maximumFractionDigits: m < 10000 ? 1 : 0 }) + "\u00a0กม.";
 export function fmtDuration(s) {
   const mins = Math.round(s / 60);
   const h = Math.floor(mins / 60), mm = mins % 60;
-  return h > 0 ? h + " ชม. " + mm + " นาที" : mm + " นาที";
+  return h > 0 ? h + "\u00a0ชม. " + mm + "\u00a0นาที" : mm + "\u00a0นาที";
 }
 export const fmtThaiDate = (iso) => new Date(iso + "T00:00:00").toLocaleDateString("th-TH", { day: "numeric", month: "short", year: "numeric" });
 export const fmtPct = (x) => Math.round(x * 100) + "%";
