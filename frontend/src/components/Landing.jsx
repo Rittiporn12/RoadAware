@@ -192,15 +192,16 @@ const FLOW = [
   { title: "เว็บแอป", text: "แผนที่ จุดที่ควรระวัง เสียงเตือน" },
 ];
 
+// [label, text, links]: links open the original source in a new tab.
 const TECH = [
   {
     title: "ข้อมูลที่ใช้",
     items: [
-      ["อุบัติเหตุทางถนน", "ข้อมูลเปิดของกระทรวงคมนาคม ปี 2564–2569"],
-      ["ถนน", "ทางหลวงของกรมทางหลวง แบ่งเป็น 26,740 ช่วง (ช่วงละราว 2 กม.) รวมราว 51,900 กม."],
-      ["สภาพอากาศ", "ปริมาณฝนและอากาศรายวัน จาก Open-Meteo"],
-      ["ปริมาณจราจร", "ปริมาณจราจรเฉลี่ยรายปี (AADT) ของทางหลวง"],
-      ["ปฏิทิน", "วันในสัปดาห์ ช่วงเวลา วันหยุด เทศกาลสงกรานต์และปีใหม่"],
+      ["อุบัติเหตุทางถนน", "ข้อมูลเปิดของกระทรวงคมนาคม ปี 2564–2569", [["ข้อมูลอุบัติเหตุ (datagov.mot.go.th)", "https://datagov.mot.go.th/dataset/roadaccident"]]],
+      ["ถนน", "ทางหลวงของกรมทางหลวง แบ่งเป็น 26,740 ช่วง (ช่วงละราว 2 กม.) รวมราว 51,900 กม.", [["ข้อมูลภูมิสารสนเทศคมนาคม (Transport GIS)", "https://datagov.mot.go.th/th/dataset/transportgis"]]],
+      ["สภาพอากาศ", "ปริมาณฝนและอากาศรายวัน", [["Open-Meteo", "https://open-meteo.com/en/docs/previous-runs-api"]]],
+      ["ปริมาณจราจร", "ปริมาณจราจรเฉลี่ยรายปี (AADT) ของทางหลวง", [["กรมทางหลวง (opendata.doh.go.th)", "https://opendata.doh.go.th/dataset/ed101df4-f0a1-4d7f-b9d9-76859b2ca73e"]]],
+      ["ปฏิทิน", "วันในสัปดาห์ ช่วงเวลา วันหยุด เทศกาลสงกรานต์และปีใหม่", [["วันหยุดตามประกาศธนาคารแห่งประเทศไทย", "https://www.bot.or.th/th/financial-institutions-holiday.html"]]],
     ],
   },
   {
@@ -216,7 +217,7 @@ const TECH = [
   {
     title: "โมเดล",
     items: [
-      ["อัลกอริทึม", "HistGradientBoosting (scikit-learn) แบบ Poisson regression คาดจำนวนอุบัติเหตุที่จะถูกบันทึกต่อช่วงถนน"],
+      ["อัลกอริทึม", "HistGradientBoosting แบบ Poisson regression คาดจำนวนอุบัติเหตุที่จะถูกบันทึกต่อช่วงถนน", [["scikit-learn: HistGradientBoostingRegressor", "https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.HistGradientBoostingRegressor.html"]]],
       ["ระดับเวลา", "2 โมเดล: รายวัน และราย 6 ชั่วโมง"],
       ["ตัวแปร", "รูปทรงและตำแหน่งถนน ปฏิทินและเทศกาล อากาศย้อนหลัง ปริมาณจราจร (33–41 ตัว)"],
       ["ส่วนหลัก / ส่วนเสริม", "ใช้ตัวแปรถนน + ปฏิทินเสมอ และเพิ่มอากาศ / จราจรเมื่อมีข้อมูลของช่วงนั้น"],
@@ -226,12 +227,12 @@ const TECH = [
   {
     title: "เครื่องมือและบริการ",
     items: [
-      ["วิเคราะห์และฝึกโมเดล", "Python · pandas · scikit-learn · Jupyter"],
-      ["เซิร์ฟเวอร์", "FastAPI"],
-      ["หน้าเว็บ", "React · Vite · Leaflet"],
-      ["แผนที่และเส้นทาง", "OpenStreetMap · Photon (ค้นหาสถานที่) · OSRM (คำนวณเส้นทาง) · geoBoundaries / Natural Earth (ขอบเขตประเทศ)"],
-      ["เสียงเตือน", "เสียง Siri บน Mac · Gemini TTS · เสียงภาษาไทยของเบราว์เซอร์"],
-      ["เผยแพร่", "GitHub Pages · Cloudflare Tunnel"],
+      ["วิเคราะห์และฝึกโมเดล", null, [["Python", "https://www.python.org/"], ["pandas", "https://pandas.pydata.org/"], ["scikit-learn", "https://scikit-learn.org/"], ["Jupyter", "https://jupyter.org/"]]],
+      ["เซิร์ฟเวอร์", null, [["FastAPI", "https://fastapi.tiangolo.com/"]]],
+      ["หน้าเว็บ", null, [["React", "https://react.dev/"], ["Vite", "https://vite.dev/"], ["Leaflet", "https://leafletjs.com/"]]],
+      ["แผนที่และเส้นทาง", null, [["OpenStreetMap", "https://www.openstreetmap.org/copyright"], ["Photon (ค้นหาสถานที่)", "https://photon.komoot.io/"], ["OSRM (คำนวณเส้นทาง)", "https://project-osrm.org/"], ["geoBoundaries", "https://www.geoboundaries.org/"], ["Natural Earth", "https://www.naturalearthdata.com/"]]],
+      ["เสียงเตือน", "เสียง Siri บน Mac · เสียงภาษาไทยของเบราว์เซอร์", [["Gemini TTS", "https://ai.google.dev/gemini-api/docs/speech-generation"]]],
+      ["เผยแพร่", null, [["GitHub Pages", "https://pages.github.com/"], ["Cloudflare Tunnel", "https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/do-more-with-tunnels/trycloudflare/"]]],
     ],
   },
 ];
@@ -354,7 +355,7 @@ export default function Landing() {
         <section className="ld-sec" id="ld-tech">
           <div className="ld-wrap">
             <h2 className="ld-h2 rv">เบื้องหลัง RoadAware</h2>
-            <p className="ld-sub rv">ข้อมูล วิธีคัดเลือกข้อมูล โมเดล และเครื่องมือทั้งหมดที่ใช้ในงานนี้</p>
+            <p className="ld-sub rv">ข้อมูล วิธีคัดเลือกข้อมูล โมเดล และเครื่องมือทั้งหมดที่ใช้ในงานนี้ · กดชื่อเพื่อเปิดแหล่งที่มา</p>
             <ol className="ld-flow" aria-label="ขั้นตอนการทำงานของระบบ">
               {FLOW.map((f, i) => (
                 <li key={f.title} className="rv" style={{ "--d": i * 100 + "ms" }}><span className="ld-flow-n">{i + 1}</span><div><b>{f.title}</b><small>{f.text}</small></div></li>
@@ -365,8 +366,20 @@ export default function Landing() {
                 <article key={g.title} className="ld-card ld-tech-card rv" style={{ "--d": (i % 2) * 120 + "ms" }}>
                   <h3>{g.title}</h3>
                   <dl>
-                    {g.items.map(([k, v]) => (
-                      <div key={k}><dt>{k}</dt><dd>{v}</dd></div>
+                    {g.items.map(([k, v, links]) => (
+                      <div key={k}>
+                        <dt>{k}</dt>
+                        <dd>
+                          {v && <span>{v}</span>}
+                          {links && (
+                            <span className="ld-src">
+                              {links.map(([name, url]) => (
+                                <a key={url} href={url} target="_blank" rel="noopener noreferrer">{name}<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" /></svg></a>
+                              ))}
+                            </span>
+                          )}
+                        </dd>
+                      </div>
                     ))}
                   </dl>
                 </article>
