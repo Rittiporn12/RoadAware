@@ -48,10 +48,6 @@ a.brand { color: inherit; text-decoration: none; border-radius: 10px; }
 /* hero */
 .ld-hero { position: relative; color: #fff; background: var(--night); padding: 88px 0 0; overflow: hidden; min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; }
 .ld-hero-in { flex: 1; display: grid; grid-template-columns: 1fr 1.05fr; gap: 56px; align-items: center; align-content: center; padding-top: 12px; padding-bottom: 12px; }
-.ld-more { position: absolute; left: 50%; bottom: 17px; transform: translate(-50%, 50%); z-index: 2; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px 6px 16px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .3); background: #1A2638; color: #fff; font-size: 13px; font-weight: 600; cursor: pointer; }
-.ld-more:hover { border-color: var(--amber); }
-.ld-more svg { animation: nudge 1.8s ease-in-out infinite; }
-@keyframes nudge { 50% { transform: translateY(3px); } }
 .ld-online { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: #A7DDBB; margin-bottom: 16px; }
 .ld-online i { width: 8px; height: 8px; border-radius: 50%; background: #4CC27E; }
 .ld-hero h1 { font-size: clamp(36px, 5.2vw, 58px); line-height: 1.18; letter-spacing: -.5px; margin: 0 0 20px; }
