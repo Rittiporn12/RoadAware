@@ -119,9 +119,10 @@ function Suggestions({ alts, main, compare, when, altFocus, onFocusAlt, onUseAlt
       });
     }
   }
-  if (!tips.length) return null;
+  if (!tips.length) return list.length ? null : <p className="fine">ไม่พบเส้นทางอื่นที่ใช้เวลาใกล้กัน (ช้ากว่าไม่เกิน {Math.round((CONFIG.altMaxTimeRatio - 1) * 100)}%)</p>;
   return (
     <section className="tips-list" aria-label="คำแนะนำ">
+      {!list.length && <p className="fine">ไม่พบเส้นทางอื่นที่ใช้เวลาใกล้กัน</p>}
       {tips.map((t) => (
         <div key={t.key} className={"tip-card tip-" + t.kind}>
           <span className="tip-icon" aria-hidden="true">
