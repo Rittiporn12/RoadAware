@@ -23,9 +23,7 @@ export default function SiteNav({ active }) {
           <span>RoadAware</span>
         </a>
         <nav className="ld-links" aria-label="เมนู">
-          <button type="button" onClick={() => goHomeSection("ld-features")}>ความสามารถ</button>
-          <button type="button" onClick={() => goHomeSection("ld-how")}>วิธีใช้</button>
-          <button type="button" onClick={() => goHomeSection("ld-tech")}>เบื้องหลัง</button>
+          <button type="button" onClick={() => goHomeSection("ld-tech")}>ข้อมูล</button>
           {page("dashboard", "แดชบอร์ด")}
           {page("model", "โมเดล")}
         </nav>

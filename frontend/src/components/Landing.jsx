@@ -282,9 +282,7 @@ export default function Landing() {
             <Logo dark={scrolled} /> <span>RoadAware</span>
           </a>
           <nav className="ld-links" aria-label="เมนู">
-            <button type="button" onClick={() => scrollTo("ld-features")}>ความสามารถ</button>
-            <button type="button" onClick={() => scrollTo("ld-how")}>วิธีใช้</button>
-            <button type="button" onClick={() => scrollTo("ld-tech")}>เบื้องหลัง</button>
+            <button type="button" onClick={() => scrollTo("ld-tech")}>ข้อมูล</button>
             <button type="button" onClick={() => { window.location.hash = "#/dashboard"; }}>แดชบอร์ด</button>
             <button type="button" onClick={() => { window.location.hash = "#/model"; }}>โมเดล</button>
           </nav>
