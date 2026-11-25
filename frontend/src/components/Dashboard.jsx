@@ -374,7 +374,7 @@ export default function Dashboard() {
       <div className="page-hero-top">
         <div>
           <small className="eyebrow hero-in" style={{ "--d": "0ms" }}>ข้อมูลอุบัติเหตุบนทางหลวง {years[0]}–{years[years.length - 1]}</small>
-          <h1 className="hero-in" style={{ "--d": "80ms" }}>แดชบอร์ดอุบัติเหตุทางถนน</h1>
+          <h1 className="hero-mask"><span style={{ "--d": "60ms" }}>แดชบอร์ดอุบัติเหตุทางถนน</span></h1>
         </div>
         <div className="seg-dark hero-in" style={{ "--d": "160ms" }} data-seg role="radiogroup" aria-label="ตัวชี้วัด">
           {METRICS.map((m) => (

@@ -27,106 +27,89 @@ function useServerOnline() {
   return online;
 }
 
-const ROUTE_D = "M58 410 C130 396, 160 330, 236 312 S 352 268, 392 208 S 486 112, 548 64";
 const VOICE = ["ข้างหน้าอีก 2 กิโลเมตร มีจุดที่ควรระวัง", "ระวัง! อีก 500 เมตร ถึงจุดที่ 1", "เข้าสู่จุดที่ควรระวังแล้ว ตั้งใจขับนะ"];
 
-// Map illustration in the app's own map style: the route draws itself, the numbered points appear,
-// a car drives along, and the spoken warning changes as it goes.
-function Shield({ x, y, n }) {
-  const w = 10 + String(n).length * 8;
-  return (
-    <g className="hm-shield" transform={`translate(${x} ${y})`}>
-      <rect x={-w / 2} y="-9" width={w} height="18" rx="4" fill="#fff" stroke="#1D4F91" strokeWidth="2" />
-      <text y="4.5" textAnchor="middle">{n}</text>
-    </g>
-  );
-}
-
+// Hero visual: Thailand drawn from the real boundary, every glowing dot a ~5 km area where accidents were
+// recorded often (the project's own data, 2564–2569), then a Bangkok → Chiang Mai trip draws itself with
+// the points RoadAware would flag, a car drives it, and the spoken warning changes as it goes.
+// Data: public/data/hero-map.json (projected boundary path, top 900 cells, route), built from the dashboard data.
+const HERO_URL = ((import.meta.env && import.meta.env.BASE_URL) || "./") + "data/hero-map.json";
+const MARKS = [[0.17, "red", 1], [0.5, "orange", 2], [0.78, "red", 3]];
 function HeroMap() {
-  const pathRef = useRef(null);
+  const [geo, setGeo] = useState(null);
   const [pts, setPts] = useState(null);
   const [voice, setVoice] = useState(0);
+  const routeRef = useRef(null);
   const motion = !reducedMotion();
   useEffect(() => {
-    const p = pathRef.current;
+    let alive = true;
+    fetch(HERO_URL).then((r) => (r.ok ? r.json() : null)).then((j) => { if (alive && j) setGeo(j); }).catch(() => {});
+    return () => { alive = false; };
+  }, []);
+  useEffect(() => {
+    const p = routeRef.current;
     if (p && p.getTotalLength) {
       const L = p.getTotalLength();
-      const at = (f) => { const q = p.getPointAtLength(L * f); return [q.x, q.y]; };
-      setPts({ red: at(0.42), orange: at(0.735) });
+      setPts(MARKS.map(([f]) => { const q = p.getPointAtLength(L * f); return [q.x, q.y]; }));
     }
+  }, [geo]);
+  useEffect(() => {
     if (!motion) return undefined;
     const t = setInterval(() => setVoice((v) => (v + 1) % VOICE.length), 3400);
     return () => clearInterval(t);
   }, [motion]);
+  const routeD = geo ? "M" + geo.route.map(([x, y]) => x + " " + y).join(" L") : "";
+  const hot = geo ? geo.hot : [];
+  const start = geo && geo.route[0], end = geo && geo.route[geo.route.length - 1];
   return (
-    <div className="hm" aria-hidden="true">
-      <div className="hm-card">
-        <svg viewBox="0 0 600 470" preserveAspectRatio="xMidYMid slice">
-          <rect width="600" height="470" fill="#F2EFE9" />
-          <path d="M380 0 C430 60, 520 40, 600 90 L600 0 Z" fill="#D6E7C9" />
-          <path d="M0 330 C60 300, 110 340, 150 380 C180 410, 140 470, 60 470 L0 470 Z" fill="#D6E7C9" />
-          <ellipse cx="470" cy="330" rx="70" ry="44" fill="#D6E7C9" />
-          <path d="M-10 210 C80 230, 150 190, 230 220 S 360 300, 420 290 S 540 250, 620 270" stroke="#AAD3DF" strokeWidth="10" fill="none" strokeLinecap="round" />
-          <g fill="none" strokeLinecap="round">
-            <g stroke="#D8D2C6" strokeWidth="9">
-              <path d="M-10 120 C120 140, 220 90, 330 130 S 520 170, 620 130" />
-              <path d="M110 -10 C130 120, 80 260, 140 480" />
-              <path d="M440 -10 C420 120, 470 280, 430 480" />
-              <path d="M300 480 C320 400, 400 360, 620 380" />
-            </g>
-            <g stroke="#FFFFFF" strokeWidth="6">
-              <path d="M-10 120 C120 140, 220 90, 330 130 S 520 170, 620 130" />
-              <path d="M110 -10 C130 120, 80 260, 140 480" />
-              <path d="M440 -10 C420 120, 470 280, 430 480" />
-              <path d="M300 480 C320 400, 400 360, 620 380" />
-            </g>
-            <g stroke="#E4DFD5" strokeWidth="2">
-              <path d="M180 0 L200 470" /><path d="M0 60 L600 30" /><path d="M260 470 L330 0" /><path d="M0 440 L600 420" />
-            </g>
-          </g>
-          <path d={ROUTE_D} stroke="#FFFFFF" strokeWidth="13" fill="none" strokeLinecap="round" />
-          <path ref={pathRef} id="hmRoute" className="hm-route" d={ROUTE_D} pathLength="1" stroke={ROUTE_HEX} strokeWidth="7" fill="none" strokeLinecap="round" />
-          <path className="hm-hot hm-hot-r" d={ROUTE_D} pathLength="100" stroke={LEVELS.red.hex} strokeWidth="7" fill="none" strokeLinecap="butt" strokeDasharray="12 200" strokeDashoffset="-36" />
-          <path className="hm-hot hm-hot-o" d={ROUTE_D} pathLength="100" stroke={LEVELS.orange.hex} strokeWidth="7" fill="none" strokeLinecap="butt" strokeDasharray="7 200" strokeDashoffset="-70" />
-          <Shield x={300} y={112} n={304} />
-          <Shield x={98} y={200} n={1} />
-          <Shield x={462} y={370} n={33} />
-          <text className="hm-place" x="214" y="372">นครนายก</text>
-          <text className="hm-place" x="470" y="250">ปราจีนบุรี</text>
-          {motion && (
-            <g className="hm-car">
-              <g>
-                <animateMotion dur="10s" begin="1.8s" repeatCount="indefinite"><mpath href="#hmRoute" /></animateMotion>
-                <circle r="9" fill="#0F1B2D" opacity=".18" />
-                <circle r="6.5" fill="#fff" stroke="#0F1B2D" strokeWidth="2.5" />
-                <circle r="2.5" fill="#0F1B2D" />
+    <div className={"hm nm" + (geo ? " is-ready" : "")} aria-hidden="true">
+      <div className="nm-stage">
+        {geo && (
+          <svg viewBox="40 20 440 560" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <filter id="nmGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="5" /></filter>
+              <linearGradient id="nmFade" x1="0" y1="0" x2="0" y2="1"><stop offset=".72" stopColor="#fff" /><stop offset="1" stopColor="#fff" stopOpacity="0" /></linearGradient>
+              <mask id="nmMask"><rect x="0" y="0" width="500" height="600" fill="url(#nmFade)" /></mask>
+            </defs>
+            <g mask="url(#nmMask)">
+              <path className="nm-land" d={geo.path} />
+              <path className="nm-coast" d={geo.path} pathLength="1" />
+              <g className="nm-glow" filter="url(#nmGlow)">
+                {hot.slice(0, 70).map(([x, y, v], i) => <circle key={i} cx={x} cy={y} r={3 + 7 * v} style={{ "--i": i }} />)}
+              </g>
+              <g className="nm-hot">
+                {hot.map(([x, y, v], i) => <circle key={i} cx={x} cy={y} r={0.9 + 2.6 * v} opacity={0.3 + 0.7 * v} style={{ "--i": i }} />)}
               </g>
             </g>
-          )}
-          <g className="hm-pin hm-pin-a"><circle cx="58" cy="410" r="13" fill="#24497A" stroke="#fff" strokeWidth="3" /><text x="58" y="415" textAnchor="middle">A</text></g>
-          <g className="hm-pin hm-pin-b"><circle cx="548" cy="64" r="13" fill="#E8821E" stroke="#fff" strokeWidth="3" /><text x="548" y="69" textAnchor="middle">B</text></g>
-          {pts && (
-            <>
-              <g className="hm-mark hm-mark-1" transform={`translate(${pts.red[0]} ${pts.red[1]})`}>
-                <circle className="hm-ring" r="15" fill="none" stroke={LEVELS.red.hex} strokeWidth="2.5" />
-                <circle r="15" fill={LEVELS.red.hex} stroke="#fff" strokeWidth="3" /><text y="5" textAnchor="middle">1</text>
+            <path d={routeD} className="nm-route-under" />
+            <path ref={routeRef} id="nmRoute" d={routeD} className="nm-route" pathLength="1" />
+            <g className="nm-city nm-city-a"><circle cx={start[0]} cy={start[1]} r="7" /><text x={start[0] + 12} y={start[1] + 5}>กรุงเทพฯ</text></g>
+            <g className="nm-city nm-city-b"><circle cx={end[0]} cy={end[1]} r="7" /><text x={end[0] + 12} y={end[1] + 4}>เชียงใหม่</text></g>
+            {pts && MARKS.map(([, lvl, n], i) => (
+              <g key={n} className={"nm-mark nm-mark-" + (i + 1)} transform={`translate(${pts[i][0]} ${pts[i][1]})`}>
+                <circle className="hm-ring" r="10" fill="none" stroke={LEVELS[lvl].hex} strokeWidth="2" />
+                <circle r="10" fill={LEVELS[lvl].hex} stroke="#fff" strokeWidth="2.2" /><text y="4" textAnchor="middle">{n}</text>
               </g>
-              <g className="hm-mark hm-mark-2" transform={`translate(${pts.orange[0]} ${pts.orange[1]})`}>
-                <circle className="hm-ring" r="15" fill="none" stroke={LEVELS.orange.hex} strokeWidth="2.5" />
-                <circle r="15" fill={LEVELS.orange.hex} stroke="#fff" strokeWidth="3" /><text y="5" textAnchor="middle">2</text>
+            ))}
+            {motion && (
+              <g className="nm-car">
+                <animateMotion dur="9s" begin="4.4s" repeatCount="indefinite"><mpath href="#nmRoute" /></animateMotion>
+                <circle r="9" fill="#fff" opacity=".18" />
+                <circle r="5" fill="#fff" />
               </g>
-            </>
-          )}
-        </svg>
+            )}
+          </svg>
+        )}
       </div>
       <div className="hm-float hm-brief">
-        <span className="hm-brief-n">2</span>
-        <span><b>จุดที่ควรระวัง</b><small>สูงมาก 1 จุด · สูง 1 จุด</small></span>
+        <span className="hm-brief-n">3</span>
+        <span><b>จุดที่ควรระวัง</b><small>กรุงเทพฯ → เชียงใหม่ · สูงมาก 2 · สูง 1</small></span>
       </div>
       <div className="hm-float hm-voice">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M11 5 6 9H3v6h3l5 4z" /><path d="M15.5 8.5a5 5 0 0 1 0 7" /><path d="M18.5 5.5a9 9 0 0 1 0 13" /></svg>
         <span key={voice} className="hm-voice-t">“{VOICE[voice]}”</span>
       </div>
+      <p className="nm-cap"><i />จุดเรืองแสง = พื้นที่ที่เกิดอุบัติเหตุบ่อย จากข้อมูลจริง{geo ? " " + geo.records.toLocaleString("en-US") + " รายการ" : ""} ปี 2564–2569</p>
     </div>
   );
 }
@@ -254,8 +237,8 @@ export default function Landing() {
             <div className="ld-hero-text">
               {online && <span className="ld-online ld-in" style={{ "--d": "0ms" }} role="status"><i aria-hidden="true" />เซิร์ฟเวอร์พร้อมใช้งาน</span>}
               <h1>
-                <span className="ld-line ld-in" style={{ "--d": "80ms" }}>รู้ก่อนออกเดินทาง</span>
-                <span className="ld-line ld-in" style={{ "--d": "220ms" }}>ว่าช่วงไหน<span className="ld-accent">ควรระวัง</span></span>
+                <span className="ld-line ld-mask"><span style={{ "--d": "80ms" }}>รู้ก่อนออกเดินทาง</span></span>
+                <span className="ld-line ld-mask"><span style={{ "--d": "220ms" }}>ว่าช่วงไหน<span className="ld-accent">ควรระวัง</span></span></span>
               </h1>
               <p className="ld-lead ld-in" style={{ "--d": "380ms" }}>RoadAware คาดการณ์ความเสี่ยงอุบัติเหตุบนทางหลวงทั่วประเทศไทย ตามเส้นทางและเวลาที่คุณจะขับผ่าน แล้วชี้จุดที่ควรระวังให้ตั้งแต่ก่อนออกจากบ้าน</p>
               <div className="ld-cta ld-in" style={{ "--d": "520ms" }}>

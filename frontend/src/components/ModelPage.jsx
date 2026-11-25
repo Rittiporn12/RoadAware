@@ -372,7 +372,7 @@ export default function ModelPage() {
           <div className="page-hero-top">
             <div>
               <small className="eyebrow hero-in" style={{ "--d": "0ms" }}>เบื้องหลังการคาดการณ์</small>
-              <h1 className="hero-in" style={{ "--d": "80ms" }}>โมเดลของ RoadAware</h1>
+              <h1 className="hero-mask"><span style={{ "--d": "60ms" }}>โมเดลของ RoadAware</span></h1>
               <p className="hero-in" style={{ "--d": "160ms" }}>โมเดลทายอะไร ถูกเลือกมาอย่างไร และทำได้ดีแค่ไหนกับข้อมูลที่ไม่เคยเห็น</p>
             </div>
             <div className="seg-dark hero-in" style={{ "--d": "220ms" }} data-seg role="radiogroup" aria-label="หน่วยเวลา">
