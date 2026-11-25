@@ -4,7 +4,7 @@
 //   3. the points   — a short list in the order you reach them; tap one for what usually happens there
 //   4. more detail  — national comparison, all departure times, all routes, how to read: folded away
 // Desktop: a point expands in place. Phone: a point opens as its own screen inside the sheet.
-import { CONFIG, LEVELS, LEVEL_ORDER, BLOCK_LABEL, DEPART_OPTIONS, HOT_HEX } from "../config.js";
+import { CONFIG, LEVELS, BLOCK_LABEL, DEPART_OPTIONS, HOT_HEX } from "../config.js";
 import { fmtKm, fmtDuration, fmtThaiDate, fmtPct, fmtSmall, epochToBkk, bkkToEpoch, techText } from "../lib/util.js";
 import { topValues, rainShare, peakBlock, tipsFor } from "../lib/zones.js";
 import { BUFFER_M } from "../lib/routeMatch.js";
@@ -215,30 +215,6 @@ function ZoneRow({ z, on, onClick, mobile }) {
 }
 
 // ---------------------------------------------------------------- 4. more detail (folded)
-function NationalShare({ counts, mode, onMode }) {
-  const total = LEVEL_ORDER.reduce((a, k) => a + (counts[k] || 0), 0);
-  if (total <= 0) return null;
-  return (
-    <div className="more-sec">
-      <div className="more-head">
-        <h4>ทั้งเส้นทางเทียบกับถนนทั่วประเทศ</h4>
-        <button type="button" className="btn btn-ghost btn-sm" aria-pressed={mode === "national"} onClick={() => onMode(mode === "national" ? "trip" : "national")}>
-          {mode === "national" ? "ซ่อนสีบนแผนที่" : "แสดงบนแผนที่"}
-        </button>
-      </div>
-      <div className="ov-bar" role="img" aria-label={LEVEL_ORDER.map((k) => LEVELS[k].label + " " + Math.round(((counts[k] || 0) / total) * 100) + "%").join(", ")}>
-        {LEVEL_ORDER.map((k) => (counts[k] > 0 ? <span key={k} style={{ flexGrow: counts[k], background: LEVELS[k].hex }} /> : null))}
-      </div>
-      <ul className="ov-legend">
-        {LEVEL_ORDER.map((k) => (
-          <li key={k} title={LEVELS[k].nat}><i style={{ background: LEVELS[k].hex }} /><span className="ov-l">{LEVELS[k].label}</span><b>{Math.round(((counts[k] || 0) / total) * 100)}%</b></li>
-        ))}
-      </ul>
-      <p className="fine">ทางหลวงสายหลักมักอยู่ระดับ “สูง” เกือบทั้งเส้นเพราะรถเยอะ หน้าหลักจึงใช้หมายเลขชี้เฉพาะจุดที่เด่นที่สุดของทริป</p>
-    </div>
-  );
-}
-
 function TimeCompare({ compare, when, onPickTime }) {
   if (compare.status === "idle") return null;
   const vals = DEPART_OPTIONS.map((o) => compare.results[o.time]).filter((r) => r && r.status === "ok").map((r) => r.red);
@@ -394,10 +370,9 @@ export default function Briefing({ route, when, forecast, zones, hidden, counts,
         <details className="more">
           <summary>
             <span className="more-title">ข้อมูลเพิ่มเติม</span>
-            <span className="more-hint">เทียบทั้งประเทศ · เวลาออกอื่น{(alts || []).length ? " · เส้นทางอื่น" : ""} · วิธีอ่านผล</span>
+            <span className="more-hint">เวลาออกอื่น{(alts || []).length ? " · เส้นทางอื่น" : ""} · วิธีอ่านผล</span>
           </summary>
           <div className="more-body">
-            <NationalShare counts={counts} mode={mode} onMode={onMode} />
             <TimeCompare compare={compare} when={when} onPickTime={onPickTime} />
             <AllRoutes alts={alts} main={main} altFocus={altFocus} onFocusAlt={onFocusAlt} onUseAlt={onUseAlt} />
             <HowToRead />

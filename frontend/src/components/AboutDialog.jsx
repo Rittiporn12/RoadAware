@@ -45,7 +45,7 @@ export default function AboutDialog({ open, onClose }) {
           <li><i style={{ background: ROUTE_HEX }} />เส้นสีน้ำเงิน — ทางหลวงที่ประเมินแล้ว</li>
           <li><i style={{ background: UNKNOWN_HEX }} />เส้นสีเทา — ถนนท้องถิ่น / ในเมืองที่ยังไม่มีข้อมูล (ไม่ได้แปลว่าปลอดภัย)</li>
         </ul>
-        <h3>ระดับเทียบทั้งประเทศ (เปิดดูบนแผนที่ได้จาก “ข้อมูลเพิ่มเติม”)</h3>
+        <h3>ระดับเทียบทั้งประเทศ</h3>
         <ul className="about-levels">
           {LEVEL_ORDER.map((k) => (
             <li key={k}><i style={{ background: LEVELS[k].hex }} />{LEVELS[k].label} — {LEVELS[k].nat} ของช่วงถนน × ช่วงเวลาทั่วประเทศ (ปี 2565–66)</li>
