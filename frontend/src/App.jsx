@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { CONFIG, DATE_MIN, DATE_MAX, DEPART_OPTIONS } from "./config.js";
+import { CONFIG, DATE_MIN, DATE_MAX, DEPART_OPTIONS, ENVELOPE } from "./config.js";
 import { api, fetchJson, bkkToEpoch, epochToBkk, pad2, isNum, fmtKm, techText, isServiceDown } from "./lib/util.js";
 import { geocode } from "./lib/geocode.js";
 import { buildRouteIndex } from "./lib/routeMatch.js";
@@ -511,6 +511,27 @@ export default function App() {
     if (isMobile()) setSheet("full");
   }, [pick, choosePlace]);
 
+  // "ใช้ตำแหน่งของฉัน": the device's current position becomes the origin (needs https or localhost and the user's OK)
+  const [locating, setLocating] = useState(false);
+  const locateMe = useCallback(() => {
+    if (!navigator.geolocation) { showToast("เบราว์เซอร์นี้หาตำแหน่งไม่ได้"); return; }
+    setLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setLocating(false);
+        const { latitude: lat, longitude: lon, accuracy } = pos.coords;
+        if (lon < ENVELOPE.west || lon > ENVELOPE.east || lat < ENVELOPE.south || lat > ENVELOPE.north) { showToast("ตำแหน่งปัจจุบันอยู่นอกประเทศไทย"); return; }
+        choosePlace("origin", { id: "gps", name: "ตำแหน่งของฉัน", sub: accuracy ? "แม่นยำราว " + Math.round(accuracy) + " ม." : "จาก GPS", lat, lon, source: "gps" });
+      },
+      (err) => {
+        setLocating(false);
+        showToast(err && err.code === 1 ? "ยังไม่ได้อนุญาตให้ใช้ตำแหน่ง — กดอนุญาตในเบราว์เซอร์แล้วลองใหม่" : "หาตำแหน่งไม่สำเร็จ ลองใหม่อีกครั้ง");
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 },
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [choosePlace]);
+
   const togglePick = (which) => {
     const next = pick === which ? null : which;
     setPick(next);
@@ -708,7 +729,7 @@ export default function App() {
                   canRoute={canRoute} trip={trip}
                   onText={onText} onSearch={(w) => runSearch(w, texts[w])} onChoose={choosePlace}
                   onCloseResults={(w) => setResults((r) => ({ ...r, [w]: IDLE }))}
-                  onPick={togglePick} onSwap={swap} onWhen={(patch) => setWhen((w) => ({ ...w, ...patch }))}
+                  onPick={togglePick} onMyLocation={locateMe} locating={locating} onSwap={swap} onWhen={(patch) => setWhen((w) => ({ ...w, ...patch }))}
                   onSubmit={() => runTrip(places.origin, places.dest)} onExample={runExample}
                 />
               </>
