@@ -333,28 +333,28 @@ RoadAware/
 
 <h2 align="center">ผู้พัฒนา</h2>
 
-<div align="center">
-
-<p>
-  <b>ฤทธิพร ผึ่งผาย</b>
-</p>
-
-<p>
-  นักศึกษาวิทยาการคอมพิวเตอร์<br />
-  การพัฒนาซอฟต์แวร์ | การพัฒนาแบบ Full-Stack | AI และระบบอัตโนมัติ | คุณภาพซอฟต์แวร์
-</p>
-
-<p>
-  <a href="https://github.com/Rittiporn12">
-    GitHub
-  </a>
-  &nbsp;|&nbsp;
-  <a href="https://rittiporn12.github.io/portfolio/">
-    Portfolio
-  </a>
-</p>
-
-</div>
+<table align="center">
+  <tr>
+    <th>รหัสนักศึกษา</th>
+    <th>ชื่อ–นามสกุล</th>
+  </tr>
+  <tr>
+    <td>66088346</td>
+    <td>นายฤทธิพร ผึ่งผาย</td>
+  </tr>
+  <tr>
+    <td>66088226</td>
+    <td>นายกันณพิช เบ้าศรี</td>
+  </tr>
+  <tr>
+    <td>66080740</td>
+    <td>นางสาววรรณษา วงค์ดี</td>
+  </tr>
+  <tr>
+    <td>66092559</td>
+    <td>นายจริยธรรม มาสงค์</td>
+  </tr>
+</table>
 
 <hr />
 
