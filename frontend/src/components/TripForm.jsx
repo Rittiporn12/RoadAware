@@ -18,7 +18,6 @@ export default function TripForm({ appMode = "plan", onAppMode, reviewPeriod, on
   const problem = review ? periodProblem(reviewPeriod) : null;
   return (
     <section className="trip-form" aria-labelledby="planTitle">
-      <div className="tf-hero">
       <div className="mode-tabs" data-seg role="tablist" aria-label="โหมด">
         <button type="button" role="tab" aria-selected={appMode === "plan"} className={appMode === "plan" ? "is-on" : ""} onClick={() => onAppMode && onAppMode("plan")}>วางแผนเดินทาง</button>
         <button type="button" role="tab" aria-selected={appMode === "review"} className={appMode === "review" ? "is-on" : ""} onClick={() => onAppMode && onAppMode("review")}>ย้อนดูผล</button>
@@ -34,7 +33,6 @@ export default function TripForm({ appMode = "plan", onAppMode, reviewPeriod, on
           <p className="plan-lead">บอกเส้นทางและเวลาออก แล้วเราจะสรุปว่าต้องระวังช่วงไหน</p>
         </>
       )}
-      </div>
 
       <div className="pf-card">
         <PlaceField which="origin" letter="A" label="ต้นทาง" placeholder="เช่น มหาวิทยาลัยศรีปทุม"

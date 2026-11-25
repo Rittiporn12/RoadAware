@@ -65,9 +65,13 @@ function HeroMap() {
   const start = geo && geo.route[0], end = geo && geo.route[geo.route.length - 1];
   return (
     <div className="hm nm" aria-hidden="true">
-      <div className="hm-card nm-card">
+      <div className="nm-tilt"><div className="hm-card nm-card">
         {geo && (
           <svg viewBox="44 52 436 488" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <filter id="nmBlur" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="4" /></filter>
+              <radialGradient id="nmVig" cx="50%" cy="45%" r="70%"><stop offset="55%" stopColor="#0B1422" stopOpacity="0" /><stop offset="100%" stopColor="#0B1422" stopOpacity=".85" /></radialGradient>
+            </defs>
             <rect x="0" y="0" width="600" height="600" className="nm-out" />
             <path className="nm-land" d={geo.path} />
             <path className="nm-r3" d={geo.roads.minor} />
@@ -76,6 +80,7 @@ function HeroMap() {
             <path className="nm-coast" d={geo.path} />
             {PLACES.map(([n, lon, lat]) => { const [x, y] = PRJ(lon, lat); return <text key={n} x={x} y={y} className="nm-place">{n}</text>; })}
             {SHIELDS.map(([n, lon, lat]) => { const [x, y] = PRJ(lon, lat); const w = n.length > 1 ? 20 : 15; return <g key={n} className="nm-shield" transform={`translate(${x} ${y})`}><rect x={-w / 2} y="-7.5" width={w} height="15" rx="3" /><text y="4" textAnchor="middle">{n}</text></g>; })}
+            <path d={routeD} className="nm-route-glow" filter="url(#nmBlur)" />
             <path d={routeD} className="nm-route-under" />
             <path ref={routeRef} id="nmRoute" d={routeD} className="nm-route" pathLength="1" />
             {motion && (
@@ -92,11 +97,12 @@ function HeroMap() {
             ))}
             <g className="nm-pin nm-pin-a" transform={`translate(${start[0]} ${start[1]})`}><circle r="11" fill="#24497A" stroke="#fff" strokeWidth="2.6" /><text y="4" textAnchor="middle">A</text></g>
             <g className="nm-pin nm-pin-b" transform={`translate(${end[0]} ${end[1]})`}><circle r="11" fill="#E8821E" stroke="#fff" strokeWidth="2.6" /><text y="4" textAnchor="middle">B</text></g>
+            <rect x="0" y="0" width="600" height="600" fill="url(#nmVig)" pointerEvents="none" />
             <text x={start[0] + 16} y={start[1] + 5} className="nm-city nm-city-a">กรุงเทพฯ</text>
             <text x={end[0] + 16} y={end[1] + 5} className="nm-city nm-city-b">เชียงใหม่</text>
           </svg>
         )}
-      </div>
+      </div></div>
       <div className="hm-float hm-brief">
         <span className="hm-brief-n">3</span>
         <span><b>จุดที่ควรระวัง</b><small>กรุงเทพฯ → เชียงใหม่ · สูงมาก 2 · สูง 1</small></span>
