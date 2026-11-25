@@ -276,7 +276,9 @@ export default function Landing() {
             <button type="button" onClick={() => scrollTo("ld-features")}>ความสามารถ</button>
             <button type="button" onClick={() => scrollTo("ld-how")}>วิธีใช้</button>
             <button type="button" onClick={() => scrollTo("ld-tech")}>เบื้องหลัง</button>
+            <button type="button" onClick={() => { window.location.hash = "#/dashboard"; }}>แดชบอร์ด</button>
           </nav>
+          <a className="ld-nav-dash" href="#/dashboard">แดชบอร์ด</a>
           <button type="button" className="ld-btn ld-btn-sm" onClick={goApp}>เริ่มใช้งาน</button>
         </div>
       </header>

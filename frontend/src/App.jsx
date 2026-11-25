@@ -691,6 +691,7 @@ export default function App() {
           {ready === "down" && (
             <button type="button" className="btn btn-ghost btn-sm" onClick={async () => { const ok = await checkReady(); if (ok && route) setRetryNonce((n) => n + 1); }}>ลองใหม่</button>
           )}
+          <a className="btn btn-ghost btn-sm dash-link" href="#/dashboard">แดชบอร์ด</a>
           <button type="button" className="btn btn-ghost btn-sm about-btn" onClick={() => setAbout(true)} aria-label="ข้อมูลนี้มาจากไหน">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 11v5" /><path d="M12 7.5v.5" /></svg>
             <span className="about-text">ข้อมูลนี้มาจากไหน</span>
