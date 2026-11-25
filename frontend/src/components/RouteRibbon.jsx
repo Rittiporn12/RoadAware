@@ -1,8 +1,29 @@
 // The whole route A→B on one strip.
 //  trip view (default): red = the numbered hotspots of THIS trip, blue = evaluated, hatched grey = no data
 //  national view:       each piece coloured by its national level (where it sits among all roads in Thailand)
-import { LEVELS, LEVEL_ORDER, HOT_HEX, TRIP_TIERS, tripTierHex } from "../config.js";
+import { LEVELS, LEVEL_ORDER, HOT_HEX, TRIP_TIERS, tripTierHex, ROUTE_HEX, UNKNOWN_HEX } from "../config.js";
 import { bkkToEpoch, epochToBkk } from "../lib/util.js";
+
+// Small map key: three items in the default view; the national colours only while that view is switched on.
+export function MapKey({ mode, onTrip }) {
+  if (mode === "national") {
+    return (
+      <div className="map-key map-key-nat" aria-label="คำอธิบายสีเทียบทั้งประเทศ">
+        <div className="mk-head"><b>สีเทียบทั้งประเทศ</b><button type="button" className="link-btn" onClick={onTrip}>กลับ</button></div>
+        <div className="mk-items">
+          {LEVEL_ORDER.map((k) => <span key={k}><i className="mk-line" style={{ background: LEVELS[k].hex }} />{LEVELS[k].label}</span>)}
+        </div>
+      </div>
+    );
+  }
+  return (
+    <div className="map-key" aria-label="คำอธิบายแผนที่">
+      <span><b className="mk-num" style={{ background: HOT_HEX }}>1</b>จุดที่ควรระวัง</span>
+      <span><i className="mk-line" style={{ background: ROUTE_HEX }} />ประเมินแล้ว</span>
+      <span><i className="mk-line" style={{ background: UNKNOWN_HEX }} />ยังไม่มีข้อมูล</span>
+    </div>
+  );
+}
 
 export function RouteKey({ mode }) {
   if (mode === "national") {

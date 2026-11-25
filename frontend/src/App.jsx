@@ -8,7 +8,7 @@ import { buildZones, buildRibbon, aggregateHistory, levelKm } from "./lib/zones.
 import MapView from "./components/MapView.jsx";
 import TripForm from "./components/TripForm.jsx";
 import Briefing from "./components/Briefing.jsx";
-import RouteRibbon, { RouteKey } from "./components/RouteRibbon.jsx";
+import { MapKey } from "./components/RouteRibbon.jsx";
 import AboutDialog from "./components/AboutDialog.jsx";
 import DriveMode, { DriveStart, DriveBanner } from "./components/DriveMode.jsx";
 import { pointAt, locate, nextZone, warningText, speak, stopSpeech, checkVoiceProxy, prefetchSpeech } from "./lib/drive.js";
@@ -653,43 +653,23 @@ export default function App() {
             )}
             {toast && <p className="toast" role="status">{toast.text}</p>}
             {driveOn && route && <DriveBanner drive={drive} zones={zones} route={route} />}
-            {!driveOn && showRibbon && route.alternatives && route.alternatives.length > 0 && (() => {
+            {!driveOn && showRibbon && altFocus && route.alternatives && (() => {
               const i = route.alternatives.findIndex((x) => x.id === altFocus);
-              const st = i >= 0 ? alts.list.find((x) => x.id === altFocus) : null;
-              if (i < 0) {
-                return (
-                  <button type="button" className="alt-chip" onClick={() => setAltFocus(route.alternatives[0].id)}>
-                    <i className="alt-swatch" />มีเส้นทางอื่นที่เวลาใกล้กัน {route.alternatives.length} เส้น (เส้นประสีเทา) · แตะเพื่อเทียบ
-                  </button>
-                );
-              }
+              if (i < 0) return null;
+              const st = alts.list.find((x) => x.id === altFocus);
               const dt = Math.round((route.alternatives[i].duration - route.duration) / 60);
               return (
                 <div className="alt-chip alt-chip-on" role="status">
-                  <span><i className="alt-swatch alt-swatch-on" /><b>ทางเลือก {i + 1}</b> (เส้นประสีม่วง) · {dt === 0 ? "เวลาเท่ากัน" : (dt > 0 ? "ช้ากว่า " : "เร็วกว่า ") + Math.abs(dt) + " นาที"}
-                    {st && st.status === "ok" ? " · ช่วงระดับสูงมาก " + Math.round(st.redKm) + " กม. (เส้นที่เลือก " + Math.round(zoneRes.counts.red || 0) + " กม.)" : st && st.status === "loading" ? " · กำลังประเมิน…" : ""}
-                    {st && st.status === "ok" && st.coverage < CONFIG.altMinCoverage ? " · ส่วนใหญ่ยังไม่ประเมิน" : ""}</span>
+                  <span><i className="alt-swatch alt-swatch-on" /><b>เส้นประสีม่วง = ทางเลือก {i + 1}</b> · {dt === 0 ? "เวลาเท่ากัน" : (dt > 0 ? "ช้ากว่า " : "เร็วกว่า ") + Math.abs(dt) + " นาที"}</span>
                   {st && st.status === "ok" && <button type="button" className="btn btn-sm alt-chip-use" onClick={() => pickAlternative(altFocus)}>ใช้เส้นนี้</button>}
                   <button type="button" className="btn btn-ghost btn-sm" onClick={() => setAltFocus(null)}>ปิด</button>
                 </div>
               );
             })()}
-            {!driveOn && showRibbon && (
-              <div className="map-legend">
-                <div className="seg-toggle" role="group" aria-label="มุมมองสีบนแผนที่">
-                  <button type="button" aria-pressed={mode === "trip"} className={mode === "trip" ? "is-on" : ""} onClick={() => setMode("trip")}>จุดเสี่ยงของทริป</button>
-                  <button type="button" aria-pressed={mode === "national"} className={mode === "national" ? "is-on" : ""} onClick={() => setMode("national")}>เทียบทั้งประเทศ</button>
-                </div>
-                {!mobile && <RouteKey mode={mode} />}
-              </div>
-            )}
+            {!driveOn && showRibbon && <MapKey mode={mode} onTrip={() => setMode("trip")} mobile={mobile} />}
           </div>
 
-          {!mobile && showRibbon && (
-            <div className="ribbon-card">
-              <RouteRibbon ribbon={ribbon} zones={zones} route={route} when={when} selectedKey={selectedKey} onSelectZone={(k) => selectZone(k, false)} mode={mode} />
-            </div>
-          )}
+
         </section>
 
         <aside id="panel" ref={panelRef} className={"panel sheet-" + sheet} tabIndex={-1} aria-label="วางแผนการเดินทาง">
@@ -707,7 +687,7 @@ export default function App() {
                 onTestVoice={() => { stopSpeech(); if (!speak("ระวัง! อีก 500 เมตร ถึงจุดที่ควรระวัง นี่คือเสียงเตือนของ RoadAware", false, "test")) showToast("เบราว์เซอร์นี้ไม่มีเสียงภาษาไทย"); }} />
             ) : showBrief ? (
               <Briefing
-                route={route} when={when} forecast={forecast} zones={zones} hidden={zoneRes.hidden} counts={zoneRes.counts} mode={mode} ribbon={ribbon}
+                route={route} when={when} forecast={forecast} zones={zones} hidden={zoneRes.hidden} counts={zoneRes.counts} mode={mode} onMode={setMode} ribbon={ribbon}
                 compare={compare} selectedKey={selectedKey} history={history} mobile={mobile}
                 alts={alts.list} altFocus={altFocus} onFocusAlt={setAltFocus} onUseAlt={pickAlternative}
                 onDrive={zones.length && route.index ? () => setDrive({ phase: "start" }) : null}

@@ -2,7 +2,7 @@
 //  • Thailand is drawn sharp: a second copy of the basemap is clipped to the country outline (public/assets).
 //  • Neighbouring countries stay visible underneath, blurred, desaturated and lightly tinted.
 //  • Panning is locked to a frame just around Thailand; the minimum zoom keeps the whole country in view.
-//  • Route: grey dashed = no forecast coverage. Trip view: blue = evaluated, red + number = this trip's hotspots.
+//  • Route: grey = no forecast coverage. Trip view: one blue = evaluated, red + number = this trip's points to watch.
 //    National view: each segment in its national level colour.
 import { useEffect, useRef, useState } from "react";
 import * as L from "leaflet";
@@ -233,8 +233,10 @@ export default function MapView({ route, origin, dest, items, zones, hotIds, ran
     if (!m) return;
     const g = layers.current.alts;
     g.clearLayers();
-    const list = (route && !drivePos && route.alternatives) || [];
-    list.forEach((a, i) => {
+    // shown only when the person asks to see one (from a suggestion or the routes table): less to decode at first glance
+    const list = ((route && !drivePos && route.alternatives) || []).filter((a) => a.id === altFocus);
+    list.forEach((a) => {
+      const i = route.alternatives.indexOf(a);
       const ll = a.coords.map(([lon, lat]) => [lat, lon]);
       const on = altFocus === a.id;
       L.polyline(ll, { pane: "altPane", color: "#FFFFFF", weight: on ? 11 : 9, opacity: 0.9, lineCap: "round", interactive: false }).addTo(g);
@@ -243,6 +245,13 @@ export default function MapView({ route, origin, dest, items, zones, hotIds, ran
       line.on("click", () => handlers.current.onSelectAlt && handlers.current.onSelectAlt(a.id));
       line.addTo(g);
     });
+    // show the whole comparison: main route + the alternative being looked at
+    if (list.length && route) {
+      const b = L.latLngBounds(route.coords.map(([lon, lat]) => [lat, lon]));
+      list[0].coords.forEach(([lon, lat]) => b.extend([lat, lon]));
+      m.fitBounds(b, getPadding());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [route, altFocus, !!drivePos]);
 
   // ---- forecast colours on the route
@@ -258,7 +267,7 @@ export default function MapView({ route, origin, dest, items, zones, hotIds, ran
       const hot = !!(hotIds && hotIds.has(it.id));
       const style = national
         ? { color: LEVELS[it.level].hex, weight: it.level === "red" || it.level === "orange" ? 8 : 6 }
-        : { color: hot ? HOT_HEX : tripTierHex(rankById && rankById.has(it.id) ? rankById.get(it.id) : 0), weight: hot ? 9 : 6 };
+        : { color: hot ? HOT_HEX : ROUTE_HEX, weight: hot ? 9 : 6 }; // one calm colour; only the numbered points stand out
       L.geoJSON(it.feature, { pane: "segPane", interactive: false, style: () => ({ ...style, opacity: 1, lineCap: "round" }) }).addTo(g);
     }
   }, [items, hotIds, rankById, mode]);
