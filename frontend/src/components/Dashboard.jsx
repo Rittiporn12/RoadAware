@@ -6,6 +6,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import * as L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { CONFIG, THAI_BOUNDS, MAX_BOUNDS } from "../config.js";
+import SiteNav from "./SiteNav.jsx";
 
 const ENV = (import.meta.env) || {};
 const DATA_URL = (ENV.BASE_URL || "./") + "data/dashboard-v1.json";
@@ -478,31 +479,10 @@ export default function Dashboard() {
   );
 }
 
-// Same navigation bar as the home page; section links go back to the home page and scroll there.
-const goHomeSection = (id) => {
-  try { window.sessionStorage.setItem("roadaware.scrollTo", id); } catch (_) { /* ignore */ }
-  window.location.hash = "#/";
-};
-
 function DashShell({ children }) {
   return (
     <div className="dash">
-      <header className="ld-nav ld-nav-solid">
-        <div className="ld-wrap ld-nav-in">
-          <a className="ld-brand" href="#/">
-            <svg width="30" height="30" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="12" fill="#FFFFFF" /><path d="M7 18 C10 12, 13 15, 19 7" stroke="#E8821E" strokeWidth="2.6" fill="none" strokeLinecap="round" /></svg>
-            <span>RoadAware</span>
-          </a>
-          <nav className="ld-links" aria-label="เมนู">
-            <button type="button" onClick={() => goHomeSection("ld-features")}>ความสามารถ</button>
-            <button type="button" onClick={() => goHomeSection("ld-how")}>วิธีใช้</button>
-            <button type="button" onClick={() => goHomeSection("ld-tech")}>เบื้องหลัง</button>
-            <button type="button" aria-current="page" onClick={() => { const el = document.querySelector(".dash"); if (el) el.scrollTo({ top: 0, behavior: "smooth" }); }}>แดชบอร์ด</button>
-          </nav>
-          <a className="ld-nav-dash" href="#/dashboard" aria-current="page">แดชบอร์ด</a>
-          <a className="ld-btn ld-btn-sm" href="#/app">เริ่มใช้งาน</a>
-        </div>
-      </header>
+      <SiteNav active="dashboard" />
       <main className="db-wrap db-main">{children}</main>
     </div>
   );
