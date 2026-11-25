@@ -1,6 +1,6 @@
-// Home page shown before the app ("night highway" theme): what RoadAware is, how to use it, what is behind it.
+// Home page shown before the app : what RoadAware is, how to use it, what is behind it.
 // "เริ่มใช้งาน" plays a short exit transition, then opens the app at #/app (main.jsx switches pages on the hash).
-// Motion: drawn route + moving car in the hero, scroll reveals, count-ups, marquee, cursor spotlight.
+// Motion is kept to what explains the product: the route drawing, the car, the warnings; plus gentle scroll reveals.
 // Everything respects prefers-reduced-motion. Works on phone, tablet and desktop.
 import { useEffect, useRef, useState } from "react";
 import { CONFIG, LEVELS, ROUTE_HEX, UNKNOWN_HEX, discoverServer } from "../config.js";
@@ -79,12 +79,22 @@ function CountUp({ to, rootRef, duration = 1600 }) {
 const ROUTE_D = "M58 410 C130 396, 160 330, 236 312 S 352 268, 392 208 S 486 112, 548 64";
 const VOICE = ["ข้างหน้าอีก 2 กิโลเมตร มีจุดที่ควรระวัง", "ระวัง! อีก 500 เมตร ถึงจุดที่ 1", "เข้าสู่จุดที่ควรระวังแล้ว ตั้งใจขับนะ"];
 
-// Night-map illustration: the route draws itself, hot spots glow, a car drives along, the voice speaks.
+// Map illustration in the app's own map style: the route draws itself, the numbered points appear,
+// a car drives along, and the spoken warning changes as it goes.
+function Shield({ x, y, n }) {
+  const w = 10 + String(n).length * 8;
+  return (
+    <g className="hm-shield" transform={`translate(${x} ${y})`}>
+      <rect x={-w / 2} y="-9" width={w} height="18" rx="4" fill="#fff" stroke="#1D4F91" strokeWidth="2" />
+      <text y="4.5" textAnchor="middle">{n}</text>
+    </g>
+  );
+}
+
 function HeroMap() {
   const pathRef = useRef(null);
   const [pts, setPts] = useState(null);
   const [voice, setVoice] = useState(0);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const motion = !reducedMotion();
   useEffect(() => {
     const p = pathRef.current;
@@ -94,46 +104,52 @@ function HeroMap() {
       setPts({ red: at(0.42), orange: at(0.735) });
     }
     if (!motion) return undefined;
-    const t = setInterval(() => setVoice((v) => (v + 1) % VOICE.length), 3200);
+    const t = setInterval(() => setVoice((v) => (v + 1) % VOICE.length), 3400);
     return () => clearInterval(t);
   }, [motion]);
-  const onMove = (e) => {
-    if (!motion || e.pointerType !== "mouse") return;
-    const r = e.currentTarget.getBoundingClientRect();
-    setTilt({ x: ((e.clientY - r.top) / r.height - 0.5) * -6, y: ((e.clientX - r.left) / r.width - 0.5) * 8 });
-  };
   return (
-    <div className="hm" aria-hidden="true" onPointerMove={onMove} onPointerLeave={() => setTilt({ x: 0, y: 0 })}>
-      <div className="hm-card" style={{ transform: `perspective(1200px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}>
+    <div className="hm" aria-hidden="true">
+      <div className="hm-card">
         <svg viewBox="0 0 600 470" preserveAspectRatio="xMidYMid slice">
-          <defs>
-            <radialGradient id="hmBg" cx="70%" cy="20%" r="90%"><stop offset="0" stopColor="#1B2D4A" /><stop offset="1" stopColor="#0A1424" /></radialGradient>
-            <filter id="hmGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6" /></filter>
-            <filter id="hmSoft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.2" /></filter>
-            <radialGradient id="hmCar"><stop offset="0" stopColor="#FFE2B0" /><stop offset=".35" stopColor="#F2A245" stopOpacity=".9" /><stop offset="1" stopColor="#E8821E" stopOpacity="0" /></radialGradient>
-          </defs>
-          <rect width="600" height="470" fill="url(#hmBg)" />
-          <g className="hm-grid" stroke="#22344F" strokeWidth="1">
-            {Array.from({ length: 13 }, (_, i) => <line key={"v" + i} x1={i * 50} y1="0" x2={i * 50} y2="470" />)}
-            {Array.from({ length: 10 }, (_, i) => <line key={"h" + i} x1="0" y1={i * 50} x2="600" y2={i * 50} />)}
+          <rect width="600" height="470" fill="#F2EFE9" />
+          <path d="M380 0 C430 60, 520 40, 600 90 L600 0 Z" fill="#D6E7C9" />
+          <path d="M0 330 C60 300, 110 340, 150 380 C180 410, 140 470, 60 470 L0 470 Z" fill="#D6E7C9" />
+          <ellipse cx="470" cy="330" rx="70" ry="44" fill="#D6E7C9" />
+          <path d="M-10 210 C80 230, 150 190, 230 220 S 360 300, 420 290 S 540 250, 620 270" stroke="#AAD3DF" strokeWidth="10" fill="none" strokeLinecap="round" />
+          <g fill="none" strokeLinecap="round">
+            <g stroke="#D8D2C6" strokeWidth="9">
+              <path d="M-10 120 C120 140, 220 90, 330 130 S 520 170, 620 130" />
+              <path d="M110 -10 C130 120, 80 260, 140 480" />
+              <path d="M440 -10 C420 120, 470 280, 430 480" />
+              <path d="M300 480 C320 400, 400 360, 620 380" />
+            </g>
+            <g stroke="#FFFFFF" strokeWidth="6">
+              <path d="M-10 120 C120 140, 220 90, 330 130 S 520 170, 620 130" />
+              <path d="M110 -10 C130 120, 80 260, 140 480" />
+              <path d="M440 -10 C420 120, 470 280, 430 480" />
+              <path d="M300 480 C320 400, 400 360, 620 380" />
+            </g>
+            <g stroke="#E4DFD5" strokeWidth="2">
+              <path d="M180 0 L200 470" /><path d="M0 60 L600 30" /><path d="M260 470 L330 0" /><path d="M0 440 L600 420" />
+            </g>
           </g>
-          <g stroke="#2B4366" strokeWidth="3" fill="none" strokeLinecap="round" opacity=".9">
-            <path d="M-10 120 C120 140, 220 90, 330 130 S 520 170, 620 130" />
-            <path d="M110 -10 C130 120, 80 260, 140 480" />
-            <path d="M-10 300 C90 260, 200 280, 300 250" />
-            <path d="M440 -10 C420 120, 470 280, 430 480" />
-            <path d="M300 480 C320 400, 400 360, 620 380" />
-          </g>
-          <path d={ROUTE_D} stroke={ROUTE_HEX} strokeWidth="16" fill="none" strokeLinecap="round" filter="url(#hmGlow)" opacity=".75" />
-          <path ref={pathRef} id="hmRoute" className="hm-route" d={ROUTE_D} pathLength="1" stroke="#9CC0EA" strokeWidth="5" fill="none" strokeLinecap="round" />
-          <path className="hm-hot hm-hot-r" d={ROUTE_D} pathLength="100" stroke={LEVELS.red.hex} strokeWidth="7" fill="none" strokeLinecap="round" strokeDasharray="12 200" strokeDashoffset="-36" />
-          <path className="hm-hot hm-hot-r" d={ROUTE_D} pathLength="100" stroke={LEVELS.red.hex} strokeWidth="16" fill="none" strokeLinecap="round" strokeDasharray="12 200" strokeDashoffset="-36" filter="url(#hmGlow)" />
-          <path className="hm-hot hm-hot-o" d={ROUTE_D} pathLength="100" stroke={LEVELS.orange.hex} strokeWidth="7" fill="none" strokeLinecap="round" strokeDasharray="7 200" strokeDashoffset="-70" />
-          <path className="hm-hot hm-hot-o" d={ROUTE_D} pathLength="100" stroke={LEVELS.orange.hex} strokeWidth="16" fill="none" strokeLinecap="round" strokeDasharray="7 200" strokeDashoffset="-70" filter="url(#hmGlow)" />
+          <path d={ROUTE_D} stroke="#FFFFFF" strokeWidth="13" fill="none" strokeLinecap="round" />
+          <path ref={pathRef} id="hmRoute" className="hm-route" d={ROUTE_D} pathLength="1" stroke={ROUTE_HEX} strokeWidth="7" fill="none" strokeLinecap="round" />
+          <path className="hm-hot hm-hot-r" d={ROUTE_D} pathLength="100" stroke={LEVELS.red.hex} strokeWidth="7" fill="none" strokeLinecap="butt" strokeDasharray="12 200" strokeDashoffset="-36" />
+          <path className="hm-hot hm-hot-o" d={ROUTE_D} pathLength="100" stroke={LEVELS.orange.hex} strokeWidth="7" fill="none" strokeLinecap="butt" strokeDasharray="7 200" strokeDashoffset="-70" />
+          <Shield x={300} y={112} n={304} />
+          <Shield x={98} y={200} n={1} />
+          <Shield x={462} y={370} n={33} />
+          <text className="hm-place" x="214" y="372">นครนายก</text>
+          <text className="hm-place" x="470" y="250">ปราจีนบุรี</text>
           {motion && (
             <g className="hm-car">
-              <circle r="22" fill="url(#hmCar)"><animateMotion dur="9s" begin="1.6s" repeatCount="indefinite" rotate="auto"><mpath href="#hmRoute" /></animateMotion></circle>
-              <circle r="5.5" fill="#FFF4E0"><animateMotion dur="9s" begin="1.6s" repeatCount="indefinite"><mpath href="#hmRoute" /></animateMotion></circle>
+              <g>
+                <animateMotion dur="10s" begin="1.8s" repeatCount="indefinite"><mpath href="#hmRoute" /></animateMotion>
+                <circle r="9" fill="#0F1B2D" opacity=".18" />
+                <circle r="6.5" fill="#fff" stroke="#0F1B2D" strokeWidth="2.5" />
+                <circle r="2.5" fill="#0F1B2D" />
+              </g>
             </g>
           )}
           <g className="hm-pin hm-pin-a"><circle cx="58" cy="410" r="13" fill="#0B6E69" stroke="#fff" strokeWidth="3" /><text x="58" y="415" textAnchor="middle">A</text></g>
@@ -141,24 +157,23 @@ function HeroMap() {
           {pts && (
             <>
               <g className="hm-mark hm-mark-1" transform={`translate(${pts.red[0]} ${pts.red[1]})`}>
-                <circle className="hm-ring" r="16" fill="none" stroke={LEVELS.red.hex} strokeWidth="3" />
-                <circle r="16" fill={LEVELS.red.hex} stroke="#fff" strokeWidth="3" /><text y="5.5" textAnchor="middle">1</text>
+                <circle className="hm-ring" r="15" fill="none" stroke={LEVELS.red.hex} strokeWidth="2.5" />
+                <circle r="15" fill={LEVELS.red.hex} stroke="#fff" strokeWidth="3" /><text y="5" textAnchor="middle">1</text>
               </g>
               <g className="hm-mark hm-mark-2" transform={`translate(${pts.orange[0]} ${pts.orange[1]})`}>
-                <circle className="hm-ring" r="16" fill="none" stroke={LEVELS.orange.hex} strokeWidth="3" />
-                <circle r="16" fill={LEVELS.orange.hex} stroke="#fff" strokeWidth="3" /><text y="5.5" textAnchor="middle">2</text>
+                <circle className="hm-ring" r="15" fill="none" stroke={LEVELS.orange.hex} strokeWidth="2.5" />
+                <circle r="15" fill={LEVELS.orange.hex} stroke="#fff" strokeWidth="3" /><text y="5" textAnchor="middle">2</text>
               </g>
             </>
           )}
         </svg>
-        <div className="hm-scan" />
       </div>
       <div className="hm-float hm-brief">
         <span className="hm-brief-n">2</span>
-        <span><b>จุดที่ควรระวัง</b><small><i style={{ background: LEVELS.red.hex }} />สูงมาก 1 · <i style={{ background: LEVELS.orange.hex }} />สูง 1</small></span>
+        <span><b>จุดที่ควรระวัง</b><small>สูงมาก 1 จุด · สูง 1 จุด</small></span>
       </div>
       <div className="hm-float hm-voice">
-        <span className="hm-wave"><i /><i /><i /><i /></span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M11 5 6 9H3v6h3l5 4z" /><path d="M15.5 8.5a5 5 0 0 1 0 7" /><path d="M18.5 5.5a9 9 0 0 1 0 13" /></svg>
         <span key={voice} className="hm-voice-t">“{VOICE[voice]}”</span>
       </div>
     </div>
@@ -170,7 +185,6 @@ const Icon = {
   drive: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 5 6 9H3v6h3l5 4z" /><path d="M15.5 8.5a5 5 0 0 1 0 7" /><path d="M18.5 5.5a9 9 0 0 1 0 13" /></svg>,
   review: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7" /><path d="M3 4v5h5" /><path d="M12 7v5l3 2" /></svg>,
   arrow: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>,
-  down: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9l6 6 6-6" /></svg>,
 };
 
 const FEATURES = [
@@ -244,8 +258,6 @@ const TECH = [
   },
 ];
 
-const STACK = ["Python", "pandas", "scikit-learn", "HistGradientBoosting", "Jupyter", "FastAPI", "React", "Vite", "Leaflet", "OpenStreetMap", "OSRM", "Photon", "Open-Meteo", "GitHub Pages", "Cloudflare Tunnel"];
-
 const TEAM = [
   ["66088346", "นายฤทธิพร ผึ่งผาย"],
   ["66088226", "นายกันณพิช เบ้าศรี"],
@@ -265,16 +277,10 @@ export default function Landing() {
     if (leaving) return;
     if (reducedMotion()) { window.location.hash = "#/app"; return; }
     setLeaving(true);
-    setTimeout(() => { window.location.hash = "#/app"; }, 650);
+    setTimeout(() => { window.location.hash = "#/app"; }, 380);
   };
   const scrollTo = (id) => { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: reducedMotion() ? "auto" : "smooth", block: "start" }); };
   const onScroll = (e) => { const s = e.currentTarget.scrollTop > 30; if (s !== scrolled) setScrolled(s); };
-  const spot = (e) => {
-    if (e.pointerType !== "mouse") return;
-    const r = e.currentTarget.getBoundingClientRect();
-    e.currentTarget.style.setProperty("--mx", ((e.clientX - r.left) / r.width) * 100 + "%");
-    e.currentTarget.style.setProperty("--my", ((e.clientY - r.top) / r.height) * 100 + "%");
-  };
 
   return (
     <div className={"landing" + (leaving ? " is-leaving" : "")} ref={rootRef} onScroll={onScroll}>
@@ -293,14 +299,13 @@ export default function Landing() {
       </header>
 
       <main>
-        <section className="ld-hero" onPointerMove={spot}>
-          <div className="ld-hero-bg" aria-hidden="true"><i className="b1" /><i className="b2" /><i className="b3" /><i className="ld-stars" /></div>
+        <section className="ld-hero">
           <div className="ld-wrap ld-hero-in">
             <div className="ld-hero-text">
               {online && <span className="ld-online ld-in" style={{ "--d": "0ms" }} role="status"><i aria-hidden="true" />เซิร์ฟเวอร์พร้อมใช้งาน</span>}
               <h1>
                 <span className="ld-line ld-in" style={{ "--d": "80ms" }}>รู้ก่อนออกเดินทาง</span>
-                <span className="ld-line ld-in" style={{ "--d": "220ms" }}>ว่าช่วงไหน<span className="ld-grad">ควรระวัง</span></span>
+                <span className="ld-line ld-in" style={{ "--d": "220ms" }}>ว่าช่วงไหน<span className="ld-accent">ควรระวัง</span></span>
               </h1>
               <p className="ld-lead ld-in" style={{ "--d": "380ms" }}>RoadAware คาดการณ์ความเสี่ยงอุบัติเหตุบนทางหลวงทั่วประเทศไทย ตามเส้นทางและเวลาที่คุณจะขับผ่าน แล้วชี้จุดที่ควรระวังให้ตั้งแต่ก่อนออกจากบ้าน</p>
               <div className="ld-cta ld-in" style={{ "--d": "520ms" }}>
@@ -318,27 +323,15 @@ export default function Landing() {
               ))}
             </div>
           </div>
-          <button type="button" className="ld-scroll" onClick={() => scrollTo("ld-features")} aria-label="เลื่อนลง">{Icon.down}</button>
+          <div className="ld-lane" aria-hidden="true" />
         </section>
-
-        <div className="ld-marquee" aria-label="เทคโนโลยีที่ใช้">
-          <div className="ld-marquee-mask">
-            <div className="ld-marquee-in">
-              {[0, 1].map((k) => (
-                <span key={k} aria-hidden={k === 1}>{STACK.map((s) => <em key={s}>{s}</em>)}</span>
-              ))}
-            </div>
-          </div>
-        </div>
 
         <section className="ld-sec" id="ld-features">
           <div className="ld-wrap">
-            <p className="ld-eyebrow rv">ความสามารถ</p>
             <h2 className="ld-h2 rv">ทำอะไรได้บ้าง</h2>
             <div className="ld-grid3">
               {FEATURES.map((f, i) => (
                 <article key={f.title} className="ld-card ld-feat rv" style={{ "--d": i * 120 + "ms" }}>
-                  <span className="ld-feat-n">0{i + 1}</span>
                   <span className="ld-icon">{f.icon}</span>
                   <h3>{f.title}</h3>
                   <p>{f.text}</p>
@@ -351,7 +344,6 @@ export default function Landing() {
         <section className="ld-sec ld-sec-alt" id="ld-how">
           <div className="ld-wrap ld-how">
             <div>
-              <p className="ld-eyebrow rv">วิธีใช้</p>
               <h2 className="ld-h2 rv">ใช้งานง่ายใน 4 ขั้นตอน</h2>
               <ol className="ld-steps">
                 {STEPS.map((s, i) => (
@@ -373,7 +365,6 @@ export default function Landing() {
 
         <section className="ld-sec" id="ld-tech">
           <div className="ld-wrap">
-            <p className="ld-eyebrow rv">เบื้องหลัง</p>
             <h2 className="ld-h2 rv">เบื้องหลัง RoadAware</h2>
             <p className="ld-sub rv">ข้อมูล วิธีคัดเลือกข้อมูล โมเดล และเครื่องมือทั้งหมดที่ใช้ในงานนี้</p>
             <ol className="ld-flow" aria-label="ขั้นตอนการทำงานของระบบ">
@@ -397,13 +388,13 @@ export default function Landing() {
           </div>
         </section>
 
-        <section className="ld-final" onPointerMove={spot}>
-          <div className="ld-final-bg" aria-hidden="true"><i className="b1" /><i className="b2" /></div>
+        <section className="ld-final">
+          <div className="ld-lane ld-lane-top" aria-hidden="true" />
           <div className="ld-wrap ld-final-in">
             <h2 className="rv">พร้อมวางแผนทริปถัดไปแล้วหรือยัง</h2>
             <p className="rv" style={{ "--d": "100ms" }}>ใช้เวลาไม่ถึงนาที รู้ก่อนว่าช่วงไหนของเส้นทางควรขับอย่างระมัดระวัง</p>
             <div className="rv" style={{ "--d": "200ms" }}>
-              <button type="button" className="ld-btn ld-btn-lg ld-btn-glow" onClick={goApp}><span>เริ่มใช้งาน RoadAware</span>{Icon.arrow}</button>
+              <button type="button" className="ld-btn ld-btn-lg" onClick={goApp}><span>เริ่มใช้งาน RoadAware</span>{Icon.arrow}</button>
             </div>
           </div>
         </section>
