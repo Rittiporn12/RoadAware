@@ -35,17 +35,6 @@ function useServerStatus() {
   return status;
 }
 
-// Chrome / Edge / Android offer "install as app"; iPhone uses Share → Add to Home Screen (explained below).
-function useInstallPrompt() {
-  const [evt, setEvt] = useState(null);
-  useEffect(() => {
-    const on = (e) => { e.preventDefault(); setEvt(e); };
-    window.addEventListener("beforeinstallprompt", on);
-    return () => window.removeEventListener("beforeinstallprompt", on);
-  }, []);
-  return evt ? async () => { evt.prompt(); try { await evt.userChoice; } catch (_) { /* ignore */ } setEvt(null); } : null;
-}
-
 const STATUS_TEXT = {
   checking: "กำลังตรวจสอบเซิร์ฟเวอร์…",
   online: "เซิร์ฟเวอร์พร้อมใช้งาน",
@@ -90,9 +79,6 @@ const Icon = {
   route: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="6" cy="19" r="2.5" /><circle cx="18" cy="5" r="2.5" /><path d="M8.5 19H16a3.5 3.5 0 0 0 0-7H8a3.5 3.5 0 0 1 0-7h7.5" /></svg>,
   drive: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 11 12 3l9 8" /><path d="M12 3v18" /><path d="M7 21h10" /></svg>,
   review: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7" /><path d="M3 4v5h5" /><path d="M12 7v5l3 2" /></svg>,
-  desktop: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="12" rx="2" /><path d="M8 20h8M12 16v4" /></svg>,
-  phone: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.5" /><path d="M11 18.5h2" /></svg>,
-  tablet: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="2.5" width="16" height="19" rx="2.5" /><path d="M11 18.5h2" /></svg>,
   arrow: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>,
 };
 
@@ -109,11 +95,56 @@ const STEPS = [
   { title: "เริ่มขับ", text: "กด “เริ่มขับ” เพื่อเปิดเสียงเตือนล่วงหน้า (มือถือต้องอนุญาตตำแหน่ง)" },
 ];
 
-const STATS = [
-  { value: "9/9", label: "เดือน", text: "ทำนายดีกว่าค่าเทียบทุกเดือน (ม.ค.–ก.ย. 2569)" },
-  { value: "24%", label: "สงกรานต์", text: "ความคลาดเคลื่อนต่ำกว่าค่าเทียบ ช่วงสงกรานต์ 2569" },
-  { value: "70/76", label: "จังหวัด", text: "จังหวัดที่โมเดลทำได้ดีกว่าค่าเทียบ" },
-  { value: "15,425", label: "เหตุ", text: "อุบัติเหตุจริงปี 2569 บนทางหลวง ที่ใช้ทดสอบ" },
+const FLOW = [
+  { title: "รวบรวมข้อมูล", text: "อุบัติเหตุ ถนน อากาศ จราจร ปฏิทิน" },
+  { title: "คัดเลือกและจับคู่", text: "จับเหตุเข้ากับช่วงถนน แบ่งช่วงปี" },
+  { title: "ฝึกโมเดล", text: "คาดจำนวนเหตุต่อช่วงถนน" },
+  { title: "API", text: "คำนวณตามเส้นทางและเวลา" },
+  { title: "เว็บแอป", text: "แผนที่ จุดที่ควรระวัง เสียงเตือน" },
+];
+
+const TECH = [
+  {
+    title: "ข้อมูลที่ใช้",
+    items: [
+      ["อุบัติเหตุทางถนน", "ข้อมูลเปิดของกระทรวงคมนาคม ปี 2564–2569"],
+      ["ถนน", "ทางหลวงของกรมทางหลวง แบ่งเป็น 26,740 ช่วง (ช่วงละราว 2 กม.) รวมราว 51,900 กม."],
+      ["สภาพอากาศ", "ปริมาณฝนและอากาศรายวัน จาก Open-Meteo"],
+      ["ปริมาณจราจร", "ปริมาณจราจรเฉลี่ยรายปี (AADT) ของทางหลวง"],
+      ["ปฏิทิน", "วันในสัปดาห์ ช่วงเวลา วันหยุด เทศกาลสงกรานต์และปีใหม่"],
+    ],
+  },
+  {
+    title: "การคัดเลือกข้อมูล",
+    items: [
+      ["จับคู่กับถนน", "ใช้เฉพาะเหตุบนทางหลวงที่มีพิกัด และอยู่ห่างช่วงถนนไม่เกิน 50 ม. ได้ 98,207 รายการ (2564–2568) ตัดรายการซ้ำและกำกวมออก"],
+      ["ข้อมูลฝึก", "ปี 2564–2566 (ตัดที่ 1 ธ.ค. 2566)"],
+      ["ข้อมูลตรวจ", "ปี 2567–2568 ไม่ได้ใช้ฝึก"],
+      ["ข้อมูลทดสอบ", "ปี 2569 (ม.ค.–ก.ย.) 15,425 รายการ ที่โมเดลไม่เคยเห็น"],
+      ["เลือกโมเดล", "ทดสอบย้อนหลัง 4 รอบในปี 2565–2566 เทียบค่าพื้นฐาน ตามเกณฑ์ที่กำหนดไว้ก่อนทดลอง"],
+    ],
+  },
+  {
+    title: "โมเดล",
+    items: [
+      ["อัลกอริทึม", "HistGradientBoosting (scikit-learn) แบบ Poisson regression คาดจำนวนอุบัติเหตุที่จะถูกบันทึกต่อช่วงถนน"],
+      ["ระดับเวลา", "2 โมเดล: รายวัน และราย 6 ชั่วโมง"],
+      ["ตัวแปร", "รูปทรงและตำแหน่งถนน ปฏิทินและเทศกาล อากาศย้อนหลัง ปริมาณจราจร (33–41 ตัว)"],
+      ["ส่วนหลัก / ส่วนเสริม", "ใช้ตัวแปรถนน + ปฏิทินเสมอ และเพิ่มอากาศ / จราจรเมื่อมีข้อมูลของช่วงนั้น"],
+      ["ระดับสี", "เทียบกับทุกช่วงถนน × ช่วงเวลาทั่วประเทศ: สูงมาก = 5% บนสุด · สูง = 5–20%"],
+    ],
+  },
+  {
+    title: "เครื่องมือและบริการ",
+    items: [
+      ["วิเคราะห์และฝึกโมเดล", "Python · pandas · scikit-learn · Jupyter"],
+      ["เซิร์ฟเวอร์", "FastAPI"],
+      ["หน้าเว็บ", "React · Vite · Leaflet"],
+      ["แผนที่และเส้นทาง", "OpenStreetMap · Photon (ค้นหาสถานที่) · OSRM (คำนวณเส้นทาง) · geoBoundaries / Natural Earth (ขอบเขตประเทศ)"],
+      ["เสียงเตือน", "เสียง Siri บน Mac · Gemini TTS · เสียงภาษาไทยของเบราว์เซอร์"],
+      ["เผยแพร่", "GitHub Pages · Cloudflare Tunnel"],
+    ],
+  },
 ];
 
 const TEAM = [
@@ -125,7 +156,6 @@ const TEAM = [
 
 export default function Landing() {
   const status = useServerStatus();
-  const install = useInstallPrompt();
   const rootRef = useRef(null);
   const scrollTo = (id) => { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); };
   useEffect(() => { document.title = "RoadAware — รู้ก่อนออกเดินทาง ว่าช่วงไหนควรระวัง"; }, []);
@@ -140,8 +170,7 @@ export default function Landing() {
           <nav className="ld-links" aria-label="เมนู">
             <button type="button" onClick={() => scrollTo("ld-features")}>ความสามารถ</button>
             <button type="button" onClick={() => scrollTo("ld-how")}>วิธีใช้</button>
-            <button type="button" onClick={() => scrollTo("ld-model")}>ผลทดสอบ</button>
-            <button type="button" onClick={() => scrollTo("ld-devices")}>อุปกรณ์</button>
+            <button type="button" onClick={() => scrollTo("ld-tech")}>เบื้องหลัง</button>
           </nav>
           <button type="button" className="btn btn-primary btn-sm ld-nav-cta" onClick={goApp}>เริ่มใช้งาน</button>
         </div>
@@ -201,56 +230,28 @@ export default function Landing() {
           </div>
         </section>
 
-        <section className="ld-sec" id="ld-model">
+        <section className="ld-sec" id="ld-tech">
           <div className="ld-wrap">
-            <h2 className="ld-h2">ทดสอบกับข้อมูลที่โมเดลไม่เคยเห็น</h2>
-            <p className="ld-sub">โมเดลเรียนรู้จากอุบัติเหตุบนทางหลวงปี 2564–2566 ตรวจกับปี 2567–2568 แล้วทดสอบจริงกับข้อมูลปี 2569 ซึ่งไม่ได้ใช้ระหว่างพัฒนาโมเดล</p>
-            <div className="ld-stats">
-              {STATS.map((s) => (
-                <div key={s.text} className="ld-stat">
-                  <b>{s.value}</b><span className="ld-stat-l">{s.label}</span>
-                  <p>{s.text}</p>
-                </div>
+            <h2 className="ld-h2">เบื้องหลัง RoadAware</h2>
+            <p className="ld-sub">ข้อมูล วิธีคัดเลือกข้อมูล โมเดล และเครื่องมือทั้งหมดที่ใช้ในงานนี้</p>
+            <ol className="ld-flow" aria-label="ขั้นตอนการทำงานของระบบ">
+              {FLOW.map((f, i) => (
+                <li key={f.title}><span className="ld-flow-n">{i + 1}</span><div><b>{f.title}</b><small>{f.text}</small></div></li>
+              ))}
+            </ol>
+            <div className="ld-tech">
+              {TECH.map((g) => (
+                <article key={g.title} className="ld-card ld-tech-card">
+                  <h3>{g.title}</h3>
+                  <dl>
+                    {g.items.map(([k, v]) => (
+                      <div key={k}><dt>{k}</dt><dd>{v}</dd></div>
+                    ))}
+                  </dl>
+                </article>
               ))}
             </div>
-            <div className="ld-howit">
-              <div><h3>ข้อมูลที่ใช้</h3><p>ตำแหน่งและรูปทรงถนน ปฏิทินวันหยุดและเทศกาล สภาพอากาศ ปริมาณจราจร และสถิติอุบัติเหตุย้อนหลัง</p></div>
-              <div><h3>โมเดล</h3><p>Histogram Gradient Boosting คาดการณ์จำนวนเหตุต่อช่วงถนน รายวันและราย 6 ชั่วโมง ครอบคลุมทางหลวงกรมทางหลวงทั่วประเทศ</p></div>
-              <div><h3>ข้อควรรู้</h3><p>เป็นการคาดการณ์จากสถิติ ใช้ประกอบการวางแผน ไม่ได้รับประกันความปลอดภัย และไม่ใช่ระบบเตือนภัยแบบเรียลไทม์</p></div>
-            </div>
-          </div>
-        </section>
-
-        <section className="ld-sec ld-sec-alt" id="ld-devices">
-          <div className="ld-wrap">
-            <h2 className="ld-h2">ใช้ได้ทุกอุปกรณ์</h2>
-            <p className="ld-sub">เปิดผ่านเว็บเบราว์เซอร์ได้เลย ไม่ต้องติดตั้ง และเพิ่มไอคอนลงหน้าจอเพื่อเปิดเหมือนแอปได้</p>
-            <div className="ld-grid3">
-              <article className="ld-card ld-device">
-                <span className="ld-icon">{Icon.desktop}</span>
-                <h3>คอมพิวเตอร์</h3>
-                <p>Windows · macOS · Linux<br />Chrome, Edge, Safari, Firefox</p>
-                <p className="ld-tip">เหมาะกับการวางแผนเส้นทางและดูรายละเอียดบนจอใหญ่</p>
-              </article>
-              <article className="ld-card ld-device">
-                <span className="ld-icon">{Icon.phone}</span>
-                <h3>iPhone / iPad</h3>
-                <p>เปิดด้วย Safari</p>
-                <p className="ld-tip">กดปุ่ม <b>แชร์</b> → <b>เพิ่มไปยังหน้าจอโฮม</b> เพื่อเปิดแบบเต็มจอ</p>
-              </article>
-              <article className="ld-card ld-device">
-                <span className="ld-icon">{Icon.tablet}</span>
-                <h3>Android</h3>
-                <p>เปิดด้วย Chrome</p>
-                <p className="ld-tip">กดเมนู <b>⋮</b> → <b>เพิ่มลงในหน้าจอหลัก</b> หรือ <b>ติดตั้งแอป</b></p>
-              </article>
-            </div>
-            {install && (
-              <div className="ld-install">
-                <span>เบราว์เซอร์นี้ติดตั้ง RoadAware เป็นแอปได้</span>
-                <button type="button" className="btn btn-ghost btn-sm" onClick={install}>ติดตั้งแอป</button>
-              </div>
-            )}
+            <p className="ld-note">ผลเป็นการคาดการณ์จากสถิติ ใช้ประกอบการวางแผนก่อนเดินทาง ไม่ได้รับประกันความปลอดภัย และไม่ใช่ระบบเตือนภัยแบบเรียลไทม์</p>
           </div>
         </section>
 
@@ -267,8 +268,6 @@ export default function Landing() {
         <div className="ld-wrap ld-foot-in">
           <div className="ld-foot-brand">
             <div className="ld-brand"><Logo size={26} /> <span>RoadAware</span></div>
-            <p>โครงงานเพื่อการศึกษาในระดับมหาวิทยาลัย</p>
-            <p className="ld-credit">นำข้อมูลและบริการแบบเปิดมาใช้: OpenStreetMap · Photon (komoot) · OSRM · geoBoundaries · Natural Earth</p>
           </div>
           <div>
             <h3>ผู้พัฒนา</h3>
