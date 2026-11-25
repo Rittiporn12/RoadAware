@@ -602,7 +602,6 @@ export default function App() {
         <div className="brand">
           <svg width="28" height="28" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="12" fill="#0F1B2D" /><path d="M7 18 C10 12, 13 15, 19 7" stroke="#E8821E" strokeWidth="2.6" fill="none" strokeLinecap="round" /></svg>
           <span className="brand-name">RoadAware</span>
-          <span className="badge">ต้นแบบงานวิจัย</span>
         </div>
         <div className="topbar-right">
           <span className={"status status-" + ready} role="status" aria-live="polite" title={ready === "ready" ? "ระบบประเมินพร้อม" : ready === "down" ? "ระบบประเมินไม่พร้อม" : "กำลังเชื่อมต่อ"}>
