@@ -1,21 +1,21 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:020617,45:0f172a,75:0b6e69,100:334155&height=180&section=header&text=RoadAware&fontSize=46&fontColor=f8fafc&fontAlignY=38&desc=Know%20where%20to%20take%20care%20before%20you%20drive&descSize=16&descAlignY=58" alt="RoadAware Header" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:020617,45:0f172a,75:0b6e69,100:334155&height=180&section=header&text=RoadAware&fontSize=46&fontColor=f8fafc&fontAlignY=38&desc=%E0%B8%A3%E0%B8%B9%E0%B9%89%E0%B8%81%E0%B9%88%E0%B8%AD%E0%B8%99%E0%B8%A7%E0%B9%88%E0%B8%B2%E0%B8%84%E0%B8%A7%E0%B8%A3%E0%B8%A3%E0%B8%B0%E0%B8%A7%E0%B8%B1%E0%B8%87%E0%B8%95%E0%B8%A3%E0%B8%87%E0%B9%84%E0%B8%AB%E0%B8%99%20%E0%B8%81%E0%B9%88%E0%B8%AD%E0%B8%99%E0%B8%AD%E0%B8%AD%E0%B8%81%E0%B9%80%E0%B8%94%E0%B8%B4%E0%B8%99%E0%B8%97%E0%B8%B2%E0%B8%87&descSize=16&descAlignY=58" alt="RoadAware" />
 
 <br />
 
-<img src="./docs/logo.svg" width="110" alt="RoadAware Logo" />
+<img src="./docs/logo.svg" width="110" alt="โลโก้ RoadAware" />
 
 <br />
 <br />
 
 <a href="https://github.com/Rittiporn12/RoadAware">
-  <img src="https://img.shields.io/badge/GITHUB-Repository-334155?style=for-the-badge&labelColor=020617&color=475569" alt="GitHub Repository" />
+  <img src="https://img.shields.io/badge/GITHUB-%E0%B8%94%E0%B8%B9%E0%B9%82%E0%B8%84%E0%B9%89%E0%B8%94-334155?style=for-the-badge&labelColor=020617&color=475569" alt="GitHub" />
 </a>
 
-<img src="https://img.shields.io/badge/MODEL-HistGradientBoosting-0b6e69?style=for-the-badge&labelColor=020617" alt="Model" />
+<img src="https://img.shields.io/badge/%E0%B9%82%E0%B8%A1%E0%B9%80%E0%B8%94%E0%B8%A5-HistGradientBoosting-0b6e69?style=for-the-badge&labelColor=020617" alt="โมเดล" />
 
-<img src="https://img.shields.io/badge/COVERAGE-Thailand%20highways-1e3a8a?style=for-the-badge&labelColor=020617" alt="Coverage" />
+<img src="https://img.shields.io/badge/%E0%B8%84%E0%B8%A3%E0%B8%AD%E0%B8%9A%E0%B8%84%E0%B8%A5%E0%B8%B8%E0%B8%A1-%E0%B8%97%E0%B8%B2%E0%B8%87%E0%B8%AB%E0%B8%A5%E0%B8%A7%E0%B8%87%E0%B8%97%E0%B8%B1%E0%B9%88%E0%B8%A7%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%A8-1e3a8a?style=for-the-badge&labelColor=020617" alt="พื้นที่ครอบคลุม" />
 
 <br />
 <br />
@@ -25,147 +25,147 @@
 </p>
 
 <p>
-  A trip-planning web app that shows the points to take care on your route in Thailand.
+  เว็บแอปช่วยวางแผนการเดินทาง ที่บอกจุดที่ควรระวังบนเส้นทางทั่วประเทศไทย
 </p>
 
 <p>
-  Pick an origin, a destination and a departure time — RoadAware marks the stretches of highway<br />
-  where recorded accidents are expected to be highest at the time you will pass them.
+  เลือกต้นทาง ปลายทาง และเวลาออกเดินทาง ระบบจะชี้ช่วงทางหลวง<br />
+  ที่คาดว่าจะเกิดอุบัติเหตุมากที่สุด ในช่วงเวลาที่คุณจะขับผ่าน
 </p>
 
 </div>
 
 <hr />
 
-<h2 align="center">About This Project</h2>
+<h2 align="center">เกี่ยวกับโครงงาน</h2>
 
 <p align="center">
-  <b>RoadAware</b> is a university project that turns Thailand's open road-accident records into a simple route briefing.
+  <b>RoadAware</b> เป็นโครงงานระดับมหาวิทยาลัย ที่นำข้อมูลอุบัติเหตุทางถนนแบบเปิดของประเทศไทย มาสรุปเป็นข้อมูลก่อนเดินทางที่อ่านเข้าใจง่าย
 </p>
 
 <p align="center">
-  A machine-learning model (HistGradientBoosting, Poisson loss) predicts the expected number of recorded accidents<br />
-  for every ~2 km stretch of national highway, for the day and the 6-hour block you travel in.
+  ใช้แบบจำลอง Machine Learning (HistGradientBoosting แบบ Poisson) คาดจำนวนอุบัติเหตุที่จะถูกบันทึก<br />
+  ของทางหลวงแต่ละช่วง (ช่วงละราว 2 กม.) ตามวันและช่วงเวลา 6 ชั่วโมงที่คุณเดินทาง
 </p>
 
 <p align="center">
-  The website ranks the stretches of your route, numbers the ones that stand out, and can warn you by voice while you drive.
+  หน้าเว็บจะเรียงลำดับช่วงถนนบนเส้นทาง ใส่หมายเลขจุดที่เด่นที่สุด และพูดเตือนล่วงหน้าระหว่างขับได้
 </p>
 
 <p align="center">
-  <i>For education and trip preparation only — not a real-time warning system. Levels compare road stretches; they are not your personal chance of an accident.</i>
+  <i>ใช้เพื่อการศึกษาและเตรียมตัวก่อนเดินทาง ไม่ใช่ระบบเตือนภัยแบบเรียลไทม์ ระดับที่แสดงเป็นการเปรียบเทียบระหว่างช่วงถนน ไม่ใช่โอกาสเกิดอุบัติเหตุของแต่ละบุคคล</i>
 </p>
 
 <hr />
 
-<h2 align="center">Features</h2>
+<h2 align="center">ความสามารถ</h2>
 
 <table align="center">
   <tr>
-    <th>Feature</th>
-    <th>Description</th>
+    <th>ความสามารถ</th>
+    <th>รายละเอียด</th>
   </tr>
   <tr>
-    <td>Nationwide Coverage</td>
-    <td>26,740 Department of Highways road stretches (about 51,900 km) across Thailand.</td>
+    <td>ครอบคลุมทั่วประเทศ</td>
+    <td>ทางหลวงของกรมทางหลวง 26,740 ช่วง ยาวรวมราว 51,900 กม.</td>
   </tr>
   <tr>
-    <td>Points to Take Care</td>
-    <td>Numbered points in the order you reach them, with the time you are expected to pass.</td>
+    <td>จุดที่ควรระวัง</td>
+    <td>หมายเลขเรียงตามลำดับที่จะผ่าน พร้อมเวลาที่คาดว่าจะผ่านแต่ละจุด</td>
   </tr>
   <tr>
-    <td>Time-aware Prediction</td>
-    <td>Day of week, 6-hour time block, season, Songkran and New Year festivals, weather and traffic volume.</td>
+    <td>คาดตามเวลาที่เดินทาง</td>
+    <td>วันในสัปดาห์ ช่วงเวลา 6 ชั่วโมง ฤดูกาล เทศกาลสงกรานต์และปีใหม่ สภาพอากาศ และปริมาณจราจร</td>
   </tr>
   <tr>
-    <td>Point Details</td>
-    <td>What usually happened there before: main accident type, share in rain, the most common time of day.</td>
+    <td>รายละเอียดแต่ละจุด</td>
+    <td>ที่ผ่านมาเกิดเหตุแบบไหนบ่อย สัดส่วนที่เกิดตอนฝนตก และช่วงเวลาที่เกิดบ่อย พร้อมคำแนะนำ</td>
   </tr>
   <tr>
-    <td>Smart Suggestions</td>
-    <td>A route of similar time with fewer high-risk stretches, or a better departure time — shown only when it helps.</td>
+    <td>คำแนะนำอัตโนมัติ</td>
+    <td>เส้นทางอื่นที่ใช้เวลาใกล้กันแต่ผ่านช่วงเสี่ยงน้อยกว่า หรือเวลาออกเดินทางที่ดีกว่า</td>
   </tr>
   <tr>
-    <td>National Comparison</td>
-    <td>How each stretch ranks against all highways in Thailand (very high / high / medium / lower half).</td>
+    <td>เทียบทั้งประเทศ</td>
+    <td>ดูว่าแต่ละช่วงถนนอยู่ระดับไหนเมื่อเทียบกับทางหลวงทั้งประเทศ (สูงมาก / สูง / ปานกลาง / ต่ำกว่าครึ่งประเทศ)</td>
   </tr>
   <tr>
-    <td>Drive Mode</td>
-    <td>GPS tracking or a driving simulation, with spoken Thai warnings at 2 km, 500 m and on entering a point.</td>
+    <td>โหมดขับ</td>
+    <td>ติดตามตำแหน่งด้วย GPS หรือจำลองการขับ พร้อมเสียงเตือนภาษาไทยที่ 2 กม. / 500 ม. / เมื่อเข้าสู่จุด</td>
   </tr>
   <tr>
-    <td>Responsive Design</td>
-    <td>Works on desktop and mobile (bottom-sheet layout on phones).</td>
+    <td>รองรับทุกหน้าจอ</td>
+    <td>ใช้ได้ทั้งคอมพิวเตอร์และมือถือ</td>
   </tr>
 </table>
 
 <hr />
 
-<h2 align="center">Data and Model</h2>
+<h2 align="center">ข้อมูลและแบบจำลอง</h2>
 
 <table align="center">
   <tr>
-    <th>Item</th>
-    <th>Details</th>
+    <th>หัวข้อ</th>
+    <th>รายละเอียด</th>
   </tr>
   <tr>
-    <td>Accident records</td>
-    <td>Ministry of Transport open data, 2021–2025 (B.E. 2564–2568) — 98,207 records matched to road stretches</td>
+    <td>ข้อมูลอุบัติเหตุ</td>
+    <td>ข้อมูลเปิดของกระทรวงคมนาคม ปี 2564–2568 จับคู่กับช่วงถนนได้ 98,207 รายการ</td>
   </tr>
   <tr>
-    <td>Roads</td>
-    <td>Department of Highways open data</td>
+    <td>ข้อมูลถนน</td>
+    <td>ข้อมูลเปิดของกรมทางหลวง</td>
   </tr>
   <tr>
-    <td>Other factors</td>
-    <td>Calendar and festivals, weather (Open-Meteo), annual average daily traffic (AADT)</td>
+    <td>ปัจจัยประกอบ</td>
+    <td>ปฏิทินและเทศกาล สภาพอากาศ (Open-Meteo) ปริมาณจราจรเฉลี่ยรายปี (AADT)</td>
   </tr>
   <tr>
-    <td>Training</td>
-    <td>2021–2023 (cut-off 1 Dec 2023)</td>
+    <td>ข้อมูลที่ใช้ฝึก</td>
+    <td>ปี 2564–2566 (ตัดข้อมูลที่ 1 ธ.ค. 2566)</td>
   </tr>
   <tr>
-    <td>Model selection</td>
-    <td>4-fold time-based backtest over 2022–2023 against the strongest baseline, with rules locked before the experiment</td>
+    <td>การเลือกแบบจำลอง</td>
+    <td>ทดสอบย้อนหลัง 4 รอบในปี 2565–2566 เทียบกับค่าพื้นฐานที่ดีที่สุด ตามเกณฑ์ที่ล็อกไว้ก่อนทดลอง</td>
   </tr>
   <tr>
-    <td>Checking / Testing</td>
-    <td>Checked on 2024–2025 · tested on unseen 2026 records (Jan–Sep, 15,425 records)</td>
+    <td>การตรวจและทดสอบ</td>
+    <td>ตรวจกับปี 2567–2568 และทดสอบกับปี 2569 (ม.ค.–ก.ย. 15,425 รายการ) ที่แบบจำลองไม่เคยเห็น</td>
   </tr>
 </table>
 
-<h3 align="center">Results</h3>
+<h3 align="center">ผลการประเมิน</h3>
 
 <table align="center">
   <tr>
-    <th>Evaluation</th>
-    <th>Daily</th>
-    <th>6-hour</th>
+    <th>การประเมิน</th>
+    <th>รายวัน</th>
+    <th>ราย 6 ชั่วโมง</th>
   </tr>
   <tr>
-    <td>Backtest 2022–2023 (Poisson deviance vs. baseline)</td>
-    <td>−2.7% · wins 3/4 folds</td>
-    <td>−10.6% · wins 4/4 folds</td>
+    <td>ทดสอบย้อนหลังปี 2565–2566 (ค่าความคลาดเคลื่อนลดลงเทียบค่าพื้นฐาน)</td>
+    <td>ลดลง 2.7% · ชนะ 3 จาก 4 รอบ</td>
+    <td>ลดลง 10.6% · ชนะ 4 จาก 4 รอบ</td>
   </tr>
   <tr>
-    <td>Unseen 2026 records</td>
-    <td>−6.5% · better every month</td>
-    <td>−13.5% · better every month</td>
+    <td>ข้อมูลปี 2569 ที่ไม่เคยเห็น</td>
+    <td>ดีกว่า 6.5% · ทุกเดือน</td>
+    <td>ดีกว่า 13.5% · ทุกเดือน</td>
   </tr>
   <tr>
-    <td>Songkran / New Year 2026</td>
-    <td>−24% / −28%</td>
-    <td>−29% / −32%</td>
+    <td>ช่วงสงกรานต์ / ปีใหม่ 2569</td>
+    <td>ดีกว่า 24% / 28%</td>
+    <td>ดีกว่า 29% / 32%</td>
   </tr>
 </table>
 
 <p align="center">
-  Details and limitations: <a href="backend/reports/v4/evaluation_2026_national_summary_th.md">evaluation_2026_national_summary_th.md</a>
+  รายละเอียดและข้อจำกัด: <a href="backend/reports/v4/evaluation_2026_national_summary_th.md">สรุปผลทดสอบปี 2569</a>
 </p>
 
 <hr />
 
-<h2 align="center">Built With</h2>
+<h2 align="center">เทคโนโลยีที่ใช้</h2>
 
 <div align="center">
 
@@ -186,21 +186,21 @@
 
 <hr />
 
-<h2 align="center">Installation</h2>
+<h2 align="center">การติดตั้ง</h2>
 
 <p align="center">
-  Raw data and trained model files are large and are not stored in this repository.<br />
-  The steps below assume they are present in <code>backend/data/</code> and <code>backend/rerun-*</code>.
+  ข้อมูลดิบและไฟล์แบบจำลองมีขนาดใหญ่ จึงไม่ได้เก็บไว้ใน repository นี้<br />
+  ขั้นตอนด้านล่างต้องมีข้อมูลอยู่ใน <code>backend/data/</code> และ <code>backend/rerun-*</code> แล้ว
 </p>
 
-<h3>1. Clone the repository</h3>
+<h3>1. ดาวน์โหลดโปรเจค</h3>
 
 ```bash
 git clone https://github.com/Rittiporn12/RoadAware.git
 cd RoadAware
 ```
 
-<h3>2. Start the API</h3>
+<h3>2. เปิด API</h3>
 
 ```bash
 python3.9 -m venv .venv
@@ -208,9 +208,9 @@ python3.9 -m venv .venv
 .venv/bin/python backend/scripts/run_api_server.py --national
 ```
 
-<p>The API runs at <code>http://127.0.0.1:8000</code>.</p>
+<p>API จะทำงานที่ <code>http://127.0.0.1:8000</code></p>
 
-<h3>3. Start the website</h3>
+<h3>3. เปิดหน้าเว็บ</h3>
 
 ```bash
 cd frontend
@@ -218,139 +218,139 @@ npm install
 npm run dev
 ```
 
-<p>Open the local URL shown in the terminal.</p>
+<p>เปิดที่อยู่ที่แสดงใน Terminal</p>
 
 ```bash
 http://127.0.0.1:5173/
 ```
 
 <p>
-  On macOS you can also double-click <code>Start API National.command</code> and <code>Start Website.command</code>.
+  บน macOS ดับเบิลคลิก <code>Start API National.command</code> และ <code>Start Website.command</code> แทนได้
 </p>
 
 <hr />
 
-<h2 align="center">Project Structure</h2>
+<h2 align="center">โครงสร้างโปรเจค</h2>
 
 ```txt
 RoadAware/
 ├── backend/
-│   ├── notebooks/     # data and ML pipeline (01–25, *_national = nationwide)
-│   ├── config/        # settings for each pipeline stage
-│   ├── api/           # FastAPI service used by the website
-│   ├── scripts/       # notebook runners, API server, voice helper
-│   ├── reports/       # summary reports and evaluation results
-│   └── tests/         # pytest
+│   ├── notebooks/     # ขั้นตอนข้อมูลและ ML (01–25, *_national = ทั่วประเทศ)
+│   ├── config/        # ค่าตั้งของแต่ละขั้น
+│   ├── api/           # FastAPI ที่หน้าเว็บเรียกใช้
+│   ├── scripts/       # ตัวรัน notebook, เปิด API, สร้างเสียงเตือน
+│   ├── reports/       # รายงานสรุปและผลประเมิน
+│   └── tests/         # ชุดทดสอบ pytest
 ├── frontend/
 │   ├── public/
-│   └── src/           # React app (map, briefing, drive mode)
-├── workflow/          # hash locks the API checks before loading the model
+│   └── src/           # หน้าเว็บ React (แผนที่, สรุปทริป, โหมดขับ)
+├── workflow/          # ไฟล์ล็อก hash ที่ API ตรวจก่อนโหลดแบบจำลอง
 ├── docs/
 └── README.md
 ```
 
 <hr />
 
-<h2 align="center">Available Scripts</h2>
+<h2 align="center">คำสั่งที่ใช้บ่อย</h2>
 
 <table align="center">
   <tr>
-    <th>Command</th>
-    <th>Description</th>
+    <th>คำสั่ง</th>
+    <th>ใช้ทำอะไร</th>
   </tr>
   <tr>
     <td><code>run_api_server.py --national</code></td>
-    <td>Start the API with the nationwide model</td>
+    <td>เปิด API ด้วยแบบจำลองทั่วประเทศ</td>
   </tr>
   <tr>
     <td><code>npm run dev</code></td>
-    <td>Start the website (development server)</td>
+    <td>เปิดหน้าเว็บสำหรับพัฒนา</td>
   </tr>
   <tr>
     <td><code>npm run dev:phone</code></td>
-    <td>HTTPS server on your Wi-Fi for testing GPS on a phone</td>
+    <td>เปิดเว็บแบบ HTTPS ใน Wi-Fi เดียวกัน เพื่อทดสอบ GPS บนมือถือ</td>
   </tr>
   <tr>
     <td><code>npm run build</code></td>
-    <td>Build the website for production</td>
+    <td>สร้างหน้าเว็บสำหรับใช้งานจริง</td>
   </tr>
   <tr>
     <td><code>pytest backend/tests</code></td>
-    <td>Run the backend tests</td>
+    <td>รันชุดทดสอบของ backend</td>
   </tr>
   <tr>
     <td><code>tts_proxy.py</code></td>
-    <td>Optional local voice for drive-mode warnings (macOS Thai voices)</td>
+    <td>เสียงเตือนภาษาไทยจากเครื่อง Mac สำหรับโหมดขับ (ไม่บังคับ)</td>
   </tr>
 </table>
 
 <hr />
 
-<h2 align="center">How to Use</h2>
+<h2 align="center">วิธีใช้งาน</h2>
 
 <table align="center">
   <tr>
-    <th>Step</th>
-    <th>Description</th>
+    <th>ขั้นตอน</th>
+    <th>รายละเอียด</th>
   </tr>
   <tr>
     <td>1</td>
-    <td>Enter an origin and a destination, or pick them on the map.</td>
+    <td>ใส่ต้นทางและปลายทาง หรือเลือกบนแผนที่</td>
   </tr>
   <tr>
     <td>2</td>
-    <td>Choose the departure day and time.</td>
+    <td>เลือกวันและเวลาออกเดินทาง</td>
   </tr>
   <tr>
     <td>3</td>
-    <td>Click <b>ตรวจเส้นทางนี้</b> (Check this route).</td>
+    <td>กด <b>ตรวจเส้นทางนี้</b></td>
   </tr>
   <tr>
     <td>4</td>
-    <td>Read the number of points to take care, and tap a point for its details.</td>
+    <td>ดูจำนวนจุดที่ควรระวัง และแตะแต่ละจุดเพื่อดูรายละเอียด</td>
   </tr>
   <tr>
     <td>5</td>
-    <td>Follow a suggestion if one appears (another route or departure time).</td>
+    <td>ถ้ามีคำแนะนำขึ้นมา เลือกใช้เส้นทางหรือเวลาออกเดินทางที่แนะนำได้</td>
   </tr>
   <tr>
     <td>6</td>
-    <td>Click <b>เริ่มเดินทาง</b> (Start trip) to get voice warnings while you drive.</td>
+    <td>กด <b>เริ่มเดินทาง</b> เพื่อให้ระบบพูดเตือนระหว่างขับ</td>
   </tr>
 </table>
 
 <hr />
 
-<h2 align="center">Data and Services Used</h2>
+<h2 align="center">ข้อมูลและบริการที่นำมาใช้</h2>
 
 <p align="center">
-  Map data © OpenStreetMap contributors (ODbL) · Place search: Photon (komoot) · Routing: OSRM<br />
-  Country boundary: geoBoundaries (CC BY 4.0) and Natural Earth · Weather: Open-Meteo<br />
-  Accident records: Ministry of Transport, Thailand · Highways: Department of Highways, Thailand
+  แผนที่ © OpenStreetMap contributors (ODbL) · ค้นหาสถานที่ Photon (komoot) · คำนวณเส้นทาง OSRM<br />
+  ขอบเขตประเทศ geoBoundaries (CC BY 4.0) และ Natural Earth · สภาพอากาศ Open-Meteo<br />
+  ข้อมูลอุบัติเหตุ กระทรวงคมนาคม · ข้อมูลทางหลวง กรมทางหลวง
 </p>
 
 <hr />
 
-<h2 align="center">Author</h2>
+<h2 align="center">ผู้พัฒนา</h2>
 
 <div align="center">
 
 <p>
-  <b>Rittiporn Phungphai</b>
+  <b>ฤทธิพร ผึ่งผาย</b>
 </p>
 
 <p>
-  Computer Science Student<br />
-  Software Development | Full-Stack Development | AI & Automation | Software Quality
+  นักศึกษาวิทยาการคอมพิวเตอร์<br />
+  การพัฒนาซอฟต์แวร์ | การพัฒนาแบบ Full-Stack | AI และระบบอัตโนมัติ | คุณภาพซอฟต์แวร์
 </p>
 
 <p>
   <a href="https://github.com/Rittiporn12">
-    GitHub Profile
+    GitHub
   </a>
   &nbsp;|&nbsp;
   <a href="https://rittiporn12.github.io/portfolio/">
-    Portfolio Website
+    Portfolio
   </a>
 </p>
 
@@ -361,13 +361,13 @@ RoadAware/
 <div align="center">
 
 <p>
-  <b>Thank you for visiting RoadAware.</b>
+  <b>ขอบคุณที่แวะมาดู RoadAware</b>
 </p>
 
 <p>
-  Drive safely, and take care at the numbered points.
+  ขับขี่ปลอดภัย และระวังเป็นพิเศษที่จุดหมายเลขบนเส้นทาง
 </p>
 
 </div>
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:334155,45:0b6e69,75:0f172a,100:020617&height=100&section=footer" alt="Footer" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:334155,45:0b6e69,75:0f172a,100:020617&height=100&section=footer" alt="" />
