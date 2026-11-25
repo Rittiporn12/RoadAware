@@ -546,6 +546,13 @@ export default function App() {
     invalidateRoute();
   }, [invalidateRoute]);
 
+  // A sample trip chosen on the home page ("ลองเส้นทางตัวอย่าง") arrives once through sessionStorage.
+  useEffect(() => {
+    let preset = null;
+    try { preset = JSON.parse(window.sessionStorage.getItem("roadaware.preset") || "null"); window.sessionStorage.removeItem("roadaware.preset"); } catch (_) { /* ignore */ }
+    if (preset && preset.origin && preset.dest) { choosePlace("origin", preset.origin); choosePlace("dest", preset.dest); }
+  }, [choosePlace]);
+
   const onText = useCallback((which, value) => {
     setTexts((cur) => ({ ...cur, [which]: value }));
     if (places[which] && value.trim() !== places[which].name) {

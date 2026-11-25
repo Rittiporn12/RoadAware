@@ -52,30 +52,6 @@ function useReveal(rootRef) {
   }, [rootRef]);
 }
 
-// Number that counts up when it first becomes visible.
-function CountUp({ to, rootRef, duration = 1600 }) {
-  const ref = useRef(null);
-  const [val, setVal] = useState(reducedMotion() ? to : 0);
-  useEffect(() => {
-    if (reducedMotion() || !ref.current) return undefined;
-    let raf = 0;
-    const io = new IntersectionObserver(([e]) => {
-      if (!e.isIntersecting) return;
-      io.disconnect();
-      const t0 = performance.now();
-      const step = (t) => {
-        const k = Math.min(1, (t - t0) / duration);
-        setVal(Math.round(to * (1 - Math.pow(1 - k, 3))));
-        if (k < 1) raf = requestAnimationFrame(step);
-      };
-      raf = requestAnimationFrame(step);
-    }, { root: rootRef.current, threshold: 0.4 });
-    io.observe(ref.current);
-    return () => { io.disconnect(); cancelAnimationFrame(raf); };
-  }, [to, duration, rootRef]);
-  return <span ref={ref}>{val.toLocaleString("en-US")}</span>;
-}
-
 const ROUTE_D = "M58 410 C130 396, 160 330, 236 312 S 352 268, 392 208 S 486 112, 548 64";
 const VOICE = ["ข้างหน้าอีก 2 กิโลเมตร มีจุดที่ควรระวัง", "ระวัง! อีก 500 เมตร ถึงจุดที่ 1", "เข้าสู่จุดที่ควรระวังแล้ว ตั้งใจขับนะ"];
 
@@ -200,10 +176,12 @@ const STEPS = [
   { title: "เริ่มขับ", text: "กด “เริ่มขับ” เพื่อเปิดเสียงเตือนล่วงหน้า (มือถือต้องอนุญาตตำแหน่ง)" },
 ];
 
-const COVER = [
-  { to: 26740, unit: "ช่วง", text: "ช่วงทางหลวงที่ประเมิน" },
-  { to: 51900, unit: "กม.", text: "ความยาวทางหลวงรวม" },
-  { to: 98207, unit: "รายการ", text: "อุบัติเหตุที่จับคู่กับถนน (2564–2568)" },
+const BKK = { id: "preset-bkk", name: "กรุงเทพฯ (อนุสาวรีย์ชัยสมรภูมิ)", sub: "กรุงเทพมหานคร", lat: 13.7649, lon: 100.5383, source: "preset" };
+const SAMPLES = [
+  { to: "เชียงใหม่", note: "ทางไกลขึ้นเหนือ", dest: { id: "preset-cnx", name: "ประตูท่าแพ เชียงใหม่", sub: "เชียงใหม่", lat: 18.7877, lon: 98.9933, source: "preset" } },
+  { to: "เขาใหญ่", note: "เที่ยววันหยุด", dest: { id: "preset-khaoyai", name: "อุทยานแห่งชาติเขาใหญ่", sub: "นครราชสีมา", lat: 14.4393, lon: 101.3725, source: "preset" } },
+  { to: "หัวหิน", note: "ทะเลฝั่งตะวันตก", dest: { id: "preset-huahin", name: "สถานีรถไฟหัวหิน", sub: "ประจวบคีรีขันธ์", lat: 12.5684, lon: 99.9577, source: "preset" } },
+  { to: "พัทยา", note: "ทะเลฝั่งตะวันออก", dest: { id: "preset-pattaya", name: "พัทยา", sub: "ชลบุรี", lat: 12.9236, lon: 100.8825, source: "preset" } },
 ];
 
 const FLOW = [
@@ -279,6 +257,10 @@ export default function Landing() {
     setLeaving(true);
     setTimeout(() => { window.location.hash = "#/app"; }, 380);
   };
+  const tryTrip = (t) => {
+    try { window.sessionStorage.setItem("roadaware.preset", JSON.stringify({ origin: BKK, dest: t.dest })); } catch (_) { /* storage blocked: the app opens empty */ }
+    goApp();
+  };
   const scrollTo = (id) => { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: reducedMotion() ? "auto" : "smooth", block: "start" }); };
   const onScroll = (e) => { const s = e.currentTarget.scrollTop > 30; if (s !== scrolled) setScrolled(s); };
 
@@ -317,10 +299,16 @@ export default function Landing() {
             <div className="ld-in ld-in-r" style={{ "--d": "300ms" }}><HeroMap /></div>
           </div>
           <div className="ld-wrap">
-            <div className="ld-cover rv">
-              {COVER.map((c) => (
-                <div key={c.text}><b><CountUp to={c.to} rootRef={rootRef} /><small>{c.unit}</small></b><span>{c.text}</span></div>
-              ))}
+            <div className="ld-samples rv">
+              <p className="ld-samples-h">ลองเส้นทางตัวอย่าง <span>กดแล้วเข้าแอปพร้อมต้นทาง–ปลายทาง เลือกเวลาแล้วตรวจได้ทันที</span></p>
+              <div className="ld-samples-row">
+                {SAMPLES.map((t) => (
+                  <button key={t.to} type="button" className="ld-sample" onClick={() => tryTrip(t)}>
+                    <span className="ld-sample-r">กรุงเทพฯ <i aria-hidden="true">→</i> <b>{t.to}</b></span>
+                    <small>{t.note}</small>
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
           <div className="ld-lane" aria-hidden="true" />
