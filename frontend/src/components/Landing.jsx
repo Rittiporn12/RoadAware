@@ -294,7 +294,7 @@ export default function Landing() {
                 <button type="button" className="ld-btn ld-btn-lg" onClick={goApp}><span>เริ่มใช้งาน</span>{Icon.arrow}</button>
                 <button type="button" className="ld-btn-ghost ld-btn-lg" onClick={() => scrollTo("ld-how")}>ดูวิธีใช้</button>
               </div>
-              <p className="ld-small ld-in" style={{ "--d": "640ms" }}>ใช้ผ่านเว็บเบราว์เซอร์ได้ทันที บนคอมพิวเตอร์ แท็บเล็ต และมือถือ · ไม่ต้องสมัครสมาชิก</p>
+              <button type="button" className="ld-small ld-deep ld-in" style={{ "--d": "640ms" }} onClick={() => scrollTo("ld-tech")}>เจาะลึกการทำงานของ RoadAware: จากข้อมูลอุบัติเหตุจริงบนทางหลวงทั่วประเทศ สู่การพยากรณ์ความเสี่ยงรายช่วงถนนด้วย Machine Learning <span aria-hidden="true">→</span></button>
             </div>
             <div className="ld-in ld-in-r" style={{ "--d": "300ms" }}><HeroMap /></div>
           </div>

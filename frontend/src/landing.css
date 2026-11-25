@@ -58,6 +58,10 @@ a.brand { color: inherit; text-decoration: none; border-radius: 10px; }
 .ld-lead { font-size: 18px; color: rgba(226, 233, 243, .8); max-width: 32em; }
 .ld-cta { display: flex; flex-wrap: wrap; gap: 12px; margin: 30px 0 16px; }
 .ld-small { font-size: 13.5px; color: rgba(226, 233, 243, .55); }
+.ld-deep { display: block; max-width: 34em; padding: 0; border: 0; background: none; text-align: left; font: inherit; font-size: 14px; line-height: 1.6; color: rgba(226, 233, 243, .62); cursor: pointer; }
+.ld-deep:hover { color: #fff; }
+.ld-deep span { color: var(--amber); display: inline-block; transition: transform .2s; }
+.ld-deep:hover span { transform: translateX(3px); }
 
 /* hero map — same look as the app's map */
 .hm { position: relative; padding: 24px 0 40px 24px; }
