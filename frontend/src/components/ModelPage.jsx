@@ -2,7 +2,7 @@
 // Every number comes from the project's own reports (public/data/model-v1.json, built by
 // backend/scripts/build_model_page_data.py). Unit switch (รายวัน / ราย 6 ชม.) changes every chart.
 import { useEffect, useMemo, useRef, useState } from "react";
-import SiteNav from "./SiteNav.jsx";
+import { CountUp, PageBody, SiteFooter, SiteNav, useReveal } from "./site.jsx";
 
 const ENV = (import.meta.env) || {};
 const DATA_URL = (ENV.BASE_URL || "./") + "data/model-v1.json";
@@ -42,7 +42,7 @@ const SECTIONS = [
 
 function Section({ n, title, sub, children }) {
   return (
-    <section className="mp-sec rvm" id={"mp-s" + n}>
+    <section className="mp-sec rv" id={"mp-s" + n}>
       <header className="mp-sec-h">
         <span className="mp-num">{String(n).padStart(2, "0")}</span>
         <div><small>ขั้นที่ {n}</small><h2>{title}</h2>{sub && <p>{sub}</p>}</div>
@@ -77,21 +77,6 @@ function SectionNav() {
     </nav>
   );
 }
-
-// fade sections in as they scroll into view
-function useRevealIn(ready) {
-  useEffect(() => {
-    if (!ready) return undefined;
-    const root = document.querySelector(".dash");
-    const els = document.querySelectorAll(".rvm");
-    const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce || !root || !("IntersectionObserver" in window)) { els.forEach((e) => e.classList.add("in")); return undefined; }
-    const io = new IntersectionObserver((entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { root, threshold: 0.08 });
-    els.forEach((e) => io.observe(e));
-    return () => io.disconnect();
-  }, [ready]);
-}
-
 
 // HGB vs baseline, month by month: two lines, lower = better, gap shaded. Hover shows both values.
 function CompareLine({ items }) {
@@ -366,10 +351,10 @@ export default function ModelPage() {
     return WEEK_ORDER.map((k) => t.weekday.find((g) => g.group === k)).filter(Boolean).map((g) => ({ ...g, key: g.group, label: lab(g) }));
   }, [U, view]);
 
-  useRevealIn(!!U);
+  useReveal([!!U]);
 
   if (err) return <div className="dash"><SiteNav active="model" /><main className="db-wrap db-main"><div className="db-empty">โหลดข้อมูลไม่สำเร็จ ({err})</div></main></div>;
-  if (!U) return <div className="dash"><SiteNav active="model" /><main className="db-wrap db-main"><div className="db-empty"><span className="boot-dot" /> กำลังโหลด…</div></main></div>;
+  if (!U) return <div className="dash" aria-busy="true"><SiteNav active="model" /><PageBody kind="model" /></div>;
 
   const t = U.test2026;
   const monthsBetter = t.month.filter((m) => m.improvement > 0).length;
@@ -382,26 +367,25 @@ export default function ModelPage() {
   return (
     <div className="dash">
       <SiteNav active="model" />
-      <header className="mp-hero">
+      <header className="page-hero">
         <div className="db-wrap">
-          <div className="mp-hero-top">
+          <div className="page-hero-top">
             <div>
-              <small className="mp-eyebrow">MODEL</small>
-              <h1>โมเดลของ RoadAware</h1>
-              <p>โมเดลทายอะไร ถูกเลือกมาอย่างไร และทำได้ดีแค่ไหนกับข้อมูลที่ไม่เคยเห็น</p>
+              <small className="eyebrow hero-in" style={{ "--d": "0ms" }}>เบื้องหลังการคาดการณ์</small>
+              <h1 className="hero-in" style={{ "--d": "80ms" }}>โมเดลของ RoadAware</h1>
+              <p className="hero-in" style={{ "--d": "160ms" }}>โมเดลทายอะไร ถูกเลือกมาอย่างไร และทำได้ดีแค่ไหนกับข้อมูลที่ไม่เคยเห็น</p>
             </div>
-            <div className="mp-unit" role="radiogroup" aria-label="หน่วยเวลา">
-              <span>ดูผลแบบ</span>
+            <div className="seg-dark hero-in" style={{ "--d": "220ms" }} data-seg role="radiogroup" aria-label="หน่วยเวลา">
               {[["6h", "ราย 6 ชั่วโมง"], ["daily", "รายวัน"]].map(([k, l]) => (
                 <button key={k} type="button" role="radio" aria-checked={unit === k} className={unit === k ? "is-on" : ""} onClick={() => { setUnit(k); setFold(null); if (k === "daily" && view === "time") setView("month"); }}>{l}</button>
               ))}
             </div>
           </div>
           <div className="mp-kpis">
-            <div className="mp-kpi mp-kpi-champ"><span>โมเดลที่เลือกใช้</span><b>HistGradientBoosting</b><small>Poisson regression · ทั้งประเทศ</small></div>
-            <div className="mp-kpi"><span>ทดสอบย้อนหลัง 2565–2566</span><b>{pct(U.selection.relative_deviance_reduction)}</b><small>คลาดเคลื่อนน้อยกว่าค่าเทียบ · ชนะ {U.selection.fold_wins}/{U.selection.n_folds} รอบ</small></div>
-            <div className="mp-kpi"><span>ปี 2569 ที่ไม่เคยเห็น</span><b>{pct(t.overall.improvement)}</b><small>ดีกว่าทุกเดือน ({monthsBetter}/{t.month.length}) · {t.overall.records.toLocaleString("en-US")} เหตุ</small></div>
-            <div className="mp-kpi"><span>สงกรานต์ · ปีใหม่ 2569</span><b>{Math.round(fest * 100)}–{pct(festMax, 0)}</b><small>คลาดเคลื่อนน้อยกว่าค่าเทียบ</small></div>
+            <div className="mp-kpi mp-kpi-champ hero-in" style={{ "--d": "260ms" }}><span>โมเดลที่เลือกใช้</span><b>HistGradientBoosting</b><small>Poisson regression · ทั้งประเทศ</small></div>
+            <div className="mp-kpi hero-in" style={{ "--d": "330ms" }}><span>ทดสอบย้อนหลัง 2565–2566</span><b><CountUp value={U.selection.relative_deviance_reduction} format={(v) => pct(v)} /></b><small>คลาดเคลื่อนน้อยกว่าค่าเทียบ · ชนะ {U.selection.fold_wins}/{U.selection.n_folds} รอบ</small></div>
+            <div className="mp-kpi hero-in" style={{ "--d": "400ms" }}><span>ปี 2569 ที่ไม่เคยเห็น</span><b><CountUp value={t.overall.improvement} format={(v) => pct(v)} /></b><small>ดีกว่าทุกเดือน ({monthsBetter}/{t.month.length}) · {t.overall.records.toLocaleString("en-US")} เหตุ</small></div>
+            <div className="mp-kpi hero-in" style={{ "--d": "470ms" }}><span>สงกรานต์ · ปีใหม่ 2569</span><b><CountUp value={fest * 100} format={(v) => Math.round(v)} />–<CountUp value={festMax} format={(v) => pct(v, 0)} /></b><small>คลาดเคลื่อนน้อยกว่าค่าเทียบ</small></div>
           </div>
         </div>
         <div className="ld-lane" aria-hidden="true" />
@@ -449,7 +433,7 @@ export default function ModelPage() {
         <Section n={4} title="ทดสอบกับปี 2569 ที่โมเดลไม่เคยเห็น" sub="ม.ค.–ก.ย. 2569 — ข้อมูลที่ไม่ได้ใช้ทั้งตอนฝึกและตอนเลือกโมเดล">
           <div className="mp-test">
             <div className="db-card">
-              <div className="mp-tabs" role="tablist">
+              <div className="mp-tabs" data-seg role="tablist">
                 {[["month", "รายเดือน"], ["festival", "เทศกาล"], ...(unit === "6h" ? [["time", "ช่วงเวลา"]] : []), ["season", "ฤดู"], ["weekday", "วันในสัปดาห์"]].map(([k, l]) => (
                   <button key={k} type="button" role="tab" aria-selected={view === k} className={view === k ? "is-on" : ""} onClick={() => setView(k)}>{l}</button>
                 ))}
@@ -478,6 +462,7 @@ export default function ModelPage() {
           </ul>
         </Section>
       </main>
+      <SiteFooter />
     </div>
   );
 }

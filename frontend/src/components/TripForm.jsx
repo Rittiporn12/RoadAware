@@ -18,7 +18,7 @@ export default function TripForm({ appMode = "plan", onAppMode, reviewPeriod, on
   const problem = review ? periodProblem(reviewPeriod) : null;
   return (
     <section className="trip-form" aria-labelledby="planTitle">
-      <div className="mode-tabs" role="tablist" aria-label="โหมด">
+      <div className="mode-tabs" data-seg role="tablist" aria-label="โหมด">
         <button type="button" role="tab" aria-selected={appMode === "plan"} className={appMode === "plan" ? "is-on" : ""} onClick={() => onAppMode && onAppMode("plan")}>วางแผนเดินทาง</button>
         <button type="button" role="tab" aria-selected={appMode === "review"} className={appMode === "review" ? "is-on" : ""} onClick={() => onAppMode && onAppMode("review")}>ย้อนดูผล</button>
       </div>

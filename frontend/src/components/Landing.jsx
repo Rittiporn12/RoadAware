@@ -4,17 +4,7 @@
 // Everything respects prefers-reduced-motion. Works on phone, tablet and desktop.
 import { useEffect, useRef, useState } from "react";
 import { CONFIG, LEVELS, ROUTE_HEX, UNKNOWN_HEX, discoverServer } from "../config.js";
-
-const reducedMotion = () => typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-function Logo({ size = 30, dark = true }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 26 26" aria-hidden="true">
-      <circle cx="13" cy="13" r="12" fill={dark ? "#0F1B2D" : "#FFFFFF"} />
-      <path d="M7 18 C10 12, 13 15, 19 7" stroke="#E8821E" strokeWidth="2.6" fill="none" strokeLinecap="round" />
-    </svg>
-  );
-}
+import { Logo, SiteFooter, SiteNav, reducedMotion, useReveal } from "./site.jsx";
 
 // true only when the demo server (the presenter's Mac) answers; nothing is shown otherwise.
 function useServerOnline() {
@@ -35,21 +25,6 @@ function useServerOnline() {
     return () => { alive = false; };
   }, []);
   return online;
-}
-
-// Adds .in to every .rv element inside root when it scrolls into view (once).
-function useReveal(rootRef) {
-  useEffect(() => {
-    const root = rootRef.current;
-    if (!root) return undefined;
-    const els = root.querySelectorAll(".rv");
-    if (reducedMotion() || !("IntersectionObserver" in window)) { els.forEach((e) => e.classList.add("in")); return undefined; }
-    const io = new IntersectionObserver((entries) => entries.forEach((e) => {
-      if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
-    }), { root, threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
-    els.forEach((e) => io.observe(e));
-    return () => io.disconnect();
-  }, [rootRef]);
 }
 
 const ROUTE_D = "M58 410 C130 396, 160 330, 236 312 S 352 268, 392 208 S 486 112, 548 64";
@@ -237,19 +212,12 @@ const TECH = [
   },
 ];
 
-const TEAM = [
-  ["66088346", "นายฤทธิพร ผึ่งผาย"],
-  ["66088226", "นายกันณพิช เบ้าศรี"],
-  ["66080740", "นางสาววรรณษา วงค์ดี"],
-  ["66092559", "นายจริยธรรม มาสงค์"],
-];
-
 export default function Landing() {
   const online = useServerOnline();
   const rootRef = useRef(null);
   const [scrolled, setScrolled] = useState(false);
   const [leaving, setLeaving] = useState(false);
-  useReveal(rootRef);
+  useReveal();
   useEffect(() => { document.title = "RoadAware — รู้ก่อนออกเดินทาง ว่าช่วงไหนควรระวัง"; }, []);
   // arriving from the dashboard's menu: jump to the section that was clicked
   const [jumpTo] = useState(() => {
@@ -263,7 +231,8 @@ export default function Landing() {
 
   const goApp = () => {
     if (leaving) return;
-    if (reducedMotion()) { window.location.hash = "#/app"; return; }
+    // the page swap itself animates (view transition) where the browser supports it
+    if (reducedMotion() || document.startViewTransition) { window.location.hash = "#/app"; return; }
     setLeaving(true);
     setTimeout(() => { window.location.hash = "#/app"; }, 380);
   };
@@ -272,24 +241,12 @@ export default function Landing() {
     goApp();
   };
   const scrollTo = (id) => { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: reducedMotion() ? "auto" : "smooth", block: "start" }); };
-  const onScroll = (e) => { const s = e.currentTarget.scrollTop > 30; if (s !== scrolled) setScrolled(s); };
+  const onScroll = (e) => { const s = e.currentTarget.scrollTop > 24; if (s !== scrolled) setScrolled(s); };
 
   return (
     <div className={"landing" + (leaving ? " is-leaving" : "")} ref={rootRef} onScroll={onScroll}>
-      <header className={"ld-nav" + (scrolled ? " is-scrolled" : "")}>
-        <div className="ld-wrap ld-nav-in">
-          <a className="ld-brand" href="#/" onClick={(e) => { e.preventDefault(); rootRef.current && rootRef.current.scrollTo({ top: 0, behavior: "smooth" }); }}>
-            <Logo dark={scrolled} /> <span>RoadAware</span>
-          </a>
-          <nav className="ld-links" aria-label="เมนู">
-            <button type="button" onClick={() => scrollTo("ld-tech")}>ข้อมูล</button>
-            <button type="button" onClick={() => { window.location.hash = "#/dashboard"; }}>แดชบอร์ด</button>
-            <button type="button" onClick={() => { window.location.hash = "#/model"; }}>โมเดล</button>
-          </nav>
-          <span className="ld-nav-mini"><a href="#/dashboard">แดชบอร์ด</a><a href="#/model">โมเดล</a></span>
-          <button type="button" className="ld-btn ld-btn-sm" onClick={goApp}>เริ่มใช้งาน</button>
-        </div>
-      </header>
+      <SiteNav active="home" overlay scrolled={scrolled} onInfo={() => scrollTo("ld-tech")} onStart={goApp}
+        onBrand={() => rootRef.current && rootRef.current.scrollTo({ top: 0, behavior: reducedMotion() ? "auto" : "smooth" })} />
 
       <main>
         <section className="ld-hero">
@@ -327,6 +284,7 @@ export default function Landing() {
 
         <section className="ld-sec" id="ld-features">
           <div className="ld-wrap">
+            <p className="eyebrow eyebrow-ink rv">ความสามารถ</p>
             <h2 className="ld-h2 rv">ทำอะไรได้บ้าง</h2>
             <div className="ld-grid3">
               {FEATURES.map((f, i) => (
@@ -343,6 +301,7 @@ export default function Landing() {
         <section className="ld-sec ld-sec-alt" id="ld-how">
           <div className="ld-wrap ld-how">
             <div>
+              <p className="eyebrow eyebrow-ink rv">วิธีใช้</p>
               <h2 className="ld-h2 rv">ใช้งานง่ายใน 4 ขั้นตอน</h2>
               <ol className="ld-steps">
                 {STEPS.map((s, i) => (
@@ -364,6 +323,7 @@ export default function Landing() {
 
         <section className="ld-sec" id="ld-tech">
           <div className="ld-wrap">
+            <p className="eyebrow eyebrow-ink rv">ข้อมูล</p>
             <h2 className="ld-h2 rv">เบื้องหลัง RoadAware</h2>
             <p className="ld-sub rv">ข้อมูล วิธีคัดเลือกข้อมูล โมเดล และเครื่องมือทั้งหมดที่ใช้ในงานนี้ · กดชื่อเพื่อเปิดแหล่งที่มา</p>
             <ol className="ld-flow" aria-label="ขั้นตอนการทำงานของระบบ">
@@ -411,19 +371,9 @@ export default function Landing() {
         </section>
       </main>
 
-      <footer className="ld-foot">
-        <div className="ld-wrap ld-foot-in">
-          <div className="ld-brand"><Logo size={26} /> <span>RoadAware</span></div>
-          <div>
-            <h3>ผู้พัฒนา</h3>
-            <ul className="ld-team">
-              {TEAM.map(([id, name]) => <li key={id}><span>{name}</span><small>{id}</small></li>)}
-            </ul>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter lane={false} onInfo={() => scrollTo("ld-tech")} />
 
-      <div className="ld-exit" aria-hidden="true"><Logo size={64} dark={false} /></div>
+      <div className="ld-exit" aria-hidden="true"><Logo size={64} /></div>
     </div>
   );
 }

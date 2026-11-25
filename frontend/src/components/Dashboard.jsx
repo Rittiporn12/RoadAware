@@ -6,7 +6,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import * as L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { CONFIG, THAI_BOUNDS, MAX_BOUNDS } from "../config.js";
-import SiteNav from "./SiteNav.jsx";
+import { CountUp, PageBody, SiteFooter, SiteNav, useReveal } from "./site.jsx";
 
 const ENV = (import.meta.env) || {};
 const DATA_URL = (ENV.BASE_URL || "./") + "data/dashboard-v1.json";
@@ -123,7 +123,7 @@ function useWidth(ref) {
 
 function Card({ title, sub, children, className = "", action }) {
   return (
-    <section className={"db-card " + className}>
+    <section className={"db-card rv " + className}>
       <header className="db-card-h">
         <div><h3>{title}</h3>{sub && <p>{sub}</p>}</div>
         {action}
@@ -204,7 +204,7 @@ function Trend({ data, from, to, selected, onPick, unit }) {
           );
         })}
         <path d={area} className="db-area" />
-        <path d={line} className="db-line" />
+        <path d={line} className="db-line" pathLength="1" />
         {selected >= from && selected <= to && <circle cx={X(selected - from)} cy={Y(data[selected])} r="5" className="db-dot-sel" />}
         {hi != null && (
           <g>
@@ -256,7 +256,7 @@ function FragmentRow({ d, dn, data, color, selected, onPick, setHover }) {
       {Array.from({ length: 24 }, (_, hh) => {
         const k = d * 24 + hh;
         return (
-          <button key={hh} type="button" className={"db-heat-c" + (k === selected ? " is-sel" : "")} style={{ background: color(data[k]) }}
+          <button key={hh} type="button" className={"db-heat-c" + (k === selected ? " is-sel" : "")} style={{ background: color(data[k]), "--i": d + hh }}
             onMouseEnter={() => setHover(k)} onFocus={() => setHover(k)} onClick={() => onPick(k === selected ? -1 : k)}
             aria-label={`${DOW_FULL[d]} ${hh}:00 ${fmt(data[k])}`} />
         );
@@ -327,8 +327,8 @@ export default function Dashboard() {
   });
   const M = METRICS.find((m) => m.key === metric);
 
-  if (err) return <DashShell><div className="db-empty">โหลดข้อมูลไม่สำเร็จ ({err}) — ลองรีเฟรชหน้า</div></DashShell>;
-  if (!raw || !agg) return <DashShell><div className="db-empty"><span className="boot-dot" /> กำลังโหลดข้อมูลอุบัติเหตุ…</div></DashShell>;
+  if (err) return <div className="dash"><SiteNav active="dashboard" /><main className="db-wrap db-main"><div className="db-empty">โหลดข้อมูลไม่สำเร็จ ({err}) — ลองรีเฟรชหน้า</div></main></div>;
+  if (!raw || !agg) return <div className="dash" aria-busy="true"><SiteNav active="dashboard" /><PageBody kind="dashboard" /></div>;
 
   const { dims, meta } = raw;
   const years = raw.years;
@@ -359,19 +359,21 @@ export default function Dashboard() {
   const perDayFest = [0, 1, 2].map((p) => ({ key: p, label: PERIODS[p], value: agg.days[p] ? agg.period[p] / agg.days[p] : 0 }));
 
   return (
-    <DashShell>
-      <div className="db-head">
+    <DashShell hero={
+      <div className="page-hero-top">
         <div>
-          <h1>แดชบอร์ดอุบัติเหตุทางถนน</h1>
+          <small className="eyebrow hero-in" style={{ "--d": "0ms" }}>ข้อมูลอุบัติเหตุบนทางหลวง {years[0]}–{years[years.length - 1]}</small>
+          <h1 className="hero-in" style={{ "--d": "80ms" }}>แดชบอร์ดอุบัติเหตุทางถนน</h1>
         </div>
-        <div className="db-metric" role="radiogroup" aria-label="ตัวชี้วัด">
+        <div className="seg-dark hero-in" style={{ "--d": "160ms" }} data-seg role="radiogroup" aria-label="ตัวชี้วัด">
           {METRICS.map((m) => (
             <button key={m.key} type="button" role="radio" aria-checked={metric === m.key} className={metric === m.key ? "is-on" : ""} onClick={() => setMetric(m.key)}>{m.label}</button>
           ))}
         </div>
       </div>
+    }>
 
-      <div className="db-filters">
+      <div className="db-filters rv">
         <div className="db-f-row">
           <span className="db-f-lab">ปี</span>
           <div className="db-years" role="group" aria-label="ปี">
@@ -415,14 +417,14 @@ export default function Dashboard() {
         ) : <span className="db-hint">เลือกตัวกรองด้านบน หรือคลิกที่แท่งกราฟ ช่องตาราง หรือจุดบนกราฟเส้น เพื่อกรองทุกกราฟพร้อมกัน</span>}
       </div>
 
-      <div className="db-kpis">
-        <div className="db-kpi"><span>อุบัติเหตุ</span><b>{fmt(k.acc)}</b><small>เฉลี่ย {fmt1(perDay)} ครั้ง/วัน</small></div>
-        <div className="db-kpi"><span>ผู้เสียชีวิต</span><b>{fmt(k.dead)}</b><small>{fmt1(k.acc ? (k.dead / k.acc) * 100 : 0)} รายต่อ 100 เหตุ</small></div>
-        <div className="db-kpi"><span>ผู้บาดเจ็บสาหัส</span><b>{fmt(k.serious)}</b><small>{fmt1(injured ? (k.serious / injured) * 100 : 0)}% ของผู้บาดเจ็บ</small></div>
-        <div className="db-kpi"><span>ผู้บาดเจ็บเล็กน้อย</span><b>{fmt(k.minor)}</b><small>รวมบาดเจ็บ {fmt(injured)} ราย</small></div>
+      <div className="db-kpis rv">
+        <div className="db-kpi"><span>อุบัติเหตุ</span><b><CountUp value={k.acc} /></b><small>เฉลี่ย {fmt1(perDay)} ครั้ง/วัน</small></div>
+        <div className="db-kpi"><span>ผู้เสียชีวิต</span><b><CountUp value={k.dead} /></b><small>{fmt1(k.acc ? (k.dead / k.acc) * 100 : 0)} รายต่อ 100 เหตุ</small></div>
+        <div className="db-kpi"><span>ผู้บาดเจ็บสาหัส</span><b><CountUp value={k.serious} /></b><small>{fmt1(injured ? (k.serious / injured) * 100 : 0)}% ของผู้บาดเจ็บ</small></div>
+        <div className="db-kpi"><span>ผู้บาดเจ็บเล็กน้อย</span><b><CountUp value={k.minor} /></b><small>รวมบาดเจ็บ {fmt(injured)} ราย</small></div>
       </div>
 
-      <div className="db-facts">
+      <div className="db-facts rv">
         <span>จังหวัดที่มี{M.label}มากที่สุด <b>{provItems[0] && provItems[0].value > 0 ? provItems[0].label : "—"}</b></span>
         <span>ช่วงเวลาที่พบมากที่สุด <b>{hourSum[peakH] > 0 ? `${String(peakH).padStart(2, "0")}:00–${String(peakH).padStart(2, "0")}:59 น.` : "—"}</b></span>
         <span>ลักษณะที่พบบ่อยที่สุด <b>{top(agg.type, dims.type, true)}</b></span>
@@ -479,11 +481,17 @@ export default function Dashboard() {
   );
 }
 
-function DashShell({ children }) {
+function DashShell({ hero, children }) {
+  useReveal([]);
   return (
     <div className="dash">
       <SiteNav active="dashboard" />
+      <header className="page-hero page-hero-slim">
+        <div className="db-wrap">{hero}</div>
+        <div className="ld-lane" aria-hidden="true" />
+      </header>
       <main className="db-wrap db-main">{children}</main>
+      <SiteFooter />
     </div>
   );
 }

@@ -10,6 +10,7 @@ import TripForm from "./components/TripForm.jsx";
 import Briefing from "./components/Briefing.jsx";
 import { MapKey } from "./components/RouteRibbon.jsx";
 import AboutDialog from "./components/AboutDialog.jsx";
+import { Logo } from "./components/site.jsx";
 import DriveMode, { DriveStart, DriveBanner } from "./components/DriveMode.jsx";
 import ReviewResult, { reviewSummary } from "./components/ReviewResult.jsx";
 import { REVIEW_PERIODS, periodProblem, reviewForecast, reviewActuals } from "./lib/review.js";
@@ -680,7 +681,7 @@ export default function App() {
       <a className="skip-link" href="#panel">ข้ามไปยังแผงวางแผนการเดินทาง</a>
       <header className="topbar">
         <a className="brand" href="#/" title="กลับหน้าแรก" aria-label="RoadAware — กลับหน้าแรก">
-          <svg width="28" height="28" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="12" fill="#0F1B2D" /><path d="M7 18 C10 12, 13 15, 19 7" stroke="#E8821E" strokeWidth="2.6" fill="none" strokeLinecap="round" /></svg>
+          <Logo size={28} />
           <span className="brand-name">RoadAware</span>
         </a>
         <div className="topbar-right">
@@ -757,6 +758,7 @@ export default function App() {
             <span className="sheet-grip" aria-hidden="true" />
           </button>
           <div className="panel-body">
+            <div className="panel-view" key={showBrief ? (drive && drive.phase === "start" ? "drive-start" : driveOn ? "drive" : appMode === "review" ? "review" : "brief") : "plan"}>
             {showBrief && drive && drive.phase === "start" ? (
               <DriveStart hasVoice={hasVoice} onStart={startDrive} onCancel={() => setDrive(null)} />
             ) : showBrief && driveOn ? (
@@ -797,6 +799,7 @@ export default function App() {
                 />
               </>
             )}
+            </div>
           </div>
         </aside>
       </main>
