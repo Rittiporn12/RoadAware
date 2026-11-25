@@ -521,3 +521,59 @@ html[data-vt="swap"]::view-transition-new(root) { animation: vtZoom .5s var(--ea
   .nm { padding: 20px 4px 44px 12px; }
 }
 @media (prefers-reduced-motion: reduce) { .nm .nm-card { animation: none; } }
+
+/* hero map: bright daytime navigation map, so it stands out on the night page */
+.nm .nm-card { background: #DCD8CE; border: 0; box-shadow: 0 50px 90px rgba(0, 0, 0, .55), 0 0 0 1px rgba(255, 255, 255, .5); }
+.nm-card .nm-out { fill: #DCD8CE; }
+.nm-card .nm-land { fill: #FBF9F4; }
+.nm-card .nm-coast { stroke: #9FB6CF; stroke-width: 1.6; }
+.nm-card .nm-r3 { stroke: #ECE7DD; stroke-width: 1; }
+.nm-card .nm-r2c { stroke: #D6CEBF; stroke-width: 3.6; }
+.nm-card .nm-r2 { stroke: #FFFFFF; stroke-width: 2.2; }
+.nm-card .nm-r1c { stroke: #E3A13A; stroke-width: 5.4; }
+.nm-card .nm-r1 { stroke: #FFD27A; stroke-width: 3.4; }
+.nm-card .nm-place { fill: #6E6757; stroke: #FBF9F4; }
+.nm-card .nm-shield rect { fill: #fff; stroke: #1D4F91; }
+.nm-card .nm-shield text { fill: #1D4F91; }
+.nm-route-glow { stroke: #2F6FE0; }
+.nm-card .nm-route-under { stroke: #fff; stroke-width: 10; }
+.nm-card .nm-route { stroke: #1F5BD1; stroke-width: 5; }
+.nm-card .nm-city { fill: #0F1B2D; stroke: #FBF9F4; }
+.nm-card .nm-car circle:nth-child(1) { fill: #1F5BD1; opacity: .25; }
+.nm-card .nm-car circle:nth-child(2) { fill: #fff; stroke: #0F1B2D; }
+.nm-card .nm-car circle:nth-child(3) { fill: #0F1B2D; }
+.nm .nm-card svg > rect[fill^="url"] { display: none; }
+
+/* ================= home page: night all the way down (no jump from navy to cream) ================= */
+.landing main > .ld-sec, .landing main > .ld-sec-alt { background: var(--night); color: var(--on-night); border: 0; }
+.landing main > .ld-sec-alt { background: #122036; border-top: 1px solid rgba(255, 255, 255, .05); border-bottom: 1px solid rgba(255, 255, 255, .05); }
+.landing .ld-h2 { color: #fff; }
+.landing .ld-sub, .landing .ld-note { color: var(--on-night-3); }
+.landing .eyebrow-ink { color: var(--amber); }
+.landing .ld-card { background: #16253C; border: 1px solid rgba(255, 255, 255, .08); box-shadow: none; }
+.landing .ld-card:hover { border-color: rgba(255, 255, 255, .16); box-shadow: 0 18px 40px rgba(0, 0, 0, .28); }
+.landing .ld-card h3 { color: #fff; }
+.landing .ld-card p { color: var(--on-night-2); }
+.landing .ld-icon { background: rgba(232, 130, 30, .14); color: var(--amber-hi); }
+.landing .ld-feat:hover .ld-icon { background: var(--amber); color: var(--amber-ink); }
+.landing .ld-step-n { background: #22344F; color: #fff; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .1); }
+.landing .ld-steps h3 { color: #fff; }
+.landing .ld-steps p { color: var(--on-night-2); }
+.landing .ld-steps li:not(:last-child)::after { background: rgba(255, 255, 255, .12); }
+.landing .ld-legend { background: #16253C; border-color: rgba(255, 255, 255, .08); }
+.landing .ld-legend h3, .landing .ld-legend b { color: #fff; }
+.landing .ld-legend small { color: var(--on-night-3); }
+.landing .ld-pin { border-color: #16253C; }
+.landing .ld-flow li { background: #16253C; border-color: rgba(255, 255, 255, .08); }
+.landing .ld-flow li:hover { border-color: var(--amber); box-shadow: 0 14px 30px rgba(0, 0, 0, .25); }
+.landing .ld-flow b { color: #fff; }
+.landing .ld-flow small { color: var(--on-night-3); }
+.landing .ld-flow-n { background: var(--amber); color: var(--amber-ink); }
+.landing .ld-flow li:not(:last-child)::after { border-color: rgba(255, 255, 255, .35); }
+.landing .ld-tech-card dl > div { border-top-color: rgba(255, 255, 255, .07); }
+.landing .ld-tech-card dt { color: #fff; }
+.landing .ld-tech-card dd { color: var(--on-night-2); }
+.landing .ld-src a { color: #8EC0FF; border-bottom-color: rgba(142, 192, 255, .3); }
+.landing .ld-src a:hover { color: #C4DDFF; }
+.landing .ld-final { background: #0B1422; }
+.landing .ld-final + .site-foot { background: #0B1422; }
