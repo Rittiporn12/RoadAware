@@ -1,16 +1,12 @@
 
 /* ================= dashboard page (Dashboard.jsx) ================= */
 .dash { position: fixed; inset: 0; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; background: var(--paper); }
-.db-wrap { width: 100%; max-width: 1240px; margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-left)); }
-.db-nav { position: sticky; top: 0; z-index: 1000; background: var(--surface); border-bottom: 1px solid var(--line); padding-top: env(safe-area-inset-top); }
-.db-nav-in { height: 60px; display: flex; align-items: center; gap: 20px; }
-.db-brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; font-size: 19px; color: var(--ink); text-decoration: none; }
-.db-links { display: flex; gap: 4px; margin-left: auto; }
-.db-links a { padding: 8px 12px; border-radius: 8px; color: var(--ink-2); text-decoration: none; font-size: 14.5px; }
-.db-links a:hover { color: var(--ink); background: var(--paper); }
-.db-links a[aria-current="page"] { color: var(--ink); font-weight: 700; box-shadow: inset 0 -2px 0 var(--accent); border-radius: 0; }
-.db-go { display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border-radius: 12px; background: var(--accent); color: #241200; font-weight: 700; text-decoration: none; font-size: 14.5px; }
-.db-go:hover { background: #F0913A; }
+.db-wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-left)); }
+/* nav: the home page's bar (landing.css .ld-nav) in its dark state */
+.dash { --night: #0F1B2D; --amber: #E8821E; }
+.ld-nav.ld-nav-solid { position: sticky; top: 0; z-index: 1000; margin-bottom: 0; background: var(--night); }
+.ld-nav-solid a.ld-btn { text-decoration: none; }
+.ld-links button[aria-current="page"], .ld-nav-dash[aria-current="page"] { color: #fff; font-weight: 700; text-decoration: underline; text-decoration-color: var(--amber); text-decoration-thickness: 2px; text-underline-offset: 8px; }
 .db-main { padding-top: 28px; padding-bottom: 48px; }
 .db-empty { min-height: 50vh; display: grid; place-items: center; grid-auto-flow: column; gap: 10px; color: var(--ink-2); }
 
@@ -120,9 +116,6 @@
 }
 @media (max-width: 600px) {
   .db-wrap { padding: 0 14px; }
-  .db-nav-in { gap: 10px; }
-  .db-links a:first-child { display: none; }
-  .db-brand span { display: none; }
   .db-main { padding-top: 18px; }
   .db-metric { width: 100%; }
   .db-metric button { flex: 1; padding: 8px 6px; }
@@ -136,7 +129,3 @@
   .db-heat-hx { font-size: 9px; }
   .db-map { min-height: 320px; }
 }
-
-/* link from the app's top bar */
-a.dash-link { text-decoration: none; }
-@media (max-width: 700px) { a.dash-link { display: none; } }

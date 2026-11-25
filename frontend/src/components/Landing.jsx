@@ -251,6 +251,15 @@ export default function Landing() {
   const [leaving, setLeaving] = useState(false);
   useReveal(rootRef);
   useEffect(() => { document.title = "RoadAware — รู้ก่อนออกเดินทาง ว่าช่วงไหนควรระวัง"; }, []);
+  // arriving from the dashboard's menu: jump to the section that was clicked
+  const [jumpTo] = useState(() => {
+    try { const id = window.sessionStorage.getItem("roadaware.scrollTo"); window.sessionStorage.removeItem("roadaware.scrollTo"); return id; } catch (_) { return null; }
+  });
+  useEffect(() => {
+    if (!jumpTo) return undefined;
+    const t = setTimeout(() => { const el = document.getElementById(jumpTo); if (el) el.scrollIntoView({ block: "start" }); }, 60);
+    return () => clearTimeout(t);
+  }, [jumpTo]);
 
   const goApp = () => {
     if (leaving) return;
