@@ -36,15 +36,77 @@ const WEEK_ORDER = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const pct = (x, d = 1) => (x * 100).toFixed(d) + "%";
 const beDate = (iso) => { const [y, m, d] = iso.split("-").map(Number); return `${d} ${MONTHS[m - 1]} ${y + 543}`; };
 
+const SECTIONS = [
+  ["mp-s1", "ทายอะไร"], ["mp-s2", "แบ่งข้อมูล"], ["mp-s3", "เทียบวิธี"], ["mp-s4", "ทดสอบ 2569"], ["mp-s5", "ข้อจำกัด"],
+];
+
 function Section({ n, title, sub, children }) {
   return (
-    <section className="mp-sec">
+    <section className="mp-sec rvm" id={"mp-s" + n}>
       <header className="mp-sec-h">
-        <span className="mp-num">{n}</span>
-        <div><h2>{title}</h2>{sub && <p>{sub}</p>}</div>
+        <span className="mp-num">{String(n).padStart(2, "0")}</span>
+        <div><small>ขั้นที่ {n}</small><h2>{title}</h2>{sub && <p>{sub}</p>}</div>
       </header>
       {children}
     </section>
+  );
+}
+
+// In-page menu: highlights the section being read, click to jump.
+function SectionNav() {
+  const [active, setActive] = useState(SECTIONS[0][0]);
+  useEffect(() => {
+    const root = document.querySelector(".dash");
+    const els = SECTIONS.map(([id]) => document.getElementById(id)).filter(Boolean);
+    if (!root || !els.length || !("IntersectionObserver" in window)) return undefined;
+    const io = new IntersectionObserver((entries) => {
+      const vis = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+      if (vis[0]) setActive(vis[0].target.id);
+    }, { root, rootMargin: "-130px 0px -55% 0px" });
+    els.forEach((e) => io.observe(e));
+    return () => io.disconnect();
+  }, []);
+  const go = (id) => { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); };
+  return (
+    <nav className="mp-secnav" aria-label="ส่วนของหน้า">
+      <div className="db-wrap mp-secnav-in">
+        {SECTIONS.map(([id, label], i) => (
+          <button key={id} type="button" className={active === id ? "is-on" : ""} onClick={() => go(id)}><span>{i + 1}</span>{label}</button>
+        ))}
+      </div>
+    </nav>
+  );
+}
+
+// fade sections in as they scroll into view
+function useRevealIn(ready) {
+  useEffect(() => {
+    if (!ready) return undefined;
+    const root = document.querySelector(".dash");
+    const els = document.querySelectorAll(".rvm");
+    const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce || !root || !("IntersectionObserver" in window)) { els.forEach((e) => e.classList.add("in")); return undefined; }
+    const io = new IntersectionObserver((entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { root, threshold: 0.08 });
+    els.forEach((e) => io.observe(e));
+    return () => io.disconnect();
+  }, [ready]);
+}
+
+// Monthly results as columns (one per month, height = improvement)
+function MonthColumns({ items }) {
+  const max = Math.max(0.05, ...items.map((d) => d.improvement || 0));
+  const avg = items.reduce((a, d) => a + d.improvement, 0) / items.length;
+  return (
+    <div className="mp-cols" role="img" aria-label="ผลรายเดือน">
+      <div className="mp-cols-avg" style={{ bottom: `calc(${(avg / max) * 100}% * .82 + 26px)` }}><span>เฉลี่ย {pct(avg)}</span></div>
+      {items.map((d) => (
+        <div key={d.key} className="mp-col" title={`${d.label}: ดีกว่า ${pct(d.improvement)} · ${d.records.toLocaleString("en-US")} เหตุ`}>
+          <b>{pct(d.improvement, 0)}</b>
+          <span className="mp-col-bar"><i style={{ height: (Math.max(d.improvement, 0) / max) * 100 + "%" }} className={d.key.endsWith("-04") || d.key.endsWith("-01") ? "is-fest" : ""} /></span>
+          <small>{d.label.split(" ")[0]}</small>
+        </div>
+      ))}
+    </div>
   );
 }
 
@@ -234,6 +296,8 @@ export default function ModelPage() {
     return WEEK_ORDER.map((k) => t.weekday.find((g) => g.group === k)).filter(Boolean).map((g) => ({ ...g, key: g.group, label: lab(g) }));
   }, [U, view]);
 
+  useRevealIn(!!U);
+
   if (err) return <div className="dash"><SiteNav active="model" /><main className="db-wrap db-main"><div className="db-empty">โหลดข้อมูลไม่สำเร็จ ({err})</div></main></div>;
   if (!U) return <div className="dash"><SiteNav active="model" /><main className="db-wrap db-main"><div className="db-empty"><span className="boot-dot" /> กำลังโหลด…</div></main></div>;
 
@@ -248,26 +312,32 @@ export default function ModelPage() {
   return (
     <div className="dash">
       <SiteNav active="model" />
+      <header className="mp-hero">
+        <div className="db-wrap">
+          <div className="mp-hero-top">
+            <div>
+              <small className="mp-eyebrow">MODEL</small>
+              <h1>โมเดลของ RoadAware</h1>
+              <p>โมเดลทายอะไร ถูกเลือกมาอย่างไร และทำได้ดีแค่ไหนกับข้อมูลที่ไม่เคยเห็น</p>
+            </div>
+            <div className="mp-unit" role="radiogroup" aria-label="หน่วยเวลา">
+              <span>ดูผลแบบ</span>
+              {[["6h", "ราย 6 ชั่วโมง"], ["daily", "รายวัน"]].map(([k, l]) => (
+                <button key={k} type="button" role="radio" aria-checked={unit === k} className={unit === k ? "is-on" : ""} onClick={() => { setUnit(k); setFold(null); if (k === "daily" && view === "time") setView("month"); }}>{l}</button>
+              ))}
+            </div>
+          </div>
+          <div className="mp-kpis">
+            <div className="mp-kpi mp-kpi-champ"><span>โมเดลที่เลือกใช้</span><b>HistGradientBoosting</b><small>Poisson regression · ทั้งประเทศ</small></div>
+            <div className="mp-kpi"><span>ทดสอบย้อนหลัง 2565–2566</span><b>{pct(U.selection.relative_deviance_reduction)}</b><small>คลาดเคลื่อนน้อยกว่าค่าเทียบ · ชนะ {U.selection.fold_wins}/{U.selection.n_folds} รอบ</small></div>
+            <div className="mp-kpi"><span>ปี 2569 ที่ไม่เคยเห็น</span><b>{pct(t.overall.improvement)}</b><small>ดีกว่าทุกเดือน ({monthsBetter}/{t.month.length}) · {t.overall.records.toLocaleString("en-US")} เหตุ</small></div>
+            <div className="mp-kpi"><span>สงกรานต์ · ปีใหม่ 2569</span><b>{Math.round(fest * 100)}–{pct(festMax, 0)}</b><small>คลาดเคลื่อนน้อยกว่าค่าเทียบ</small></div>
+          </div>
+        </div>
+        <div className="ld-lane" aria-hidden="true" />
+      </header>
+      <SectionNav />
       <main className="db-wrap db-main mp">
-        <div className="db-head">
-          <div>
-            <h1>โมเดลของ RoadAware</h1>
-            <p className="mp-lead">โมเดลทายอะไร ถูกเลือกมาอย่างไร และทำได้ดีแค่ไหนกับข้อมูลที่ไม่เคยเห็น</p>
-          </div>
-          <div className="db-metric" role="radiogroup" aria-label="หน่วยเวลา">
-            {[["6h", "ราย 6 ชั่วโมง"], ["daily", "รายวัน"]].map(([k, l]) => (
-              <button key={k} type="button" role="radio" aria-checked={unit === k} className={unit === k ? "is-on" : ""} onClick={() => { setUnit(k); setFold(null); if (k === "daily" && view === "time") setView("month"); }}>{l}</button>
-            ))}
-          </div>
-        </div>
-
-        <div className="mp-kpis">
-          <div className="mp-kpi mp-kpi-champ"><span>โมเดลที่เลือก</span><b>HistGradientBoosting</b><small>Poisson · ใช้ทั้งประเทศ</small></div>
-          <div className="mp-kpi"><span>ทดสอบย้อนหลัง 2565–2566</span><b>ดีกว่า {pct(U.selection.relative_deviance_reduction)}</b><small>ชนะ {U.selection.fold_wins}/{U.selection.n_folds} รอบ เทียบค่าเทียบที่ดีที่สุด</small></div>
-          <div className="mp-kpi"><span>ปี 2569 ที่ไม่เคยเห็น</span><b>ดีกว่า {pct(t.overall.improvement)}</b><small>ดีกว่าทุกเดือน ({monthsBetter}/{t.month.length}) · {t.overall.records.toLocaleString("en-US")} เหตุ</small></div>
-          <div className="mp-kpi"><span>ช่วงเทศกาล 2569</span><b>ดีกว่า {Math.round(fest * 100)}–{pct(festMax, 0)}</b><small>สงกรานต์และปีใหม่</small></div>
-        </div>
-
         <Section n={1} title="โมเดลทายอะไร" sub="จากข้อมูลถนนและเวลา ไปเป็นจุดที่ควรระวังบนแผนที่">
           <Pipeline />
           <WhyPoisson board={U.leaderboard} />
@@ -306,7 +376,7 @@ export default function ModelPage() {
           </div>
         </Section>
 
-        <Section n={4} title="ทดสอบกับปี 2569 ที่โมเดลไม่เคยเห็น" sub="ม.ค.–ก.ย. 2569 · ตัวเลข = HGB ทำความคลาดเคลื่อนน้อยกว่าค่าเทียบกี่เปอร์เซ็นต์">
+        <Section n={4} title="ทดสอบกับปี 2569 ที่โมเดลไม่เคยเห็น" sub="ม.ค.–ก.ย. 2569 — ข้อมูลที่ไม่ได้ใช้ทั้งตอนฝึกและตอนเลือกโมเดล">
           <div className="mp-test">
             <div className="db-card">
               <div className="mp-tabs" role="tablist">
@@ -314,12 +384,17 @@ export default function ModelPage() {
                   <button key={k} type="button" role="tab" aria-selected={view === k} className={view === k ? "is-on" : ""} onClick={() => setView(k)}>{l}</button>
                 ))}
               </div>
-              <ImproveBars items={groups} label="ผลแยกกลุ่ม" />
+              {view === "month" ? <MonthColumns items={groups} /> : <ImproveBars items={groups} label="ผลแยกกลุ่ม" />}
+              <p className="mp-note">ตัวเลข = HGB คลาดเคลื่อนน้อยกว่าค่าเทียบ (ค่าเฉลี่ยในอดีตของช่วงถนน) กี่เปอร์เซ็นต์ · ชี้ที่แท่งเพื่อดูจำนวนเหตุ</p>
             </div>
             <div className="mp-test-side">
-              <div className="mp-big"><b>{monthsBetter}/{t.month.length}</b><span>เดือนที่ดีกว่าค่าเทียบ</span></div>
-              <div className="mp-big"><b>{t.weeks_better}/{t.weeks}</b><span>สัปดาห์ที่ดีกว่า</span></div>
-              <div className="mp-big"><b>{t.province_wins}/{t.province_count}</b><span>จังหวัดที่ดีกว่า</span></div>
+              {[[monthsBetter, t.month.length, "เดือนที่ดีกว่าค่าเทียบ"], [t.weeks_better, t.weeks, "สัปดาห์ที่ดีกว่า"], [t.province_wins, t.province_count, "จังหวัดที่ดีกว่า"]].map(([a, b, l]) => (
+                <div key={l} className="mp-big">
+                  <div><b>{a}</b><small>/{b}</small></div>
+                  <span>{l}</span>
+                  <i className="mp-prog"><em style={{ width: (a / b) * 100 + "%" }} /></i>
+                </div>
+              ))}
             </div>
           </div>
         </Section>
