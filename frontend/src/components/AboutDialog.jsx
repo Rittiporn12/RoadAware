@@ -1,6 +1,6 @@
 // "ข้อมูลนี้มาจากไหน" — all transparency in one place instead of warnings on every card.
 import { useEffect, useRef } from "react";
-import { LEVELS, LEVEL_ORDER, UNKNOWN_HEX, ROUTE_HEX, HOT_HEX } from "../config.js";
+import { LEVELS, UNKNOWN_HEX, ROUTE_HEX, HOT_HEX } from "../config.js";
 
 export default function AboutDialog({ open, onClose }) {
   const ref = useRef(null);
@@ -44,12 +44,6 @@ export default function AboutDialog({ open, onClose }) {
           <li><i style={{ background: LEVELS.orange.hex }} />หมายเลขสีส้ม — จุดที่ควรระวัง ระดับสูง (5–20% บนสุด) · หมายเลขขึ้นเฉพาะช่วงที่ค่าคาดสูงที่สุดของเส้นทางในเวลาที่คุณผ่าน</li>
           <li><i style={{ background: ROUTE_HEX }} />เส้นสีน้ำเงิน — ทางหลวงที่ประเมินแล้ว</li>
           <li><i style={{ background: UNKNOWN_HEX }} />เส้นสีเทา — ถนนท้องถิ่น / ในเมืองที่ยังไม่มีข้อมูล (ไม่ได้แปลว่าปลอดภัย)</li>
-        </ul>
-        <h3>ระดับเทียบทั้งประเทศ</h3>
-        <ul className="about-levels">
-          {LEVEL_ORDER.map((k) => (
-            <li key={k}><i style={{ background: LEVELS[k].hex }} />{LEVELS[k].label} — {LEVELS[k].nat} ของช่วงถนน × ช่วงเวลาทั่วประเทศ (ปี 2565–66)</li>
-          ))}
         </ul>
         <h3>“ส่วนใหญ่เกิดจาก” และคำแนะนำ</h3>
         <p>มาจากหมวดที่บันทึกไว้ในรายงานอุบัติเหตุของช่วงถนนนั้น (ลักษณะเหตุ สภาพอากาศขณะเกิดเหตุ สาเหตุที่สันนิษฐาน) ไม่ใช่การพิสูจน์สาเหตุ และไม่ใช่สภาพอากาศวันเดินทาง คำแนะนำเป็นข้อแนะนำทั่วไปจากลักษณะเหตุที่พบบ่อย</p>
