@@ -312,6 +312,7 @@ export default function Landing() {
             </div>
           </div>
           <div className="ld-lane" aria-hidden="true" />
+          <button type="button" className="ld-more" onClick={() => scrollTo("ld-features")}>เลื่อนดูเพิ่มเติม <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9l6 6 6-6" /></svg></button>
         </section>
 
         <section className="ld-sec" id="ld-features">
