@@ -30,7 +30,7 @@ export function DriveBanner({ drive, zones, route }) {
   if (!nz) return <div className="drive-banner" role="status">ไม่มีจุดที่ควรระวังข้างหน้าแล้ว · อีก {fmtDist(route.distance - drive.alongM)} ถึงปลายทาง</div>;
   return (
     <div className={"drive-banner" + (nz.inside ? " drive-inside" : nz.distM <= 2000 ? " drive-near" : "")} role="status" aria-live="polite">
-      <span className="drive-num">{nz.zone.n}</span>
+      <span className="drive-num" style={{ color: LEVELS[nz.zone.level].hex === LEVELS.orange.hex ? "#B85F0B" : LEVELS[nz.zone.level].hex }}>{nz.zone.n}</span>
       <span className="drive-main">
         <b>{nz.inside ? "อยู่ในจุดที่ควรระวัง" : "จุดที่ควรระวัง อีก " + fmtDist(nz.distM)}</b>
         <span>{nz.zone.road}{nz.zone.provinces.length ? " · " + nz.zone.provinces[0] : ""}</span>
@@ -75,7 +75,7 @@ export default function DriveMode({ drive, zones, route, history, onStop, onMute
 
       <div className="drive-progress">
         <div className="drive-bar"><span style={{ width: Math.min(100, (along / route.distance) * 100) + "%" }} />
-          {zones.map((z) => <i key={z.key} style={{ left: (z.startM / route.distance) * 100 + "%", background: HOT_HEX }} title={"จุดที่ " + z.n} />)}
+          {zones.map((z) => <i key={z.key} style={{ left: (z.startM / route.distance) * 100 + "%", background: LEVELS[z.level].hex }} title={"จุดที่ " + z.n} />)}
         </div>
         <p className="fine">ไปแล้ว {fmtKm(along)} จาก {fmtKm(route.distance)} · เหลือราว {minsLeft >= 60 ? Math.floor(minsLeft / 60) + " ชม. " : ""}{minsLeft % 60} นาที · ข้างหน้าอีก {upcoming.length} จุด</p>
       </div>

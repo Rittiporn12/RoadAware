@@ -21,7 +21,7 @@ function zoneIcon(n, level, selected, mode, clock) {
   const m = /(\d{1,2}:\d{2})/.exec(String(clock || ""));
   const t = m ? "<em>" + m[1] + " น.</em>" : "";
   return L.divIcon({
-    className: "zone-icon zone-" + (mode === "national" ? level : "hot") + (selected ? " is-selected" : ""),
+    className: "zone-icon zone-" + (level === "red" ? "red" : "orange") + (selected ? " is-selected" : ""), // red = สูงมาก, orange = สูง
     html: "<span>" + Number(n) + "</span>" + t, // number + the time you pass it
     iconSize: [size, size],
     iconAnchor: [size / 2, size / 2],
@@ -267,7 +267,7 @@ export default function MapView({ route, origin, dest, items, zones, hotIds, ran
       const hot = !!(hotIds && hotIds.has(it.id));
       const style = national
         ? { color: LEVELS[it.level].hex, weight: it.level === "red" || it.level === "orange" ? 8 : 6 }
-        : { color: hot ? HOT_HEX : ROUTE_HEX, weight: hot ? 9 : 6 }; // one calm colour; only the numbered points stand out
+        : { color: hot ? LEVELS[it.level].hex : ROUTE_HEX, weight: hot ? 9 : 6 }; // calm blue; numbered points in their level colour (red สูงมาก / orange สูง)
       L.geoJSON(it.feature, { pane: "segPane", interactive: false, style: () => ({ ...style, opacity: 1, lineCap: "round" }) }).addTo(g);
     }
   }, [items, hotIds, rankById, mode]);

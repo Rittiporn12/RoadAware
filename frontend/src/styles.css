@@ -500,3 +500,7 @@ details.more[open] > summary::after { transform: translateY(-30%) rotate(-135deg
 .tip-route-info .tip-icon { background: var(--paper); color: var(--ink-2); }
 .tip-route-info .tip-title { font-size: 14.5px; }
 .about-grid > div p + p { margin-top: 6px; }
+.answer-count-orange { background: #E8821E; color: #3D1F00; box-shadow: 0 6px 16px rgba(232,130,30,.25); }
+.answer-levels { display: flex; gap: 12px; flex-wrap: wrap; font-size: 13px; font-weight: 600; color: var(--ink-2); margin-top: 4px; }
+.answer-levels span { display: inline-flex; align-items: center; gap: 5px; }
+.answer-levels i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }

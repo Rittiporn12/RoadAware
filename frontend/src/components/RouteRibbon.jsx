@@ -18,7 +18,8 @@ export function MapKey({ mode, onTrip }) {
   }
   return (
     <div className="map-key" aria-label="คำอธิบายแผนที่">
-      <span><b className="mk-num" style={{ background: HOT_HEX }}>1</b>จุดที่ควรระวัง</span>
+      <span><b className="mk-num" style={{ background: LEVELS.red.hex }}>1</b>สูงมาก</span>
+      <span><b className="mk-num" style={{ background: LEVELS.orange.hex, color: LEVELS.orange.ink }}>2</b>สูง</span>
       <span><i className="mk-line" style={{ background: ROUTE_HEX }} />ประเมินแล้ว</span>
       <span><i className="mk-line" style={{ background: UNKNOWN_HEX }} />ยังไม่มีข้อมูล</span>
     </div>

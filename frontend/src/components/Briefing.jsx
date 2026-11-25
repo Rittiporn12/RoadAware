@@ -44,13 +44,19 @@ function Verdict({ forecast, zones, coverage }) {
     );
   }
   const worst = zones.reduce((a, b) => (b.maxDensity > a.maxDensity ? b : a));
+  const nRed = zones.filter((z) => z.level === "red").length;
+  const nOrange = zones.length - nRed;
   return (
     <div className="answer">
-      <span className="answer-count" aria-hidden="true">{zones.length}</span>
+      <span className={"answer-count" + (nRed ? "" : " answer-count-orange")} aria-hidden="true">{zones.length}</span>
       <div>
         <h2 className="answer-title">จุดที่ควรระวังบนเส้นทางนี้</h2>
         <p className="answer-sub">
           หนักสุดคือ <b>จุดที่ {worst.n}</b> · {worst.road}{worst.provinces.length ? " " + shortPlace(worst.provinces[0]) : ""} · ผ่านราว <b className="nowrap">{worst.eta.clock}</b>
+        </p>
+        <p className="answer-levels">
+          {nRed > 0 && <span><i style={{ background: LEVELS.red.hex }} />สูงมาก {nRed} จุด</span>}
+          {nOrange > 0 && <span><i style={{ background: LEVELS.orange.hex }} />สูง {nOrange} จุด</span>}
         </p>
         {covered < 80 && <p className="answer-note">ประเมินได้ {covered}% ของเส้นทาง ส่วนที่เหลือเป็นถนนที่ยังไม่มีข้อมูล</p>}
       </div>
@@ -195,7 +201,7 @@ function ZoneDetail({ zone, entry, onRetry }) {
 function ZoneRow({ z, on, onClick, mobile }) {
   return (
     <button type="button" className="zone-head" aria-expanded={mobile ? undefined : on} onClick={onClick}>
-      <span className="zone-badge" style={{ background: HOT_HEX, color: "#fff" }}>{z.n}</span>
+      <span className="zone-badge" style={{ background: LEVELS[z.level].hex, color: LEVELS[z.level].ink }}>{z.n}</span>
       <span className="zone-main">
         <span className="zone-name">{z.road}</span>
         <span className="zone-sub">{z.provinces.map(shortPlace).join("–") || " "}</span>
@@ -303,7 +309,7 @@ function HowToRead() {
     <div className="more-sec">
       <div className="more-head"><h4>อ่านผลนี้ยังไง</h4></div>
       <ul className="howto-list">
-        <li><b>หมายเลขสีแดง</b> คือช่วงที่คาดว่าจะเกิดอุบัติเหตุมากที่สุดของทริปนี้ ในเวลาที่คุณจะผ่าน</li>
+        <li><b>หมายเลข</b> คือช่วงที่คาดว่าจะเกิดอุบัติเหตุมากที่สุดของทริปนี้ ในเวลาที่คุณจะผ่าน · <b>สีแดง</b> = ระดับสูงมาก (5% บนสุดของประเทศ) · <b>สีส้ม</b> = ระดับสูง</li>
         <li><b>เส้นสีน้ำเงิน</b> คือทางหลวงที่ประเมินแล้ว · <b>เส้นสีเทา</b> คือถนนที่ยังไม่มีข้อมูล (ไม่ได้แปลว่าปลอดภัย)</li>
         <li>คาดจากสถิติอุบัติเหตุปี 2564–2568 วัน เวลา เทศกาล และลักษณะถนน โดยแบ่งทางหลวงเป็นช่วงละราว 2 กม.</li>
         <li>เป็นการเปรียบเทียบระหว่างช่วงถนน ไม่ใช่โอกาสที่คุณจะเกิดอุบัติเหตุ</li>
@@ -328,7 +334,7 @@ export default function Briefing({ route, when, forecast, zones, hidden, counts,
           กลับไปสรุปทริป
         </button>
         <div className="zs-head">
-          <span className="zone-badge zone-badge-lg" style={{ background: HOT_HEX, color: "#fff" }}>{selected.n}</span>
+          <span className="zone-badge zone-badge-lg" style={{ background: LEVELS[selected.level].hex, color: LEVELS[selected.level].ink }}>{selected.n}</span>
           <div>
             <h2 className="zs-title">{selected.road}</h2>
             <p className="zs-sub">{selected.provinces.map(shortPlace).join("–")}</p>
