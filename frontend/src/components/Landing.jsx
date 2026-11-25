@@ -103,7 +103,7 @@ function HeroMap() {
               </g>
             </g>
           )}
-          <g className="hm-pin hm-pin-a"><circle cx="58" cy="410" r="13" fill="#0B6E69" stroke="#fff" strokeWidth="3" /><text x="58" y="415" textAnchor="middle">A</text></g>
+          <g className="hm-pin hm-pin-a"><circle cx="58" cy="410" r="13" fill="#24497A" stroke="#fff" strokeWidth="3" /><text x="58" y="415" textAnchor="middle">A</text></g>
           <g className="hm-pin hm-pin-b"><circle cx="548" cy="64" r="13" fill="#E8821E" stroke="#fff" strokeWidth="3" /><text x="548" y="69" textAnchor="middle">B</text></g>
           {pts && (
             <>

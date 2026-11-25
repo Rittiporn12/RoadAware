@@ -8,9 +8,9 @@
   --surface: #FFFFFF;
   --line: #E4E2DC;
   --line-2: #EFEDE8;
-  --teal: #0B6E69;
-  --teal-dark: #08524E;
-  --teal-soft: #E6F2F0;
+  --teal: #24497A;
+  --teal-dark: #1A365C;
+  --teal-soft: #EAF0F8;
   --accent: #E8821E;
   --danger: #A3312A;
   --danger-soft: #F9E5E2;
@@ -34,7 +34,7 @@ button, input { font: inherit; color: inherit; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .skip-link { position: absolute; left: 12px; top: -60px; z-index: 3000; background: var(--ink); color: #fff; padding: 8px 14px; border-radius: 10px; }
 .skip-link:focus { top: 8px; }
-:focus-visible { outline: 3px solid rgba(11, 110, 105, 0.45); outline-offset: 2px; }
+:focus-visible { outline: 3px solid rgba(36, 73, 122, 0.45); outline-offset: 2px; }
 .mono { font-family: var(--mono); font-size: 12px; overflow-wrap: anywhere; }
 .muted { color: var(--muted); }
 
@@ -413,7 +413,7 @@ dialog.about::backdrop { background: rgba(15, 27, 45, 0.45); backdrop-filter: bl
 .drive-start-btns { display: flex; flex-direction: column; gap: 8px; }
 .drive-start-btns .btn { min-height: 50px; font-size: 15px; }
 .drive-head { display: flex; justify-content: space-between; align-items: center; }
-.drive-mode { font-size: 13px; font-weight: 700; color: var(--teal); background: #E3F1EF; padding: 4px 10px; border-radius: 999px; }
+.drive-mode { font-size: 13px; font-weight: 700; color: var(--teal); background: #EAF0F8; padding: 4px 10px; border-radius: 999px; }
 .drive-card { border-radius: 16px; padding: 16px; background: #0F1B2D; color: #fff; display: flex; flex-direction: column; gap: 4px; }
 .drive-card .verdict-title, .drive-card .verdict-sub { color: #fff; }
 .drive-card-in { background: #C8372D; }
@@ -437,10 +437,10 @@ dialog.about::backdrop { background: rgba(15, 27, 45, 0.45); backdrop-filter: bl
 .drive-main { display: flex; flex-direction: column; min-width: 0; }
 .drive-main > span { opacity: .9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .car-icon { background: none; border: 0; }
-.car-icon span { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: #0B6E69; border: 3px solid #fff; box-shadow: 0 0 0 6px rgba(11,110,105,.25), 0 3px 10px rgba(15,27,45,.35); }
+.car-icon span { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: #24497A; border: 3px solid #fff; box-shadow: 0 0 0 6px rgba(11,110,105,.25), 0 3px 10px rgba(15,27,45,.35); }
 @media (max-width: 900px) { .drive-banner { top: 70px; left: 12px; transform: none; max-width: calc(100% - 84px); } .drive-banner b { font-size: 16px; white-space: nowrap; } .drive-big { font-size: 28px; } }
 .lock-btn { position: absolute; z-index: 850; right: 16px; bottom: 24px; background: #fff; color: var(--ink); border: 1px solid var(--line); box-shadow: var(--shadow); }
-.lock-btn.is-on { background: #0B6E69; color: #fff; border-color: #0B6E69; }
+.lock-btn.is-on { background: #24497A; color: #fff; border-color: #24497A; }
 @media (max-width: 900px) { .lock-btn { top: 136px; bottom: auto; left: 12px; right: auto; } }
 .car-icon span { transition: none; }
 
@@ -454,7 +454,7 @@ dialog.about::backdrop { background: rgba(15, 27, 45, 0.45); backdrop-filter: bl
 
 .answer { display: flex; align-items: center; gap: 16px; }
 .answer-count { flex: none; width: 64px; height: 64px; border-radius: 18px; background: #C8372D; color: #fff; display: grid; place-items: center; font-size: 34px; font-weight: 700; line-height: 1; box-shadow: 0 6px 16px rgba(200, 55, 45, 0.25); }
-.answer-count-ok { background: var(--teal); box-shadow: 0 6px 16px rgba(11, 110, 105, 0.22); font-size: 30px; }
+.answer-count-ok { background: var(--teal); box-shadow: 0 6px 16px rgba(36, 73, 122, 0.22); font-size: 30px; }
 .answer-title { font-size: 21px; font-weight: 700; line-height: 1.3; }
 .answer-sub { font-size: 14.5px; color: var(--ink-2); margin-top: 2px; }
 .answer-note { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
@@ -462,7 +462,7 @@ dialog.about::backdrop { background: rgba(15, 27, 45, 0.45); backdrop-filter: bl
 
 .tips-list { display: flex; flex-direction: column; gap: 10px; }
 .tip-card { display: flex; gap: 12px; border-radius: 14px; padding: 14px; background: #F1EDF8; border: 1px solid #DED3EF; }
-.tip-card.tip-time { background: var(--teal-soft); border-color: #CFE5E1; }
+.tip-card.tip-time { background: var(--teal-soft); border-color: #D3DEEC; }
 .tip-icon { flex: none; width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: #fff; color: #6B3FA0; }
 .tip-time .tip-icon { color: var(--teal); }
 .tip-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }

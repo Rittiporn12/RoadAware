@@ -245,7 +245,7 @@ html { background: var(--night); }
 .map-card { box-shadow: var(--sh-1); }
 .ribbon-card { box-shadow: var(--sh-1); }
 .progress { overflow: hidden; }
-.progress > span { background: linear-gradient(90deg, var(--teal), #18958E); position: relative; }
+.progress > span { background: linear-gradient(90deg, var(--teal), #3B6CAE); position: relative; }
 .progress > span::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .45), transparent); animation: sheen 1.2s linear infinite; }
 @keyframes sheen { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
 .verdict { animation: viewIn .5s var(--ease) both; }
@@ -339,3 +339,40 @@ html[data-vt="swap"]::view-transition-new(root) { animation: vtZoom .5s var(--ea
 .ld-feat:hover .ld-icon { transform: scale(1.08) rotate(-4deg); background: var(--amber); color: var(--amber-ink); }
 .ld-flow-n { background: var(--ink); }
 .ld-flow li:hover { border-color: var(--amber); }
+
+/* ================= one colour family: data blue (replaces teal everywhere) ================= */
+:root { --teal: #2D5A93; --teal-dark: #1A365C; --teal-soft: #EAF0F8; }
+.ld-src a { border-bottom-color: rgba(45, 90, 147, .3); }
+
+/* ================= dashboard: grouped sections + insight tiles ================= */
+.db-main { padding-top: 8px; }
+.db-filters { margin-top: 28px; }
+.db-sec { display: flex; align-items: center; gap: 12px; margin: 44px 0 16px; font-size: 21px; letter-spacing: -.2px; }
+.db-sec span { width: 34px; height: 34px; flex: none; border-radius: 10px; display: grid; place-items: center; font-size: 13px; font-weight: 800; color: #fff; background: var(--ink); box-shadow: inset 0 -3px 0 var(--amber); }
+.db-sec::after { content: ""; flex: 1; height: 1px; background: var(--line); margin-left: 8px; }
+.db-kpis { margin-top: 0; }
+.db-kpi span { text-transform: none; }
+.db-insights { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: 14px; }
+.db-insight { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--sh-1); min-width: 0; }
+.db-insight-ic { width: 38px; height: 38px; flex: none; border-radius: 11px; display: grid; place-items: center; background: var(--amber-soft); color: #B3600E; }
+.db-insight > div { min-width: 0; }
+.db-insight small { display: block; font-size: 12.5px; color: var(--muted); }
+.db-insight b { display: block; font-size: 15px; line-height: 1.4; margin-top: 2px; animation: viewIn .4s var(--ease) both; }
+.db-card-h h3 { font-size: 16.5px; letter-spacing: -.1px; }
+.db-card-h { padding-bottom: 12px; border-bottom: 1px solid var(--line-2); margin-bottom: 14px; }
+.db-grid2 { margin-top: 0; }
+.db-grid2 + .db-grid2 { margin-top: 16px; }
+.db-chips { padding-top: 12px; }
+@media (max-width: 960px) { .db-insights { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) {
+  .db-sec { margin: 34px 0 12px; font-size: 19px; }
+  .db-insights { gap: 10px; }
+  .db-insight { padding: 12px; flex-direction: column; gap: 8px; }
+  .db-insight-ic { width: 32px; height: 32px; }
+}
+
+/* model page: "HGB is better" uses HGB's own blue, the selection summary sits in the same blue family */
+.mp-good, .mp-board-d.is-better, .mp-pair-h em { color: var(--teal); }
+.mp-verdict { background: var(--teal-soft); border-color: #D3DEEC; }
+.mp-verdict > b { color: var(--teal-dark); }
+.mp-sec-h small { color: #B3600E; }

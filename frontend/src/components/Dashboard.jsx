@@ -230,7 +230,7 @@ function Heat({ data, selected, onPick, unit }) {
   // one hue, light → dark, stretched between this view's min and max so differences stay visible
   const color = (v) => {
     const t = max > min ? (v - min) / (max - min) : 0;
-    const a = [240, 246, 245], b = [8, 79, 75];
+    const a = [238, 243, 250], b = [22, 50, 92];
     return `rgb(${a.map((x, i) => Math.round(x + (b[i] - x) * t)).join(",")})`;
   };
   return (
@@ -300,6 +300,17 @@ function DensityMap({ cells, grid, unit }) {
     }
   }, [cells, grid, unit]);
   return <div className="db-map" ref={el} />;
+}
+
+const sv = (d) => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">{d}</svg>;
+const ICONS = {
+  pin: sv(<><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z" /><circle cx="12" cy="9.5" r="2.5" /></>),
+  clock: sv(<><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></>),
+  road: sv(<><path d="M5 21 9 3M19 21 15 3M12 5v2M12 11v2M12 17v2" /></>),
+  alert: sv(<><path d="M12 3 2.5 20h19z" /><path d="M12 10v4M12 17.5v.01" /></>),
+};
+function SecHead({ n, title }) {
+  return <h2 className="db-sec rv"><span>{n}</span>{title}</h2>;
 }
 
 // ---------------------------------------------------------------- page
@@ -417,6 +428,7 @@ export default function Dashboard() {
         ) : <span className="db-hint">เลือกตัวกรองด้านบน หรือคลิกที่แท่งกราฟ ช่องตาราง หรือจุดบนกราฟเส้น เพื่อกรองทุกกราฟพร้อมกัน</span>}
       </div>
 
+      <SecHead n="01" title="ภาพรวม" />
       <div className="db-kpis rv">
         <div className="db-kpi"><span>อุบัติเหตุ</span><b><CountUp value={k.acc} /></b><small>เฉลี่ย {fmt1(perDay)} ครั้ง/วัน</small></div>
         <div className="db-kpi"><span>ผู้เสียชีวิต</span><b><CountUp value={k.dead} /></b><small>{fmt1(k.acc ? (k.dead / k.acc) * 100 : 0)} รายต่อ 100 เหตุ</small></div>
@@ -424,19 +436,28 @@ export default function Dashboard() {
         <div className="db-kpi"><span>ผู้บาดเจ็บเล็กน้อย</span><b><CountUp value={k.minor} /></b><small>รวมบาดเจ็บ {fmt(injured)} ราย</small></div>
       </div>
 
-      <div className="db-facts rv">
-        <span>จังหวัดที่มี{M.label}มากที่สุด <b>{provItems[0] && provItems[0].value > 0 ? provItems[0].label : "—"}</b></span>
-        <span>ช่วงเวลาที่พบมากที่สุด <b>{hourSum[peakH] > 0 ? `${String(peakH).padStart(2, "0")}:00–${String(peakH).padStart(2, "0")}:59 น.` : "—"}</b></span>
-        <span>ลักษณะที่พบบ่อยที่สุด <b>{top(agg.type, dims.type, true)}</b></span>
-        <span>สาเหตุที่พบบ่อยที่สุด <b>{top(agg.cause, dims.cause, true)}</b></span>
+      <div className="db-insights">
+        {[
+          ["pin", `จังหวัดที่มี${M.label}มากที่สุด`, provItems[0] && provItems[0].value > 0 ? provItems[0].label : "—"],
+          ["clock", "ช่วงเวลาที่พบมากที่สุด", hourSum[peakH] > 0 ? `${String(peakH).padStart(2, "0")}:00–${String(peakH).padStart(2, "0")}:59 น.` : "—"],
+          ["road", "ลักษณะที่พบบ่อยที่สุด", top(agg.type, dims.type, true)],
+          ["alert", "สาเหตุที่พบบ่อยที่สุด", top(agg.cause, dims.cause, true)],
+        ].map(([ic, lab, val], i) => (
+          <div key={ic} className="db-insight rv" style={{ "--d": i * 70 + "ms" }}>
+            <span className="db-insight-ic" aria-hidden="true">{ICONS[ic]}</span>
+            <div><small>{lab}</small><b key={val}>{val}</b></div>
+          </div>
+        ))}
       </div>
 
+      <SecHead n="02" title="แนวโน้มตามเวลา" />
       <div className="db-grid2 db-grid-wide">
         <Card title={`${M.label}รายเดือน`} sub="แถบจางคือเดือนเมษายน (สงกรานต์) · คลิกที่เส้นเพื่อกรองเดือนนั้น">
           <Trend data={agg.month} from={from} to={to} selected={f.month} onPick={(v) => set("month", v)} unit={M.unit} />
         </Card>
       </div>
 
+      <SecHead n="03" title="พื้นที่ที่เกิดเหตุ" />
       <div className="db-grid2">
         <Card title="แผนที่ความหนาแน่น" sub="วงกลมใหญ่ = เกิดมาก (รวมเป็นช่องละราว 5 กม.)" className="db-card-map">
           <DensityMap cells={agg.map} grid={meta.grid} unit={M.unit} />
@@ -449,6 +470,7 @@ export default function Dashboard() {
         </Card>
       </div>
 
+      <SecHead n="04" title="วัน เวลา และเทศกาล" />
       <div className="db-grid2">
         <Card title="วันและเวลาที่เกิดเหตุ" sub="แถว = วันในสัปดาห์ · คอลัมน์ = ชั่วโมง (0–23 น.)">
           <Heat data={agg.cell} selected={f.cell} onPick={(v) => set("cell", v)} unit={M.unit} />
@@ -459,6 +481,7 @@ export default function Dashboard() {
         </Card>
       </div>
 
+      <SecHead n="05" title="ลักษณะและสาเหตุ" />
       <div className="db-grid2">
         <Card title="ลักษณะการเกิดเหตุ" sub="คลิกเพื่อกรอง">
           <Bars items={rank(agg.type, dims.type)} selected={f.type} onPick={(v) => set("type", v)} unit={M.unit} />

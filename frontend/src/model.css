@@ -30,7 +30,7 @@
 .mp-flow-model small { color: var(--accent); font-weight: 700; font-size: 12.5px; }
 .mp-flow-model b { font-size: 17px; }
 .mp-flow-model span { font-size: 12.5px; color: rgba(226, 233, 243, .7); }
-.mp-flow-out { background: var(--teal-soft); border: 1px solid #CDE3E0; }
+.mp-flow-out { background: var(--teal-soft); border: 1px solid #D3DEEC; }
 .mp-flow-out p { font-size: 14px; color: var(--ink-2); }
 .mp-flow-out b { color: var(--ink); }
 .mp-flow-then { margin-top: 8px; font-size: 13px !important; }
@@ -58,7 +58,7 @@
 .mp-tl-lab { font-size: 13.5px; font-weight: 600; padding-left: 8px; }
 .mp-tl-track { position: relative; height: 18px; background: var(--line-2); border-radius: 5px; }
 .mp-tl-bar { position: absolute; top: 0; bottom: 0; border-radius: 4px; }
-.is-train { background: #A9CFCB; } .is-eval { background: var(--teal); } .is-check { background: #F3C98F; } .is-test { background: var(--accent); }
+.is-train { background: #B7C8DF; } .is-eval { background: var(--teal); } .is-check { background: #F3C98F; } .is-test { background: var(--accent); }
 .mp-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12.5px; color: var(--ink-2); margin-top: 10px; }
 .mp-legend i { display: inline-block; width: 14px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
 .mp-legend i.is-hgb { background: var(--teal); } .mp-legend i.is-base { background: #B7BDC6; }
@@ -223,7 +223,7 @@
 .mp-legend-hint b { color: var(--ink); }
 .mp-line { position: relative; }
 .mp-line svg { display: block; }
-.mp-gap { fill: rgba(11, 110, 105, .10); }
+.mp-gap { fill: rgba(36, 73, 122, .10); }
 .mp-ln { fill: none; stroke-width: 2.5; stroke-linejoin: round; }
 .mp-ln-hgb { stroke: var(--teal); }
 .mp-ln-base { stroke: #9AA3AF; stroke-dasharray: 6 4; }

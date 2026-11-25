@@ -174,7 +174,7 @@ export default function MapView({ route, origin, dest, items, zones, actuals, ho
           .on("click", (e) => { L.DomEvent.stop(e); handlers.current.onOutside(); })
           .addTo(m);
         L.geoJSON(geom, { pane: "border", interactive: false, style: { color: "#0F1B2D", weight: 10, opacity: 0.06, fill: false } }).addTo(m);
-        L.geoJSON(geom, { pane: "border", interactive: false, style: { color: "#0B6E69", weight: 1.6, opacity: 0.75, fill: false } }).addTo(m);
+        L.geoJSON(geom, { pane: "border", interactive: false, style: { color: "#24497A", weight: 1.6, opacity: 0.75, fill: false } }).addTo(m);
       })
       .catch(() => { thaiPane.style.clipPath = "none"; });
 
