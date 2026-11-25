@@ -29,12 +29,15 @@ function useServerOnline() {
 
 const VOICE = ["ข้างหน้าอีก 2 กิโลเมตร มีจุดที่ควรระวัง", "ระวัง! อีก 500 เมตร ถึงจุดที่ 1", "เข้าสู่จุดที่ควรระวังแล้ว ตั้งใจขับนะ"];
 
-// Hero visual: Thailand drawn from the real boundary, every glowing dot a ~5 km area where accidents were
-// recorded often (the project's own data, 2564–2569), then a Bangkok → Chiang Mai trip draws itself with
-// the points RoadAware would flag, a car drives it, and the spoken warning changes as it goes.
-// Data: public/data/hero-map.json (projected boundary path, top 900 cells, route), built from the dashboard data.
+// Hero visual: an app-style map card of Thailand — the real boundary and DOH highway network (main routes as white
+// roads), a Bangkok → Chiang Mai trip on highways 1/32/11 that draws itself, the points RoadAware would flag,
+// a car driving it, and the spoken warning changing as it goes. Data: public/data/hero-map.json
+// (backend/scripts/build_hero_map.py). The trip and its points are an illustration, not a live forecast.
 const HERO_URL = ((import.meta.env && import.meta.env.BASE_URL) || "./") + "data/hero-map.json";
-const MARKS = [[0.17, "red", 1], [0.5, "orange", 2], [0.78, "red", 3]];
+const MARKS = [[0.2, "red", 1], [0.52, "orange", 2], [0.8, "red", 3]];
+const PRJ = (lon, lat) => [(lon - 97.2) * 60 * Math.cos((13 * Math.PI) / 180), (20.6 - lat) * 60];
+const PLACES = [["พิษณุโลก", 100.55, 16.82], ["ขอนแก่น", 102.83, 16.43], ["นครราชสีมา", 102.1, 14.97], ["อุดรธานี", 102.79, 17.41], ["น่าน", 100.77, 18.78]];
+const SHIELDS = [["1", 99.0, 16.7], ["32", 100.62, 14.7], ["11", 99.85, 18.05], ["2", 102.0, 15.55]];
 function HeroMap() {
   const [geo, setGeo] = useState(null);
   const [pts, setPts] = useState(null);
@@ -59,45 +62,38 @@ function HeroMap() {
     return () => clearInterval(t);
   }, [motion]);
   const routeD = geo ? "M" + geo.route.map(([x, y]) => x + " " + y).join(" L") : "";
-  const hot = geo ? geo.hot : [];
   const start = geo && geo.route[0], end = geo && geo.route[geo.route.length - 1];
   return (
-    <div className={"hm nm" + (geo ? " is-ready" : "")} aria-hidden="true">
-      <div className="nm-stage">
+    <div className="hm nm" aria-hidden="true">
+      <div className="hm-card nm-card">
         {geo && (
-          <svg viewBox="40 20 440 560" preserveAspectRatio="xMidYMid meet">
-            <defs>
-              <filter id="nmGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="5" /></filter>
-              <linearGradient id="nmFade" x1="0" y1="0" x2="0" y2="1"><stop offset=".72" stopColor="#fff" /><stop offset="1" stopColor="#fff" stopOpacity="0" /></linearGradient>
-              <mask id="nmMask"><rect x="0" y="0" width="500" height="600" fill="url(#nmFade)" /></mask>
-            </defs>
-            <g mask="url(#nmMask)">
-              <path className="nm-land" d={geo.path} />
-              <path className="nm-coast" d={geo.path} pathLength="1" />
-              <g className="nm-glow" filter="url(#nmGlow)">
-                {hot.slice(0, 70).map(([x, y, v], i) => <circle key={i} cx={x} cy={y} r={3 + 7 * v} style={{ "--i": i }} />)}
-              </g>
-              <g className="nm-hot">
-                {hot.map(([x, y, v], i) => <circle key={i} cx={x} cy={y} r={0.9 + 2.6 * v} opacity={0.3 + 0.7 * v} style={{ "--i": i }} />)}
-              </g>
-            </g>
+          <svg viewBox="44 52 436 488" preserveAspectRatio="xMidYMid slice">
+            <rect x="0" y="0" width="600" height="600" className="nm-out" />
+            <path className="nm-land" d={geo.path} />
+            <path className="nm-r3" d={geo.roads.minor} />
+            <path className="nm-r2c" d={geo.roads.mid} /><path className="nm-r1c" d={geo.roads.major} />
+            <path className="nm-r2" d={geo.roads.mid} /><path className="nm-r1" d={geo.roads.major} />
+            <path className="nm-coast" d={geo.path} />
+            {PLACES.map(([n, lon, lat]) => { const [x, y] = PRJ(lon, lat); return <text key={n} x={x} y={y} className="nm-place">{n}</text>; })}
+            {SHIELDS.map(([n, lon, lat]) => { const [x, y] = PRJ(lon, lat); const w = n.length > 1 ? 20 : 15; return <g key={n} className="nm-shield" transform={`translate(${x} ${y})`}><rect x={-w / 2} y="-7.5" width={w} height="15" rx="3" /><text y="4" textAnchor="middle">{n}</text></g>; })}
             <path d={routeD} className="nm-route-under" />
             <path ref={routeRef} id="nmRoute" d={routeD} className="nm-route" pathLength="1" />
-            <g className="nm-city nm-city-a"><circle cx={start[0]} cy={start[1]} r="7" /><text x={start[0] + 12} y={start[1] + 5}>กรุงเทพฯ</text></g>
-            <g className="nm-city nm-city-b"><circle cx={end[0]} cy={end[1]} r="7" /><text x={end[0] + 12} y={end[1] + 4}>เชียงใหม่</text></g>
-            {pts && MARKS.map(([, lvl, n], i) => (
-              <g key={n} className={"nm-mark nm-mark-" + (i + 1)} transform={`translate(${pts[i][0]} ${pts[i][1]})`}>
-                <circle className="hm-ring" r="10" fill="none" stroke={LEVELS[lvl].hex} strokeWidth="2" />
-                <circle r="10" fill={LEVELS[lvl].hex} stroke="#fff" strokeWidth="2.2" /><text y="4" textAnchor="middle">{n}</text>
-              </g>
-            ))}
             {motion && (
               <g className="nm-car">
-                <animateMotion dur="9s" begin="4.4s" repeatCount="indefinite"><mpath href="#nmRoute" /></animateMotion>
-                <circle r="9" fill="#fff" opacity=".18" />
-                <circle r="5" fill="#fff" />
+                <animateMotion dur="10s" begin="2.8s" repeatCount="indefinite"><mpath href="#nmRoute" /></animateMotion>
+                <circle r="8" fill="#0F1B2D" opacity=".18" /><circle r="5.5" fill="#fff" stroke="#0F1B2D" strokeWidth="2.2" /><circle r="2" fill="#0F1B2D" />
               </g>
             )}
+            {pts && MARKS.map(([, lvl, n], i) => (
+              <g key={n} className={"nm-mark nm-mark-" + (i + 1)} transform={`translate(${pts[i][0]} ${pts[i][1]})`}>
+                <circle className="hm-ring" r="11" fill="none" stroke={LEVELS[lvl].hex} strokeWidth="2.2" />
+                <circle r="11" fill={LEVELS[lvl].hex} stroke="#fff" strokeWidth="2.6" /><text y="4" textAnchor="middle">{n}</text>
+              </g>
+            ))}
+            <g className="nm-pin nm-pin-a" transform={`translate(${start[0]} ${start[1]})`}><circle r="11" fill="#24497A" stroke="#fff" strokeWidth="2.6" /><text y="4" textAnchor="middle">A</text></g>
+            <g className="nm-pin nm-pin-b" transform={`translate(${end[0]} ${end[1]})`}><circle r="11" fill="#E8821E" stroke="#fff" strokeWidth="2.6" /><text y="4" textAnchor="middle">B</text></g>
+            <text x={start[0] + 16} y={start[1] + 5} className="nm-city nm-city-a">กรุงเทพฯ</text>
+            <text x={end[0] + 16} y={end[1] + 5} className="nm-city nm-city-b">เชียงใหม่</text>
           </svg>
         )}
       </div>
@@ -109,7 +105,6 @@ function HeroMap() {
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M11 5 6 9H3v6h3l5 4z" /><path d="M15.5 8.5a5 5 0 0 1 0 7" /><path d="M18.5 5.5a9 9 0 0 1 0 13" /></svg>
         <span key={voice} className="hm-voice-t">“{VOICE[voice]}”</span>
       </div>
-      <p className="nm-cap"><i />จุดเรืองแสง = พื้นที่ที่เกิดอุบัติเหตุบ่อย จากข้อมูลจริง{geo ? " " + geo.records.toLocaleString("en-US") + " รายการ" : ""} ปี 2564–2569</p>
     </div>
   );
 }

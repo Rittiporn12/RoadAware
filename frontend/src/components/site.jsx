@@ -217,3 +217,32 @@ export function PageBody({ kind }) {
     </>
   );
 }
+
+// Thailand with the accident hotspots glowing (same data as the home hero, no route). Decorative.
+const HERO_URL = ((import.meta.env && import.meta.env.BASE_URL) || "./") + "data/hero-map.json";
+let heroCache = null;
+export function useHeroMap() {
+  const [geo, setGeo] = useState(heroCache);
+  useEffect(() => {
+    if (heroCache) return undefined;
+    let alive = true;
+    fetch(HERO_URL).then((r) => (r.ok ? r.json() : null)).then((j) => { if (j) { heroCache = j; if (alive) setGeo(j); } }).catch(() => {});
+    return () => { alive = false; };
+  }, []);
+  return geo;
+}
+export function NationGlow({ className = "", viewBox = "40 20 440 560" }) {
+  const geo = useHeroMap();
+  return (
+    <div className={"ng " + className} aria-hidden="true">
+      {geo && (
+        <svg viewBox={viewBox} preserveAspectRatio="xMidYMid meet">
+          <path className="ng-land" d={geo.path} />
+          <path className="ng-r2" d={geo.roads.mid} />
+          <path className="ng-r1" d={geo.roads.major} />
+          <path className="ng-coast" d={geo.path} pathLength="1" />
+        </svg>
+      )}
+    </div>
+  );
+}

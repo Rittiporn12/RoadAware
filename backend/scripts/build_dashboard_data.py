@@ -210,6 +210,10 @@ out = {
     },
 }
 OUT.parent.mkdir(parents=True, exist_ok=True)
+# accident coordinates for the home page's hero map (backend/scripts/build_hero_map.py)
+POINTS = BACK / "data/v4/dashboard/points.csv.gz"
+POINTS.parent.mkdir(parents=True, exist_ok=True)
+d.loc[ok, ["lat", "lon"]].round(5).to_csv(POINTS, index=False)
 OUT.write_text(json.dumps(out, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 print(f"wrote {OUT.relative_to(ROOT)}  {OUT.stat().st_size/1e6:.2f} MB  records={len(d)}", file=sys.stderr)
 for k in ("type", "veh", "cause", "wx", "agency"):

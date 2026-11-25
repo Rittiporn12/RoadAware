@@ -6,7 +6,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import * as L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { CONFIG, THAI_BOUNDS, MAX_BOUNDS } from "../config.js";
-import { CountUp, PageBody, SiteFooter, SiteNav, useReveal } from "./site.jsx";
+import { CountUp, NationGlow, PageBody, SiteFooter, SiteNav, useReveal } from "./site.jsx";
 
 const ENV = (import.meta.env) || {};
 const DATA_URL = (ENV.BASE_URL || "./") + "data/dashboard-v1.json";
@@ -331,6 +331,12 @@ export default function Dashboard() {
   }, []);
 
   const agg = useMemo(() => (raw ? aggregate(raw, f, metric) : null), [raw, f, metric]);
+  const totals = useMemo(() => {
+    if (!raw) return null;
+    let dead = 0, inj = 0;
+    for (let i = 0; i < raw.n; i++) { dead += raw.cols.dead[i]; inj += raw.cols.serious[i] + raw.cols.minor[i]; }
+    return { acc: raw.n, dead, inj, prov: raw.dims.prov.filter((p) => p !== "ไม่ระบุ").length };
+  }, [raw]);
   const set = (k, v) => setF((cur) => ({ ...cur, [k]: v, ...(k === "region" ? { prov: -1 } : {}) }));
   const toggleYear = (y) => setF((cur) => {
     const has = cur.years.includes(y);
@@ -371,15 +377,20 @@ export default function Dashboard() {
 
   return (
     <DashShell hero={
-      <div className="page-hero-top">
-        <div>
+      <div className="page-hero-top db-hero">
+        <div className="db-hero-text">
           <small className="eyebrow hero-in" style={{ "--d": "0ms" }}>ข้อมูลอุบัติเหตุบนทางหลวง {years[0]}–{years[years.length - 1]}</small>
           <h1 className="hero-mask"><span style={{ "--d": "60ms" }}>แดชบอร์ดอุบัติเหตุทางถนน</span></h1>
-        </div>
-        <div className="seg-dark hero-in" style={{ "--d": "160ms" }} data-seg role="radiogroup" aria-label="ตัวชี้วัด">
-          {METRICS.map((m) => (
-            <button key={m.key} type="button" role="radio" aria-checked={metric === m.key} className={metric === m.key ? "is-on" : ""} onClick={() => setMetric(m.key)}>{m.label}</button>
-          ))}
+          <dl className="hero-stats">
+            {[["ข้อมูลย้อนหลัง", years.length, "ปี"], ["ช่วงถนนที่ครอบคลุม", 26740, "ช่วง"], ["ระยะทางหลวง", 51900, "กม."], ["จังหวัด", totals.prov, "จังหวัด"]].map(([l, v, u], i) => (
+              <div key={l} className="hero-in" style={{ "--d": 180 + i * 80 + "ms" }}><dt>{l}</dt><dd><CountUp value={v} duration={1400} /><small>{u}</small></dd></div>
+            ))}
+          </dl>
+          <div className="seg-dark hero-in" style={{ "--d": "520ms" }} data-seg role="radiogroup" aria-label="ตัวชี้วัดที่ใช้ในกราฟ">
+            {METRICS.map((m) => (
+              <button key={m.key} type="button" role="radio" aria-checked={metric === m.key} className={metric === m.key ? "is-on" : ""} onClick={() => setMetric(m.key)}>{m.label}</button>
+            ))}
+          </div>
         </div>
       </div>
     }>
@@ -509,7 +520,8 @@ function DashShell({ hero, children }) {
   return (
     <div className="dash">
       <SiteNav active="dashboard" />
-      <header className="page-hero page-hero-slim">
+      <header className="page-hero page-hero-slim page-hero-map">
+        <NationGlow className="ng-hero" viewBox="40 20 440 470" />
         <div className="db-wrap">{hero}</div>
         <div className="ld-lane" aria-hidden="true" />
       </header>

@@ -78,6 +78,37 @@ function SectionNav() {
   );
 }
 
+
+// Hero visual: how gradient boosting builds a prediction — small trees added one after another, each following
+// its own decision path (amber), summed into the expected number of accidents.
+function Tree({ x, i, path }) {
+  const n = [[30, 14], [14, 44], [46, 44], [6, 74], [22, 74], [38, 74], [54, 74]];
+  const e = [[0, 1], [0, 2], [1, 3], [1, 4], [2, 5], [2, 6]];
+  return (
+    <g transform={`translate(${x} 0)`}><g className="bz-tree" style={{ "--i": i }}>
+      {e.map(([a, b]) => <line key={a + "-" + b} x1={n[a][0]} y1={n[a][1]} x2={n[b][0]} y2={n[b][1]} className={path.includes(b) && path.includes(a) ? "bz-on" : ""} />)}
+      {n.map(([cx, cy], k) => <circle key={k} cx={cx} cy={cy} r={k === 0 ? 6 : 5} className={path.includes(k) ? "bz-on" : ""} />)}
+    </g></g>
+  );
+}
+function BoostViz() {
+  return (
+    <figure className="bz" aria-label="ต้นไม้ตัดสินใจหลายต้นรวมกันเป็นค่าคาดการณ์">
+      <svg viewBox="0 0 380 92">
+        <Tree x={0} i={0} path={[0, 1, 4]} />
+        <text x="72" y="50" className="bz-op" style={{ "--i": 0.6 }}>+</text>
+        <Tree x={88} i={1} path={[0, 2, 5]} />
+        <text x="160" y="50" className="bz-op" style={{ "--i": 1.6 }}>+</text>
+        <Tree x={176} i={2} path={[0, 2, 6]} />
+        <text x="238" y="50" className="bz-op" style={{ "--i": 2.6 }}>+ …</text>
+        <text x="284" y="50" className="bz-op" style={{ "--i": 3 }}>=</text>
+        <g className="bz-out" style={{ "--i": 3.2 }}><rect x="304" y="28" width="74" height="34" rx="9" /><text x="341" y="50" textAnchor="middle">0.003</text></g>
+      </svg>
+      <figcaption>ต้นไม้ตัดสินใจหลายร้อยต้นต่อกัน แต่ละต้นแก้ส่วนที่ต้นก่อนหน้าทายพลาด รวมเป็นจำนวนอุบัติเหตุที่คาดว่าจะเกิด</figcaption>
+    </figure>
+  );
+}
+
 // HGB vs baseline, month by month: two lines, lower = better, gap shaded. Hover shows both values.
 function CompareLine({ items }) {
   const [hi, setHi] = useState(null);
@@ -375,10 +406,13 @@ export default function ModelPage() {
               <h1 className="hero-mask"><span style={{ "--d": "60ms" }}>โมเดลของ RoadAware</span></h1>
               <p className="hero-in" style={{ "--d": "160ms" }}>โมเดลทายอะไร ถูกเลือกมาอย่างไร และทำได้ดีแค่ไหนกับข้อมูลที่ไม่เคยเห็น</p>
             </div>
-            <div className="seg-dark hero-in" style={{ "--d": "220ms" }} data-seg role="radiogroup" aria-label="หน่วยเวลา">
-              {[["6h", "ราย 6 ชั่วโมง"], ["daily", "รายวัน"]].map(([k, l]) => (
-                <button key={k} type="button" role="radio" aria-checked={unit === k} className={unit === k ? "is-on" : ""} onClick={() => { setUnit(k); setFold(null); if (k === "daily" && view === "time") setView("month"); }}>{l}</button>
-              ))}
+            <div className="mp-hero-side hero-in" style={{ "--d": "220ms" }}>
+              <BoostViz />
+              <div className="seg-dark" data-seg role="radiogroup" aria-label="หน่วยเวลา">
+                {[["6h", "ราย 6 ชั่วโมง"], ["daily", "รายวัน"]].map(([k, l]) => (
+                  <button key={k} type="button" role="radio" aria-checked={unit === k} className={unit === k ? "is-on" : ""} onClick={() => { setUnit(k); setFold(null); if (k === "daily" && view === "time") setView("month"); }}>{l}</button>
+                ))}
+              </div>
             </div>
           </div>
           <div className="mp-kpis">
