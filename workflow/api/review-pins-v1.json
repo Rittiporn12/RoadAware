@@ -1,0 +1,26 @@
+{
+  "kind": "roadaware_review_actuals_v1",
+  "note": "Recorded accidents per segment per day on days the served model never trained on (training cut-off 2023-12-01). 2024-2025 are previously-seen diagnostic years; 2026 Jan-Sep is the unseen national test set. For the look-back view only.",
+  "output": "backend/data/v4/review/actual_daily.csv",
+  "output_sha256": "cc59709a68a461ba8ec81a6eb1fd60d85d62cee2f438a6279f78a480380306dd",
+  "rows": 55417,
+  "records": 56976,
+  "periods": [
+    {
+      "start": "2024-01-01",
+      "end": "2025-12-31",
+      "kind": "seen_diagnostic",
+      "records": 41551
+    },
+    {
+      "start": "2026-01-01",
+      "end": "2026-09-30",
+      "kind": "unseen_test_2026",
+      "records": 15425
+    }
+  ],
+  "inputs": {
+    "backend/data/v4/spatial_preparation/counts_daily.csv.gz": "2e44470d0a5288558f2e9e07b5c7615462cb8fc374e5e494ff95d76a6dbd4b85",
+    "backend/rerun-2026-eval-national-20261125-084442/data/v4/evaluation_2026/row_ledger.csv": "36c206f33ae6e61c2eed58c54133d12782fb0409e9957003b9feb403c3cb7019"
+  }
+}

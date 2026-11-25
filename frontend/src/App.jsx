@@ -11,6 +11,8 @@ import Briefing from "./components/Briefing.jsx";
 import { MapKey } from "./components/RouteRibbon.jsx";
 import AboutDialog from "./components/AboutDialog.jsx";
 import DriveMode, { DriveStart, DriveBanner } from "./components/DriveMode.jsx";
+import ReviewResult, { reviewSummary } from "./components/ReviewResult.jsx";
+import { REVIEW_PERIODS, periodProblem, reviewForecast, reviewActuals } from "./lib/review.js";
 import { pointAt, locate, nextZone, warningText, speak, stopSpeech, checkVoiceProxy, prefetchSpeech } from "./lib/drive.js";
 
 const IDLE = { status: "idle", places: [] };
@@ -82,6 +84,10 @@ export default function App() {
   const [mapFailed, setMapFailed] = useState(false);
   const [about, setAbout] = useState(false);
   const [mode, setMode] = useState("trip"); // trip = this trip's hotspots · national = colours vs. all of Thailand
+  // appMode: "plan" = forecast a trip you are about to take · "review" = ย้อนดูผล (model vs recorded accidents, past period)
+  const [appMode, setAppMode] = useState("plan");
+  const [reviewPeriod, setReviewPeriod] = useState(REVIEW_PERIODS[0]);
+  const [review, setReview] = useState({ status: "idle" });
   const panelRef = useRef(null);
 
   // ================================================================ readiness
@@ -197,7 +203,7 @@ export default function App() {
   // ---- forecast for the chosen departure (matches are loaded once per route)
   useEffect(() => {
     setSelectedKey(null);
-    if (!route) { setForecast({ status: "idle" }); return undefined; }
+    if (!route || appMode === "review") { setForecast({ status: "idle" }); return undefined; }
     if (!whenValid(when)) { setForecast({ status: "needWhen" }); return undefined; }
     if (!route.index) { setForecast({ status: "done", items: [], outOfRange: 0 }); return undefined; }
     let alive = true;
@@ -230,10 +236,44 @@ export default function App() {
       }
     }, 250);
     return () => { alive = false; clearTimeout(timer); ctrl.abort(); };
-  }, [route, when, retryNonce, checkReady]);
+  }, [route, when, retryNonce, checkReady, appMode]);
+
+  // ---- ย้อนดูผล: the model's points for a past period vs the accidents recorded on the same road segments
+  useEffect(() => {
+    setSelectedKey(null);
+    if (!route || appMode !== "review") { setReview({ status: "idle" }); return undefined; }
+    if (!route.index) { setReview({ status: "done", items: [], bySeg: new Map() }); return undefined; }
+    let alive = true;
+    const ctrl = new AbortController();
+    const onProgress = (text, frac) => { if (alive) setReview({ status: "loading", text, frac }); };
+    onProgress("กำลังเตรียมย้อนดูผล…", 0.02);
+    (async () => {
+      try {
+        if (readyRef.current !== "ready" && !(await checkReady())) { if (alive) setReview({ status: "error", failure: { kind: "network" } }); return; }
+        let matches = matchCache.current.get(route.id);
+        if (!matches) {
+          matches = await loadRouteMatches(route, { signal: ctrl.signal, onProgress });
+          if (!alive) return;
+          matchCache.current.set(route.id, matches);
+        }
+        if (!matches.length) { setReview({ status: "done", items: [], bySeg: new Map() }); return; }
+        const { items: rItems } = await reviewForecast(matches, { start: reviewPeriod.start, end: reviewPeriod.end, signal: ctrl.signal, onProgress });
+        if (!alive) return;
+        onProgress("กำลังดูเหตุที่เกิดจริงในช่วงนี้…", 0.97);
+        const { bySeg } = await reviewActuals(matches, { start: reviewPeriod.start, end: reviewPeriod.end, signal: ctrl.signal });
+        if (!alive) return;
+        setReview({ status: "done", items: rItems, bySeg });
+      } catch (f) {
+        if (!alive || (f && f.kind === "aborted")) return;
+        if (isServiceDown(f)) setReady("down");
+        setReview({ status: "error", failure: f });
+      }
+    })();
+    return () => { alive = false; ctrl.abort(); };
+  }, [route, appMode, reviewPeriod, retryNonce, checkReady]);
 
   // ---- departure comparison: 4 options for the same route and date (zone counts only)
-  const compareKey = route && matchesFor === route.id && whenValid(when) ? route.id + "|" + when.date : null;
+  const compareKey = appMode === "plan" && route && matchesFor === route.id && whenValid(when) ? route.id + "|" + when.date : null;
   useEffect(() => {
     if (!compareKey || !route) { setCompare({ status: "idle", key: null, results: {} }); return undefined; }
     const matches = matchCache.current.get(route.id);
@@ -375,9 +415,21 @@ export default function App() {
     return () => navigator.geolocation.clearWatch(id);
   }, [driveSource, route, showToast]);
 
-  const items = forecast.status === "done" ? forecast.items : NO_ITEMS;
+  const items = appMode === "review" ? (review.status === "done" ? review.items : NO_ITEMS) : (forecast.status === "done" ? forecast.items : NO_ITEMS);
   const zoneRes = useMemo(() => buildZones(items, provinceName), [items, provinceName]);
   const zones = zoneRes.zones;
+  const reviewSum = useMemo(() => (appMode === "review" && review.status === "done" ? reviewSummary(items, zones, review.bySeg) : null), [appMode, review, items, zones]);
+  const actuals = useMemo(() => {
+    if (!reviewSum || !route || !route.index) return null;
+    const out = [];
+    for (const it of items) {
+      const n = review.bySeg.get(it.id) || 0;
+      if (!n) continue;
+      const p = pointAt(route, it.alongM);
+      out.push({ key: it.id, lat: p.lat, lon: p.lon, count: n });
+    }
+    return out;
+  }, [reviewSum, items, route, review]);
   const ribbon = useMemo(() => (route ? buildRibbon(items, route.distance, zoneRes.hotIds, zoneRes.rankById) : { pieces: [], coverage: 0 }), [items, route, zoneRes]);
   const history = useMemo(() => {
     const out = {};
@@ -610,10 +662,10 @@ export default function App() {
 
   // ================================================================ derived
 
-  const canRoute = !!(places.origin && places.dest && whenValid(when)) && !samePlace(places.origin, places.dest) && trip.status !== "loading";
+  const canRoute = !!(places.origin && places.dest && (appMode === "review" ? !periodProblem(reviewPeriod) : whenValid(when))) && !samePlace(places.origin, places.dest) && trip.status !== "loading";
   const showBrief = view === "brief" && route;
 
-  const showRibbon = route && forecast.status === "done" && items.length > 0;
+  const showRibbon = route && (appMode === "review" ? review.status === "done" : forecast.status === "done") && items.length > 0;
   const selectedZone = zones.find((z) => z.key === selectedKey) || null;
 
   return (
@@ -644,7 +696,7 @@ export default function App() {
           <div className="map-card">
             {!mapFailed && (
               <MapView
-                route={route} origin={places.origin} dest={places.dest} items={items} zones={zones} hotIds={zoneRes.hotIds} rankById={zoneRes.rankById} mode={mode} altFocus={altFocus} onSelectAlt={setAltFocus} drivePos={driveOn && drive.alongM != null ? drive : null}
+                route={route} origin={places.origin} dest={places.dest} items={items} zones={zones} actuals={appMode === "review" ? actuals : null} hotIds={zoneRes.hotIds} rankById={zoneRes.rankById} mode={mode} altFocus={altFocus} onSelectAlt={setAltFocus} drivePos={driveOn && drive.alongM != null ? drive : null}
                 selectedKey={selectedKey} focus={focus} pick={pick} getPadding={getPadding}
                 onPick={onPickPoint} onOutside={() => showToast("เลือกได้เฉพาะพื้นที่ในประเทศไทย")}
                 onSelectZone={(k) => selectZone(k, true)} onFailed={() => setMapFailed(true)}
@@ -660,7 +712,7 @@ export default function App() {
                 </button>
                 <button type="button" className="map-trip-pill" onClick={goPlan}>
                   <span className="mtp-route">{route.origin.name} → {route.dest.name}</span>
-                  <span className="mtp-time">{when.time}</span>
+                  <span className="mtp-time">{appMode === "review" ? reviewPeriod.label : when.time}</span>
                 </button>
               </div>
             )}
@@ -686,7 +738,7 @@ export default function App() {
                 </div>
               );
             })()}
-            {!driveOn && showRibbon && <MapKey mode={mode} onTrip={() => setMode("trip")} mobile={mobile} />}
+            {!driveOn && showRibbon && <MapKey mode={mode} onTrip={() => setMode("trip")} mobile={mobile} review={appMode === "review"} />}
           </div>
 
 
@@ -705,6 +757,10 @@ export default function App() {
                 onMute={() => setDrive((d) => { if (!d.muted) stopSpeech(); return { ...d, muted: !d.muted }; })}
                 onSpeed={(x) => setDrive((d) => ({ ...d, speedX: x }))}
                 onTestVoice={() => { stopSpeech(); if (!speak("ระวัง! อีก 500 เมตร ถึงจุดที่ควรระวัง นี่คือเสียงเตือนของ RoadAware", false, "test")) showToast("เบราว์เซอร์นี้ไม่มีเสียงภาษาไทย"); }} />
+            ) : showBrief && appMode === "review" ? (
+              <ReviewResult route={route} period={reviewPeriod} review={review} zones={zones} summary={reviewSum}
+                selectedKey={selectedKey} onSelectZone={(k) => selectZone(k, false)} onEdit={goPlan}
+                onRetry={() => setRetryNonce((n) => n + 1)} onAbout={() => setAbout(true)} />
             ) : showBrief ? (
               <Briefing
                 route={route} when={when} forecast={forecast} zones={zones} hidden={zoneRes.hidden} counts={zoneRes.counts} mode={mode} onMode={setMode} ribbon={ribbon}
@@ -724,7 +780,7 @@ export default function App() {
                     กลับไปดูสรุปทริป
                   </button>
                 )}
-                <TripForm
+                <TripForm appMode={appMode} onAppMode={(m) => { setAppMode(m); invalidateRoute(); }} reviewPeriod={reviewPeriod} onReviewPeriod={setReviewPeriod}
                   texts={texts} places={places} results={results} pick={pick} when={when}
                   canRoute={canRoute} trip={trip}
                   onText={onText} onSearch={(w) => runSearch(w, texts[w])} onChoose={choosePlace}

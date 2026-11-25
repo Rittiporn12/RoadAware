@@ -28,7 +28,7 @@ function zoneIcon(n, level, selected, mode, clock) {
   });
 }
 
-export default function MapView({ route, origin, dest, items, zones, hotIds, rankById, mode, altFocus, onSelectAlt, drivePos, selectedKey, focus, pick, getPadding, onPick, onOutside, onSelectZone, onFailed }) {
+export default function MapView({ route, origin, dest, items, zones, actuals, hotIds, rankById, mode, altFocus, onSelectAlt, drivePos, selectedKey, focus, pick, getPadding, onPick, onOutside, onSelectZone, onFailed }) {
   const divRef = useRef(null);
   const mapRef = useRef(null);
   const layers = useRef({});
@@ -90,6 +90,7 @@ export default function MapView({ route, origin, dest, items, zones, hotIds, ran
       route: L.layerGroup().addTo(m),
       seg: L.layerGroup().addTo(m),
       zones: L.layerGroup().addTo(m),
+      actuals: L.layerGroup().addTo(m),
       ends: L.layerGroup().addTo(m),
       car: L.layerGroup().addTo(m),
     };
@@ -271,6 +272,19 @@ export default function MapView({ route, origin, dest, items, zones, hotIds, ran
       L.geoJSON(it.feature, { pane: "segPane", interactive: false, style: () => ({ ...style, opacity: 1, lineCap: "round" }) }).addTo(g);
     }
   }, [items, hotIds, rankById, mode]);
+
+  // ---- look back: recorded accidents (dark dots at the segment on the route; size grows with the count)
+  useEffect(() => {
+    const m = mapRef.current;
+    if (!m || !layers.current.actuals) return;
+    const g = layers.current.actuals;
+    g.clearLayers();
+    for (const a of actuals || []) {
+      const s = 14 + Math.min(a.count, 6) * 2;
+      const icon = L.divIcon({ className: "actual-icon", html: "<span>" + (a.count > 1 ? a.count : "") + "</span>", iconSize: [s, s], iconAnchor: [s / 2, s / 2] });
+      L.marker([a.lat, a.lon], { icon, zIndexOffset: 500, keyboard: false, title: "เหตุที่เกิดจริง " + a.count + " ครั้ง" }).addTo(g);
+    }
+  }, [actuals]);
 
   // ---- numbered zones
   useEffect(() => {

@@ -514,3 +514,35 @@ details.more[open] > summary::after { transform: translateY(-30%) rotate(-135deg
 .quick-btn.is-active { border-color: var(--teal); background: var(--teal); color: #fff; }
 .quick-btn.is-active svg { color: #fff; }
 .quick-btn:disabled { opacity: .6; cursor: progress; }
+
+/* ================= look back (ย้อนดูผล) ================= */
+.mode-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; background: var(--paper); border: 1px solid var(--line); border-radius: 14px; margin-bottom: 18px; }
+.mode-tabs button { min-height: 40px; border: 0; border-radius: 10px; background: none; font-weight: 600; font-size: 14px; cursor: pointer; color: var(--ink-2); }
+.mode-tabs button.is-on { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(15,27,45,.12); }
+.period-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.period-btn { min-height: 52px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding: 6px; }
+.period-btn b { font-size: 14px; }
+.period-btn span { font-size: 11.5px; color: var(--muted); }
+.period-btn.is-on { background: var(--ink); border-color: var(--ink); color: #fff; }
+.period-btn.is-on span { color: #C9D1DD; }
+.period-custom { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+.period-custom label { display: flex; flex-direction: column; gap: 4px; font-size: 12.5px; color: var(--muted); }
+.period-custom input { min-height: 44px; border: 1px solid var(--line); border-radius: 12px; padding: 0 10px; font: inherit; color: var(--ink); background: var(--surface); }
+.rv-head { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
+.rv-kicker { font-size: 12.5px; font-weight: 700; color: var(--teal); letter-spacing: .02em; }
+.pill-info { background: #EEF2F8; color: #33415A; }
+.rv-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.rv-stat { border: 1px solid var(--line); border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 2px; }
+.rv-stat b { font-size: 32px; line-height: 1.1; }
+.rv-stat span { font-size: 13px; color: var(--ink-2); }
+.rv-stat-hit { background: #FBEDEB; border-color: #F2CFCA; }
+.rv-stat-hit b { color: #A3312A; }
+.rv-explain { font-size: 14px; color: var(--ink-2); line-height: 1.6; }
+.rv-key { display: flex; gap: 16px; font-size: 12.5px; color: var(--ink-2); }
+.rv-key span { display: inline-flex; align-items: center; gap: 6px; }
+.rv-dot { width: 12px; height: 12px; border-radius: 50%; background: #0F1B2D; border: 2px solid #fff; box-shadow: 0 0 0 1px #0F1B2D; display: inline-block; }
+.rv-count { flex: none; font-size: 13px; font-weight: 700; color: var(--muted); white-space: nowrap; }
+.rv-count.is-hit { color: #A3312A; }
+.actual-icon { background: none; border: 0; }
+.actual-icon span { display: grid; place-items: center; width: 100%; height: 100%; border-radius: 50%; background: #0F1B2D; color: #fff; border: 2px solid #fff; font-size: 10px; font-weight: 700; box-shadow: 0 2px 6px rgba(15,27,45,.35); }
+@media (max-width: 900px) { .map-key { flex-wrap: wrap; right: 64px; row-gap: 4px; } }

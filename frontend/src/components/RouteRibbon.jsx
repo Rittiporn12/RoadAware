@@ -5,7 +5,7 @@ import { LEVELS, LEVEL_ORDER, HOT_HEX, TRIP_TIERS, tripTierHex, ROUTE_HEX, UNKNO
 import { bkkToEpoch, epochToBkk } from "../lib/util.js";
 
 // Small map key: three items in the default view; the national colours only while that view is switched on.
-export function MapKey({ mode, onTrip }) {
+export function MapKey({ mode, onTrip, review }) {
   if (mode === "national") {
     return (
       <div className="map-key map-key-nat" aria-label="คำอธิบายสีเทียบทั้งประเทศ">
@@ -22,6 +22,7 @@ export function MapKey({ mode, onTrip }) {
       <span><b className="mk-num" style={{ background: LEVELS.orange.hex, color: LEVELS.orange.ink }}>2</b>สูง</span>
       <span><i className="mk-line" style={{ background: ROUTE_HEX }} />ประเมินแล้ว</span>
       <span><i className="mk-line" style={{ background: UNKNOWN_HEX }} />ยังไม่มีข้อมูล</span>
+      {review && <span><i className="rv-dot" />เหตุจริง</span>}
     </div>
   );
 }

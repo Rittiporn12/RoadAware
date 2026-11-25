@@ -97,6 +97,9 @@ def _responses(method, path, *codes):
 
 def create_app(runtime_factory=None):
     factory = runtime_factory or load_runtime
+    from .review import ReviewData, ReviewError
+    from .runtime import REPO as _REPO
+    review_data = ReviewData(_REPO)
 
     @asynccontextmanager
     async def lifespan(app):
@@ -148,6 +151,21 @@ def create_app(runtime_factory=None):
         except rt.h24['ApiError'] as e:
             return _send(rt.h24['error_body'](e), e.status)
         return await answer(request, fn, obj, *extra)
+
+    @app.post('/api/v1/review/actual', include_in_schema=False)
+    async def review_actual(request: Request):
+        """Look-back view: recorded accidents per segment per day (2024-25 seen diagnostic years, 2026 Jan-Sep unseen test)."""
+        try:
+            raw = await read_body(request)
+        except _Transport as t:
+            return transport_error(*t.args4)
+        try:
+            obj = json.loads(raw.decode('utf-8'))
+            return _send(await run_in_threadpool(review_data.query, obj))
+        except ReviewError as e:
+            return transport_error(e.status, e.code, 'unavailable' if e.status >= 500 else 'invalid', e.message)
+        except (ValueError, UnicodeDecodeError):
+            return transport_error(400, 'invalid_json', 'invalid', 'body must be JSON')
 
     @app.exception_handler(StarletteHTTPException)
     async def http_error(request, exc):

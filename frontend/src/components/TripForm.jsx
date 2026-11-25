@@ -2,6 +2,7 @@ import PlaceField from "./PlaceField.jsx";
 import { Loading, ErrorBox } from "./common.jsx";
 import { DATE_MIN, DATE_MAX } from "../config.js";
 import { epochToBkk, fmtThaiDate } from "../lib/util.js";
+import { REVIEW_PERIODS, REVIEW_MIN, REVIEW_MAX, REVIEW_MAX_DAYS, periodProblem } from "../lib/review.js";
 
 function dayChoices() {
   const today = epochToBkk(Date.now()).date;
@@ -9,13 +10,29 @@ function dayChoices() {
   return { today, tomorrow };
 }
 
-export default function TripForm({ texts, places, results, pick, when, canRoute, trip, onText, onSearch, onChoose, onCloseResults, onPick, onMyLocation, locating, onSwap, onWhen, onSubmit, onExample }) {
+export default function TripForm({ appMode = "plan", onAppMode, reviewPeriod, onReviewPeriod, texts, places, results, pick, when, canRoute, trip, onText, onSearch, onChoose, onCloseResults, onPick, onMyLocation, locating, onSwap, onWhen, onSubmit, onExample }) {
   const { today, tomorrow } = dayChoices();
   const other = when.date !== today && when.date !== tomorrow;
+  const review = appMode === "review";
+  const custom = review && reviewPeriod && !REVIEW_PERIODS.some((p) => p.id === reviewPeriod.id);
+  const problem = review ? periodProblem(reviewPeriod) : null;
   return (
     <section className="trip-form" aria-labelledby="planTitle">
-      <h1 id="planTitle" className="plan-title">จะเดินทางไปไหน?</h1>
-      <p className="plan-lead">บอกเส้นทางและเวลาออก แล้วเราจะสรุปว่าต้องระวังช่วงไหน</p>
+      <div className="mode-tabs" role="tablist" aria-label="โหมด">
+        <button type="button" role="tab" aria-selected={appMode === "plan"} className={appMode === "plan" ? "is-on" : ""} onClick={() => onAppMode && onAppMode("plan")}>วางแผนเดินทาง</button>
+        <button type="button" role="tab" aria-selected={appMode === "review"} className={appMode === "review" ? "is-on" : ""} onClick={() => onAppMode && onAppMode("review")}>ย้อนดูผล</button>
+      </div>
+      {review ? (
+        <>
+          <h1 id="planTitle" className="plan-title">โมเดลชี้ถูกไหม?</h1>
+          <p className="plan-lead">เลือกเส้นทางและช่วงเวลาในอดีต แล้วดูว่าจุดที่โมเดลชี้ ตรงกับที่เกิดเหตุจริงแค่ไหน</p>
+        </>
+      ) : (
+        <>
+          <h1 id="planTitle" className="plan-title">จะเดินทางไปไหน?</h1>
+          <p className="plan-lead">บอกเส้นทางและเวลาออก แล้วเราจะสรุปว่าต้องระวังช่วงไหน</p>
+        </>
+      )}
 
       <div className="pf-card">
         <PlaceField which="origin" letter="A" label="ต้นทาง" placeholder="เช่น มหาวิทยาลัยศรีปทุม"
@@ -46,6 +63,31 @@ export default function TripForm({ texts, places, results, pick, when, canRoute,
         ))}
       </div>
 
+      {review ? (
+        <fieldset className="when">
+          <legend className="when-title">ช่วงเวลาในอดีต</legend>
+          <div className="period-grid">
+            {REVIEW_PERIODS.map((p) => (
+              <button key={p.id} type="button" className={"period-btn" + (reviewPeriod && reviewPeriod.id === p.id ? " is-on" : "")}
+                aria-pressed={!!reviewPeriod && reviewPeriod.id === p.id} onClick={() => onReviewPeriod(p)}>
+                <b>{p.label}</b><span>{fmtThaiDate(p.start)} – {fmtThaiDate(p.end)}</span>
+              </button>
+            ))}
+          </div>
+          <div className="period-custom">
+            <label>ตั้งแต่ (กำหนดเอง)
+              <input type="date" min={REVIEW_MIN} max={REVIEW_MAX} value={custom ? reviewPeriod.start : ""}
+                onChange={(e) => onReviewPeriod({ id: "custom", label: "ช่วงที่เลือกเอง", start: e.target.value, end: custom && reviewPeriod.end >= e.target.value ? reviewPeriod.end : e.target.value })} />
+            </label>
+            <label>ถึง
+              <input type="date" min={REVIEW_MIN} max={REVIEW_MAX} value={custom ? reviewPeriod.end : ""}
+                onChange={(e) => onReviewPeriod({ id: "custom", label: "ช่วงที่เลือกเอง", start: custom ? reviewPeriod.start : e.target.value, end: e.target.value })} />
+            </label>
+          </div>
+          <p className="fine">ได้ตั้งแต่ 1 ม.ค. 2567 – 30 ก.ย. 2569 ครั้งละไม่เกิน {REVIEW_MAX_DAYS} วัน · ปี 2569 คือข้อมูลที่โมเดลไม่เคยเห็น</p>
+          {problem && custom && <p className="notice">{problem}</p>}
+        </fieldset>
+      ) : (
       <fieldset className="when">
         <legend className="when-title">ออกเดินทางเมื่อไร</legend>
         <div className="day-row">
@@ -62,10 +104,11 @@ export default function TripForm({ texts, places, results, pick, when, canRoute,
           <input type="time" step={300} required value={when.time} onChange={(e) => onWhen({ time: e.target.value })} />
         </label>
       </fieldset>
+      )}
 
       <div className="cta-wrap">
         <button type="button" className="btn btn-primary btn-block btn-lg" disabled={!canRoute} onClick={onSubmit}>
-          ตรวจเส้นทางนี้
+          {review ? "ย้อนดูผลเส้นทางนี้" : "ตรวจเส้นทางนี้"}
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14" /><path d="M13 6l6 6-6 6" /></svg>
         </button>
       </div>
