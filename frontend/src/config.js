@@ -59,6 +59,55 @@ export const CONFIG = {
   ribbonBins: 240,
 };
 
+// ---- Demo server discovery (GitHub Pages only) -------------------------------------------------------------
+// "Start Demo Server.command" publishes the Mac's current tunnel address to endpoint.json on the repo's
+// demo-endpoint branch every time it starts (and {"online": false} when it stops). The site reads it on load,
+// so the plain address https://<user>.github.io/<repo>/ always talks to the server that is running right now —
+// no ?api= link to copy. The published address wins over an old ?api= link or a remembered value.
+function endpointSources() {
+  if (ENV.VITE_ENDPOINT_URL) return [ENV.VITE_ENDPOINT_URL];
+  if (typeof window === "undefined") return [];
+  const m = window.location.hostname.match(/^([a-z0-9-]+)\.github\.io$/i);
+  const repo = window.location.pathname.split("/").filter(Boolean)[0];
+  if (!m || !repo) return [];
+  return [
+    `https://api.github.com/repos/${m[1]}/${repo}/contents/endpoint.json?ref=demo-endpoint`,
+    `https://raw.githubusercontent.com/${m[1]}/${repo}/demo-endpoint/endpoint.json`,
+  ];
+}
+function remember(key, v) { try { window.localStorage.setItem(key, v); } catch (_) { /* storage blocked */ } }
+let discovery = null;
+// Resolves to { source: "local" | "published" | "link", offline?: true, updated?: string }. Runs once per page load.
+export function discoverServer() {
+  if (discovery) return discovery;
+  discovery = (async () => {
+    const sources = onLocalhost ? [] : endpointSources();
+    if (!sources.length) return { source: "local" };
+    for (const url of sources) {
+      try {
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), 5000);
+        const r = await fetch(url + (url.includes("?") ? "&" : "?") + "t=" + Date.now(), {
+          cache: "no-store", signal: ctrl.signal,
+          headers: url.includes("api.github.com") ? { Accept: "application/vnd.github.raw+json" } : {},
+        });
+        clearTimeout(timer);
+        if (!r.ok) continue;
+        const j = await r.json();
+        if (j && j.online === false) return { source: "published", offline: true, updated: j.updated };
+        const api = cleanUrl((j && j.api) || "");
+        if (!api || !api.startsWith("https://")) continue;
+        CONFIG.apiBase = api; remember("roadaware.api", api);
+        const tts = cleanUrl((j && j.tts) || "");
+        if (tts && tts.startsWith("https://")) { CONFIG.ttsUrl = tts; remember("roadaware.tts", tts); }
+        return { source: "published", updated: j.updated };
+      } catch (_) { /* try the next source */ }
+    }
+    return { source: "link" }; // nothing published: keep ?api= / remembered value
+  })();
+  return discovery;
+}
+
 export const ENVELOPE = { west: 97.0, south: 5.0, east: 106.0, north: 21.0 };
 export const THAI_BOUNDS = [[5.6, 97.3], [20.5, 105.65]];
 // Neighbouring countries stay visible (dimmed + blurred) but the view cannot travel further than this.

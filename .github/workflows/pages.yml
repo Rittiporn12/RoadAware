@@ -1,5 +1,6 @@
 # Build the React site and publish it on GitHub Pages (https://rittiporn12.github.io/RoadAware/).
-# The site talks to the API given in the link (?api=...), e.g. the presenter's Mac through "Start Demo Server.command".
+# The site finds the API by itself: "Start Demo Server.command" publishes the Mac tunnel address to endpoint.json
+# on the demo-endpoint branch (pushes there do not trigger this workflow).
 name: Deploy website to GitHub Pages
 
 on:

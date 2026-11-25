@@ -672,10 +672,10 @@ export default function App() {
     <div className={"app" + (showBrief ? " is-brief" : " is-plan")}>
       <a className="skip-link" href="#panel">ข้ามไปยังแผงวางแผนการเดินทาง</a>
       <header className="topbar">
-        <div className="brand">
+        <a className="brand" href="#/" title="กลับหน้าแรก" aria-label="RoadAware — กลับหน้าแรก">
           <svg width="28" height="28" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="12" fill="#0F1B2D" /><path d="M7 18 C10 12, 13 15, 19 7" stroke="#E8821E" strokeWidth="2.6" fill="none" strokeLinecap="round" /></svg>
           <span className="brand-name">RoadAware</span>
-        </div>
+        </a>
         <div className="topbar-right">
           <span className={"status status-" + ready} role="status" aria-live="polite" title={ready === "ready" ? "ระบบประเมินพร้อม" : ready === "down" ? "ระบบประเมินไม่พร้อม" : "กำลังเชื่อมต่อ"}>
             <i aria-hidden="true" />
