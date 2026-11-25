@@ -41,9 +41,14 @@ fi
 echo "   API ready"
 
 # --- voice (optional) ---
-if ! curl -fs http://127.0.0.1:8010/health >/dev/null 2>&1; then
+# stop an older RoadAware voice proxy still holding port 8010 (only that program, nothing else)
+for p in $(lsof -ti tcp:8010 -sTCP:LISTEN 2>/dev/null); do ps -o command= -p "$p" | grep -q tts_proxy.py && kill "$p"; done
+for i in 1 2 3 4 5; do lsof -ti tcp:8010 -sTCP:LISTEN >/dev/null 2>&1 || break; sleep 1; done
+if lsof -ti tcp:8010 -sTCP:LISTEN >/dev/null 2>&1; then echo "VOICE_FAILED: port 8010 is used by another program"; echo "   (continuing without the Mac voice)"; fi
+if ! lsof -ti tcp:8010 -sTCP:LISTEN >/dev/null 2>&1; then
   ROADAWARE_TTS_ENGINE=mac .venv/bin/python backend/scripts/tts_proxy.py >"$LOGDIR/voice.log" 2>&1 &
-  PIDS+=($!); sleep 2
+  PIDS+=($!)
+  for i in $(seq 1 10); do curl -fs http://127.0.0.1:8010/health >/dev/null 2>&1 && break; sleep 1; done
 fi
 
 start_tunnel() { "$CF" tunnel --no-autoupdate --url "http://127.0.0.1:$1" >"$2" 2>&1 & PIDS+=($!); }
