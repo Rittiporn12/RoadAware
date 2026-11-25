@@ -19,12 +19,15 @@ const METRICS = [
   { key: "inj", label: "ผู้บาดเจ็บ", unit: "ราย" },
 ];
 const DAY_MS = 86400000;
+// The model's data split by year index (0 = 2564): train 2564–2566, check 2567–2568, unseen test 2569
+const SPLIT_OF_YEAR = [0, 0, 0, 1, 1, 2];
+const SPLIT_LABEL = ["ข้อมูลฝึก (2564–2566)", "ข้อมูลตรวจ (2567–2568)", "ข้อมูลทดสอบ (2569)"];
 const BASE_UTC = Date.UTC(2021, 0, 1);
 const fmt = (v) => Math.round(v).toLocaleString("en-US");
 const fmt1 = (v) => (Math.round(v * 10) / 10).toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 const ymLabel = (ym) => MONTHS[ym % 12] + " " + (2564 + Math.floor(ym / 12));
 
-const EMPTY = { years: [], region: -1, prov: -1, month: -1, cell: -1, period: -1, type: -1, veh: -1, cause: -1, wx: -1 };
+const EMPTY = { years: [], split: -1, region: -1, prov: -1, month: -1, cell: -1, period: -1, type: -1, veh: -1, cause: -1, wx: -1 };
 // Cross-filter dimensions: a chart is computed with every filter except its own.
 const XD = ["month", "prov", "cell", "period", "type", "veh", "cause", "wx"];
 
@@ -73,6 +76,7 @@ function aggregate(D, f, metric) {
   for (let i = 0; i < n; i++) {
     if (ys && !ys.has(yi[i])) continue;
     if (f.region >= 0 && reg[i] !== f.region) continue;
+    if (f.split >= 0 && cols.split[i] !== f.split) continue;
     let fails = 0, failK = null;
     for (let a = 0; a < active.length; a++) {
       const k = active[a];
@@ -98,6 +102,7 @@ function aggregate(D, f, metric) {
   const dowF = f.cell >= 0 ? Math.floor(f.cell / 24) : -1;
   for (let k = 0; k < nd; k++) {
     if (ys && !ys.has(dYear[k])) continue;
+    if (f.split >= 0 && SPLIT_OF_YEAR[dYear[k]] !== f.split) continue;
     if (f.month >= 0 && dYm[k] !== f.month) continue;
     if (dowF >= 0 && dDow[k] !== dowF) continue;
     days[dFest[k]]++;
@@ -164,7 +169,7 @@ function Trend({ data, from, to, selected, onPick, unit }) {
   const ref = useRef(null);
   const w = useWidth(ref);
   const [hover, setHover] = useState(null);
-  const h = 220, pad = { l: 46, r: 12, t: 12, b: 28 };
+  const h = 236, pad = { l: 46, r: 12, t: 28, b: 28 };
   const xs = [];
   for (let m = from; m <= to; m++) xs.push(m);
   const max = Math.max(1, ...xs.map((m) => data[m]));
@@ -192,6 +197,16 @@ function Trend({ data, from, to, selected, onPick, unit }) {
           <g key={m}><line x1={X(i)} x2={X(i)} y1={pad.t} y2={h - pad.b} className="db-grid db-grid-y" /><text x={X(i) + 4} y={h - 8} className="db-axis">{2564 + Math.floor(m / 12)}</text></g>
         ) : null))}
         {xs.map((m, i) => ((m % 12 === 3) ? <rect key={"s" + m} x={X(i) - 3} y={pad.t} width="6" height={h - pad.t - pad.b} className="db-songkran" /> : null))}
+        {[[0, 35, "ฝึก"], [36, 59, "ตรวจ"], [60, 68, "ทดสอบ"]].map(([a, b, lab]) => {
+          const s0 = Math.max(a, from), s1 = Math.min(b, to);
+          if (s1 < s0) return null;
+          return (
+            <g key={lab}>
+              {a > from && <line x1={X(s0 - from)} x2={X(s0 - from)} y1={pad.t - 2} y2={h - pad.b} className="db-split" />}
+              <text x={X(s0 - from) + 6} y={16} className="db-split-t">{"ข้อมูล" + lab}</text>
+            </g>
+          );
+        })}
         <path d={area} className="db-area" />
         <path d={line} className="db-line" />
         {selected >= from && selected <= to && <circle cx={X(selected - from)} cy={Y(data[selected])} r="5" className="db-dot-sel" />}
@@ -317,7 +332,7 @@ export default function Dashboard() {
 
   const { dims, meta } = raw;
   const years = raw.years;
-  const sel = f.years.length ? f.years : years;
+  const sel = f.years.length ? f.years : f.split >= 0 ? years.filter((y, i) => SPLIT_OF_YEAR[i] === f.split) : years;
   const from = (Math.min(...sel) - 2564) * 12;
   const to = Math.min(raw.lastYm, (Math.max(...sel) - 2564) * 12 + 11);
   const lastDate = new Date(BASE_UTC + meta.last_day * DAY_MS);
@@ -328,6 +343,7 @@ export default function Dashboard() {
   // chips for active filters
   const chips = [];
   f.years.forEach((y) => chips.push({ label: "ปี " + y, clear: () => toggleYear(y) }));
+  if (f.split >= 0) chips.push({ label: SPLIT_LABEL[f.split], clear: () => set("split", -1) });
   if (f.region >= 0) chips.push({ label: "ภาค" + dims.region[f.region], clear: () => set("region", -1) });
   if (f.prov >= 0) chips.push({ label: dims.prov[f.prov], clear: () => set("prov", -1) });
   if (f.month >= 0) chips.push({ label: ymLabel(f.month), clear: () => set("month", -1) });
@@ -348,7 +364,7 @@ export default function Dashboard() {
       <div className="db-head">
         <div>
           <h1>แดชบอร์ดอุบัติเหตุทางถนน</h1>
-          <p>ข้อมูลอุบัติเหตุจริงจาก<a href={meta.source} target="_blank" rel="noopener noreferrer">กระทรวงคมนาคม</a> ปี {years[0]}–{years[years.length - 1]} · {fmt(meta.records)} รายการ · ข้อมูลถึง {lastDate.getUTCDate()} {MONTHS[lastDate.getUTCMonth()]} {lastDate.getUTCFullYear() + 543}</p>
+          <p>ชุดเดียวกับที่โมเดลของ RoadAware ใช้: อุบัติเหตุจริงบนทางหลวงกรมทางหลวงที่จับคู่กับช่วงถนนได้ จาก<a href={meta.source} target="_blank" rel="noopener noreferrer">กระทรวงคมนาคม</a> · {fmt(meta.records)} รายการ · 1 ม.ค. {years[0]} – {lastDate.getUTCDate()} {MONTHS[lastDate.getUTCMonth()]} {lastDate.getUTCFullYear() + 543}</p>
         </div>
         <div className="db-metric" role="radiogroup" aria-label="ตัวชี้วัด">
           {METRICS.map((m) => (
@@ -362,6 +378,12 @@ export default function Dashboard() {
           <button type="button" className={!f.years.length ? "is-on" : ""} onClick={() => setF((c) => ({ ...c, years: [], month: -1 }))}>ทุกปี</button>
           {years.map((y) => <button key={y} type="button" className={f.years.includes(y) ? "is-on" : ""} onClick={() => toggleYear(y)}>{y}</button>)}
         </div>
+        <label className="db-sel"><span>ชุดข้อมูลของโมเดล</span>
+          <select value={f.split} onChange={(e) => setF((c) => ({ ...c, split: +e.target.value, years: [], month: -1 }))}>
+            <option value={-1}>ทุกชุด</option>
+            {SPLIT_LABEL.map((p, i) => <option key={p} value={i}>{p}</option>)}
+          </select>
+        </label>
         <label className="db-sel"><span>ภาค</span>
           <select value={f.region} onChange={(e) => set("region", +e.target.value)}>
             <option value={-1}>ทุกภาค</option>
@@ -457,8 +479,9 @@ export default function Dashboard() {
       </div>
 
       <p className="db-foot">
-        1 รายการ = 1 อุบัติเหตุที่บันทึกบนถนนในความรับผิดชอบของกระทรวงคมนาคม (กรมทางหลวง กรมทางหลวงชนบท และการทางพิเศษฯ) ไม่ใช่ทุกถนนในประเทศ ·
-        ตำแหน่งบนแผนที่รวมเป็นช่องละราว 5 กม. · หมวดที่พบน้อยรวมเป็น “อื่นๆ” · ข้อมูลปี {years[years.length - 1]} ยังไม่ครบทั้งปี
+        1 รายการ = 1 อุบัติเหตุบนทางหลวงของกรมทางหลวงที่อยู่ห่างช่วงถนนของโมเดลไม่เกิน 50 ม. (ตัดรายการซ้ำ กำกวม และพิกัดใช้ไม่ได้ออก) —
+        ชุดเดียวกับที่ใช้ฝึก (2564–2566) ตรวจ (2567–2568) และทดสอบ (ม.ค.–ก.ย. 2569) · ถนนท้องถิ่น ทางหลวงชนบท และทางพิเศษไม่รวม ·
+        ตำแหน่งบนแผนที่รวมเป็นช่องละราว 5 กม. · หมวดที่พบน้อยรวมเป็น “อื่นๆ”
       </p>
     </DashShell>
   );

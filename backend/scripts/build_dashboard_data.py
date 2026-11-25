@@ -1,9 +1,13 @@
-"""Build the compact accident file for the website's dashboard page (frontend/public/data/dashboard-v1.json).
+"""Build the accident file for the website's dashboard page (frontend/public/data/dashboard-v1.json).
 
-Source: MOT open road-accident records (https://datagov.mot.go.th/dataset/roadaccident), one row per accident:
-  data/raw/accidents/accidents_2564..2568_original.csv  +  data/v3/evaluation_2026_source/20261111/accident2026.csv (2569)
-Output is column-oriented: categorical fields become small integer codes with a dictionary, the location becomes a
-0.05° grid cell (about 5 km) — enough for a national density map, not a precise address.
+Same records as the model, nothing more:
+  2564–2568  backend/data/v4/spatial_preparation/selected_events.csv.gz — accidents on DOH highways matched to a
+             2-km segment (98,207); split train (2564–2566) / seen_diagnostic (2567–2568)
+  2569       the latest backend/rerun-2026-eval-national-*/data/v4/evaluation_2026/row_ledger.csv, eligible rows only
+             (Jan–Sep 2569, 15,425) — the unseen test year
+Details (time, type, vehicle, cause, weather, casualties, location) come from the original MOT files
+(https://datagov.mot.go.th/dataset/roadaccident), joined by ACC_CODE (2564–2568) or by source row (2569).
+Columns are stored as small integer codes with a dictionary; the location becomes a 0.05° grid cell (about 5 km).
 Run:  .venv/bin/python backend/scripts/build_dashboard_data.py
 """
 import json, re, sys
@@ -16,8 +20,6 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[2]
 BACK = ROOT / "backend"
 OUT = ROOT / "frontend" / "public" / "data" / "dashboard-v1.json"
-FILES = [(y, BACK / f"data/raw/accidents/accidents_{y}_original.csv") for y in range(2564, 2569)]
-FILES.append((2569, BACK / "data/v3/evaluation_2026_source/20261111/accident2026.csv"))
 BASE = date(2021, 1, 1)
 CELL = 0.05
 LAT0, LON0, NLON = 5.0, 97.0, int((106 - 97) / CELL) + 1
@@ -84,38 +86,65 @@ def num(s):
     return pd.to_numeric(s, errors="coerce").fillna(0).clip(lower=0).astype(int)
 
 
-rows = []
-for be, path in FILES:
+SEL = BACK / "data/v4/spatial_preparation/selected_events.csv.gz"
+RAW = {y: BACK / f"data/raw/accidents/accidents_{y}_original.csv" for y in range(2564, 2569)}
+NEW_2569 = BACK / "data/v3/evaluation_2026_source/20261111/accident2026.csv"
+LEDGER = sorted(BACK.glob("rerun-2026-eval-national-*/data/v4/evaluation_2026/row_ledger.csv"))[-1]
+SPLIT_TH = {"train": "ข้อมูลฝึก", "seen_diagnostic": "ข้อมูลตรวจ", "test_2026": "ข้อมูลทดสอบ"}
+
+
+def details(df):
+    """Attribute columns of an original MOT file (both column layouts)."""
+    return pd.DataFrame({
+        "hour": col(df, "เวลา").map(parse_hour).values,
+        "type": col(df, "ลักษณะการเกิดเหตุ", "ลักษณะการเกิดอุบัติเหตุ").astype(str).str.strip().values,
+        "veh": col(df, "รถคันที่1").astype(str).str.strip().values,
+        "cause": col(df, "มูลเหตุสันนิษฐาน").astype(str).str.strip().values,
+        "wx": col(df, "สภาพอากาศ").astype(str).str.strip().values,
+        "agency": col(df, "หน่วยงาน").astype(str).str.strip().values,
+        "dead": num(col(df, "ผู้เสียชีวิต", "จำนวนผู้เสียชีวิต")).values,
+        "serious": num(col(df, "ผู้บาดเจ็บสาหัส", "จำนวนผู้บาดเจ็บสาหัส")).values,
+        "minor": num(col(df, "ผู้บาดเจ็บเล็กน้อย", "จำนวนผู้บาดเจ็บเล็กน้อย")).values,
+        "lat": pd.to_numeric(col(df, "LATITUDE"), errors="coerce").values,
+        "lon": pd.to_numeric(col(df, "LONGITUDE"), errors="coerce").values,
+    })
+
+
+def read_raw(path):
     df = pd.read_csv(path, encoding="utf-8-sig", low_memory=False)
     df.columns = [c.strip() for c in df.columns]
-    # Text dates: 2564–2566 files are month/day/year, 2569 is day/month/year — decide per file from the data itself.
-    raw = col(df, "วันที่เกิดเหตุ").astype(str)
-    parts = raw[raw.str.contains("/")].str.split("/", expand=True)
-    month_first = bool(len(parts)) and (pd.to_numeric(parts[1], errors="coerce") > 12).any() and not (pd.to_numeric(parts[0], errors="coerce") > 12).any()
-    t = pd.DataFrame({
-        "be": be,
-        "day": col(df, "วันที่เกิดเหตุ").map(lambda v: parse_day(v, month_first)),
-        "hour": col(df, "เวลา").map(parse_hour),
-        "prov": col(df, "จังหวัด").astype(str).str.strip().replace(PROV_ALIAS),
-        "type": col(df, "ลักษณะการเกิดเหตุ", "ลักษณะการเกิดอุบัติเหตุ").astype(str).str.strip(),
-        "veh": col(df, "รถคันที่1").astype(str).str.strip(),
-        "cause": col(df, "มูลเหตุสันนิษฐาน").astype(str).str.strip(),
-        "wx": col(df, "สภาพอากาศ").astype(str).str.strip(),
-        "agency": col(df, "หน่วยงาน").astype(str).str.strip(),
-        "dead": num(col(df, "ผู้เสียชีวิต", "จำนวนผู้เสียชีวิต")),
-        "serious": num(col(df, "ผู้บาดเจ็บสาหัส", "จำนวนผู้บาดเจ็บสาหัส")),
-        "minor": num(col(df, "ผู้บาดเจ็บเล็กน้อย", "จำนวนผู้บาดเจ็บเล็กน้อย")),
-        "lat": pd.to_numeric(col(df, "LATITUDE"), errors="coerce"),
-        "lon": pd.to_numeric(col(df, "LONGITUDE"), errors="coerce"),
-    })
-    n0 = len(t)
-    t = t[t["day"].notna()]
-    t["day"] = t["day"].astype(int)
-    yr = t["day"].map(lambda d: (BASE + timedelta(days=d)).year + 543)
-    t = t[yr == be]                                                      # keep rows whose date is inside the file's year
-    t.loc[~t["prov"].isin(PROV_REGION), "prov"] = "ไม่ระบุ"                # e.g. 1,929 rows of 2567 have no province
-    print(f"{be}: {n0} rows -> {len(t)} kept (dates {'M/D' if month_first else 'D/M or serial'})", file=sys.stderr)
+    return df
+
+
+rows = []
+sel = pd.read_csv(SEL, low_memory=False)
+sel["be"] = sel["event_uid"].str.split(":").str[0].astype(int)
+sel["code"] = sel["event_uid"].str.split(":").str[1].astype("int64")
+for be, path in RAW.items():
+    s_y = sel[sel["be"] == be]
+    raw = read_raw(path).drop_duplicates("ACC_CODE").set_index("ACC_CODE")
+    src = raw.loc[s_y["code"].values].reset_index(drop=True)
+    t = details(src)
+    t["be"] = be
+    t["day"] = [(date.fromisoformat(x) - BASE).days for x in s_y["event_date"]]
+    t["prov"] = s_y["province_key"].astype(str).str.replace("\u0e4d\u0e32", "\u0e33", regex=False).replace(PROV_ALIAS).values
+    t["split"] = s_y["split"].values
     rows.append(t)
+    print(f"{be}: {len(t)} model records", file=sys.stderr)
+
+led = pd.read_csv(LEDGER, low_memory=False)
+led = led[led["exclusive_reason"] == "eligible"]
+src = read_raw(NEW_2569).iloc[led["source_row"].values - 1].reset_index(drop=True)
+t = details(src)
+t["be"] = 2569
+t["day"] = [(date.fromisoformat(x) - BASE).days for x in led["event_date"]]
+t["prov"] = led["province"].astype(str).str.replace("\u0e4d\u0e32", "\u0e33", regex=False).replace(PROV_ALIAS).values
+t["split"] = "test_2026"
+rows.append(t)
+print(f"2569: {len(t)} model records (eligible, {LEDGER.parent.parent.parent.parent.name})", file=sys.stderr)
+for t in rows:
+    t.loc[~t["prov"].isin(PROV_REGION), "prov"] = "ไม่ระบุ"
+    t.loc[t["hour"] < 0, "hour"] = -1
 
 d = pd.concat(rows, ignore_index=True).sort_values("day", kind="stable").reset_index(drop=True)
 
@@ -147,6 +176,8 @@ veh_names, veh_codes = dictionary(d["veh"], keep=12)
 cause_names, cause_codes = dictionary(d["cause"], keep=12)
 wx_names, wx_codes = dictionary(d["wx"], keep=6)
 ag_names, ag_codes = dictionary(d["agency"], keep=3)
+split_keys = ["train", "seen_diagnostic", "test_2026"]
+split_codes = d["split"].map({k: i for i, k in enumerate(split_keys)}).astype(int).tolist()
 
 ok = d["lat"].between(5, 21) & d["lon"].between(97, 106)
 cell = ((((d["lat"] - LAT0) / CELL).round().astype("Int64") * NLON) + ((d["lon"] - LON0) / CELL).round().astype("Int64"))
@@ -162,19 +193,20 @@ out = {
         "last_day": int(d["day"].max()),
         "records": int(len(d)),
         "grid": {"cell_deg": CELL, "lat0": LAT0, "lon0": LON0, "nlon": NLON},
-        "note": "1 แถว = 1 อุบัติเหตุที่บันทึกบนถนนในความรับผิดชอบของกระทรวงคมนาคม (ไม่ใช่ทุกถนนในประเทศ)",
+        "note": "ชุดเดียวกับที่โมเดลใช้: อุบัติเหตุบนทางหลวงกรมทางหลวงที่จับคู่กับช่วงถนนได้ (ห่างไม่เกิน 50 ม.)",
     },
     "dims": {
         "region": list(REGIONS) + ["ไม่ระบุ"],
         "prov": prov_names,
         "provRegion": [list(REGIONS).index(PROV_REGION[p]) if p in PROV_REGION else len(REGIONS) for p in prov_names],
+        "split": [SPLIT_TH[k] for k in split_keys],
         "type": type_names, "veh": veh_names, "cause": cause_names, "wx": wx_names, "agency": ag_names,
     },
     "cols": {
         "day": d["day"].tolist(), "hour": d["hour"].astype(int).tolist(),
         "prov": d["prov"].map(prov_idx).astype(int).tolist(),
         "type": type_codes, "veh": veh_codes, "cause": cause_codes, "wx": wx_codes, "agency": ag_codes,
-        "dead": d["dead"].tolist(), "serious": d["serious"].tolist(), "minor": d["minor"].tolist(), "cell": cell,
+        "split": split_codes, "dead": d["dead"].tolist(), "serious": d["serious"].tolist(), "minor": d["minor"].tolist(), "cell": cell,
     },
 }
 OUT.parent.mkdir(parents=True, exist_ok=True)

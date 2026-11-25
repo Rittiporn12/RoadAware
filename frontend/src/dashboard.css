@@ -75,6 +75,8 @@
 .db-grid { stroke: var(--line-2); stroke-width: 1; }
 .db-grid-y { stroke: var(--line); stroke-dasharray: 2 3; }
 .db-axis { font-size: 11.5px; fill: var(--muted); font-family: var(--font); }
+.db-split { stroke: var(--ink-2); stroke-width: 1.2; }
+.db-split-t { font-size: 11.5px; font-weight: 600; fill: var(--ink-2); font-family: var(--font); }
 .db-area { fill: rgba(11, 110, 105, .10); }
 .db-line { fill: none; stroke: var(--teal); stroke-width: 2; stroke-linejoin: round; }
 .db-songkran { fill: rgba(232, 130, 30, .10); }
