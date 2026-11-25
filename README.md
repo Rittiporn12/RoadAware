@@ -10,12 +10,12 @@
 <br />
 
 <a href="https://github.com/Rittiporn12/RoadAware">
-  <img src="https://img.shields.io/badge/GITHUB-%E0%B8%94%E0%B8%B9%E0%B9%82%E0%B8%84%E0%B9%89%E0%B8%94-334155?style=for-the-badge&labelColor=020617&color=475569" alt="GitHub" />
+  <img src="https://img.shields.io/badge/GITHUB-Repository-334155?style=for-the-badge&labelColor=020617&color=475569" alt="GitHub" />
 </a>
 
-<img src="https://img.shields.io/badge/%E0%B9%82%E0%B8%A1%E0%B9%80%E0%B8%94%E0%B8%A5-HistGradientBoosting-0b6e69?style=for-the-badge&labelColor=020617" alt="โมเดล" />
+<img src="https://img.shields.io/badge/MODEL-HistGradientBoosting-0b6e69?style=for-the-badge&labelColor=020617" alt="โมเดล" />
 
-<img src="https://img.shields.io/badge/%E0%B8%84%E0%B8%A3%E0%B8%AD%E0%B8%9A%E0%B8%84%E0%B8%A5%E0%B8%B8%E0%B8%A1-%E0%B8%97%E0%B8%B2%E0%B8%87%E0%B8%AB%E0%B8%A5%E0%B8%A7%E0%B8%87%E0%B8%97%E0%B8%B1%E0%B9%88%E0%B8%A7%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%A8-1e3a8a?style=for-the-badge&labelColor=020617" alt="พื้นที่ครอบคลุม" />
+<img src="https://img.shields.io/badge/COVERAGE-Thailand%20Highways-1e3a8a?style=for-the-badge&labelColor=020617" alt="พื้นที่ครอบคลุม" />
 
 <br />
 <br />
