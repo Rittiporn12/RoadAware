@@ -593,3 +593,31 @@ html[data-vt="swap"]::view-transition-new(root) { animation: vtZoom .5s var(--ea
 .landing .ld-sub, .landing .ld-note, .landing .ld-flow small, .landing .ld-legend small { color: rgba(232, 238, 247, .6); }
 .landing .ld-final, .landing .ld-final + .site-foot { background: #13243F; }
 .landing .ld-nav.is-solid { background: #13243F; }
+
+/* Landing: cards are bright "paper" on the night background (same idea as the hero map), so they never blend into the navy */
+.landing { --paper: #FFFFFF; --paper-2: #F4F6FA; --ink: #14223A; --ink-2: #4A586E; --ink-3: #7A8699; --paper-line: #E4E8EF; }
+.landing .ld-card, .landing .ld-legend, .landing .ld-flow li, .landing .ld-sec-alt .ld-legend {
+  background: var(--paper); border: 1px solid transparent; box-shadow: 0 1px 0 rgba(255, 255, 255, .6) inset, 0 18px 40px -18px rgba(0, 0, 0, .55);
+}
+.landing .ld-card:hover { border-color: transparent; transform: translateY(-4px); box-shadow: 0 26px 50px -18px rgba(0, 0, 0, .6); }
+.landing .ld-card h3, .landing .ld-legend h3, .landing .ld-legend b, .landing .ld-flow b, .landing .ld-tech-card dt { color: var(--ink); }
+.landing .ld-card p, .landing .ld-tech-card dd { color: var(--ink-2); }
+.landing .ld-legend small, .landing .ld-flow small { color: var(--ink-3); }
+.landing .ld-tech-card dl > div { border-top-color: var(--paper-line); }
+.landing .ld-icon { background: #FFF1E2; color: #C2650C; }
+.landing .ld-feat:hover .ld-icon { background: var(--amber); color: #fff; }
+.landing .ld-pin { border-color: #fff; }
+.landing .ld-line-key { box-shadow: none; }
+.landing .ld-flow li:hover { border-color: var(--amber); box-shadow: 0 22px 44px -18px rgba(0, 0, 0, .6); }
+.landing .ld-flow li:not(:last-child)::after { border-color: rgba(255, 255, 255, .55); }
+.landing .ld-src a { color: #1F5BD1; border-bottom-color: rgba(31, 91, 209, .28); }
+.landing .ld-src a:hover { color: #0F3E99; border-bottom-color: currentColor; }
+.landing .ld-step-n { background: var(--amber); color: #fff; box-shadow: none; }
+.landing .ld-steps li:not(:last-child)::after { background: rgba(255, 255, 255, .18); }
+.landing .ld-sample { background: var(--paper); border-color: transparent; color: var(--ink); box-shadow: 0 12px 28px -16px rgba(0, 0, 0, .6); }
+.landing .ld-sample:hover { background: #FFF7EE; border-color: var(--amber); }
+.landing .ld-sample b { color: var(--ink); }
+.landing .ld-sample span, .landing .ld-sample small { color: var(--ink-3); }
+.landing .ld-sample .ld-sample-r { color: var(--ink-2); }
+.landing .ld-sample i { color: var(--amber); }
+.landing .ld-hero .hm-voice { background: #fff; color: var(--ink); border-color: transparent; }
