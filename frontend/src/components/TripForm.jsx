@@ -33,15 +33,15 @@ export default function TripForm({ texts, places, results, pick, when, canRoute,
           onChoose={(p) => onChoose("dest", p)} onCloseResults={() => onCloseResults("dest")} />
       </div>
 
-      <div className="chip-row">
-        <button type="button" className="chip-btn chip-gps" onClick={onMyLocation} disabled={locating}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4" /><path d="M12 2v3M12 19v3M2 12h3M19 12h3" /></svg>
-          {locating ? "กำลังหาตำแหน่ง…" : "ใช้ตำแหน่งของฉันเป็นต้นทาง"}
+      <div className="quick-row" role="group" aria-label="เลือกจุดแบบเร็ว">
+        <button type="button" className="quick-btn" onClick={onMyLocation} disabled={locating}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4" /><path d="M12 2v3M12 19v3M2 12h3M19 12h3" /></svg>
+          <span>{locating ? "กำลังหา…" : "ตำแหน่งของฉัน"}</span>
         </button>
         {["origin", "dest"].map((w) => (
-          <button key={w} type="button" className={"chip-btn" + (pick === w ? " is-active" : "")} aria-pressed={pick === w} onClick={() => onPick(w)}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M12 21s-7-6.5-7-12a7 7 0 0 1 14 0c0 5.5-7 12-7 12z" /><circle cx="12" cy="9" r="2.5" /></svg>
-            {pick === w ? "แตะบนแผนที่…" : "เลือก " + (w === "origin" ? "A" : "B") + " บนแผนที่"}
+          <button key={w} type="button" className={"quick-btn" + (pick === w ? " is-active" : "")} aria-pressed={pick === w} onClick={() => onPick(w)}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M12 21s-7-6.5-7-12a7 7 0 0 1 14 0c0 5.5-7 12-7 12z" /><circle cx="12" cy="9" r="2.5" /></svg>
+            <span>{pick === w ? "แตะบนแผนที่…" : (w === "origin" ? "A" : "B") + " บนแผนที่"}</span>
           </button>
         ))}
       </div>
