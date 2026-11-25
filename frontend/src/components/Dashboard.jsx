@@ -5,7 +5,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { CONFIG, THAI_BOUNDS } from "../config.js";
+import { CONFIG, THAI_BOUNDS, MAX_BOUNDS } from "../config.js";
 
 const ENV = (import.meta.env) || {};
 const DATA_URL = (ENV.BASE_URL || "./") + "data/dashboard-v1.json";
@@ -270,12 +270,16 @@ function DensityMap({ cells, grid, unit }) {
   const mapRef = useRef(null);
   const layerRef = useRef(null);
   useEffect(() => {
-    const map = L.map(el.current, { zoomControl: true, attributionControl: true, preferCanvas: true, minZoom: 5, maxZoom: 11 });
-    L.tileLayer(CONFIG.tileUrl, { attribution: CONFIG.tileAttribution, subdomains: CONFIG.tileSubdomains, maxZoom: 19 }).addTo(map);
+    // Thailand only: the view cannot be dragged or zoomed out beyond the country (same limits as the app's map)
+    const map = L.map(el.current, { zoomControl: true, attributionControl: true, preferCanvas: true, maxZoom: 11, maxBounds: MAX_BOUNDS, maxBoundsViscosity: 1, zoomSnap: 0.25 });
+    L.tileLayer(CONFIG.tileUrl, { attribution: CONFIG.tileAttribution, subdomains: CONFIG.tileSubdomains, maxZoom: 19, bounds: MAX_BOUNDS }).addTo(map);
     map.fitBounds(THAI_BOUNDS);
+    map.setMinZoom(map.getZoom());
+    const ro = new ResizeObserver(() => { map.invalidateSize(); map.setMinZoom(map.getBoundsZoom(THAI_BOUNDS)); });
+    ro.observe(el.current);
     layerRef.current = L.layerGroup().addTo(map);
     mapRef.current = map;
-    return () => { map.remove(); mapRef.current = null; };
+    return () => { ro.disconnect(); map.remove(); mapRef.current = null; };
   }, []);
   useEffect(() => {
     const layer = layerRef.current;
@@ -358,7 +362,6 @@ export default function Dashboard() {
       <div className="db-head">
         <div>
           <h1>แดชบอร์ดอุบัติเหตุทางถนน</h1>
-          <p>ชุดเดียวกับที่โมเดลของ RoadAware ใช้: อุบัติเหตุจริงบนทางหลวงกรมทางหลวงที่จับคู่กับช่วงถนนได้ จาก<a href={meta.source} target="_blank" rel="noopener noreferrer">กระทรวงคมนาคม</a> · {fmt(meta.records)} รายการ · 1 ม.ค. {years[0]} – {lastDate.getUTCDate()} {MONTHS[lastDate.getUTCMonth()]} {lastDate.getUTCFullYear() + 543}</p>
         </div>
         <div className="db-metric" role="radiogroup" aria-label="ตัวชี้วัด">
           {METRICS.map((m) => (
@@ -471,11 +474,6 @@ export default function Dashboard() {
         </Card>
       </div>
 
-      <p className="db-foot">
-        1 รายการ = 1 อุบัติเหตุบนทางหลวงของกรมทางหลวงที่อยู่ห่างช่วงถนนของโมเดลไม่เกิน 50 ม. (ตัดรายการซ้ำ กำกวม และพิกัดใช้ไม่ได้ออก) —
-        ชุดเดียวกับที่ใช้ฝึก (2564–2566) ตรวจ (2567–2568) และทดสอบ (ม.ค.–ก.ย. 2569) · ถนนท้องถิ่น ทางหลวงชนบท และทางพิเศษไม่รวม ·
-        ตำแหน่งบนแผนที่รวมเป็นช่องละราว 5 กม. · หมวดที่พบน้อยรวมเป็น “อื่นๆ”
-      </p>
     </DashShell>
   );
 }
