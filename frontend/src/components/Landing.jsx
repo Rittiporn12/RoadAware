@@ -1,85 +1,176 @@
-// Home page shown before the app: what RoadAware is, how to use it, how well it works, who made it.
-// "เริ่มใช้งาน" opens the app at #/app (main.jsx switches pages on the hash). Works on phone, tablet and desktop.
+// Home page shown before the app ("night highway" theme): what RoadAware is, how to use it, what is behind it.
+// "เริ่มใช้งาน" plays a short exit transition, then opens the app at #/app (main.jsx switches pages on the hash).
+// Motion: drawn route + moving car in the hero, scroll reveals, count-ups, marquee, cursor spotlight.
+// Everything respects prefers-reduced-motion. Works on phone, tablet and desktop.
 import { useEffect, useRef, useState } from "react";
 import { CONFIG, LEVELS, ROUTE_HEX, UNKNOWN_HEX, discoverServer } from "../config.js";
 
-const goApp = () => { window.location.hash = "#/app"; };
+const reducedMotion = () => typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-function Logo({ size = 30 }) {
+function Logo({ size = 30, dark = true }) {
   return (
     <svg width={size} height={size} viewBox="0 0 26 26" aria-hidden="true">
-      <circle cx="13" cy="13" r="12" fill="#0F1B2D" />
+      <circle cx="13" cy="13" r="12" fill={dark ? "#0F1B2D" : "#FFFFFF"} />
       <path d="M7 18 C10 12, 13 15, 19 7" stroke="#E8821E" strokeWidth="2.6" fill="none" strokeLinecap="round" />
     </svg>
   );
 }
 
-// Is the demo server (the presenter's Mac) answering right now?
-function useServerStatus() {
-  const [status, setStatus] = useState("checking");
+// true only when the demo server (the presenter's Mac) answers; nothing is shown otherwise.
+function useServerOnline() {
+  const [online, setOnline] = useState(false);
   useEffect(() => {
     let alive = true;
     (async () => {
       const d = await discoverServer();
-      if (d.offline) { if (alive) setStatus("offline"); return; }
+      if (d.offline) return;
       try {
         const ctrl = new AbortController();
         const t = setTimeout(() => ctrl.abort(), 8000);
         const r = await fetch(CONFIG.apiBase + "/ready", { signal: ctrl.signal, cache: "no-store" });
         clearTimeout(t);
-        if (alive) setStatus(r.ok ? "online" : "offline");
-      } catch (_) { if (alive) setStatus("offline"); }
+        if (alive && r.ok) setOnline(true);
+      } catch (_) { /* stays hidden */ }
     })();
     return () => { alive = false; };
   }, []);
-  return status;
+  return online;
 }
 
-const STATUS_TEXT = {
-  checking: "กำลังตรวจสอบเซิร์ฟเวอร์…",
-  online: "เซิร์ฟเวอร์พร้อมใช้งาน",
-  offline: "เซิร์ฟเวอร์ปิดอยู่ — เปิดเฉพาะช่วงนำเสนอ",
-};
+// Adds .in to every .rv element inside root when it scrolls into view (once).
+function useReveal(rootRef) {
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return undefined;
+    const els = root.querySelectorAll(".rv");
+    if (reducedMotion() || !("IntersectionObserver" in window)) { els.forEach((e) => e.classList.add("in")); return undefined; }
+    const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+      if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+    }), { root, threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+    els.forEach((e) => io.observe(e));
+    return () => io.disconnect();
+  }, [rootRef]);
+}
 
-// Original illustration of the app: a route with numbered points and a spoken warning.
-function HeroPreview() {
+// Number that counts up when it first becomes visible.
+function CountUp({ to, rootRef, duration = 1600 }) {
+  const ref = useRef(null);
+  const [val, setVal] = useState(reducedMotion() ? to : 0);
+  useEffect(() => {
+    if (reducedMotion() || !ref.current) return undefined;
+    let raf = 0;
+    const io = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return;
+      io.disconnect();
+      const t0 = performance.now();
+      const step = (t) => {
+        const k = Math.min(1, (t - t0) / duration);
+        setVal(Math.round(to * (1 - Math.pow(1 - k, 3))));
+        if (k < 1) raf = requestAnimationFrame(step);
+      };
+      raf = requestAnimationFrame(step);
+    }, { root: rootRef.current, threshold: 0.4 });
+    io.observe(ref.current);
+    return () => { io.disconnect(); cancelAnimationFrame(raf); };
+  }, [to, duration, rootRef]);
+  return <span ref={ref}>{val.toLocaleString("en-US")}</span>;
+}
+
+const ROUTE_D = "M58 410 C130 396, 160 330, 236 312 S 352 268, 392 208 S 486 112, 548 64";
+const VOICE = ["ข้างหน้าอีก 2 กิโลเมตร มีจุดที่ควรระวัง", "ระวัง! อีก 500 เมตร ถึงจุดที่ 1", "เข้าสู่จุดที่ควรระวังแล้ว ตั้งใจขับนะ"];
+
+// Night-map illustration: the route draws itself, hot spots glow, a car drives along, the voice speaks.
+function HeroMap() {
+  const pathRef = useRef(null);
+  const [pts, setPts] = useState(null);
+  const [voice, setVoice] = useState(0);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const motion = !reducedMotion();
+  useEffect(() => {
+    const p = pathRef.current;
+    if (p && p.getTotalLength) {
+      const L = p.getTotalLength();
+      const at = (f) => { const q = p.getPointAtLength(L * f); return [q.x, q.y]; };
+      setPts({ red: at(0.42), orange: at(0.735) });
+    }
+    if (!motion) return undefined;
+    const t = setInterval(() => setVoice((v) => (v + 1) % VOICE.length), 3200);
+    return () => clearInterval(t);
+  }, [motion]);
+  const onMove = (e) => {
+    if (!motion || e.pointerType !== "mouse") return;
+    const r = e.currentTarget.getBoundingClientRect();
+    setTilt({ x: ((e.clientY - r.top) / r.height - 0.5) * -6, y: ((e.clientX - r.left) / r.width - 0.5) * 8 });
+  };
   return (
-    <div className="ld-preview" aria-hidden="true">
-      <div className="ld-map">
-        <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
-          <rect width="400" height="300" fill="#E9ECE6" />
-          <path d="M-10 70 C80 60, 120 110, 210 90 S 360 40, 420 60" stroke="#fff" strokeWidth="7" fill="none" />
-          <path d="M60 -10 C70 80, 40 160, 90 310" stroke="#fff" strokeWidth="5" fill="none" />
-          <path d="M300 -10 C280 90, 330 200, 310 310" stroke="#fff" strokeWidth="5" fill="none" />
-          <circle cx="330" cy="230" r="46" fill="#D7E5CF" />
-          <circle cx="120" cy="40" r="30" fill="#D7E5CF" />
-          <path d="M50 250 C110 230, 130 180, 190 170 S 290 120, 340 60" stroke="#fff" strokeWidth="12" fill="none" strokeLinecap="round" />
-          <path d="M50 250 C110 230, 130 180, 190 170 S 290 120, 340 60" stroke={ROUTE_HEX} strokeWidth="6" fill="none" strokeLinecap="round" />
-          <path d="M150 186 C165 178, 175 173, 190 170" stroke={LEVELS.red.hex} strokeWidth="7" fill="none" strokeLinecap="round" />
-          <path d="M282 112 C292 100, 300 92, 308 86" stroke={LEVELS.orange.hex} strokeWidth="7" fill="none" strokeLinecap="round" />
-          <g><circle cx="50" cy="250" r="11" fill="#0B6E69" stroke="#fff" strokeWidth="3" /><text x="50" y="254.5" textAnchor="middle" fontSize="12" fontWeight="700" fill="#fff">A</text></g>
-          <g><circle cx="340" cy="60" r="11" fill="#E8821E" stroke="#fff" strokeWidth="3" /><text x="340" y="64.5" textAnchor="middle" fontSize="12" fontWeight="700" fill="#fff">B</text></g>
-          <g><circle cx="170" cy="176" r="14" fill={LEVELS.red.hex} stroke="#fff" strokeWidth="3" /><text x="170" y="181" textAnchor="middle" fontSize="14" fontWeight="700" fill="#fff">1</text></g>
-          <g><circle cx="295" cy="98" r="14" fill={LEVELS.orange.hex} stroke="#fff" strokeWidth="3" /><text x="295" y="103" textAnchor="middle" fontSize="14" fontWeight="700" fill="#fff">2</text></g>
+    <div className="hm" aria-hidden="true" onPointerMove={onMove} onPointerLeave={() => setTilt({ x: 0, y: 0 })}>
+      <div className="hm-card" style={{ transform: `perspective(1200px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}>
+        <svg viewBox="0 0 600 470" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <radialGradient id="hmBg" cx="70%" cy="20%" r="90%"><stop offset="0" stopColor="#1B2D4A" /><stop offset="1" stopColor="#0A1424" /></radialGradient>
+            <filter id="hmGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6" /></filter>
+            <filter id="hmSoft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.2" /></filter>
+            <radialGradient id="hmCar"><stop offset="0" stopColor="#FFE2B0" /><stop offset=".35" stopColor="#F2A245" stopOpacity=".9" /><stop offset="1" stopColor="#E8821E" stopOpacity="0" /></radialGradient>
+          </defs>
+          <rect width="600" height="470" fill="url(#hmBg)" />
+          <g className="hm-grid" stroke="#22344F" strokeWidth="1">
+            {Array.from({ length: 13 }, (_, i) => <line key={"v" + i} x1={i * 50} y1="0" x2={i * 50} y2="470" />)}
+            {Array.from({ length: 10 }, (_, i) => <line key={"h" + i} x1="0" y1={i * 50} x2="600" y2={i * 50} />)}
+          </g>
+          <g stroke="#2B4366" strokeWidth="3" fill="none" strokeLinecap="round" opacity=".9">
+            <path d="M-10 120 C120 140, 220 90, 330 130 S 520 170, 620 130" />
+            <path d="M110 -10 C130 120, 80 260, 140 480" />
+            <path d="M-10 300 C90 260, 200 280, 300 250" />
+            <path d="M440 -10 C420 120, 470 280, 430 480" />
+            <path d="M300 480 C320 400, 400 360, 620 380" />
+          </g>
+          <path d={ROUTE_D} stroke={ROUTE_HEX} strokeWidth="16" fill="none" strokeLinecap="round" filter="url(#hmGlow)" opacity=".75" />
+          <path ref={pathRef} id="hmRoute" className="hm-route" d={ROUTE_D} pathLength="1" stroke="#9CC0EA" strokeWidth="5" fill="none" strokeLinecap="round" />
+          <path className="hm-hot hm-hot-r" d={ROUTE_D} pathLength="100" stroke={LEVELS.red.hex} strokeWidth="7" fill="none" strokeLinecap="round" strokeDasharray="12 200" strokeDashoffset="-36" />
+          <path className="hm-hot hm-hot-r" d={ROUTE_D} pathLength="100" stroke={LEVELS.red.hex} strokeWidth="16" fill="none" strokeLinecap="round" strokeDasharray="12 200" strokeDashoffset="-36" filter="url(#hmGlow)" />
+          <path className="hm-hot hm-hot-o" d={ROUTE_D} pathLength="100" stroke={LEVELS.orange.hex} strokeWidth="7" fill="none" strokeLinecap="round" strokeDasharray="7 200" strokeDashoffset="-70" />
+          <path className="hm-hot hm-hot-o" d={ROUTE_D} pathLength="100" stroke={LEVELS.orange.hex} strokeWidth="16" fill="none" strokeLinecap="round" strokeDasharray="7 200" strokeDashoffset="-70" filter="url(#hmGlow)" />
+          {motion && (
+            <g className="hm-car">
+              <circle r="22" fill="url(#hmCar)"><animateMotion dur="9s" begin="1.6s" repeatCount="indefinite" rotate="auto"><mpath href="#hmRoute" /></animateMotion></circle>
+              <circle r="5.5" fill="#FFF4E0"><animateMotion dur="9s" begin="1.6s" repeatCount="indefinite"><mpath href="#hmRoute" /></animateMotion></circle>
+            </g>
+          )}
+          <g className="hm-pin hm-pin-a"><circle cx="58" cy="410" r="13" fill="#0B6E69" stroke="#fff" strokeWidth="3" /><text x="58" y="415" textAnchor="middle">A</text></g>
+          <g className="hm-pin hm-pin-b"><circle cx="548" cy="64" r="13" fill="#E8821E" stroke="#fff" strokeWidth="3" /><text x="548" y="69" textAnchor="middle">B</text></g>
+          {pts && (
+            <>
+              <g className="hm-mark hm-mark-1" transform={`translate(${pts.red[0]} ${pts.red[1]})`}>
+                <circle className="hm-ring" r="16" fill="none" stroke={LEVELS.red.hex} strokeWidth="3" />
+                <circle r="16" fill={LEVELS.red.hex} stroke="#fff" strokeWidth="3" /><text y="5.5" textAnchor="middle">1</text>
+              </g>
+              <g className="hm-mark hm-mark-2" transform={`translate(${pts.orange[0]} ${pts.orange[1]})`}>
+                <circle className="hm-ring" r="16" fill="none" stroke={LEVELS.orange.hex} strokeWidth="3" />
+                <circle r="16" fill={LEVELS.orange.hex} stroke="#fff" strokeWidth="3" /><text y="5.5" textAnchor="middle">2</text>
+              </g>
+            </>
+          )}
         </svg>
+        <div className="hm-scan" />
       </div>
-      <div className="ld-float ld-float-brief">
-        <span className="ld-float-n">2</span>
-        <span><b>จุดที่ควรระวัง</b><small>สูงมาก 1 จุด · สูง 1 จุด</small></span>
+      <div className="hm-float hm-brief">
+        <span className="hm-brief-n">2</span>
+        <span><b>จุดที่ควรระวัง</b><small><i style={{ background: LEVELS.red.hex }} />สูงมาก 1 · <i style={{ background: LEVELS.orange.hex }} />สูง 1</small></span>
       </div>
-      <div className="ld-float ld-float-voice">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M11 5 6 9H3v6h3l5 4z" /><path d="M15.5 8.5a5 5 0 0 1 0 7" /><path d="M18.5 5.5a9 9 0 0 1 0 13" /></svg>
-        <span>“ระวัง! อีก 500 เมตร ถึงจุดที่ 1”</span>
+      <div className="hm-float hm-voice">
+        <span className="hm-wave"><i /><i /><i /><i /></span>
+        <span key={voice} className="hm-voice-t">“{VOICE[voice]}”</span>
       </div>
     </div>
   );
 }
 
 const Icon = {
-  route: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="6" cy="19" r="2.5" /><circle cx="18" cy="5" r="2.5" /><path d="M8.5 19H16a3.5 3.5 0 0 0 0-7H8a3.5 3.5 0 0 1 0-7h7.5" /></svg>,
-  drive: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 11 12 3l9 8" /><path d="M12 3v18" /><path d="M7 21h10" /></svg>,
-  review: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7" /><path d="M3 4v5h5" /><path d="M12 7v5l3 2" /></svg>,
+  route: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="6" cy="19" r="2.5" /><circle cx="18" cy="5" r="2.5" /><path d="M8.5 19H16a3.5 3.5 0 0 0 0-7H8a3.5 3.5 0 0 1 0-7h7.5" /></svg>,
+  drive: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 5 6 9H3v6h3l5 4z" /><path d="M15.5 8.5a5 5 0 0 1 0 7" /><path d="M18.5 5.5a9 9 0 0 1 0 13" /></svg>,
+  review: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7" /><path d="M3 4v5h5" /><path d="M12 7v5l3 2" /></svg>,
   arrow: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>,
+  down: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9l6 6 6-6" /></svg>,
 };
 
 const FEATURES = [
@@ -93,6 +184,12 @@ const STEPS = [
   { title: "เลือกวันและเวลาออกเดินทาง", text: "ความเสี่ยงเปลี่ยนตามวัน ช่วงเวลา และเทศกาล ระบบคิดให้ตามเวลาที่คุณจะผ่านแต่ละช่วงจริง" },
   { title: "ดูจุดที่ควรระวัง", text: "หมุดหมายเลขบนแผนที่คือจุดเด่นที่สุดของทริป แตะเพื่อดูรายละเอียดและเหตุที่เคยเกิด" },
   { title: "เริ่มขับ", text: "กด “เริ่มขับ” เพื่อเปิดเสียงเตือนล่วงหน้า (มือถือต้องอนุญาตตำแหน่ง)" },
+];
+
+const COVER = [
+  { to: 26740, unit: "ช่วง", text: "ช่วงทางหลวงที่ประเมิน" },
+  { to: 51900, unit: "กม.", text: "ความยาวทางหลวงรวม" },
+  { to: 98207, unit: "รายการ", text: "อุบัติเหตุที่จับคู่กับถนน (2564–2568)" },
 ];
 
 const FLOW = [
@@ -147,6 +244,8 @@ const TECH = [
   },
 ];
 
+const STACK = ["Python", "pandas", "scikit-learn", "HistGradientBoosting", "Jupyter", "FastAPI", "React", "Vite", "Leaflet", "OpenStreetMap", "OSRM", "Photon", "Open-Meteo", "GitHub Pages", "Cloudflare Tunnel"];
+
 const TEAM = [
   ["66088346", "นายฤทธิพร ผึ่งผาย"],
   ["66088226", "นายกันณพิช เบ้าศรี"],
@@ -155,50 +254,91 @@ const TEAM = [
 ];
 
 export default function Landing() {
-  const status = useServerStatus();
+  const online = useServerOnline();
   const rootRef = useRef(null);
-  const scrollTo = (id) => { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); };
+  const [scrolled, setScrolled] = useState(false);
+  const [leaving, setLeaving] = useState(false);
+  useReveal(rootRef);
   useEffect(() => { document.title = "RoadAware — รู้ก่อนออกเดินทาง ว่าช่วงไหนควรระวัง"; }, []);
 
+  const goApp = () => {
+    if (leaving) return;
+    if (reducedMotion()) { window.location.hash = "#/app"; return; }
+    setLeaving(true);
+    setTimeout(() => { window.location.hash = "#/app"; }, 650);
+  };
+  const scrollTo = (id) => { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: reducedMotion() ? "auto" : "smooth", block: "start" }); };
+  const onScroll = (e) => { const s = e.currentTarget.scrollTop > 30; if (s !== scrolled) setScrolled(s); };
+  const spot = (e) => {
+    if (e.pointerType !== "mouse") return;
+    const r = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty("--mx", ((e.clientX - r.left) / r.width) * 100 + "%");
+    e.currentTarget.style.setProperty("--my", ((e.clientY - r.top) / r.height) * 100 + "%");
+  };
+
   return (
-    <div className="landing" ref={rootRef}>
-      <header className="ld-nav">
+    <div className={"landing" + (leaving ? " is-leaving" : "")} ref={rootRef} onScroll={onScroll}>
+      <header className={"ld-nav" + (scrolled ? " is-scrolled" : "")}>
         <div className="ld-wrap ld-nav-in">
           <a className="ld-brand" href="#/" onClick={(e) => { e.preventDefault(); rootRef.current && rootRef.current.scrollTo({ top: 0, behavior: "smooth" }); }}>
-            <Logo /> <span>RoadAware</span>
+            <Logo dark={scrolled} /> <span>RoadAware</span>
           </a>
           <nav className="ld-links" aria-label="เมนู">
             <button type="button" onClick={() => scrollTo("ld-features")}>ความสามารถ</button>
             <button type="button" onClick={() => scrollTo("ld-how")}>วิธีใช้</button>
             <button type="button" onClick={() => scrollTo("ld-tech")}>เบื้องหลัง</button>
           </nav>
-          <button type="button" className="btn btn-primary btn-sm ld-nav-cta" onClick={goApp}>เริ่มใช้งาน</button>
+          <button type="button" className="ld-btn ld-btn-sm" onClick={goApp}>เริ่มใช้งาน</button>
         </div>
       </header>
 
       <main>
-        <section className="ld-hero">
+        <section className="ld-hero" onPointerMove={spot}>
+          <div className="ld-hero-bg" aria-hidden="true"><i className="b1" /><i className="b2" /><i className="b3" /><i className="ld-stars" /></div>
           <div className="ld-wrap ld-hero-in">
             <div className="ld-hero-text">
-              <span className={"ld-status ld-status-" + status} role="status"><i aria-hidden="true" />{STATUS_TEXT[status]}</span>
-              <h1>รู้ก่อนออกเดินทาง<br />ว่าช่วงไหน<span className="ld-hl">ควรระวัง</span></h1>
-              <p className="ld-lead">RoadAware คาดการณ์ความเสี่ยงอุบัติเหตุบนทางหลวงทั่วประเทศไทย ตามเส้นทางและเวลาที่คุณจะขับผ่าน แล้วชี้จุดที่ควรระวังให้ตั้งแต่ก่อนออกจากบ้าน</p>
-              <div className="ld-cta">
-                <button type="button" className="btn btn-primary btn-lg" onClick={goApp}>เริ่มใช้งาน {Icon.arrow}</button>
-                <button type="button" className="btn btn-ghost btn-lg" onClick={() => scrollTo("ld-how")}>ดูวิธีใช้</button>
+              {online && <span className="ld-online ld-in" style={{ "--d": "0ms" }} role="status"><i aria-hidden="true" />เซิร์ฟเวอร์พร้อมใช้งาน</span>}
+              <h1>
+                <span className="ld-line ld-in" style={{ "--d": "80ms" }}>รู้ก่อนออกเดินทาง</span>
+                <span className="ld-line ld-in" style={{ "--d": "220ms" }}>ว่าช่วงไหน<span className="ld-grad">ควรระวัง</span></span>
+              </h1>
+              <p className="ld-lead ld-in" style={{ "--d": "380ms" }}>RoadAware คาดการณ์ความเสี่ยงอุบัติเหตุบนทางหลวงทั่วประเทศไทย ตามเส้นทางและเวลาที่คุณจะขับผ่าน แล้วชี้จุดที่ควรระวังให้ตั้งแต่ก่อนออกจากบ้าน</p>
+              <div className="ld-cta ld-in" style={{ "--d": "520ms" }}>
+                <button type="button" className="ld-btn ld-btn-lg" onClick={goApp}><span>เริ่มใช้งาน</span>{Icon.arrow}</button>
+                <button type="button" className="ld-btn-ghost ld-btn-lg" onClick={() => scrollTo("ld-how")}>ดูวิธีใช้</button>
               </div>
-              <p className="ld-small">ใช้ผ่านเว็บเบราว์เซอร์ได้ทันที บนคอมพิวเตอร์ แท็บเล็ต และมือถือ · ไม่ต้องสมัครสมาชิก</p>
+              <p className="ld-small ld-in" style={{ "--d": "640ms" }}>ใช้ผ่านเว็บเบราว์เซอร์ได้ทันที บนคอมพิวเตอร์ แท็บเล็ต และมือถือ · ไม่ต้องสมัครสมาชิก</p>
             </div>
-            <HeroPreview />
+            <div className="ld-in ld-in-r" style={{ "--d": "300ms" }}><HeroMap /></div>
           </div>
+          <div className="ld-wrap">
+            <div className="ld-cover rv">
+              {COVER.map((c) => (
+                <div key={c.text}><b><CountUp to={c.to} rootRef={rootRef} /><small>{c.unit}</small></b><span>{c.text}</span></div>
+              ))}
+            </div>
+          </div>
+          <button type="button" className="ld-scroll" onClick={() => scrollTo("ld-features")} aria-label="เลื่อนลง">{Icon.down}</button>
         </section>
+
+        <div className="ld-marquee" aria-label="เทคโนโลยีที่ใช้">
+          <div className="ld-marquee-mask">
+            <div className="ld-marquee-in">
+              {[0, 1].map((k) => (
+                <span key={k} aria-hidden={k === 1}>{STACK.map((s) => <em key={s}>{s}</em>)}</span>
+              ))}
+            </div>
+          </div>
+        </div>
 
         <section className="ld-sec" id="ld-features">
           <div className="ld-wrap">
-            <h2 className="ld-h2">ทำอะไรได้บ้าง</h2>
+            <p className="ld-eyebrow rv">ความสามารถ</p>
+            <h2 className="ld-h2 rv">ทำอะไรได้บ้าง</h2>
             <div className="ld-grid3">
-              {FEATURES.map((f) => (
-                <article key={f.title} className="ld-card">
+              {FEATURES.map((f, i) => (
+                <article key={f.title} className="ld-card ld-feat rv" style={{ "--d": i * 120 + "ms" }}>
+                  <span className="ld-feat-n">0{i + 1}</span>
                   <span className="ld-icon">{f.icon}</span>
                   <h3>{f.title}</h3>
                   <p>{f.text}</p>
@@ -211,20 +351,21 @@ export default function Landing() {
         <section className="ld-sec ld-sec-alt" id="ld-how">
           <div className="ld-wrap ld-how">
             <div>
-              <h2 className="ld-h2">ใช้งานง่ายใน 4 ขั้นตอน</h2>
+              <p className="ld-eyebrow rv">วิธีใช้</p>
+              <h2 className="ld-h2 rv">ใช้งานง่ายใน 4 ขั้นตอน</h2>
               <ol className="ld-steps">
                 {STEPS.map((s, i) => (
-                  <li key={s.title}><span className="ld-step-n">{i + 1}</span><div><h3>{s.title}</h3><p>{s.text}</p></div></li>
+                  <li key={s.title} className="rv" style={{ "--d": i * 120 + "ms" }}><span className="ld-step-n">{i + 1}</span><div><h3>{s.title}</h3><p>{s.text}</p></div></li>
                 ))}
               </ol>
             </div>
-            <aside className="ld-legend" aria-label="ความหมายของสีบนแผนที่">
+            <aside className="ld-legend rv" style={{ "--d": "200ms" }} aria-label="ความหมายของสีบนแผนที่">
               <h3>อ่านแผนที่</h3>
               <ul>
-                <li><span className="ld-pin" style={{ background: LEVELS.red.hex }}>1</span><div><b>จุดสีแดง — สูงมาก</b><small>อยู่ใน 5% บนสุดของถนนทั้งประเทศ</small></div></li>
-                <li><span className="ld-pin" style={{ background: LEVELS.orange.hex }}>2</span><div><b>จุดสีส้ม — สูง</b><small>อยู่ในช่วง 5–20% บนสุด</small></div></li>
-                <li><span className="ld-line" style={{ background: ROUTE_HEX }} /><div><b>เส้นน้ำเงิน</b><small>ทางหลวงที่ประเมินแล้ว</small></div></li>
-                <li><span className="ld-line" style={{ background: UNKNOWN_HEX }} /><div><b>เส้นเทา</b><small>ถนนท้องถิ่น / ในเมืองที่ยังไม่มีข้อมูล (ไม่ได้แปลว่าปลอดภัย)</small></div></li>
+                <li><span className="ld-pin ld-pin-pulse" style={{ background: LEVELS.red.hex, "--c": LEVELS.red.hex }}>1</span><div><b>จุดสีแดง — สูงมาก</b><small>อยู่ใน 5% บนสุดของถนนทั้งประเทศ</small></div></li>
+                <li><span className="ld-pin ld-pin-pulse" style={{ background: LEVELS.orange.hex, "--c": LEVELS.orange.hex }}>2</span><div><b>จุดสีส้ม — สูง</b><small>อยู่ในช่วง 5–20% บนสุด</small></div></li>
+                <li><span className="ld-line-key" style={{ background: ROUTE_HEX }} /><div><b>เส้นน้ำเงิน</b><small>ทางหลวงที่ประเมินแล้ว</small></div></li>
+                <li><span className="ld-line-key" style={{ background: UNKNOWN_HEX }} /><div><b>เส้นเทา</b><small>ถนนท้องถิ่น / ในเมืองที่ยังไม่มีข้อมูล (ไม่ได้แปลว่าปลอดภัย)</small></div></li>
               </ul>
             </aside>
           </div>
@@ -232,16 +373,17 @@ export default function Landing() {
 
         <section className="ld-sec" id="ld-tech">
           <div className="ld-wrap">
-            <h2 className="ld-h2">เบื้องหลัง RoadAware</h2>
-            <p className="ld-sub">ข้อมูล วิธีคัดเลือกข้อมูล โมเดล และเครื่องมือทั้งหมดที่ใช้ในงานนี้</p>
+            <p className="ld-eyebrow rv">เบื้องหลัง</p>
+            <h2 className="ld-h2 rv">เบื้องหลัง RoadAware</h2>
+            <p className="ld-sub rv">ข้อมูล วิธีคัดเลือกข้อมูล โมเดล และเครื่องมือทั้งหมดที่ใช้ในงานนี้</p>
             <ol className="ld-flow" aria-label="ขั้นตอนการทำงานของระบบ">
               {FLOW.map((f, i) => (
-                <li key={f.title}><span className="ld-flow-n">{i + 1}</span><div><b>{f.title}</b><small>{f.text}</small></div></li>
+                <li key={f.title} className="rv" style={{ "--d": i * 100 + "ms" }}><span className="ld-flow-n">{i + 1}</span><div><b>{f.title}</b><small>{f.text}</small></div></li>
               ))}
             </ol>
             <div className="ld-tech">
-              {TECH.map((g) => (
-                <article key={g.title} className="ld-card ld-tech-card">
+              {TECH.map((g, i) => (
+                <article key={g.title} className="ld-card ld-tech-card rv" style={{ "--d": (i % 2) * 120 + "ms" }}>
                   <h3>{g.title}</h3>
                   <dl>
                     {g.items.map(([k, v]) => (
@@ -251,24 +393,25 @@ export default function Landing() {
                 </article>
               ))}
             </div>
-            <p className="ld-note">ผลเป็นการคาดการณ์จากสถิติ ใช้ประกอบการวางแผนก่อนเดินทาง ไม่ได้รับประกันความปลอดภัย และไม่ใช่ระบบเตือนภัยแบบเรียลไทม์</p>
+            <p className="ld-note rv">ผลเป็นการคาดการณ์จากสถิติ ใช้ประกอบการวางแผนก่อนเดินทาง ไม่ได้รับประกันความปลอดภัย และไม่ใช่ระบบเตือนภัยแบบเรียลไทม์</p>
           </div>
         </section>
 
-        <section className="ld-final">
+        <section className="ld-final" onPointerMove={spot}>
+          <div className="ld-final-bg" aria-hidden="true"><i className="b1" /><i className="b2" /></div>
           <div className="ld-wrap ld-final-in">
-            <h2>พร้อมวางแผนทริปถัดไปแล้วหรือยัง</h2>
-            <p>ใช้เวลาไม่ถึงนาที รู้ก่อนว่าช่วงไหนของเส้นทางควรขับอย่างระมัดระวัง</p>
-            <button type="button" className="btn btn-lg ld-final-btn" onClick={goApp}>เริ่มใช้งาน RoadAware {Icon.arrow}</button>
+            <h2 className="rv">พร้อมวางแผนทริปถัดไปแล้วหรือยัง</h2>
+            <p className="rv" style={{ "--d": "100ms" }}>ใช้เวลาไม่ถึงนาที รู้ก่อนว่าช่วงไหนของเส้นทางควรขับอย่างระมัดระวัง</p>
+            <div className="rv" style={{ "--d": "200ms" }}>
+              <button type="button" className="ld-btn ld-btn-lg ld-btn-glow" onClick={goApp}><span>เริ่มใช้งาน RoadAware</span>{Icon.arrow}</button>
+            </div>
           </div>
         </section>
       </main>
 
       <footer className="ld-foot">
         <div className="ld-wrap ld-foot-in">
-          <div className="ld-foot-brand">
-            <div className="ld-brand"><Logo size={26} /> <span>RoadAware</span></div>
-          </div>
+          <div className="ld-brand"><Logo size={26} /> <span>RoadAware</span></div>
           <div>
             <h3>ผู้พัฒนา</h3>
             <ul className="ld-team">
@@ -277,6 +420,8 @@ export default function Landing() {
           </div>
         </div>
       </footer>
+
+      <div className="ld-exit" aria-hidden="true"><Logo size={64} dark={false} /></div>
     </div>
   );
 }
