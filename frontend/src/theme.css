@@ -577,3 +577,19 @@ html[data-vt="swap"]::view-transition-new(root) { animation: vtZoom .5s var(--ea
 .landing .ld-src a:hover { color: #C4DDFF; }
 .landing .ld-final { background: #0B1422; }
 .landing .ld-final + .site-foot { background: #0B1422; }
+
+/* ================= home page: a lighter night (less heavy, still one family) ================= */
+.landing { --l-0: #172A47; --l-1: #1D3253; --l-2: #243B60; --l-3: #2B456E; background: var(--l-0); }
+.landing .ld-hero { background: linear-gradient(180deg, #13243F 0%, var(--l-0) 100%); }
+.landing .ld-lane { background: #22385A; }
+.landing main > .ld-sec { background: var(--l-0); }
+.landing main > .ld-sec-alt { background: var(--l-1); border-color: rgba(255, 255, 255, .06); }
+.landing .ld-card, .landing .ld-legend, .landing .ld-flow li { background: var(--l-2); border-color: rgba(255, 255, 255, .1); }
+.landing .ld-sec-alt .ld-legend { background: var(--l-2); }
+.landing .ld-line-key { box-shadow: 0 0 0 1.5px rgba(255, 255, 255, .55); }
+.landing .ld-sample { background: rgba(255, 255, 255, .06); border-color: rgba(255, 255, 255, .18); }
+.landing .ld-step-n { background: var(--l-3); }
+.landing .ld-card p, .landing .ld-steps p, .landing .ld-tech-card dd { color: rgba(232, 238, 247, .8); }
+.landing .ld-sub, .landing .ld-note, .landing .ld-flow small, .landing .ld-legend small { color: rgba(232, 238, 247, .6); }
+.landing .ld-final, .landing .ld-final + .site-foot { background: #13243F; }
+.landing .ld-nav.is-solid { background: #13243F; }
