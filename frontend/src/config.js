@@ -1,20 +1,40 @@
 // Runtime configuration. External services are public demos for this local prototype only (no SLA).
 
+// Server address. Order: ?api= in the link (remembered in this browser) → remembered value → build-time default → local.
+// Demo hosting: the site on GitHub Pages talks to the API on the presenter's Mac through a temporary https tunnel,
+// e.g. https://rittiporn12.github.io/RoadAware/?api=https://xxxx.trycloudflare.com  ("Start Demo Server.command" prints this link).
+function cleanUrl(v) {
+  try {
+    const url = new URL(v);
+    if (url.protocol === "https:" || url.protocol === "http:") return url.origin + url.pathname.replace(/\/+$/, "");
+  } catch (_) { /* invalid */ }
+  return null;
+}
+function resolveUrl(param, storeKey, fallback) {
+  let fromLink = null, stored = null;
+  try { fromLink = cleanUrl(new URLSearchParams(window.location.search).get(param) || ""); } catch (_) { /* ignore */ }
+  try {
+    if (fromLink) window.localStorage.setItem(storeKey, fromLink);
+    else stored = cleanUrl(window.localStorage.getItem(storeKey) || "");
+  } catch (_) { /* storage blocked: link value still used */ }
+  return fromLink || stored || fallback;
+}
+const ENV = (import.meta.env) || {};
+const onLocalhost = typeof window !== "undefined" && /^(127\.0\.0\.1|localhost|192\.168\.|10\.)/.test(window.location.hostname);
 function resolveApiBase() {
-  const param = new URLSearchParams(window.location.search).get("api");
-  if (param) {
-    try {
-      const url = new URL(param);
-      if (url.protocol === "http:" || url.protocol === "https:") return url.origin + url.pathname.replace(/\/+$/, "");
-    } catch (_) { /* default */ }
-  }
-  return (import.meta.env && import.meta.env.VITE_API_BASE) || "http://127.0.0.1:8000";
+  // on the developer's own machine the local API always wins (a remembered tunnel would be stale)
+  if (onLocalhost && !new URLSearchParams(window.location.search).get("api")) return ENV.VITE_API_BASE || "http://127.0.0.1:8000";
+  return resolveUrl("api", "roadaware.api", ENV.VITE_API_BASE || "http://127.0.0.1:8000");
+}
+function resolveTtsUrl() {
+  if (onLocalhost && !new URLSearchParams(window.location.search).get("tts")) return ENV.VITE_TTS_URL || "http://127.0.0.1:8010";
+  return resolveUrl("tts", "roadaware.tts", ENV.VITE_TTS_URL || "http://127.0.0.1:8010");
 }
 
 export const CONFIG = {
   apiBase: resolveApiBase(),
   photonUrl: "https://photon.komoot.io/api/",
-  ttsUrl: (import.meta.env && import.meta.env.VITE_TTS_URL) || "http://127.0.0.1:8010", // local Gemini voice proxy (backend/scripts/tts_proxy.py); optional
+  ttsUrl: resolveTtsUrl(), // local Gemini voice proxy (backend/scripts/tts_proxy.py); optional
   osrmUrl: "https://router.project-osrm.org/route/v1/driving/",
   // Real basemap: OpenStreetMap standard tiles (Thai place and road names, no API key).
   // Follow https://operations.osmfoundation.org/policies/tiles/ — fine for this local prototype; use your own
@@ -22,7 +42,7 @@ export const CONFIG = {
   tileUrl: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
   tileSubdomains: "abc",
   tileAttribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  boundaryUrl: "/assets/thailand-boundary.geojson",
+  boundaryUrl: (ENV.BASE_URL || "/") + "assets/thailand-boundary.geojson", // works under /RoadAware/ on GitHub Pages
   apiTimeoutMs: 30000,
   externalTimeoutMs: 15000,
   geocodeMinIntervalMs: 1100,

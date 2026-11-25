@@ -72,6 +72,7 @@ MODEL = os.environ.get('ROADAWARE_TTS_MODEL', 'gemini-3.8-flash-tts')
 VOICE = os.environ.get('ROADAWARE_TTS_VOICE', 'Puck')
 STYLE = 'lively, alert and friendly, like an upbeat Thai radio traffic announcer; clear and quick, never sleepy'
 ORIGINS = {'http://127.0.0.1:5173', 'http://localhost:5173', 'http://127.0.0.1:3000', 'http://localhost:3000'}
+ORIGINS |= {o.strip().rstrip('/') for o in os.environ.get('ROADAWARE_CORS_EXTRA', '').split(',') if o.strip().startswith('https://') and '*' not in o}
 MAX_CHARS = 400
 LOCK = threading.Lock()
 # Free tier allows only a few requests per minute (3 RPM for the TTS model at the time of writing). Requests are

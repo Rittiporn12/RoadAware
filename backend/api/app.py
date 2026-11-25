@@ -6,6 +6,7 @@ this module only does HTTP: lifespan, readiness, bounded strict JSON bodies, COR
 """
 import json
 import logging
+import os
 import math
 from contextlib import asynccontextmanager
 
@@ -23,6 +24,10 @@ API_VERSION = 'roadaware-api-v3.0'
 # transport constants (needed before the config is verified); mirrored in backend/config/backend_api_v3.json "transport"/"limits"
 MAX_BODY_BYTES = 65536
 CORS_ORIGINS = ('http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:3000', 'http://127.0.0.1:3000')
+# Demo hosting: extra exact https origins (e.g. the GitHub Pages site) from ROADAWARE_CORS_EXTRA="https://a,https://b".
+# Exact origins only — no wildcard, no credentials, never http (except the localhost defaults above).
+CORS_ORIGINS = CORS_ORIGINS + tuple(o.strip().rstrip('/') for o in os.environ.get('ROADAWARE_CORS_EXTRA', '').split(',')
+                                    if o.strip().startswith('https://') and '*' not in o)
 GENERIC = {'unavailable': 'a required accepted artifact is unavailable or failed verification; details are in the local server log only',
            'internal': 'internal error; the request was not answered (no partial or zero result)'}
 

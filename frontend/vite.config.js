@@ -10,6 +10,8 @@ export default defineConfig(async ({ mode }) => {
   if (mode !== "phone") {
     return {
       plugins: [react()],
+      // GitHub Pages serves the site under /RoadAware/ (set by the Pages workflow); local dev stays at /
+      base: process.env.ROADAWARE_BASE || "/",
       server: { host: "127.0.0.1", port: 5173, strictPort: true },
       preview: { host: "127.0.0.1", port: 5173, strictPort: true },
     };
