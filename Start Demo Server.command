@@ -51,21 +51,31 @@ if ! lsof -ti tcp:8010 -sTCP:LISTEN >/dev/null 2>&1; then
   for i in $(seq 1 10); do curl -fs http://127.0.0.1:8010/health >/dev/null 2>&1 && break; sleep 1; done
 fi
 
-start_tunnel() { "$CF" tunnel --no-autoupdate --url "http://127.0.0.1:$1" >"$2" 2>&1 & PIDS+=($!); }
-url_from() { # $1 log → waits for the https address in the tunnel log
-  for i in $(seq 1 40); do
-    U="$(grep -Eo 'https://[a-z0-9-]+\.trycloudflare\.com' "$1" | head -1)"
-    [ -n "$U" ] && { echo "$U"; return 0; }
+# one gateway on 8020 serves the API and /voice/, so a single tunnel is enough
+for p in $(lsof -ti tcp:8020 -sTCP:LISTEN 2>/dev/null); do ps -o command= -p "$p" | grep -q demo_gateway.py && kill "$p"; done; sleep 1
+.venv/bin/python backend/scripts/demo_gateway.py >"$LOGDIR/gateway.log" 2>&1 &
+PIDS+=($!); sleep 1
+
+echo "== Opening the tunnel…"
+API_URL=""
+for attempt in 1 2 3 4 5 6; do
+  : >"$LOGDIR/tunnel.log"
+  "$CF" tunnel --no-autoupdate --url "http://127.0.0.1:8020" >"$LOGDIR/tunnel.log" 2>&1 &
+  TPID=$!
+  for i in $(seq 1 30); do
+    API_URL="$(grep -Eo 'https://[a-z0-9-]+\.trycloudflare\.com' "$LOGDIR/tunnel.log" | head -1)"
+    [ -n "$API_URL" ] && break
+    kill -0 $TPID 2>/dev/null || break
     sleep 1
   done
-  return 1
-}
-echo "== Opening the tunnels…"
-: >"$LOGDIR/tunnel-api.log"; : >"$LOGDIR/tunnel-voice.log"
-start_tunnel 8000 "$LOGDIR/tunnel-api.log"
-VOICE=0; curl -fs http://127.0.0.1:8010/health >/dev/null 2>&1 && { VOICE=1; start_tunnel 8010 "$LOGDIR/tunnel-voice.log"; }
-API_URL="$(url_from "$LOGDIR/tunnel-api.log")" || { echo "DEMO_FAILED: tunnel did not start — see $LOGDIR/tunnel-api.log"; tail -20 "$LOGDIR/tunnel-api.log"; read -r; exit 1; }
-TTS_URL=""; [ $VOICE = 1 ] && TTS_URL="$(url_from "$LOGDIR/tunnel-voice.log")"
+  if [ -n "$API_URL" ]; then PIDS+=($TPID); break; fi
+  kill $TPID 2>/dev/null
+  WAIT=$((attempt * 15))
+  echo "   Cloudflare is busy ($(grep -Eo 'status [0-9]+' "$LOGDIR/tunnel.log" | head -1)); trying again in ${WAIT}s (attempt $attempt/6)…"
+  sleep $WAIT
+done
+[ -n "$API_URL" ] || { echo "DEMO_FAILED: Cloudflare did not give a tunnel — wait a few minutes and start again"; tail -5 "$LOGDIR/tunnel.log"; read -r; exit 1; }
+TTS_URL=""; curl -fs http://127.0.0.1:8010/health >/dev/null 2>&1 && TTS_URL="$API_URL/voice"
 LINK="$SITE?api=$API_URL"; [ -n "$TTS_URL" ] && LINK="$LINK&tts=$TTS_URL"
 
 # wait until the public address answers (DNS of a new tunnel can take a few seconds)
