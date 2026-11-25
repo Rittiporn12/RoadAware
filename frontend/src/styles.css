@@ -499,3 +499,4 @@ details.more[open] > summary::after { transform: translateY(-30%) rotate(-135deg
 .tip-card.tip-route-info { background: var(--surface); border-color: var(--line); }
 .tip-route-info .tip-icon { background: var(--paper); color: var(--ink-2); }
 .tip-route-info .tip-title { font-size: 14.5px; }
+.about-grid > div p + p { margin-top: 6px; }
