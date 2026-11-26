@@ -38,7 +38,8 @@ function defaultWhen() {
   if (date > DATE_MAX) date = DATE_MAX;
   return { date, time: pad2(now.hour) + ":" + pad2(Math.floor(now.minute / 5) * 5) };
 }
-const whenValid = (w) => /^\d{4}-\d{2}-\d{2}$/.test(w.date) && w.date >= DATE_MIN && w.date <= DATE_MAX && /^\d{2}:\d{2}$/.test(w.time);
+// วางแผนเดินทาง: เลือกได้ตั้งแต่วันนี้ (เวลาไทย) ถึง DATE_MAX ไม่ให้เลือกวันย้อนหลัง
+const whenValid = (w) => /^\d{4}-\d{2}-\d{2}$/.test(w.date) && w.date >= DATE_MIN && w.date >= epochToBkk(Date.now()).date && w.date <= DATE_MAX && /^\d{2}:\d{2}$/.test(w.time);
 const samePlace = (a, b) => a && b && Math.abs(a.lat - b.lat) < 1e-5 && Math.abs(a.lon - b.lon) < 1e-5;
 const histKey = (z) => z.key + "|" + z.eta.date;
 let routeSeq = 0;

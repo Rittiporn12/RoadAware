@@ -92,7 +92,7 @@ export default function TripForm({ appMode = "plan", onAppMode, reviewPeriod, on
           <button type="button" className={"day-btn" + (when.date === tomorrow ? " is-on" : "")} aria-pressed={when.date === tomorrow} onClick={() => onWhen({ date: tomorrow })}>พรุ่งนี้</button>
           <label className={"day-btn day-pick" + (other ? " is-on" : "")}>
             <span>{other && when.date ? fmtThaiDate(when.date) : "เลือกวัน"}</span>
-            <input type="date" min={DATE_MIN} max={DATE_MAX} value={when.date} aria-label="เลือกวันที่ออกเดินทาง"
+            <input type="date" min={today > DATE_MIN ? today : DATE_MIN} max={DATE_MAX} value={when.date} aria-label="เลือกวันที่ออกเดินทาง"
               onChange={(e) => onWhen({ date: e.target.value })} />
           </label>
         </div>

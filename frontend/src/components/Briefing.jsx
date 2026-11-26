@@ -344,7 +344,7 @@ export default function Briefing({ route, when, forecast, zones, hidden, counts,
 
       {forecast.status === "notReady" && <ErrorBox title="ระบบประเมินยังไม่พร้อม" text="เส้นทางยังใช้ได้ตามปกติ เปิด backend แล้วลองอีกครั้ง" onRetry={onRetry} />}
       {forecast.status === "error" && <ErrorBox title="ประเมินไม่สำเร็จ" text="เส้นทางยังใช้ได้ ลองใหม่อีกครั้ง" technical={techText(forecast.failure)} onRetry={onRetry} />}
-      {forecast.status === "needWhen" && <p className="notice">เลือกวันที่ (1 ม.ค. 2567 – 31 ธ.ค. 2570) และเวลาออก เพื่อประเมิน</p>}
+      {forecast.status === "needWhen" && <p className="notice">เลือกวันที่ตั้งแต่วันนี้ถึง 31 ธ.ค. 2570 และเวลาออก เพื่อประเมิน</p>}
       {forecast.status === "done" && forecast.outOfRange > 0 && <p className="notice">{forecast.outOfRange} ช่วงถนนจะผ่านในวันที่แบบจำลองยังไม่รองรับ</p>}
 
       {done && <Suggestions alts={alts} main={main} compare={compare} when={when} altFocus={altFocus} onFocusAlt={onFocusAlt} onUseAlt={onUseAlt} onPickTime={onPickTime} />}
