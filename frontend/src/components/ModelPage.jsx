@@ -37,8 +37,70 @@ const pct = (x, d = 1) => (x * 100).toFixed(d) + "%";
 const beDate = (iso) => { const [y, m, d] = iso.split("-").map(Number); return `${d} ${MONTHS[m - 1]} ${y + 543}`; };
 
 const SECTIONS = [
-  ["mp-s1", "ทายอะไร"], ["mp-s2", "แบ่งข้อมูล"], ["mp-s3", "เทียบวิธี"], ["mp-s4", "ทดสอบ 2569"], ["mp-s5", "ข้อจำกัด"],
+  ["mp-s1", "ทายอะไร"], ["mp-s2", "แบ่งข้อมูล"], ["mp-s3", "เทียบวิธี"], ["mp-s4", "ใช้งานได้จริง"], ["mp-s5", "ทดสอบ 2569"], ["mp-s6", "ข้อจำกัด"],
 ];
+
+// Does the machine learning actually help? (1) three ML families on the same pilot folds vs the strongest statistical baseline,
+// (2) do the map colours line up with where real accidents happened (out-of-fold 2565–2566).
+const FAMILY = {
+  poisson: { name: "Poisson Regression", sub: "สมการเส้นตรง (GLM)" },
+  random_forest: { name: "Random Forest", sub: "ต้นไม้หลายต้นเฉลี่ยกัน" },
+  hist_gradient_boosting: { name: "HistGradientBoosting", sub: "ต้นไม้ต่อกันแก้ข้อผิดพลาดทีละรอบ" },
+};
+const COLOUR_TH = { red: ["สูงมาก", "#C0392B"], orange: ["สูง", "#E8821E"], yellow: ["ปานกลาง", "#E9B92F"], base: ["ปกติ", "#B7BDC6"] };
+const fmtSec = (s) => (s >= 600 ? Math.round(s / 60) + " นาที" : s >= 60 ? (s / 60).toFixed(1) + " นาที" : Math.round(s) + " วินาที");
+
+function MlFamilies({ pilot }) {
+  const fams = pilot.families;
+  const max = Math.max(...fams.map((f) => Math.abs(f.improvement)), 0.01);
+  const hgb = fams.find((f) => f.family === "hist_gradient_boosting"), rf = fams.find((f) => f.family === "random_forest");
+  return (
+    <div className="db-card mp-ml">
+      <div className="db-card-h"><div><h3>เทียบ Machine Learning 3 แบบ</h3><p>รอบนำร่อง {pilot.segments.toLocaleString("en-US")} ช่วงถนน · ข้อมูล ตัวแปร และรอบทดสอบชุดเดียวกัน · เทียบกับค่าเฉลี่ยในอดีต (k=365)</p></div></div>
+      <div className="mp-ml-head"><span>โมเดล</span><span>คลาดเคลื่อนน้อยกว่าค่าเทียบ</span><span>ชนะ</span><span>เวลาฝึก</span></div>
+      {fams.map((f) => {
+        const on = f.family === "hist_gradient_boosting", good = f.improvement > 0;
+        return (
+          <div key={f.family} className={"mp-ml-row" + (on ? " is-on" : "")}>
+            <div className="mp-ml-name"><b>{FAMILY[f.family].name}</b><small>{FAMILY[f.family].sub}</small>{on && <em>ที่เลือกใช้</em>}</div>
+            <div className="mp-ml-bar"><i className={good ? "" : "is-bad"} style={{ width: (Math.abs(f.improvement) / max) * 100 + "%" }} /><span className={good ? "" : "is-bad"}>{good ? "ดีกว่า " : "แย่กว่า "}{pct(Math.abs(f.improvement))}</span></div>
+            <div className="mp-ml-wins"><b>{f.fold_wins}</b>/4</div>
+            <div className="mp-ml-time">{fmtSec(f.fit_seconds)}</div>
+          </div>
+        );
+      })}
+      <p className="mp-note">โมเดลแบบต้นไม้ทั้งสองแบบชนะค่าเทียบครบ 4/4 รอบ · HGB คลาดเคลื่อนน้อยที่สุด และฝึกเร็วกว่า Random Forest ประมาณ {Math.round(rf.fit_seconds / hgb.fit_seconds)} เท่า จึงนำไปรันทั้งประเทศ (26,740 ช่วงถนน) · เวลาฝึกรวมทั้ง 4 รอบ</p>
+    </div>
+  );
+}
+
+function ColourCheck({ colours }) {
+  const red = colours.find((c) => c.colour === "red"), orange = colours.find((c) => c.colour === "orange");
+  const hot = red.record_share + orange.record_share, hotCells = red.cell_share + orange.cell_share;
+  return (
+    <div className="db-card mp-cc">
+      <div className="db-card-h"><div><h3>สีบนแผนที่ตรงกับอุบัติเหตุจริงไหม</h3><p>ผลทำนายย้อนหลังปี 2565–2566 ทุกช่วงถนน × ทุกช่วงเวลา (โมเดลไม่เคยเห็นช่วงที่ถูกทาย)</p></div></div>
+      <div className="mp-cc-hero">
+        <div><b>{pct(red.cell_share, 0)}</b><span>ของถนน × เวลา ที่เป็นสีแดง</span></div>
+        <i aria-hidden="true">→</i>
+        <div className="is-hot"><b>{pct(red.record_share, 0)}</b><span>ของอุบัติเหตุที่เกิดจริง</span></div>
+        <div className="mp-cc-x"><b>{(red.record_share / red.cell_share).toFixed(1)} เท่า</b><span>เมื่อเทียบกับการสุ่มเลือก</span></div>
+      </div>
+      <div className="mp-cc-key"><span><i className="is-cells" />สัดส่วนถนน × เวลา</span><span><i className="is-acc" />สัดส่วนอุบัติเหตุที่เกิดจริง</span></div>
+      {colours.map((c) => (
+        <div key={c.colour} className="mp-cc-row">
+          <div className="mp-cc-name"><i style={{ background: COLOUR_TH[c.colour][1] }} />{COLOUR_TH[c.colour][0]}</div>
+          <div className="mp-cc-bars">
+            <div className="mp-cc-bar is-cells"><i style={{ width: c.cell_share * 100 + "%" }} /><span>{pct(c.cell_share, 0)}</span></div>
+            <div className="mp-cc-bar is-acc"><i style={{ width: c.record_share * 100 + "%", background: COLOUR_TH[c.colour][1] }} /><span>{pct(c.record_share, 0)}</span></div>
+          </div>
+          <div className="mp-cc-num"><b>{c.records.toLocaleString("en-US")}</b><small>ทาย {Math.round(c.predicted).toLocaleString("en-US")}</small></div>
+        </div>
+      ))}
+      <p className="mp-note">สีส้มและแดงรวมกันครอบคลุมถนน × เวลาเพียง {pct(hotCells, 0)} แต่มีอุบัติเหตุจริง {pct(hot, 0)} · จำนวนที่ทาย (ตัวเลขเล็กด้านขวา) ใกล้กับจำนวนที่เกิดจริงในทุกระดับสี แปลว่าค่าที่ทายเชื่อถือได้ ไม่ได้ทายสูงหรือต่ำเกินจริง</p>
+    </div>
+  );
+}
 
 function Section({ n, title, sub, children }) {
   return (
@@ -462,7 +524,14 @@ export default function ModelPage() {
           </div>
         </Section>
 
-        <Section n={4} title="ทดสอบกับปี 2569 ที่โมเดลไม่เคยเห็น" sub="ม.ค.–ก.ย. 2569 — ข้อมูลที่ไม่ได้ใช้ทั้งตอนฝึกและตอนเลือกโมเดล">
+        <Section n={4} title="Machine Learning ใช้งานได้จริงไหม" sub="เทียบ Machine Learning หลายแบบ และตรวจว่าสีที่เตือนบนแผนที่ตรงกับที่เกิดอุบัติเหตุจริง">
+          <div className="mp-real">
+            <MlFamilies pilot={U.ml_families} />
+            <ColourCheck colours={U.colours} />
+          </div>
+        </Section>
+
+        <Section n={5} title="ทดสอบกับปี 2569 ที่โมเดลไม่เคยเห็น" sub="ม.ค.–ก.ย. 2569 — ข้อมูลที่ไม่ได้ใช้ทั้งตอนฝึกและตอนเลือกโมเดล">
           <div className="mp-test">
             <div className="db-card">
               <div className="mp-tabs" data-seg role="tablist">
@@ -486,7 +555,7 @@ export default function ModelPage() {
           </div>
         </Section>
 
-        <Section n={5} title="ข้อจำกัดที่ควรรู้">
+        <Section n={6} title="ข้อจำกัดที่ควรรู้">
           <ul className="about-limits mp-limits">
             <li>ทายจำนวนอุบัติเหตุ “ที่ถูกบันทึก” บนทางหลวงกรมทางหลวง ไม่ใช่ทุกอุบัติเหตุที่เกิดจริง</li>
             <li>ผลปี 2569 วัดเฉพาะช่วงถนน × วันที่มีเหตุจริง และใช้แค่ส่วนหลัก (ถนน + ปฏิทิน) เพราะยังไม่มีข้อมูลอากาศและจราจรของปีนั้น</li>

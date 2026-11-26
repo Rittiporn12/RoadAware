@@ -2,6 +2,8 @@
  "meta": {
   "experiment_run": "rerun-spatial-model-national-20261120-150631",
   "evaluation_run": "rerun-2026-eval-national-20261125-084442",
+  "pilot_run": "rerun-spatial-model-pilot-repro-001",
+  "colour_run": "rerun-spatial-eval-national-20261120-160533",
   "champion": "hgb_poisson_fixed::routed_context",
   "baseline": "segment_mean_k365"
  },
@@ -145,6 +147,67 @@
      "hgb_poisson_fixed::routed_context": 0.0198497,
      "segment_mean_k365": 0.0195988,
      "hgb_poisson_fixed::core": 0.0200438
+    }
+   ],
+   "ml_families": {
+    "segments": 3105,
+    "baseline": "segment_mean_k365",
+    "baseline_deviance": 0.040956,
+    "families": [
+     {
+      "family": "poisson",
+      "method": "poisson_a1e-05::routed_context",
+      "deviance": 0.0419207,
+      "improvement": -0.0236,
+      "fold_wins": 1,
+      "fit_seconds": 9.3
+     },
+     {
+      "family": "random_forest",
+      "method": "rf_poisson_fixed::routed_context",
+      "deviance": 0.0400643,
+      "improvement": 0.0218,
+      "fold_wins": 4,
+      "fit_seconds": 328.9
+     },
+     {
+      "family": "hist_gradient_boosting",
+      "method": "hgb_poisson_fixed::routed_context",
+      "deviance": 0.0398981,
+      "improvement": 0.0258,
+      "fold_wins": 4,
+      "fit_seconds": 20.4
+     }
+    ]
+   },
+   "colours": [
+    {
+     "colour": "red",
+     "cell_share": 0.05,
+     "record_share": 0.3805,
+     "records": 14685,
+     "predicted": 13241.4
+    },
+    {
+     "colour": "orange",
+     "cell_share": 0.15,
+     "record_share": 0.2886,
+     "records": 11139,
+     "predicted": 10886.0
+    },
+    {
+     "colour": "yellow",
+     "cell_share": 0.3,
+     "record_share": 0.217,
+     "records": 8374,
+     "predicted": 7977.6
+    },
+    {
+     "colour": "base",
+     "cell_share": 0.5,
+     "record_share": 0.1139,
+     "records": 4395,
+     "predicted": 4455.0
     }
    ],
    "test2026": {
@@ -471,6 +534,67 @@
      "hgb_poisson_fixed::routed_context": 0.006237,
      "segment_mean_k365": 0.0065825,
      "hgb_poisson_fixed::core": 0.0062827
+    }
+   ],
+   "ml_families": {
+    "segments": 3105,
+    "baseline": "segment_mean_k365",
+    "baseline_deviance": 0.0142987,
+    "families": [
+     {
+      "family": "poisson",
+      "method": "poisson_a1e-05::routed_context",
+      "deviance": 0.0137871,
+      "improvement": 0.0358,
+      "fold_wins": 3,
+      "fit_seconds": 25.6
+     },
+     {
+      "family": "random_forest",
+      "method": "rf_poisson_fixed::routed_context",
+      "deviance": 0.013167,
+      "improvement": 0.0791,
+      "fold_wins": 4,
+      "fit_seconds": 1707.2
+     },
+     {
+      "family": "hist_gradient_boosting",
+      "method": "hgb_poisson_fixed::routed_context",
+      "deviance": 0.0131331,
+      "improvement": 0.0815,
+      "fold_wins": 4,
+      "fit_seconds": 75.7
+     }
+    ]
+   },
+   "colours": [
+    {
+     "colour": "red",
+     "cell_share": 0.05,
+     "record_share": 0.3843,
+     "records": 14830,
+     "predicted": 13393.5
+    },
+    {
+     "colour": "orange",
+     "cell_share": 0.15,
+     "record_share": 0.283,
+     "records": 10921,
+     "predicted": 10733.2
+    },
+    {
+     "colour": "yellow",
+     "cell_share": 0.3,
+     "record_share": 0.2207,
+     "records": 8517,
+     "predicted": 8044.4
+    },
+    {
+     "colour": "base",
+     "cell_share": 0.5,
+     "record_share": 0.1121,
+     "records": 4325,
+     "predicted": 4467.3
     }
    ],
    "test2026": {
