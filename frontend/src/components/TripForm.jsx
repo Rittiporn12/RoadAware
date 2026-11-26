@@ -18,7 +18,10 @@ export default function TripForm({ appMode = "plan", onAppMode, reviewPeriod, on
   const problem = review ? periodProblem(reviewPeriod) : null;
   return (
     <section className="trip-form" aria-labelledby="planTitle">
-      {/* โหมด "ย้อนดูผล" ปิดไว้ก่อน: ปุ่มสลับโหมดถูกซ่อน ระบบใช้โหมดวางแผนเดินทางอย่างเดียว (โค้ดของโหมดยังอยู่ใน App.jsx / lib/review.js) */}
+      <div className="mode-tabs" data-seg role="tablist" aria-label="โหมด">
+        <button type="button" role="tab" aria-selected={appMode === "plan"} className={appMode === "plan" ? "is-on" : ""} onClick={() => onAppMode && onAppMode("plan")}>วางแผนเดินทาง</button>
+        <button type="button" role="tab" aria-selected={appMode === "review"} className={appMode === "review" ? "is-on" : ""} onClick={() => onAppMode && onAppMode("review")}>ย้อนดูผล</button>
+      </div>
       {review ? (
         <>
           <h1 id="planTitle" className="plan-title">โมเดลชี้ถูกไหม?</h1>
