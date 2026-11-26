@@ -295,8 +295,8 @@ function Timeline({ folds, unitData, sel, setSel }) {
 }
 
 // ---------------------------------------------------------------- 3. benchmark
-function Leaderboard({ board, showZero, pick, setPick }) {
-  const rows = board.filter((m) => showZero || m.method !== "zero").slice().sort((a, b) => a.deviance - b.deviance);
+function Leaderboard({ board, pick, setPick }) {
+  const rows = board.filter((m) => m.method !== "zero").slice().sort((a, b) => a.deviance - b.deviance);
   const champ = board.find((m) => m.method === CHAMP);
   const CAP = 0.5; // bars show "% worse than the chosen model", capped at +50% (longer bars get an arrow)
   return (
@@ -358,7 +358,6 @@ export default function ModelPage() {
   const [err, setErr] = useState(null);
   const [unit, setUnit] = useState("6h");
   const [fold, setFold] = useState(null);
-  const [showZero, setShowZero] = useState(false);
   const [pick, setPick] = useState(CHAMP);
   const [view, setView] = useState("month");
 
@@ -439,10 +438,9 @@ export default function ModelPage() {
           <div className="mp-bench">
             <div className="db-card">
               <div className="db-card-h">
-                <div><h3>อันดับของ {U.leaderboard.filter((m) => showZero || m.method !== "zero").length} วิธี</h3><p>แท่ง = ทำได้แย่กว่าโมเดลที่เลือกกี่ % (ยิ่งสั้นยิ่งดี) · คลิกที่แถวเพื่อดูคำอธิบาย</p></div>
-                <label className="mp-check"><input type="checkbox" checked={showZero} onChange={(e) => setShowZero(e.target.checked)} />แสดง “ทายว่าไม่เกิดเลย”</label>
+                <div><h3>อันดับของ {U.leaderboard.filter((m) => m.method !== "zero").length} วิธี</h3><p>แท่ง = ทำได้แย่กว่าโมเดลที่เลือกกี่ % (ยิ่งสั้นยิ่งดี) · คลิกที่แถวเพื่อดูคำอธิบาย</p></div>
               </div>
-              <Leaderboard board={U.leaderboard} showZero={showZero} pick={pick} setPick={setPick} />
+              <Leaderboard board={U.leaderboard} pick={pick} setPick={setPick} />
               <div className="mp-legend"><span><i className="is-hgb" />HGB (Machine Learning)</span><span><i className="is-base" />ค่าเทียบแบบสถิติ</span></div>
             </div>
             <div className="mp-bench-side">
