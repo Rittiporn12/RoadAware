@@ -148,19 +148,30 @@ export default function App() {
 
   const goPlan = useCallback(() => { setView("plan"); setSelectedKey(null); if (isMobile()) setSheet("full"); }, []);
 
+  // ฟังก์ชันเริ่มตรวจเส้นทาง รับต้นทาง o และปลายทาง d (มีพิกัด lat/lon)
   const runTrip = useCallback(async (o, d) => {
+    // ถ้าไม่มีต้นทาง/ปลายทาง หรือเป็นที่เดียวกัน ไม่ทำอะไร
     if (!o || !d || samePlace(o, d)) return;
+    // ยกเลิกผลของเส้นทางก่อนหน้า
     invalidateRoute();
+    // ล้างจุดที่ผู้ใช้เลือกไว้
     setPick(null);
+    // เลขรุ่นของการค้นหาครั้งนี้ ใช้ทิ้งผลที่มาช้า
     const gen = tripGen.current;
+    // ตัวยกเลิกคำขอ ถ้าผู้ใช้เปลี่ยนเส้นทางระหว่างโหลด
     const ctrl = new AbortController();
     routeCtrl.current = ctrl;
+    // แสดงสถานะกำลังโหลด
     setTrip({ status: "loading" });
     let json;
     try {
+      // สร้าง URL ขอเส้นทางขับรถจาก OSRM (ลองจิจูด,ละติจูด ของต้นทางและปลายทาง)
       const url = CONFIG.osrmUrl + o.lon.toFixed(6) + "," + o.lat.toFixed(6) + ";" + d.lon.toFixed(6) + "," + d.lat.toFixed(6) +
+        // ขอเส้นทางแบบละเอียด เป็น GeoJSON และขอเส้นทางทางเลือกด้วย
         "?overview=full&geometries=geojson&steps=false&alternatives=true";
+      // ส่งคำขอ รอไม่เกิน 25 วินาที
       json = await fetchJson(url, { signal: ctrl.signal, timeoutMs: 25000 });
+    // ถ้าล้มเหลว จะแสดงข้อความแจ้งผู้ใช้ (บรรทัดถัดไป)
     } catch (f) {
       if (gen !== tripGen.current || f.kind === "aborted") return;
       const code = f.body && f.body.code;
@@ -221,17 +232,28 @@ export default function App() {
         }
         let matches = matchCache.current.get(route.id);
         if (!matches) {
+          // ขั้น 1: หาช่วงถนนที่อยู่บนเส้นทาง (ดู forecast.js)
           matches = await loadRouteMatches(route, { signal: ctrl.signal, onProgress });
+          // ถ้าผู้ใช้เปลี่ยนเส้นทางไปแล้ว ไม่ต้องทำต่อ
           if (!alive) return;
+          // เก็บผลไว้ใช้ซ้ำ ถ้าผู้ใช้เปลี่ยนแค่เวลาออกเดินทาง
           matchCache.current.set(route.id, matches);
+          // บันทึกว่าเส้นทางนี้มีช่วงถนนที่รองรับ
           setMatchesFor(matches.length ? route.id : null);
         }
+        // ไม่มีช่วงถนนที่รองรับ → แสดงผลว่าง
         if (!matches.length) { setForecast({ status: "done", items: [], outOfRange: 0 }); return; }
+        // ขั้น 2: คำนวณเวลาที่ขับผ่านแต่ละช่วง แล้วส่งไปทำนาย
         const res = await predictMatches(matches, route, { date: when.date, time: when.time, signal: ctrl.signal, onProgress });
+        // ตรวจอีกครั้งว่าผลยังใช้ได้
         if (!alive) return;
+        // เก็บผลการทำนาย หน้าเว็บจะสร้างจุดที่ควรระวังจากผลนี้ (zones.js)
         setForecast({ status: "done", ...res });
+      // จัดการข้อผิดพลาด
       } catch (f) {
+        // ถ้าถูกยกเลิกเอง ไม่ต้องแจ้ง
         if (!alive || (f && f.kind === "aborted")) return;
+        // ถ้าเซิร์ฟเวอร์ไม่ตอบ แสดงสถานะออฟไลน์
         if (isServiceDown(f)) setReady("down");
         setForecast({ status: "error", failure: f });
       }

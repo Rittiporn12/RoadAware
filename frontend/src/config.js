@@ -50,9 +50,13 @@ export const CONFIG = {
   predictionBatch: 128,
   historyLookbackDays: 1827,
   snapWarnM: 300,
+  // ช่วงเสี่ยงที่ห่างกันไม่เกิน 1,500 ม. รวมเป็นจุดเดียว
   zoneGapM: 1500,       // hotspot segments closer than this along the route form one zone
+  // จุดเสี่ยงต้องอยู่ใน 20% บนสุดของเส้นทาง
   hotspotQuantile: 0.8, // trip hotspot = national level สูง/สูงมาก AND in the top 20% of this route's evaluated segments
+  // แสดงไม่เกิน 5 จุดต่อ 500 กม.
   maxZones: 5,          // per ~500 km of route, capped by maxZonesCap
+  // และไม่เกิน 10 จุดต่อเส้นทาง
   maxZonesCap: 10,
   altMaxTimeRatio: 1.35,   // alternative routes kept when their driving time is ≤ 35% longer
   altMinCoverage: 0.7,     // below this an alternative is mostly unevaluated → never called better
@@ -78,33 +82,55 @@ function endpointSources() {
 function remember(key, v) { try { window.localStorage.setItem(key, v); } catch (_) { /* storage blocked */ } }
 let discovery = null;
 // Resolves to { source: "local" | "published" | "link", offline?: true, updated?: string }. Runs once per page load.
+// หาที่อยู่ของเซิร์ฟเวอร์ API อัตโนมัติ
 export function discoverServer() {
+  // ถ้าหาไปแล้ว ใช้ผลเดิม
   if (discovery) return discovery;
+  // เริ่มค้นหา (ทำครั้งเดียว)
   discovery = (async () => {
+    // แหล่งที่อยู่ (ไฟล์ endpoint.json บน branch demo-endpoint) ถ้ารันบนเครื่องตัวเองไม่ต้องหา
     const sources = onLocalhost ? [] : endpointSources();
+    // ไม่มีแหล่ง → ใช้เซิร์ฟเวอร์บนเครื่อง
     if (!sources.length) return { source: "local" };
+    // ลองทีละแหล่ง
     for (const url of sources) {
       try {
+        // ยกเลิกถ้ารอเกิน 5 วินาที
         const ctrl = new AbortController();
         const timer = setTimeout(() => ctrl.abort(), 5000);
+        // อ่านไฟล์ (ใส่เวลาต่อท้ายกันการ cache)
         const r = await fetch(url + (url.includes("?") ? "&" : "?") + "t=" + Date.now(), {
           cache: "no-store", signal: ctrl.signal,
+          // ถ้าอ่านผ่าน GitHub API ขอเนื้อไฟล์ดิบ
           headers: url.includes("api.github.com") ? { Accept: "application/vnd.github.raw+json" } : {},
         });
+        // ยกเลิกตัวจับเวลา
         clearTimeout(timer);
+        // อ่านไม่ได้ → ลองแหล่งถัดไป
         if (!r.ok) continue;
+        // แปลงเป็น JSON
         const j = await r.json();
+        // ไฟล์บอกว่าเซิร์ฟเวอร์ปิดอยู่ → แสดงสถานะออฟไลน์
         if (j && j.online === false) return { source: "published", offline: true, updated: j.updated };
+        // ที่อยู่ API (ลิงก์ Cloudflare tunnel)
         const api = cleanUrl((j && j.api) || "");
+        // ต้องเป็น https เท่านั้น
         if (!api || !api.startsWith("https://")) continue;
+        // ตั้งค่าที่อยู่ API และจำไว้ในเบราว์เซอร์
         CONFIG.apiBase = api; remember("roadaware.api", api);
+        // ที่อยู่บริการเสียงพูด
         const tts = cleanUrl((j && j.tts) || "");
+        // ตั้งค่าบริการเสียง
         if (tts && tts.startsWith("https://")) { CONFIG.ttsUrl = tts; remember("roadaware.tts", tts); }
+        // สำเร็จ
         return { source: "published", updated: j.updated };
+      // ผิดพลาด → ลองแหล่งถัดไป
       } catch (_) { /* try the next source */ }
     }
+    // หาไม่ได้ → ใช้ที่อยู่จากลิงก์ (?api=) หรือที่จำไว้
     return { source: "link" }; // nothing published: keep ?api= / remembered value
   })();
+  // คืนผลการค้นหา
   return discovery;
 }
 

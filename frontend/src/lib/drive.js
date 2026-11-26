@@ -40,18 +40,30 @@ export function nextZone(zones, alongM) {
 const km = (m) => (m >= 1000 ? (Math.round(m / 100) / 10).toString().replace(/\.0$/, "") + " กิโลเมตร" : Math.round(m / 50) * 50 + " เมตร");
 
 // Thai sentence for a spoken warning. agg = aggregated recorded history of the zone (may be null).
+// สร้างประโยคเตือนด้วยเสียง z = จุดที่ควรระวัง, stage = ระยะที่เหลือ (ม.) หรือ "inside", agg = สถิติอุบัติเหตุในอดีตของจุดนั้น
 export function warningText(z, stage, agg) {
+  // ชื่อถนน + จังหวัด
   const where = z.road + (z.provinces && z.provinces.length ? " ช่วง" + z.provinces[0] : "");
+  // ประโยคที่จะพูด
   let s;
+  // อยู่ในจุดแล้ว → บอกความยาวของจุด
   if (stage === "inside") s = "เข้าสู่จุดที่ควรระวังแล้ว! จุดที่ " + z.n + " ยาวประมาณ " + km(z.lengthM) + " ตั้งใจขับนะ";
+  // เหลือไม่เกิน 500 ม. → เตือนแบบเร่งด่วน
   else if (stage <= 500) s = "ระวัง! อีก " + km(stage) + " ถึงจุดที่ " + z.n + " " + where;
+  // ไกลกว่านั้น → แจ้งล่วงหน้า
   else s = "ข้างหน้าอีก " + km(stage) + " มีจุดที่ควรระวัง จุดที่ " + z.n + " " + where;
+  // ถ้ามีสถิติในอดีต เพิ่มข้อมูล
   if (agg && agg.n > 0 && stage !== "inside") {
+    // ลักษณะการเกิดเหตุที่พบบ่อยที่สุด
     const t = topValues(agg, "accident_type", 1)[0];
+    // ถ้ามีสัดส่วนอย่างน้อย 25% บอกด้วย
     if (t && t.share >= 0.25) s += " ที่ผ่านมาส่วนใหญ่เป็น " + t.value;
+    // คำแนะนำการขับขี่ที่เกี่ยวข้อง
     const tip = tipsFor(agg)[0];
+    // เพิ่มคำแนะนำ (เฉพาะส่วนแรก)
     if (tip) s += " " + tip.split("—")[0].trim();
   }
+  // คืนประโยค แล้วส่งให้บริการเสียง (tts_proxy.py) อ่านออกเสียง
   return s;
 }
 

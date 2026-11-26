@@ -23,22 +23,35 @@ function quantile(sorted, q) {
 
 const lengthKm = (it) => Math.max(0, it.endM - it.startM) / 1000;
 
+// สรุปผลการทำนายเป็น "จุดที่ควรระวัง" ของเส้นทาง
 export function buildZones(items, provinceName) {
+  // ผลลัพธ์ว่าง
   const empty = { zones: [], hidden: 0, counts: levelKm(items), hotIds: new Set(), rankById: new Map(), threshold: null };
+  // ไม่มีผล → คืนค่าว่าง
   if (!items.length) return empty;
+  // ความหนาแน่นของทุกช่วงบนเส้นทาง เรียงจากน้อยไปมาก
   const ds = items.map(density).sort((a, b) => a - b);
+  // เกณฑ์ = เปอร์เซ็นไทล์ 80 ของเส้นทางนี้
   const threshold = quantile(ds, CONFIG.hotspotQuantile);
+  // จุดเสี่ยง = ระดับ ส้ม/แดงระดับประเทศ และอยู่ใน 20% บนสุดของเส้นทาง เรียงตามระยะจากต้นทาง
   const hot = items.filter((it) => ZONE_LEVELS.includes(it.level) && density(it) >= threshold).sort((a, b) => a.startM - b.startM);
+  // กลุ่มของช่วงที่อยู่ติดกัน
   const groups = [];
+  // วนทุกช่วงเสี่ยง
   for (const it of hot) {
+    // กลุ่มล่าสุด
     const g = groups[groups.length - 1];
+    // ถ้าห่างจากกลุ่มล่าสุดไม่เกิน 1.5 กม. → รวมเป็นจุดเดียวกัน
     if (g && it.startM - g.endM <= CONFIG.zoneGapM) {
+      // เพิ่มเข้ากลุ่ม และขยายจุดสิ้นสุด
       g.members.push(it);
       g.endM = Math.max(g.endM, it.endM);
+    // ห่างเกิน → เริ่มกลุ่มใหม่
     } else {
       groups.push({ members: [it], startM: it.startM, endM: it.endM });
     }
   }
+  // ฟังก์ชันหาอันดับ (เปอร์เซ็นไทล์) ของความหนาแน่นภายในเส้นทาง ใช้จัดลำดับจุด แล้วเลือกไม่เกิน 5 จุดต่อ 500 กม.
   const rankOf = (d) => { let lo = 0, hi = ds.length; while (lo < hi) { const mid = (lo + hi) >> 1; if (ds[mid] < d) lo = mid + 1; else hi = mid; } return lo / ds.length; };
   const zones = groups.map((g) => {
     const level = g.members.reduce((best, m) => (LEVELS[m.level].rank > LEVELS[best].rank ? m.level : best), "orange");

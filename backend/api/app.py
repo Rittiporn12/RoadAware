@@ -210,9 +210,13 @@ def create_app(runtime_factory=None):
     async def history(request: Request):
         return await answer(request, 'province_history', list(request.query_params.multi_items()))
 
+    # ประกาศ endpoint GET /api/v1/segments สำหรับดึงช่วงถนนในกรอบพื้นที่ (bbox) แบบแบ่งหน้า
     @app.get('/api/v1/segments', summary='Qualified DOH segment GeoJSON by bbox with limit/cursor', responses=_responses('get', '/api/v1/segments', 400, 503),
+             # คำอธิบายพารามิเตอร์สำหรับหน้าเอกสาร API
              openapi_extra=D.query_params('/api/v1/segments'))
+    # ฟังก์ชันที่ทำงานเมื่อมีคำขอเข้ามา
     async def segments(request: Request):
+        # ส่งพารามิเตอร์ (bbox, limit, cursor) ให้ runtime ตอบกลับเป็น GeoJSON
         return await answer(request, 'segments', list(request.query_params.multi_items()))
 
     @app.get('/api/v1/segments/{segment_id}', summary='One qualified segment (unknown/unsupported -> 404 coverage)',
@@ -227,11 +231,16 @@ def create_app(runtime_factory=None):
     async def spatial_history(request: Request):
         return await answer_body(request, 'spatial_history')
 
+    # ประกาศ endpoint POST /api/v1/spatial/predictions รับ {unit, requests[1..128]}
     @app.post('/api/v1/spatial/predictions', summary='Notebook-22 selected policy: {unit, requests[1..128]}',
+              # รหัสข้อผิดพลาดที่อาจตอบ: 400 ข้อมูลผิด, 404 ไม่พบช่วงถนน, 413 ขอเกิน 128, 415 ไม่ใช่ JSON, 503 ระบบไม่พร้อม
               responses=_responses('post', '/api/v1/spatial/predictions', 400, 404, 413, 415, 503), openapi_extra=D.request_body('/api/v1/spatial/predictions'))
+    # ฟังก์ชันที่ทำงานเมื่อมีคำขอ
     async def spatial_predictions(request: Request):
+        # อ่าน JSON แล้วให้ runtime ทำนายด้วย โมเดลที่ถูกเลือก (selected)
         return await answer_body(request, 'spatial_predict', 'selected')
 
+    # endpoint คู่กันสำหรับค่าของ baseline (ใช้เทียบเท่านั้น)
     @app.post('/api/v1/spatial/baseline-predictions', summary='Notebook-22 locked strong baseline (comparison only)',
               responses=_responses('post', '/api/v1/spatial/baseline-predictions', 400, 404, 413, 415, 503),
               openapi_extra=D.request_body('/api/v1/spatial/baseline-predictions'))

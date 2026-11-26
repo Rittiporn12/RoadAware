@@ -73,19 +73,29 @@ def read_strict_json(path):
     return json.loads(Path(path).read_text('utf-8'), parse_constant=bad)
 
 
+# โหลดโค้ดจากโน้ตบุ๊กมาใช้ใน API
 def exec_functions(nb_path, n_cells, join, expected_sha, label):
     """Exec ONLY the '# FUNCTIONS' code cells after their count and joined sha equal the trusted pin (the notebook file is pinned too)."""
+    # ถ้าไม่มีค่า SHA-256 ที่รับรองไว้ → ไม่ยอมเริ่ม (fail closed)
     if not _is_sha(expected_sha):
         raise StartupError('artifact_unavailable', label + ': no trusted FUNCTIONS sha256 (fail closed)')
+    # อ่านไฟล์โน้ตบุ๊ก (เป็น JSON)
     nb = json.loads(Path(nb_path).read_text('utf-8'))
+    # ดึงโค้ดของทุก code cell
     srcs = [''.join(c['source']) if isinstance(c['source'], list) else c['source'] for c in nb['cells'] if c.get('cell_type') == 'code']
+    # เลือกเฉพาะ cell ที่ขึ้นต้นด้วย # FUNCTIONS
     funcs = [s for s in srcs if s.lstrip().startswith('# FUNCTIONS')]
+    # คำนวณ SHA-256 ของโค้ดที่เลือก
     sha = hashlib.sha256(join.join(funcs).encode('utf-8')).hexdigest()
+    # ถ้าจำนวน cell หรือ SHA ไม่ตรงกับที่รับรอง (โค้ดถูกแก้) → ไม่ยอมเริ่ม
     if len(funcs) != int(n_cells) or sha != expected_sha:
         raise StartupError('artifact_hash_mismatch', label + ' FUNCTIONS sha ' + sha[:12] + ' (' + str(len(funcs)) + ' cells) != trusted ' + expected_sha[:12])
+    # namespace แยกสำหรับโค้ดชุดนี้
     ns = {'__name__': label + '_functions'}
+    # รันโค้ดแต่ละ cell เพื่อสร้างฟังก์ชัน
     for i, s in enumerate(funcs):
         exec(compile(s, label + ':FUNCTIONS[' + str(i) + ']', 'exec'), ns)
+    # คืนฟังก์ชันทั้งหมด (เช่น predict_batch)
     return ns
 
 
@@ -201,9 +211,13 @@ class Runtime:
         self._need('spatial_runtime')
         h = self.h24
         unit, reqs = h['spatial_prediction_body'](body)
+        # เลือกฟังก์ชันจากโน้ตบุ๊ก 22: predict_batch (โมเดลที่เลือก) หรือ predict_baseline_batch
         fn = self.ns22['predict_batch' if which == 'selected' else 'predict_baseline_batch']
+        # ล็อกให้ทำนายทีละคำขอ และจำกัดทรัพยากร
         with self._infer, self._limits():
+            # เรียกทำนาย
             res = fn(self.spatial, unit, reqs)
+        # แปลงผลเป็นรูปแบบคำตอบของ API
         return h['spatial_answer'](res)
 
     def province_predict(self, body):

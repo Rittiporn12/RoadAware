@@ -10,7 +10,9 @@
 // Pure functions, no DOM (unit-testable in Node).
 
 export const SAMPLE_STEP_M = 100;
+// จุดบนช่วงถนนต้องห่างเส้นทางไม่เกิน 50 ม. จึงนับว่าอยู่บนเส้นทาง
 export const BUFFER_M = 50;
+// ช่วงถนนต้องอยู่บนเส้นทางอย่างน้อยครึ่งหนึ่ง จึงนับว่าขับผ่านจริง
 export const MIN_FRACTION = 0.5;
 const CELL_M = 250;
 
@@ -124,22 +126,38 @@ function samplePoints(index, parts) {
 }
 
 // Returns null (not matched) or { fraction, along, anchor: [lat, lon], samples }.
+// ตรวจว่าช่วงถนน 1 ช่วงอยู่บนเส้นทางหรือไม่
 export function matchFeature(index, feature) {
+  // ดึงเส้นของช่วงถนน
   const parts = lineParts(feature && feature.geometry);
+  // ไม่มีเส้น → ไม่ใช่
   if (parts.length === 0) return null;
+  // กรอบของช่วงถนนไม่ทับกรอบเส้นทาง → ไม่ใช่ (ตรวจเร็ว)
   if (!bboxOverlap(featureBbox(parts), index.bbox)) return null;
+  // สุ่มจุดเป็นระยะ ๆ ตามช่วงถนน
   const samples = samplePoints(index, parts);
+  // ไม่มีจุด → ไม่ใช่
   if (samples.length === 0) return null;
+  // จุดที่อยู่บนเส้นทาง
   const onRoute = [];
+  // วนทุกจุด
   for (const [x, y] of samples) {
+    // หาจุดบนเส้นทางที่ใกล้ที่สุด และระยะ
     const r = nearestOnRoute(index, x, y);
+    // ห่างไม่เกิน 50 ม. → นับว่าอยู่บนเส้นทาง เก็บระยะทางตามเส้นทางด้วย
     if (r && r.d <= BUFFER_M) onRoute.push({ x, y, along: r.along });
   }
+  // สัดส่วนของจุดที่อยู่บนเส้นทาง
   const fraction = onRoute.length / samples.length;
+  // น้อยกว่าครึ่ง → แค่ตัดผ่าน ไม่นับ
   if (fraction < MIN_FRACTION) return null;
+  // เรียงจุดตามระยะทางจากต้นทาง
   onRoute.sort((a, b) => a.along - b.along);
+  // จุดกลางของส่วนที่อยู่บนเส้นทาง
   const mid = onRoute[Math.floor(onRoute.length / 2)];
+  // แปลงพิกัดกลับเป็นองศา ใช้ปักหมุด
   const [lon, lat] = index.proj.inv(mid.x, mid.y);
+  // คืนสัดส่วน ระยะจากต้นทาง และตำแหน่งปักหมุด
   return { fraction, along: mid.along, anchor: [lat, lon], samples: samples.length };
 }
 
