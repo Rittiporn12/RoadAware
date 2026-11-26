@@ -4,9 +4,13 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { CountUp, PageBody, SiteFooter, SiteNav, useReveal } from "./site.jsx";
 
+// [3.7] ตัวแปรสภาพแวดล้อมของ Vite (มี BASE_URL = โฟลเดอร์ที่เว็บถูก deploy เช่น /RoadAware/)
 const ENV = (import.meta.env) || {};
+// ที่อยู่ไฟล์ข้อมูลของหน้านี้: frontend/public/data/model-v1.json (สร้างโดย backend/scripts/build_model_page_data.py จากผลการเทรนจริง)
 const DATA_URL = (ENV.BASE_URL || "./") + "data/model-v1.json";
+// ชื่อโมเดลที่ถูกเลือกใช้จริง (ตรงกับ selected_method ใน selection_frozen.json)
 const CHAMP = "hgb_poisson_fixed::routed_context";
+// ชื่อ baseline ที่ดีที่สุดที่ HGB ต้องชนะ
 const BASE = "segment_mean_k365";
 
 // Plain-language names for every method in the benchmark
@@ -25,7 +29,9 @@ const METHOD = {
   recent90_segment: { name: "ค่าเฉลี่ย 90 วันล่าสุดของช่วงถนน", group: "base", note: "ใช้เฉพาะเหตุการณ์ช่วงสั้น ๆ ล่าสุด" },
   zero: { name: "ทายว่าไม่เกิดเหตุเลย", group: "base", note: "ใช้เป็นจุดอ้างอิงเท่านั้น" },
 };
+// ชื่อเดือนภาษาไทย ใช้แสดงแกนกราฟ
 const MONTHS = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."];
+// แปลชื่อกลุ่มในข้อมูล (เทศกาล ช่วงเวลา ฤดู วัน) เป็นภาษาไทย
 const GROUP_TH = {
   new_year_2026: "ปีใหม่", songkran_2026: "สงกรานต์", none: "วันปกติ",
   "00-06": "00–06 น.", "06-12": "06–12 น.", "12-18": "12–18 น.", "18-24": "18–24 น.", day: "ทั้งวัน",
@@ -33,9 +39,12 @@ const GROUP_TH = {
   Mon: "จันทร์", Tue: "อังคาร", Wed: "พุธ", Thu: "พฤหัสฯ", Fri: "ศุกร์", Sat: "เสาร์", Sun: "อาทิตย์",
 };
 const WEEK_ORDER = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+// แปลงสัดส่วนเป็นข้อความ % เช่น 0.106 -> "10.6%"
 const pct = (x, d = 1) => (x * 100).toFixed(d) + "%";
+// แปลงวันที่ ISO เป็นวันที่ไทย พ.ศ.
 const beDate = (iso) => { const [y, m, d] = iso.split("-").map(Number); return `${d} ${MONTHS[m - 1]} ${y + 543}`; };
 
+// รายชื่อหัวข้อในแถบเมนูของหน้า (id ของ section, ชื่อที่แสดง)
 const SECTIONS = [
   ["mp-s1", "ทายอะไร"], ["mp-s2", "แบ่งข้อมูล"], ["mp-s3", "เทียบวิธี"], ["mp-s4", "ใช้งานได้จริง"], ["mp-s5", "ทดสอบ 2569"], ["mp-s6", "ข้อจำกัด"],
 ];
@@ -48,8 +57,10 @@ const FAMILY = {
   hist_gradient_boosting: { name: "HistGradientBoosting", sub: "ต้นไม้ต่อกันแก้ข้อผิดพลาดทีละรอบ" },
 };
 const COLOUR_TH = { red: ["สูงมาก", "#C0392B"], orange: ["สูง", "#E8821E"], yellow: ["ปานกลาง", "#E9B92F"], base: ["ปกติ", "#B7BDC6"] };
+// แปลงจำนวนวินาทีเป็นข้อความ เช่น 1707 -> "28 นาที"
 const fmtSec = (s) => (s >= 600 ? Math.round(s / 60) + " นาที" : s >= 60 ? (s / 60).toFixed(1) + " นาที" : Math.round(s) + " วินาที");
 
+// [หัวข้อ 4] การ์ดเทียบ ML 3 แบบ (Poisson Regression / Random Forest / HGB) จาก units[unit].ml_families ใน model-v1.json
 function MlFamilies({ pilot }) {
   const fams = pilot.families;
   const max = Math.max(...fams.map((f) => Math.abs(f.improvement)), 0.01);
@@ -74,6 +85,7 @@ function MlFamilies({ pilot }) {
   );
 }
 
+// [หัวข้อ 4] การ์ดตรวจสีบนแผนที่: ช่องสีแดง/ส้มเก็บอุบัติเหตุจริงได้กี่ % จาก units[unit].colours
 function ColourCheck({ colours }) {
   const red = colours.find((c) => c.colour === "red"), orange = colours.find((c) => c.colour === "orange");
   const hot = red.record_share + orange.record_share, hotCells = red.cell_share + orange.cell_share;
@@ -102,6 +114,7 @@ function ColourCheck({ colours }) {
   );
 }
 
+// กรอบของแต่ละหัวข้อ (เลขหัวข้อ + ชื่อ + คำอธิบาย + เนื้อหา)
 function Section({ n, title, sub, children }) {
   return (
     <section className="mp-sec rv" id={"mp-s" + n}>
@@ -115,6 +128,7 @@ function Section({ n, title, sub, children }) {
 }
 
 // In-page menu: highlights the section being read, click to jump.
+// แถบเมนูหัวข้อที่ติดด้านบน และไฮไลต์หัวข้อที่กำลังอ่านอยู่
 function SectionNav() {
   const [active, setActive] = useState(SECTIONS[0][0]);
   useEffect(() => {
@@ -153,6 +167,7 @@ function Tree({ x, i, path }) {
     </g></g>
   );
 }
+// ภาพเคลื่อนไหวต้นไม้หลายต้นต่อกัน แสดงแนวคิดของ Gradient Boosting
 function BoostViz() {
   return (
     <figure className="bz" aria-label="ต้นไม้ตัดสินใจหลายต้นรวมกันเป็นค่าคาดการณ์">
@@ -172,6 +187,7 @@ function BoostViz() {
 }
 
 // HGB vs baseline, month by month: two lines, lower = better, gap shaded. Hover shows both values.
+// [หัวข้อ 5] กราฟเส้นรายเดือน: deviance ของ HGB เทียบ baseline ในปี 2569
 function CompareLine({ items }) {
   const [hi, setHi] = useState(null);
   const box = useRef(null);
@@ -225,6 +241,7 @@ function CompareLine({ items }) {
 }
 
 // HGB vs baseline for groups (festival, time of day…): paired bars from zero, lower = better.
+// [หัวข้อ 5] กราฟแท่ง HGB เทียบ baseline แยกตามเทศกาล/ช่วงเวลา/ฤดู/วัน
 function CompareBars({ items }) {
   const max = Math.max(...items.flatMap((d) => [d.selected, d.baseline]));
   return (
@@ -259,6 +276,7 @@ function MonthColumns({ items }) {
 }
 
 // ---------------------------------------------------------------- 1. what it predicts
+// [หัวข้อ 1] ผังขั้นตอน: ข้อมูลถนน + เวลา -> โมเดล -> ค่าทาย -> สีบนแผนที่
 function Pipeline() {
   return (
     <div className="mp-flow">
@@ -286,6 +304,7 @@ function Pipeline() {
   );
 }
 
+// [หัวข้อ 1] อธิบายว่าทำไมใช้ Poisson (ทายจำนวนนับ)
 function WhyPoisson({ board }) {
   const hgb = board.find((m) => m.method === CHAMP);
   return (
@@ -317,6 +336,7 @@ function WhyPoisson({ board }) {
 // ---------------------------------------------------------------- 2. time split
 const T0 = Date.UTC(2021, 0, 1), T1 = Date.UTC(2026, 9, 1);
 const pos = (iso) => ((Date.parse(iso + "T00:00:00Z") - T0) / (T1 - T0)) * 100;
+// [หัวข้อ 2] เส้นเวลาการแบ่งข้อมูลฝึก/ทดสอบ 4 รอบ (rolling-origin) จาก units[unit].folds
 function Timeline({ folds, unitData, sel, setSel }) {
   const rows = [
     ...folds.map((f, i) => ({ key: f.fold, label: `รอบที่ ${i + 1}`, train: ["2021-01-01", f.train_cutoff], eval: [f.eval_start, f.eval_end], fold: f })),
@@ -357,6 +377,7 @@ function Timeline({ folds, unitData, sel, setSel }) {
 }
 
 // ---------------------------------------------------------------- 3. benchmark
+// [หัวข้อ 3] ตารางอันดับทุกวิธี เรียงตาม deviance จาก units[unit].leaderboard (มาจาก leaderboard_oof.csv)
 function Leaderboard({ board, pick, setPick }) {
   const rows = board.filter((m) => m.method !== "zero").slice().sort((a, b) => a.deviance - b.deviance);
   const champ = board.find((m) => m.method === CHAMP);
@@ -381,6 +402,7 @@ function Leaderboard({ board, pick, setPick }) {
   );
 }
 
+// [หัวข้อ 3] ผลรายรอบ: HGB เทียบ baseline ในแต่ละรอบ (มาจาก fold_metrics.csv)
 function FoldBars({ folds }) {
   const max = Math.max(...folds.flatMap((f) => [f[CHAMP], f[BASE]]));
   return (
@@ -400,6 +422,7 @@ function FoldBars({ folds }) {
 }
 
 // ---------------------------------------------------------------- 4. unseen 2026
+// แท่งแสดงว่า HGB ดีกว่า/แย่กว่า baseline กี่ %
 function ImproveBars({ items, label }) {
   const max = Math.max(0.05, ...items.map((d) => Math.abs(d.improvement || 0)));
   return (
@@ -415,23 +438,35 @@ function ImproveBars({ items, label }) {
   );
 }
 
+// ========== [3.7] หน้าโมเดล: โหลด model-v1.json แล้วส่งข้อมูลให้ทุกกราฟ ==========
 export default function ModelPage() {
+  // data = ข้อมูลจาก model-v1.json (null = ยังโหลดไม่เสร็จ)
   const [data, setData] = useState(null);
+  // err = ข้อความ error ถ้าโหลดไม่สำเร็จ
   const [err, setErr] = useState(null);
+  // unit = หน่วยเวลาที่ดูอยู่: "6h" (ราย 6 ชั่วโมง) หรือ "daily" (รายวัน)
   const [unit, setUnit] = useState("6h");
+  // fold = รอบทดสอบที่ผู้ใช้คลิกเลือกในเส้นเวลา
   const [fold, setFold] = useState(null);
+  // pick = วิธีที่คลิกในตารางอันดับ (เริ่มที่โมเดลที่ใช้จริง)
   const [pick, setPick] = useState(CHAMP);
+  // view = แท็บของกราฟปี 2569 (รายเดือน/เทศกาล/ช่วงเวลา/ฤดู/วัน)
   const [view, setView] = useState("month");
 
+  // ตั้งชื่อแท็บเบราว์เซอร์
   useEffect(() => { document.title = "โมเดล — RoadAware"; }, []);
   useEffect(() => {
     let alive = true;
+    // ★ โหลดไฟล์ model-v1.json: สำเร็จ -> setData, ไม่สำเร็จ -> setErr ★
     fetch(DATA_URL).then((r) => (r.ok ? r.json() : Promise.reject(new Error("HTTP " + r.status))))
       .then((j) => { if (alive) setData(j); }).catch((e) => { if (alive) setErr(String(e.message || e)); });
+    // ถ้าออกจากหน้าก่อนโหลดเสร็จ จะไม่อัปเดต state (กัน error)
     return () => { alive = false; };
   }, []);
 
+  // U = ข้อมูลของหน่วยเวลาที่เลือก (data.units["6h"] หรือ data.units["daily"])
   const U = data && data.units[unit];
+  // เตรียมข้อมูลกราฟปี 2569 ตามแท็บที่เลือก (คำนวณใหม่เมื่อเปลี่ยนหน่วยเวลาหรือแท็บ)
   const groups = useMemo(() => {
     if (!U) return [];
     const t = U.test2026;
@@ -445,14 +480,18 @@ export default function ModelPage() {
 
   useReveal([!!U]);
 
+  // โหลดไม่สำเร็จ -> แสดงข้อความ error
   if (err) return <div className="dash"><SiteNav active="model" /><main className="db-wrap db-main"><div className="db-empty">โหลดข้อมูลไม่สำเร็จ ({err})</div></main></div>;
+  // ยังโหลดไม่เสร็จ -> แสดงโครงหน้าเปล่า
   if (!U) return <div className="dash" aria-busy="true"><SiteNav active="model" /><PageBody kind="model" /></div>;
 
+  // t = ผลทดสอบปี 2569, นับจำนวนเดือนที่ HGB ดีกว่า และ % ช่วงเทศกาล
   const t = U.test2026;
   const monthsBetter = t.month.filter((m) => m.improvement > 0).length;
   const fest = Math.min(...t.festival.filter((g) => g.group !== "none").map((g) => g.improvement));
   const festMax = Math.max(...t.festival.filter((g) => g.group !== "none").map((g) => g.improvement));
   const pickInfo = METHOD[pick] || {};
+  // แถวของวิธีที่คลิก และแถวของโมเดลที่ใช้จริง (ใช้เทียบ deviance)
   const pickRow = U.leaderboard.find((m) => m.method === pick);
   const champRow = U.leaderboard.find((m) => m.method === CHAMP);
 
@@ -476,6 +515,7 @@ export default function ModelPage() {
               </div>
             </div>
           </div>
+          {/* ตัวเลขสรุป 4 ช่อง: โมเดลที่ใช้, % ที่ดีกว่าในการทดสอบย้อนหลัง, % ปี 2569, % ช่วงเทศกาล */}
           <div className="mp-kpis">
             <div className="mp-kpi mp-kpi-champ hero-in" style={{ "--d": "260ms" }}><span>โมเดลที่เลือกใช้</span><b>HistGradientBoosting</b><small>ทายจำนวนอุบัติเหตุ · Poisson loss · ทั้งประเทศ</small></div>
             <div className="mp-kpi hero-in" style={{ "--d": "330ms" }}><span>ทดสอบย้อนหลัง 2565–2566</span><b><CountUp value={U.selection.relative_deviance_reduction} format={(v) => pct(v)} /></b><small>คลาดเคลื่อนน้อยกว่าค่าเทียบ · ชนะ {U.selection.fold_wins}/{U.selection.n_folds} รอบ</small></div>
@@ -487,15 +527,18 @@ export default function ModelPage() {
       </header>
       <SectionNav />
       <main className="db-wrap db-main mp">
+        {/* หัวข้อ 1: โมเดลทายอะไร */}
         <Section n={1} title="โมเดลทายอะไร" sub="จากข้อมูลถนนและเวลา ไปเป็นจุดที่ควรระวังบนแผนที่">
           <Pipeline />
           <WhyPoisson board={U.leaderboard} />
         </Section>
 
+        {/* หัวข้อ 2: แบ่งข้อมูลตามเวลา (ข้อมูลจาก U.folds) */}
         <Section n={2} title="แบ่งข้อมูลตามเวลา" sub="ทดสอบแบบที่โมเดลไม่เคยเห็นอนาคต (rolling-origin backtest)">
           <Timeline folds={U.folds} unitData={U} sel={fold} setSel={setFold} />
         </Section>
 
+        {/* หัวข้อ 3: เทียบกับวิธีอื่น (ข้อมูลจาก U.leaderboard, U.folds, U.selection) */}
         <Section n={3} title="เทียบกับวิธีอื่น (Model Benchmarking)" sub={`ค่าเฉลี่ย Poisson deviance จากการทดสอบย้อนหลัง 4 รอบ (${unit === "6h" ? "ราย 6 ชม." : "รายวัน"}) · ยิ่งต่ำยิ่งดี`}>
           <div className="mp-bench">
             <div className="db-card">
@@ -524,6 +567,7 @@ export default function ModelPage() {
           </div>
         </Section>
 
+        {/* หัวข้อ 4: ML ใช้งานได้จริงไหม (ข้อมูลจาก U.ml_families, U.colours) */}
         <Section n={4} title="Machine Learning ใช้งานได้จริงไหม" sub="เทียบ Machine Learning หลายแบบ และตรวจว่าสีที่เตือนบนแผนที่ตรงกับที่เกิดอุบัติเหตุจริง">
           <div className="mp-real">
             <MlFamilies pilot={U.ml_families} />
@@ -531,6 +575,7 @@ export default function ModelPage() {
           </div>
         </Section>
 
+        {/* หัวข้อ 5: ทดสอบปี 2569 ที่โมเดลไม่เคยเห็น (ข้อมูลจาก U.test2026) */}
         <Section n={5} title="ทดสอบกับปี 2569 ที่โมเดลไม่เคยเห็น" sub="ม.ค.–ก.ย. 2569 — ข้อมูลที่ไม่ได้ใช้ทั้งตอนฝึกและตอนเลือกโมเดล">
           <div className="mp-test">
             <div className="db-card">
@@ -555,6 +600,7 @@ export default function ModelPage() {
           </div>
         </Section>
 
+        {/* หัวข้อ 6: ข้อจำกัด */}
         <Section n={6} title="ข้อจำกัดที่ควรรู้">
           <ul className="about-limits mp-limits">
             <li>ทายจำนวนอุบัติเหตุ “ที่ถูกบันทึก” บนทางหลวงกรมทางหลวง ไม่ใช่ทุกอุบัติเหตุที่เกิดจริง</li>
